@@ -2,11 +2,19 @@
   "name": "hebcal-es6",
   "version": "1.0.0",
   "type": "module",
+  "author": "Michael J. Radwin (https://github.com/mjradwin)",
+  "contributors": [
+    "Eyal Schachter (https://github.com/Scimonster)",
+    "Danny Sadinoff (https://github.com/dsadinoff)"
+  ],
   "description": "Hebcal",
   "main": "index.js",
+  "dependencies": {
+    "suncalc": "^1.8.0",
+    "gematriya": "^1.0.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
   "license": "ISC"
 }

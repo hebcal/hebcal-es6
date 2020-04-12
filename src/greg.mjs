@@ -1,4 +1,3 @@
-"use strict";
 /*
     Hebcal - A Jewish Calendar Generator
     Copyright (C) 1994-2004  Danny Sadinoff
@@ -27,59 +26,64 @@
     The JavaScript code was completely rewritten in 2014 by Eyal Schachter.
  */
 const monthLengths = [
-    [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-    [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+  [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+  [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 ];
 
 export function LEAP(year) {
-    return !(year % 4) && ( !!(year % 100) || !(year % 400) );
+  return !(year % 4) && (!!(year % 100) || !(year % 400));
 }
 
-export function daysInMonth(month, year) { // 1 based months
-    return monthLengths[+LEAP(year)][month];
+export function daysInMonth(month, year) {
+  // 1 based months
+  return monthLengths[+LEAP(year)][month];
 }
 
 export const monthNames = [
-    '',
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+  "",
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 export function lookupMonthNum(month) {
-    return new Date(month + ' 1').getMonth() + 1;
+  return new Date(month + " 1").getMonth() + 1;
 }
 
 export function dayOfYear(date) {
-    if (!date instanceof Date) {
-        throw new TypeError('Argument to greg.dayOfYear not a Date');
+  if (!date instanceof Date) {
+    throw new TypeError("Argument to greg.dayOfYear not a Date");
+  }
+  let doy = date.getDate() + 31 * date.getMonth();
+  if (date.getMonth() > 1) {
+    // FEB
+    doy -= Math.floor((4 * (date.getMonth() + 1) + 23) / 10);
+    if (LEAP(date.getFullYear())) {
+      doy++;
     }
-    let doy = date.getDate() + 31 * date.getMonth();
-    if (date.getMonth() > 1) { // FEB
-        doy -= Math.floor((4 * (date.getMonth() + 1) + 23) / 10);
-        if (LEAP(date.getFullYear())) {
-            doy++;
-        }
-    }
-    return doy;
+  }
+  return doy;
 }
 
-export function greg2abs(date) { // "absolute date"
-    const year = date.getFullYear() - 1;
-    return (dayOfYear(date) + // days this year
-            365 * year + // + days in prior years
-            ( Math.floor(year / 4) - // + Julian Leap years
-            Math.floor(year / 100) + // - century years
-            Math.floor(year / 400))); // + Gregorian leap years
+export function greg2abs(date) {
+  // "absolute date"
+  const year = date.getFullYear() - 1;
+  return (
+    dayOfYear(date) + // days this year
+    365 * year + // + days in prior years
+    (Math.floor(year / 4) - // + Julian Leap years
+    Math.floor(year / 100) + // - century years
+      Math.floor(year / 400))
+  ); // + Gregorian leap years
 }
 
 /*
@@ -89,24 +93,24 @@ export function greg2abs(date) { // "absolute date"
  * (April, 1993), pages 383-404 for an explanation.
  */
 export function abs2greg(theDate) {
-// calculations copied from original JS code
-    const d0 = theDate - 1;
-    const n400 = Math.floor(d0 / 146097);
-    const d1 =  Math.floor(d0 % 146097);
-    const n100 =  Math.floor(d1 / 36524);
-    const d2 = d1 % 36524;
-    const n4 =  Math.floor(d2 / 1461);
-    const d3 = d2 % 1461;
-    const n1 =  Math.floor(d3 / 365);
+  // calculations copied from original JS code
+  const d0 = theDate - 1;
+  const n400 = Math.floor(d0 / 146097);
+  const d1 = Math.floor(d0 % 146097);
+  const n100 = Math.floor(d1 / 36524);
+  const d2 = d1 % 36524;
+  const n4 = Math.floor(d2 / 1461);
+  const d3 = d2 % 1461;
+  const n1 = Math.floor(d3 / 365);
 
-    const day = ((d3 % 365) + 1);
-    let year = (400 * n400 + 100 * n100 + 4 * n4 + n1);
+  const day = (d3 % 365) + 1;
+  let year = 400 * n400 + 100 * n100 + 4 * n4 + n1;
 
-    if (4 == n100 || 4 == n1) {
-        return new Date(year, 11, 31);
-    }
+  if (4 == n100 || 4 == n1) {
+    return new Date(year, 11, 31);
+  }
 
-    return new Date(new Date(++year, 0, day).setFullYear(year)); // new Date() is very smart
+  return new Date(new Date(++year, 0, day).setFullYear(year)); // new Date() is very smart
 }
 
-export default abs2greg;
+export default {};
