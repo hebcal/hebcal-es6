@@ -113,4 +113,14 @@ export function abs2greg(theDate) {
   return new Date(new Date(++year, 0, day).setFullYear(year)); // new Date() is very smart
 }
 
-export default {};
+const greg = {
+  LEAP,
+  daysInMonth,
+  monthNames,
+  lookupMonthNum,
+  dayOfYear,
+  greg2abs,
+  abs2greg,
+};
+
+export default greg;

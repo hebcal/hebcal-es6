@@ -25,8 +25,8 @@
 
 	The JavaScript code was completely rewritten in 2014 by Eyal Schachter.
  */
-import * as common from './common.mjs';
-import * as greg from './greg.mjs';
+import common from './common.js';
+import greg from './greg.js';
 import gematriya from 'gematriya';
 
 const shas = [
@@ -146,4 +146,8 @@ export function dafname(daf, o) {
 	return common.LANG(daf.name, o) + " " + (o === 'h' ? gematriya(daf.blatt) : daf.blatt);
 }
 
-export default {};
+const api = {
+  dafyomi,
+  dafname,
+};
+export default api;
