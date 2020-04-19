@@ -3,6 +3,7 @@ import common from './src/common.js';
 import dafyomi from './src/dafyomi.js';
 import cities from './src/cities.js';
 import HDate from './src/hdate.js';
+import Sedra from './src/sedra.js';
 
 
 console.log("*** greg");
@@ -38,7 +39,8 @@ for (const name of ["San Francisco", "Haifa", "athens greece", "moscow"]) {
 
 // hdate
 console.log("*** hdate");
-let d = new HDate();
+const now = new HDate();
+let d = now;
 console.log(d.toString());
 d = new HDate(15, common.months.CHESHVAN, 5769);
 console.log(d.toString());
@@ -69,5 +71,28 @@ console.log(d.toString());
 d = new HDate(3, common.months.TISHREI, 3);
 console.log(d.toString());
 
+// sedra
+console.log("*** sedra");
+let sedra = new Sedra(now.getFullYear());
+console.log(sedra.get(now)[0][0]);
+
+const today = new Date();
+const todayAbs = greg.greg2abs(today);
+let startAbs = greg.greg2abs(new Date(today.getFullYear(), 0, 1));
+let endAbs = greg.greg2abs(new Date(today.getFullYear(), 11, 31));
+for (let i = startAbs; i <= endAbs; i++) {
+    const dow = i % 7;
+    if (dow == 6) { // Saturday
+        const todayHeb = new HDate(i);
+        const parsha = sedra.get(todayHeb);
+        let parshaStr = common.LANG(parsha[0]);
+        if (parsha.length == 2) {
+            parshaStr += "-" + common.LANG(parsha[1]);
+        }
+        const todayGreg = greg.abs2greg(i);
+        const [date, time] = todayGreg.toLocaleString('en-US').split(', ');
+        console.log(`${date} Parashat ${parshaStr}`);
+    }
+}
 
 console.log("goodbye");

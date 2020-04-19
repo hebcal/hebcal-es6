@@ -12,7 +12,7 @@ const cities = {
     init() {
 //        console.log("Loading geo.json...");
 //        geo = import './geo.json';
-        console.log(`Parsing ${geo.cities.length} cities`);
+        console.debug(`Parsing ${geo.cities.length} cities`);
         this.cities = this.loadCities(geo.cities);
         //this.initCityAliases();    
     },
