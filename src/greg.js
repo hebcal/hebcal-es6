@@ -1,14 +1,14 @@
 /*
     Hebcal - A Jewish Calendar Generator
-    Copyright (C) 1994-2004  Danny Sadinoff
-    Portions Copyright (c) 2002 Michael J. Radwin. All Rights Reserved.
+    Copyright (c) 1994-2020 Danny Sadinoff
+    Portions copyright Eyal Schachter and Michael J. Radwin
 
     https://github.com/hebcal/hebcal-es6
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,13 +17,6 @@
 
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-    Danny Sadinoff can be reached at danny@sadinoff.com
-
-    Michael Radwin has made significant contributions as a result of
-    maintaining hebcal.com.
-
-    The JavaScript code was completely rewritten in 2014 by Eyal Schachter.
  */
 const monthLengths = [
   [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],

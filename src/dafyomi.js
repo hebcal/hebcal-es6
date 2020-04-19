@@ -1,78 +1,71 @@
 /*
-	Hebcal - A Jewish Calendar Generator
-	Copyright (C) 1994-2004  Danny Sadinoff
-	Portions Copyright (c) 2002 Michael J. Radwin. All Rights Reserved.
+    Hebcal - A Jewish Calendar Generator
+    Copyright (c) 1994-2020 Danny Sadinoff
+    Portions copyright Eyal Schachter and Michael J. Radwin
 
-	https://github.com/hebcal/hebcal-es6
+    https://github.com/hebcal/hebcal-es6
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-	Danny Sadinoff can be reached at danny@sadinoff.com
-
-	Michael Radwin has made significant contributions as a result of
-	maintaining hebcal.com.
-
-	The JavaScript code was completely rewritten in 2014 by Eyal Schachter.
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import common from './common.js';
 import greg from './greg.js';
 import gematriya from 'gematriya';
 
 const shas = [
-	// sname, aname, hname, blatt
-	[ "Berachot",       "Berachos",         "ברכות",         64  ],
-	[ "Shabbat",        "Shabbos",          "שבת",          157 ],
-	[ "Eruvin",         "Eruvin",           "עירובין",         105 ],
-	[ "Pesachim",       0,                  "פסחים",         121 ],
-	[ "Shekalim",       0,                  "שקלים",         22  ],
-	[ "Yoma",           0,                  "יומא",           88  ],
-	[ "Sukkah",         0,                  "סוכה",          56  ],
-	[ "Beitzah",        0,                  "ביצה",          40  ],
-	[ "Rosh Hashana",   0,                  "ראש השנה",      35  ],
-	[ "Taanit",         "Taanis",           "תענית",          31  ],
-	[ "Megillah",       0,                  "מגילה",          32  ],
-	[ "Moed Katan",     0,                  "מועד קטן",       29  ],
-	[ "Chagigah",       0,                  "חגיגה",          27  ],
-	[ "Yevamot",        "Yevamos",          "יבמות",          122 ],
-	[ "Ketubot",        "Kesubos",          "כתובות",         112 ],
-	[ "Nedarim",        0,                  "נדרים",          91  ],
-	[ "Nazir",          0,                  "נזיר",           66  ],
-	[ "Sotah",          0,                  "סוטה",          49  ],
-	[ "Gitin",          0,                  "גיטין",           90  ],
-	[ "Kiddushin",      0,                  "קידושין",         82  ],
-	[ "Baba Kamma",     0,                  "בבא קמא",      119 ],
-	[ "Baba Metzia",    0,                  "בבא מציעא",     119 ],
-	[ "Baba Batra",     "Baba Basra",       "בבא בתרא",     176 ],
-	[ "Sanhedrin",      0,                  "סנהדרין",        113 ],
-	[ "Makkot",         "Makkos",           "מכות",          24  ],
-	[ "Shevuot",        "Shevuos",          "שבועות",        49  ],
-	[ "Avodah Zarah",   0,                  "עבודה זרה",     76  ],
-	[ "Horayot",        "Horayos",          "הוריות",         14  ],
-	[ "Zevachim",       0,                  "זבחים",         120 ],
-	[ "Menachot",       "Menachos",         "מנחות",         110 ],
-	[ "Chullin",        0,                  "חולין",          142 ],
-	[ "Bechorot",       "Bechoros",         "בכורות",         61  ],
-	[ "Arachin",        0,                  "ערכין",          34  ],
-	[ "Temurah",        0,                  "תמורה",         34  ],
-	[ "Keritot",        "Kerisos",          "כריתות",         28  ],
-	[ "Meilah",         0,                  "מעילה",         22  ],
-	[ "Kinnim",         0,                  "קנים",          4   ],
-	[ "Tamid",          0,                  "תמיד",          10  ],
-	[ "Midot",          "Midos",            "מדות",          4   ],
-	[ "Niddah",         0,                  "נדה",           73  ]
+    // sname, aname, hname, blatt
+    [ "Berachot",       "Berachos",         "ברכות",         64  ],
+    [ "Shabbat",        "Shabbos",          "שבת",          157 ],
+    [ "Eruvin",         "Eruvin",           "עירובין",         105 ],
+    [ "Pesachim",       0,                  "פסחים",         121 ],
+    [ "Shekalim",       0,                  "שקלים",         22  ],
+    [ "Yoma",           0,                  "יומא",           88  ],
+    [ "Sukkah",         0,                  "סוכה",          56  ],
+    [ "Beitzah",        0,                  "ביצה",          40  ],
+    [ "Rosh Hashana",   0,                  "ראש השנה",      35  ],
+    [ "Taanit",         "Taanis",           "תענית",          31  ],
+    [ "Megillah",       0,                  "מגילה",          32  ],
+    [ "Moed Katan",     0,                  "מועד קטן",       29  ],
+    [ "Chagigah",       0,                  "חגיגה",          27  ],
+    [ "Yevamot",        "Yevamos",          "יבמות",          122 ],
+    [ "Ketubot",        "Kesubos",          "כתובות",         112 ],
+    [ "Nedarim",        0,                  "נדרים",          91  ],
+    [ "Nazir",          0,                  "נזיר",           66  ],
+    [ "Sotah",          0,                  "סוטה",          49  ],
+    [ "Gitin",          0,                  "גיטין",           90  ],
+    [ "Kiddushin",      0,                  "קידושין",         82  ],
+    [ "Baba Kamma",     0,                  "בבא קמא",      119 ],
+    [ "Baba Metzia",    0,                  "בבא מציעא",     119 ],
+    [ "Baba Batra",     "Baba Basra",       "בבא בתרא",     176 ],
+    [ "Sanhedrin",      0,                  "סנהדרין",        113 ],
+    [ "Makkot",         "Makkos",           "מכות",          24  ],
+    [ "Shevuot",        "Shevuos",          "שבועות",        49  ],
+    [ "Avodah Zarah",   0,                  "עבודה זרה",     76  ],
+    [ "Horayot",        "Horayos",          "הוריות",         14  ],
+    [ "Zevachim",       0,                  "זבחים",         120 ],
+    [ "Menachot",       "Menachos",         "מנחות",         110 ],
+    [ "Chullin",        0,                  "חולין",          142 ],
+    [ "Bechorot",       "Bechoros",         "בכורות",         61  ],
+    [ "Arachin",        0,                  "ערכין",          34  ],
+    [ "Temurah",        0,                  "תמורה",         34  ],
+    [ "Keritot",        "Kerisos",          "כריתות",         28  ],
+    [ "Meilah",         0,                  "מעילה",         22  ],
+    [ "Kinnim",         0,                  "קנים",          4   ],
+    [ "Tamid",          0,                  "תמיד",          10  ],
+    [ "Midot",          "Midos",            "מדות",          4   ],
+    [ "Niddah",         0,                  "נדה",           73  ]
 ].map(m => {
-	return {name: m.slice(0,3), blatt: m[3]};
+    return {name: m.slice(0,3), blatt: m[3]};
 });
 
 export function dafyomi(gregdate) {
@@ -81,69 +74,69 @@ export function dafyomi(gregdate) {
     let dno;
 
     if (!(gregdate instanceof Date)) {
-		throw new TypeError('non-date given to dafyomi');
-	}
+        throw new TypeError('non-date given to dafyomi');
+    }
 
     let osday = greg.greg2abs(new Date(1923, 8, 11));
     let nsday = greg.greg2abs(new Date(1975, 5, 24));
     let cday = greg.greg2abs(gregdate);
 
     if (cday < osday) { // no cycle; dy didn't start yet
-		return {name: [], blatt: 0};
-	}
+        return {name: [], blatt: 0};
+    }
     if (cday >= nsday) { // "new" cycle
-		cno = 8 + ( (cday - nsday) / 2711 );
-		dno = (cday - nsday) % 2711;
-	} else { // old cycle
-		cno = 1 + ( (cday - osday) / 2702 );
-		dno = (cday - osday) % 2702;
-	}
+        cno = 8 + ( (cday - nsday) / 2711 );
+        dno = (cday - nsday) % 2711;
+    } else { // old cycle
+        cno = 1 + ( (cday - osday) / 2702 );
+        dno = (cday - osday) % 2702;
+    }
 
     // Find the daf taking note that the cycle changed slightly after cycle 7.
 
-	let total = 0;
-	let blatt = 0;
+    let total = 0;
+    let blatt = 0;
     let count = -1;
 
     // Fix Shekalim for old cycles
     if (cno <= 7) {
-		shas[4].blatt = 13;
-	} else {
-		shas[4].blatt = 22;
-	}
+        shas[4].blatt = 13;
+    } else {
+        shas[4].blatt = 22;
+    }
 
     // Find the daf
     let j = 0;
     while (j < dafcnt) {
-		count++;
-		total = total + shas[j].blatt - 1;
-		if (dno < total) {
-			blatt = (shas[j].blatt + 1) - (total - dno);
-			// fiddle with the weird ones near the end
-			switch (count) {
-				case 36:
-					blatt = blatt + 21;
-					break;
-				case 37:
-					blatt = blatt + 24;
-					break;
-				case 38:
-					blatt = blatt + 33;
-					break;
-				default:
-					break;
-			}
-			// Bailout
-			j = 1 + dafcnt;
-		}
-		j++;
-	}
+        count++;
+        total = total + shas[j].blatt - 1;
+        if (dno < total) {
+            blatt = (shas[j].blatt + 1) - (total - dno);
+            // fiddle with the weird ones near the end
+            switch (count) {
+                case 36:
+                    blatt = blatt + 21;
+                    break;
+                case 37:
+                    blatt = blatt + 24;
+                    break;
+                case 38:
+                    blatt = blatt + 33;
+                    break;
+                default:
+                    break;
+            }
+            // Bailout
+            j = 1 + dafcnt;
+        }
+        j++;
+    }
 
     return {name: shas[count].name, blatt};
 }
 
 export function dafname(daf, o) {
-	return common.LANG(daf.name, o) + " " + (o === 'h' ? gematriya(daf.blatt) : daf.blatt);
+    return common.LANG(daf.name, o) + " " + (o === 'h' ? gematriya(daf.blatt) : daf.blatt);
 }
 
 const api = {
