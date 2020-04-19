@@ -1,29 +1,22 @@
 /*
-	Hebcal - A Jewish Calendar Generator
-	Copyright (C) 1994-2004  Danny Sadinoff
-	Portions Copyright (c) 2002 Michael J. Radwin. All Rights Reserved.
+    Hebcal - A Jewish Calendar Generator
+    Copyright (c) 1994-2020 Danny Sadinoff
+    Portions copyright Eyal Schachter and Michael J. Radwin
 
-	https://github.com/hebcal/hebcal-es6
+    https://github.com/hebcal/hebcal-es6
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-	Danny Sadinoff can be reached at danny@sadinoff.com
-
-	Michael Radwin has made significant contributions as a result of
-	maintaining hebcal.com.
-
-	The JavaScript code was completely rewritten in 2014 by Eyal Schachter.
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import gematriya from "gematriya";
 
@@ -173,27 +166,27 @@ export function shrtKis(year) {
 
 export function monthFromName(c) {
   /*
-	the Hebrew months are unique to their second letter
-	N         Nisan  (November?)
-	I         Iyyar
-	E        Elul
-	C        Cheshvan
-	K        Kislev
-	1        1Adar
-	2        2Adar
-	Si Sh     Sivan, Shvat
-	Ta Ti Te Tamuz, Tishrei, Tevet
-	Av Ad    Av, Adar
+  the Hebrew months are unique to their second letter
+  N         Nisan  (November?)
+  I         Iyyar
+  E        Elul
+  C        Cheshvan
+  K        Kislev
+  1        1Adar
+  2        2Adar
+  Si Sh     Sivan, Shvat
+  Ta Ti Te Tamuz, Tishrei, Tevet
+  Av Ad    Av, Adar
 
-	אב אד אי אל   אב אדר אייר אלול
-	ח            חשון
-	ט            טבת
-	כ            כסלו
-	נ            ניסן
-	ס            סיון
-	ש            שבט
-	תמ תש        תמוז תשרי
-	*/
+  אב אד אי אל   אב אדר אייר אלול
+  ח            חשון
+  ט            טבת
+  כ            כסלו
+  נ            ניסן
+  ס            סיון
+  ש            שבט
+  תמ תש        תמוז תשרי
+  */
   switch (c.toLowerCase()[0]) {
     case "n":
     case "נ":
