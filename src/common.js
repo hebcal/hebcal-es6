@@ -64,8 +64,8 @@ export const monthNames = [
     ["Nisan", 0, "ניסן"],
   ]),
   monthNames0.concat([
-    ["Adar 1", 0, "אדר א'"],
-    ["Adar 2", 0, "אדר ב'"],
+    ["Adar I", 0, "אדר א'"],
+    ["Adar II", 0, "אדר ב'"],
     ["Nisan", 0, "ניסן"],
   ]),
 ];
