@@ -52,8 +52,7 @@ const cities = {
         return cities;
     },
 
-    parseCityString(str) {
-        const f = str.split('|');
+    parseCityString(f) {
         const cityName = f[0];
         const country = f[1];
         const admin1 = f[2];
