@@ -1,11 +1,12 @@
 import geo from './geo.js';
 
+
 const cities = {
     cities: {},
 
 //    geo: {},
 
-	getCity(str) {
+    getCity(str) {
         return this.cities[str.toLowerCase()];
     },
 
@@ -19,8 +20,8 @@ const cities = {
 
     loadCities(allCities) {
         let cities = {};
-		const cityObjs = allCities.map(this.parseCityString);
-		for (const city of cityObjs) {
+        const cityObjs = allCities.map(this.parseCityString);
+        for (const city of cityObjs) {
             const cityLc = city.name.toLowerCase();
             let aliasLc;
             if (city.cc == 'US') {
@@ -36,7 +37,7 @@ const cities = {
             cities[aliasLc] = city;
         }
         // this is silly, but alias the first occurrence of each country and US state
-		for (const city of cityObjs) {
+        for (const city of cityObjs) {
             if (city.cc == 'US') {
                 const stateLc = geo.stateNames[city.state].toLowerCase();
                 if (!cities[stateLc]) {
