@@ -28,9 +28,9 @@ suncalc.addTime(-8.5, 0, "tzeit");
 
 export default class Location {
   constructor(latitude, longitude, il, tzid, cityName, countryCode, geoid) {
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.il = il;
+    this.latitude = +latitude;
+    this.longitude = +longitude;
+    this.il = Boolean(il);
     this.tzid = tzid;
     this.name = cityName;
     this.cc = countryCode;

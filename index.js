@@ -2,10 +2,10 @@ import greg from './src/greg.js';
 import common from './src/common.js';
 import dafyomi from './src/dafyomi.js';
 import cities from './src/cities.js';
-import HDate from './src/hdate.js';
+import HDate, { hebrew2abs } from './src/hdate.js';
 import Sedra from './src/sedra.js';
 import Location from './src/location.js';
-//import holidays from './src/holidays.js';
+import holidays from './src/holidays.js';
 
 
 console.log("*** greg");
@@ -98,5 +98,19 @@ console.log(`Sunset in ${loc.name} is at ${sunset}`);
 loc = new Location(37.33939,-121.89496, false, "America/Los_Angeles", "San Jose", "US");
 sunset = loc.sunset(now);
 console.log(`Sunset in ${loc.name} is at ${sunset}`);
+
+console.log("*** holidays");
+let year = holidays.year(5749);
+startAbs = hebrew2abs({ yy: 5749, mm: common.months.TISHREI, dd: 1});
+endAbs = hebrew2abs({ yy: 5750, mm: common.months.TISHREI, dd: 1});
+for (let i = startAbs; i <= endAbs; i++) {
+    const todayHeb = new HDate(i);
+    const ev = year[todayHeb];
+    if (typeof ev !== 'undefined') {
+        for (const e of ev) {
+            console.log(greg.abs2greg(i).toDateString(),  e.getDesc(), todayHeb.toString());
+        }
+    }
+}
 
 console.log("goodbye");

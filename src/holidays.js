@@ -161,9 +161,9 @@ export function year(year) {
 
   function add(ev) {
     if (Array.isArray(ev)) {
-      ev.forEach((e) => {
+      for (const e of ev) {
         add(e);
-      });
+      }
     } else {
       if (h[ev.date]) {
         h[ev.date].push(ev);

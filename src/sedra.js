@@ -1,9 +1,9 @@
 /*
     Hebcal - A Jewish Calendar Generator
-    Copyright (C) 1994-2004  Danny Sadinoff
-    Portions Copyright (c) 2002 Michael J. Radwin. All Rights Reserved.
+    Copyright (c) 1994-2020 Danny Sadinoff
+    Portions copyright Eyal Schachter and Michael J. Radwin
 
-    https://github.com/hebcal/hebcal-js
+    https://github.com/hebcal/hebcal-es6
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -17,14 +17,8 @@
 
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-    Danny Sadinoff can be reached at danny@sadinoff.com
-
-    Michael Radwin has made significant contributions as a result of
-    maintaining hebcal.com.
-
-    The JavaScript code was completely rewritten in 2014 by Eyal Schachter.
  */
+
 /*
  * Many of the following algorithms were taken from hebrew calendar
  * routines by Maimonedes, from his Mishneh Torah, and implemented by
