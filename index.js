@@ -42,36 +42,29 @@ for (const name of ["San Francisco", "Haifa", "athens greece", "moscow"]) {
 // hdate
 console.log("*** hdate");
 const now = new HDate();
-let d = now;
-console.log(d.toString());
-d = new HDate(15, common.months.CHESHVAN, 5769);
-console.log(d.toString());
-console.log(d);
-d = new HDate(14, common.months.ADAR_I, 5781);
-console.log(d.toString());
-console.log(d);
-d = new HDate(14, common.months.ADAR_I, 5782);
-console.log(d.toString());
-console.log(d);
-d = new HDate(14, common.months.ADAR_II, 5782);
-console.log(d.toString());
-d = new HDate(15, common.months.CHESHVAN, 5769);
-let birthday1 = new Date('December 17, 1995 03:24:00');
-let birthday2 = new Date(1995, 11, 17, 3, 24, 0);
-console.log(new HDate(birthday1));
-console.log(new HDate(birthday2));
-d = new HDate(15, 'Cheshvan', 5769);
-console.log(d.toString());
-console.log(d.greg());
-console.log(d.abs());
-console.log(typeof d.abs());
-console.log(d.next());
-d = new HDate(4, common.months.TAMUZ, 5536);
-console.log(d.toString());
-d = new HDate(new Date(1751, 0, 1));
-console.log(d.toString());
-d = new HDate(3, common.months.TISHREI, 3);
-console.log(d.toString());
+console.log(now.next());
+console.log(now.prev());
+const testDates = [
+  now,
+  new HDate(15, common.months.CHESHVAN, 5769),
+  new HDate(14, common.months.ADAR_I, 5781),
+  new HDate(14, common.months.ADAR_I, 5782),
+  new HDate(14, common.months.ADAR_II, 5782),
+  new HDate(15, 'Cheshvan', 5769),
+  new HDate(new Date('December 17, 1995 03:24:00')),
+  new HDate(new Date(1995, 11, 17, 3, 24, 0)),
+  new HDate(733359),
+  new HDate(730439),
+  new HDate(678678),
+  new HDate(new Date(1751, 0, 1)),
+  new HDate(295059),
+  new HDate(3, common.months.TISHREI, 1003),
+  new HDate(1),
+  new HDate(4, common.months.TAMUZ, 5536),
+];
+for (const d of testDates) {
+    console.log(d.toString(), d.abs(), d.greg().toDateString());
+}
 
 // sedra
 console.log("*** sedra");
