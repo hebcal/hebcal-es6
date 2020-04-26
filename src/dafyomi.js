@@ -18,8 +18,8 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import common from './common.js';
-import greg from './greg.js';
+import common from './common';
+import greg from './greg';
 import gematriya from 'gematriya';
 
 const shas = [

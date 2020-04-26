@@ -1,12 +1,23 @@
-import greg from './src/greg.js';
-import common from './src/common.js';
-import dafyomi from './src/dafyomi.js';
-import cities from './src/cities.js';
-import HDate, { hebrew2abs } from './src/hdate.js';
-import Sedra from './src/sedra.js';
-import Location from './src/location.js';
-import holidays from './src/holidays.js';
+import greg from './greg';
+import common from './common';
+import dafyomi from './dafyomi';
+import cities from './cities';
+import HDate, { hebrew2abs } from './hdate';
+import Sedra from './sedra';
+import Location from './location';
+import holidays from './holidays';
 
+
+/*
+// import { t, msgid, addLocale, useLocale } from 'ttag';
+const locale = "ru";
+console.log(locale);
+if (locale) {
+    const translationObj = require(`./${locale}.po.json`); // will load uk.po.json
+    addLocale(locale, translationObj); // adding locale to ttag
+    useLocale(locale); // make uk locale active
+}
+*/
 
 console.log("*** greg");
 let foo = greg.daysInMonth(2, 2020);
@@ -87,6 +98,12 @@ for (let i = startAbs; i <= endAbs; i++) {
         const todayGreg = greg.abs2greg(i);
         const [date, time] = todayGreg.toLocaleString('en-US').split(', ');
         console.log(`${date} Parashat ${parshaStr}`);
+        /*
+        const aaa = t`${parshaStr}`;
+        console.log(`&&&& ${aaa}`);
+        const aaa2 = msgid(parshaStr);
+        console.log(`&&&& ${aaa} ${aaa2}`);
+        */
     }
 }
 
@@ -108,7 +125,9 @@ for (let i = startAbs; i <= endAbs; i++) {
     const ev = year[todayHeb];
     if (typeof ev !== 'undefined') {
         for (const e of ev) {
-            console.log(greg.abs2greg(i).toDateString(),  e.getDesc(), todayHeb.toString());
+            const desc = e.getDesc();
+//            const tdesc = msgid(desc);
+            console.log(greg.abs2greg(i).toDateString(), desc, todayHeb.toString());
         }
     }
 }

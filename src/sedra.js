@@ -30,8 +30,8 @@
  * The routines were included in the emacs 19 distribution.
  *
  */
-import c from './common.js';
-import HDate from './hdate.js';
+import c from './common';
+import HDate from './hdate';
 
 const INCOMPLETE = 0;
 const REGULAR = 1;

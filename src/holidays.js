@@ -18,8 +18,8 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import c, { months, days } from "./common.js";
-import HDate from "./hdate.js";
+import c, { months, days } from "./common";
+import HDate from "./hdate";
 import gematriya from "gematriya";
 
 let __cache = {};

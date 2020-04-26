@@ -18,8 +18,8 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import c from './common.js';
-import greg from './greg.js';
+import c from './common';
+import greg from './greg';
 import gematriya from 'gematriya';
 
 export class HDate {

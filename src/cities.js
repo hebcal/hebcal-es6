@@ -1,4 +1,4 @@
-import geo from './geo.js';
+import geo from './geo';
 
 
 const cities = {
