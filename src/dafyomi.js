@@ -18,54 +18,52 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import common from './common';
 import greg from './greg';
-import gematriya from 'gematriya';
+import { gettext } from 'ttag';
 
 const shas = [
-    // sname, aname, hname, blatt
-    [ "Berachot",       "Berachos",         "ברכות",         64  ],
-    [ "Shabbat",        "Shabbos",          "שבת",          157 ],
-    [ "Eruvin",         "Eruvin",           "עירובין",         105 ],
-    [ "Pesachim",       0,                  "פסחים",         121 ],
-    [ "Shekalim",       0,                  "שקלים",         22  ],
-    [ "Yoma",           0,                  "יומא",           88  ],
-    [ "Sukkah",         0,                  "סוכה",          56  ],
-    [ "Beitzah",        0,                  "ביצה",          40  ],
-    [ "Rosh Hashana",   0,                  "ראש השנה",      35  ],
-    [ "Taanit",         "Taanis",           "תענית",          31  ],
-    [ "Megillah",       0,                  "מגילה",          32  ],
-    [ "Moed Katan",     0,                  "מועד קטן",       29  ],
-    [ "Chagigah",       0,                  "חגיגה",          27  ],
-    [ "Yevamot",        "Yevamos",          "יבמות",          122 ],
-    [ "Ketubot",        "Kesubos",          "כתובות",         112 ],
-    [ "Nedarim",        0,                  "נדרים",          91  ],
-    [ "Nazir",          0,                  "נזיר",           66  ],
-    [ "Sotah",          0,                  "סוטה",          49  ],
-    [ "Gitin",          0,                  "גיטין",           90  ],
-    [ "Kiddushin",      0,                  "קידושין",         82  ],
-    [ "Baba Kamma",     0,                  "בבא קמא",      119 ],
-    [ "Baba Metzia",    0,                  "בבא מציעא",     119 ],
-    [ "Baba Batra",     "Baba Basra",       "בבא בתרא",     176 ],
-    [ "Sanhedrin",      0,                  "סנהדרין",        113 ],
-    [ "Makkot",         "Makkos",           "מכות",          24  ],
-    [ "Shevuot",        "Shevuos",          "שבועות",        49  ],
-    [ "Avodah Zarah",   0,                  "עבודה זרה",     76  ],
-    [ "Horayot",        "Horayos",          "הוריות",         14  ],
-    [ "Zevachim",       0,                  "זבחים",         120 ],
-    [ "Menachot",       "Menachos",         "מנחות",         110 ],
-    [ "Chullin",        0,                  "חולין",          142 ],
-    [ "Bechorot",       "Bechoros",         "בכורות",         61  ],
-    [ "Arachin",        0,                  "ערכין",          34  ],
-    [ "Temurah",        0,                  "תמורה",         34  ],
-    [ "Keritot",        "Kerisos",          "כריתות",         28  ],
-    [ "Meilah",         0,                  "מעילה",         22  ],
-    [ "Kinnim",         0,                  "קנים",          4   ],
-    [ "Tamid",          0,                  "תמיד",          10  ],
-    [ "Midot",          "Midos",            "מדות",          4   ],
-    [ "Niddah",         0,                  "נדה",           73  ]
-].map(m => {
-    return {name: m.slice(0,3), blatt: m[3]};
+    [ "Berachot",       64      ],
+    [ "Shabbat",        157     ],
+    [ "Eruvin",         105     ],
+    [ "Pesachim",       121     ],
+    [ "Shekalim",       22      ],
+    [ "Yoma",           88      ],
+    [ "Sukkah",         56      ],
+    [ "Beitzah",        40      ],
+    [ "Rosh Hashana",   35      ],
+    [ "Taanit",         31      ],
+    [ "Megillah",       32      ],
+    [ "Moed Katan",     29      ],
+    [ "Chagigah",       27      ],
+    [ "Yevamot",        122     ],
+    [ "Ketubot",        112     ],
+    [ "Nedarim",        91      ],
+    [ "Nazir",          66      ],
+    [ "Sotah",          49      ],
+    [ "Gitin",          90      ],
+    [ "Kiddushin",      82      ],
+    [ "Baba Kamma",     119     ],
+    [ "Baba Metzia",    119     ],
+    [ "Baba Batra",     176     ],
+    [ "Sanhedrin",      113     ],
+    [ "Makkot",         24      ],
+    [ "Shevuot",        49      ],
+    [ "Avodah Zarah",   76      ],
+    [ "Horayot",        14      ],
+    [ "Zevachim",       120     ],
+    [ "Menachot",       110     ],
+    [ "Chullin",        142     ],
+    [ "Bechorot",       61      ],
+    [ "Arachin",        34      ],
+    [ "Temurah",        34      ],
+    [ "Keritot",        28      ],
+    [ "Meilah",         22      ],
+    [ "Kinnim",         4       ],
+    [ "Tamid",          10      ],
+    [ "Midot",          4       ],
+    [ "Niddah",         73      ]
+  ].map(m => {
+    return {name: m[0], blatt: m[1]};
 });
 
 export function dafyomi(gregdate) {
@@ -135,8 +133,8 @@ export function dafyomi(gregdate) {
     return {name: shas[count].name, blatt};
 }
 
-export function dafname(daf, o) {
-    return common.LANG(daf.name, o) + " " + (o === 'h' ? gematriya(daf.blatt) : daf.blatt);
+export function dafname(daf) {
+    return gettext(daf.name) + " " + daf.blatt;
 }
 
 const api = {
