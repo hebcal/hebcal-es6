@@ -78,6 +78,11 @@ export default class Location {
     // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
     return this.nightHour(hdate) / (1000 * 60);
   }
+
+  static newFromCity(city) {
+    return new Location(city.latitude, city.longitude, city.cc == 'IL',
+      city.tzid, city.name, city.cc, city.geoid);
+  }
 }
 
 /*
