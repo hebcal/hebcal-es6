@@ -7,17 +7,16 @@ import Sedra from './sedra';
 import Location from './location';
 import holidays from './holidays';
 
-
-/*
-// import { t, msgid, addLocale, useLocale } from 'ttag';
-const locale = "ru";
+import { t, gettext, addLocale, useLocale } from 'ttag';
+const locale = "ashkenazi";
 console.log(locale);
 if (locale) {
     const translationObj = require(`./${locale}.po.json`); // will load uk.po.json
     addLocale(locale, translationObj); // adding locale to ttag
     useLocale(locale); // make uk locale active
+    const foo = t`Simchat Torah`;
+    console.log(foo);
 }
-*/
 
 console.log("*** greg");
 let foo = greg.daysInMonth(2, 2020);
@@ -80,7 +79,7 @@ for (const d of testDates) {
 // sedra
 console.log("*** sedra");
 let sedra = new Sedra(now.getFullYear());
-console.log(sedra.get(now)[0][0]);
+console.log(gettext(sedra.get(now)[0]));
 
 const today = new Date();
 const todayAbs = greg.greg2abs(today);
@@ -91,19 +90,13 @@ for (let i = startAbs; i <= endAbs; i++) {
     if (dow == 6) { // Saturday
         const todayHeb = new HDate(i);
         const parsha = sedra.get(todayHeb);
-        let parshaStr = common.LANG(parsha[0]);
+        let parshaStr = gettext(parsha[0]);
         if (parsha.length == 2) {
-            parshaStr += "-" + common.LANG(parsha[1]);
+            parshaStr += "-" + gettext(parsha[1]);
         }
         const todayGreg = greg.abs2greg(i);
         const [date, time] = todayGreg.toLocaleString('en-US').split(', ');
-        console.log(`${date} Parashat ${parshaStr}`);
-        /*
-        const aaa = t`${parshaStr}`;
-        console.log(`&&&& ${aaa}`);
-        const aaa2 = msgid(parshaStr);
-        console.log(`&&&& ${aaa} ${aaa2}`);
-        */
+        console.log(date, t`Parashat`, parshaStr);
     }
 }
 
@@ -116,18 +109,43 @@ loc = new Location(37.33939,-121.89496, false, "America/Los_Angeles", "San Jose"
 sunset = loc.sunset(now);
 console.log(`Sunset in ${loc.name} is at ${sunset}`);
 
+loc = new Location(32.1836, 34.87386, true, "Asia/Jerusalem", "Ra'anana", "IL");
+sunset = loc.sunset(now);
+console.log(`Sunset in ${loc.name} is at ${sunset}`);
+
+let city = cities.getCity("Tel Aviv");
+loc = new Location(
+    city.latitude,
+    city.longitude,
+    city.cc == 'IL',
+    city.tzid,
+    city.name,
+    city.cc,
+    city.geoid);
+sunset = loc.sunset(now);
+console.log(`Sunset in ${loc.name} is at ${sunset}`);
+
+loc = Location.newFromCity(cities.getCity("Jerusalem"))
+sunset = loc.sunset(now);
+console.log(`Sunset in ${loc.name} is at ${sunset}`);
+
+
 console.log("*** holidays");
 let year = holidays.year(5749);
 startAbs = hebrew2abs({ yy: 5749, mm: common.months.TISHREI, dd: 1});
 endAbs = hebrew2abs({ yy: 5750, mm: common.months.TISHREI, dd: 1});
-for (let i = startAbs; i <= endAbs; i++) {
-    const todayHeb = new HDate(i);
-    const ev = year[todayHeb];
+for (let absDt = startAbs; absDt <= endAbs; absDt++) {
+    const gregDt = greg.abs2greg(absDt);
+    const gregDtStr = gregDt.toLocaleDateString();
+    const daf = dafyomi.dafyomi(gregDt);
+    console.log(gregDtStr, t`Daf Yomi` + ":", dafyomi.dafname(daf));
+    const hebDt = new HDate(absDt);
+    const ev = year[hebDt];
     if (typeof ev !== 'undefined') {
         for (const e of ev) {
             const desc = e.getDesc();
 //            const tdesc = msgid(desc);
-            console.log(greg.abs2greg(i).toDateString(), desc, todayHeb.toString());
+            console.log(gregDtStr, desc, hebDt.toString());
         }
     }
 }

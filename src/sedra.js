@@ -86,81 +86,79 @@ class Sedra {
 }
 
 export const parshiot = [
-    [ 'Bereshit', 'Bereshis', 'בראשית' ], // 0
-    [ 'Noach', 0, 'נח' ],
-    [ 'Lech-Lecha', 0, 'לך-לך' ],
-    [ 'Vayera', 0, 'וירא' ],
-    [ 'Chayei Sara', 0, 'חיי שרה' ],
-    [ 'Toldot', 'Toldos', 'תולדות' ],
-    [ 'Vayetzei', 0, 'ויצא' ],
-    [ 'Vayishlach', 0, 'וישלח' ],
-    [ 'Vayeshev', 0, 'וישב' ],
-    [ 'Miketz', 0, 'מקץ' ],
-    [ 'Vayigash', 0, 'ויגש' ], // 10
-    [ 'Vayechi', 0, 'ויחי' ],
-    [ 'Shemot', 'Shemos', 'שמות' ],
-    [ 'Vaera', 0, 'וארא' ],
-    [ 'Bo', 0, 'בא' ],
-    [ 'Beshalach', 0, 'בשלח' ],
-    [ 'Yitro', 'Yisro', 'יתרו' ],
-    [ 'Mishpatim', 0, 'משפטים' ],
-    [ 'Terumah', 0, 'תרומה' ],
-    [ 'Tetzaveh', 0, 'תצוה' ],
-    [ 'Ki Tisa', 'Ki Sisa', 'כי תשא' ], // 20
-    [ 'Vayakhel', 0, 'ויקהל' ],
-    [ 'Pekudei', 0, 'פקודי' ],
-    [ 'Vayikra', 0, 'ויקרא' ],
-    [ 'Tzav', 0, 'צו' ],
-    [ 'Shmini', 0, 'שמיני' ],
-    [ 'Tazria', 0, 'תזריע' ],
-    [ 'Metzora', 0, 'מצורע' ],
-    [ 'Achrei Mot', 'Achrei Mos', 'אחרי מות' ],
-    [ 'Kedoshim', 0, 'קדשים' ],
-    [ 'Emor', 0, 'אמור' ], // 30
-    [ 'Behar', 0, 'בהר' ],
-    [ 'Bechukotai', 'Bechukosai', 'בחקתי' ],
-    [ 'Bamidbar', 0, 'במדבר' ],
-    [ 'Nasso', 0, 'נשא' ],
-    [ 'Beha\'alotcha', 'Beha\'aloscha', 'בהעלתך' ],
-    [ 'Sh\'lach', 0, 'שלח לך' ],
-    [ 'Korach', 0, 'קורח' ],
-    [ 'Chukat', 'Chukas', 'חקת' ],
-    [ 'Balak', 0, 'בלק' ],
-    [ 'Pinchas', 0, 'פינחס' ], // 40
-    [ 'Matot', 'Matos', 'מטות' ],
-    [ 'Masei', 0, 'מסעי' ],
-    [ 'Devarim', 0, 'דברים' ],
-    [ 'Vaetchanan', 'V\'eschanan', 'ואתחנן' ],
-    [ 'Eikev', 0, 'עקב' ],
-    [ 'Re\'eh', 0, 'ראה' ],
-    [ 'Shoftim', 0, 'שופטים' ],
-    [ 'Ki Teitzei', 'Ki Seitzei', 'כי תצא' ],
-    [ 'Ki Tavo', 'Ki Savo', 'כי תבוא' ],
-    [ 'Nitzavim', 0, 'נצבים' ], // 50
-    [ 'Vayeilech', 0, 'וילך' ],
-    [ 'Ha\'Azinu', 0, 'האזינו' ]
+    "Bereshit",
+    "Noach",
+    "Lech-Lecha",
+    "Vayera",
+    "Chayei Sara",
+    "Toldot",
+    "Vayetzei",
+    "Vayishlach",
+    "Vayeshev",
+    "Miketz",
+    "Vayigash",
+    "Vayechi",
+    "Shemot",
+    "Vaera",
+    "Bo",
+    "Beshalach",
+    "Yitro",
+    "Mishpatim",
+    "Terumah",
+    "Tetzaveh",
+    "Ki Tisa",
+    "Vayakhel",
+    "Pekudei",
+    "Vayikra",
+    "Tzav",
+    "Shmini",
+    "Tazria",
+    "Metzora",
+    "Achrei Mot",
+    "Kedoshim",
+    "Emor",
+    "Behar",
+    "Bechukotai",
+    "Bamidbar",
+    "Nasso",
+    "Beha'alotcha",
+    "Sh'lach",
+    "Korach",
+    "Chukat",
+    "Balak",
+    "Pinchas",
+    "Matot",
+    "Masei",
+    "Devarim",
+    "Vaetchanan",
+    "Eikev",
+    "Re'eh",
+    "Shoftim",
+    "Ki Teitzei",
+    "Ki Tavo",
+    "Nitzavim",
+    "Vayeilech",
+    "Ha'Azinu"
 ];
-
 
 // parsha doubler/undoubler
 function D(p) {
     return -p;
 }
 
-// these are wrapped to protect them from [].concat()
-const RH = [[ 'Rosh Hashana', 0, 'ראש השנה' ]]; //0
-const YK = [[ 'Yom Kippur', 0, 'יום כיפור' ]];  //1
+const RH = 'Rosh Hashana'; //0
+const YK = 'Yom Kippur';  //1
 
-const SUKKOT = [[ 'Sukkot', 'Succos', 'סוכות' ]];  //0
-const CHMSUKOT = [[ 'Chol hamoed Sukkot', 'Chol hamoed Succos', 'חול המועד סוכות' ]];  //0
-const SHMINI = [[ 'Shmini Atzeret', 'Shmini Atzeres', 'שמיני עצרת' ]];  //0
-const EOY = [[ 'End-of-Year: Simchat-Torah, Sukkot', 'End-of-Year: Simchas-Torah, Succos', 'סופשנה: סוכות ושמחת תורה' ]];  //0
+const SUKKOT = 'Sukkot';  //0
+const CHMSUKOT = 'Chol hamoed Sukkot';  //0
+const SHMINI = 'Shmini Atzeret';  //0
+const EOY = 'End-of-Year: Simchat-Torah, Sukkot';  //0
 
-const PESACH = [[ 'Pesach', 0, 'פסח' ]]; //25
-const CHMPESACH = [[ 'Chol hamoed Pesach', 0, 'חול המועד פסח' ]];  //25
-const PESACH7 = [[ 'Second days of Pesach', 0, 'שביעי של פסח' ]]; //25
+const PESACH = 'Pesach'; //25
+const CHMPESACH = 'Chol hamoed Pesach';  //25
+const PESACH7 = 'Second days of Pesach'; //25
 
-const SHAVUOT = [[ 'Shavuot', 'Shavuos', 'שבועות' ]]; //33
+const SHAVUOT = 'Shavuot'; //33
 
 
 
@@ -310,7 +308,7 @@ function abs(year, absDate) {
     if (undefined === index) {
         return abs(new Sedra(year.year + 1, year.il), absDate); // must be next year
     }
-    if (typeof index == 'object') {
+    if (typeof index === 'string') {
         // Shabbat has a chag. Return a description
         return {parsha: [index], chag: true};
     }
