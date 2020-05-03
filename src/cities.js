@@ -1,31 +1,48 @@
-import geo from './geo';
+/*
+    Hebcal - A Jewish Calendar Generator
+    Copyright (c) 1994-2020 Danny Sadinoff
+    Portions copyright Eyal Schachter and Michael J. Radwin
 
+    https://github.com/hebcal/hebcal-es6
 
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 const cities = {
     cities: {},
 
-//    geo: {},
+    geo: {},
 
     getCity(str) {
         return this.cities[str.toLowerCase()];
     },
 
     init() {
-//        console.log("Loading geo.json...");
-//        geo = import './geo.json';
-        console.debug(`Parsing ${geo.cities.length} cities`);
-        this.cities = this.loadCities(geo.cities);
+        console.debug("Loading geo.json...");
+        this.geo = require('./geo.json');
+        console.debug(`Parsing ${this.geo.cities.length} cities`);
+        this.cities = this.loadCities(this.geo.cities);
         //this.initCityAliases();    
     },
 
     loadCities(allCities) {
         let cities = {};
-        const cityObjs = allCities.map(this.parseCityString);
+        const cityObjs = allCities.map(this.parseCityString, this);
         for (const city of cityObjs) {
             const cityLc = city.name.toLowerCase();
             let aliasLc;
             if (city.cc == 'US') {
-                const stateLc = geo.stateNames[city.state].toLowerCase();
+                const stateLc = this.geo.stateNames[city.state].toLowerCase();
                 aliasLc = `${cityLc} ${stateLc}`;
             } else {
                 const countryLc = city.country.toLowerCase();
@@ -39,7 +56,7 @@ const cities = {
         // this is silly, but alias the first occurrence of each country and US state
         for (const city of cityObjs) {
             if (city.cc == 'US') {
-                const stateLc = geo.stateNames[city.state].toLowerCase();
+                const stateLc = this.geo.stateNames[city.state].toLowerCase();
                 if (!cities[stateLc]) {
                     cities[stateLc] = city;
                 }
@@ -77,7 +94,7 @@ const cities = {
             city.state = admin1;
             city.cityName = `${cityName}, ${admin1}`;
         } else {
-            const countryName = geo.countryNames[country];
+            const countryName = this.geo.countryNames[country];
             city.country = countryName;
             city.cityName = `${cityName}, ${countryName}`;
         }
