@@ -21,6 +21,7 @@
 import c from './common';
 import greg from './greg';
 import gematriya from 'gematriya';
+import { gettext } from 'ttag';
 
 export class HDate {
   constructor(day, month, year) {
@@ -117,8 +118,8 @@ export class HDate {
     return hebrew2abs(this);
   }
 
-  getMonthName(o) {
-    return c.LANG(c.monthNames[+this.isLeapYear()][this.getMonth()], o);
+  getMonthName() {
+    return gettext(c.monthNames[+this.isLeapYear()][this.getMonth()]);
   }
 
   before(day) {
@@ -160,12 +161,11 @@ export class HDate {
   }
 }
 
-HDate.prototype.toString = function hdateToString(o) {
+HDate.prototype.toString = function hdateToString() {
     const day = this.getDate();
     const fullYear = this.getFullYear();
-    return c.LANG([day, null, gematriya(day)], o) + ' ' +
-        this.getMonthName(o) + ' ' +
-        c.LANG([fullYear, null, gematriya(this.getFullYear())], o);
+    const monthName = this.getMonthName();
+    return `${day} ${monthName} ${fullYear}`;
 };
 
 

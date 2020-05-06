@@ -37,29 +37,29 @@ export const months = {
 };
 
 const monthNames0 = [
-  ["", 0, ""],
-  ["Nisan", 0, "ניסן"],
-  ["Iyyar", 0, "אייר"],
-  ["Sivan", 0, "סיון"],
-  ["Tamuz", 0, "תמוז"],
-  ["Av", 0, "אב"],
-  ["Elul", 0, "אלול"],
-  ["Tishrei", 0, "תשרי"],
-  ["Cheshvan", 0, "חשון"],
-  ["Kislev", 0, "כסלו"],
-  ["Tevet", 0, "טבת"],
-  ["Sh'vat", 0, "שבט"],
+  "",
+  "Nisan",
+  "Iyyar",
+  "Sivan",
+  "Tamuz",
+  "Av",
+  "Elul",
+  "Tishrei",
+  "Cheshvan",
+  "Kislev",
+  "Tevet",
+  "Sh'vat"
 ];
 
 export const monthNames = [
   monthNames0.concat([
-    ["Adar", 0, "אדר"],
-    ["Nisan", 0, "ניסן"],
+    "Adar",
+    "Nisan"
   ]),
   monthNames0.concat([
-    ["Adar I", 0, "אדר א'"],
-    ["Adar II", 0, "אדר ב'"],
-    ["Nisan", 0, "ניסן"],
+    "Adar I",
+    "Adar II",
+    "Nisan"
   ]),
 ];
 

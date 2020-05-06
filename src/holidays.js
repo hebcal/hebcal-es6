@@ -21,6 +21,7 @@
 import c, { months, days } from "./common";
 import HDate from "./hdate";
 import gematriya from "gematriya";
+import { gettext } from 'ttag';
 
 let __cache = {};
 
@@ -31,15 +32,11 @@ const NISAN = months.NISAN;
 const SAT = days.SAT;
 
 function Chanukah(day) {
-  return [`Chanukah: Candle ${day}`, 0, `חנוכה: נר ${gematriya(day)}`];
+  return `Chanukah: ${day} Candles`;
 }
 
 function CHM(desc) {
-  return [
-    `${desc[0]} (CH''M)`,
-    desc[1] ? `${desc[1]} (CH''M)` : desc[1],
-    desc[2] ? `${desc[2]} )חוה"מ(` : desc[2],
-  ];
+  return `${desc} (CH''M)`;
 }
 
 function Sukkot(day) {
@@ -74,7 +71,7 @@ export const masks = {
 export class Event {
   constructor(date, desc, mask) {
     this.date = new HDate(date);
-    this.desc = typeof desc != "object" ? [desc] : desc;
+    this.desc = desc;
 
     this.USER_EVENT = !!(mask & USER_EVENT);
     this.LIGHT_CANDLES = !!(mask & LIGHT_CANDLES);
@@ -116,8 +113,8 @@ export class Event {
     );
   }
 
-  getDesc(o) {
-    return c.LANG(this.desc, o);
+  getDesc() {
+    return gettext(this.desc);
   }
 
   /*
@@ -177,35 +174,35 @@ export function year(year) {
 
   add([
     // standard holidays that don't shift based on year
-    new Event(RH, ["Rosh Hashana 1", 0, "ראש השנה א'"], LIGHT_CANDLES_TZEIS),
+    new Event(RH, "Rosh Hashana", LIGHT_CANDLES_TZEIS),
     new Event(
       new HDate(2, TISHREI, year),
-      ["Rosh Hashana 2", 0, "ראש השנה ב'"],
+      "Rosh Hashana II",
       YOM_TOV_ENDS
     ),
     new Event(
       new HDate(3 + (RH.getDay() == days.THU), TISHREI, year), // push off to SUN if RH is THU
-      ["Tzom Gedaliah", 0, "צום גדליה"],
+      "Tzom Gedaliah",
       0
     ),
     new Event(
       new HDate(9, TISHREI, year),
-      ["Erev Yom Kippur", 0, "ערב יום כיפור"],
+      "Erev Yom Kippur",
       LIGHT_CANDLES
     ),
     new Event( // first SAT after RH
       new HDate(c.dayOnOrBefore(SAT, 7 + RH.abs())),
-      ["Shabbat Shuva", "Shabbos Shuvah", "שבת שובה"],
+      "Shabbat Shuva",
       0
     ),
     new Event(
       new HDate(10, TISHREI, year),
-      ["Yom Kippur", 0, "יום כיפור"],
+      "Yom Kippur",
       YOM_TOV_ENDS
     ),
     new Event(
       new HDate(14, TISHREI, year),
-      ["Erev Sukkot", "Erev Succos", "ערב סוכות"],
+      "Erev Sukkot",
       LIGHT_CANDLES
     ),
     new Event(
@@ -226,53 +223,46 @@ export function year(year) {
     new Event(new HDate(20, TISHREI, year), CHM(Sukkot(6)), 0),
     new Event(
       new HDate(21, TISHREI, year),
-      [
-        "Sukkot: 7 (Hoshana Raba)",
-        "Succos: 7 (Hoshana Raba)",
-        "סוכות יום ז' )הושענא רבה(",
-      ],
+      "Sukkot VII (Hoshana Raba)",
       LIGHT_CANDLES
     ),
     new Event(
       new HDate(22, TISHREI, year),
-      ["Shmini Atzeret", "Shmini Atzeres", "שמיני עצרת"],
+      "Shmini Atzeret",
       LIGHT_CANDLES_TZEIS | CHUL_ONLY
     ),
     new Event(
       new HDate(22, TISHREI, year),
-      [
-        "Shmini Atzeret / Simchat Torah",
-        "Shmini Atzeres / Simchas Torah",
-        "שמיני עצרת / שמחת תורה",
-      ],
+      "Shmini Atzeret / Simchat Torah",
       YOM_TOV_ENDS | IL_ONLY
     ),
     new Event(
       new HDate(23, TISHREI, year),
-      ["Simchat Torah", "Simchas Torah", "שמחת תורה"],
+      "Simchat Torah",
       YOM_TOV_ENDS | CHUL_ONLY
     ),
     new Event(
       new HDate(24, KISLEV, year),
-      ["Erev Chanukah", 0, "ערב חנוכה"],
+      "Erev Chanukah",
       0
     ),
-    new Event(new HDate(25, KISLEV, year), Chanukah(1), 0),
-    new Event(new HDate(26, KISLEV, year), Chanukah(2), 0),
-    new Event(new HDate(27, KISLEV, year), Chanukah(3), 0),
-    new Event(new HDate(28, KISLEV, year), Chanukah(4), 0),
-    new Event(new HDate(29, KISLEV, year), Chanukah(5), 0),
+    new Event(new HDate(24, KISLEV, year), "Chanukah: 1 Candle", 0),
+    new Event(new HDate(25, KISLEV, year), Chanukah(2), 0),
+    new Event(new HDate(26, KISLEV, year), Chanukah(3), 0),
+    new Event(new HDate(27, KISLEV, year), Chanukah(4), 0),
+    new Event(new HDate(28, KISLEV, year), Chanukah(5), 0),
+    new Event(new HDate(29, KISLEV, year), Chanukah(6), 0),
     new Event(
       new HDate(30, KISLEV, year), // yes, i know these are wrong
-      Chanukah(6),
+      Chanukah(7),
       0
     ),
     new Event(
       new HDate(31, KISLEV, year), // HDate() corrects the month automatically
-      Chanukah(7),
+      Chanukah(8),
       0
     ),
-    new Event(new HDate(32, KISLEV, year), Chanukah(8), 0),
+    new Event(new HDate(32, KISLEV, year), "Chanukah: 8th Day", 0),
     new Event(
       new HDate(15, months.SHVAT, year),
       ["Tu B'Shvat", 0, 'ט"ו בשבט'],

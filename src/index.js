@@ -9,6 +9,7 @@ import holidays from './holidays';
 
 import { t, gettext, addLocale, useLocale } from 'ttag';
 const locale = "ashkenazi";
+//const locale = "he";
 console.log(locale);
 if (locale) {
     const translationObj = require(`./${locale}.po.json`); // will load uk.po.json
@@ -73,7 +74,7 @@ const testDates = [
   new HDate(4, common.months.TAMUZ, 5536),
 ];
 for (const d of testDates) {
-    console.log(d.toString(), d.abs(), d.greg().toDateString());
+    console.log(d.abs(), "==", d.greg().toDateString(), "==", d.toString());
 }
 
 // sedra
@@ -89,14 +90,10 @@ for (let i = startAbs; i <= endAbs; i++) {
     const dow = i % 7;
     if (dow == 6) { // Saturday
         const todayHeb = new HDate(i);
-        const parsha = sedra.get(todayHeb);
-        let parshaStr = gettext(parsha[0]);
-        if (parsha.length == 2) {
-            parshaStr += "-" + gettext(parsha[1]);
-        }
+        const parshaStr = sedra.getString(todayHeb);
         const todayGreg = greg.abs2greg(i);
         const [date, time] = todayGreg.toLocaleString('en-US').split(', ');
-        console.log(date, t`Parashat`, parshaStr);
+        console.log(date, parshaStr);
     }
 }
 
@@ -137,15 +134,15 @@ endAbs = hebrew2abs({ yy: 5750, mm: common.months.TISHREI, dd: 1});
 for (let absDt = startAbs; absDt <= endAbs; absDt++) {
     const gregDt = greg.abs2greg(absDt);
     const gregDtStr = gregDt.toLocaleDateString();
-    const daf = dafyomi.dafyomi(gregDt);
-    console.log(gregDtStr, t`Daf Yomi` + ":", dafyomi.dafname(daf));
+//    const daf = dafyomi.dafyomi(gregDt);
+//    console.log(gregDtStr, t`Daf Yomi` + ":", dafyomi.dafname(daf));
     const hebDt = new HDate(absDt);
     const ev = year[hebDt];
     if (typeof ev !== 'undefined') {
         for (const e of ev) {
             const desc = e.getDesc();
 //            const tdesc = msgid(desc);
-            console.log(gregDtStr, desc, hebDt.toString());
+            console.log(gregDtStr, desc, "//", hebDt.toString());
         }
     }
 }

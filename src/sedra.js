@@ -32,6 +32,7 @@
  */
 import c from './common';
 import HDate from './hdate';
+import { gettext } from 'ttag';
 
 const INCOMPLETE = 0;
 const REGULAR = 1;
@@ -78,6 +79,15 @@ class Sedra {
 
     get(hDate) {
         return abs(this, hDate.abs()).parsha;
+    }
+
+    getString(hDate) {
+        const parsha = this.get(hDate);
+        let s = gettext(parsha[0]);
+        if (parsha.length == 2) {
+            s += "-" + gettext(parsha[1]);
+        }
+        return gettext("Parashat") + " " + s;
     }
 
     isParsha(hDate) {
