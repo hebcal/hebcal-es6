@@ -140,9 +140,11 @@ for (let absDt = startAbs; absDt <= endAbs; absDt++) {
     const ev = year[hebDt];
     if (typeof ev !== 'undefined') {
         for (const e of ev) {
-            const desc = e.getDesc();
-//            const tdesc = msgid(desc);
-            console.log(gregDtStr, desc, "//", hebDt.toString());
+//            if (e.isDiasporaOnly()) {
+            if (e.isIsraelOnly()) {
+                const desc = e.getDesc();
+                console.log(gregDtStr, desc, "//", hebDt.toString());
+            }
         }
     }
 }

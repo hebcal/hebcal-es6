@@ -20,7 +20,6 @@
  */
 import c from './common';
 import greg from './greg';
-import gematriya from 'gematriya';
 import { gettext } from 'ttag';
 
 export class HDate {

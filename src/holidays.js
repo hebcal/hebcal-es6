@@ -20,7 +20,6 @@
  */
 import c, { months, days } from "./common";
 import HDate from "./hdate";
-import gematriya from "gematriya";
 import { gettext } from 'ttag';
 
 let __cache = {};
@@ -35,28 +34,11 @@ function Chanukah(day) {
   return `Chanukah: ${day} Candles`;
 }
 
-function CHM(desc) {
-  return `${desc} (CH''M)`;
-}
-
-function Sukkot(day) {
-  return [`Sukkot: ${day}`, `Succos: ${day}`, `סוכות יום ${gematriya(day)}`];
-}
-
-function Pesach(day) {
-  return [`Pesach: ${day}`, 0, `פסח יום ${gematriya(day)}`];
-}
-  
-const USER_EVENT = 1;
-const LIGHT_CANDLES = 2;
-const YOM_TOV_ENDS = 4;
-
-const // chutz l'aretz (Diaspora)
-  CHUL_ONLY = 8;
-
-const // b'aretz (Israel)
-  IL_ONLY = 16;
-
+const USER_EVENT          = 1;
+const LIGHT_CANDLES       = 2;
+const YOM_TOV_ENDS        = 4;
+const CHUL_ONLY           = 8;  // chutz l'aretz (Diaspora)
+const IL_ONLY             = 16;   // b'aretz (Israel)
 const LIGHT_CANDLES_TZEIS = 32;
 
 export const masks = {
@@ -72,45 +54,27 @@ export class Event {
   constructor(date, desc, mask) {
     this.date = new HDate(date);
     this.desc = desc;
-
-    this.USER_EVENT = !!(mask & USER_EVENT);
-    this.LIGHT_CANDLES = !!(mask & LIGHT_CANDLES);
-    this.YOM_TOV_ENDS = !!(mask & YOM_TOV_ENDS);
-    this.CHUL_ONLY = !!(mask & CHUL_ONLY);
-    this.IL_ONLY = !!(mask & IL_ONLY);
-    this.LIGHT_CANDLES_TZEIS = !!(mask & LIGHT_CANDLES_TZEIS);
+    this.mask = mask;
   }
 
-  is(date, il) {
-    (date = new HDate(date)), (myDate = this.date);
-    if (arguments.length < 2) {
-      //il = Event.isIL;
-      il = date.il;
-    }
-    if (
-      date.getDate() != myDate.getDate() ||
-      date.getMonth() != myDate.getMonth()
-    ) {
-      return false;
-    }
-    if (date.getFullYear() != myDate.getFullYear()) {
-      return false;
-    }
-    if ((il && this.CHUL_ONLY) || (!il && this.IL_ONLY)) {
-      return false;
-    }
-    return true;
+  isUserEvent() {
+    return Boolean(this.mask & USER_EVENT);
   }
 
-  masks() {
-    return (
-      (this.USER_EVENT && USER_EVENT) |
-      (this.LIGHT_CANDLES && LIGHT_CANDLES) |
-      (this.YOM_TOV_ENDS && YOM_TOV_ENDS) |
-      (this.CHUL_ONLY && CHUL_ONLY) |
-      (this.IL_ONLY && IL_ONLY) |
-      (this.LIGHT_CANDLES_TZEIS && LIGHT_CANDLES_TZEIS)
-    );
+  isLightCandles() {
+    return Boolean(this.mask & LIGHT_CANDLES);
+  }
+
+  isYomTovEnds() {
+    return Boolean(this.mask & YOM_TOV_ENDS);
+  }
+
+  isIsraelOnly() {
+    return (this.mask & IL_ONLY) || !(this.mask & CHUL_ONLY);
+  }
+
+  isDiasporaOnly() {
+    return (this.mask & CHUL_ONLY) || !(this.mask & IL_ONLY);
   }
 
   getDesc() {
@@ -172,244 +136,109 @@ export function year(year) {
 
   Object.defineProperty(h, "add", { value: add });
 
+  function addEvents(year, arr) {
+    for (const a of arr) {
+      const [day, month, desc, mask] = a;
+      console.debug(day, month, year, desc, mask);
+      add(new Event(new HDate(day, month, year), desc, mask));
+    }
+  }
+
+  // standard holidays that don't shift based on year
+  add(new Event(RH, "Rosh Hashana", LIGHT_CANDLES_TZEIS));
+  addEvents(year, [
+    [2,   TISHREI,    "Rosh Hashana II",   YOM_TOV_ENDS],
+    [3 + (RH.getDay() == days.THU),
+          TISHREI,    "Tzom Gedaliah",     0], // push off to SUN if RH is THU
+    [9,   TISHREI,    "Erev Yom Kippur",   LIGHT_CANDLES],
+  ]);
+  // first SAT after RH
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, 7 + RH.abs())), "Shabbat Shuva", 0));
+  addEvents(year, [
+    [10,  TISHREI,    "Yom Kippur",         YOM_TOV_ENDS],
+    [14,  TISHREI,    "Erev Sukkot",        LIGHT_CANDLES],
+    [15,  TISHREI,    "Sukkot I",           LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [15,  TISHREI,    "Sukkot I",           YOM_TOV_ENDS | IL_ONLY],
+    [16,  TISHREI,    "Sukkot II",          YOM_TOV_ENDS | CHUL_ONLY],
+    [16,  TISHREI,    "Sukkot II (CH''M)",  IL_ONLY],
+    [17,  TISHREI,    "Sukkot III (CH''M)", 0],
+    [18,  TISHREI,    "Sukkot IV (CH''M)",  0],
+    [19,  TISHREI,    "Sukkot V (CH''M)",   0],
+    [20,  TISHREI,    "Sukkot VI (CH''M)",  0],
+    [21,  TISHREI,    "Sukkot VII (Hoshana Raba)", LIGHT_CANDLES],
+    [22,  TISHREI,    "Shmini Atzeret",     LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [22,  TISHREI,    "Shmini Atzeret / Simchat Torah", YOM_TOV_ENDS | IL_ONLY],
+    [23,  TISHREI,    "Simchat Torah",      YOM_TOV_ENDS | CHUL_ONLY],
+    [24,  KISLEV,     "Chanukah: 1 Candle", 0],
+    [25,  KISLEV,     Chanukah(2),          0],
+    [26,  KISLEV,     Chanukah(3),          0],
+    [27,  KISLEV,     Chanukah(4),          0],
+    [28,  KISLEV,     Chanukah(5),          0],
+    [29,  KISLEV,     Chanukah(6),          0],
+    [30,  KISLEV,     Chanukah(7),          0], // yes, i know these are wrong
+    [31,  KISLEV,     Chanukah(8),          0], // HDate() corrects the month automatically
+    [32,  KISLEV,     "Chanukah: 8th Day",  0],
+    [15,  months.SHVAT, "Tu BiShvat",       0],
+
+  ]);
+  const pesachAbs = pesach.abs();
   add([
-    // standard holidays that don't shift based on year
-    new Event(RH, "Rosh Hashana", LIGHT_CANDLES_TZEIS),
-    new Event(
-      new HDate(2, TISHREI, year),
-      "Rosh Hashana II",
-      YOM_TOV_ENDS
-    ),
-    new Event(
-      new HDate(3 + (RH.getDay() == days.THU), TISHREI, year), // push off to SUN if RH is THU
-      "Tzom Gedaliah",
-      0
-    ),
-    new Event(
-      new HDate(9, TISHREI, year),
-      "Erev Yom Kippur",
-      LIGHT_CANDLES
-    ),
-    new Event( // first SAT after RH
-      new HDate(c.dayOnOrBefore(SAT, 7 + RH.abs())),
-      "Shabbat Shuva",
-      0
-    ),
-    new Event(
-      new HDate(10, TISHREI, year),
-      "Yom Kippur",
-      YOM_TOV_ENDS
-    ),
-    new Event(
-      new HDate(14, TISHREI, year),
-      "Erev Sukkot",
-      LIGHT_CANDLES
-    ),
-    new Event(
-      new HDate(15, TISHREI, year),
-      Sukkot(1),
-      LIGHT_CANDLES_TZEIS | CHUL_ONLY
-    ),
-    new Event(new HDate(15, TISHREI, year), Sukkot(1), YOM_TOV_ENDS | IL_ONLY),
-    new Event(
-      new HDate(16, TISHREI, year),
-      Sukkot(2),
-      YOM_TOV_ENDS | CHUL_ONLY
-    ),
-    new Event(new HDate(16, TISHREI, year), CHM(Sukkot(2)), IL_ONLY),
-    new Event(new HDate(17, TISHREI, year), CHM(Sukkot(3)), 0),
-    new Event(new HDate(18, TISHREI, year), CHM(Sukkot(4)), 0),
-    new Event(new HDate(19, TISHREI, year), CHM(Sukkot(5)), 0),
-    new Event(new HDate(20, TISHREI, year), CHM(Sukkot(6)), 0),
-    new Event(
-      new HDate(21, TISHREI, year),
-      "Sukkot VII (Hoshana Raba)",
-      LIGHT_CANDLES
-    ),
-    new Event(
-      new HDate(22, TISHREI, year),
-      "Shmini Atzeret",
-      LIGHT_CANDLES_TZEIS | CHUL_ONLY
-    ),
-    new Event(
-      new HDate(22, TISHREI, year),
-      "Shmini Atzeret / Simchat Torah",
-      YOM_TOV_ENDS | IL_ONLY
-    ),
-    new Event(
-      new HDate(23, TISHREI, year),
-      "Simchat Torah",
-      YOM_TOV_ENDS | CHUL_ONLY
-    ),
-    new Event(
-      new HDate(24, KISLEV, year),
-      "Erev Chanukah",
-      0
-    ),
-    new Event(new HDate(24, KISLEV, year), "Chanukah: 1 Candle", 0),
-    new Event(new HDate(25, KISLEV, year), Chanukah(2), 0),
-    new Event(new HDate(26, KISLEV, year), Chanukah(3), 0),
-    new Event(new HDate(27, KISLEV, year), Chanukah(4), 0),
-    new Event(new HDate(28, KISLEV, year), Chanukah(5), 0),
-    new Event(new HDate(29, KISLEV, year), Chanukah(6), 0),
-    new Event(
-      new HDate(30, KISLEV, year), // yes, i know these are wrong
-      Chanukah(7),
-      0
-    ),
-    new Event(
-      new HDate(31, KISLEV, year), // HDate() corrects the month automatically
-      Chanukah(8),
-      0
-    ),
-    new Event(new HDate(32, KISLEV, year), "Chanukah: 8th Day", 0),
-    new Event(
-      new HDate(15, months.SHVAT, year),
-      ["Tu B'Shvat", 0, 'ט"ו בשבט'],
-      0
-    ),
-    new Event(
-      new HDate(c.dayOnOrBefore(SAT, pesach.abs() - 43)),
-      ["Shabbat Shekalim", "Shabbos Shekalim", "שבת שקלים"],
-      0
-    ),
-    new Event(
-      new HDate(c.dayOnOrBefore(SAT, pesach.abs() - 30)),
-      ["Shabbat Zachor", "Shabbos Zachor", "שבת זכור"],
-      0
-    ),
-    new Event(
-      new HDate(pesach.abs() - (pesach.getDay() == days.TUE ? 33 : 31)),
-      ["Ta'anit Esther", "Ta'anis Esther", "תענית אסתר"],
-      0
-    ),
-    new Event(
-      new HDate(13, months.ADAR_II, year),
-      ["Erev Purim", 0, "ערב פורים"],
-      0
-    ),
-    new Event(new HDate(14, months.ADAR_II, year), ["Purim", 0, "פורים"], 0),
-    new Event(
-      new HDate(15, months.ADAR_II, year),
-      ["Shushan Purim", 0, "שושן פורים"],
-      0
-    ),
-    new Event(
-      new HDate(c.dayOnOrBefore(SAT, pesach.abs() - 14) - 7),
-      ["Shabbat Parah", "Shabbos Parah", "שבת פרה"],
-      0
-    ),
-    new Event(
-      new HDate(c.dayOnOrBefore(SAT, pesach.abs() - 14)),
-      ["Shabbat Hachodesh", "Shabbos Hachodesh", "שבת החודש"],
-      0
-    ),
-    new Event(
-      new HDate(c.dayOnOrBefore(SAT, pesach.abs() - 1)),
-      ["Shabbat HaGadol", "Shabbos HaGadol", "שבת הגדול"],
-      0
-    ),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 43)), "Shabbat Shekalim", 0),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 30)), "Shabbat Zachor",   0),
+    new Event(new HDate(pesachAbs - (pesach.getDay() == days.TUE ? 33 : 31)),
+      "Ta'anit Esther", 0)
+  ]);
+  addEvents(year, [
+    [13,  months.ADAR_II, "Erev Purim",     0],
+    [14,  months.ADAR_II, "Purim",          0],
+    [15,  months.ADAR_II, "Shushan Purim",  0],
+  ]);
+  add([
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14) - 7), "Shabbat Parah", 0),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14)), "Shabbat HaChodesh", 0),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 1)),  "Shabbat HaGadol", 0),
     new Event(
       // if the fast falls on Shabbat, move to Thursday
       pesach.prev().getDay() == SAT
         ? pesach.onOrBefore(days.THU)
         : new HDate(14, NISAN, year),
-      ["Ta'anit Bechorot", "Ta'anis Bechoros", "תענית בכורות"],
+      "Ta'anit Bechorot",
       0
-    ),
-    new Event(
-      new HDate(14, NISAN, year),
-      ["Erev Pesach", 0, "ערב פסח"],
-      LIGHT_CANDLES
-    ),
-    new Event(
-      new HDate(15, NISAN, year),
-      Pesach(1),
-      LIGHT_CANDLES_TZEIS | CHUL_ONLY
-    ),
-    new Event(new HDate(15, NISAN, year), Pesach(1), YOM_TOV_ENDS | IL_ONLY),
-    new Event(new HDate(16, NISAN, year), Pesach(2), YOM_TOV_ENDS | CHUL_ONLY),
-    new Event(new HDate(16, NISAN, year), CHM(Pesach(2)), IL_ONLY),
-    new Event(
-      new HDate(16, NISAN, year),
-      ["Start counting Omer", 0, "התחלת ספירת העומר"],
-      0
-    ),
-    new Event(new HDate(17, NISAN, year), CHM(Pesach(3)), 0),
-    new Event(new HDate(18, NISAN, year), CHM(Pesach(4)), 0),
-    new Event(new HDate(19, NISAN, year), CHM(Pesach(5)), 0),
-    new Event(new HDate(20, NISAN, year), CHM(Pesach(6)), LIGHT_CANDLES),
-    new Event(
-      new HDate(21, NISAN, year),
-      Pesach(7),
-      LIGHT_CANDLES_TZEIS | CHUL_ONLY
-    ),
-    new Event(new HDate(21, NISAN, year), Pesach(7), YOM_TOV_ENDS | IL_ONLY),
-    new Event(new HDate(22, NISAN, year), Pesach(8), YOM_TOV_ENDS | CHUL_ONLY),
-    new Event(
-      new HDate(14, months.IYYAR, year),
-      ["Pesach Sheni", 0, "פסח שני"],
-      0
-    ),
-    new Event(
-      new HDate(18, months.IYYAR, year),
-      ["Lag B'Omer", 0, 'ל"ג בעומר'],
-      0
-    ),
-    new Event(
-      new HDate(5, months.SIVAN, year),
-      ["Erev Shavuot", "Erev Shavuos", "ערב שבועות"],
-      LIGHT_CANDLES
-    ),
-    new Event(
-      new HDate(6, months.SIVAN, year),
-      ["Shavuot 1", "Shavuos 1", "שבועות א'"],
-      LIGHT_CANDLES_TZEIS | CHUL_ONLY
-    ),
-    new Event(
-      new HDate(6, months.SIVAN, year),
-      ["Shavuot", "Shavuos", "שבועות"],
-      YOM_TOV_ENDS | IL_ONLY
-    ),
-    new Event(
-      new HDate(7, months.SIVAN, year),
-      ["Shavuot 2", "Shavuos 2", "שבועות ב'"],
-      YOM_TOV_ENDS | CHUL_ONLY
-    ),
-    new Event(
-      new HDate(c.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
-      ["Leil Selichot", "Leil Selichos", "ליל סליחות"],
-      0
-    ),
-    new Event(
-      new HDate(29, months.ELUL, year),
-      ["Erev Rosh Hashana", 0, "ערב ראש השנה"],
-      LIGHT_CANDLES
-    ),
+    )
   ]);
+  addEvents(year, [
+    [14, NISAN,     "Erev Pesach", LIGHT_CANDLES],
+    [15, NISAN,     "Pesach I", LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [15, NISAN,     "Pesach I", YOM_TOV_ENDS | IL_ONLY],
+    [16, NISAN,     "Pesach II", YOM_TOV_ENDS | CHUL_ONLY],
+    [16, NISAN,     "Pesach II (CH''M)", IL_ONLY],
+    [16, NISAN,     "Start counting Omer", 0],
+    [17, NISAN,     "Pesach III (CH''M)", 0],
+    [18, NISAN,     "Pesach IV (CH''M)", 0],
+    [19, NISAN,     "Pesach V (CH''M)", 0],
+    [20, NISAN,     "Pesach VI (CH''M)", LIGHT_CANDLES],
+    [21, NISAN,     "Pesach VII", LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [21, NISAN,     "Pesach VII", YOM_TOV_ENDS | IL_ONLY],
+    [22, NISAN,     "Pesach VIII", YOM_TOV_ENDS | CHUL_ONLY],
+    [14, months.IYYAR, "Pesach Sheni", 0],
+    [18, months.IYYAR, "Lag BaOmer", 0],
+    [5,  months.SIVAN, "Erev Shavuot", LIGHT_CANDLES],
+    [6,  months.SIVAN, "Shavuot I", LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [6,  months.SIVAN, "Shavuot", YOM_TOV_ENDS | IL_ONLY],
+    [7,  months.SIVAN, "Shavuot II", YOM_TOV_ENDS | CHUL_ONLY],
+  ]);
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
+    "Leil Selichot", 0));
+  add(new Event(new HDate(29, months.ELUL, year), "Erev Rosh Hashana", LIGHT_CANDLES));
 
   tmpDate = new HDate(10, months.TEVET, year);
   if (tmpDate.getDay() == SAT) {
     tmpDate = tmpDate.next();
   }
-  add(new Event(tmpDate, ["Asara B'Tevet", 0, "עשרה בטבת"], 0));
+  add(new Event(tmpDate, "Asara B'Tevet", 0));
 
   if (c.LEAP(year)) {
-    add(
-      new Event(
-        new HDate(14, months.ADAR_I, year),
-        ["Purim Katan", 0, "פורים קטן"],
-        0
-      )
-    );
-
-    add(
-      new Event(
-        new HDate(15, months.ADAR_I, year),
-        ["Shushan Purim Katan", 0, "שושן פורים קטן"],
-        0
-      )
-    );
+    add(new Event(new HDate(14, months.ADAR_I, year), "Purim Katan", 0));
   }
 
   if (year >= 5711) {
@@ -428,113 +257,54 @@ export function year(year) {
       tmpDate = tmpDate.next();
     }
 
-    add(new Event(tmpDate, ["Yom HaShoah", 0, "יום השואה"], 0));
+    add(new Event(tmpDate, "Yom HaShoah", 0));
   }
 
   add(atzmaut(year));
 
   if (year >= 5727) {
     // Yom Yerushalayim only celebrated after 1967
-    add(
-      new Event(
-        new HDate(28, months.IYYAR, year),
-        ["Yom Yerushalayim", 0, "יום ירושלים"],
-        0
-      )
-    );
+    add(new Event(new HDate(28, months.IYYAR, year), "Yom Yerushalayim", 0));
   }
 
   tmpDate = new HDate(17, months.TAMUZ, year);
   if (tmpDate.getDay() == SAT) {
     tmpDate = tmpDate.next();
   }
-  add(new Event(tmpDate, ["Shiva-Asar B'Tamuz", 0, "צום יז' בתמוז"], 0));
+  add(new Event(tmpDate, "Tzom Tammuz", 0));
 
   tmpDate = new HDate(9, months.AV, year);
   if (tmpDate.getDay() == SAT) {
     tmpDate = tmpDate.next();
   }
 
-  add(
-    new Event(
-      new HDate(c.dayOnOrBefore(SAT, tmpDate.abs())),
-      ["Shabbat Chazon", "Shabbos Chazon", "שבת חזון"],
-      0
-    )
-  );
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, tmpDate.abs())), "Shabbat Chazon", 0));
 
-  add(new Event(tmpDate.prev(), ["Erev Tish'a B'Av", 0, "ערב תשעה באב"], 0));
+  add(new Event(tmpDate.prev(), "Erev Tish'a B'Av", 0));
 
-  add(new Event(tmpDate, ["Tish'a B'Av", 0, "תשעה באב"], 0));
+  add(new Event(tmpDate, "Tish'a B'Av", 0));
 
-  add(
-    new Event(
-      new HDate(c.dayOnOrBefore(SAT, tmpDate.abs() + 7)),
-      ["Shabbat Nachamu", "Shabbos Nachamu", "שבת נחמו"],
-      0
-    )
-  );
-
-  /*
-  for (let day = 6; day < c.daysInYear(year) + 7; day += 7) {
-    add(
-      new Event(
-        new HDate(c.dayOnOrBefore(SAT, new HDate(1, TISHREI, year).abs() + day)),
-        [Shabbat, Shabbos, "שבת"],
-        YOM_TOV_ENDS
-      )
-    );
-
-    add(
-      new Event(
-        new HDate(
-          c.dayOnOrBefore(days.FRI, new HDate(1, TISHREI, year).abs() + day)
-        ),
-        ["Erev Shabbat", "Erev Shabbos", "ערב שבת"],
-        LIGHT_CANDLES
-      )
-    );
-  }
-  */
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, tmpDate.abs() + 7)), "Shabbat Nachamu", 0));
 
   for (let month = 1; month <= c.MONTH_CNT(year); month++) {
+    const monthName = c.monthNames[+c.LEAP(year)][month];
+    const desc = `Rosh Chodesh ${monthName}`;
     if (
       (month == NISAN
         ? c.daysInMonth(c.MONTH_CNT(year - 1), year - 1)
         : c.daysInMonth(month - 1, year)) == 30
     ) {
-      add(
-        new Event(
-          new HDate(1, month, year),
-          ["Rosh Chodesh 2", 0, "ראש חודש ב'"],
-          0
-        )
-      );
-
-      add(
-        new Event(
-          new HDate(30, month - 1, year),
-          ["Rosh Chodesh 1", 0, "ראש חודש א'"],
-          0
-        )
-      );
+      add(new Event(new HDate(1, month, year), desc, 0));
+      add(new Event(new HDate(30, month - 1, year), desc, 0));
     } else if (month !== TISHREI) {
-      add(
-        new Event(new HDate(1, month, year), ["Rosh Chodesh", 0, "ראש חודש"], 0)
-      );
+      add(new Event(new HDate(1, month, year), desc, 0));
     }
 
     if (month == months.ELUL) {
       continue;
     }
 
-    add(
-      new Event(
-        new HDate(29, month, year).onOrBefore(SAT),
-        ["Shabbat Mevarchim", "Shabbos Mevorchim", "שבת מברכים"],
-        0
-      )
-    );
+    add(new Event(new HDate(29, month, year).onOrBefore(SAT), "Shabbat Mevarchim", 0));
   }
 
   return (__cache[year] = h);
@@ -560,8 +330,8 @@ function atzmaut(year) {
     }
 
     return [
-      new Event(tmpDate, ["Yom HaZikaron", 0, "יום הזיכרון"], 0),
-      new Event(tmpDate.next(), ["Yom HaAtzma'ut", 0, "יום העצמאות"], 0),
+      new Event(tmpDate, "Yom HaZikaron", 0),
+      new Event(tmpDate.next(), "Yom HaAtzma'ut", 0),
     ];
   }
   return [];

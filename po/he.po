@@ -514,6 +514,9 @@ msgstr "פּוּרִים קָטָן"
 msgid "Rosh Chodesh %s"
 msgstr "רֹאשׁ חודש %s"
 
+msgid "Rosh Chodesh"
+msgstr "רֹאשׁ חודש"
+
 msgid "Adar"
 msgstr "אַדָר"
 
