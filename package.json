@@ -19,10 +19,21 @@
     "build": "npm run po2json && npm run build:babel && npm run build:cp-json",
     "prepublish": "npm run build",
     "po2json": "mkdir -p dist && for infile in ../hebcal/po/*.po; do outfile=`basename -s .po $infile`; echo $outfile; npx ttag po2json $infile > dist/$outfile.po.json; done && exit 0",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
   "license": "ISC",
+  "ava": {
+    "files": [
+      "dist/**/*.spec.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "inherit": true,
+    "verbose": true
+  },
   "devDependencies": {
+    "ava": "^3.8.2",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "ttag-cli": "^1.8.2"
