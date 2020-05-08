@@ -116,7 +116,6 @@ export function year(year) {
 
   const RH = new HDate(1, TISHREI, year);
   const pesach = new HDate(15, NISAN, year);
-  let tmpDate;
 
   const h = {};
 
@@ -231,11 +230,11 @@ export function year(year) {
     "Leil Selichot", 0));
   add(new Event(new HDate(29, months.ELUL, year), "Erev Rosh Hashana", LIGHT_CANDLES));
 
-  tmpDate = new HDate(10, months.TEVET, year);
-  if (tmpDate.getDay() == SAT) {
-    tmpDate = tmpDate.next();
+  let tevet10dt = new HDate(10, months.TEVET, year);
+  if (tevet10dt.getDay() == SAT) {
+    tevet10dt = tevet10dt.next();
   }
-  add(new Event(tmpDate, "Asara B'Tevet", 0));
+  add(new Event(tevet10dt, "Asara B'Tevet", 0));
 
   if (c.LEAP(year)) {
     add(new Event(new HDate(14, months.ADAR_I, year), "Purim Katan", 0));
@@ -243,7 +242,7 @@ export function year(year) {
 
   if (year >= 5711) {
     // Yom HaShoah first observed in 1951
-    tmpDate = new HDate(27, NISAN, year);
+    let nisan27dt = new HDate(27, NISAN, year);
     /* When the actual date of Yom Hashoah falls on a Friday, the
      * state of Israel observes Yom Hashoah on the preceding
      * Thursday. When it falls on a Sunday, Yom Hashoah is observed
@@ -251,13 +250,13 @@ export function year(year) {
      * http://www.ushmm.org/remembrance/dor/calendar/
      */
 
-    if (tmpDate.getDay() == days.FRI) {
-      tmpDate = tmpDate.prev();
-    } else if (tmpDate.getDay() == days.SUN) {
-      tmpDate = tmpDate.next();
+    if (nisan27dt.getDay() == days.FRI) {
+      nisan27dt = nisan27dt.prev();
+    } else if (nisan27dt.getDay() == days.SUN) {
+      nisan27dt = nisan27dt.next();
     }
 
-    add(new Event(tmpDate, "Yom HaShoah", 0));
+    add(new Event(nisan27dt, "Yom HaShoah", 0));
   }
 
   add(atzmaut(year));
@@ -267,24 +266,24 @@ export function year(year) {
     add(new Event(new HDate(28, months.IYYAR, year), "Yom Yerushalayim", 0));
   }
 
-  tmpDate = new HDate(17, months.TAMUZ, year);
-  if (tmpDate.getDay() == SAT) {
-    tmpDate = tmpDate.next();
+  let tamuz17 = new HDate(17, months.TAMUZ, year);
+  if (tamuz17.getDay() == SAT) {
+    tamuz17 = tamuz17.next();
   }
-  add(new Event(tmpDate, "Tzom Tammuz", 0));
+  add(new Event(tamuz17, "Tzom Tammuz", 0));
 
-  tmpDate = new HDate(9, months.AV, year);
-  if (tmpDate.getDay() == SAT) {
-    tmpDate = tmpDate.next();
+  let av9dt = new HDate(9, months.AV, year);
+  if (av9dt.getDay() == SAT) {
+    av9dt = av9dt.next();
   }
 
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, tmpDate.abs())), "Shabbat Chazon", 0));
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs())), "Shabbat Chazon", 0));
 
-  add(new Event(tmpDate.prev(), "Erev Tish'a B'Av", 0));
+  add(new Event(av9dt.prev(), "Erev Tish'a B'Av", 0));
 
-  add(new Event(tmpDate, "Tish'a B'Av", 0));
+  add(new Event(av9dt, "Tish'a B'Av", 0));
 
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, tmpDate.abs() + 7)), "Shabbat Nachamu", 0));
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), "Shabbat Nachamu", 0));
 
   for (let month = 1; month <= c.MONTH_CNT(year); month++) {
     const monthName = c.monthNames[+c.LEAP(year)][month];
@@ -313,7 +312,7 @@ export function year(year) {
 function atzmaut(year) {
   if (year >= 5708) {
     // Yom HaAtzma'ut only celebrated after 1948
-    const tmpDate = new HDate(1, months.IYYAR, year);
+    let tmpDate = new HDate(1, months.IYYAR, year);
 
     const pesach = new HDate(15, NISAN, year);
 
