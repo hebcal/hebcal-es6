@@ -34,3 +34,8 @@ test('daysInYear', t => {
     t.is(common.daysInYear(5788), 355);
     t.is(common.daysInYear(5789), 354);
 });
+
+test('daysInMonth', t => {
+    t.is(common.daysInMonth(common.months.IYYAR), 29);
+    t.is(common.daysInMonth(common.months.SIVAN), 30);
+});
