@@ -23,10 +23,21 @@ const monthLengths = [
   [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 ];
 
+/**
+ * Returns true if the Gregorian year is a leap year
+ * @param {number} year Gregorian year
+ * @returns {boolean}
+ */
 export function LEAP(year) {
   return !(year % 4) && (!!(year % 100) || !(year % 400));
 }
 
+/**
+ * Number of days in the Gregorian month for given year
+ * @param {number} month Gregorian month (1=January, 12=December)
+ * @param {number} year Gregorian year
+ * @returns {number}
+ */
 export function daysInMonth(month, year) {
   // 1 based months
   return monthLengths[+LEAP(year)][month];
