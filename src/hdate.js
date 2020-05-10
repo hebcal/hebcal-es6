@@ -22,7 +22,14 @@ import c from './common';
 import greg from './greg';
 import { gettext } from 'ttag';
 
+/** Class representing a Hebrew date */
 export class HDate {
+  /**
+   * Create a Hebrew date.
+   * @param {number} day - Day of month (1-30)
+   * @param {number} month - Hebrew month of year (1=NISAN, 7=TISHREI)
+   * @param {number} year - Hebrew year
+   */
   constructor(day, month, year) {
     if (!arguments.length) {
       const d = abs2hebrew(greg.greg2abs(new Date()));
@@ -58,14 +65,26 @@ export class HDate {
     }
   }
 
+  /**
+   * Gets the Hebrew year
+   * @returns {number}
+   */
   getFullYear() {
     return this.year;
   }
 
+  /**
+   * Tests if this is a leap year
+   * @returns {boolean}
+   */
   isLeapYear() {
     return c.LEAP(this.year);
   }
 
+  /**
+   * Gets the Hebrew month (1=NISAN, 7=TISHREI)
+   * @returns {number}
+   */
   getMonth() {
     return this.month;
   }
@@ -79,11 +98,18 @@ export class HDate {
     return c.daysInMonth(this.getMonth(), this.getFullYear());
   }
 
+  /**
+   * Gets the day within the month (1-30)
+   * @returns {number}
+   */
   getDate() {
     return this.day;
   }
 
-  /** Gets the day of the week, using local time. */
+  /**
+   * Gets the day of the week, using local time.
+   * @returns {number}
+   */
   getDay() {
     return this.greg().getDay();
   }
@@ -110,10 +136,18 @@ export class HDate {
     return this;
   }
 
+  /**
+   * Converts to Gregorian date
+   * @returns {Date}
+   */
   greg() {
     return greg.abs2greg(hebrew2abs(this));
   }
 
+  /**
+   * Returns Julian absolute days
+   * @returns {number}
+   */
   abs() {
     return hebrew2abs(this);
   }
@@ -215,10 +249,21 @@ function onOrBefore(day, t, offset) {
     return new HDate(c.dayOnOrBefore(day, t.abs() + offset));
 }
 
-/* convert hebrew date to absolute date */
-/* Absolute date of Hebrew DATE.
-   The absolute date is the number of days elapsed since the (imaginary)
-   Gregorian date Sunday, December 31, 1 BC. */
+/**
+ * A simple Hebrew date
+ * @typedef {Object} SimpleHebrewDate
+ * @property {number} yy Hebrew year
+ * @property {number} mm Hebrew month of year (1=NISAN, 7=TISHREI)
+ * @property {number} dd Day of month (1-30)
+ */
+
+/**
+ * Converts Hebrew date to absolute Julian days.
+ * The absolute date is the number of days elapsed since the (imaginary)
+ * Gregorian date Sunday, December 31, 1 BC.
+ * @param {(HDate|SimpleHebrewDate)} d Hebrew Date
+ * @returns {number}
+ */
 export function hebrew2abs(d) {
   const isHDate = d instanceof HDate;
   let tempabs = isHDate ? d.getDate() : d.dd;
@@ -242,6 +287,11 @@ export function hebrew2abs(d) {
   return c.hebElapsedDays(year) - 1373429 + tempabs;
 }
 
+/**
+ * Converts Julian days to Hebrew date to absolute Julian days
+ * @param {number} d absolute Julian days
+ * @returns {SimpleHebrewDate}
+ */
 export function abs2hebrew(d) {
   if (d >= 10555144) {
     throw new RangeError(`parameter to abs2hebrew ${d} out of range`);

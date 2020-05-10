@@ -63,6 +63,11 @@ export function lookupMonthNum(month) {
   return new Date(month + " 1").getMonth() + 1;
 }
 
+/**
+ * Returns number of days since January 1 of that year
+ * @param {Date} date Gregorian date
+ * @returns {number}
+ */
 export function dayOfYear(date) {
   if (!date instanceof Date) {
     throw new TypeError("Argument to greg.dayOfYear not a Date");
@@ -78,6 +83,11 @@ export function dayOfYear(date) {
   return doy;
 }
 
+/**
+ * Converts Gregorian date to Julian Day Count
+ * @param {Date} date Gregorian date
+ * @returns {number}
+ */
 export function greg2abs(date) {
   // "absolute date"
   const year = date.getFullYear() - 1;
@@ -90,11 +100,14 @@ export function greg2abs(date) {
   ); // + Gregorian leap years
 }
 
-/*
+/**
+ * Converts from Julian Day Count to Gregorian date.
  * See the footnote on page 384 of ``Calendrical Calculations, Part II:
  * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
  * Clamen, Software--Practice and Experience, Volume 23, Number 4
  * (April, 1993), pages 383-404 for an explanation.
+ * @param {number} theDate absolute Julian days
+ * @returns {Date}
  */
 export function abs2greg(theDate) {
   // calculations copied from original JS code

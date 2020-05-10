@@ -66,6 +66,18 @@ const shas = [
     return {name: m[0], blatt: m[1]};
 });
 
+/**
+ * A Daf Yomi result
+ * @typedef {Object} DafYomiResult
+ * @property {string} name Tractate name
+ * @property {number} blatt Page number 
+ */
+
+/**
+ * Returns the Daf Yomi for given date
+ * @param {Date} gregdate Gregorian date
+ * @returns {DafYomiResult} Tractact name and page number
+ */
 export function dafyomi(gregdate) {
     const dafcnt = 40;
     let cno;
@@ -133,6 +145,11 @@ export function dafyomi(gregdate) {
     return {name: shas[count].name, blatt};
 }
 
+/**
+ * Formats (with translation) the dafyomi result as a string like "Pesachim 34"
+ * @param {DafYomiResult} daf the Daf Yomi
+ * @returns {string}
+ */
 export function dafname(daf) {
     return gettext(daf.name) + " " + daf.blatt;
 }

@@ -73,18 +73,30 @@ export const days = {
   SAT: 6,
 };
 
-export function LANG(str, opts) {
-  return (opts == "h" && str[2]) || (opts == "a" && str[1]) || str[0];
-}
-
+/**
+ * Returns true if Hebrew year is a leap year
+ * @param {number} x Hebrew year
+ * @returns {boolean}
+ */
 export function LEAP(x) {
   return (1 + x * 7) % 19 < 7;
 }
 
+/**
+ * Number of months in Hebrew year
+ * @param {number} x Hebrew year
+ * @returns {number}
+ */
 export function MONTH_CNT(x) {
   return 12 + LEAP(x); // boolean is cast to 1 or 0
 }
 
+/**
+ * Number of days in Hebrew month in a given year
+ * @param {number} month Hebrew month (e.g. months.TISHREI)
+ * @param {number} year Hebrew year
+ * @returns {number}
+ */
 export function daysInMonth(month, year) {
   return (
     30 -
@@ -99,6 +111,10 @@ export function daysInMonth(month, year) {
   );
 }
 
+/**
+ * Returns the Hebrew month number
+ * @param {*} month A number, or Hebrew month name string
+ */
 export function monthNum(month) {
   return typeof month === "number"
     ? month
@@ -119,10 +135,13 @@ export function dayYearNum(str) {
     : parseInt(str, 10);
 }
 
-/* Days from sunday prior to start of Hebrew calendar to mean
-   conjunction of Tishrei in Hebrew YEAR
+/**
+ * Days from sunday prior to start of Hebrew calendar to mean
+ * conjunction of Tishrei in Hebrew YEAR
+ * @param {number} hYear Hebrew year
+ * @returns {number}
  */
-export function hebElapsedDays(hYear) {
+ export function hebElapsedDays(hYear) {
   // borrowed from original JS
   const m_elapsed =
     235 * Math.floor((hYear - 1) / 19) +
@@ -149,17 +168,27 @@ export function hebElapsedDays(hYear) {
   return alt_day + (alt_day % 7 === 0 || alt_day % 7 == 3 || alt_day % 7 == 5);
 }
 
-/* Number of days in the hebrew YEAR */
+/**
+ * Number of days in the hebrew YEAR
+ * @param {number} year Hebrew year
+ * @returns {number}
+ */
 export function daysInYear(year) {
   return hebElapsedDays(year + 1) - hebElapsedDays(year);
 }
 
-/* true if Cheshvan is long in Hebrew YEAR */
+/**
+ * true if Cheshvan is long in Hebrew YEAR
+ * @param {number} year Hebrew year
+ */
 export function lngChesh(year) {
   return daysInYear(year) % 10 == 5;
 }
 
-/* true if Kislev is short in Hebrew YEAR */
+/**
+ * true if Kislev is short in Hebrew YEAR
+ * @param {number} year Hebrew year
+ */
 export function shrtKis(year) {
   return daysInYear(year) % 10 == 3;
 }
@@ -266,12 +295,14 @@ export function monthFromName(c) {
   return 0;
 }
 
-/* Note: Applying this function to d+6 gives us the DAYNAME on or after an
+/**
+ * Note: Applying this function to d+6 gives us the DAYNAME on or after an
  * absolute day d.  Similarly, applying it to d+3 gives the DAYNAME nearest to
  * absolute date d, applying it to d-1 gives the DAYNAME previous to absolute
  * date d, and applying it to d+7 gives the DAYNAME following absolute date d.
-
-**/
+ * @param {number} day_of_week 
+ * @param {number} absdate 
+ */
 export function dayOnOrBefore(day_of_week, absdate) {
   return absdate - ((absdate - day_of_week) % 7);
 }
