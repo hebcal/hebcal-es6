@@ -40,14 +40,16 @@ const YOM_TOV_ENDS        = 4;
 const CHUL_ONLY           = 8;  // chutz l'aretz (Diaspora)
 const IL_ONLY             = 16;   // b'aretz (Israel)
 const LIGHT_CANDLES_TZEIS = 32;
+const CHANUKAH_CANDLES    = 64;
 
-export const masks = {
+export const flags = {
   USER_EVENT,
   LIGHT_CANDLES,
   YOM_TOV_ENDS,
   CHUL_ONLY,
   IL_ONLY,
   LIGHT_CANDLES_TZEIS,
+  CHANUKAH_CANDLES,
 };
 
 export class Event {
@@ -65,6 +67,14 @@ export class Event {
     return Boolean(this.mask & LIGHT_CANDLES);
   }
 
+  isLightCandlesTzeis() {
+    return Boolean(this.mask & LIGHT_CANDLES_TZEIS);
+  }
+
+  isChanukahCandles() {
+    return Boolean(this.mask & CHANUKAH_CANDLES);
+  }
+
   isYomTovEnds() {
     return Boolean(this.mask & YOM_TOV_ENDS);
   }
@@ -79,6 +89,10 @@ export class Event {
 
   getDesc() {
     return gettext(this.desc);
+  }
+
+  getDate() {
+    return this.date;
   }
 
   /*
@@ -169,14 +183,14 @@ export function year(year) {
 //    [22,  TISHREI,    "Shmini Atzeret / Simchat Torah", YOM_TOV_ENDS | IL_ONLY],
     [22,  TISHREI,    "Shmini Atzeret",     YOM_TOV_ENDS | IL_ONLY],
     [23,  TISHREI,    "Simchat Torah",      YOM_TOV_ENDS | CHUL_ONLY],
-    [24,  KISLEV,     "Chanukah: 1 Candle", 0],
-    [25,  KISLEV,     Chanukah(2),          0],
-    [26,  KISLEV,     Chanukah(3),          0],
-    [27,  KISLEV,     Chanukah(4),          0],
-    [28,  KISLEV,     Chanukah(5),          0],
-    [29,  KISLEV,     Chanukah(6),          0],
-    [30,  KISLEV,     Chanukah(7),          0], // yes, i know these are wrong
-    [31,  KISLEV,     Chanukah(8),          0], // HDate() corrects the month automatically
+    [24,  KISLEV,     "Chanukah: 1 Candle", CHANUKAH_CANDLES],
+    [25,  KISLEV,     Chanukah(2),          CHANUKAH_CANDLES],
+    [26,  KISLEV,     Chanukah(3),          CHANUKAH_CANDLES],
+    [27,  KISLEV,     Chanukah(4),          CHANUKAH_CANDLES],
+    [28,  KISLEV,     Chanukah(5),          CHANUKAH_CANDLES],
+    [29,  KISLEV,     Chanukah(6),          CHANUKAH_CANDLES],
+    [30,  KISLEV,     Chanukah(7),          CHANUKAH_CANDLES], // yes, i know these are wrong
+    [31,  KISLEV,     Chanukah(8),          CHANUKAH_CANDLES], // HDate() corrects the month automatically
     [32,  KISLEV,     "Chanukah: 8th Day",  0],
     [15,  months.SHVAT, "Tu BiShvat",       0],
   ]);
@@ -346,7 +360,7 @@ function atzmaut(year) {
 }
 
 export default {
-    masks,
+    flags,
     Event,
     year
 };

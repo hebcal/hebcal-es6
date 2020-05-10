@@ -6,6 +6,7 @@ import HDate, { hebrew2abs } from './hdate';
 import Sedra from './sedra';
 import Location from './location';
 import holidays from './holidays';
+import candles from './candles';
 
 import { t, gettext, addLocale, useLocale } from 'ttag';
 const locale = "ashkenazi";
@@ -110,7 +111,7 @@ loc = new Location(32.1836, 34.87386, true, "Asia/Jerusalem", "Ra'anana", "IL");
 sunset = loc.sunset(now);
 console.log(`Sunset in ${loc.name} is at ${sunset}`);
 
-let city = cities.getCity("Tel Aviv");
+let city = cities.getCity("Jerusalem");
 loc = new Location(
     city.latitude,
     city.longitude,
@@ -122,7 +123,7 @@ loc = new Location(
 sunset = loc.sunset(now);
 console.log(`Sunset in ${loc.name} is at ${sunset}`);
 
-loc = Location.newFromCity(cities.getCity("Jerusalem"))
+loc = Location.newFromCity(cities.getCity("Tel Aviv"))
 sunset = loc.sunset(now);
 console.log(`Sunset in ${loc.name} is at ${sunset}`);
 
@@ -147,6 +148,20 @@ for (let absDt = startAbs; absDt <= endAbs; absDt++) {
             }
         }
     }
+}
+
+loc = Location.newFromCity(cities.getCity("Berlin"))
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+    timeZone: loc.tzid,
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+});
+const ev = candles(5749, year, loc);
+for (const e of ev) {
+    const gregDt = e.getDate().greg();
+    const gregDtStr = dateFormat.format(gregDt);
+    console.log(gregDtStr, e.getDesc());
 }
 
 console.log("goodbye");
