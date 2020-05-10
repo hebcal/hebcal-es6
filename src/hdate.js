@@ -83,6 +83,7 @@ export class HDate {
     return this.day;
   }
 
+  /** Gets the day of the week, using local time. */
   getDay() {
     return this.greg().getDay();
   }
