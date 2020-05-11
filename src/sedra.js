@@ -38,7 +38,13 @@ const INCOMPLETE = 0;
 const REGULAR = 1;
 const COMPLETE = 2;
 
-class Sedra {
+/** Represents Parashah HaShavua for an entire Hebrew year */
+export default class Sedra {
+    /**
+     * Caculates the Parashah HaShavua for an entire Hebrew year
+     * @param {number} hebYr - Hebrew year (e.g. 5749)
+     * @param {boolean} il - Use Israel sedra schedule (false for Diaspora)
+     */
     constructor(hebYr, il) { // the Hebrew year
         il = !!il;
         const long_c = c.lngChesh(hebYr);
@@ -77,10 +83,20 @@ class Sedra {
         }
     }
 
+    /**
+     * Returns the parsha (or parshiyot) read on Hebrew date
+     * @param {HDate} hDate Hebrew date
+     * @returns {string[]}
+     */
     get(hDate) {
         return abs(this, hDate.abs()).parsha;
     }
 
+    /**
+     * Looks up parsha for the date, then returns a (translated) string
+     * @param {HDate} hDate Hebrew date
+     * @returns {string}
+     */
     getString(hDate) {
         const parsha = this.get(hDate);
         let s = gettext(parsha[0]);
@@ -90,6 +106,12 @@ class Sedra {
         return gettext("Parashat") + " " + s;
     }
 
+    /**
+     * Checks to see if this day would be a regular parasha HaShavua
+     * Torah reading or special holiday reading
+     * @param {HDate} hDate Hebrew date
+     * @returns {boolean}
+     */
     isParsha(hDate) {
         return !abs(this, hDate.abs()).chag;
     }
@@ -329,5 +351,3 @@ function abs(year, absDate) {
     index = D(index); // undouble the parsha
     return {parsha: [parshiot[index], parshiot[index + 1]], chag: false};
 }
-
-export default Sedra;
