@@ -330,7 +330,6 @@ const common = {
   months,
   monthNames,
   days,
-  LANG,
   LEAP,
   MONTH_CNT,
   daysInMonth,
