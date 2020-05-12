@@ -25,7 +25,8 @@ function testFullYear(t, hyear, il, expected0) {
         const dateStr = gregDt.toLocaleDateString("en-US");
         const ev = year[hebDt];
         if (typeof ev !== 'undefined') {
-            for (const e of ev) {
+            const evFiltered = ev.filter(e => !(e.getFlags() & holidays.flags.SHABBAT_MEVARCHIM));
+            for (const e of evFiltered) {
                 if ((il && e.isIsraelOnly()) || (!il && e.isDiasporaOnly())) {
                     const desc = e.getDesc();
                     if (expected[dateStr]) {

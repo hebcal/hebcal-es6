@@ -41,6 +41,15 @@ const CHUL_ONLY           = 8;  // chutz l'aretz (Diaspora)
 const IL_ONLY             = 16;   // b'aretz (Israel)
 const LIGHT_CANDLES_TZEIS = 32;
 const CHANUKAH_CANDLES    = 64;
+const ROSH_CHODESH        = 128;
+const MINOR_FAST          = 256;
+const SPECIAL_SHABBAT     = 512;
+const PARSHA_HASHAVUA     = 1024;
+const DAF_YOMI            = 2048;
+const OMER_COUNT          = 4096;
+const MODERN_HOLIDAY      = 8192;
+const MAJOR_FAST          = 16384;
+const SHABBAT_MEVARCHIM   = 32768;
 
 export const flags = {
   USER_EVENT,
@@ -50,13 +59,26 @@ export const flags = {
   IL_ONLY,
   LIGHT_CANDLES_TZEIS,
   CHANUKAH_CANDLES,
+  ROSH_CHODESH,
+  MINOR_FAST,
+  SPECIAL_SHABBAT,
+  PARSHA_HASHAVUA,
+  DAF_YOMI,
+  OMER_COUNT,
+  MODERN_HOLIDAY,
+  MAJOR_FAST,
+  SHABBAT_MEVARCHIM,
 };
 
 export class Event {
   constructor(date, desc, mask) {
-    this.date = new HDate(date);
+    this.date = date;
     this.desc = desc;
     this.mask = mask;
+  }
+
+  getFlags() {
+    return this.mask;
   }
 
   isUserEvent() {
@@ -94,34 +116,7 @@ export class Event {
   getDate() {
     return this.date;
   }
-
-  /*
-  candleLighting() {
-    const date = this.date;
-    if (this.LIGHT_CANDLES) {
-      return new Date(date.sunset() - Event.candleLighting * 60 * 1000);
-    } else if (this.LIGHT_CANDLES_TZEIS) {
-      return date.getZemanim().tzeit;
-    }
-    return null;
-  }
-
-  havdalah() {
-    if (this.YOM_TOV_ENDS) {
-      return new Date(
-        this.date.sunset().getTime() + Event.havdalah * 60 * 1000
-      );
-    }
-    return null;
-  }
-  */
 }
-
-/*
-Event.candleLighting = 18;
-
-Event.havdalah = 42;
-*/
 
 export function year(year) {
   if (__cache[year]) {
@@ -162,13 +157,13 @@ export function year(year) {
   addEvents(year, [
     [2,   TISHREI,    "Rosh Hashana II",   YOM_TOV_ENDS],
     [3 + (RH.getDay() == days.THU),
-          TISHREI,    "Tzom Gedaliah",     0], // push off to SUN if RH is THU
+          TISHREI,    "Tzom Gedaliah",     MINOR_FAST], // push off to SUN if RH is THU
     [9,   TISHREI,    "Erev Yom Kippur",   LIGHT_CANDLES],
   ]);
   // first SAT after RH
   add(new Event(new HDate(c.dayOnOrBefore(SAT, 7 + RH.abs())), "Shabbat Shuva", 0));
   addEvents(year, [
-    [10,  TISHREI,    "Yom Kippur",         YOM_TOV_ENDS],
+    [10,  TISHREI,    "Yom Kippur",         YOM_TOV_ENDS | MAJOR_FAST],
     [14,  TISHREI,    "Erev Sukkot",        LIGHT_CANDLES],
     [15,  TISHREI,    "Sukkot I",           LIGHT_CANDLES_TZEIS | CHUL_ONLY],
     [15,  TISHREI,    "Sukkot I",           YOM_TOV_ENDS | IL_ONLY],
@@ -196,10 +191,10 @@ export function year(year) {
   ]);
   const pesachAbs = pesach.abs();
   add([
-    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 43)), "Shabbat Shekalim", 0),
-    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 30)), "Shabbat Zachor",   0),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 43)), "Shabbat Shekalim", SPECIAL_SHABBAT),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 30)), "Shabbat Zachor",   SPECIAL_SHABBAT),
     new Event(new HDate(pesachAbs - (pesach.getDay() == days.TUE ? 33 : 31)),
-      "Ta'anit Esther", 0)
+      "Ta'anit Esther", MINOR_FAST)
   ]);
   addEvents(year, [
     [13,  months.ADAR_II, "Erev Purim",     0],
@@ -207,16 +202,16 @@ export function year(year) {
     [15,  months.ADAR_II, "Shushan Purim",  0],
   ]);
   add([
-    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14) - 7), "Shabbat Parah", 0),
-    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14)), "Shabbat HaChodesh", 0),
-    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 1)),  "Shabbat HaGadol", 0),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14) - 7), "Shabbat Parah", SPECIAL_SHABBAT),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14)), "Shabbat HaChodesh", SPECIAL_SHABBAT),
+    new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 1)),  "Shabbat HaGadol", SPECIAL_SHABBAT),
     new Event(
       // if the fast falls on Shabbat, move to Thursday
       pesach.prev().getDay() == SAT
         ? pesach.onOrBefore(days.THU)
         : new HDate(14, NISAN, year),
       "Ta'anit Bechorot",
-      0
+      MINOR_FAST
     )
   ]);
   addEvents(year, [
@@ -249,7 +244,7 @@ export function year(year) {
   if (tevet10dt.getDay() == SAT) {
     tevet10dt = tevet10dt.next();
   }
-  add(new Event(tevet10dt, "Asara B'Tevet", 0));
+  add(new Event(tevet10dt, "Asara B'Tevet", MINOR_FAST));
 
   if (c.LEAP(year)) {
     add(new Event(new HDate(14, months.ADAR_I, year), "Purim Katan", 0));
@@ -271,42 +266,42 @@ export function year(year) {
       nisan27dt = nisan27dt.next();
     }
 
-    add(new Event(nisan27dt, "Yom HaShoah", 0));
+    add(new Event(nisan27dt, "Yom HaShoah", MODERN_HOLIDAY));
   }
 
   add(atzmaut(year));
 
   if (year >= 5727) {
     // Yom Yerushalayim only celebrated after 1967
-    add(new Event(new HDate(28, months.IYYAR, year), "Yom Yerushalayim", 0));
+    add(new Event(new HDate(28, months.IYYAR, year), "Yom Yerushalayim", MODERN_HOLIDAY));
   }
 
   if (year >= 5769) {
-    add(new Event(new HDate(29, months.CHESHVAN, year), "Sigd", 0));
+    add(new Event(new HDate(29, months.CHESHVAN, year), "Sigd", MODERN_HOLIDAY));
   }
 
   if (year >= 5777) {
-    add(new Event(new HDate(7, months.CHESHVAN, year), "Yom HaAliyah", 0));
+    add(new Event(new HDate(7, months.CHESHVAN, year), "Yom HaAliyah", MODERN_HOLIDAY));
   }
 
   let tamuz17 = new HDate(17, months.TAMUZ, year);
   if (tamuz17.getDay() == SAT) {
     tamuz17 = tamuz17.next();
   }
-  add(new Event(tamuz17, "Tzom Tammuz", 0));
+  add(new Event(tamuz17, "Tzom Tammuz", MINOR_FAST));
 
   let av9dt = new HDate(9, months.AV, year);
   if (av9dt.getDay() == SAT) {
     av9dt = av9dt.next();
   }
 
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs())), "Shabbat Chazon", 0));
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs())), "Shabbat Chazon", SPECIAL_SHABBAT));
 
   add(new Event(av9dt.prev(), "Erev Tish'a B'Av", 0));
 
-  add(new Event(av9dt, "Tish'a B'Av", 0));
+  add(new Event(av9dt, "Tish'a B'Av", MAJOR_FAST));
 
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), "Shabbat Nachamu", 0));
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), "Shabbat Nachamu", SPECIAL_SHABBAT));
 
   for (let month = 1; month <= c.MONTH_CNT(year); month++) {
     const monthName = c.monthNames[+c.LEAP(year)][month];
@@ -316,17 +311,18 @@ export function year(year) {
         ? c.daysInMonth(c.MONTH_CNT(year - 1), year - 1)
         : c.daysInMonth(month - 1, year)) == 30
     ) {
-      add(new Event(new HDate(1, month, year), desc, 0));
-      add(new Event(new HDate(30, month - 1, year), desc, 0));
+      add(new Event(new HDate(1, month, year), desc, ROSH_CHODESH));
+      add(new Event(new HDate(30, month - 1, year), desc, ROSH_CHODESH));
     } else if (month !== TISHREI) {
-      add(new Event(new HDate(1, month, year), desc, 0));
+      add(new Event(new HDate(1, month, year), desc, ROSH_CHODESH));
     }
 
     if (month == months.ELUL) {
       continue;
     }
 
-//    add(new Event(new HDate(29, month, year).onOrBefore(SAT), "Shabbat Mevarchim", 0));
+    add(new Event(new HDate(29, month, year).onOrBefore(SAT),
+        `Shabbat Mevarchim Chodesh ${monthName}`, SHABBAT_MEVARCHIM));
   }
 
   return (__cache[year] = h);
