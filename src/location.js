@@ -26,7 +26,18 @@ suncalc.addTime(-11.5, "misheyakir", 0);
 suncalc.addTime(-10.2, "misheyakir_machmir", 0);
 suncalc.addTime(-8.5, 0, "tzeit");
 
+/** Class representing Location */
 export default class Location {
+  /**
+   * Initialize a Location instance
+   * @param {number} latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
+   * @param {number} longitude - Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
+   * @param {boolean} il - in Israel (true) or Diaspora (false)
+   * @param {string} tzid - Olson timezone ID, e.g. "America/Chicago"
+   * @param {string} cityName - optional descriptive city name
+   * @param {string} countryCode - ISO 3166 alpha-2 country code (e.g. "FR")
+   * @param {number} geoid - optional numeric geographic ID
+   */
   constructor(latitude, longitude, il, tzid, cityName, countryCode, geoid) {
     this.latitude = +latitude;
     this.longitude = +longitude;
