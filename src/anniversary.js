@@ -30,6 +30,13 @@ const SHVAT = common.months.SHVAT;
 const ADAR_I = common.months.ADAR_I;
 const ADAR_II = common.months.ADAR_II;
 
+/**
+ * Calculates a birthday or anniversary (non-yahrzeit)
+ * @param {number} hyear Hebrew year
+ * @param {Date|HDate} gdate Gregorian or Hebrew date of event
+ * @returns {HDate}
+ */
+
 export function getBirthdayOrAnniversary(hyear, gdate) {
     const orig = new HDate(gdate);
     const origYear = orig.getFullYear();
@@ -78,11 +85,16 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
 /**
  * Calculates yahrzeit
  * @param {number} hyear Hebrew year
- * @param {Date} gdate Gregorian date of death
+ * @param {Date|HDate} gdate Gregorian or Hebrew date of death
  * @returns {HDate}
  */
 export function getYahrzeit(hyear, gdate) {
-    let hDeath = abs2hebrew(greg2abs(gdate));
+    const orig = new HDate(gdate);
+    let hDeath = {
+        yy: orig.getFullYear(),
+        mm: orig.getMonth(),
+        dd: orig.getDate()
+    };
     if (hyear <= hDeath.yy) {
         throw new Error(`Hebrew year ${hyear} occurs on or before original date in ${hDeath.yy}`);
     }
