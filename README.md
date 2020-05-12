@@ -4,6 +4,12 @@ Hebcal, a perpetual Jewish Calendar (ES6)
 ## Functions
 
 <dl>
+<dt><a href="#getBirthdayOrAnniversary">getBirthdayOrAnniversary(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
+<dd><p>Calculates a birthday or anniversary (non-yahrzeit)</p>
+</dd>
+<dt><a href="#getYahrzeit">getYahrzeit(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
+<dd><p>Calculates yahrzeit</p>
+</dd>
 <dt><a href="#LEAP">LEAP(x)</a> ⇒ <code>boolean</code></dt>
 <dd><p>Returns true if Hebrew year is a leap year</p>
 </dd>
@@ -68,6 +74,13 @@ Gregorian date Sunday, December 31, 1 BC.</p>
 <dt><a href="#abs2hebrew">abs2hebrew(d)</a> ⇒ <code><a href="#SimpleHebrewDate">SimpleHebrewDate</a></code></dt>
 <dd><p>Converts Julian days to Hebrew date to absolute Julian days</p>
 </dd>
+<dt><a href="#candleLightingEvents">candleLightingEvents(holidaysYear, location, startAbs, endAbs)</a></dt>
+<dd><p>Returns an array of candle-lighting times and Havdalah times
+for both Shabbat and holidays (based on Israel or Diaspora schedule)</p>
+</dd>
+<dt><a href="#hebcalEvents">hebcalEvents(options)</a></dt>
+<dd><p>Generates a list of holidays</p>
+</dd>
 <dt><a href="#get">get(hDate)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
 <dd><p>Returns the parsha (or parshiyot) read on Hebrew date</p>
 </dd>
@@ -89,7 +102,34 @@ Torah reading or special holiday reading</p>
 <dt><a href="#SimpleHebrewDate">SimpleHebrewDate</a> : <code>Object</code></dt>
 <dd><p>A simple Hebrew date</p>
 </dd>
+<dt><a href="#HebcalOptions">HebcalOptions</a> : <code>Object</code></dt>
+<dd><p>Options to configure which events are returned</p>
+</dd>
 </dl>
+
+<a name="getBirthdayOrAnniversary"></a>
+
+## getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+Calculates a birthday or anniversary (non-yahrzeit)
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year |
+| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of event |
+
+<a name="getYahrzeit"></a>
+
+## getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+Calculates yahrzeit
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year |
+| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
 
 <a name="LEAP"></a>
 
@@ -303,6 +343,32 @@ Converts Julian days to Hebrew date to absolute Julian days
 | --- | --- | --- |
 | d | <code>number</code> | absolute Julian days |
 
+<a name="candleLightingEvents"></a>
+
+## candleLightingEvents(holidaysYear, location, startAbs, endAbs)
+Returns an array of candle-lighting times and Havdalah times
+for both Shabbat and holidays (based on Israel or Diaspora schedule)
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| holidaysYear | <code>Array.&lt;Event&gt;</code> | result of holidays.year() |
+| location | <code>Object</code> | including tzid |
+| startAbs | <code>number</code> | start absolute day number |
+| endAbs | <code>number</code> | end absolute day number |
+
+<a name="hebcalEvents"></a>
+
+## hebcalEvents(options)
+Generates a list of holidays
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
+
 <a name="get"></a>
 
 ## get(hDate) ⇒ <code>Array.&lt;string&gt;</code>
@@ -363,4 +429,29 @@ A simple Hebrew date
 | yy | <code>number</code> | Hebrew year |
 | mm | <code>number</code> | Hebrew month of year (1=NISAN, 7=TISHREI) |
 | dd | <code>number</code> | Day of month (1-30) |
+
+<a name="HebcalOptions"></a>
+
+## HebcalOptions : <code>Object</code>
+Options to configure which events are returned
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| location | <code>Location</code> | location.il used for Israel vs. Diaspora holidays, latitude/longitude/tzid used for candle-lighting |
+| year | <code>number</code> | Gregorian or Hebrew year |
+| isHebrewYear | <code>boolean</code> | to interpret year as Hebrew year |
+| month | <code>number</code> | Gregorian or Hebrew month (to filter results to a single month) |
+| candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
+| candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
+| havdalahMins | <code>number</code> | minutes after sundown for Havdalah (default 50) |
+| sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
+| noModern | <code>boolean</code> | suppress modern holidays |
+| noRoshChodesh | <code>boolean</code> | suppress Rosh Chodesh & Shabbat Mevarchim |
+| noSpecialShabbat | <code>boolean</code> | suppress Special Shabbat |
+| noHolidays | <code>boolean</code> | suppress regular holidays |
+| dafyomi | <code>boolean</code> | include Daf Yomi |
+| omer | <code>boolean</code> | include Days of the Omer |
 
