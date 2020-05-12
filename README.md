@@ -68,6 +68,16 @@ Gregorian date Sunday, December 31, 1 BC.</p>
 <dt><a href="#abs2hebrew">abs2hebrew(d)</a> ⇒ <code><a href="#SimpleHebrewDate">SimpleHebrewDate</a></code></dt>
 <dd><p>Converts Julian days to Hebrew date to absolute Julian days</p>
 </dd>
+<dt><a href="#get">get(hDate)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
+<dd><p>Returns the parsha (or parshiyot) read on Hebrew date</p>
+</dd>
+<dt><a href="#getString">getString(hDate)</a> ⇒ <code>string</code></dt>
+<dd><p>Looks up parsha for the date, then returns a (translated) string</p>
+</dd>
+<dt><a href="#isParsha">isParsha(hDate)</a> ⇒ <code>boolean</code></dt>
+<dd><p>Checks to see if this day would be a regular parasha HaShavua
+Torah reading or special holiday reading</p>
+</dd>
 </dl>
 
 ## Typedefs
@@ -292,6 +302,40 @@ Converts Julian days to Hebrew date to absolute Julian days
 | Param | Type | Description |
 | --- | --- | --- |
 | d | <code>number</code> | absolute Julian days |
+
+<a name="get"></a>
+
+## get(hDate) ⇒ <code>Array.&lt;string&gt;</code>
+Returns the parsha (or parshiyot) read on Hebrew date
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hDate | [<code>HDate</code>](#HDate) | Hebrew date |
+
+<a name="getString"></a>
+
+## getString(hDate) ⇒ <code>string</code>
+Looks up parsha for the date, then returns a (translated) string
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hDate | [<code>HDate</code>](#HDate) | Hebrew date |
+
+<a name="isParsha"></a>
+
+## isParsha(hDate) ⇒ <code>boolean</code>
+Checks to see if this day would be a regular parasha HaShavua
+Torah reading or special holiday reading
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hDate | [<code>HDate</code>](#HDate) | Hebrew date |
 
 <a name="DafYomiResult"></a>
 

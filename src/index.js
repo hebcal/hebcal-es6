@@ -6,7 +6,7 @@ import HDate, { hebrew2abs } from './hdate';
 import Sedra from './sedra';
 import Location from './location';
 import holidays from './holidays';
-import candles from './candles';
+import hebcal from './hebcal';
 
 import { t, gettext, addLocale, useLocale } from 'ttag';
 const locale = "ashkenazi";
@@ -157,8 +157,32 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
     month: 'numeric',
     day: 'numeric'
 });
-const ev = candles(5749, year, loc);
+const ev = hebcal.candleLightingEvents(year, loc,
+    hebrew2abs({ yy: 5749, mm: common.months.TISHREI, dd: 1}),
+    hebrew2abs({ yy: 5749 + 1, mm: common.months.TISHREI, dd: 1})
+);
 for (const e of ev) {
+    const gregDt = e.getDate().greg();
+    const gregDtStr = dateFormat.format(gregDt);
+    console.log(gregDtStr, e.getDesc());
+}
+
+const options = {
+    location: loc,
+    year: 5780,
+    isHebrewYear: true,
+    month: "Nisan",
+    candlelighting: true,
+    sedrot: true,
+    noModern: false,
+    noRoshChodesh: false,
+    noSpecialShabbat: true,
+    noHolidays: false,
+    dafyomi: true,
+    omer: true,
+};
+const events = hebcal.hebcalEvents(options);
+for (const e of events) {
     const gregDt = e.getDate().greg();
     const gregDtStr = dateFormat.format(gregDt);
     console.log(gregDtStr, e.getDesc());
