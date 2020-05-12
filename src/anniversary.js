@@ -32,7 +32,11 @@ const ADAR_II = common.months.ADAR_II;
 
 export function getBirthdayOrAnniversary(hyear, gdate) {
     const orig = new HDate(gdate);
-    const isOrigLeap = common.LEAP(orig.getFullYear());
+    const origYear = orig.getFullYear();
+    if (hyear <= origYear) {
+        throw new Error(`Hebrew year ${hyear} occurs on or before original date in ${origYear}`);
+    }
+    const isOrigLeap = common.LEAP(origYear);
     let month = orig.getMonth();
     let day = orig.getDate();
 
@@ -79,6 +83,9 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
  */
 export function getYahrzeit(hyear, gdate) {
     let hDeath = abs2hebrew(greg2abs(gdate));
+    if (hyear <= hDeath.yy) {
+        throw new Error(`Hebrew year ${hyear} occurs on or before original date in ${hDeath.yy}`);
+    }
 
     /* If it's Heshvan 30 it depends on the first anniversary; if
         that was not Heshvan 30, use the day before Kislev 1. */

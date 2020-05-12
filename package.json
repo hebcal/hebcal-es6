@@ -30,7 +30,7 @@
     "typedef": "jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
     "test": "ava"
   },
-  "license": "ISC",
+  "license": "GPL-2.0",
   "ava": {
     "files": [
       "dist/**/*.spec.js"

@@ -5,7 +5,7 @@ import { HDate } from './hdate';
 test('yahrzeit', t => {
     // Gregorian YYYY, MM, DD
     const items = [
-      [2018, 12, 23, "General",
+      [2017,  1, 13, "General",
         "1/2/2018 12/23/2018 1/12/2020 12/30/2020 12/19/2021 1/8/2023 12/27/2023 1/15/2025 1/4/2026 12/25/2026 1/14/2028 1/2/2029 12/21/2029 1/10/2031 12/30/2031 12/17/2032 1/6/2034 12/27/2034 1/15/2036 1/2/2037 12/23/2037 1/11/2039 1/1/2040 12/19/2040 1/7/2042 12/28/2042"
       ],
       [2014,  3,  2, "Adar1-30",
@@ -77,3 +77,23 @@ test('birthday', t => {
           }
       }
 });
+
+test('throws', t => {
+    const error = t.throws(() => {
+        anniversary.getYahrzeit(5769, new Date(2008, 10, 13));
+    }, {instanceOf: Error});
+    t.is(error.message, 'Hebrew year 5769 occurs on or before original date in 5769');
+
+    t.notThrows(() => {
+        anniversary.getYahrzeit(5770, new Date(2008, 10, 13));
+    });
+
+    const err2 = t.throws(() => {
+        anniversary.getBirthdayOrAnniversary(5778, new Date(2018, 11, 13));
+    }, {instanceOf: Error});
+    t.is(err2.message, 'Hebrew year 5778 occurs on or before original date in 5779');
+
+    t.notThrows(() => {
+        anniversary.getBirthdayOrAnniversary(5780, new Date(2018, 11, 13));
+    });
+  });
