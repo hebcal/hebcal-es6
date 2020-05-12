@@ -321,8 +321,10 @@ export function year(year) {
       continue;
     }
 
+    // TODO: fix for year overrun
+    const nextMonthName = c.monthNames[+c.LEAP(year)][month+1];
     add(new Event(new HDate(29, month, year).onOrBefore(SAT),
-        `Shabbat Mevarchim Chodesh ${monthName}`, SHABBAT_MEVARCHIM));
+        `Shabbat Mevarchim Chodesh ${nextMonthName}`, SHABBAT_MEVARCHIM));
   }
 
   return (__cache[year] = h);
@@ -348,8 +350,8 @@ function atzmaut(year) {
     }
 
     return [
-      new Event(tmpDate, "Yom HaZikaron", 0),
-      new Event(tmpDate.next(), "Yom HaAtzma'ut", 0),
+      new Event(tmpDate, "Yom HaZikaron", MODERN_HOLIDAY),
+      new Event(tmpDate.next(), "Yom HaAtzma'ut", MODERN_HOLIDAY),
     ];
   }
   return [];

@@ -150,7 +150,7 @@ for (let absDt = startAbs; absDt <= endAbs; absDt++) {
     }
 }
 
-loc = Location.newFromCity(cities.getCity("Berlin"))
+loc = Location.newFromCity(cities.getCity("Berlin"));
 const dateFormat = new Intl.DateTimeFormat('en-US', {
     timeZone: loc.tzid,
     year: 'numeric',
@@ -168,17 +168,19 @@ for (const e of ev) {
 }
 
 const options = {
-    location: loc,
-    year: 5780,
-    isHebrewYear: true,
-    month: "Nisan",
+    location: Location.newFromCity(cities.getCity("Haifa")),
+    year: 2020,
+//    year: 5780,
+//    isHebrewYear: true,
+//    month: "Nisan",
     candlelighting: true,
     sedrot: true,
-    noModern: false,
-    noRoshChodesh: false,
-    noSpecialShabbat: true,
+    noModern: true,
+    noMinorFast: true,
+    noRoshChodesh: true,
+    noSpecialShabbat: false,
     noHolidays: false,
-    dafyomi: true,
+//    dafyomi: true,
     omer: true,
 };
 const events = hebcal.hebcalEvents(options);

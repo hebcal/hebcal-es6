@@ -83,18 +83,23 @@ export default class Sedra {
         }
     }
 
+    throwError(errorMessage) {
+        throw new Error(errorMessage);
+    }
+
     /**
      * Returns the parsha (or parshiyot) read on Hebrew date
-     * @param {HDate} hDate Hebrew date
+     * @param {HDate|number} hDate Hebrew date or absolute days
      * @returns {string[]}
      */
     get(hDate) {
-        return abs(this, hDate.abs()).parsha;
+        const abs0 = (typeof hDate == 'number') ? hDate : ((hDate instanceof HDate) ? hDate.abs() : this.throwError("Bad date argument"));
+        return abs(this, abs0).parsha;
     }
 
     /**
      * Looks up parsha for the date, then returns a (translated) string
-     * @param {HDate} hDate Hebrew date
+     * @param {HDate|number} hDate Hebrew date or absolute days
      * @returns {string}
      */
     getString(hDate) {
@@ -109,11 +114,12 @@ export default class Sedra {
     /**
      * Checks to see if this day would be a regular parasha HaShavua
      * Torah reading or special holiday reading
-     * @param {HDate} hDate Hebrew date
+     * @param {HDate|number} hDate Hebrew date or absolute days
      * @returns {boolean}
      */
     isParsha(hDate) {
-        return !abs(this, hDate.abs()).chag;
+        const abs0 = (typeof hDate == 'number') ? hDate : ((hDate instanceof HDate) ? hDate.abs() : this.throwError("Bad date argument"));
+        return !abs(this, abs0).chag;
     }
 }
 
