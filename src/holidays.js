@@ -81,26 +81,6 @@ export class Event {
     return this.mask;
   }
 
-  isUserEvent() {
-    return Boolean(this.mask & USER_EVENT);
-  }
-
-  isLightCandles() {
-    return Boolean(this.mask & LIGHT_CANDLES);
-  }
-
-  isLightCandlesTzeis() {
-    return Boolean(this.mask & LIGHT_CANDLES_TZEIS);
-  }
-
-  isChanukahCandles() {
-    return Boolean(this.mask & CHANUKAH_CANDLES);
-  }
-
-  isYomTovEnds() {
-    return Boolean(this.mask & YOM_TOV_ENDS);
-  }
-
   observedInIsrael() {
     return !(this.mask & CHUL_ONLY);
   }

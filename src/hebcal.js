@@ -38,11 +38,11 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
     let offset = candlesOffset;
     let mask = flags.LIGHT_CANDLES;
     if (typeof e !== 'undefined') {
-        mask = e.mask;
+        mask = e.getFlags();
         if (dow != 5) {
-            if (e.isLightCandlesTzeis() || e.isChanukahCandles()) {
+            if (mask & (flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
                 offset = havdalahOffset;
-            } else if (e.isYomTovEnds()) {
+            } else if (mask & flags.YOM_TOV_ENDS) {
                 name = "Havdalah";
                 offset = havdalahOffset;
             }
@@ -85,7 +85,7 @@ function getHavdalahMinutes(options) {
 /**
  * Options to configure which events are returned
  * @typedef {Object} HebcalOptions
- * @property {Location} location - location.il used for Israel vs. Diaspora holidays, latitude/longitude/tzid used for candle-lighting
+ * @property {Location} location - latitude/longitude/tzid used for candle-lighting
  * @property {number} year - Gregorian or Hebrew year
  * @property {boolean} isHebrewYear - to interpret year as Hebrew year
  * @property {number} month - Gregorian or Hebrew month (to filter results to a single month)
@@ -93,6 +93,7 @@ function getHavdalahMinutes(options) {
  * @property {number} candleLightingMins - minutes before sundown to light candles (default 18)
  * @property {number} havdalahMins - minutes after sundown for Havdalah (default 50)
  * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
+ * @property {boolean} il - Israeli holiday and sedra schedule
  * @property {boolean} noMinorFast - suppress minor fasts
  * @property {boolean} noModern - suppress modern holidays
  * @property {boolean} noRoshChodesh - suppress Rosh Chodesh & Shabbat Mevarchim
@@ -141,7 +142,7 @@ function getOmerStartAndEnd(options, hyear) {
 }
 
 function getMaskFromOptions(options) {
-    const il = (options.location && options.location.il) || false;
+    const il = options.il || (options.location && options.location.il) || false;
     let mask = 0;
 
     // default options
@@ -175,10 +176,8 @@ function getMaskFromOptions(options) {
 
     if (il) {
         mask |= flags.IL_ONLY;
-        mask &= ~flags.CHUL_ONLY;
     } else {
         mask |= flags.CHUL_ONLY;
-        mask &= ~flags.IL_ONLY;
     }
 
     // non-default options
@@ -198,12 +197,14 @@ function getMaskFromOptions(options) {
         mask |= flags.OMER_COUNT;
     }
 
+    /*
     // debug
     for (const x in flags) {
         if (mask & flags[x]) {
-            console.log(x);
+            console.debug(x);
         }
     }
+    */
 
     return mask;
 }
@@ -214,6 +215,7 @@ function getMaskFromOptions(options) {
  */
 export function hebcalEvents(options) {
     const location = options.location || { tzid: "UTC", il: false };
+    const il = options.il || location.il || false;
     const timeFormat = new Intl.DateTimeFormat('en-US', {
         timeZone: location.tzid,
         hour: 'numeric',
@@ -229,7 +231,7 @@ export function hebcalEvents(options) {
         flags.LIGHT_CANDLES_TZEIS |
         flags.CHANUKAH_CANDLES |
         flags.YOM_TOV_ENDS;
-    let sedra = options.sedrot ? new Sedra(currentYear, location.il) : undefined;
+    let sedra = options.sedrot ? new Sedra(currentYear, il) : undefined;
     const [beginOmer,endOmer] = getOmerStartAndEnd(options, currentYear);
     let events = [];
     for (let abs = startAbs; abs <= endAbs; abs++) {
@@ -241,7 +243,7 @@ export function hebcalEvents(options) {
             for (const e of ev) {
                 const eFlags = e.getFlags();
                 if ((!eFlags || (eFlags & mask)) &&
-                    ((location.il && e.observedInIsrael()) || (!location.il && e.observedInDiaspora()))) {
+                    ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
                     events.push(e);
                     if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
                         const e2 = candleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
@@ -255,7 +257,7 @@ export function hebcalEvents(options) {
             const hyear = hd.getFullYear();
             if (hyear != currentYear && options.sedrot) {
                 currentYear = hyear;
-                sedra = new Sedra(currentYear, location.il);
+                sedra = new Sedra(currentYear, il);
             }
             if (sedra.isParsha(abs)) {
                 const parshaStr = sedra.getString(abs);

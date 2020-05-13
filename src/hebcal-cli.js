@@ -3,11 +3,12 @@ import Location from './location';
 import hebcal from './hebcal';
 
 cities.init();
-//const loc = Location.newFromCity(cities.getCity("San Francisco"));
-const loc = Location.newFromCity(cities.getCity("Jerusalem"));
+const loc = Location.newFromCity(cities.getCity("San Francisco"));
+//const loc = Location.newFromCity(cities.getCity("Jerusalem"));
 const options = {
     location: loc,
     year: 2020,
+    il: true,  // force IL scheme even though we're in Diaspora
 /*
     year: 5780,
     isHebrewYear: true,
