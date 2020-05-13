@@ -106,8 +106,8 @@ export function daysInMonth(month, year) {
       month == months.TEVET ||
       month == months.ADAR_II ||
       (month == months.ADAR_I && !LEAP(year)) ||
-      (month == months.CHESHVAN && !lngChesh(year)) ||
-      (month == months.KISLEV && shrtKis(year)))
+      (month == months.CHESHVAN && !longCheshvan(year)) ||
+      (month == months.KISLEV && shortKislev(year)))
   );
 }
 
@@ -181,7 +181,7 @@ export function daysInYear(year) {
  * true if Cheshvan is long in Hebrew YEAR
  * @param {number} year Hebrew year
  */
-export function lngChesh(year) {
+export function longCheshvan(year) {
   return daysInYear(year) % 10 == 5;
 }
 
@@ -189,7 +189,7 @@ export function lngChesh(year) {
  * true if Kislev is short in Hebrew YEAR
  * @param {number} year Hebrew year
  */
-export function shrtKis(year) {
+export function shortKislev(year) {
   return daysInYear(year) % 10 == 3;
 }
 
@@ -337,8 +337,8 @@ const common = {
   dayYearNum,
   hebElapsedDays,
   daysInYear,
-  lngChesh,
-  shrtKis,
+  longCheshvan,
+  shortKislev,
   monthFromName,
   dayOnOrBefore,
   range,

@@ -20,7 +20,6 @@
  */
 import common from "./common";
 import { HDate, hebrew2abs, abs2hebrew } from './hdate';
-import { greg2abs } from './greg';
 
 const NISAN = common.months.NISAN;
 const CHESHVAN = common.months.CHESHVAN;
@@ -36,7 +35,6 @@ const ADAR_II = common.months.ADAR_II;
  * @param {Date|HDate} gdate Gregorian or Hebrew date of event
  * @returns {HDate}
  */
-
 export function getBirthdayOrAnniversary(hyear, gdate) {
     const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
     const origYear = orig.getFullYear();
@@ -66,11 +64,11 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
      * following month in years where that day does not
      * occur. [Calendrical Calculations p. 111]
      */
-    else if (month == CHESHVAN && day == 30 && !common.lngChesh(hyear)) {
+    else if (month == CHESHVAN && day == 30 && !common.longCheshvan(hyear)) {
         month = KISLEV;
         day = 1;
     }
-    else if (month == KISLEV && day == 30 && common.shrtKis(hyear)) {
+    else if (month == KISLEV && day == 30 && common.shortKislev(hyear)) {
         month = TEVET;
         day = 1;
     }
@@ -101,7 +99,7 @@ export function getYahrzeit(hyear, gdate) {
 
     /* If it's Heshvan 30 it depends on the first anniversary; if
         that was not Heshvan 30, use the day before Kislev 1. */
-    if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !common.lngChesh(hDeath.yy + 1)) {
+    if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !common.longCheshvan(hDeath.yy + 1)) {
         hDeath.dd = 1;
         hDeath.mm = KISLEV;
         hDeath.yy = hyear;
@@ -109,7 +107,7 @@ export function getYahrzeit(hyear, gdate) {
     }
     /* If it's Kislev 30 it depends on the first anniversary; if
         that was not Kislev 30, use the day before Teveth 1. */
-    else if (hDeath.mm == KISLEV && hDeath.dd == 30 && common.shrtKis(hDeath.yy + 1)) {
+    else if (hDeath.mm == KISLEV && hDeath.dd == 30 && common.shortKislev(hDeath.yy + 1)) {
         hDeath.dd = 1;
         hDeath.mm = TEVET;
         hDeath.yy = hyear;
@@ -128,10 +126,10 @@ export function getYahrzeit(hyear, gdate) {
     /* In all other cases, use the normal anniversary of the date of death. */
 
     /* advance day to rosh chodesh if needed */
-    if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !common.lngChesh(hyear)) {
+    if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !common.longCheshvan(hyear)) {
         hDeath.mm = KISLEV;
         hDeath.dd = 1;
-    } else if (hDeath.mm == KISLEV && hDeath.dd == 30 && common.shrtKis(hyear)) {
+    } else if (hDeath.mm == KISLEV && hDeath.dd == 30 && common.shortKislev(hyear)) {
         hDeath.mm = TEVET;
         hDeath.dd = 1;
     }

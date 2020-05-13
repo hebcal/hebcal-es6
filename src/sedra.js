@@ -47,8 +47,8 @@ export default class Sedra {
      */
     constructor(hebYr, il) { // the Hebrew year
         il = !!il;
-        const long_c = c.lngChesh(hebYr);
-        const short_k = c.shrtKis(hebYr);
+        const long_c = c.longCheshvan(hebYr);
+        const short_k = c.shortKislev(hebYr);
         let type;
         this.year = hebYr;
         if (long_c && !short_k) {
