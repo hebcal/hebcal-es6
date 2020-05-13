@@ -133,17 +133,8 @@ function getOrdinal(n) {
  * @property {boolean} omer - include Days of the Omer
  */
 
-/**
- * Generates a list of holidays
- * @param {HebcalOptions} options
- */
-export function hebcalEvents(options) {
-    const location = options.location || { tzid: "UTC" };
-    const timeFormat = new Intl.DateTimeFormat('en-US', {
-        timeZone: location.tzid,
-        hour: 'numeric',
-        minute: 'numeric'
-    });
+ /* Parse options object to determine start & end days */
+function getStartAndEnd(options) {
     const theYear = options.year ? common.dayYearNum(options.year) : new Date().getFullYear();
     const isHebrewYear = Boolean(options.isHebrewYear);
     let theMonth = NaN;
@@ -165,6 +156,23 @@ export function hebcalEvents(options) {
         );
     const endDate = new HDate(endAbs);
     console.debug(`year=${theYear}, month=${theMonth}, isHebrewYear=${isHebrewYear}, startAbs=${startAbs}, endAbs=${endAbs}`);
+
+    return [startDate, startAbs, endDate, endAbs];
+}
+
+/**
+ * Generates a list of holidays
+ * @param {HebcalOptions} options
+ */
+export function hebcalEvents(options) {
+    const location = options.location || { tzid: "UTC" };
+    const timeFormat = new Intl.DateTimeFormat('en-US', {
+        timeZone: location.tzid,
+        hour: 'numeric',
+        minute: 'numeric'
+    });
+    const isHebrewYear = Boolean(options.isHebrewYear);
+    const [startDate, startAbs, endDate, endAbs] = getStartAndEnd(options);
 
     const allHolidays = holidays.year(startDate.getFullYear());
     const allHolidays2 = isHebrewYear ? [] : holidays.year(startDate.getFullYear() + 1); // hack
