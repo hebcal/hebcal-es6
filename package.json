@@ -7,7 +7,7 @@
     "Danny Sadinoff (https://github.com/dsadinoff)"
   ],
   "description": "Hebcal",
-  "main": "./dist/index.js",
+  "main": "./dist/hebcal.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mjradwin/hebcal-es6.git"
