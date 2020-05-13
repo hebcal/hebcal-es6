@@ -38,7 +38,7 @@ const ADAR_II = common.months.ADAR_II;
  */
 
 export function getBirthdayOrAnniversary(hyear, gdate) {
-    const orig = new HDate(gdate);
+    const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
     const origYear = orig.getFullYear();
     if (hyear <= origYear) {
         throw new Error(`Hebrew year ${hyear} occurs on or before original date in ${origYear}`);
@@ -89,7 +89,7 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
  * @returns {HDate}
  */
 export function getYahrzeit(hyear, gdate) {
-    const orig = new HDate(gdate);
+    const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
     let hDeath = {
         yy: orig.getFullYear(),
         mm: orig.getMonth(),

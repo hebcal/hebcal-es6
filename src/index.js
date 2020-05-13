@@ -129,7 +129,7 @@ console.log(`Sunset in ${loc.name} is at ${sunset}`);
 
 
 console.log("*** holidays");
-let year = holidays.year(5749);
+let year = holidays.getHolidaysForYear(5749);
 startAbs = hebrew2abs({ yy: 5749, mm: common.months.TISHREI, dd: 1});
 endAbs = hebrew2abs({ yy: 5750, mm: common.months.TISHREI, dd: 1});
 for (let absDt = startAbs; absDt <= endAbs; absDt++) {
@@ -142,7 +142,7 @@ for (let absDt = startAbs; absDt <= endAbs; absDt++) {
     if (typeof ev !== 'undefined') {
         for (const e of ev) {
 //            if (e.isDiasporaOnly()) {
-            if (e.isIsraelOnly()) {
+            if (e.observedInIsrael()) {
                 const desc = e.getDesc();
                 console.log(gregDtStr, desc, "//", hebDt.toString());
             }
@@ -157,15 +157,6 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
     month: 'numeric',
     day: 'numeric'
 });
-const ev = hebcal.candleLightingEvents(year, loc,
-    hebrew2abs({ yy: 5749, mm: common.months.TISHREI, dd: 1}),
-    hebrew2abs({ yy: 5749 + 1, mm: common.months.TISHREI, dd: 1})
-);
-for (const e of ev) {
-    const gregDt = e.getDate().greg();
-    const gregDtStr = dateFormat.format(gregDt);
-    console.log(gregDtStr, e.getDesc());
-}
 
 const options = {
     location: Location.newFromCity(cities.getCity("Haifa")),

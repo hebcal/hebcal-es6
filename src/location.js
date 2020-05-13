@@ -49,6 +49,9 @@ export default class Location {
   }
 
   static newFromCity(city) {
+    if (typeof city !== 'object') {
+      throw new TypeError("Invalid city object to Location.newFromCity");
+    }
     return new Location(city.latitude, city.longitude, city.cc == 'IL',
       city.tzid, city.name, city.cc, city.geoid);
   }
@@ -108,10 +111,6 @@ export default class Location {
   }
 
   alot_hashachar(hdate) {
-      return this.suntime(hdate).alot_hashachar;
-  }
-
-  alot_hashacher(hdate) {
       return this.suntime(hdate).alot_hashachar;
   }
 

@@ -16,7 +16,7 @@ function testFullYear(t, hyear, il, expected0) {
             expected[dt] = [desc];
         }
     }
-    const year = holidays.year(hyear);
+    const year = holidays.getHolidaysForYear(hyear);
     const startAbs = hebrew2abs({ yy: hyear, mm: common.months.TISHREI, dd: 1});
     const endAbs = hebrew2abs({ yy: hyear + 1, mm: common.months.TISHREI, dd: 1});
     for (let absDt = startAbs; absDt <= endAbs; absDt++) {
@@ -27,7 +27,7 @@ function testFullYear(t, hyear, il, expected0) {
         if (typeof ev !== 'undefined') {
             const evFiltered = ev.filter(e => !(e.getFlags() & holidays.flags.SHABBAT_MEVARCHIM));
             for (const e of evFiltered) {
-                if ((il && e.isIsraelOnly()) || (!il && e.isDiasporaOnly())) {
+                if ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora())) {
                     const desc = e.getDesc();
                     if (expected[dateStr]) {
                         let found = false;

@@ -101,12 +101,12 @@ export class Event {
     return Boolean(this.mask & YOM_TOV_ENDS);
   }
 
-  isIsraelOnly() {
-    return (this.mask & IL_ONLY) || !(this.mask & CHUL_ONLY);
+  observedInIsrael() {
+    return !(this.mask & CHUL_ONLY);
   }
 
-  isDiasporaOnly() {
-    return (this.mask & CHUL_ONLY) || !(this.mask & IL_ONLY);
+  observedInDiaspora() {
+    return !(this.mask & IL_ONLY);
   }
 
   getDesc() {
@@ -118,7 +118,12 @@ export class Event {
   }
 }
 
-export function year(year) {
+/**
+ * Returns an array of Event[] indexed by HDate
+ * @param {number} year Hebrew year
+ * @returns {Event[][]}
+ */
+export function getHolidaysForYear(year) {
   if (__cache[year]) {
     return __cache[year];
   }
@@ -357,8 +362,20 @@ function atzmaut(year) {
   return [];
 }
 
+/**
+ * Returns an array of Events on this date (or undefined if no events)
+ * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute Julian date
+ * @returns {Event[]}
+ */
+export function getHolidaysOnDate(date) {
+  const hd = date instanceof HDate ? date : new HDate(date);
+  const y = getHolidaysForYear(hd.getFullYear());
+  return y[hd];
+}
+
 export default {
     flags,
     Event,
-    year
+    getHolidaysOnDate,
+    getHolidaysForYear
 };

@@ -37,14 +37,16 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
     let name = "Candle lighting";
     let offset = candlesOffset;
     let mask = flags.LIGHT_CANDLES;
-    if (dow != 5 && typeof e !== 'undefined') {
-        if (e.isLightCandlesTzeis() || e.isChanukahCandles()) {
-            offset = havdalahOffset;
-        } else if (e.isYomTovEnds()) {
-            name = "Havdalah";
-            offset = havdalahOffset;
-        }
+    if (typeof e !== 'undefined') {
         mask = e.mask;
+        if (dow != 5) {
+            if (e.isLightCandlesTzeis() || e.isChanukahCandles()) {
+                offset = havdalahOffset;
+            } else if (e.isYomTovEnds()) {
+                name = "Havdalah";
+                offset = havdalahOffset;
+            }
+        }
     } else if (dow == 6) {
         name = "Havdalah";
         offset = havdalahOffset;
@@ -58,59 +60,26 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
     return e2;
 }
 
-/**
- * Returns an array of candle-lighting times and Havdalah times
- * for both Shabbat and holidays (based on Israel or Diaspora schedule)
- * @param {Event[]} holidaysYear result of holidays.year()
- * @param {Object} location including tzid
- * @param {number} startAbs start absolute day number
- * @param {number} endAbs end absolute day number
- */
-export function candleLightingEvents(location, startAbs, endAbs) {
-    let events = [];
-    const timeFormat = new Intl.DateTimeFormat('en-US', {
-        timeZone: location.tzid,
-        hour: 'numeric',
-        minute: 'numeric'
-    });
-    let candleLightingMinutes = -18;
-    if (location.il && location.name === 'Jerusalem') {
-        candleLightingMinutes = -40;
-    }
-    let havdalahMinutes = 50;
-    const holidaysYear = holidays.year(new HDate(startAbs).getFullYear());
-    const holidaysYear2 = holidays.year(new HDate(endAbs).getFullYear());
-    for (let abs = startAbs; abs <= endAbs; abs++) {
-        const hd = new HDate(abs);
-        let ev = holidaysYear[hd];
-        if (typeof ev === 'undefined') {
-            ev = holidaysYear2[hd]; // try 2nd year
-        }
-        const dow = abs % 7;
-        let candles = false;
-        if (typeof ev !== 'undefined') {
-            for (const e of ev) {
-                if ((location.il && e.isIsraelOnly()) || (!location.il && e.isDiasporaOnly())) {
-                    if (e.isLightCandles() || e.isLightCandlesTzeis() || e.isChanukahCandles() || e.isYomTovEnds()) {
-                        const e2 = candleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
-                        events.push(e2);
-                        candles = true;
-                    }
-                }
-            }
-        }
-        if (!candles && (dow == 5 || dow == 6)) { // friday or saturday
-            const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
-            events.push(e2);
-        }
-    }
-    return events;
-}
-
 function getOrdinal(n) {
     const s = ["th", "st", "nd", "rd"],
         v = n % 100;
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+function getCandleLightingMinutes(options) {
+    const location = options.location || {};
+    let min = 18;
+    if (location.il && typeof location.name !== 'undefined' && location.name === 'Jerusalem') {
+        min = 40;
+    }
+    if (typeof location.candleLightingMins === 'number') {
+        min = Math.abs(candleLightingMins);
+    }
+    return -1 * min;
+}
+
+function getHavdalahMinutes(options) {
+    return options.havdalahMins || 50;
 }
 
 /**
@@ -160,94 +129,160 @@ function getStartAndEnd(options) {
     return [startDate, startAbs, endDate, endAbs];
 }
 
+function getOmerStartAndEnd(options, hyear) {
+    if (options.omer) {
+        return [
+            hebrew2abs({ yy: hyear, mm: common.months.NISAN, dd: 16 }),
+            hebrew2abs({ yy: hyear, mm: common.months.SIVAN, dd: 5 })
+        ];
+    } else {
+        return [-1, -1];
+    }
+}
+
+function getMaskFromOptions(options) {
+    const il = (options.location && options.location.il) || false;
+    let mask = 0;
+
+    // default options
+    if (!options.noHolidays) {
+        mask |= flags.ROSH_CHODESH |
+                flags.YOM_TOV_ENDS |
+                flags.MINOR_FAST |
+                flags.SPECIAL_SHABBAT |
+                flags.SHABBAT_MEVARCHIM |
+                flags.MODERN_HOLIDAY |
+                flags.MAJOR_FAST;
+    }
+
+    // suppression of defaults
+    if (options.noRoshChodesh) {
+        mask &= ~flags.ROSH_CHODESH;
+    }
+
+    if (options.noModern) {
+        mask &= ~flags.MODERN_HOLIDAY;
+    }
+
+    if (options.noMinorFast) {
+        mask &= ~flags.MINOR_FAST;
+    }
+
+    if (options.noSpecialShabbat) {
+        mask &= ~flags.SPECIAL_SHABBAT;
+        mask &= ~flags.SHABBAT_MEVARCHIM;
+    }
+
+    if (il) {
+        mask |= flags.IL_ONLY;
+        mask &= ~flags.CHUL_ONLY;
+    } else {
+        mask |= flags.CHUL_ONLY;
+        mask &= ~flags.IL_ONLY;
+    }
+
+    // non-default options
+    if (options.candlelighting) {
+        mask |= flags.LIGHT_CANDLES | flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES;
+    }
+
+    if (options.sedrot) {
+        mask |= flags.PARSHA_HASHAVUA;
+    }
+
+    if (options.dafyomi) {
+        mask |= flags.DAF_YOMI;
+    }
+
+    if (options.omer) {
+        mask |= flags.OMER_COUNT;
+    }
+
+    // debug
+    for (const x in flags) {
+        if (mask & flags[x]) {
+            console.log(x);
+        }
+    }
+
+    return mask;
+}
+
 /**
  * Generates a list of holidays
  * @param {HebcalOptions} options
  */
 export function hebcalEvents(options) {
-    const location = options.location || { tzid: "UTC" };
+    const location = options.location || { tzid: "UTC", il: false };
     const timeFormat = new Intl.DateTimeFormat('en-US', {
         timeZone: location.tzid,
         hour: 'numeric',
         minute: 'numeric'
     });
-    const isHebrewYear = Boolean(options.isHebrewYear);
     const [startDate, startAbs, endDate, endAbs] = getStartAndEnd(options);
-
-    const allHolidays = holidays.year(startDate.getFullYear());
-    const allHolidays2 = isHebrewYear ? [] : holidays.year(startDate.getFullYear() + 1); // hack
-    let holidays0 = [];
+    let currentYear = startDate.getFullYear();
+    const candleLightingMinutes = getCandleLightingMinutes(options);
+    const havdalahMinutes = getHavdalahMinutes(options);
+    const mask = getMaskFromOptions(options);
+    const MASK_LIGHT_CANDLES =
+        flags.LIGHT_CANDLES |
+        flags.LIGHT_CANDLES_TZEIS |
+        flags.CHANUKAH_CANDLES |
+        flags.YOM_TOV_ENDS;
+    let sedra = options.sedrot ? new Sedra(currentYear, location.il) : undefined;
+    const [beginOmer,endOmer] = getOmerStartAndEnd(options, currentYear);
+    let events = [];
     for (let abs = startAbs; abs <= endAbs; abs++) {
         const hd = new HDate(abs);
-        let ev = allHolidays[hd];
-        if (typeof ev === 'undefined') {
-            ev = allHolidays2[hd]; // try 2nd year
-        }
+        const dow = abs % 7;
+        let candlesToday = false;
+        const ev = holidays.getHolidaysOnDate(hd);
         if (typeof ev !== 'undefined') {
             for (const e of ev) {
-                if ((location.il && e.isIsraelOnly()) || (!location.il && e.isDiasporaOnly())) {
-                    holidays0.push(e);
+                const eFlags = e.getFlags();
+                if ((!eFlags || (eFlags & mask)) &&
+                    ((location.il && e.observedInIsrael()) || (!location.il && e.observedInDiaspora()))) {
+                    events.push(e);
+                    if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
+                        const e2 = candleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
+                        events.push(e2);
+                        candlesToday = true;
+                    }
                 }
             }
         }
-    }
-
-    let events = [];
-    if (!options.noHolidays) {
-        if (options.noModern) {
-            holidays0 = holidays0.filter(e => !(e.getFlags() & flags.MODERN_HOLIDAY));
-        }
-        if (options.noMinorFast) {
-            holidays0 = holidays0.filter(e => !(e.getFlags() & flags.MINOR_FAST));
-        }
-        if (options.noRoshChodesh) {
-            holidays0 = holidays0.filter(e => !(e.getFlags() & flags.ROSH_CHODESH));
-        }
-        if (options.noSpecialShabbat) {
-            holidays0 = holidays0.filter(e => !(e.getFlags() & flags.SPECIAL_SHABBAT));
-            holidays0 = holidays0.filter(e => !(e.getFlags() & flags.SHABBAT_MEVARCHIM));
-        }
-        events = events.concat(holidays0);
-    }
-    if (options.candlelighting) {
-        const candleEvents = candleLightingEvents(location, startAbs, endAbs);
-        events = events.concat(candleEvents);
-    }
-    if (options.sedrot) {
-        const sedra = new Sedra(startDate.getFullYear());
-        for (let abs = startAbs; abs <= endAbs; abs++) {
-            const dow = abs % 7;
-            if (dow == 6 && sedra.isParsha(abs)) { // Saturday
-                const hd = new HDate(abs);
+        if (options.sedrot && dow == 6) { // Saturday
+            const hyear = hd.getFullYear();
+            if (hyear != currentYear && options.sedrot) {
+                currentYear = hyear;
+                sedra = new Sedra(currentYear, location.il);
+            }
+            if (sedra.isParsha(abs)) {
                 const parshaStr = sedra.getString(abs);
                 events.push(new Event(hd, parshaStr, flags.PARSHA_HASHAVUA));
             }
         }
-    }
-    if (options.dafyomi) {
-        for (let abs = startAbs; abs <= endAbs; abs++) {
+        if (!candlesToday && (dow == 5 || dow == 6)) { // Friday or Saturday
+            const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
+            events.push(e2);
+        }
+        if (options.dafyomi) {
             const dy = dafyomi.dafyomi(greg.abs2greg(abs));
             const desc = t`Daf Yomi` + ": " + dafyomi.dafname(dy);
             events.push(new Event(new HDate(abs), desc, flags.DAF_YOMI));
         }
-    }
-    if (options.omer) {
-        const hyear = startDate.getFullYear();
-        const beginOmer = hebrew2abs({ yy: hyear, mm: common.months.NISAN, dd: 16 });
-        const endOmer = hebrew2abs({ yy: hyear, mm: common.months.SIVAN, dd: 5 });
-        for (let abs = startAbs; abs <= endAbs; abs++) {
-            if (abs >= beginOmer && abs <= endOmer) {
-                const omer = abs - beginOmer + 1;
-                const nth = getOrdinal(omer);
-                const desc = `${nth} day of the Omer`;
-                events.push(new Event(new HDate(abs), desc, flags.OMER_COUNT));
-            }
+        if (options.omer && abs >= beginOmer && abs <= endOmer) {
+            const omer = abs - beginOmer + 1;
+            const nth = getOrdinal(omer);
+            const desc = `${nth} day of the Omer`;
+            events.push(new Event(new HDate(abs), desc, flags.OMER_COUNT));
         }
     }
-    return events.sort((a, b) => a.getDate().abs() - b.getDate().abs());
+
+//    return events.sort((a, b) => a.getDate().abs() - b.getDate().abs());
+    return events;
 }
 
 export default {
-    candleLightingEvents,
     hebcalEvents
 };

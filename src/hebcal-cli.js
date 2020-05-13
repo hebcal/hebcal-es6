@@ -3,7 +3,8 @@ import Location from './location';
 import hebcal from './hebcal';
 
 cities.init();
-const loc = Location.newFromCity(cities.getCity("San Francisco"));
+//const loc = Location.newFromCity(cities.getCity("San Francisco"));
+const loc = Location.newFromCity(cities.getCity("Jerusalem"));
 const options = {
     location: loc,
     year: 2020,
@@ -17,7 +18,7 @@ const options = {
     noModern: false,
     noMinorFast: false,
     noRoshChodesh: false,
-    noSpecialShabbat: false,
+    noSpecialShabbat: true,
     noHolidays: false,
     dafyomi: false,
     omer: true,
