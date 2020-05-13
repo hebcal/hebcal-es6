@@ -1,5 +1,20 @@
+
 # hebcal-es6
 Hebcal, a perpetual Jewish Calendar (ES6)
+
+## Members
+
+<dl>
+<dt><a href="#HDate">HDate</a></dt>
+<dd><p>Class representing a Hebrew date</p>
+</dd>
+<dt><a href="#Location">Location</a></dt>
+<dd><p>Class representing Location</p>
+</dd>
+<dt><a href="#Sedra">Sedra</a></dt>
+<dd><p>Represents Parashah HaShavua for an entire Hebrew year</p>
+</dd>
+</dl>
 
 ## Functions
 
@@ -9,6 +24,9 @@ Hebcal, a perpetual Jewish Calendar (ES6)
 </dd>
 <dt><a href="#getYahrzeit">getYahrzeit(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
 <dd><p>Calculates yahrzeit</p>
+</dd>
+<dt><a href="#candles">candles(hyear, holidays, location)</a></dt>
+<dd><p>Returns an array of holidays (either Israel or Diaspora) and candle-lighting times</p>
 </dd>
 <dt><a href="#LEAP">LEAP(x)</a> ⇒ <code>boolean</code></dt>
 <dd><p>Returns true if Hebrew year is a leap year</p>
@@ -83,15 +101,8 @@ Gregorian date Sunday, December 31, 1 BC.</p>
 <dt><a href="#getHolidaysOnDate">getHolidaysOnDate(date)</a> ⇒ <code>Array.&lt;Event&gt;</code></dt>
 <dd><p>Returns an array of Events on this date (or undefined if no events)</p>
 </dd>
-<dt><a href="#get">get(hDate)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
-<dd><p>Returns the parsha (or parshiyot) read on Hebrew date</p>
-</dd>
-<dt><a href="#getString">getString(hDate)</a> ⇒ <code>string</code></dt>
-<dd><p>Looks up parsha for the date, then returns a (translated) string</p>
-</dd>
-<dt><a href="#isParsha">isParsha(hDate)</a> ⇒ <code>boolean</code></dt>
-<dd><p>Checks to see if this day would be a regular parasha HaShavua
-Torah reading or special holiday reading</p>
+<dt><a href="#getYahrzeit">getYahrzeit(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
+<dd><p>Calculates yahrzeit</p>
 </dd>
 </dl>
 
@@ -109,6 +120,24 @@ Torah reading or special holiday reading</p>
 </dd>
 </dl>
 
+<a name="HDate"></a>
+
+## HDate
+Class representing a Hebrew date
+
+**Kind**: global variable  
+<a name="Location"></a>
+
+## Location
+Class representing Location
+
+**Kind**: global variable  
+<a name="Sedra"></a>
+
+## Sedra
+Represents Parashah HaShavua for an entire Hebrew year
+
+**Kind**: global variable  
 <a name="getBirthdayOrAnniversary"></a>
 
 ## getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
@@ -132,6 +161,19 @@ Calculates yahrzeit
 | --- | --- | --- |
 | hyear | <code>number</code> | Hebrew year |
 | gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
+
+<a name="candles"></a>
+
+## candles(hyear, holidays, location)
+Returns an array of holidays (either Israel or Diaspora) and candle-lighting times
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year (e.g. 5749) |
+| holidays | <code>Array.&lt;Event&gt;</code> | result of holidays.year() |
+| location | <code>Object</code> | including tzid |
 
 <a name="LEAP"></a>
 
@@ -378,39 +420,17 @@ Returns an array of Events on this date (or undefined if no events)
 | --- | --- | --- |
 | date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
 
-<a name="get"></a>
+<a name="getYahrzeit"></a>
 
-## get(hDate) ⇒ <code>Array.&lt;string&gt;</code>
-Returns the parsha (or parshiyot) read on Hebrew date
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
-
-<a name="getString"></a>
-
-## getString(hDate) ⇒ <code>string</code>
-Looks up parsha for the date, then returns a (translated) string
+## getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+Calculates yahrzeit
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
-
-<a name="isParsha"></a>
-
-## isParsha(hDate) ⇒ <code>boolean</code>
-Checks to see if this day would be a regular parasha HaShavua
-Torah reading or special holiday reading
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
+| hyear | <code>number</code> | Hebrew year |
+| gdate | <code>Date</code> | Gregorian date of death |
 
 <a name="DafYomiResult"></a>
 
@@ -449,7 +469,7 @@ Options to configure which events are returned
 
 | Name | Type | Description |
 | --- | --- | --- |
-| location | <code>Location</code> | latitude/longitude/tzid used for candle-lighting |
+| location | [<code>Location</code>](#Location) | latitude/longitude/tzid used for candle-lighting |
 | year | <code>number</code> | Gregorian or Hebrew year |
 | isHebrewYear | <code>boolean</code> | to interpret year as Hebrew year |
 | month | <code>number</code> | Gregorian or Hebrew month (to filter results to a single month) |
