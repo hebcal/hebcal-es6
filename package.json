@@ -16,17 +16,18 @@
     "url": "https://github.com/mjradwin/hebcal-es6/issues"
   },
   "dependencies": {
+    "core-js": "^2.6.11",
     "gematriya": "^2.0.0",
     "suncalc": "^1.8.0",
     "ttag": "^1.7.22"
   },
   "scripts": {
-    "build:babel": "babel src --presets babel-preset-env --out-dir dist",
+    "build:babel": "babel src --out-dir dist",
     "build:cp-json": "mkdir -p ./dist && cp ./src/*.json ./dist",
     "build": "npm run po2json && npm run build:babel && npm run build:cp-json",
     "prepublish": "npm run build",
     "po2json": "mkdir -p dist && for infile in ./po/*.po; do outfile=`basename -s .po $infile`; echo $outfile; npx ttag po2json $infile > dist/$outfile.po.json; done && exit 0",
-    "readme": "jsdoc2md src/*.js",
+    "readme": "npx jsdoc2md dist/*.js",
     "typedef": "jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
     "test": "ava"
   },
@@ -35,16 +36,14 @@
     "files": [
       "dist/**/*.spec.js"
     ],
-    "require": [
-      "babel-register"
-    ],
     "inherit": true,
     "verbose": true
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
     "ava": "^3.8.2",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "jsdoc": "^3.6.4",
     "jsdoc-to-markdown": "^5.0.3",
     "tsd-jsdoc": "^2.5.0",
