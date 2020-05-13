@@ -29,10 +29,10 @@ conjunction of Tishrei in Hebrew YEAR</p>
 <dt><a href="#daysInYear">daysInYear(year)</a> ⇒ <code>number</code></dt>
 <dd><p>Number of days in the hebrew YEAR</p>
 </dd>
-<dt><a href="#lngChesh">lngChesh(year)</a></dt>
+<dt><a href="#longCheshvan">longCheshvan(year)</a></dt>
 <dd><p>true if Cheshvan is long in Hebrew YEAR</p>
 </dd>
-<dt><a href="#shrtKis">shrtKis(year)</a></dt>
+<dt><a href="#shortKislev">shortKislev(year)</a></dt>
 <dd><p>true if Kislev is short in Hebrew YEAR</p>
 </dd>
 <dt><a href="#dayOnOrBefore">dayOnOrBefore(day_of_week, absdate)</a></dt>
@@ -74,12 +74,14 @@ Gregorian date Sunday, December 31, 1 BC.</p>
 <dt><a href="#abs2hebrew">abs2hebrew(d)</a> ⇒ <code><a href="#SimpleHebrewDate">SimpleHebrewDate</a></code></dt>
 <dd><p>Converts Julian days to Hebrew date to absolute Julian days</p>
 </dd>
-<dt><a href="#candleLightingEvents">candleLightingEvents(holidaysYear, location, startAbs, endAbs)</a></dt>
-<dd><p>Returns an array of candle-lighting times and Havdalah times
-for both Shabbat and holidays (based on Israel or Diaspora schedule)</p>
-</dd>
 <dt><a href="#hebcalEvents">hebcalEvents(options)</a></dt>
 <dd><p>Generates a list of holidays</p>
+</dd>
+<dt><a href="#getHolidaysForYear">getHolidaysForYear(year)</a> ⇒ <code>Array.&lt;Array.&lt;Event&gt;&gt;</code></dt>
+<dd><p>Returns an array of Event[] indexed by HDate</p>
+</dd>
+<dt><a href="#getHolidaysOnDate">getHolidaysOnDate(date)</a> ⇒ <code>Array.&lt;Event&gt;</code></dt>
+<dd><p>Returns an array of Events on this date (or undefined if no events)</p>
 </dd>
 <dt><a href="#get">get(hDate)</a> ⇒ <code>Array.&lt;string&gt;</code></dt>
 <dd><p>Returns the parsha (or parshiyot) read on Hebrew date</p>
@@ -199,9 +201,9 @@ Number of days in the hebrew YEAR
 | --- | --- | --- |
 | year | <code>number</code> | Hebrew year |
 
-<a name="lngChesh"></a>
+<a name="longCheshvan"></a>
 
-## lngChesh(year)
+## longCheshvan(year)
 true if Cheshvan is long in Hebrew YEAR
 
 **Kind**: global function  
@@ -210,9 +212,9 @@ true if Cheshvan is long in Hebrew YEAR
 | --- | --- | --- |
 | year | <code>number</code> | Hebrew year |
 
-<a name="shrtKis"></a>
+<a name="shortKislev"></a>
 
-## shrtKis(year)
+## shortKislev(year)
 true if Kislev is short in Hebrew YEAR
 
 **Kind**: global function  
@@ -343,21 +345,6 @@ Converts Julian days to Hebrew date to absolute Julian days
 | --- | --- | --- |
 | d | <code>number</code> | absolute Julian days |
 
-<a name="candleLightingEvents"></a>
-
-## candleLightingEvents(holidaysYear, location, startAbs, endAbs)
-Returns an array of candle-lighting times and Havdalah times
-for both Shabbat and holidays (based on Israel or Diaspora schedule)
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| holidaysYear | <code>Array.&lt;Event&gt;</code> | result of holidays.year() |
-| location | <code>Object</code> | including tzid |
-| startAbs | <code>number</code> | start absolute day number |
-| endAbs | <code>number</code> | end absolute day number |
-
 <a name="hebcalEvents"></a>
 
 ## hebcalEvents(options)
@@ -369,6 +356,28 @@ Generates a list of holidays
 | --- | --- |
 | options | [<code>HebcalOptions</code>](#HebcalOptions) | 
 
+<a name="getHolidaysForYear"></a>
+
+## getHolidaysForYear(year) ⇒ <code>Array.&lt;Array.&lt;Event&gt;&gt;</code>
+Returns an array of Event[] indexed by HDate
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="getHolidaysOnDate"></a>
+
+## getHolidaysOnDate(date) ⇒ <code>Array.&lt;Event&gt;</code>
+Returns an array of Events on this date (or undefined if no events)
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
+
 <a name="get"></a>
 
 ## get(hDate) ⇒ <code>Array.&lt;string&gt;</code>
@@ -378,7 +387,7 @@ Returns the parsha (or parshiyot) read on Hebrew date
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) | Hebrew date |
+| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
 
 <a name="getString"></a>
 
@@ -389,7 +398,7 @@ Looks up parsha for the date, then returns a (translated) string
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) | Hebrew date |
+| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
 
 <a name="isParsha"></a>
 
@@ -401,7 +410,7 @@ Torah reading or special holiday reading
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) | Hebrew date |
+| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
 
 <a name="DafYomiResult"></a>
 
@@ -440,7 +449,7 @@ Options to configure which events are returned
 
 | Name | Type | Description |
 | --- | --- | --- |
-| location | <code>Location</code> | location.il used for Israel vs. Diaspora holidays, latitude/longitude/tzid used for candle-lighting |
+| location | <code>Location</code> | latitude/longitude/tzid used for candle-lighting |
 | year | <code>number</code> | Gregorian or Hebrew year |
 | isHebrewYear | <code>boolean</code> | to interpret year as Hebrew year |
 | month | <code>number</code> | Gregorian or Hebrew month (to filter results to a single month) |
@@ -448,6 +457,8 @@ Options to configure which events are returned
 | candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
 | havdalahMins | <code>number</code> | minutes after sundown for Havdalah (default 50) |
 | sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
+| il | <code>boolean</code> | Israeli holiday and sedra schedule |
+| noMinorFast | <code>boolean</code> | suppress minor fasts |
 | noModern | <code>boolean</code> | suppress modern holidays |
 | noRoshChodesh | <code>boolean</code> | suppress Rosh Chodesh & Shabbat Mevarchim |
 | noSpecialShabbat | <code>boolean</code> | suppress Special Shabbat |
