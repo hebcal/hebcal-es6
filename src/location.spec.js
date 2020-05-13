@@ -23,3 +23,27 @@ test('sunset', t => {
         t.is(time, expected);
     }
 });
+
+test('zmanim', t => {
+    const loc = new Location(41.85003, -87.65005, false, "America/Chicago");
+    const dt = new HDate(new Date(Date.UTC(2020, 5, 5, 12))); // Friday June 5 2020
+    const f = new Intl.DateTimeFormat('en-US', {
+        timeZone: loc.tzid,
+        hour: 'numeric',
+        minute: 'numeric'
+    });
+
+    t.is(f.format(loc.chatzot(dt)), "12:50 PM");
+    t.is(f.format(loc.chatzot_night(dt)), "12:50 AM");
+    t.is(f.format(loc.alot_hashachar(dt)), "3:26 AM");
+    t.is(f.format(loc.misheyakir(dt)), "4:04 AM");
+    t.is(f.format(loc.misheyakir_machmir(dt)), "4:14 AM");
+    t.is(f.format(loc.sof_zman_shma(dt)), "9:04 AM");
+    t.is(f.format(loc.sof_zman_tfilla(dt)), "10:19 AM");
+    t.is(f.format(loc.mincha_gedola(dt)), "1:28 PM");
+    t.is(f.format(loc.mincha_ketana(dt)), "5:14 PM");
+    t.is(f.format(loc.plag_hamincha(dt)), "6:49 PM");
+    t.is(f.format(loc.tzeit(dt)), "9:14 PM");
+    t.is(f.format(loc.neitz_hachama(dt)), "5:17 AM");
+    t.is(f.format(loc.shkiah(dt)), "8:23 PM");
+});

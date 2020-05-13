@@ -48,6 +48,11 @@ export default class Location {
     this.geoid = geoid;
   }
 
+  static newFromCity(city) {
+    return new Location(city.latitude, city.longitude, city.cc == 'IL',
+      city.tzid, city.name, city.cc, city.geoid);
+  }
+
   suntime(hdate) {
     // reset the date to midday before calling suncalc api
     // https://github.com/mourner/suncalc/issues/11
@@ -90,60 +95,63 @@ export default class Location {
     return this.nightHour(hdate) / (1000 * 60);
   }
 
-  static newFromCity(city) {
-    return new Location(city.latitude, city.longitude, city.cc == 'IL',
-      city.tzid, city.name, city.cc, city.geoid);
+  hourOffset(hdate, hours) {
+    return new Date(this.sunrise(hdate).getTime() + (this.hour(hdate) * hours));
+  }
+
+  chatzot(hdate) {
+    return this.hourOffset(hdate, 6);
+  }
+
+  chatzot_night(hdate) {
+      return new Date(this.sunrise(hdate).getTime() - (this.nightHour(hdate) * 6));
+  }
+
+  alot_hashachar(hdate) {
+      return this.suntime(hdate).alot_hashachar;
+  }
+
+  alot_hashacher(hdate) {
+      return this.suntime(hdate).alot_hashachar;
+  }
+
+  misheyakir(hdate) {
+      return this.suntime(hdate).misheyakir;
+  }
+
+  misheyakir_machmir(hdate) {
+      return this.suntime(hdate).misheyakir_machmir;
+  }
+
+  sof_zman_shma(hdate) { // Gra
+      return this.hourOffset(hdate, 3);
+  }
+
+  sof_zman_tfilla(hdate) { // Gra
+      return this.hourOffset(hdate, 4);
+  }
+
+  mincha_gedola(hdate) {
+      return this.hourOffset(hdate, 6.5);
+  }
+
+  mincha_ketana(hdate) {
+      return this.hourOffset(hdate, 9.5);
+  }
+
+  plag_hamincha(hdate) {
+      return this.hourOffset(hdate, 10.75);
+  }
+
+  tzeit(hdate) {
+      return this.suntime(hdate).tzeit;
+  }
+
+  neitz_hachama(hdate) {
+      return this.sunrise(hdate);
+  }
+
+  shkiah(hdate) {
+      return this.sunset(hdate);
   }
 }
-
-/*
-function hourOffset(hdate, hours) {
-    return new Date(hdate.sunrise()[getTime]() + (hdate[hour]() * hours));
-}
-
-const zemanim = {
-    chatzot(hdate) {
-        return hourOffset(hdate, 6);
-    },
-    chatzot_night(hdate) {
-        return new Date(hdate.sunrise().getTime() - (hdate.nightHour() * 6));
-    },
-    alot_hashachar(hdate) {
-        return suntime(hdate).alot_hashachar;
-    },
-    alot_hashacher(hdate) {
-        return suntime(hdate).alot_hashachar;
-    },
-    misheyakir(hdate) {
-        return suntime(hdate).misheyakir;
-    },
-    misheyakir_machmir(hdate) {
-        return suntime(hdate).misheyakir_machmir;
-    },
-    sof_zman_shma(hdate) { // Gra
-        return hourOffset(hdate, 3);
-    },
-    sof_zman_tfilla(hdate) { // Gra
-        return hourOffset(hdate, 4);
-    },
-    mincha_gedola(hdate) {
-        return hourOffset(hdate, 6.5);
-    },
-    mincha_ketana(hdate) {
-        return hourOffset(hdate, 9.5);
-    },
-    plag_hamincha(hdate) {
-        return hourOffset(hdate, 10.75);
-    },
-    tzeit(hdate) {
-        return suntime(hdate).tzeit;
-    },
-    neitz_hachama(hdate) {
-        return hdate.sunrise();
-    },
-    shkiah(hdate) {
-        return hdate.sunset();
-    }
-};
-
-*/
