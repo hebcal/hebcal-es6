@@ -27,11 +27,27 @@ import greg from './greg';
 import dafyomi from './dafyomi';
 import { getBirthdayOrAnniversary, getYahrzeit } from './anniversary';
 
+function formatTime(timeFormat, dt) {
+    const time = timeFormat.format(dt);
+    // Possibly convert from "5:45 PM" to "5:45"
+    const space = time.indexOf(' ');
+    if (space != -1) {
+        return time.substring(0, space);
+    }
+    return time;
+}
+
 function sunsetTime(hd, location, timeFormat, offset) {
     const sunset = location.sunset(hd);
     const dt = new Date(sunset.getTime() + (offset * 60 * 1000));
-    const time = timeFormat.format(dt);
-    return [dt, time.substring(0, time.indexOf(' '))];
+    const time = formatTime(timeFormat, dt);
+    return [dt, time];
+}
+
+function tzeitTime(hd, location, timeFormat) {
+    const dt = location.tzeit(hd);
+    const time = formatTime(timeFormat, dt);
+    return [dt, time];
 }
 
 function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
@@ -52,10 +68,12 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
         name = "Havdalah";
         offset = havdalahOffset;
     }
-    if (name === "Havdalah") {
+    if (name === "Havdalah" && havdalahOffset) {
         name = `Havdalah (${offset} min)`;
     }
-    const [eventTime, timeStr] = sunsetTime(hd, location, timeFormat, offset);
+    const [eventTime, timeStr] = offset ?
+        sunsetTime(hd, location, timeFormat, offset) :
+        tzeitTime(hd, location, timeFormat);
     const e2 = new Event(hd, gettext(name) + ": " + timeStr, mask);
     e2.eventTime = eventTime;
     if (typeof e !== 'undefined') {
@@ -82,10 +100,6 @@ function getCandleLightingMinutes(options) {
     return -1 * min;
 }
 
-function getHavdalahMinutes(options) {
-    return options.havdalahMins || 50;
-}
-
 /**
  * Options to configure which events are returned
  * @typedef {Object} HebcalOptions
@@ -95,7 +109,8 @@ function getHavdalahMinutes(options) {
  * @property {number} month - Gregorian or Hebrew month (to filter results to a single month)
  * @property {boolean} candlelighting - calculate candle-lighting and havdalah times
  * @property {number} candleLightingMins - minutes before sundown to light candles (default 18)
- * @property {number} havdalahMins - minutes after sundown for Havdalah (default 50)
+ * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
+ * @property {boolean} havdalahTzeit - calculate Havdalah according to Tzeit Hakochavim - Nightfall (the point when 3 small stars are observable in the night time sky with the naked eye). Defaults to `true` unless havdalahMins is specified
  * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
  * @property {boolean} il - Israeli holiday and sedra schedule
  * @property {boolean} noMinorFast - suppress minor fasts
@@ -107,6 +122,7 @@ function getHavdalahMinutes(options) {
  * @property {boolean} omer - include Days of the Omer
  * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
  * @property {string} locale - translate event titles according to a locale (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`, `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
+ * @property {boolean} hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
  */
 
  /* Parse options object to determine start & end days */
@@ -224,13 +240,14 @@ export function hebcalEvents(options) {
     const il = options.il || location.il || false;
     const timeFormat = new Intl.DateTimeFormat('en-US', {
         timeZone: location.tzid,
+        hour12: Boolean(options.hour12),
         hour: 'numeric',
         minute: 'numeric'
     });
     const [startDate, startAbs, endDate, endAbs] = getStartAndEnd(options);
     let currentYear = startDate.getFullYear();
     const candleLightingMinutes = getCandleLightingMinutes(options);
-    const havdalahMinutes = getHavdalahMinutes(options);
+    const havdalahMinutes = options.havdalahMins;
     const mask = getMaskFromOptions(options);
     const MASK_LIGHT_CANDLES =
         flags.LIGHT_CANDLES |
