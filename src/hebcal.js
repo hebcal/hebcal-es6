@@ -18,19 +18,20 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import { t, gettext } from 'ttag';
+import { t, gettext, addLocale, useLocale } from 'ttag';
 import common from './common';
 import { HDate, hebrew2abs } from './hdate';
 import holidays, { Event, flags } from './holidays';
 import Sedra from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
+import { getBirthdayOrAnniversary, getYahrzeit } from './anniversary';
 
 function sunsetTime(hd, location, timeFormat, offset) {
     const sunset = location.sunset(hd);
     const dt = new Date(sunset.getTime() + (offset * 60 * 1000));
     const time = timeFormat.format(dt);
-    return [dt, time];
+    return [dt, time.substring(0, time.indexOf(' '))];
 }
 
 function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
@@ -55,8 +56,11 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
         name = `Havdalah (${offset} min)`;
     }
     const [eventTime, timeStr] = sunsetTime(hd, location, timeFormat, offset);
-    let e2 = new Event(hd, `${name}: ${timeStr}`, mask);
+    const e2 = new Event(hd, gettext(name) + ": " + timeStr, mask);
     e2.eventTime = eventTime;
+    if (typeof e !== 'undefined') {
+        e2.linkedEvent = e;
+    }
     return e2;
 }
 
@@ -101,6 +105,8 @@ function getHavdalahMinutes(options) {
  * @property {boolean} noHolidays - suppress regular holidays
  * @property {boolean} dafyomi - include Daf Yomi
  * @property {boolean} omer - include Days of the Omer
+ * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
+ * @property {string} locale - translate event titles according to a locale (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`, `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
  */
 
  /* Parse options object to determine start & end days */
@@ -233,6 +239,12 @@ export function hebcalEvents(options) {
         flags.YOM_TOV_ENDS;
     let sedra = options.sedrot ? new Sedra(currentYear, il) : undefined;
     const [beginOmer,endOmer] = getOmerStartAndEnd(options, currentYear);
+    if (options.ashkenazi || options.locale) {
+        const locale = options.ashkenazi ? "ashkenazi" : options.locale;
+        const translationObj = require(`./${locale}.po.json`);
+        addLocale(locale, translationObj); // adding locale to ttag
+        useLocale(locale); // make locale active
+    }
     let events = [];
     for (let abs = startAbs; abs <= endAbs; abs++) {
         const hd = new HDate(abs);
@@ -286,5 +298,9 @@ export function hebcalEvents(options) {
 }
 
 export default {
-    hebcalEvents
+    hebcalEvents,
+    getBirthdayOrAnniversary,
+    getYahrzeit,
+    HDate,
+    Event,
 };

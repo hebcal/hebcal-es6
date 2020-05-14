@@ -291,7 +291,7 @@ export function getHolidaysForYear(year) {
 
   for (let month = 1; month <= c.MONTH_CNT(year); month++) {
     const monthName = c.monthNames[+c.LEAP(year)][month];
-    const desc = `Rosh Chodesh ${monthName}`;
+    const desc = gettext("Rosh Chodesh") + " " + gettext(monthName);
     if (
       (month == NISAN
         ? c.daysInMonth(c.MONTH_CNT(year - 1), year - 1)
@@ -310,7 +310,8 @@ export function getHolidaysForYear(year) {
     // TODO: fix for year overrun
     const nextMonthName = c.monthNames[+c.LEAP(year)][month+1];
     add(new Event(new HDate(29, month, year).onOrBefore(SAT),
-        `Shabbat Mevarchim Chodesh ${nextMonthName}`, SHABBAT_MEVARCHIM));
+        gettext("Shabbat Mevarchim Chodesh") + " " + gettext(nextMonthName),
+        SHABBAT_MEVARCHIM));
   }
 
   __cache.set(year, h);

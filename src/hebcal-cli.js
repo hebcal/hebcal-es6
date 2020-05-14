@@ -7,6 +7,7 @@ const loc = Location.newFromCity(cities.getCity("San Francisco"));
 //const loc = Location.newFromCity(cities.getCity("Jerusalem"));
 const options = {
     location: loc,
+    locale: "ru",
     year: 2020,
     il: true,  // force IL scheme even though we're in Diaspora
 /*
@@ -19,9 +20,9 @@ const options = {
     noModern: false,
     noMinorFast: false,
     noRoshChodesh: false,
-    noSpecialShabbat: true,
+    noSpecialShabbat: false,
     noHolidays: false,
-    dafyomi: false,
+    dafyomi: true,
     omer: true,
 };
 

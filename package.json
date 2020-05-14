@@ -18,11 +18,12 @@
   "dependencies": {
     "core-js": "^2.6.11",
     "gematriya": "^2.0.0",
+    "source-map-support": "^0.5.19",
     "suncalc": "^1.8.0",
     "ttag": "^1.7.22"
   },
   "scripts": {
-    "build:babel": "babel src --out-dir dist",
+    "build:babel": "babel src --out-dir dist --source-maps",
     "build:cp-json": "mkdir -p ./dist && cp ./src/*.json ./dist",
     "build": "npm run po2json && npm run build:babel && npm run build:cp-json",
     "prepublish": "npm run build",
