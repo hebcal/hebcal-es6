@@ -22,8 +22,6 @@ import c, { months, days } from "./common";
 import HDate from "./hdate";
 import { gettext } from 'ttag';
 
-let __cache = {};
-
 // for byte optimizations
 const TISHREI = months.TISHREI;
 const KISLEV = months.KISLEV;
@@ -98,14 +96,17 @@ export class Event {
   }
 }
 
+const __cache = new Map();
+
 /**
  * Returns an array of Event[] indexed by HDate
  * @param {number} year Hebrew year
  * @returns {Event[][]}
  */
 export function getHolidaysForYear(year) {
-  if (__cache[year]) {
-    return __cache[year];
+  const cached = __cache.get(year);
+  if (cached) {
+    return cached;
   }
 
   const RH = new HDate(1, TISHREI, year);
@@ -312,7 +313,8 @@ export function getHolidaysForYear(year) {
         `Shabbat Mevarchim Chodesh ${nextMonthName}`, SHABBAT_MEVARCHIM));
   }
 
-  return (__cache[year] = h);
+  __cache.set(year, h);
+  return h;
 }
 
 function atzmaut(year) {
