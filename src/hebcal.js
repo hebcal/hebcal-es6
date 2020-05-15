@@ -25,6 +25,7 @@ import holidays, { Event, flags } from './holidays';
 import Sedra from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
+import Location from './location';
 import { getBirthdayOrAnniversary, getYahrzeit } from './anniversary';
 
 function formatTime(timeFormat, dt) {
@@ -89,6 +90,9 @@ function getOrdinal(n) {
 }
 
 function getCandleLightingMinutes(options) {
+    if (!options.candlelighting) {
+        return undefined;
+    }
     const location = options.location || {};
     let min = 18;
     if (location.il && typeof location.name !== 'undefined' && location.name === 'Jerusalem') {
@@ -147,7 +151,7 @@ function getStartAndEnd(options) {
         options.month ? startDate.abs() + greg.daysInMonth(theMonth + 1, theYear) : greg.greg2abs(new Date(theYear + 1, 0, 1)) - 1
         );
     const endDate = new HDate(endAbs);
-    console.debug(`year=${theYear}, month=${theMonth}, isHebrewYear=${isHebrewYear}, startAbs=${startAbs}, endAbs=${endAbs}`);
+//    console.debug(`year=${theYear}, month=${theMonth}, isHebrewYear=${isHebrewYear}, startAbs=${startAbs}, endAbs=${endAbs}`);
 
     return [startDate, startAbs, endDate, endAbs];
 }
@@ -175,7 +179,10 @@ function getMaskFromOptions(options) {
                 flags.SPECIAL_SHABBAT |
                 flags.SHABBAT_MEVARCHIM |
                 flags.MODERN_HOLIDAY |
-                flags.MAJOR_FAST;
+                flags.MAJOR_FAST |
+                flags.LIGHT_CANDLES |
+                flags.LIGHT_CANDLES_TZEIS |
+                flags.CHANUKAH_CANDLES;
     }
 
     // suppression of defaults
@@ -203,10 +210,6 @@ function getMaskFromOptions(options) {
     }
 
     // non-default options
-    if (options.candlelighting) {
-        mask |= flags.LIGHT_CANDLES | flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES;
-    }
-
     if (options.sedrot) {
         mask |= flags.PARSHA_HASHAVUA;
     }
@@ -236,7 +239,10 @@ function getMaskFromOptions(options) {
  * @param {HebcalOptions} options
  */
 export function hebcalEvents(options) {
-    const location = options.location || { tzid: "UTC", il: false };
+    if (options.candlelighting && (typeof options.location === 'undefined' || !options.location instanceof Location)) {
+        throw new TypeError("Candle-lighting requires location");
+    }
+    const location = options.location || new Location(0, 0, false);
     const il = options.il || location.il || false;
     const timeFormat = new Intl.DateTimeFormat('en-US', {
         timeZone: location.tzid,
@@ -271,6 +277,7 @@ export function hebcalEvents(options) {
         if (typeof ev !== 'undefined') {
             for (const e of ev) {
                 const eFlags = e.getFlags();
+//                console.debug(e);
                 if ((!eFlags || (eFlags & mask)) &&
                     ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
                     events.push(e);
@@ -293,7 +300,7 @@ export function hebcalEvents(options) {
                 events.push(new Event(hd, parshaStr, flags.PARSHA_HASHAVUA));
             }
         }
-        if (!candlesToday && (dow == 5 || dow == 6)) { // Friday or Saturday
+        if (options.candlelighting && !candlesToday && (dow == 5 || dow == 6)) { // Friday or Saturday
             const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
             events.push(e2);
         }
@@ -314,10 +321,10 @@ export function hebcalEvents(options) {
     return events;
 }
 
+export { HDate } from './hdate';
+export { Event, flags } from './holidays';
+export { getBirthdayOrAnniversary, getYahrzeit } from './anniversary';
+
 export default {
-    hebcalEvents,
-    getBirthdayOrAnniversary,
-    getYahrzeit,
-    HDate,
-    Event,
+    hebcalEvents
 };
