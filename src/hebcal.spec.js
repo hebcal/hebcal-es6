@@ -1,5 +1,6 @@
 import test from 'ava';
-import hebcal from './hebcal';
+import hebcal, { flags } from './hebcal';
+import Location from './location';
 
 test('hebcal-heb-month', t => {
     const options = {
@@ -65,4 +66,30 @@ test('hebcal-no-options', t => {
     const events = hebcal.hebcalEvents({});
     t.is(events[0].getDate().greg().getFullYear(), now.getFullYear());
     t.is(events[events.length - 1].getDate().greg().getFullYear(), now.getFullYear());
+});
+
+test('hebcal-no-holidays', t => {
+    const events = hebcal.hebcalEvents({ noHolidays: true });
+    t.is(events.length, 0);
+});
+
+test('hebcal-sedrot-only', t => {
+    const options = { year: 1993, noHolidays: true, sedrot: true, il: true };
+    const events = hebcal.hebcalEvents(options);
+    t.is(events.length, 49);
+    t.is(events[0].getFlags(), flags.PARSHA_HASHAVUA);
+    t.is(events[48].getFlags(), flags.PARSHA_HASHAVUA);
+});
+
+test('hebcal-candles-only', t => {
+    const options = {
+        year: 1993,
+        noHolidays: true,
+        location: new Location(41.85003, -87.65005, false, "America/Chicago"),
+        candlelighting: true
+    };
+    const events = hebcal.hebcalEvents(options);
+    t.is(events.length, 105);
+    t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
+    t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
 });

@@ -273,7 +273,7 @@ export function hebcalEvents(options) {
         const hd = new HDate(abs);
         const dow = abs % 7;
         let candlesToday = false;
-        const ev = holidays.getHolidaysOnDate(hd);
+        const ev = options.noHolidays ? undefined : holidays.getHolidaysOnDate(hd);
         if (typeof ev !== 'undefined') {
             for (const e of ev) {
                 const eFlags = e.getFlags();
