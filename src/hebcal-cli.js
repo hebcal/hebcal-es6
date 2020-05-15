@@ -3,18 +3,18 @@ import Location from './location';
 import hebcal from './hebcal';
 
 cities.init();
-//const loc = Location.newFromCity(cities.getCity("San Francisco"));
-const loc = Location.newFromCity(cities.getCity("Melbourne"));
+const loc = Location.newFromCity(cities.getCity("San Francisco"));
+//const loc = Location.newFromCity(cities.getCity("Melbourne"));
 //const loc = Location.newFromCity(cities.getCity("Jerusalem"));
-const options = {
+const options0 = {
     location: loc,
     hour12: false,
     locale: "ashkenazi",
-    year: 2020,
+    year: 5749,
+    isHebrewYear: true,
 //    il: true,  // force IL scheme even though we're in Diaspora
 /*
     year: 5780,
-    isHebrewYear: true,
     month: "Iyyar",
 */
     candlelighting: true,
@@ -26,6 +26,14 @@ const options = {
     noHolidays: false,
     dafyomi: false,
     omer: true,
+};
+
+const options = {
+    year: 1975,
+    isHebrewYear: false,
+    month: 6,
+    noHolidays: true,
+    dafyomi: true
 };
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {

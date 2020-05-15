@@ -138,22 +138,22 @@ function getStartAndEnd(options) {
         if (isHebrewYear) {
             theMonth = common.monthNum(options.month);
         } else {
-            theMonth = +options.month - 1; // switch from 1-based to 0-based greg months
+            theMonth = options.month;
         }
     }
-    const startDate = isHebrewYear ?
-        new HDate(1, theMonth || common.months.TISHREI, theYear) : new HDate(greg.greg2abs(new Date(theYear, theMonth || 0, 1)));
-    const startAbs = startDate.abs();
-    const endAbs = isHebrewYear ? (
-        options.month ? startDate.abs() + startDate.daysInMonth() : new HDate(1, common.months.TISHREI, theYear + 1).abs() - 1
-    ) : (
-        // Gregorian
-        options.month ? startDate.abs() + greg.daysInMonth(theMonth + 1, theYear) : greg.greg2abs(new Date(theYear + 1, 0, 1)) - 1
-        );
-    const endDate = new HDate(endAbs);
-//    console.debug(`year=${theYear}, month=${theMonth}, isHebrewYear=${isHebrewYear}, startAbs=${startAbs}, endAbs=${endAbs}`);
-
-    return [startDate, startAbs, endDate, endAbs];
+    if (isHebrewYear) {
+        const startDate = new HDate(1, theMonth || common.months.TISHREI, theYear);
+        const startAbs = startDate.abs();
+        const endAbs = options.month ? startAbs + startDate.daysInMonth() : new HDate(1, common.months.TISHREI, theYear + 1).abs() - 1;
+        return [startDate, startAbs, new HDate(endAbs), endAbs];
+    } else {
+        const gregMonth = options.month ? theMonth - 1 : 0;
+        const startGreg = new Date(theYear, gregMonth, 1);
+        const startAbs = greg.greg2abs(startGreg);
+        const endAbs = options.month ? startAbs + greg.daysInMonth(theMonth, theYear) - 1 : greg.greg2abs(new Date(theYear + 1, 0, 1)) - 1;
+        const startDate = new HDate(startAbs);
+        return [startDate, startAbs, new HDate(endAbs), endAbs];
+    }
 }
 
 function getOmerStartAndEnd(options, hyear) {
@@ -251,6 +251,7 @@ export function hebcalEvents(options) {
         minute: 'numeric'
     });
     const [startDate, startAbs, endDate, endAbs] = getStartAndEnd(options);
+//    console.log(`start=${startDate} (abs=${startAbs},greg=${startDate.greg()}) end=${endDate} (abs=${endAbs},greg=${endDate.greg()})`);
     let currentYear = startDate.getFullYear();
     const candleLightingMinutes = getCandleLightingMinutes(options);
     const havdalahMinutes = options.havdalahMins;
@@ -261,7 +262,7 @@ export function hebcalEvents(options) {
         flags.CHANUKAH_CANDLES |
         flags.YOM_TOV_ENDS;
     let sedra = options.sedrot ? new Sedra(currentYear, il) : undefined;
-    const [beginOmer,endOmer] = getOmerStartAndEnd(options, currentYear);
+    let [beginOmer, endOmer] = getOmerStartAndEnd(options, currentYear);
     if (options.ashkenazi || options.locale) {
         const locale = options.ashkenazi ? "ashkenazi" : options.locale;
         const translationObj = require(`./${locale}.po.json`);
@@ -273,14 +274,16 @@ export function hebcalEvents(options) {
         const hd = new HDate(abs);
         const dow = abs % 7;
         let candlesToday = false;
-        const ev = options.noHolidays ? undefined : holidays.getHolidaysOnDate(hd);
+        const ev = holidays.getHolidaysOnDate(hd);
         if (typeof ev !== 'undefined') {
             for (const e of ev) {
                 const eFlags = e.getFlags();
 //                console.debug(e);
                 if ((!eFlags || (eFlags & mask)) &&
                     ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
-                    events.push(e);
+                    if (!options.noHolidays) {
+                        events.push(e);
+                    }
                     if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
                         const e2 = candleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
                         events.push(e2);
@@ -289,12 +292,17 @@ export function hebcalEvents(options) {
                 }
             }
         }
-        if (options.sedrot && dow == 6) { // Saturday
-            const hyear = hd.getFullYear();
-            if (hyear != currentYear && options.sedrot) {
-                currentYear = hyear;
+        const hyear = hd.getFullYear();
+        if (hyear != currentYear) {
+            currentYear = hyear;
+            if (options.sedrot) {
                 sedra = new Sedra(currentYear, il);
             }
+            if (options.omer) {
+                [beginOmer, endOmer] = getOmerStartAndEnd(options, currentYear);
+            }
+        }
+        if (options.sedrot && dow == 6) { // Saturday
             if (sedra.isParsha(abs)) {
                 const parshaStr = sedra.getString(abs);
                 events.push(new Event(hd, parshaStr, flags.PARSHA_HASHAVUA));

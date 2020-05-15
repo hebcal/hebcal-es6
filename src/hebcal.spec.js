@@ -2,7 +2,7 @@ import test from 'ava';
 import hebcal, { flags } from './hebcal';
 import Location from './location';
 
-test('hebcal-heb-month', t => {
+test('heb-month', t => {
     const options = {
         year: 5780,
         isHebrewYear: true,
@@ -16,11 +16,11 @@ test('hebcal-heb-month', t => {
     t.is(events[4].getDate().greg().toLocaleDateString("en-US"), "5/12/2020");
 });
 
-test('hebcal-greg-month', t => {
+test('greg-month', t => {
     const options = {
         year: 2017,
         isHebrewYear: false,
-        month: 3,    
+        month: 3,
     };
     const events = hebcal.hebcalEvents(options);
     t.is(events.length, 9);
@@ -30,7 +30,7 @@ test('hebcal-greg-month', t => {
     t.is(events[8].getDate().greg().toLocaleDateString("en-US"), "3/28/2017");
 });
 
-test('hebcal-greg-year', t => {
+test('greg-year', t => {
     const options = {
         year: 1993
     };
@@ -44,7 +44,7 @@ test('hebcal-greg-year', t => {
     t.is(events[92].getDate().greg().toLocaleDateString("en-US"), "12/24/1993");
 });
 
-test('hebcal-heb-year', t => {
+test('heb-year', t => {
     const options = {
         year: 5749,
         isHebrewYear: true,
@@ -61,19 +61,19 @@ test('hebcal-heb-year', t => {
     t.is(events[93].getDate().greg().toLocaleDateString("en-US"), "9/29/1989");
 });
 
-test('hebcal-no-options', t => {
+test('no-options', t => {
     const now = new Date();
     const events = hebcal.hebcalEvents({});
     t.is(events[0].getDate().greg().getFullYear(), now.getFullYear());
     t.is(events[events.length - 1].getDate().greg().getFullYear(), now.getFullYear());
 });
 
-test('hebcal-no-holidays', t => {
+test('no-holidays', t => {
     const events = hebcal.hebcalEvents({ noHolidays: true });
     t.is(events.length, 0);
 });
 
-test('hebcal-sedrot-only', t => {
+test('sedrot-only', t => {
     const options = { year: 1993, noHolidays: true, sedrot: true, il: true };
     const events = hebcal.hebcalEvents(options);
     t.is(events.length, 49);
@@ -81,7 +81,7 @@ test('hebcal-sedrot-only', t => {
     t.is(events[48].getFlags(), flags.PARSHA_HASHAVUA);
 });
 
-test('hebcal-candles-only', t => {
+test('candles-only', t => {
     const options = {
         year: 1993,
         noHolidays: true,
@@ -89,7 +89,39 @@ test('hebcal-candles-only', t => {
         candlelighting: true
     };
     const events = hebcal.hebcalEvents(options);
-    t.is(events.length, 105);
+    t.is(events.length, 113);
     t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
     t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
+});
+
+test('dafyomi-only', t => {
+    const options = {
+        year: 1975,
+        isHebrewYear: false,
+        month: 6,
+        noHolidays: true,
+        dafyomi: true
+    };
+    const events = hebcal.hebcalEvents(options);
+    t.is(events.length, 30);
+    t.is(events[0].getDate().greg().toLocaleDateString("en-US"), "6/1/1975");
+    t.is(events[0].getFlags(), flags.DAF_YOMI);
+    t.is(events[29].getDate().greg().toLocaleDateString("en-US"), "6/30/1975");
+    t.is(events[29].getFlags(), flags.DAF_YOMI);
+});
+
+test('omer-only', t => {
+    const options = {
+        year: 5728,
+        isHebrewYear: true,
+        month: "Iyyar",
+        noHolidays: true,
+        omer: true
+    };
+    const events = hebcal.hebcalEvents(options);
+    t.is(events.length, 30);
+    t.is(events[0].getDate().greg().toLocaleDateString("en-US"), "4/29/1968");
+    t.is(events[0].getFlags(), flags.OMER_COUNT);
+    t.is(events[29].getDate().greg().toLocaleDateString("en-US"), "5/28/1968");
+    t.is(events[29].getFlags(), flags.OMER_COUNT);
 });
