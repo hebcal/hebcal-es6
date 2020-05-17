@@ -115,6 +115,7 @@ function getCandleLightingMinutes(options) {
  * @property {number} year - Gregorian or Hebrew year
  * @property {boolean} isHebrewYear - to interpret year as Hebrew year
  * @property {number} month - Gregorian or Hebrew month (to filter results to a single month)
+ * @property {number} numYears - generate calendar for multiple years (default 1)
  * @property {boolean} candlelighting - calculate candle-lighting and havdalah times
  * @property {number} candleLightingMins - minutes before sundown to light candles (default 18)
  * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
@@ -149,13 +150,15 @@ function getStartAndEnd(options) {
     if (isHebrewYear) {
         const startDate = new HDate(1, theMonth || common.months.TISHREI, theYear);
         const startAbs = startDate.abs();
-        const endAbs = options.month ? startAbs + startDate.daysInMonth() : new HDate(1, common.months.TISHREI, theYear + 1).abs() - 1;
+        const numYears = Number(options.numYears) || 1;
+        const endAbs = options.month ? startAbs + startDate.daysInMonth() : new HDate(1, common.months.TISHREI, theYear + numYears).abs() - 1;
         return [startDate, startAbs, new HDate(endAbs), endAbs];
     } else {
         const gregMonth = options.month ? theMonth - 1 : 0;
         const startGreg = new Date(theYear, gregMonth, 1);
         const startAbs = greg.greg2abs(startGreg);
-        const endAbs = options.month ? startAbs + greg.daysInMonth(theMonth, theYear) - 1 : greg.greg2abs(new Date(theYear + 1, 0, 1)) - 1;
+        const numYears = Number(options.numYears) || 1;
+        const endAbs = options.month ? startAbs + greg.daysInMonth(theMonth, theYear) - 1 : greg.greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
         const startDate = new HDate(startAbs);
         return [startDate, startAbs, new HDate(endAbs), endAbs];
     }

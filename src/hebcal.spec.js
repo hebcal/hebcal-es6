@@ -138,3 +138,19 @@ test('molad-only', t => {
     t.is(events[0].getDesc().startsWith("Molad"), true);
     t.is(events[0].getFlags(), flags.MOLAD);
 });
+
+test('multi-year', t => {
+    const options = {
+        year: 1944,
+        isHebrewYear: false,
+        numYears: 7
+    };
+    const events = hebcal.hebcalEvents(options);
+    let numRoshHashanaII = 0;
+    for (const ev of events) {
+        if (ev.getDesc() == 'Rosh Hashana II') {
+            numRoshHashanaII++;
+        }
+    }
+    t.is(numRoshHashanaII, 7);
+});
