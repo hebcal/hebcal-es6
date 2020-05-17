@@ -78,22 +78,19 @@ test('birthday', t => {
       }
 });
 
-test('throws', t => {
-    const error = t.throws(() => {
-        anniversary.getYahrzeit(5769, new Date(2008, 10, 13));
-    }, {instanceOf: Error});
-    t.is(error.message, 'Hebrew year 5769 occurs on or before original date in 5769');
+test('before-original', t => {
+    let hd = anniversary.getYahrzeit(5769, new Date(2008, 10, 13));
+    t.is(hd, undefined, 'Hebrew year 5769 occurs on or before original date in 5769');
 
-    t.notThrows(() => {
-        anniversary.getYahrzeit(5770, new Date(2008, 10, 13));
-    });
+    hd = anniversary.getYahrzeit(5770, new Date(2008, 10, 13));
+    t.is(hd.getFullYear(), 5770);
 
-    const err2 = t.throws(() => {
-        anniversary.getBirthdayOrAnniversary(5778, new Date(2018, 11, 13));
-    }, {instanceOf: Error});
-    t.is(err2.message, 'Hebrew year 5778 occurs on or before original date in 5779');
+    hd = anniversary.getBirthdayOrAnniversary(5778, new Date(2018, 11, 13));
+    t.is(hd, undefined, 'Hebrew year 5778 occurs on or before original date in 5779');
 
-    t.notThrows(() => {
-        anniversary.getBirthdayOrAnniversary(5780, new Date(2018, 11, 13));
-    });
-  });
+    hd = anniversary.getBirthdayOrAnniversary(5779, new Date(2018, 11, 13));
+    t.is(hd, undefined, 'Hebrew year 5779 occurs on or before original date in 5779');
+
+    hd = anniversary.getBirthdayOrAnniversary(5780, new Date(2018, 11, 13));
+    t.is(hd.getFullYear(), 5780);
+});

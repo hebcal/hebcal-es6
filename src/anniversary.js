@@ -30,16 +30,18 @@ const ADAR_I = common.months.ADAR_I;
 const ADAR_II = common.months.ADAR_II;
 
 /**
- * Calculates a birthday or anniversary (non-yahrzeit)
+ * Calculates a birthday or anniversary (non-yahrzeit).
+ * Year must be after original date of anniversary.
+ * Returns undefined when requested year preceeds or is same as original year.
  * @param {number} hyear Hebrew year
  * @param {Date|HDate} gdate Gregorian or Hebrew date of event
- * @returns {HDate}
+ * @returns {HDate} anniversary occurring in hyear
  */
 export function getBirthdayOrAnniversary(hyear, gdate) {
     const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
     const origYear = orig.getFullYear();
     if (hyear <= origYear) {
-        throw new Error(`Hebrew year ${hyear} occurs on or before original date in ${origYear}`);
+        return undefined;  // `Hebrew year ${hyear} occurs on or before original date in ${origYear}`
     }
     const isOrigLeap = common.LEAP(origYear);
     let month = orig.getMonth();
@@ -81,10 +83,12 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
 }
 
 /**
- * Calculates yahrzeit
+ * Calculates yahrzeit.
+ * Year must be after original date of death.
+ * Returns undefined when requested year preceeds or is same as original year.
  * @param {number} hyear Hebrew year
  * @param {Date|HDate} gdate Gregorian or Hebrew date of death
- * @returns {HDate}
+ * @returns {HDate} anniversary occurring in hyear
  */
 export function getYahrzeit(hyear, gdate) {
     const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
@@ -94,7 +98,7 @@ export function getYahrzeit(hyear, gdate) {
         dd: orig.getDate()
     };
     if (hyear <= hDeath.yy) {
-        throw new Error(`Hebrew year ${hyear} occurs on or before original date in ${hDeath.yy}`);
+        return undefined // `Hebrew year ${hyear} occurs on or before original date in ${hDeath.yy}`
     }
 
     /* If it's Heshvan 30 it depends on the first anniversary; if
