@@ -48,6 +48,7 @@ const OMER_COUNT          = 4096;
 const MODERN_HOLIDAY      = 8192;
 const MAJOR_FAST          = 16384;
 const SHABBAT_MEVARCHIM   = 32768;
+const MOLAD               = 65536;
 
 export const flags = {
   USER_EVENT,
@@ -66,6 +67,7 @@ export const flags = {
   MODERN_HOLIDAY,
   MAJOR_FAST,
   SHABBAT_MEVARCHIM,
+  MOLAD,
 };
 
 export class Event {
@@ -307,8 +309,8 @@ export function getHolidaysForYear(year) {
       continue;
     }
 
-    // TODO: fix for year overrun
-    const nextMonthName = c.monthNames[+c.LEAP(year)][month+1];
+    // Don't worry about month overrun; common.monthNames[0][14] == "Nisan"
+    const nextMonthName = c.monthNames[Number(c.LEAP(year))][month + 1];
     add(new Event(new HDate(29, month, year).onOrBefore(SAT),
         gettext("Shabbat Mevarchim Chodesh") + " " + gettext(nextMonthName),
         SHABBAT_MEVARCHIM));

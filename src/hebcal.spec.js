@@ -125,3 +125,16 @@ test('omer-only', t => {
     t.is(events[29].getDate().greg().toLocaleDateString("en-US"), "5/28/1968");
     t.is(events[29].getFlags(), flags.OMER_COUNT);
 });
+
+test('molad-only', t => {
+    const options = {
+        year: 1975,
+        isHebrewYear: false,
+        noHolidays: true,
+        molad: true
+    };
+    const events = hebcal.hebcalEvents(options);
+    t.is(events.length, 12);
+    t.is(events[0].getDesc().startsWith("Molad"), true);
+    t.is(events[0].getFlags(), flags.MOLAD);
+});

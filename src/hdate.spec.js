@@ -1,5 +1,5 @@
 import test from 'ava';
-import HDate, { hebrew2abs, abs2hebrew } from './hdate';
+import HDate, { hebrew2abs, abs2hebrew, getMolad } from './hdate';
 import common from "./common";
 
 test('mdy', t => {
@@ -80,4 +80,29 @@ test('abs2hebrew', t => {
     t.is(h.yy, 5769);
     t.is(h.mm, common.months.CHESHVAN);
     t.is(h.dd, 15);
+});
+
+test('molad', t => {
+    const items = [
+        [common.months.CHESHVAN, 3, 14, 42, 14],
+        [common.months.KISLEV, 5, 3, 26, 15],
+        [common.months.TEVET, 6, 16, 10, 16],
+        [common.months.SHVAT, 1, 4, 54, 17],
+        [common.months.ADAR_I, 2, 17, 39, 0],
+        [common.months.NISAN, 4, 6, 23, 1],
+        [common.months.IYYAR, 5, 19, 7, 2],
+        [common.months.SIVAN, 0, 7, 51, 3],
+        [common.months.TAMUZ, 1, 20, 35, 4],
+        [common.months.AV, 3, 9, 19, 5],
+        [common.months.ELUL, 4, 22, 3, 6],
+    ];
+    const year = 5769;
+    for (const item of items) {
+        const [month, dow, hour, minutes, chalakim] = item;
+        const molad = getMolad(5769, month);
+        t.is(molad.dow, dow);
+        t.is(molad.hour, hour);
+        t.is(molad.minutes, minutes);
+        t.is(molad.chalakim, chalakim);
+    }
 });

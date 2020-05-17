@@ -66,7 +66,7 @@ export class HDate {
   }
 
   /**
-   * Gets the Hebrew year
+   * Gets the Hebrew year of this Hebrew date
    * @returns {number}
    */
   getFullYear() {
@@ -74,7 +74,7 @@ export class HDate {
   }
 
   /**
-   * Tests if this is a leap year
+   * Tests if this date occurs during a leap year
    * @returns {boolean}
    */
   isLeapYear() {
@@ -82,7 +82,7 @@ export class HDate {
   }
 
   /**
-   * Gets the Hebrew month (1=NISAN, 7=TISHREI)
+   * Gets the Hebrew month (1=NISAN, 7=TISHREI) of this Hebrew date
    * @returns {number}
    */
   getMonth() {
@@ -94,6 +94,10 @@ export class HDate {
     return (this.getMonth() + nummonths - 6) % nummonths || nummonths;
   }
 
+  /**
+   * Number of days in the month of this Hebrew date
+   * @returns {number}
+   */
   daysInMonth() {
     return c.daysInMonth(this.getMonth(), this.getFullYear());
   }
@@ -152,38 +156,80 @@ export class HDate {
     return hebrew2abs(this);
   }
 
+  /**
+   * Returns translated/transliterated Hebrew month name
+   * @returns {string}
+   */
   getMonthName() {
     return gettext(c.monthNames[+this.isLeapYear()][this.getMonth()]);
   }
 
+  /**
+   * 
+   * @param {number} day day of week
+   * @returns {HDate}
+   */
   before(day) {
     return onOrBefore(day, this, -1);
   }
 
+  /**
+   * 
+   * @param {number} day day of week
+   * @returns {HDate}
+   */
   onOrBefore(day) {
     return onOrBefore(day, this, 0);
   }
 
+  /**
+   * 
+   * @param {number} day day of week
+   * @returns {HDate}
+   */
   nearest(day) {
     return onOrBefore(day, this, 3);
   }
 
+  /**
+   * 
+   * @param {number} day day of week
+   * @returns {HDate}
+   */
   onOrAfter(day) {
     return onOrBefore(day, this, 6);
   }
 
+  /**
+   * 
+   * @param {number} day day of week
+   * @returns {HDate}
+   */
   after(day) {
     return onOrBefore(day, this, 7);
   }
 
+  /**
+   * 
+   * @returns {HDate}
+   */
   next() {
     return new HDate(this.abs() + 1);
   }
 
+  /**
+   * 
+   * @returns {HDate}
+   */
   prev() {
     return new HDate(this.abs() - 1);
   }
 
+  /**
+   * 
+   * @param {HDate} other Hebrew date to compare
+   * @returns {boolean}
+   */
   isSameDate(other) {
     if (other instanceof HDate) {
       if (other.getFullYear() == -1) {
@@ -331,6 +377,37 @@ export function abs2hebrew(d) {
   hebdate.dd = day;
   
   return hebdate;
+}
+
+export function getMolad(year, month) {
+  let m_adj = month - 7;
+  if (m_adj < 0) {
+      m_adj += c.MONTH_CNT(year);
+  }
+
+  const m_elapsed = (235 * Math.floor((year - 1) / 19)) // Months in complete 19 year lunar (Metonic) cycles so far
+      + (12 * ((year - 1) % 19)) // Regular months in this cycle
+      + Math.floor((7 * ((year - 1) % 19) + 1) / 19) // Leap months this cycle
+      + m_adj; // add elapsed months till the start of the molad of the month
+
+  const p_elapsed = 204 + Math.floor(793 * (m_elapsed % 1080));
+
+  const h_elapsed = 5 + (12 * m_elapsed) + (793 * Math.floor(m_elapsed / 1080)) + Math.floor(p_elapsed / 1080) - 6;
+
+  const parts = (p_elapsed % 1080) + (1080 * (h_elapsed % 24));
+
+  const chalakim = parts % 1080;
+
+  const day = 1 + (29 * m_elapsed) + Math.floor(h_elapsed / 24);
+
+  const dow = day % 7;
+
+  return {
+      dow: dow,
+      hour: h_elapsed % 24,
+      minutes: Math.floor(chalakim / 18),
+      chalakim: chalakim % 18
+  };
 }
 
 export default HDate;

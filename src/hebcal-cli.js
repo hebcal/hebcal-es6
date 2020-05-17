@@ -31,9 +31,11 @@ const options0 = {
 const options = {
     year: 1975,
     isHebrewYear: false,
-    month: 6,
-    noHolidays: true,
-    dafyomi: true
+    noHolidays: false,
+    dafyomi: false,
+    molad: true,
+    ashkenazi: false
+//    locale: "ashkenazi"
 };
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {

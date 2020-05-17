@@ -20,13 +20,17 @@
  */
 import { t, gettext, addLocale, useLocale } from 'ttag';
 import common from './common';
-import { HDate, hebrew2abs } from './hdate';
+import { HDate, hebrew2abs, getMolad } from './hdate';
 import holidays, { Event, flags } from './holidays';
 import Sedra from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
 import Location from './location';
 import { getBirthdayOrAnniversary, getYahrzeit } from './anniversary';
+
+const FRI = common.days.FRI;
+const SAT = common.days.SAT;
+const shortDayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function formatTime(timeFormat, dt) {
     const time = timeFormat.format(dt);
@@ -57,7 +61,7 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
     let mask = flags.LIGHT_CANDLES;
     if (typeof e !== 'undefined') {
         mask = e.getFlags();
-        if (dow != 5) {
+        if (dow != FRI) {
             if (mask & (flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
                 offset = havdalahOffset;
             } else if (mask & flags.YOM_TOV_ENDS) {
@@ -65,7 +69,7 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
                 offset = havdalahOffset;
             }
         }
-    } else if (dow == 6) {
+    } else if (dow == SAT) {
         name = "Havdalah";
         offset = havdalahOffset;
     }
@@ -124,6 +128,7 @@ function getCandleLightingMinutes(options) {
  * @property {boolean} noHolidays - suppress regular holidays
  * @property {boolean} dafyomi - include Daf Yomi
  * @property {boolean} omer - include Days of the Omer
+ * @property {boolean} molad - include event announcing the molad
  * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
  * @property {string} locale - translate event titles according to a locale (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`, `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
  * @property {boolean} hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
@@ -302,13 +307,13 @@ export function hebcalEvents(options) {
                 [beginOmer, endOmer] = getOmerStartAndEnd(options, currentYear);
             }
         }
-        if (options.sedrot && dow == 6) { // Saturday
+        if (options.sedrot && dow == SAT) {
             if (sedra.isParsha(abs)) {
                 const parshaStr = sedra.getString(abs);
                 events.push(new Event(hd, parshaStr, flags.PARSHA_HASHAVUA));
             }
         }
-        if (options.candlelighting && !candlesToday && (dow == 5 || dow == 6)) { // Friday or Saturday
+        if (options.candlelighting && !candlesToday && (dow == FRI || dow == SAT)) {
             const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
             events.push(e2);
         }
@@ -322,6 +327,16 @@ export function hebcalEvents(options) {
             const nth = getOrdinal(omer);
             const desc = `${nth} day of the Omer`;
             events.push(new Event(new HDate(abs), desc, flags.OMER_COUNT));
+        }
+        const hmonth = hd.getMonth();
+        if (options.molad && dow == SAT && hmonth != common.months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
+            const monthNext = (hmonth == common.MONTH_CNT(hyear) ? 1 : hmonth + 1);
+            const moladNext = getMolad(hyear, monthNext);
+            const mevarchim = new HDate(29, hmonth, hyear).onOrBefore(SAT);
+            const nextMonthName = common.monthNames[Number(common.LEAP(hyear))][monthNext];
+            const dayName = shortDayNames[moladNext.dow];
+            const desc = `Molad ${nextMonthName}: ${dayName}, ${moladNext.minutes} minutes and ${moladNext.chalakim} chalakim after ${moladNext.hour}:00`;
+            events.push(new Event(mevarchim, desc, flags.MOLAD));
         }
     }
 
