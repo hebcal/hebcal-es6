@@ -38,7 +38,7 @@ export function gregLeapYear(year) {
  * @param {number} year Gregorian year
  * @returns {number}
  */
-export function daysInMonth(month, year) {
+export function daysInGregMonth(month, year) {
   // 1 based months
   return monthLengths[+gregLeapYear(year)][month];
 }
@@ -89,7 +89,9 @@ export function dayOfYear(date) {
  * @returns {number}
  */
 export function greg2abs(date) {
-  // "absolute date"
+  if (!date instanceof Date) {
+    throw new TypeError("Argument to greg.greg2abs not a Date");
+  }
   const year = date.getFullYear() - 1;
   return (
     dayOfYear(date) + // days this year
@@ -110,6 +112,9 @@ export function greg2abs(date) {
  * @returns {Date}
  */
 export function abs2greg(theDate) {
+  if (typeof theDate !== 'number') {
+    throw new TypeError("Argument to greg.abs2greg not a Number");
+  }
   // calculations copied from original JS code
   const d0 = theDate - 1;
   const n400 = Math.floor(d0 / 146097);
@@ -132,7 +137,7 @@ export function abs2greg(theDate) {
 
 const greg = {
   gregLeapYear,
-  daysInMonth,
+  daysInGregMonth,
   monthNames,
   lookupMonthNum,
   dayOfYear,

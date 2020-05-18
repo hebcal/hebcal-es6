@@ -36,6 +36,6 @@ test('daysInYear', t => {
 });
 
 test('daysInMonth', t => {
-    t.is(common.daysInMonth(common.months.IYYAR), 29);
-    t.is(common.daysInMonth(common.months.SIVAN), 30);
+    t.is(common.daysInHebMonth(common.months.IYYAR), 29);
+    t.is(common.daysInHebMonth(common.months.SIVAN), 30);
 });

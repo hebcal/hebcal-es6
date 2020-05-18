@@ -296,8 +296,8 @@ export function getHolidaysForYear(year) {
     const desc = gettext("Rosh Chodesh") + " " + gettext(monthName);
     if (
       (month == NISAN
-        ? c.daysInMonth(c.monthsInHebYear(year - 1), year - 1)
-        : c.daysInMonth(month - 1, year)) == 30
+        ? c.daysInHebMonth(c.monthsInHebYear(year - 1), year - 1)
+        : c.daysInHebMonth(month - 1, year)) == 30
     ) {
       add(new Event(new HDate(1, month, year), desc, ROSH_CHODESH));
       add(new Event(new HDate(30, month - 1, year), desc, ROSH_CHODESH));

@@ -99,7 +99,7 @@ export class HDate {
    * @returns {number}
    */
   daysInMonth() {
-    return c.daysInMonth(this.getMonth(), this.getFullYear());
+    return c.daysInHebMonth(this.getMonth(), this.getFullYear());
   }
 
   /**
@@ -259,15 +259,15 @@ function fixDate(date) {
     if (date.month == c.months.TISHREI) {
       date.year -= 1;
     }
-    date.day += c.daysInMonth(date.month, date.year);
+    date.day += c.daysInHebMonth(date.month, date.year);
     date.month -= 1;
     fix(date);
   }
-  if (date.day > c.daysInMonth(date.month, date.year)) {
+  if (date.day > c.daysInHebMonth(date.month, date.year)) {
     if (date.month == c.months.ELUL) {
       date.year += 1;
     }
-    date.day -= c.daysInMonth(date.month, date.year);
+    date.day -= c.daysInHebMonth(date.month, date.year);
     date.month += 1;
     fix(date);
   }
@@ -318,15 +318,15 @@ export function hebrew2abs(d) {
   
   if (month < c.months.TISHREI) {
     for (let m = c.months.TISHREI; m <= c.monthsInHebYear(year); m++) {
-      tempabs += c.daysInMonth(m, year);
+      tempabs += c.daysInHebMonth(m, year);
     }
 
     for (let m = c.months.NISAN; m < month; m++) {
-      tempabs += c.daysInMonth(m, year);
+      tempabs += c.daysInHebMonth(m, year);
     }
   } else {
     for (let m = c.months.TISHREI; m < month; m++) {
-      tempabs += c.daysInMonth(m, year);
+      tempabs += c.daysInHebMonth(m, year);
     }
   }
 
@@ -366,7 +366,7 @@ export function abs2hebrew(d) {
   }
 
   while (hebdate.mm = month,
-         hebdate.dd = c.daysInMonth(month, year),
+         hebdate.dd = c.daysInHebMonth(month, year),
          hebdate.yy = year,
          d > hebrew2abs(hebdate)) {
         month = (month % c.monthsInHebYear(year)) + 1;

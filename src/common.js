@@ -97,7 +97,7 @@ export function monthsInHebYear(x) {
  * @param {number} year Hebrew year
  * @returns {number}
  */
-export function daysInMonth(month, year) {
+export function daysInHebMonth(month, year) {
   return (
     30 -
     (month == months.IYYAR ||
@@ -332,7 +332,7 @@ const common = {
   days,
   hebLeapYear,
   monthsInHebYear,
-  daysInMonth,
+  daysInHebMonth,
   monthNum,
   dayYearNum,
   hebElapsedDays,

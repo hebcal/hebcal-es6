@@ -18,11 +18,11 @@ test('abs2greg', t => {
     t.is(dt.getDate(), 8);
 });
 
-test('daysInMonth', t => {
-    t.is(greg.daysInMonth(2, 2020), 29);
-    t.is(greg.daysInMonth(2, 2019), 28);
-    t.is(greg.daysInMonth(5, 2020), 31);
-    t.is(greg.daysInMonth(2, 2100), 28);
+test('daysInGregMonth', t => {
+    t.is(greg.daysInGregMonth(2, 2020), 29);
+    t.is(greg.daysInGregMonth(2, 2019), 28);
+    t.is(greg.daysInGregMonth(5, 2020), 31);
+    t.is(greg.daysInGregMonth(2, 2100), 28);
 });
 
 test('gregLeapYear', t => {

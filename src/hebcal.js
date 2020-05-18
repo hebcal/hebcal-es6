@@ -157,7 +157,7 @@ function getStartAndEnd(options) {
         const startGreg = new Date(theYear, gregMonth, 1);
         const startAbs = greg.greg2abs(startGreg);
         const numYears = Number(options.numYears) || 1;
-        const endAbs = options.month ? startAbs + greg.daysInMonth(theMonth, theYear) - 1 : greg.greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
+        const endAbs = options.month ? startAbs + greg.daysInGregMonth(theMonth, theYear) - 1 : greg.greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
         const startDate = new HDate(startAbs);
         return [startDate, startAbs, new HDate(endAbs), endAbs];
     }
