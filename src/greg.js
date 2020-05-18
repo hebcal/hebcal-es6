@@ -28,7 +28,7 @@ const monthLengths = [
  * @param {number} year Gregorian year
  * @returns {boolean}
  */
-export function LEAP(year) {
+export function gregLeapYear(year) {
   return !(year % 4) && (!!(year % 100) || !(year % 400));
 }
 
@@ -40,7 +40,7 @@ export function LEAP(year) {
  */
 export function daysInMonth(month, year) {
   // 1 based months
-  return monthLengths[+LEAP(year)][month];
+  return monthLengths[+gregLeapYear(year)][month];
 }
 
 export const monthNames = [
@@ -76,7 +76,7 @@ export function dayOfYear(date) {
   if (date.getMonth() > 1) {
     // FEB
     doy -= Math.floor((4 * (date.getMonth() + 1) + 23) / 10);
-    if (LEAP(date.getFullYear())) {
+    if (gregLeapYear(date.getFullYear())) {
       doy++;
     }
   }
@@ -131,7 +131,7 @@ export function abs2greg(theDate) {
 }
 
 const greg = {
-  LEAP,
+  gregLeapYear,
   daysInMonth,
   monthNames,
   lookupMonthNum,

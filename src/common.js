@@ -78,7 +78,7 @@ export const days = {
  * @param {number} x Hebrew year
  * @returns {boolean}
  */
-export function LEAP(x) {
+export function hebLeapYear(x) {
   return (1 + x * 7) % 19 < 7;
 }
 
@@ -87,8 +87,8 @@ export function LEAP(x) {
  * @param {number} x Hebrew year
  * @returns {number}
  */
-export function MONTH_CNT(x) {
-  return 12 + LEAP(x); // boolean is cast to 1 or 0
+export function monthsInHebYear(x) {
+  return 12 + hebLeapYear(x); // boolean is cast to 1 or 0
 }
 
 /**
@@ -105,7 +105,7 @@ export function daysInMonth(month, year) {
       month == months.ELUL ||
       month == months.TEVET ||
       month == months.ADAR_II ||
-      (month == months.ADAR_I && !LEAP(year)) ||
+      (month == months.ADAR_I && !hebLeapYear(year)) ||
       (month == months.CHESHVAN && !longCheshvan(year)) ||
       (month == months.KISLEV && shortKislev(year)))
   );
@@ -162,8 +162,8 @@ export function dayYearNum(str) {
   const alt_day =
     day +
     (parts >= 19440 ||
-      (2 == day % 7 && parts >= 9924 && !LEAP(hYear)) ||
-      (1 == day % 7 && parts >= 16789 && LEAP(hYear - 1)));
+      (2 == day % 7 && parts >= 9924 && !hebLeapYear(hYear)) ||
+      (1 == day % 7 && parts >= 16789 && hebLeapYear(hYear - 1)));
 
   return alt_day + (alt_day % 7 === 0 || alt_day % 7 == 3 || alt_day % 7 == 5);
 }
@@ -330,8 +330,8 @@ const common = {
   months,
   monthNames,
   days,
-  LEAP,
-  MONTH_CNT,
+  hebLeapYear,
+  monthsInHebYear,
   daysInMonth,
   monthNum,
   dayYearNum,

@@ -43,7 +43,7 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
     if (hyear <= origYear) {
         return undefined;  // `Hebrew year ${hyear} occurs on or before original date in ${origYear}`
     }
-    const isOrigLeap = common.LEAP(origYear);
+    const isOrigLeap = common.hebLeapYear(origYear);
     let month = orig.getMonth();
     let day = orig.getDate();
 
@@ -53,7 +53,7 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
      * year, be that Adar or Adar II.
      */
     if ((month == ADAR_I && !isOrigLeap) || (month == ADAR_II && isOrigLeap)) {
-        month = common.MONTH_CNT(hyear);
+        month = common.monthsInHebYear(hyear);
     }
     /*
      * The birthday in an ordinary year of someone born during the
@@ -74,7 +74,7 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
         month = TEVET;
         day = 1;
     }
-    else if (month == ADAR_I && day == 30 && isOrigLeap && !common.LEAP(hyear)) {
+    else if (month == ADAR_I && day == 30 && isOrigLeap && !common.hebLeapYear(hyear)) {
         month = NISAN;
         day = 1;
     }
@@ -119,11 +119,11 @@ export function getYahrzeit(hyear, gdate) {
     }
     /* If it's Adar II, use the same day in last month of year (Adar or Adar II). */
     else if (hDeath.mm == ADAR_II) {
-        hDeath.mm = common.MONTH_CNT(hyear);
+        hDeath.mm = common.monthsInHebYear(hyear);
     }
     /* If it's the 30th in Adar I and year is not a leap year
         (so Adar has only 29 days), use the last day in Shevat. */
-    else if (hDeath.mm == ADAR_I && hDeath.dd == 30 && !common.LEAP(hyear)) {
+    else if (hDeath.mm == ADAR_I && hDeath.dd == 30 && !common.hebLeapYear(hyear)) {
         hDeath.dd = 30;
         hDeath.mm = SHVAT;
     }

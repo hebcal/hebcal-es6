@@ -64,7 +64,7 @@ export default class Sedra {
 
         // find the first Saturday on or after Rosh Hashana
         this.first_saturday = c.dayOnOrBefore(6, rosh_hashana + 6);
-        const leap = +c.LEAP(hebYr);
+        const leap = +c.hebLeapYear(hebYr);
         this.type = type;
         this.rosh_hashana_day = rosh_hashana_day;
         this.leap = leap;

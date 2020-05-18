@@ -234,7 +234,7 @@ export function getHolidaysForYear(year) {
   }
   add(new Event(tevet10dt, "Asara B'Tevet", MINOR_FAST));
 
-  if (c.LEAP(year)) {
+  if (c.hebLeapYear(year)) {
     add(new Event(new HDate(14, months.ADAR_I, year), "Purim Katan", 0));
   }
 
@@ -291,12 +291,12 @@ export function getHolidaysForYear(year) {
 
   add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), "Shabbat Nachamu", SPECIAL_SHABBAT));
 
-  for (let month = 1; month <= c.MONTH_CNT(year); month++) {
-    const monthName = c.monthNames[+c.LEAP(year)][month];
+  for (let month = 1; month <= c.monthsInHebYear(year); month++) {
+    const monthName = c.monthNames[+c.hebLeapYear(year)][month];
     const desc = gettext("Rosh Chodesh") + " " + gettext(monthName);
     if (
       (month == NISAN
-        ? c.daysInMonth(c.MONTH_CNT(year - 1), year - 1)
+        ? c.daysInMonth(c.monthsInHebYear(year - 1), year - 1)
         : c.daysInMonth(month - 1, year)) == 30
     ) {
       add(new Event(new HDate(1, month, year), desc, ROSH_CHODESH));
@@ -310,7 +310,7 @@ export function getHolidaysForYear(year) {
     }
 
     // Don't worry about month overrun; common.monthNames[0][14] == "Nisan"
-    const nextMonthName = c.monthNames[Number(c.LEAP(year))][month + 1];
+    const nextMonthName = c.monthNames[Number(c.hebLeapYear(year))][month + 1];
     add(new Event(new HDate(29, month, year).onOrBefore(SAT),
         gettext("Shabbat Mevarchim Chodesh") + " " + gettext(nextMonthName),
         SHABBAT_MEVARCHIM));

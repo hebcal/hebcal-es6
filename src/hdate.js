@@ -78,7 +78,7 @@ export class HDate {
    * @returns {boolean}
    */
   isLeapYear() {
-    return c.LEAP(this.year);
+    return c.hebLeapYear(this.year);
   }
 
   /**
@@ -90,7 +90,7 @@ export class HDate {
   }
 
   getTishreiMonth() {
-    const nummonths = c.MONTH_CNT(this.getFullYear());
+    const nummonths = c.monthsInHebYear(this.getFullYear());
     return (this.getMonth() + nummonths - 6) % nummonths || nummonths;
   }
 
@@ -131,7 +131,7 @@ export class HDate {
   }
 
   setTishreiMonth(month) {
-    return this.setMonth((month + 6) % c.MONTH_CNT(this.getFullYear()) || 13);
+    return this.setMonth((month + 6) % c.monthsInHebYear(this.getFullYear()) || 13);
   }
 
   setDate(date) {
@@ -280,12 +280,12 @@ function fixMonth(date) {
     fix(date);
   }
   if (date.month < 1) {
-    date.month += c.MONTH_CNT(date.year);
+    date.month += c.monthsInHebYear(date.year);
     date.year -= 1;
     fix(date);
   }
-  if (date.month > c.MONTH_CNT(date.year)) {
-    date.month -= c.MONTH_CNT(date.year);
+  if (date.month > c.monthsInHebYear(date.year)) {
+    date.month -= c.monthsInHebYear(date.year);
     date.year += 1;
     fix(date);
   }
@@ -317,7 +317,7 @@ export function hebrew2abs(d) {
   const year = isHDate ? d.getFullYear() : d.yy;
   
   if (month < c.months.TISHREI) {
-    for (let m = c.months.TISHREI; m <= c.MONTH_CNT(year); m++) {
+    for (let m = c.months.TISHREI; m <= c.monthsInHebYear(year); m++) {
       tempabs += c.daysInMonth(m, year);
     }
 
@@ -369,7 +369,7 @@ export function abs2hebrew(d) {
          hebdate.dd = c.daysInMonth(month, year),
          hebdate.yy = year,
          d > hebrew2abs(hebdate)) {
-        month = (month % c.MONTH_CNT(year)) + 1;
+        month = (month % c.monthsInHebYear(year)) + 1;
     }
 
   hebdate.dd = 1;
@@ -382,7 +382,7 @@ export function abs2hebrew(d) {
 export function getMolad(year, month) {
   let m_adj = month - 7;
   if (m_adj < 0) {
-      m_adj += c.MONTH_CNT(year);
+      m_adj += c.monthsInHebYear(year);
   }
 
   const m_elapsed = (235 * Math.floor((year - 1) / 19)) // Months in complete 19 year lunar (Metonic) cycles so far

@@ -6,19 +6,19 @@ test('hebElapsedDays', t => {
     t.is(elapsed, 2110760);
 });
 
-test('LEAP', t => {
-    t.is(common.LEAP(5779), true);
-    t.is(common.LEAP(5782), true);
-    t.is(common.LEAP(5784), true);
-    t.is(common.LEAP(5780), false);
-    t.is(common.LEAP(5781), false);
-    t.is(common.LEAP(5783), false);
-    t.is(common.LEAP(5778), false);
-    t.is(common.LEAP(5749), true);
-    t.is(common.LEAP(5511), false);
-    t.is(common.LEAP(5252), true);
-    t.is(common.LEAP(4528), true);
-    t.is(common.LEAP(4527), false);
+test('hebLeapYear', t => {
+    t.is(common.hebLeapYear(5779), true);
+    t.is(common.hebLeapYear(5782), true);
+    t.is(common.hebLeapYear(5784), true);
+    t.is(common.hebLeapYear(5780), false);
+    t.is(common.hebLeapYear(5781), false);
+    t.is(common.hebLeapYear(5783), false);
+    t.is(common.hebLeapYear(5778), false);
+    t.is(common.hebLeapYear(5749), true);
+    t.is(common.hebLeapYear(5511), false);
+    t.is(common.hebLeapYear(5252), true);
+    t.is(common.hebLeapYear(4528), true);
+    t.is(common.hebLeapYear(4527), false);
 });
 
 test('daysInYear', t => {

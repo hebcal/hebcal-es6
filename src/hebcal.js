@@ -26,7 +26,6 @@ import Sedra from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
 import Location from './location';
-import { getBirthdayOrAnniversary, getYahrzeit } from './anniversary';
 
 const FRI = common.days.FRI;
 const SAT = common.days.SAT;
@@ -333,10 +332,10 @@ export function hebcalEvents(options) {
         }
         const hmonth = hd.getMonth();
         if (options.molad && dow == SAT && hmonth != common.months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
-            const monthNext = (hmonth == common.MONTH_CNT(hyear) ? 1 : hmonth + 1);
+            const monthNext = (hmonth == common.monthsInHebYear(hyear) ? 1 : hmonth + 1);
             const moladNext = getMolad(hyear, monthNext);
             const mevarchim = new HDate(29, hmonth, hyear).onOrBefore(SAT);
-            const nextMonthName = common.monthNames[Number(common.LEAP(hyear))][monthNext];
+            const nextMonthName = common.monthNames[Number(common.hebLeapYear(hyear))][monthNext];
             const dayName = shortDayNames[moladNext.dow];
             const desc = `Molad ${nextMonthName}: ${dayName}, ${moladNext.minutes} minutes and ${moladNext.chalakim} chalakim after ${moladNext.hour}:00`;
             events.push(new Event(mevarchim, desc, flags.MOLAD));

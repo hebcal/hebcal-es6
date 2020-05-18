@@ -25,15 +25,15 @@ test('daysInMonth', t => {
     t.is(greg.daysInMonth(2, 2100), 28);
 });
 
-test('LEAP', t => {
-    t.is(greg.LEAP(2020), true);
-    t.is(greg.LEAP(2019), false);
-    t.is(greg.LEAP(2018), false);
-    t.is(greg.LEAP(2017), false);
-    t.is(greg.LEAP(2016), true);
-    t.is(greg.LEAP(2000), true);
-    t.is(greg.LEAP(2100), false);
-    t.is(greg.LEAP(1980), true);
+test('gregLeapYear', t => {
+    t.is(greg.gregLeapYear(2020), true);
+    t.is(greg.gregLeapYear(2019), false);
+    t.is(greg.gregLeapYear(2018), false);
+    t.is(greg.gregLeapYear(2017), false);
+    t.is(greg.gregLeapYear(2016), true);
+    t.is(greg.gregLeapYear(2000), true);
+    t.is(greg.gregLeapYear(2100), false);
+    t.is(greg.gregLeapYear(1980), true);
 });
 
 test('monthNames', t => {
