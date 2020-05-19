@@ -39,7 +39,7 @@ const REGULAR = 1;
 const COMPLETE = 2;
 
 /** Represents Parashah HaShavua for an entire Hebrew year */
-export default class Sedra {
+export class Sedra {
     /**
      * Caculates the Parashah HaShavua for an entire Hebrew year
      * @param {number} hebYr - Hebrew year (e.g. 5749)
@@ -120,6 +120,10 @@ export default class Sedra {
     isParsha(hDate) {
         const abs0 = (typeof hDate == 'number') ? hDate : ((hDate instanceof HDate) ? hDate.abs() : this.throwError("Bad date argument"));
         return !abs(this, abs0).chag;
+    }
+
+    getSedraArray() {
+        return this.theSedraArray;
     }
 }
 
@@ -357,3 +361,8 @@ function abs(year, absDate) {
     index = D(index); // undouble the parsha
     return {parsha: [parshiot[index], parshiot[index + 1]], chag: false};
 }
+
+export default {
+    Sedra,
+    parshiot
+};

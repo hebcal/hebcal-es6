@@ -22,7 +22,7 @@ import { t, gettext, addLocale, useLocale } from 'ttag';
 import common from './common';
 import { HDate, hebrew2abs, getMolad } from './hdate';
 import holidays, { Event, flags } from './holidays';
-import Sedra from './sedra';
+import { Sedra } from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
 import Location from './location';
