@@ -349,6 +349,7 @@ export function hebcalEvents(options) {
 export { HDate } from './hdate';
 export { Event, flags } from './holidays';
 export { getBirthdayOrAnniversary, getYahrzeit } from './anniversary';
+export { Location } from './location';
 
 export default {
     hebcalEvents

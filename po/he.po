@@ -684,3 +684,99 @@ msgstr "יוֹם יְרוּשָׁלַיִם"
 
 msgid "Yom HaAliyah"
 msgstr "יוֹם העלייה"
+
+msgid "Pesach I (on Shabbat)"
+msgstr "פֶּסַח יוֹם א׳ (בְּשַׁבָּת)"
+
+msgid "Pesach Chol ha-Moed Day 1"
+msgstr "פֶּסַח יוֹם ג׳ (חוֹל הַמוֹעד)"
+
+msgid "Pesach Chol ha-Moed Day 2"
+msgstr "פֶּסַח יוֹם ד׳ (חוֹל הַמוֹעד)"
+
+msgid "Pesach Chol ha-Moed Day 3"
+msgstr "פֶּסַח יוֹם ה׳ (חוֹל הַמוֹעד)"
+
+msgid "Pesach Chol ha-Moed Day 4"
+msgstr "פֶּסַח יוֹם ו׳ (חוֹל הַמוֹעד)"
+
+msgid "Pesach Shabbat Chol ha-Moed"
+msgstr "פֶּסַח שַׁבָּת חוֹל הַמוֹעד"
+
+msgid "Shavuot II (on Shabbat)"
+msgstr "שָׁבוּעוֹת יוֹם ב׳ (בְּשַׁבָּת)"
+
+msgid "Rosh Hashana I (on Shabbat)"
+msgstr "רֹאשׁ הַשָּׁנָה יוֹם א׳ (בְּשַׁבָּת)"
+
+msgid "Yom Kippur (on Shabbat)"
+msgstr "יוֹם כִּפּוּר (בְּשַׁבָּת)"
+
+msgid "Yom Kippur (Mincha, Traditional)"
+msgstr "יוֹם כִּפּוּר מנחה"
+
+msgid "Yom Kippur (Mincha, Alternate)"
+msgstr "יוֹם כִּפּוּר מנחה"
+
+msgid "Sukkot I (on Shabbat)"
+msgstr "סוּכּוֹת יוֹם א׳ (בְּשַׁבָּת)"
+
+msgid "Sukkot Chol ha-Moed Day 1"
+msgstr "סוּכּוֹת יוֹם ג׳ (חוֹל הַמוֹעד)"
+
+msgid "Sukkot Chol ha-Moed Day 2"
+msgstr "סוּכּוֹת יוֹם ד׳ (חוֹל הַמוֹעד)"
+
+msgid "Sukkot Chol ha-Moed Day 3"
+msgstr "סוּכּוֹת יוֹם ה׳ (חוֹל הַמוֹעד)"
+
+msgid "Sukkot Chol ha-Moed Day 4"
+msgstr "סוּכּוֹת יוֹם ו׳ (חוֹל הַמוֹעד)"
+
+msgid "Sukkot Shabbat Chol ha-Moed"
+msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמוֹעד"
+
+msgid "Sukkot Chol ha-Moed Day 5 (Hoshana Raba)"
+msgstr "סוּכּוֹת יוֹם ז׳ (הוֹשַׁעְנָא רַבָּה)"
+
+msgid "Shabbat Machar Chodesh"
+msgstr "שבת מחר חודש"
+
+msgid "Rosh Chodesh Adar"
+msgstr "רֹאשׁ חודש אַדָר"
+
+msgid "Rosh Chodesh Adar I"
+msgstr "רֹאשׁ חודש אַדָר א׳"
+
+msgid "Rosh Chodesh Adar II"
+msgstr "רֹאשׁ חודש אַדָר ב׳"
+
+msgid "Rosh Chodesh Av"
+msgstr "רֹאשׁ חודש אָב"
+
+msgid "Rosh Chodesh Cheshvan"
+msgstr "רֹאשׁ חודש חֶשְׁוָן"
+
+msgid "Rosh Chodesh Elul"
+msgstr "רֹאשׁ חודש אֱלוּל"
+
+msgid "Rosh Chodesh Iyyar"
+msgstr "רֹאשׁ חודש אִיָיר"
+
+msgid "Rosh Chodesh Kislev"
+msgstr "רֹאשׁ חודש כִּסְלֵו"
+
+msgid "Rosh Chodesh Nisan"
+msgstr "רֹאשׁ חודש נִיסָן"
+
+msgid "Rosh Chodesh Sh'vat"
+msgstr "רֹאשׁ חודש שְׁבָט"
+
+msgid "Rosh Chodesh Sivan"
+msgstr "רֹאשׁ חודש סִיוָן"
+
+msgid "Rosh Chodesh Tamuz"
+msgstr "רֹאשׁ חודש תָּמוּז"
+
+msgid "Rosh Chodesh Tevet"
+msgstr "רֹאשׁ חודש טֵבֵת"
