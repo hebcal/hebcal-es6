@@ -292,7 +292,7 @@ export function getHolidaysForYear(year) {
   add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), "Shabbat Nachamu", SPECIAL_SHABBAT));
 
   for (let month = 1; month <= c.monthsInHebYear(year); month++) {
-    const monthName = c.monthNames[+c.hebLeapYear(year)][month];
+    const monthName = c.getMonthName(month, year);
     const desc = gettext("Rosh Chodesh") + " " + gettext(monthName);
     if (
       (month == NISAN
@@ -309,8 +309,8 @@ export function getHolidaysForYear(year) {
       continue;
     }
 
-    // Don't worry about month overrun; common.monthNames[0][14] == "Nisan"
-    const nextMonthName = c.monthNames[Number(c.hebLeapYear(year))][month + 1];
+    // Don't worry about month overrun; will get "Nisan" for month=14
+    const nextMonthName = c.getMonthName(month + 1, year);
     add(new Event(new HDate(29, month, year).onOrBefore(SAT),
         gettext("Shabbat Mevarchim Chodesh") + " " + gettext(nextMonthName),
         SHABBAT_MEVARCHIM));

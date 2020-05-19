@@ -335,7 +335,7 @@ export function hebcalEvents(options) {
             const monthNext = (hmonth == common.monthsInHebYear(hyear) ? 1 : hmonth + 1);
             const moladNext = getMolad(hyear, monthNext);
             const mevarchim = new HDate(29, hmonth, hyear).onOrBefore(SAT);
-            const nextMonthName = common.monthNames[Number(common.hebLeapYear(hyear))][monthNext];
+            const nextMonthName = gettext(common.getMonthName(moladNext, hyear));
             const dayName = shortDayNames[moladNext.dow];
             const desc = `Molad ${nextMonthName}: ${dayName}, ${moladNext.minutes} minutes and ${moladNext.chalakim} chalakim after ${moladNext.hour}:00`;
             events.push(new Event(mevarchim, desc, flags.MOLAD));

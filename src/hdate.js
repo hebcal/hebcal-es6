@@ -161,7 +161,7 @@ export class HDate {
    * @returns {string}
    */
   getMonthName() {
-    return gettext(c.monthNames[+this.isLeapYear()][this.getMonth()]);
+    return gettext(c.getMonthName(this.getMonth(), this.getFullYear()));
   }
 
   /**

@@ -112,6 +112,17 @@ export function daysInHebMonth(month, year) {
 }
 
 /**
+ * Returns an (untranslated) string name of Hebrew month in year
+ * @param {number} month Hebrew month (e.g. months.TISHREI)
+ * @param {number} year Hebrew year
+ * @returns {string}
+ */
+export function getMonthName(month, year) {
+  return monthNames[+hebLeapYear(year)][month];
+}
+
+
+/**
  * Returns the Hebrew month number
  * @param {*} month A number, or Hebrew month name string
  */
@@ -332,6 +343,7 @@ const common = {
   days,
   hebLeapYear,
   monthsInHebYear,
+  getMonthName,
   daysInHebMonth,
   monthNum,
   dayYearNum,

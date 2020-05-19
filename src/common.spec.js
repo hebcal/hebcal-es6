@@ -39,3 +39,18 @@ test('daysInMonth', t => {
     t.is(common.daysInHebMonth(common.months.IYYAR), 29);
     t.is(common.daysInHebMonth(common.months.SIVAN), 30);
 });
+
+test('getMonthName', t => {
+    // leap year
+    t.is(common.getMonthName(common.months.ADAR_I, 5763), "Adar I");
+    t.is(common.getMonthName(common.months.ADAR_II, 5763), "Adar II");
+    t.is(common.getMonthName(14, 5763), "Nisan");
+    // not a leap year
+    t.is(common.getMonthName(common.months.ADAR_I, 5764), "Adar");
+    t.is(common.getMonthName(common.months.ADAR_II, 5764), "Nisan");
+    // not boundary conditions
+    t.is(common.getMonthName(common.months.TAMUZ, 5780), "Tamuz");
+    t.is(common.getMonthName(common.months.NISAN, 5763), "Nisan");
+    t.is(common.getMonthName(common.months.ELUL, 5763), "Elul");
+    t.is(common.getMonthName(common.months.TISHREI, 5763), "Tishrei");
+});
