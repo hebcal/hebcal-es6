@@ -50,9 +50,8 @@ export class Triennial {
             this.sedras.push(new Sedra(cycleStartYear + yr, false));
         }
         const sedra0 = new Sedra(cycleStartYear, false).getSedraArray();
-        this.bereshit = [];
-        this.bereshit[0] = sedra0.indexOf(0);
-        this.sedraArray = sedra0.slice(this.bereshit[0]);
+        this.bereshit = [ 0 ];
+        this.sedraArray = sedra0.slice(sedra0.indexOf(0));
         for (let yr = 1; yr < 4; yr++) {
             const sedra = new Sedra(cycleStartYear + yr, false);
             const arr = sedra.getSedraArray();
@@ -153,7 +152,9 @@ export class Triennial {
      * @param {number} yr 
      */
     cycleReadingsForYear(option, readings, yr) {
-        const sedraArray = this.sedraArray.slice(this.bereshit[yr - 1], this.bereshit[yr]);
+        const startIdx = this.bereshit[yr - 1];
+        const endIdx = this.bereshit[yr];
+        const sedraArray = this.sedraArray.slice(startIdx, endIdx);
         for (const id of sedraArray) {
             if (typeof id !== 'number') {
                 continue; // skip string (holiday) sedras
