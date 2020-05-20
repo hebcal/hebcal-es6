@@ -158,11 +158,10 @@ export class Triennial {
         const triennialAliyotAlt = {};
         // build a lookup table so we don't have to follow num/variation/sameas
         for (const [parsha, value] of Object.entries(parshiyotObj)) {
-    //        console.log(parsha);
             if (value.triennial) { // Vezot Haberakhah has no triennial
-                triennialAliyot[parsha] = Triennial.resolveSameAs(parsha, value.triennial);
+                triennialAliyot[parsha] = Triennial.resolveSameAs(parsha, value.book, value.triennial);
                 if (value.triennial.alt) {
-                    triennialAliyotAlt[parsha] = Triennial.resolveSameAs(parsha, value.triennial.alt);
+                    triennialAliyotAlt[parsha] = Triennial.resolveSameAs(parsha, value.book, value.triennial.alt);
                 }
             }
         }
@@ -176,25 +175,33 @@ export class Triennial {
      * @param {string} parsha 
      * @param {Object} triennial 
      */
-    static resolveSameAs(parsha, triennial) {
-        const years = triennial.years || triennial.variations;
-        if (typeof years === 'undefined') {
+    static resolveSameAs(parsha, book, triennial) {
+        const variations = triennial.years || triennial.variations;
+        if (typeof variations === 'undefined') {
             throw new Error(`Parashat ${parsha} has no years or variations`);
         }
         // first pass, copy only alyiot definitions from parshiyotObj into lookup table
         const lookup = {};
-        for (const [num, aliyot] of Object.entries(years)) {
+        for (const [variation, aliyot] of Object.entries(variations)) {
             if (typeof aliyot === 'object') {
-                lookup[num] = aliyot;    
+                const dest = {};
+                for (const [num, src] of Object.entries(aliyot)) {
+                    let reading = { book: book, begin: src.b, end: src.e };
+                    if (src.v) {
+                        reading.numverses = src.v;
+                    }
+                    dest[num] = reading;
+                }
+                lookup[variation] = dest;
             }
         }
         // second pass to resolve sameas strings (to simplify later lookups)
-        for (const [num, aliyot] of Object.entries(years)) {
+        for (const [variation, aliyot] of Object.entries(variations)) {
             if (typeof aliyot === 'string') {
                 if (typeof lookup[aliyot] === 'undefined') {
-                    throw new Error(`Can't find source for ${parsha} ${num} sameas=${aliyot}`);
+                    throw new Error(`Can't find source for ${parsha} ${variation} sameas=${aliyot}`);
                 }
-                lookup[num] = lookup[aliyot];
+                lookup[variation] = lookup[aliyot];
             }
         }
         return lookup;
