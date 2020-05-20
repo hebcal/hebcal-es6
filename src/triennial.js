@@ -49,8 +49,18 @@ export class Triennial {
         for (const yr of [0,1,2]) {
             this.sedras.push(new Sedra(cycleStartYear + yr, false));
         }
-        const cycleOption = Triennial.calcVariationOptions(this.sedras);    
-        this.readings = Triennial.cycleReadings(triennialAliyot, this.sedras, cycleOption);
+        const sedra0 = new Sedra(cycleStartYear, false).getSedraArray();
+        this.bereshit = [];
+        this.bereshit[0] = sedra0.indexOf(0);
+        this.sedraArray = sedra0.slice(this.bereshit[0]);
+        for (let yr = 1; yr < 4; yr++) {
+            const sedra = new Sedra(cycleStartYear + yr, false);
+            const arr = sedra.getSedraArray();
+            this.bereshit[yr] = this.sedraArray.length + arr.indexOf(0);
+            this.sedraArray = this.sedraArray.concat(arr);
+        }
+        const cycleOption = this.calcVariationOptions();
+        this.readings = this.cycleReadings(cycleOption);
     }
 
     getReadings() {
@@ -82,20 +92,23 @@ export class Triennial {
      * @param {number} id 
      * @returns {string}
      */
-    static getThreeYearPattern(sedras, id) {
+    getThreeYearPattern(id) {
         let pattern = '';
         for (const yr of [0,1,2]) {
-            const sedraArray = sedras[yr].getSedraArray();
-            const pat = sedraArray.indexOf(-1 * id) == -1 ? 'S' : 'T';
+            let found = this.sedraArray.indexOf(-1 * id, this.bereshit[yr]);
+            if (found > this.bereshit[yr + 1]) {
+                found = -1;
+            }
+            const pat = (found == -1) ? 'S' : 'T';
             pattern += pat;
         }
         return pattern;
     }
 
-    static calcVariationOptions(sedras) {
+    calcVariationOptions() {
         const option = {};
         for (const id of doubled) {
-            const pattern = Triennial.getThreeYearPattern(sedras, id);
+            const pattern = this.getThreeYearPattern(id);
             const name = getDoubledName(id);    
             // Next, look up the pattern in JSON to determine readings for each year.
             // For "all-together", use "Y" pattern to imply Y.1, Y.2, Y.3
@@ -114,11 +127,9 @@ export class Triennial {
     
     /**
      * Builds a lookup table readings["Bereshit"][1], readings["Matot-Masei"][3]
-     * @param {Object} triennialAliyot 
-     * @param {Sedra[]} sedras 
      * @param {Object} cycleOption 
      */
-    static cycleReadings(triennialAliyot, sedras, cycleOption) {
+    cycleReadings(cycleOption) {
         const readings = {};
         for (const parsha of parshiot) {
             readings[parsha] = [];
@@ -128,13 +139,21 @@ export class Triennial {
             readings[parsha] = [];
         }
         for (const yr of [1,2,3]) {
-            Triennial.cycleReadingsForYear(triennialAliyot, sedras, cycleOption, readings, yr);
+            this.cycleReadingsForYear(cycleOption, readings, yr);
         }
         return readings;
     }
 
-    static cycleReadingsForYear(triennialAliyot, sedras, option, readings, yr) {
-        const sedraArray = sedras[yr-1].getSedraArray();
+    /**
+     * 
+     * @param {Object} triennialAliyot 
+     * @param {Sedra[]} sedras 
+     * @param {string} option 
+     * @param {Object} readings 
+     * @param {number} yr 
+     */
+    cycleReadingsForYear(option, readings, yr) {
+        const sedraArray = this.sedraArray.slice(this.bereshit[yr - 1], this.bereshit[yr]);
         for (const id of sedraArray) {
             if (typeof id !== 'number') {
                 continue; // skip string (holiday) sedras
@@ -147,6 +166,15 @@ export class Triennial {
                 throw new Error(`can't find ${h} year ${yr} (variation ${variation})`);
             }
             readings[h][yr] = a;
+        }
+        // create links for doubled?
+        for (const [id, parsha] of parshiot.entries()) {
+            if (!readings[parsha][yr] && isSometimesDoubled[id]) {
+                const h = doubled.indexOf(id) == -1 ? getDoubledName(id - 1) : getDoubledName(id);
+                if (readings[h][yr]) {
+                    readings[parsha][yr] = { readTogether: h };
+                }
+            }
         }
     }
 
