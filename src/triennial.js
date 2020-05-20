@@ -140,19 +140,13 @@ export class Triennial {
                 continue; // skip string (holiday) sedras
             }
             const h = (id < 0) ? getDoubledName(-id) : parshiot[id];
-            if (isSometimesDoubled[id]) {
-                const variation = option[h] + "." + yr;
-                const a         = triennialAliyot[h][variation];
-                if (!a) {
-                    throw new Error(`can't find ${h} year ${yr} (variation ${variation})`);
-                }
-                readings[h][yr] = a;
-            } else if (triennialAliyot[h][`Y.${yr}`]) {
-                const a = triennialAliyot[h][`Y.${yr}`];
-                readings[h][yr] = a;
-            } else {
-                throw new Error(`can't find aliyot for ${h}, year ${yr}`);
+            const variationKey = isSometimesDoubled[id] ? option[h] : 'Y';
+            const variation    = variationKey + '.' + yr;
+            const a            = triennialAliyot[h][variation];
+            if (!a) {
+                throw new Error(`can't find ${h} year ${yr} (variation ${variation})`);
             }
+            readings[h][yr] = a;
         }
     }
 
