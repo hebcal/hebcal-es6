@@ -1,7 +1,8 @@
 {
 "Bereshit":{
  "num":1,"hebrew":"בְּרֵאשִׁית",
- "verse":"Genesis 1:1 - 6:8","haftara":"Isaiah 42:5 - 43:10","sephardic":"Isaiah 42:5 - 42:21",
+ "book":"Genesis","verses":"1:1-6:8",
+ "haftara":"Isaiah 42:5 - 43:10","sephardic":"Isaiah 42:5 - 42:21",
  "fullkriyah":{
    "1":{"b":"1:1","e":"2:3","v":34},
    "2":{"b":"2:4","e":"2:19","v":16},
@@ -39,7 +40,8 @@
    "M":{"b":"6:5","e":"6:8"}}}}},
 "Noach":{
  "num":2,"hebrew":"נֹחַ",
- "verse":"Genesis 6:9 - 11:32","haftara":"Isaiah 54:1 - 55:5","sephardic":"Isaiah 54:1 - 54:10",
+ "book":"Genesis","verses":"6:9-11:32",
+ "haftara":"Isaiah 54:1 - 55:5","sephardic":"Isaiah 54:1 - 54:10",
  "fullkriyah":{
    "1":{"b":"6:9","e":"6:22","v":14},
    "2":{"b":"7:1","e":"7:16","v":16},
@@ -77,7 +79,8 @@
    "M":{"b":"11:29","e":"11:32"}}}}},
 "Lech-Lecha":{
  "num":3,"hebrew":"לֶךְ־לְךָ",
- "verse":"Genesis 12:1 - 17:27","haftara":"Isaiah 40:27 - 41:16",
+ "book":"Genesis","verses":"12:1-17:27",
+ "haftara":"Isaiah 40:27 - 41:16",
  "fullkriyah":{
    "1":{"b":"12:1","e":"12:13","v":13},
    "2":{"b":"12:14","e":"13:4","v":11},
@@ -115,7 +118,8 @@
    "M":{"b":"17:24","e":"17:27"}}}}},
 "Vayera":{
  "num":4,"hebrew":"וַיֵּרָא",
- "verse":"Genesis 18:1 - 22:24","haftara":"II Kings 4:1 - 4:37","sephardic":"II Kings 4:1 - 4:23",
+ "book":"Genesis","verses":"18:1-22:24",
+ "haftara":"II Kings 4:1 - 4:37","sephardic":"II Kings 4:1 - 4:23",
  "fullkriyah":{
    "1":{"b":"18:1","e":"18:14","v":14},
    "2":{"b":"18:15","e":"18:33","v":19},
@@ -153,7 +157,8 @@
    "M":{"b":"22:20","e":"22:24"}}}}},
 "Chayei Sara":{
  "num":5,"hebrew":"חַיֵּי שָֹרָה",
- "verse":"Genesis 23:1 - 25:18","haftara":"I Kings 1:1 - 1:31",
+ "book":"Genesis","verses":"23:1-25:18",
+ "haftara":"I Kings 1:1 - 1:31",
  "fullkriyah":{
    "1":{"b":"23:1","e":"23:16","v":16},
    "2":{"b":"23:17","e":"24:9","v":13},
@@ -191,7 +196,8 @@
    "M":{"b":"25:16","e":"25:18"}}}}},
 "Toldot":{
  "num":6,"hebrew":"תּוֹלְדוֹת",
- "verse":"Genesis 25:19 - 28:9","haftara":"Malachi 1:1 - 2:7",
+ "book":"Genesis","verses":"25:19-28:9",
+ "haftara":"Malachi 1:1 - 2:7",
  "fullkriyah":{
    "1":{"b":"25:19","e":"26:5","v":21},
    "2":{"b":"26:6","e":"26:12","v":7},
@@ -229,7 +235,8 @@
    "M":{"b":"28:7","e":"28:9"}}}}},
 "Vayetzei":{
  "num":7,"hebrew":"וַיֵּצֵא",
- "verse":"Genesis 28:10 - 32:3","haftara":"Hosea 12:13 - 14:10","sephardic":"Hosea 11:7 - 12:12",
+ "book":"Genesis","verses":"28:10-32:3",
+ "haftara":"Hosea 12:13 - 14:10","sephardic":"Hosea 11:7 - 12:12",
  "fullkriyah":{
    "1":{"b":"28:10","e":"28:22","v":13},
    "2":{"b":"29:1","e":"29:17","v":17},
@@ -267,7 +274,8 @@
    "M":{"b":"32:1","e":"32:3"}}}}},
 "Vayishlach":{
  "num":8,"hebrew":"וַיִּשְׁלַח",
- "verse":"Genesis 32:4 - 36:43","haftara":"Obadiah 1:1 - 1:21",
+ "book":"Genesis","verses":"32:4-36:43",
+ "haftara":"Obadiah 1:1 - 1:21",
  "fullkriyah":{
    "1":{"b":"32:4","e":"32:13","v":10},
    "2":{"b":"32:14","e":"32:30","v":17},
@@ -305,7 +313,8 @@
    "M":{"b":"36:40","e":"36:43"}}}}},
 "Vayeshev":{
  "num":9,"hebrew":"וַיֵּשֶׁב",
- "verse":"Genesis 37:1 - 40:23","haftara":"Amos 2:6 - 3:8",
+ "book":"Genesis","verses":"37:1-40:23",
+ "haftara":"Amos 2:6 - 3:8",
  "fullkriyah":{
    "1":{"b":"37:1","e":"37:11","v":11},
    "2":{"b":"37:12","e":"37:22","v":11},
@@ -343,7 +352,8 @@
    "M":{"b":"40:20","e":"40:23"}}}}},
 "Miketz":{
  "num":10,"hebrew":"מִקֵּץ",
- "verse":"Genesis 41:1 - 44:17","haftara":"I Kings 3:15 - 4:1",
+ "book":"Genesis","verses":"41:1-44:17",
+ "haftara":"I Kings 3:15 - 4:1",
  "fullkriyah":{
    "1":{"b":"41:1","e":"41:14","v":14},
    "2":{"b":"41:15","e":"41:38","v":24},
@@ -381,7 +391,8 @@
    "M":{"b":"44:15","e":"44:17"}}}}},
 "Vayigash":{
  "num":11,"hebrew":"וַיִּגַּשׁ",
- "verse":"Genesis 44:18 - 47:27","haftara":"Ezekiel 37:15 - 37:28",
+ "book":"Genesis","verses":"44:18-47:27",
+ "haftara":"Ezekiel 37:15 - 37:28",
  "fullkriyah":{
    "1":{"b":"44:18","e":"44:30","v":13},
    "2":{"b":"44:31","e":"45:7","v":11},
@@ -419,7 +430,8 @@
    "M":{"b":"47:25","e":"47:27"}}}}},
 "Vayechi":{
  "num":12,"hebrew":"וַיְחִי",
- "verse":"Genesis 47:28 - 50:26","haftara":"I Kings 2:1 - 2:12",
+ "book":"Genesis","verses":"47:28-50:26",
+ "haftara":"I Kings 2:1 - 2:12",
  "fullkriyah":{
    "1":{"b":"47:28","e":"48:9","v":13},
    "2":{"b":"48:10","e":"48:16","v":7},
@@ -457,7 +469,8 @@
    "M":{"b":"50:23","e":"50:26"}}}}},
 "Shemot":{
  "num":13,"hebrew":"שְׁמוֹת",
- "verse":"Exodus 1:1 - 6:1","haftara":"Isaiah 27:6 - 28:13; 29:22 - 29:23","sephardic":"Jeremiah 1:1 - 2:3",
+ "book":"Exodus","verses":"1:1-6:1",
+ "haftara":"Isaiah 27:6 - 28:13; 29:22 - 29:23","sephardic":"Jeremiah 1:1 - 2:3",
  "fullkriyah":{
    "1":{"b":"1:1","e":"1:17","v":17},
    "2":{"b":"1:18","e":"2:10","v":15},
@@ -495,7 +508,8 @@
    "M":{"b":"5:22","e":"6:1"}}}}},
 "Vaera":{
  "num":14,"hebrew":"וָאֵרָא",
- "verse":"Exodus 6:2 - 9:35","haftara":"Ezekiel 28:25 - 29:21",
+ "book":"Exodus","verses":"6:2-9:35",
+ "haftara":"Ezekiel 28:25 - 29:21",
  "fullkriyah":{
    "1":{"b":"6:2","e":"6:13","v":12},
    "2":{"b":"6:14","e":"6:28","v":15},
@@ -533,7 +547,8 @@
    "M":{"b":"9:33","e":"9:35"}}}}},
 "Bo":{
  "num":15,"hebrew":"בֹּא",
- "verse":"Exodus 10:1 - 13:16","haftara":"Jeremiah 46:13 - 46:28",
+ "book":"Exodus","verses":"10:1-13:16",
+ "haftara":"Jeremiah 46:13 - 46:28",
  "fullkriyah":{
    "1":{"b":"10:1","e":"10:11","v":11},
    "2":{"b":"10:12","e":"10:23","v":12},
@@ -571,7 +586,8 @@
    "M":{"b":"13:14","e":"13:16"}}}}},
 "Beshalach":{
  "num":16,"hebrew":"בְּשַׁלַּח",
- "verse":"Exodus 13:17 - 17:16","haftara":"Judges 4:4 - 5:31","sephardic":"Judges 5:1 - 5:31",
+ "book":"Exodus","verses":"13:17-17:16",
+ "haftara":"Judges 4:4 - 5:31","sephardic":"Judges 5:1 - 5:31",
  "fullkriyah":{
    "1":{"b":"13:17","e":"14:8","v":14},
    "2":{"b":"14:9","e":"14:14","v":6},
@@ -609,7 +625,8 @@
    "M":{"b":"17:14","e":"17:16"}}}}},
 "Yitro":{
  "num":17,"hebrew":"יִתְרוֹ",
- "verse":"Exodus 18:1 - 20:23","haftara":"Isaiah 6:1 - 7:6; 9:5 - 9:6","sephardic":"Isaiah 6:1 - 6:13",
+ "book":"Exodus","verses":"18:1-20:23",
+ "haftara":"Isaiah 6:1 - 7:6; 9:5 - 9:6","sephardic":"Isaiah 6:1 - 6:13",
  "fullkriyah":{
    "1":{"b":"18:1","e":"18:12","v":12},
    "2":{"b":"18:13","e":"18:23","v":11},
@@ -653,7 +670,8 @@
    "M":{"b":"20:21","e":"20:23"}},"Y.3":"Y.2"}}}},
 "Mishpatim":{
  "num":18,"hebrew":"מִּשְׁפָּטִים",
- "verse":"Exodus 21:1 - 24:18","haftara":"Jeremiah 34:8 - 34:22; 33:25 - 33:26",
+ "book":"Exodus","verses":"21:1-24:18",
+ "haftara":"Jeremiah 34:8 - 34:22; 33:25 - 33:26",
  "fullkriyah":{
    "1":{"b":"21:1","e":"21:19","v":19},
    "2":{"b":"21:20","e":"22:3","v":21},
@@ -691,7 +709,8 @@
    "M":{"b":"24:15","e":"24:18"}}}}},
 "Terumah":{
  "num":19,"hebrew":"תְּרוּמָה",
- "verse":"Exodus 25:1 - 27:19","haftara":"I Kings 5:26 - 6:13",
+ "book":"Exodus","verses":"25:1-27:19",
+ "haftara":"I Kings 5:26 - 6:13",
  "fullkriyah":{
    "1":{"b":"25:1","e":"25:16","v":16},
    "2":{"b":"25:17","e":"25:30","v":14},
@@ -729,7 +748,8 @@
    "M":{"b":"27:17","e":"27:19"}}}}},
 "Tetzaveh":{
  "num":20,"hebrew":"תְּצַוֶּה",
- "verse":"Exodus 27:20 - 30:10","haftara":"Ezekiel 43:10 - 43:27",
+ "book":"Exodus","verses":"27:20-30:10",
+ "haftara":"Ezekiel 43:10 - 43:27",
  "fullkriyah":{
    "1":{"b":"27:20","e":"28:12","v":14},
    "2":{"b":"28:13","e":"28:30","v":18},
@@ -767,7 +787,8 @@
    "M":{"b":"30:8","e":"30:10"}}}}},
 "Ki Tisa":{
  "num":21,"hebrew":"כִּי תִשָּׂא",
- "verse":"Exodus 30:11 - 34:35","haftara":"I Kings 18:1 - 18:39","sephardic":"I Kings 18:20 - 18:39",
+ "book":"Exodus","verses":"30:11-34:35",
+ "haftara":"I Kings 18:1 - 18:39","sephardic":"I Kings 18:20 - 18:39",
  "fullkriyah":{
    "1":{"b":"30:11","e":"31:17","v":45},
    "2":{"b":"31:18","e":"33:11","v":47},
@@ -805,7 +826,8 @@
    "M":{"b":"34:33","e":"34:35"}}}}},
 "Vayakhel":{
  "num":22,"hebrew":"וַיַּקְהֵל",
- "verse":"Exodus 35:1 - 38:20","haftara":"I Kings 7:40 - 7:50","sephardic":"I Kings 7:13 - 7:26",
+ "book":"Exodus","verses":"35:1-38:20",
+ "haftara":"I Kings 7:40 - 7:50","sephardic":"I Kings 7:13 - 7:26",
  "fullkriyah":{
    "1":{"b":"35:1","e":"35:20","v":20},
    "2":{"b":"35:21","e":"35:29","v":9},
@@ -848,7 +870,8 @@
    "M":{"b":"37:10","e":"37:16"}}}}},
 "Pekudei":{
  "num":23,"hebrew":"פְקוּדֵי",
- "verse":"Exodus 38:21 - 40:38","haftara":"I Kings 7:51 - 8:21","sephardic":"I Kings 7:40 - 7:50",
+ "book":"Exodus","verses":"38:21-40:38",
+ "haftara":"I Kings 7:51 - 8:21","sephardic":"I Kings 7:40 - 7:50",
  "fullkriyah":{
    "1":{"b":"38:21","e":"39:1","v":12},
    "2":{"b":"39:2","e":"39:21","v":20},
@@ -877,7 +900,8 @@
    "M":{"b":"39:19","e":"39:21"}},"C.2":"B.2","C.3":"A.3","D.1":"B.2","D.2":"A.3","E.1":"B.2","E.3":"A.3","F.1":"B.2"}}},
 "Vayikra":{
  "num":24,"hebrew":"וַיִּקְרָא",
- "verse":"Leviticus 1:1 - 5:26","haftara":"Isaiah 43:21 - 44:23",
+ "book":"Leviticus","verses":"1:1-5:26",
+ "haftara":"Isaiah 43:21 - 44:23",
  "fullkriyah":{
    "1":{"b":"1:1","e":"1:13","v":13},
    "2":{"b":"1:14","e":"2:6","v":10},
@@ -915,7 +939,8 @@
    "M":{"b":"5:24","e":"5:26"}}}}},
 "Tzav":{
  "num":25,"hebrew":"צַו",
- "verse":"Leviticus 6:1 - 8:36","haftara":"Jeremiah 7:21 - 8:3; 9:22 - 9:23",
+ "book":"Leviticus","verses":"6:1-8:36",
+ "haftara":"Jeremiah 7:21 - 8:3; 9:22 - 9:23",
  "fullkriyah":{
    "1":{"b":"6:1","e":"6:11","v":11},
    "2":{"b":"6:12","e":"7:10","v":22},
@@ -953,7 +978,8 @@
    "M":{"b":"8:33","e":"8:36"}}}}},
 "Shmini":{
  "num":26,"hebrew":"שְּׁמִינִי",
- "verse":"Leviticus 9:1 - 11:47","haftara":"II Samuel 6:1 - 7:17","sephardic":"II Samuel 6:1 - 6:19",
+ "book":"Leviticus","verses":"9:1-11:47",
+ "haftara":"II Samuel 6:1 - 7:17","sephardic":"II Samuel 6:1 - 6:19",
  "fullkriyah":{
    "1":{"b":"9:1","e":"9:16","v":16},
    "2":{"b":"9:17","e":"9:23","v":7},
@@ -991,7 +1017,8 @@
    "M":{"b":"11:45","e":"11:47"}}}}},
 "Tazria":{
  "num":27,"hebrew":"תַזְרִיעַ",
- "verse":"Leviticus 12:1 - 13:59","haftara":"II Kings 4:42 - 5:19",
+ "book":"Leviticus","verses":"12:1-13:59",
+ "haftara":"II Kings 4:42 - 5:19",
  "fullkriyah":{
    "1":{"b":"12:1","e":"13:5","v":13},
    "2":{"b":"13:6","e":"13:17","v":12},
@@ -1027,7 +1054,8 @@
    "M":{"b":"13:37","e":"13:39"}},"D.1":"A.3","D.3":"B.2"}}},
 "Metzora":{
  "num":28,"hebrew":"מְּצֹרָע",
- "verse":"Leviticus 14:1 - 15:33","haftara":"II Kings 7:3 - 7:20",
+ "book":"Leviticus","verses":"14:1-15:33",
+ "haftara":"II Kings 7:3 - 7:20",
  "fullkriyah":{
    "1":{"b":"14:1","e":"14:12","v":12},
    "2":{"b":"14:13","e":"14:20","v":8},
@@ -1056,7 +1084,8 @@
    "M":{"b":"14:30","e":"14:32"}},"C.1":"B.2","D.1":"B.2","D.3":"A.3"}}},
 "Achrei Mot":{
  "num":29,"hebrew":"אַחֲרֵי מוֹת",
- "verse":"Leviticus 16:1 - 18:30","haftara":"Ezekiel 22:1 - 22:19","sephardic":"Ezekiel 22:1 - 22:16",
+ "book":"Leviticus","verses":"16:1-18:30",
+ "haftara":"Ezekiel 22:1 - 22:19","sephardic":"Ezekiel 22:1 - 22:16",
  "fullkriyah":{
    "1":{"b":"16:1","e":"16:17","v":17},
    "2":{"b":"16:18","e":"16:24","v":7},
@@ -1092,7 +1121,8 @@
    "M":{"b":"17:5","e":"17:7"}},"D.1":"A.3","D.3":"B.2"}}},
 "Kedoshim":{
  "num":30,"hebrew":"קְדשִׁים",
- "verse":"Leviticus 19:1 - 20:27","haftara":"Amos 9:7 - 9:15","sephardic":"Ezekiel 20:2 - 20:20",
+ "book":"Leviticus","verses":"19:1-20:27",
+ "haftara":"Amos 9:7 - 9:15","sephardic":"Ezekiel 20:2 - 20:20",
  "fullkriyah":{
    "1":{"b":"19:1","e":"19:14","v":14},
    "2":{"b":"19:15","e":"19:22","v":8},
@@ -1128,7 +1158,8 @@
    "M":{"b":"20:25","e":"20:27"}}}}},
 "Emor":{
  "num":31,"hebrew":"אֱמוֹר",
- "verse":"Leviticus 21:1 - 24:23","haftara":"Ezekiel 44:15 - 44:31",
+ "book":"Leviticus","verses":"21:1-24:23",
+ "haftara":"Ezekiel 44:15 - 44:31",
  "fullkriyah":{
    "1":{"b":"21:1","e":"21:15","v":15},
    "2":{"b":"21:16","e":"22:16","v":25},
@@ -1166,7 +1197,8 @@
    "M":{"b":"24:21","e":"24:23"}}}}},
 "Behar":{
  "num":32,"hebrew":"בְּהַר",
- "verse":"Leviticus 25:1 - 26:2","haftara":"Jeremiah 32:6 - 32:27",
+ "book":"Leviticus","verses":"25:1-26:2",
+ "haftara":"Jeremiah 32:6 - 32:27",
  "fullkriyah":{
    "1":{"b":"25:1","e":"25:13","v":13},
    "2":{"b":"25:14","e":"25:18","v":5},
@@ -1202,7 +1234,8 @@
    "M":{"b":"25:35","e":"25:38"}},"D.1":"A.3","D.3":"B.2"}}},
 "Bechukotai":{
  "num":33,"hebrew":"בְּחֻקֹּתַי",
- "verse":"Leviticus 26:3 - 27:34","haftara":"Jeremiah 16:19 - 17:14",
+ "book":"Leviticus","verses":"26:3-27:34",
+ "haftara":"Jeremiah 16:19 - 17:14",
  "fullkriyah":{
    "1":{"b":"26:3","e":"26:5","v":3},
    "2":{"b":"26:6","e":"26:9","v":4},
@@ -1231,7 +1264,8 @@
    "M":{"b":"27:12","e":"27:15"}},"C.1":"B.2","D.1":"B.2","D.3":"A.3"}}},
 "Bamidbar":{
  "num":34,"hebrew":"בְּמִדְבַּר",
- "verse":"Numbers 1:1 - 4:20","haftara":"Hosea 2:1 - 2:22",
+ "book":"Numbers","verses":"1:1-4:20",
+ "haftara":"Hosea 2:1 - 2:22",
  "fullkriyah":{
    "1":{"b":"1:1","e":"1:19","v":19},
    "2":{"b":"1:20","e":"1:54","v":35},
@@ -1269,7 +1303,8 @@
    "M":{"b":"4:17","e":"4:20"}}}}},
 "Nasso":{
  "num":35,"hebrew":"נָשׂא",
- "verse":"Numbers 4:21 - 7:89","haftara":"Judges 13:2 - 13:25",
+ "book":"Numbers","verses":"4:21-7:89",
+ "haftara":"Judges 13:2 - 13:25",
  "fullkriyah":{
    "1":{"b":"4:21","e":"4:37","v":17},
    "2":{"b":"4:38","e":"4:49","v":12},
@@ -1307,7 +1342,8 @@
    "M":{"b":"7:87","e":"7:89"}}}}},
 "Beha'alotcha":{
  "num":36,"hebrew":"בְּהַעֲלֹתְךָ",
- "verse":"Numbers 8:1 - 12:16","haftara":"Zechariah 2:14 - 4:7",
+ "book":"Numbers","verses":"8:1-12:16",
+ "haftara":"Zechariah 2:14 - 4:7",
  "fullkriyah":{
    "1":{"b":"8:1","e":"8:14","v":14},
    "2":{"b":"8:15","e":"8:26","v":12},
@@ -1345,7 +1381,8 @@
    "M":{"b":"12:14","e":"12:16"}}}}},
 "Sh'lach":{
  "num":37,"hebrew":"שְׁלַח־לְךָ",
- "verse":"Numbers 13:1 - 15:41","haftara":"Joshua 2:1 - 2:24",
+ "book":"Numbers","verses":"13:1-15:41",
+ "haftara":"Joshua 2:1 - 2:24",
  "fullkriyah":{
    "1":{"b":"13:1","e":"13:20","v":20},
    "2":{"b":"13:21","e":"14:7","v":20},
@@ -1383,7 +1420,8 @@
    "M":{"b":"15:37","e":"15:41"}}}}},
 "Korach":{
  "num":38,"hebrew":"קוֹרַח",
- "verse":"Numbers 16:1 - 18:32","haftara":"I Samuel 11:14 - 12:22",
+ "book":"Numbers","verses":"16:1-18:32",
+ "haftara":"I Samuel 11:14 - 12:22",
  "fullkriyah":{
    "1":{"b":"16:1","e":"16:13","v":13},
    "2":{"b":"16:14","e":"16:19","v":6},
@@ -1421,7 +1459,8 @@
    "M":{"b":"18:30","e":"18:32"}}}}},
 "Chukat":{
  "num":39,"hebrew":"חֻקַּת",
- "verse":"Numbers 19:1 - 22:1","haftara":"Judges 11:1 - 11:33",
+ "book":"Numbers","verses":"19:1-22:1",
+ "haftara":"Judges 11:1 - 11:33",
  "fullkriyah":{
    "1":{"b":"19:1","e":"19:17","v":17},
    "2":{"b":"19:18","e":"20:6","v":11},
@@ -1478,7 +1517,8 @@
    "M":{"b":"21:8","e":"21:10"}},"G.3":"B.2"}}},
 "Balak":{
  "num":40,"hebrew":"בָּלָק",
- "verse":"Numbers 22:2 - 25:9","haftara":"Micah 5:6 - 6:8",
+ "book":"Numbers","verses":"22:2-25:9",
+ "haftara":"Micah 5:6 - 6:8",
  "fullkriyah":{
    "1":{"b":"22:2","e":"22:12","v":11},
    "2":{"b":"22:13","e":"22:20","v":8},
@@ -1521,7 +1561,8 @@
    "M":{"b":"25:7","e":"25:9"}}}}},
 "Pinchas":{
  "num":41,"hebrew":"פִּינְחָס",
- "verse":"Numbers 25:10 - 30:1","haftara":"I Kings 18:46 - 19:21",
+ "book":"Numbers","verses":"25:10-30:1",
+ "haftara":"I Kings 18:46 - 19:21",
  "fullkriyah":{
    "1":{"b":"25:10","e":"26:4","v":13},
    "2":{"b":"26:5","e":"26:51","v":47},
@@ -1559,7 +1600,8 @@
    "M":{"b":"29:35","e":"30:1"}}}}},
 "Matot":{
  "num":42,"hebrew":"מַּטּוֹת",
- "verse":"Numbers 30:2 - 32:42","haftara":"Jeremiah 1:1 - 2:3",
+ "book":"Numbers","verses":"30:2-32:42",
+ "haftara":"Jeremiah 1:1 - 2:3",
  "fullkriyah":{
    "1":{"b":"30:2","e":"30:17","v":16},
    "2":{"b":"31:1","e":"31:12","v":12},
@@ -1595,7 +1637,8 @@
    "M":{"b":"31:51","e":"31:54"}}}}},
 "Masei":{
  "num":43,"hebrew":"מַסְעֵי",
- "verse":"Numbers 33:1 - 36:13","haftara":"Jeremiah 2:4 - 28; 3:4","sephardic":"Jeremiah 2:4 - 28; 4:1 - 4:2",
+ "book":"Numbers","verses":"33:1-36:13",
+ "haftara":"Jeremiah 2:4 - 28; 3:4","sephardic":"Jeremiah 2:4 - 28; 4:1 - 4:2",
  "fullkriyah":{
    "1":{"b":"33:1","e":"33:10","v":10},
    "2":{"b":"33:11","e":"33:49","v":39},
@@ -1624,7 +1667,8 @@
    "M":{"b":"33:47","e":"33:49"}},"C.1":"B.2"}}},
 "Devarim":{
  "num":44,"hebrew":"דְּבָרִים",
- "verse":"Deuteronomy 1:1 - 3:22","haftara":"Isaiah 1:1 - 1:27",
+ "book":"Deuteronomy","verses":"1:1-3:22",
+ "haftara":"Isaiah 1:1 - 1:27",
  "fullkriyah":{
    "1":{"b":"1:1","e":"1:10","v":10},
    "2":{"b":"1:11","e":"1:21","v":11},
@@ -1662,7 +1706,8 @@
    "M":{"b":"3:20","e":"3:22"}}}}},
 "Vaetchanan":{
  "num":45,"hebrew":"וָאֶתְחַנַּן",
- "verse":"Deuteronomy 3:23 - 7:11","haftara":"Isaiah 40:1 - 40:26",
+ "book":"Deuteronomy","verses":"3:23-7:11",
+ "haftara":"Isaiah 40:1 - 40:26",
  "fullkriyah":{
    "1":{"b":"3:23","e":"4:4","v":11},
    "2":{"b":"4:5","e":"4:40","v":36},
@@ -1727,7 +1772,8 @@
    "M":{"b":"7:9","e":"7:11"}}}}}},
 "Eikev":{
  "num":46,"hebrew":"עֵקֶב",
- "verse":"Deuteronomy 7:12 - 11:25","haftara":"Isaiah 49:14 - 51:3",
+ "book":"Deuteronomy","verses":"7:12-11:25",
+ "haftara":"Isaiah 49:14 - 51:3",
  "fullkriyah":{
    "1":{"b":"7:12","e":"8:10","v":25},
    "2":{"b":"8:11","e":"9:3","v":13},
@@ -1765,7 +1811,8 @@
    "M":{"b":"11:22","e":"11:25"}}}}},
 "Re'eh":{
  "num":47,"hebrew":"רְאֵה",
- "verse":"Deuteronomy 11:26 - 16:17","haftara":"Isaiah 54:11 - 55:5",
+ "book":"Deuteronomy","verses":"11:26-16:17",
+ "haftara":"Isaiah 54:11 - 55:5",
  "fullkriyah":{
    "1":{"b":"11:26","e":"12:10","v":17},
    "2":{"b":"12:11","e":"12:28","v":18},
@@ -1803,7 +1850,8 @@
    "M":{"b":"16:13","e":"16:17"}}}}},
 "Shoftim":{
  "num":48,"hebrew":"שׁוֹפְטִים",
- "verse":"Deuteronomy 16:18 - 21:9","haftara":"Isaiah 51:12 - 52:12",
+ "book":"Deuteronomy","verses":"16:18-21:9",
+ "haftara":"Isaiah 51:12 - 52:12",
  "fullkriyah":{
    "1":{"b":"16:18","e":"17:13","v":18},
    "2":{"b":"17:14","e":"17:20","v":7},
@@ -1841,7 +1889,8 @@
    "M":{"b":"21:7","e":"21:9"}}}}},
 "Ki Teitzei":{
  "num":49,"hebrew":"כִּי־תֵצֵא",
- "verse":"Deuteronomy 21:10 - 25:19","haftara":"Isaiah 54:1 - 54:10",
+ "book":"Deuteronomy","verses":"21:10-25:19",
+ "haftara":"Isaiah 54:1 - 54:10",
  "fullkriyah":{
    "1":{"b":"21:10","e":"21:21","v":12},
    "2":{"b":"21:22","e":"22:7","v":9},
@@ -1879,7 +1928,8 @@
    "M":{"b":"25:17","e":"25:19"}}}}},
 "Ki Tavo":{
  "num":50,"hebrew":"כִּי־תָבוֹא",
- "verse":"Deuteronomy 26:1 - 29:8","haftara":"Isaiah 60:1 - 60:22",
+ "book":"Deuteronomy","verses":"26:1-29:8",
+ "haftara":"Isaiah 60:1 - 60:22",
  "fullkriyah":{
    "1":{"b":"26:1","e":"26:11","v":11},
    "2":{"b":"26:12","e":"26:15","v":4},
@@ -1917,7 +1967,8 @@
    "M":{"b":"29:6","e":"29:8"}}}}},
 "Nitzavim":{
  "num":51,"hebrew":"נִצָּבִים",
- "verse":"Deuteronomy 29:9 - 30:20","haftara":"Isaiah 61:10 - 63:9",
+ "book":"Deuteronomy","verses":"29:9-30:20",
+ "haftara":"Isaiah 61:10 - 63:9",
  "fullkriyah":{
    "1":{"b":"29:9","e":"29:11","v":3},
    "2":{"b":"29:12","e":"29:14","v":3},
@@ -1942,7 +1993,8 @@
   "Y.3":"Y.1"}}},
 "Vayeilech":{
  "num":52,"hebrew":"וַיֵּלֶךְ",
- "verse":"Deuteronomy 31:1 - 31:30","haftara":"Isaiah 55:6 - 56:8",
+ "book":"Deuteronomy","verses":"31:1-31:30",
+ "haftara":"Isaiah 55:6 - 56:8",
  "fullkriyah":{
    "1":{"b":"31:1","e":"31:3","v":3},
    "2":{"b":"31:4","e":"31:6","v":3},
@@ -1967,7 +2019,8 @@
   "Y.3":"Y.1"}}},
 "Ha'Azinu":{
  "num":53,"hebrew":"הַאֲזִינוּ",
- "verse":"Deuteronomy 32:1 - 32:52","haftara":"II Samuel 22:1 - 22:51",
+ "book":"Deuteronomy","verses":"32:1-32:52",
+ "haftara":"II Samuel 22:1 - 22:51",
  "fullkriyah":{
    "1":{"b":"32:1","e":"32:6","v":6},
    "2":{"b":"32:7","e":"32:12","v":6},
@@ -1992,7 +2045,8 @@
   "Y.3":"Y.1"}}},
 "Vezot Haberakhah":{
  "num":54,"hebrew":"וְזֹאת הַבְּרָכָה",
- "verse":"Deuteronomy 33:1 - 34:12","haftara":"Joshua 1:1 - 1:18","sephardic":"Joshua 1:1 - 1:9",
+ "book":"Deuteronomy","verses":"33:1-34:12",
+ "haftara":"Joshua 1:1 - 1:18","sephardic":"Joshua 1:1 - 1:9",
  "fullkriyah":{
    "1":{"b":"33:1","e":"33:7","v":7},
    "2":{"b":"33:8","e":"33:12","v":5},
@@ -2002,8 +2056,8 @@
    "6":{"b":"33:27","e":"33:29","v":3},
    "7":{"b":"34:1","e":"34:12","v":12}}},
 "Vayakhel-Pekudei":{
- "num":101,
- "verse":"Exodus 35:1 - 40:38","combined":true,
+ "num":101,"combined":true,
+ "book":"Exodus","verses":"35:1-40:38",
  "fullkriyah":{
    "1":{"b":"35:1","e":"35:29","v":29},
    "2":{"b":"35:30","e":"37:16","v":60},
@@ -2042,8 +2096,8 @@
    "M":{"b":"40:34","e":"40:38"}}},
   "patterns":{"TTS":"A","TST":"B","TSS":"C","SST":"D","STS":"E","STT":"F"}}},
 "Tazria-Metzora":{
- "num":102,
- "verse":"Leviticus 12:1 - 15:33","combined":true,
+ "num":102,"combined":true,
+ "book":"Leviticus","verses":"12:1-15:33",
  "fullkriyah":{
    "1":{"b":"12:1","e":"13:23","v":31},
    "2":{"b":"13:24","e":"13:39","v":16},
@@ -2082,8 +2136,8 @@
    "M":{"b":"15:31","e":"15:33"}}},
   "patterns":{"TTS":"A","TST":"B","STT":"C","STS":"D"}}},
 "Achrei Mot-Kedoshim":{
- "num":103,
- "verse":"Leviticus 16:1 - 20:27","combined":true,
+ "num":103,"combined":true,
+ "book":"Leviticus","verses":"16:1-20:27",
  "fullkriyah":{
    "1":{"b":"16:1","e":"16:24","v":24},
    "2":{"b":"16:25","e":"17:7","v":17},
@@ -2122,8 +2176,8 @@
    "M":{"b":"20:25","e":"20:27"}}},
   "patterns":{"TTS":"A","TST":"B","STT":"C","STS":"D"}}},
 "Behar-Bechukotai":{
- "num":104,
- "verse":"Leviticus 25:1 - 27:34","combined":true,
+ "num":104,"combined":true,
+ "book":"Leviticus","verses":"25:1-27:34",
  "fullkriyah":{
    "1":{"b":"25:1","e":"25:18","v":18},
    "2":{"b":"25:19","e":"25:28","v":10},
@@ -2162,8 +2216,8 @@
    "M":{"b":"27:32","e":"27:34"}}},
   "patterns":{"TTS":"A","TST":"B","STT":"C","STS":"D"}}},
 "Chukat-Balak":{
- "num":105,
- "verse":"Numbers 19:1 - 25:9","combined":true,
+ "num":105,"combined":true,
+ "book":"Numbers","verses":"19:1-25:9",
  "fullkriyah":{
    "1":{"b":"19:1","e":"20:6","v":28},
    "2":{"b":"20:7","e":"20:21","v":15},
@@ -2202,8 +2256,8 @@
    "M":{"b":"25:7","e":"25:9"}}},
   "patterns":{"TTS":"A","TST":"B","TSS":"C","SST":"D","STS":"E","STT":"F","SSS":"G"}}},
 "Matot-Masei":{
- "num":106,
- "verse":"Numbers 30:2 - 36:13","combined":true,
+ "num":106,"combined":true,
+ "book":"Numbers","verses":"30:2-36:13",
  "fullkriyah":{
    "1":{"b":"30:2","e":"31:12","v":28},
    "2":{"b":"31:13","e":"31:54","v":42},
@@ -2242,8 +2296,8 @@
    "M":{"b":"36:10","e":"36:13"}}},
   "patterns":{"TTS":"A","TST":"B","STT":"C"}}},
 "Nitzavim-Vayeilech":{
- "num":107,
- "verse":"Deuteronomy 29:9 - 31:30","combined":true,
+ "num":107,"combined":true,
+ "book":"Deuteronomy","verses":"29:9-31:30",
  "fullkriyah":{
    "1":{"b":"29:9","e":"29:28","v":20},
    "2":{"b":"30:1","e":"30:6","v":6},
