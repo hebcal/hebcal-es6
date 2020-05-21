@@ -1,21 +1,29 @@
 import { Triennial } from './triennial';
+import { parshiot } from './sedra';
+
+function formatIt(aliyot, num) {
+    const aliyah = aliyot[num];
+    if (aliyah) {
+        return `${aliyah.book} ${aliyah.begin}-${aliyah.end}`;
+    }
+    return undefined;
+}
 
 for (let i = 5758; i < 5822; i += 3) {
     const tri = new Triennial(i);
     const readings = tri.getReadings();
-    const nv3 = readings["Nitzavim-Vayeilech"][3];
-    if (typeof nv3 !== 'undefined') {
-        console.log("Nitzavim-Vayeilech", nv3);
-    } else {
-        console.log("Nitzavim", readings["Nitzavim"][3]);
-        console.log("Vayeilech", readings["Vayeilech"][3]);
-    }
-    const cb2 = readings["Chukat-Balak"][2];
-    if (typeof cb2 !== 'undefined') {
-        console.log("Chukat-Balak", cb2);
-    } else {
-        console.log("Chukat", readings["Chukat"][2]);
-        console.log("Balak", readings["Balak"][2]);
+    for (const yr of [1,2,3]) {
+        for (const parsha of parshiot) {
+            const aliyot = readings[parsha][yr];
+            const x = formatIt(aliyot, 1);
+            if (x) {
+                console.log(parsha, yr, x || aliyot.readTogether);
+            } else {
+                const aliyot2 = readings[aliyot.readTogether][yr];
+                const x2 = formatIt(aliyot2, 1);
+                console.log(aliyot.readTogether, yr, x2);
+            }
+        }
     }
 }
 

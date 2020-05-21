@@ -168,13 +168,13 @@ export class Triennial {
             }
             readings[h][yr] = a;
         }
-        // create links for doubled?
-        for (const [id, parsha] of parshiot.entries()) {
-            if (!readings[parsha][yr] && isSometimesDoubled[id]) {
-                const h = doubled.indexOf(id) == -1 ? getDoubledName(id - 1) : getDoubledName(id);
-                if (readings[h][yr]) {
-                    readings[parsha][yr] = { readTogether: h };
-                }
+        // create links for doubled
+        for (const id of doubled) {
+            const h = getDoubledName(id);
+            if (readings[h][yr]) {
+                const p1 = parshiot[id];
+                const p2 = parshiot[id + 1];
+                readings[p1][yr] = readings[p2][yr] = { readTogether: h };
             }
         }
     }
