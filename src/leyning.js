@@ -23,7 +23,7 @@ const diasporaCholHaMoedMap = {
 function getLeyningKeyForEvent(e) {
     const hd = e.getDate();
     const day = hd.getDate();
-    const desc = e.getDesc();
+    let desc = e.getDesc();
     const attrs = e.getAttrs();
     const dow = hd.abs() % 7;
     const isShabbat = (dow == 6);
@@ -58,13 +58,30 @@ function getLeyningKeyForEvent(e) {
         } else {
             return `Chanukah (Day ${attrs.chanukahDay})`;
         }
-    } else if (desc == 'Sukkot VII (Hoshana Raba)') {
-        return 'Sukkot Chol ha-Moed Day 5 (Hoshana Raba)';
-    } else if (isRoshChodesh && (desc == 'Shabbat HaChodesh' || desc == 'Shabbat Shekalim')) {
-        return desc + ' (on Rosh Chodesh)';
-    } else if (isShabbat) {
-        return desc + ' (on Shabbat)';
     }
+
+    if (isRoshChodesh && (desc == 'Shabbat HaChodesh' || desc == 'Shabbat Shekalim')) {
+        desc += ' (on Rosh Chodesh)';
+    }
+
+    if (isShabbat && !desc.startsWith("Shabbat")) {
+        const desc2 = desc + ' (on Shabbat)';
+        if (festivals[desc2]) {
+            desc = desc2;
+        }
+    }
+
+    if (festivals[desc]) {
+        return desc;
+    }
+
+    if (isShabbat && isRoshChodesh) {
+        return 'Shabbat Rosh Chodesh';
+    } else if (isShabbat && (hd.next().getDate() == 30 || hd.next().getDate() == 1)) {
+        return 'Shabbat Machar Chodesh';
+    }
+
+    return undefined;
 }
 
 export default {

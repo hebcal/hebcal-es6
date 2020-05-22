@@ -78,11 +78,11 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
     const [eventTime, timeStr] = offset ?
         sunsetTime(hd, location, timeFormat, offset) :
         tzeitTime(hd, location, timeFormat);
-    const e2 = new Event(hd, gettext(name) + ": " + timeStr, mask);
-    e2.eventTime = eventTime;
+    const attrs = { eventTime };
     if (typeof e !== 'undefined') {
-        e2.linkedEvent = e;
+        attrs.linkedEvent = e;
     }
+    const e2 = new Event(hd, gettext(name) + ": " + timeStr, mask, attrs);
     return e2;
 }
 
@@ -244,6 +244,7 @@ function getMaskFromOptions(options) {
 /**
  * Generates a list of holidays
  * @param {HebcalOptions} options
+ * @returns {Event[]}
  */
 export function hebcalEvents(options) {
     if (options.candlelighting && (typeof options.location === 'undefined' || !options.location instanceof Location)) {

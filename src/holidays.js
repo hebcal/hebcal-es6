@@ -198,7 +198,7 @@ export function getHolidaysForYear(year) {
     [18,  TISHREI,    "Sukkot IV (CH''M)",  0, { cholHaMoed: true }],
     [19,  TISHREI,    "Sukkot V (CH''M)",   0, { cholHaMoed: true }],
     [20,  TISHREI,    "Sukkot VI (CH''M)",  0, { cholHaMoed: true }],
-    [21,  TISHREI,    "Sukkot VII (Hoshana Raba)", LIGHT_CANDLES],
+    [21,  TISHREI,    "Sukkot VII (Hoshana Raba)", LIGHT_CANDLES, { cholHaMoed: true }],
     [22,  TISHREI,    "Shmini Atzeret",     LIGHT_CANDLES_TZEIS | CHUL_ONLY],
 //    [22,  TISHREI,    "Shmini Atzeret / Simchat Torah", YOM_TOV_ENDS | IL_ONLY],
     [22,  TISHREI,    "Shmini Atzeret",     YOM_TOV_ENDS | IL_ONLY],
@@ -209,7 +209,7 @@ export function getHolidaysForYear(year) {
     [27,  KISLEV,     Chanukah(4),          CHANUKAH_CANDLES, { chanukahDay: 3} ],
     [28,  KISLEV,     Chanukah(5),          CHANUKAH_CANDLES, { chanukahDay: 4} ],
     [29,  KISLEV,     Chanukah(6),          CHANUKAH_CANDLES, { chanukahDay: 5} ],
-    [30,  KISLEV,     Chanukah(7),          CHANUKAH_CANDLES, { chanukahDay: 7} ], // yes, i know these are wrong
+    [30,  KISLEV,     Chanukah(7),          CHANUKAH_CANDLES, { chanukahDay: 6} ], // yes, i know these are wrong
     [31,  KISLEV,     Chanukah(8),          CHANUKAH_CANDLES, { chanukahDay: 7} ], // HDate() corrects the month automatically
     [32,  KISLEV,     "Chanukah: 8th Day",  0, { chanukahDay: 8} ],
     [15,  months.SHVAT, "Tu BiShvat",       0],
