@@ -43,6 +43,11 @@ export function daysInGregMonth(month, year) {
   return monthLengths[+gregLeapYear(year)][month];
 }
 
+/**
+ * Gregorian months of the year
+ * @readonly
+ * @enum {number}
+ */
 export const monthNames = [
   "",
   "January",

@@ -125,6 +125,10 @@ export class Sedra {
     getSedraArray() {
         return this.theSedraArray;
     }
+
+    getYear() {
+        return this.year;
+    }
 }
 
 export const parshiot = [

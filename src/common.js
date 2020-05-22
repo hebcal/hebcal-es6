@@ -20,6 +20,11 @@
  */
 import gematriya from "gematriya";
 
+/**
+ * Hebrew months of the year
+ * @readonly
+ * @enum {number}
+ */
 export const months = {
   NISAN: 1,
   IYYAR: 2,
@@ -63,6 +68,11 @@ export const monthNames = [
   ]),
 ];
 
+/**
+ * Days of the week
+ * @readonly
+ * @enum {number}
+ */
 export const days = {
   SUN: 0,
   MON: 1,
@@ -98,17 +108,18 @@ export function monthsInHebYear(x) {
  * @returns {number}
  */
 export function daysInHebMonth(month, year) {
-  return (
-    30 -
-    (month == months.IYYAR ||
+  if (month == months.IYYAR ||
       month == months.TAMUZ ||
       month == months.ELUL ||
       month == months.TEVET ||
       month == months.ADAR_II ||
       (month == months.ADAR_I && !hebLeapYear(year)) ||
       (month == months.CHESHVAN && !longCheshvan(year)) ||
-      (month == months.KISLEV && shortKislev(year)))
-  );
+      (month == months.KISLEV && shortKislev(year))) {
+      return 29;
+    } else {
+      return 30;
+    }
 }
 
 /**

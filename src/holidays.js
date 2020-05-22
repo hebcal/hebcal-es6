@@ -50,6 +50,10 @@ const MAJOR_FAST          = 16384;
 const SHABBAT_MEVARCHIM   = 32768;
 const MOLAD               = 65536;
 
+/**
+ * Holiday flags
+ * @readonly
+ */
 export const flags = {
   USER_EVENT,
   LIGHT_CANDLES,
@@ -71,28 +75,61 @@ export const flags = {
 };
 
 export class Event {
-  constructor(date, desc, mask) {
+  /**
+   * Constructs Event
+   * @param {HDate} date Hebrew date event occurs
+   * @param {string} desc Description (not translated)
+   * @param {number} [mask=0] optional holiday flags
+   * @param {*} [attrs]
+   */
+  constructor(date, desc, mask, attrs) {
     this.date = date;
     this.desc = desc;
-    this.mask = mask;
+    this.mask = +mask;
+    if (attrs) {
+      this.attrs = attrs;
+    }
   }
 
+  /**
+   * @returns {number}
+   */
   getFlags() {
     return this.mask;
   }
 
+  getAttrs() {
+    return this.attrs;
+  }
+
+  /**
+   * Is this event observed in Israel?
+   * @returns {boolean}
+   */
   observedInIsrael() {
     return !(this.mask & CHUL_ONLY);
   }
 
+  /**
+   * Is this event observed in the Diaspora?
+   * @returns {boolean}
+   */
   observedInDiaspora() {
     return !(this.mask & IL_ONLY);
   }
 
+  /**
+   * Returns (translated) description of this event
+   * @returns {string}
+   */
   getDesc() {
     return gettext(this.desc);
   }
 
+  /**
+   * Returns Hebrew date of this event
+   * @returns {HDate}
+   */
   getDate() {
     return this.date;
   }
@@ -134,9 +171,9 @@ export function getHolidaysForYear(year) {
 
   function addEvents(year, arr) {
     for (const a of arr) {
-      const [day, month, desc, mask] = a;
+      const [day, month, desc, mask, attrs] = a;
 //      console.debug(day, month, year, desc, mask);
-      add(new Event(new HDate(day, month, year), desc, mask));
+      add(new Event(new HDate(day, month, year), desc, mask, attrs));
     }
   }
 
@@ -156,25 +193,25 @@ export function getHolidaysForYear(year) {
     [15,  TISHREI,    "Sukkot I",           LIGHT_CANDLES_TZEIS | CHUL_ONLY],
     [15,  TISHREI,    "Sukkot I",           YOM_TOV_ENDS | IL_ONLY],
     [16,  TISHREI,    "Sukkot II",          YOM_TOV_ENDS | CHUL_ONLY],
-    [16,  TISHREI,    "Sukkot II (CH''M)",  IL_ONLY],
-    [17,  TISHREI,    "Sukkot III (CH''M)", 0],
-    [18,  TISHREI,    "Sukkot IV (CH''M)",  0],
-    [19,  TISHREI,    "Sukkot V (CH''M)",   0],
-    [20,  TISHREI,    "Sukkot VI (CH''M)",  0],
+    [16,  TISHREI,    "Sukkot II (CH''M)",  IL_ONLY, { cholHaMoed: true } ],
+    [17,  TISHREI,    "Sukkot III (CH''M)", 0, { cholHaMoed: true }],
+    [18,  TISHREI,    "Sukkot IV (CH''M)",  0, { cholHaMoed: true }],
+    [19,  TISHREI,    "Sukkot V (CH''M)",   0, { cholHaMoed: true }],
+    [20,  TISHREI,    "Sukkot VI (CH''M)",  0, { cholHaMoed: true }],
     [21,  TISHREI,    "Sukkot VII (Hoshana Raba)", LIGHT_CANDLES],
     [22,  TISHREI,    "Shmini Atzeret",     LIGHT_CANDLES_TZEIS | CHUL_ONLY],
 //    [22,  TISHREI,    "Shmini Atzeret / Simchat Torah", YOM_TOV_ENDS | IL_ONLY],
     [22,  TISHREI,    "Shmini Atzeret",     YOM_TOV_ENDS | IL_ONLY],
     [23,  TISHREI,    "Simchat Torah",      YOM_TOV_ENDS | CHUL_ONLY],
     [24,  KISLEV,     "Chanukah: 1 Candle", CHANUKAH_CANDLES],
-    [25,  KISLEV,     Chanukah(2),          CHANUKAH_CANDLES],
-    [26,  KISLEV,     Chanukah(3),          CHANUKAH_CANDLES],
-    [27,  KISLEV,     Chanukah(4),          CHANUKAH_CANDLES],
-    [28,  KISLEV,     Chanukah(5),          CHANUKAH_CANDLES],
-    [29,  KISLEV,     Chanukah(6),          CHANUKAH_CANDLES],
-    [30,  KISLEV,     Chanukah(7),          CHANUKAH_CANDLES], // yes, i know these are wrong
-    [31,  KISLEV,     Chanukah(8),          CHANUKAH_CANDLES], // HDate() corrects the month automatically
-    [32,  KISLEV,     "Chanukah: 8th Day",  0],
+    [25,  KISLEV,     Chanukah(2),          CHANUKAH_CANDLES, { chanukahDay: 1} ],
+    [26,  KISLEV,     Chanukah(3),          CHANUKAH_CANDLES, { chanukahDay: 2} ],
+    [27,  KISLEV,     Chanukah(4),          CHANUKAH_CANDLES, { chanukahDay: 3} ],
+    [28,  KISLEV,     Chanukah(5),          CHANUKAH_CANDLES, { chanukahDay: 4} ],
+    [29,  KISLEV,     Chanukah(6),          CHANUKAH_CANDLES, { chanukahDay: 5} ],
+    [30,  KISLEV,     Chanukah(7),          CHANUKAH_CANDLES, { chanukahDay: 7} ], // yes, i know these are wrong
+    [31,  KISLEV,     Chanukah(8),          CHANUKAH_CANDLES, { chanukahDay: 7} ], // HDate() corrects the month automatically
+    [32,  KISLEV,     "Chanukah: 8th Day",  0, { chanukahDay: 8} ],
     [15,  months.SHVAT, "Tu BiShvat",       0],
   ]);
   const pesachAbs = pesach.abs();
@@ -207,12 +244,12 @@ export function getHolidaysForYear(year) {
     [15, NISAN,     "Pesach I", LIGHT_CANDLES_TZEIS | CHUL_ONLY],
     [15, NISAN,     "Pesach I", YOM_TOV_ENDS | IL_ONLY],
     [16, NISAN,     "Pesach II", YOM_TOV_ENDS | CHUL_ONLY],
-    [16, NISAN,     "Pesach II (CH''M)", IL_ONLY],
+    [16, NISAN,     "Pesach II (CH''M)", IL_ONLY, { cholHaMoed: true }],
 //    [16, NISAN,     "Start counting Omer", 0],
-    [17, NISAN,     "Pesach III (CH''M)", 0],
-    [18, NISAN,     "Pesach IV (CH''M)", 0],
-    [19, NISAN,     "Pesach V (CH''M)", 0],
-    [20, NISAN,     "Pesach VI (CH''M)", LIGHT_CANDLES],
+    [17, NISAN,     "Pesach III (CH''M)", 0, { cholHaMoed: true }],
+    [18, NISAN,     "Pesach IV (CH''M)", 0, { cholHaMoed: true }],
+    [19, NISAN,     "Pesach V (CH''M)", 0, { cholHaMoed: true }],
+    [20, NISAN,     "Pesach VI (CH''M)", LIGHT_CANDLES, { cholHaMoed: true }],
     [21, NISAN,     "Pesach VII", LIGHT_CANDLES_TZEIS | CHUL_ONLY],
     [21, NISAN,     "Pesach VII", YOM_TOV_ENDS | IL_ONLY],
     [22, NISAN,     "Pesach VIII", YOM_TOV_ENDS | CHUL_ONLY],
@@ -229,10 +266,12 @@ export function getHolidaysForYear(year) {
   add(new Event(new HDate(29, months.ELUL, year), "Erev Rosh Hashana", LIGHT_CANDLES));
 
   let tevet10dt = new HDate(10, months.TEVET, year);
+  let tevet10attrs;
   if (tevet10dt.getDay() == SAT) {
     tevet10dt = tevet10dt.next();
+    tevet10attrs = { observed: true };
   }
-  add(new Event(tevet10dt, "Asara B'Tevet", MINOR_FAST));
+  add(new Event(tevet10dt, "Asara B'Tevet", MINOR_FAST, tevet10attrs));
 
   if (c.hebLeapYear(year)) {
     add(new Event(new HDate(14, months.ADAR_I, year), "Purim Katan", 0));
@@ -273,21 +312,25 @@ export function getHolidaysForYear(year) {
   }
 
   let tamuz17 = new HDate(17, months.TAMUZ, year);
+  let tamuz17attrs;
   if (tamuz17.getDay() == SAT) {
     tamuz17 = tamuz17.next();
+    tamuz17attrs = { observed: true };
   }
-  add(new Event(tamuz17, "Tzom Tammuz", MINOR_FAST));
+  add(new Event(tamuz17, "Tzom Tammuz", MINOR_FAST, tamuz17attrs));
 
   let av9dt = new HDate(9, months.AV, year);
+  let av9attrs;
   if (av9dt.getDay() == SAT) {
     av9dt = av9dt.next();
+    av9attrs = { observed: true };
   }
 
   add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs())), "Shabbat Chazon", SPECIAL_SHABBAT));
 
-  add(new Event(av9dt.prev(), "Erev Tish'a B'Av", 0));
+  add(new Event(av9dt.prev(), "Erev Tish'a B'Av", 0, av9attrs));
 
-  add(new Event(av9dt, "Tish'a B'Av", MAJOR_FAST));
+  add(new Event(av9dt, "Tish'a B'Av", MAJOR_FAST, av9attrs));
 
   add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), "Shabbat Nachamu", SPECIAL_SHABBAT));
 
