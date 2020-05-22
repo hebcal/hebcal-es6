@@ -61,13 +61,13 @@ function getLeyningKeyForEvent(e) {
     }
 
     if (isRoshChodesh && (desc == 'Shabbat HaChodesh' || desc == 'Shabbat Shekalim')) {
-        desc += ' (on Rosh Chodesh)';
+        return desc + ' (on Rosh Chodesh)';
     }
 
     if (isShabbat && !desc.startsWith("Shabbat")) {
         const desc2 = desc + ' (on Shabbat)';
         if (festivals[desc2]) {
-            desc = desc2;
+            return desc2;
         }
     }
 
