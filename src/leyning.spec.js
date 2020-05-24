@@ -72,8 +72,8 @@ function formatMaftir(a) {
 }
 
 test('getLeyningForParshaHaShavua', t => {
-    const options = { year: 2026, isHebrewYear: false, sedrot: true, noHolidays: true };
-    const events = hebcal.hebcalEvents(options);
+    let options = { year: 2026, isHebrewYear: false, sedrot: true, noHolidays: true };
+    let events = hebcal.hebcalEvents(options);
     for (const ev of events) {
         const a = leyning.getLeyningForParshaHaShavua(ev);
         switch(ev.getDesc()) {
@@ -123,4 +123,23 @@ test('getLeyningForParshaHaShavua', t => {
                 break;
         }
     }
+
+    options.year = 2020;
+    options.month = 12;
+    const vayeshev = hebcal.hebcalEvents(options).find(e => e.getDesc() == 'Parashat Vayeshev');
+    let a = leyning.getLeyningForParshaHaShavua(vayeshev);
+    t.is(a.reason.haftara, "Shabbat Chanukah");
+    t.is(a.reason['M'], "Chanukah (Day 2)");
+    t.is(a.haftara, "Zechariah 2:14-4:7");
+    t.is(formatMaftir(a), "Numbers 7:18 - 7:29");
+
+    options.year = 2021;
+    options.month = 12;
+    const miketz = hebcal.hebcalEvents(options).find(e => e.getDesc() == 'Parashat Miketz');
+    a = leyning.getLeyningForParshaHaShavua(miketz);
+    t.is(a.reason.haftara, "Shabbat Rosh Chodesh Chanukah");
+    t.is(a.reason['M'], "Shabbat Rosh Chodesh Chanukah");
+    t.is(a.reason['8'], "Shabbat Rosh Chodesh Chanukah");
+    t.is(a.haftara, "Zechariah 2:14-4:7");
+    t.is(formatMaftir(a), "Numbers 7:42 - 7:47");
 });

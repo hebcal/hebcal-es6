@@ -142,6 +142,22 @@ function mergeAliyotWithSpecial(aliyot, special) {
 }
 
 /**
+ * @param {Event} e
+ * @param {string} key
+ * @returns {string}
+ */
+function getChanukahShabbatKey(e, key) {
+    if (key == 'Shabbat Rosh Chodesh Chanukah') {
+        return undefined;
+    }
+    const attrs = e.getAttrs();
+    if (attrs && attrs.chanukahDay) {
+        return (attrs.chanukahDay == 8) ? 'Shabbat Chanukah II' : 'Shabbat Chanukah';
+    }
+    return undefined;
+}
+
+/**
  * Looks up leyning for a regular Shabbat parsha.
  * @param {Event} e the Hebcal event associated with this leyning
  * @returns {Object} map of aliyot
@@ -179,15 +195,15 @@ function getLeyningForParshaHaShavua(e) {
             if ((ev.getFlags() & flags.ROSH_CHODESH) && events.length > 1) {
                 continue;
             }
-            let key = getLeyningKeyForEvent(ev);
+            const key = getLeyningKeyForEvent(ev);
 //            console.log(hd.greg().toLocaleDateString(), name, ev.getDesc(), key);
             const special = festivals[key];
             if (special) {
-                const attrs = ev.getAttrs();
-                if (attrs && attrs.chanukahDay) {
-                    const chanukahKey = (attrs.chanukahDay == 8) ? 'Shabbat Chanukah II' : 'Shabbat Chanukah';
-                    haftara = festivals[chanukahKey].haftara;
-                    reason.haftara = chanukahKey;
+                const shabbatChanukah = getChanukahShabbatKey(ev, key);
+                if (shabbatChanukah) {
+                    haftara = festivals[shabbatChanukah].haftara;
+                    reason.haftara = shabbatChanukah;
+                    // Aliyot 1-3 from regular daily reading becomes Maftir
                     fullkriyah['M'] = Object.assign({}, special.fullkriyah['1']);
                     fullkriyah['M'].e = special.fullkriyah['3'].e;
                     reason.M = key;
