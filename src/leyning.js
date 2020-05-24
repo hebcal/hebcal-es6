@@ -78,11 +78,10 @@ function getLeyningKeyForEvent(e) {
  * (untranslated) string used in holiday-readons.json. Returns some
  * of full kriyah aliyot, special Maftir, special Haftarah
  * @param {Event} e the Hebcal event associated with this leyning
- * @param {string} key name of holiday (like "Chanukah (Day 6) or "Sukkot Chol ha-Moed Day 4")
  * @returns {Object} map of aliyot
  */
-function getLeyningForHoliday(e, key) {
-    const holiday = key.substring(0, desc.indexOf(' '));
+function getLeyningForHoliday(e) {
+    const key = getLeyningKeyForEvent(e);
     let leyning = festivals[key];
     return leyning;
 }

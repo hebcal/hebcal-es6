@@ -1,7 +1,6 @@
 import test from 'ava';
 import hebcal from './hebcal';
 import leyning from './leyning';
-import { flags } from './holidays';
 
 test('getLeyningKeyForEvent', t => {
 //    const options = { year: 1997, noHolidays: true, sedrot: true, il: false };
@@ -67,8 +66,9 @@ test('pinchas17Tamuz', t => {
     t.is(a.reason.haftara, 'Pinchas occurring after 17 Tammuz');
 });
 
-function formatMaftir(a) {
-    return `${a.fullkriyah.M.k} ${a.fullkriyah.M.b} - ${a.fullkriyah.M.e}`;
+function formatAliyah(aliyot, num) {
+    const a = aliyot.fullkriyah[num];
+    return `${a.k} ${a.b} - ${a.e}`;
 }
 
 test('getLeyningForParshaHaShavua', t => {
@@ -81,19 +81,19 @@ test('getLeyningForParshaHaShavua', t => {
                 t.is(a.reason.haftara, "Shabbat Shekalim");
                 t.is(a.reason.M, "Shabbat Shekalim");
                 t.is(a.haftara, "II Kings 12:1 - 12:17");
-                t.is(formatMaftir(a), "Exodus 30:11 - 30:16");
+                t.is(formatAliyah(a, 'M'), "Exodus 30:11 - 30:16");
                 break;
             case "Parashat Tetzaveh":
                 t.is(a.reason.haftara, "Shabbat Zachor");
                 t.is(a.reason.M, "Shabbat Zachor");
                 t.is(a.haftara, "I Samuel 15:2 - 15:34");
-                t.is(formatMaftir(a), "Deuteronomy 25:17 - 25:19");
+                t.is(formatAliyah(a, 'M'), "Deuteronomy 25:17 - 25:19");
                 break;
             case "Parashat Ki Tisa":
                 t.is(a.reason.haftara, "Shabbat Parah");
                 t.is(a.reason.M, "Shabbat Parah");
                 t.is(a.haftara, "Ezekiel 36:16 - 36:38");
-                t.is(formatMaftir(a), "Numbers 19:1 - 19:22");
+                t.is(formatAliyah(a, 'M'), "Numbers 19:1 - 19:22");
                 break;
             case "Parashat Tzav":
                 t.is(a.reason.haftara, "Shabbat HaGadol");
@@ -103,7 +103,7 @@ test('getLeyningForParshaHaShavua', t => {
                 t.is(a.reason.haftara, "Shabbat Rosh Chodesh");
                 t.is(a.reason.M, "Shabbat Rosh Chodesh");
                 t.is(a.haftara, "Isaiah 66:1 - 66:24");
-                t.is(formatMaftir(a), "Numbers 28:9 - 28:15");
+                t.is(formatAliyah(a, 'M'), "Numbers 28:9 - 28:15");
                 break;
             case "Parashat Bamidbar":
                 t.is(a.reason.haftara, "Shabbat Machar Chodesh");
@@ -113,13 +113,13 @@ test('getLeyningForParshaHaShavua', t => {
                 t.is(a.reason.haftara, "Shabbat Chanukah");
                 t.is(a.reason.M, "Chanukah (Day 1)");
                 t.is(a.haftara, "Zechariah 2:14-4:7");
-                t.is(formatMaftir(a), "Numbers 7:1 - 7:17");
+                t.is(formatAliyah(a, 'M'), "Numbers 7:1 - 7:17");
                 break;
             case "Parashat Miketz":
                 t.is(a.reason.haftara, "Shabbat Chanukah II");
                 t.is(a.reason.M, "Chanukah (Day 8)");
                 t.is(a.haftara, "I Kings 7:40-50");
-                t.is(formatMaftir(a), "Numbers 7:54 - 8:4");
+                t.is(formatAliyah(a, 'M'), "Numbers 7:54 - 8:4");
                 break;
         }
     }
@@ -131,7 +131,7 @@ test('getLeyningForParshaHaShavua', t => {
     t.is(a.reason.haftara, "Shabbat Chanukah");
     t.is(a.reason['M'], "Chanukah (Day 2)");
     t.is(a.haftara, "Zechariah 2:14-4:7");
-    t.is(formatMaftir(a), "Numbers 7:18 - 7:29");
+    t.is(formatAliyah(a, 'M'), "Numbers 7:18 - 7:29");
 
     options.year = 2021;
     options.month = 12;
@@ -141,5 +141,28 @@ test('getLeyningForParshaHaShavua', t => {
     t.is(a.reason['M'], "Shabbat Rosh Chodesh Chanukah");
     t.is(a.reason['8'], "Shabbat Rosh Chodesh Chanukah");
     t.is(a.haftara, "Zechariah 2:14-4:7");
-    t.is(formatMaftir(a), "Numbers 7:42 - 7:47");
+    t.is(formatAliyah(a, '8'), "Numbers 28:9 - 28:15");
+    t.is(formatAliyah(a, 'M'), "Numbers 7:42 - 7:47");
+
+    options.year = 2019;
+    options.month = 4;
+    const tazria = hebcal.hebcalEvents(options).find(e => e.getDesc() == 'Parashat Tazria');
+    a = leyning.getLeyningForParshaHaShavua(tazria);
+    t.is(a.reason.haftara, "Shabbat HaChodesh (on Rosh Chodesh)");
+    t.is(a.reason['7'], "Shabbat HaChodesh (on Rosh Chodesh)");
+    t.is(a.reason['M'], "Shabbat HaChodesh (on Rosh Chodesh)");
+    t.is(a.haftara, "Ezekiel 45:16 - 46:18");
+    t.is(formatAliyah(a, '7'), "Numbers 28:9 - 28:15");
+    t.is(formatAliyah(a, 'M'), "Exodus 12:1 - 12:20");
+
+});
+
+test('getLeyningForHoliday', t => {
+    const options = { year: 5757, isHebrewYear: true, il: true };
+    const events = hebcal.hebcalEvents(options);
+    for (const e of events) {
+        const a = leyning.getLeyningForHoliday(e);
+//        console.log(e.getDesc(), a);
+    }
+    t.pass('message');
 });
