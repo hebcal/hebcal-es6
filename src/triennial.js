@@ -1,9 +1,6 @@
 import { HDate } from './hdate';
 import { Sedra, parshiot } from './sedra';
 
-// const festivals = require('./holiday-readings.json');
-// const allInOrder = parshiot.slice();
-
 const doubled = [
     21, // Vayakhel-Pekudei
     26, // Tazria-Metzora
@@ -32,8 +29,16 @@ let parshiyotObj;
 let triennialAliyot;
 
 export class Triennial {
-    constructor(hebrewYear) {
-        if (!parshiyotObj) {
+    /**
+     * Builds a Triennial object
+     * @param {number} [hebrewYear] Hebrew Year (default current year)
+     * @param {*} [aliyot] aliyot.json object
+     */
+    constructor(hebrewYear, aliyot) {
+        if (typeof aliyot == 'object' && typeof aliyot.Bereshit == 'object') {
+            parshiyotObj = aliyot;
+            triennialAliyot = Triennial.getTriennialAliyot();
+        } else if (!parshiyotObj) {
             console.debug(`Loading ${ALIYOT_JSON_NAME}...`);
             parshiyotObj = require(ALIYOT_JSON_NAME);
             triennialAliyot = Triennial.getTriennialAliyot();

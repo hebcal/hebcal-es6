@@ -151,29 +151,29 @@ function getStartAndEnd(options) {
         const startAbs = startDate.abs();
         const numYears = Number(options.numYears) || 1;
         const endAbs = options.month ? startAbs + startDate.daysInMonth() : new HDate(1, common.months.TISHREI, theYear + numYears).abs() - 1;
-        return [startDate, startAbs, new HDate(endAbs), endAbs];
+        return [startAbs, endAbs];
     } else {
         const gregMonth = options.month ? theMonth - 1 : 0;
         const startGreg = new Date(theYear, gregMonth, 1);
         const startAbs = greg.greg2abs(startGreg);
         const numYears = Number(options.numYears) || 1;
         const endAbs = options.month ? startAbs + greg.daysInGregMonth(theMonth, theYear) - 1 : greg.greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
-        const startDate = new HDate(startAbs);
-        return [startDate, startAbs, new HDate(endAbs), endAbs];
+        return [startAbs, endAbs];
     }
 }
 
-function getOmerStartAndEnd(options, hyear) {
-    if (options.omer) {
-        return [
-            hebrew2abs({ yy: hyear, mm: common.months.NISAN, dd: 16 }),
-            hebrew2abs({ yy: hyear, mm: common.months.SIVAN, dd: 5 })
-        ];
-    } else {
-        return [-1, -1];
-    }
+function getOmerStartAndEnd(hyear) {
+    return [
+        hebrew2abs({ yy: hyear, mm: common.months.NISAN, dd: 16 }),
+        hebrew2abs({ yy: hyear, mm: common.months.SIVAN, dd: 5 })
+    ];
 }
 
+/**
+ * Mask to filter Holiday array
+ * @param {HebcalOptions} options
+ * @returns {number}
+ */
 function getMaskFromOptions(options) {
     const il = options.il || (options.location && options.location.il) || false;
     let mask = 0;
@@ -188,6 +188,12 @@ function getMaskFromOptions(options) {
                 flags.MODERN_HOLIDAY |
                 flags.MAJOR_FAST |
                 flags.LIGHT_CANDLES |
+                flags.LIGHT_CANDLES_TZEIS |
+                flags.CHANUKAH_CANDLES;
+    }
+
+    if (options.candlelighting) {
+        mask |= flags.LIGHT_CANDLES |
                 flags.LIGHT_CANDLES_TZEIS |
                 flags.CHANUKAH_CANDLES;
     }
@@ -258,9 +264,6 @@ export function hebcalEvents(options) {
         hour: 'numeric',
         minute: 'numeric'
     });
-    const [startDate, startAbs, endDate, endAbs] = getStartAndEnd(options);
-//    console.log(`start=${startDate} (abs=${startAbs},greg=${startDate.greg()}) end=${endDate} (abs=${endAbs},greg=${endDate.greg()})`);
-    let currentYear = startDate.getFullYear();
     const candleLightingMinutes = getCandleLightingMinutes(options);
     const havdalahMinutes = options.havdalahMins;
     const mask = getMaskFromOptions(options);
@@ -269,20 +272,33 @@ export function hebcalEvents(options) {
         flags.LIGHT_CANDLES_TZEIS |
         flags.CHANUKAH_CANDLES |
         flags.YOM_TOV_ENDS;
-    let sedra = options.sedrot ? new Sedra(currentYear, il) : undefined;
-    let [beginOmer, endOmer] = getOmerStartAndEnd(options, currentYear);
     if (options.ashkenazi || options.locale) {
         const locale = options.ashkenazi ? "ashkenazi" : options.locale;
         const translationObj = require(`./${locale}.po.json`);
         addLocale(locale, translationObj); // adding locale to ttag
         useLocale(locale); // make locale active
     }
+
     let events = [];
+    let sedra, holidaysYear, beginOmer, endOmer;
+    let currentYear = -1;
+    const [startAbs, endAbs] = getStartAndEnd(options);
     for (let abs = startAbs; abs <= endAbs; abs++) {
         const hd = new HDate(abs);
+        const hyear = hd.getFullYear();
+        if (hyear != currentYear) {
+            currentYear = hyear;
+            holidaysYear = holidays.getHolidaysForYear(currentYear);
+            if (options.sedrot) {
+                sedra = new Sedra(currentYear, il);
+            }
+            if (options.omer) {
+                [beginOmer, endOmer] = getOmerStartAndEnd(currentYear);
+            }
+        }
         const dow = abs % 7;
         let candlesToday = false;
-        const ev = holidays.getHolidaysOnDate(hd);
+        const ev = holidaysYear[hd];
         if (typeof ev !== 'undefined') {
             for (const e of ev) {
                 const eFlags = e.getFlags();
@@ -300,20 +316,12 @@ export function hebcalEvents(options) {
                 }
             }
         }
-        const hyear = hd.getFullYear();
-        if (hyear != currentYear) {
-            currentYear = hyear;
-            if (options.sedrot) {
-                sedra = new Sedra(currentYear, il);
-            }
-            if (options.omer) {
-                [beginOmer, endOmer] = getOmerStartAndEnd(options, currentYear);
-            }
-        }
         if (options.sedrot && dow == SAT) {
-            if (sedra.isParsha(abs)) {
-                const parshaStr = sedra.getString(abs);
-                events.push(new Event(hd, parshaStr, flags.PARSHA_HASHAVUA));
+            const parsha0 = sedra.lookup(abs);
+            if (!parsha0.chag) {
+                const parshaStr = Sedra.parshaToString(parsha0.parsha);
+                const attrs = { parsha: parsha0.parsha };
+                events.push(new Event(hd, parshaStr, flags.PARSHA_HASHAVUA, attrs));
             }
         }
         if (options.candlelighting && !candlesToday && (dow == FRI || dow == SAT)) {

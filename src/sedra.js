@@ -104,11 +104,33 @@ export class Sedra {
      */
     getString(hDate) {
         const parsha = this.get(hDate);
+        return Sedra.parshaToString(parsha);
+    }
+
+    /**
+     * Translates object describing the parsha to a string
+     * @param {string[]} parsha
+     * @returns {string}
+     */
+    static parshaToString(parsha) {
+        if (!Array.isArray(parsha) || parsha.length == 0) {
+            throw new TypeError("Bad parsha argument");
+        }
         let s = gettext(parsha[0]);
         if (parsha.length == 2) {
             s += "-" + gettext(parsha[1]);
         }
         return gettext("Parashat") + " " + s;
+    }
+
+    /**
+     * Returns an object describing the parsha on the first Saturday on or after absdate
+     * @param {HDate|number} hDate Hebrew date or absolute days
+     * @returns {Object}
+     */
+    lookup(hDate) {
+        const abs0 = (typeof hDate == 'number') ? hDate : ((hDate instanceof HDate) ? hDate.abs() : this.throwError("Bad date argument"));
+        return abs(this, abs0);
     }
 
     /**

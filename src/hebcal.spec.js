@@ -81,7 +81,7 @@ test('sedrot-only', t => {
     t.is(events[48].getFlags(), flags.PARSHA_HASHAVUA);
 });
 
-test('candles-only', t => {
+test('candles-only-diaspora', t => {
     const options = {
         year: 1993,
         noHolidays: true,
@@ -89,11 +89,24 @@ test('candles-only', t => {
         candlelighting: true
     };
     const events = hebcal.hebcalEvents(options);
-    t.is(events.length, 113);
+    t.is(events.length, 126);
     t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
     t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
 });
 
+test('candles-only-israel', t => {
+    const options = {
+        year: 1993,
+        noHolidays: true,
+        location: new Location(32.1836, 34.87386, true, "Asia/Jerusalem"), // Ra'anana
+        il: true,
+        candlelighting: true
+    };
+    const events = hebcal.hebcalEvents(options);
+    t.is(events.length, 123);
+    t.is(events[0].getFlags(), flags.LIGHT_CANDLES, 'Candle lighting 0');
+    t.is(events[33].getFlags(), flags.YOM_TOV_ENDS | flags.IL_ONLY, 'Havdalah in Israel on Pesach VII');
+});
 test('dafyomi-only', t => {
     const options = {
         year: 1975,
