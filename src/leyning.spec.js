@@ -160,9 +160,23 @@ test('getLeyningForParshaHaShavua', t => {
 test('getLeyningForHoliday', t => {
     const options = { year: 5757, isHebrewYear: true, il: true };
     const events = hebcal.hebcalEvents(options);
-    for (const e of events) {
-        const a = leyning.getLeyningForHoliday(e);
-//        console.log(e.getDesc(), a);
-    }
-    t.pass('message');
+
+    const sukkot1 = events.find(e => e.getDesc() == 'Sukkot I');
+    t.is(leyning.getLeyningForHoliday(sukkot1).fullkriyah['7'].p, 31);
+    const sukkot2 = events.find(e => e.getDesc() == "Sukkot II (CH''M)");
+    t.is(leyning.getLeyningForHoliday(sukkot2).fullkriyah['4'].p, 41);
+    const shminiAtzeret = events.find(e => e.getDesc() == "Shmini Atzeret");
+    t.is(leyning.getLeyningForHoliday(shminiAtzeret).fullkriyah['7'].p, 47);
+    const chanukah3 = events.find(e => e.getDesc() == "Chanukah: 3 Candles");
+    t.is(leyning.getLeyningForHoliday(chanukah3).fullkriyah['3'].e, '7:29');
+/*
+    const tevet17 = events.find(e => e.getDesc() == "Asara B'Tevet");
+    t.is(leyning.getLeyningForHoliday(tevet17).fullkriyah['3'].e, '');
+    const pesach5 = events.find(e => e.getDesc() == "Pesach V (CH''M)");
+    t.is(leyning.getLeyningForHoliday(pesach5).fullkriyah['4'].p, 41);
+    const shavuot = events.find(e => e.getDesc() == "Shavuot");
+    t.is(leyning.getLeyningForHoliday(shavuot).fullkriyah['4'].p, 41);
+    const av9 = events.find(e => e.getDesc() == "Tish'a B'Av");
+    t.is(leyning.getLeyningForHoliday(av9).fullkriyah['4'].p, 41);
+*/
 });

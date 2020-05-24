@@ -53,6 +53,10 @@ function getLeyningKeyForEvent(e) {
         return desc + ' (on Rosh Chodesh)';
     }
 
+    if (desc == 'Shavuot') {
+        return 'Shavuot I';
+    }
+
     if (isShabbat && !desc.startsWith("Shabbat")) {
         const desc2 = desc + ' (on Shabbat)';
         if (festivals[desc2]) {
