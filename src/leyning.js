@@ -1,4 +1,4 @@
-import { Event, flags } from './holidays';
+import { Event, flags, getHolidaysOnDate } from './holidays';
 import common from './common';
 
 const festivals = require('./holiday-readings.json');
@@ -120,6 +120,33 @@ function getHaftaraKey(parsha) {
     }
 }
 
+function aliyotCombine67(aliyot) {
+    const a6 = aliyot['6'];
+    const a7 = aliyot['7'];
+    const result = Object.assign({}, aliyot);
+    delete result['7'];
+    result['6'] = {
+        book: a6.book,
+        begin: a6.begin,
+        end: a7.end
+    };
+    if (a6.numverses && a7.numverses) {
+        result['6'].numverses = a6.numverses + a7.numverses;
+    }
+    return result;
+}
+
+function mergeAliyotWithSpecial(aliyot, special) {
+    let result;
+    if (special['7']) {
+        result = aliyotCombine67(aliyot);
+    } else {
+        result = Object.assign({}, aliyot);
+    }
+    // copies 7, 8, M to the result
+    return Object.assign(result, special);
+}
+
 /**
  * Looks up leyning for a regular Shabbat parsha.
  * @param {Event} e the Hebcal event associated with this leyning
@@ -129,25 +156,59 @@ function getLeyningForParshaHaShavua(e) {
     if (e.getFlags() != flags.PARSHA_HASHAVUA) {
         throw new TypeError(`Bad event argument ${e.getDesc()}`);
     }
+    // first, collect the default aliyot and haftara
     const parsha = e.getAttrs().parsha;
     const name = parshaToString(parsha); // untranslated
     const raw = parshiyotObj[name];
     let haftara = parshiyotObj[getHaftaraKey(parsha)].haftara;
-    let reason;
+    let fullkriyah = {};
+    for (const [num, src] of Object.entries(raw.fullkriyah)) {
+        const reading = { book: raw.book, begin: src.b, end: src.e };
+        if (src.v) {
+            reading.numverses = src.v;
+        }
+        fullkriyah[num] = reading;
+    }
+    const reason = {};
+    const hd = e.getDate();
     if (name == 'Pinchas') {
-        const hd = e.getDate();
         const month = hd.getMonth();
         if (month > common.months.TAMUZ || (month == common.months.TAMUZ && hd.getDate() > 17)) {
             haftara = "Jeremiah 1:1 - 2:3";
-            reason = "Pinchas occurring after 17 Tammuz";
+            reason.haftara = "Pinchas occurring after 17 Tammuz";
         }
     }
-    return {
-        book: raw.book,
-        verses: raw.verses,
+    // Now, check for special maftir or haftara on same date
+    const events = getHolidaysOnDate(hd);
+    if (events) {
+        for (const ev of events) {
+            if ((ev.getFlags() & flags.ROSH_CHODESH) && events.length > 1) {
+                continue;
+            }
+            const key = getLeyningKeyForEvent(ev);
+//            console.log(hd.greg().toLocaleDateString(), name, ev.getDesc(), key);
+            const special = festivals[key];
+            if (special) {
+                if (special.haftara && !reason.haftara) {
+                    haftara = special.haftara;
+                    reason.haftara = key;
+                }
+                if (special.fullkriyah) {
+                    fullkriyah = mergeAliyotWithSpecial(fullkriyah, special.fullkriyah);
+                    Object.keys(special.fullkriyah).map(k => reason[k] = key);
+                }
+            }
+        }
+    }
+    const result = {
+        summary: `${raw.book} ${raw.verses}`,
         haftara: haftara,
-        fullkriyah: raw.fullkriyah
+        fullkriyah: fullkriyah
     };
+    if (Object.keys(reason).length) {
+        result.reason = reason;
+    }
+    return result;
 }
 
 export default {

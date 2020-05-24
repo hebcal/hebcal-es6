@@ -44,12 +44,12 @@ test('getLeyningKeyForEvent', t => {
 });
 
 test('getLeyningForParshaHaShavua', t => {
-    const options = { year: 5757, isHebrewYear: true, sedrot: true };
+    const options = { year: 5782, isHebrewYear: true, sedrot: true };
     const events = hebcal.hebcalEvents(options);
     for (const ev of events) {
         if (ev.getFlags() == flags.PARSHA_HASHAVUA) {
             const a = leyning.getLeyningForParshaHaShavua(ev);
-            if (ev.getDesc() == 'Parashat Pinchas') {
+            if (ev.getDesc() == 'Parashat Pinchas' || ev.getDesc() == 'Parashat Miketz') {
                 console.log(ev, a);
             } else if (ev.getDesc().indexOf('-') != -1) {
                 console.log(ev, a);
