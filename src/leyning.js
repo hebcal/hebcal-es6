@@ -40,14 +40,8 @@ function getLeyningKeyForEvent(e) {
         }
         return `${holiday} Chol ha-Moed Day ${cholHaMoedDay}`;
     } else if (attrs && attrs.chanukahDay) {
-        if (isShabbat) {
-            if (isRoshChodesh) {
-                return 'Shabbat Rosh Chodesh Chanukah';
-            } else if (attrs.chanukahDay == 8) {
-                return 'Shabbat Chanukah II';
-            } else {
-                return 'Shabbat Chanukah';
-            }
+        if (isShabbat && isRoshChodesh) {
+            return 'Shabbat Rosh Chodesh Chanukah';
         } else if (isRoshChodesh && attrs.chanukahDay == 7) {
             return `Chanukah (Day 7 on Rosh Chodesh)`;
         } else {
@@ -185,17 +179,27 @@ function getLeyningForParshaHaShavua(e) {
             if ((ev.getFlags() & flags.ROSH_CHODESH) && events.length > 1) {
                 continue;
             }
-            const key = getLeyningKeyForEvent(ev);
+            let key = getLeyningKeyForEvent(ev);
 //            console.log(hd.greg().toLocaleDateString(), name, ev.getDesc(), key);
             const special = festivals[key];
             if (special) {
-                if (special.haftara && !reason.haftara) {
-                    haftara = special.haftara;
-                    reason.haftara = key;
-                }
-                if (special.fullkriyah) {
-                    fullkriyah = mergeAliyotWithSpecial(fullkriyah, special.fullkriyah);
-                    Object.keys(special.fullkriyah).map(k => reason[k] = key);
+                const attrs = ev.getAttrs();
+                if (attrs && attrs.chanukahDay) {
+                    const chanukahKey = (attrs.chanukahDay == 8) ? 'Shabbat Chanukah II' : 'Shabbat Chanukah';
+                    haftara = festivals[chanukahKey].haftara;
+                    reason.haftara = chanukahKey;
+                    fullkriyah['M'] = Object.assign({}, special.fullkriyah['1']);
+                    fullkriyah['M'].e = special.fullkriyah['3'].e;
+                    reason.M = key;
+                } else {
+                    if (special.haftara && !reason.haftara) {
+                        haftara = special.haftara;
+                        reason.haftara = key;
+                    }
+                    if (special.fullkriyah) {
+                        fullkriyah = mergeAliyotWithSpecial(fullkriyah, special.fullkriyah);
+                        Object.keys(special.fullkriyah).map(k => reason[k] = key);
+                    }
                 }
             }
         }
