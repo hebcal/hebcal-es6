@@ -7,9 +7,10 @@ const parshiyotObj = require('./aliyot.json');
 /**
  * Based on the event date, type and title, finds the relevant leyning key
  * @param {Event} e event
+ * @param {boolean} [il] true if Israel holiday scheme
  * @returns {string} key to look up in holiday-reading.json
  */
-function getLeyningKeyForEvent(e) {
+export function getLeyningKeyForEvent(e, il=false) {
     const hd = e.getDate();
     const day = hd.getDate();
     let desc = e.getDesc();
@@ -55,6 +56,8 @@ function getLeyningKeyForEvent(e) {
 
     if (desc == 'Shavuot') {
         return 'Shavuot I';
+    } else if (il && desc == 'Shmini Atzeret') {
+        return 'Simchat Torah';
     }
 
     if (isShabbat && !desc.startsWith("Shabbat")) {
@@ -82,10 +85,11 @@ function getLeyningKeyForEvent(e) {
  * (untranslated) string used in holiday-readons.json. Returns some
  * of full kriyah aliyot, special Maftir, special Haftarah
  * @param {Event} e the Hebcal event associated with this leyning
+ * @param {boolean} [il] true if Israel holiday scheme
  * @returns {Object} map of aliyot
  */
-function getLeyningForHoliday(e) {
-    const key = getLeyningKeyForEvent(e);
+export function getLeyningForHoliday(e, il=false) {
+    const key = getLeyningKeyForEvent(e, il);
     let leyning = festivals[key];
     return leyning;
 }
@@ -161,11 +165,28 @@ function getChanukahShabbatKey(e, key) {
 }
 
 /**
+ * Filters out Rosh Chodesh and events that don't occur in this location
+ * @param {HDate} hd Hebrew date
+ * @param {boolean} il in Israel
+ * @returns {Event[]}
+ */
+function getHolidayEvents(hd, il) {
+    const events = getHolidaysOnDate(hd) || [];
+    return events.filter((e) => {
+        if ((e.getFlags() & flags.ROSH_CHODESH) && events.length > 1) {
+            return false;
+        }
+        return (il && e.observedInIsrael()) || (!il && e.observedInDiaspora());
+    });
+}
+
+/**
  * Looks up leyning for a regular Shabbat parsha.
  * @param {Event} e the Hebcal event associated with this leyning
+ * @param {booleam} [il] in Israel
  * @returns {Object} map of aliyot
  */
-function getLeyningForParshaHaShavua(e) {
+export function getLeyningForParshaHaShavua(e, il=false) {
     if (e.getFlags() != flags.PARSHA_HASHAVUA) {
         throw new TypeError(`Bad event argument ${e.getDesc()}`);
     }
@@ -192,33 +213,31 @@ function getLeyningForParshaHaShavua(e) {
         }
     }
     // Now, check for special maftir or haftara on same date
-    const events = getHolidaysOnDate(hd);
-    if (events) {
-        for (const ev of events) {
-            if ((ev.getFlags() & flags.ROSH_CHODESH) && events.length > 1) {
-                continue;
-            }
-            const key = getLeyningKeyForEvent(ev);
+    const events = getHolidayEvents(hd, il);
+    for (const ev of events) {
+        const key = getLeyningKeyForEvent(ev, il);
 //            console.log(hd.greg().toLocaleDateString(), name, ev.getDesc(), key);
-            const special = festivals[key];
-            if (special) {
-                const shabbatChanukah = getChanukahShabbatKey(ev, key);
-                if (shabbatChanukah) {
-                    haftara = festivals[shabbatChanukah].haftara;
-                    reason.haftara = shabbatChanukah;
-                    // Aliyot 1-3 from regular daily reading becomes Maftir
-                    fullkriyah['M'] = Object.assign({}, special.fullkriyah['1']);
-                    fullkriyah['M'].e = special.fullkriyah['3'].e;
-                    reason.M = key;
-                } else {
-                    if (special.haftara && !reason.haftara) {
-                        haftara = special.haftara;
-                        reason.haftara = key;
-                    }
-                    if (special.fullkriyah) {
-                        fullkriyah = mergeAliyotWithSpecial(fullkriyah, special.fullkriyah);
-                        Object.keys(special.fullkriyah).map(k => reason[k] = key);
-                    }
+        const special = festivals[key];
+        if (special) {
+            const shabbatChanukah = getChanukahShabbatKey(ev, key);
+            if (shabbatChanukah) {
+                // only for Shabbat Chanukah I or Shabbat Chanukah II. Note
+                // this section doesn't apply to Shabbat Rosh Chodesh Chanukah; that
+                // case gets handled below with the mergeAliyotWithSpecial() logic
+                haftara = festivals[shabbatChanukah].haftara;
+                reason.haftara = shabbatChanukah;
+                // Aliyot 1-3 from regular daily reading becomes Maftir
+                fullkriyah['M'] = Object.assign({}, special.fullkriyah['1']);
+                fullkriyah['M'].e = special.fullkriyah['3'].e;
+                reason.M = key;
+            } else {
+                if (special.haftara && !reason.haftara) {
+                    haftara = special.haftara;
+                    reason.haftara = key;
+                }
+                if (special.fullkriyah) {
+                    fullkriyah = mergeAliyotWithSpecial(fullkriyah, special.fullkriyah);
+                    Object.keys(special.fullkriyah).map(k => reason[k] = key);
                 }
             }
         }

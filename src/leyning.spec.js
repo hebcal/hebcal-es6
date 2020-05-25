@@ -169,14 +169,22 @@ test('getLeyningForHoliday', t => {
     t.is(leyning.getLeyningForHoliday(shminiAtzeret).fullkriyah['7'].p, 47);
     const chanukah3 = events.find(e => e.getDesc() == "Chanukah: 3 Candles");
     t.is(leyning.getLeyningForHoliday(chanukah3).fullkriyah['3'].e, '7:29');
-/*
     const tevet17 = events.find(e => e.getDesc() == "Asara B'Tevet");
-    t.is(leyning.getLeyningForHoliday(tevet17).fullkriyah['3'].e, '');
+    t.is(leyning.getLeyningForHoliday(tevet17).fullkriyah['3'].e, '34:10');
     const pesach5 = events.find(e => e.getDesc() == "Pesach V (CH''M)");
-    t.is(leyning.getLeyningForHoliday(pesach5).fullkriyah['4'].p, 41);
+    t.is(leyning.getLeyningForHoliday(pesach5).fullkriyah['4'].p, 21);
     const shavuot = events.find(e => e.getDesc() == "Shavuot");
-    t.is(leyning.getLeyningForHoliday(shavuot).fullkriyah['4'].p, 41);
+    t.is(leyning.getLeyningForHoliday(shavuot).fullkriyah['4'].p, 17);
     const av9 = events.find(e => e.getDesc() == "Tish'a B'Av");
-    t.is(leyning.getLeyningForHoliday(av9).fullkriyah['4'].p, 41);
-*/
+    t.is(leyning.getLeyningForHoliday(av9).haftara, 'Jeremiah 8:13 - 9:23');
+});
+
+test('shmini-atzeret', t => {
+    const diaspora = hebcal.hebcalEvents({ year: 2019, month: 10, il: false });
+    const shminiDiaspora = diaspora.find(e => e.getDesc() == 'Shmini Atzeret');
+    t.is(leyning.getLeyningForHoliday(shminiDiaspora, false).haftara, 'I Kings 8:54 - 8:66');
+
+    const israel = hebcal.hebcalEvents({ year: 2019, month: 10, il: true });
+    const shminiIsrael = israel.find(e => e.getDesc() == 'Shmini Atzeret');
+    t.is(leyning.getLeyningForHoliday(shminiIsrael, true).haftara, 'Joshua 1:1 - 1:18');
 });
