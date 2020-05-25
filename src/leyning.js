@@ -90,7 +90,21 @@ export function getLeyningKeyForEvent(e, il=false) {
  */
 export function getLeyningForHoliday(e, il=false) {
     const key = getLeyningKeyForEvent(e, il);
-    let leyning = festivals[key];
+    const src = festivals[key];
+    const leyning = {};
+    if (src.haftara) {
+        leyning.haftara = src.haftara;
+    }
+    if (src.fullkriyah) {
+        leyning.fullkriyah = Object.assign({}, src.fullkriyah);
+    }
+    if (key == 'Sukkot Shabbat Chol ha-Moed') {
+        const attrs = e.getAttrs();
+        leyning.fullkriyah['M'] = src.fullkriyah[`M-day${attrs.cholHaMoedDay}`];
+        for (const day of [1,2,3,4]) {
+            delete leyning.fullkriyah[`M-day${day}`];
+        }
+    }
     return leyning;
 }
 

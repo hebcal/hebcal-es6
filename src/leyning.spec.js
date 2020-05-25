@@ -188,3 +188,17 @@ test('shmini-atzeret', t => {
     const shminiIsrael = israel.find(e => e.getDesc() == 'Shmini Atzeret');
     t.is(leyning.getLeyningForHoliday(shminiIsrael, true).haftara, 'Joshua 1:1 - 1:18');
 });
+
+test('sukkot-shabbat-chm', t => {
+    const diaspora = hebcal.hebcalEvents({ year: 2019, month: 10, il: false });
+    const sukkotShabbatD = diaspora.find(e => e.getDesc() == "Sukkot VI (CH''M)");
+    const a1 = leyning.getLeyningForHoliday(sukkotShabbatD);
+    t.is(a1.haftara, "Ezekiel 38:18 - 39:16");
+    t.is(formatAliyah(a1, 'M'), "Numbers 29:26 - 29:31");
+
+    const israel = hebcal.hebcalEvents({ year: 2017, month: 10, il: true });
+    const sukkotShabbatIL = israel.find(e => e.getDesc() == "Sukkot III (CH''M)");
+    const a2 = leyning.getLeyningForHoliday(sukkotShabbatIL);
+    t.is(a2.haftara, "Ezekiel 38:18 - 39:16");
+    t.is(formatAliyah(a2, 'M'), "Numbers 29:20 - 29:25");
+});
