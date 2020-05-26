@@ -242,6 +242,26 @@ export class Triennial {
     }
 }
 
+const __cache = new Map();
+
+/**
+ * Calculates the 3-year readings for a given year
+ * @param {number} year Hebrew year
+ * @returns {Triennial}
+ */
+export function getTriennial(year) {
+    const cycleStartYear = Triennial.getCycleStartYear(year);
+    const cached = __cache.get(cycleStartYear);
+    if (cached) {
+        return cached;
+    }
+    const tri = new Triennial(cycleStartYear);
+    __cache.set(cycleStartYear, tri);
+    return tri;
+}
+
+
 export default {
+    getTriennial,
     Triennial
 };
