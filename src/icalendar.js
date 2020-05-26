@@ -177,11 +177,12 @@ function addOptional(arr, key, val) {
 export function eventToIcal(e, options) {
     const dtstamp = options.dtstamp || makeDtstamp(new Date());
     let subj = e.render();
+    const desc = e.getDesc(); // original untranslated
     const attrs = e.getAttrs();
+    const mask = e.getFlags();
     const untimed = !attrs || !attrs.eventTime;
     let location = untimed ? undefined : options.location.name;
-    const isDafYomi = Boolean(e.getFlags() & flags.DAF_YOMI);
-    if (isDafYomi) {
+    if (mask & flags.DAF_YOMI) {
         subj = subj.substring(subj.indexOf(':') + 1);
         location = 'Daf Yomi';
     }
@@ -192,15 +193,18 @@ export function eventToIcal(e, options) {
 
     const date = formatYYYYMMDD(e.getDate().greg());
     let startDate = date;
-    let dtargs, endDate, transp, busyStatus;
+    let dtargs, endDate;
+    let transp = 'TRANSPARENT', busyStatus = 'FREE';
     if (untimed) {
         endDate = formatYYYYMMDD(e.getDate().next().greg());
         // for all-day untimed, use DTEND;VALUE=DATE intsead of DURATION:P1D.
         // It's more compatible with everthing except ancient versions of
         // Lotus Notes circa 2004
         dtargs = ';VALUE=DATE';
-        transp = 'OPAQUE';
-        busyStatus = 'OOF';
+        if (mask & flags.CHAG) {
+            transp = 'OPAQUE';
+            busyStatus = 'OOF';
+        }
     } else {
         let [hour,minute] = attrs.eventTimeStr.split(':');        
         if (Number(hour) < 12) {
@@ -209,8 +213,6 @@ export function eventToIcal(e, options) {
         startDate += 'T' + formatTime(hour, minute, 0);
         endDate = startDate;
         dtargs = `;TZID=${options.location.tzid}`;
-        transp = 'TRANSPARENT';
-        busyStatus = 'FREE';
     }
 
     const digest = md5(subj);
@@ -229,7 +231,7 @@ export function eventToIcal(e, options) {
     const arr = [
         'BEGIN:VEVENT',
         `DTSTAMP:${dtstamp}`,
-        'CATEGORIES:HOLIDAY',
+        'CATEGORIES:Holiday',
         'CLASS:PUBLIC',
         `SUMMARY:${subj}`,
         `DTSTART${dtargs}:${startDate}`,
@@ -253,7 +255,7 @@ export function eventToIcal(e, options) {
         alarm = '3H'; // 9pm Omer alarm evening before
     } else if (e.getFlags() & flags.USER_EVENT) {
         alarm = '12H'; // noon the day before
-    } else if (!untimed && e.getDesc().startsWith("Candle lighting")) {
+    } else if (!untimed && desc.startsWith("Candle lighting")) {
         alarm = '10M'; // ten minutes
     }
     if (alarm) {
