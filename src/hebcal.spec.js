@@ -105,7 +105,7 @@ test('candles-only-israel', t => {
     const events = hebcal.hebcalEvents(options);
     t.is(events.length, 123);
     t.is(events[0].getFlags(), flags.LIGHT_CANDLES, 'Candle lighting 0');
-    t.is(events[33].getFlags(), flags.YOM_TOV_ENDS | flags.IL_ONLY, 'Havdalah in Israel on Pesach VII');
+    t.is(events[33].getFlags(), flags.CHAG | flags.YOM_TOV_ENDS | flags.IL_ONLY, 'Havdalah in Israel on Pesach VII');
 });
 test('dafyomi-only', t => {
     const options = {

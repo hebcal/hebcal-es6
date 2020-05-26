@@ -32,7 +32,7 @@ function Chanukah(day) {
   return `Chanukah: ${day} Candles`;
 }
 
-const USER_EVENT          = 1;
+const CHAG                = 1;
 const LIGHT_CANDLES       = 2;
 const YOM_TOV_ENDS        = 4;
 const CHUL_ONLY           = 8;  // chutz l'aretz (Diaspora)
@@ -49,13 +49,14 @@ const MODERN_HOLIDAY      = 8192;
 const MAJOR_FAST          = 16384;
 const SHABBAT_MEVARCHIM   = 32768;
 const MOLAD               = 65536;
+const USER_EVENT          = 131072;
 
 /**
  * Holiday flags
  * @readonly
  */
 export const flags = {
-  USER_EVENT,
+  CHAG,
   LIGHT_CANDLES,
   YOM_TOV_ENDS,
   CHUL_ONLY,
@@ -72,6 +73,7 @@ export const flags = {
   MAJOR_FAST,
   SHABBAT_MEVARCHIM,
   MOLAD,
+  USER_EVENT,
 };
 
 export class Event {
@@ -187,9 +189,9 @@ export function getHolidaysForYear(year) {
   }
 
   // standard holidays that don't shift based on year
-  add(new Event(RH, `Rosh Hashana ${year}`, LIGHT_CANDLES_TZEIS));
+  add(new Event(RH, `Rosh Hashana ${year}`, CHAG | LIGHT_CANDLES_TZEIS));
   addEvents(year, [
-    [2,   TISHREI,    "Rosh Hashana II",   YOM_TOV_ENDS],
+    [2,   TISHREI,    "Rosh Hashana II",   CHAG | YOM_TOV_ENDS],
     [3 + (RH.getDay() == days.THU),
           TISHREI,    "Tzom Gedaliah",     MINOR_FAST], // push off to SUN if RH is THU
     [9,   TISHREI,    "Erev Yom Kippur",   LIGHT_CANDLES],
@@ -197,28 +199,28 @@ export function getHolidaysForYear(year) {
   // first SAT after RH
   add(new Event(new HDate(c.dayOnOrBefore(SAT, 7 + RH.abs())), "Shabbat Shuva", 0));
   addEvents(year, [
-    [10,  TISHREI,    "Yom Kippur",         YOM_TOV_ENDS | MAJOR_FAST],
+    [10,  TISHREI,    "Yom Kippur",         CHAG | YOM_TOV_ENDS | MAJOR_FAST],
     [14,  TISHREI,    "Erev Sukkot",        LIGHT_CANDLES],
 
     // Attributes for Israel and Diaspora are different
-    [15,  TISHREI,    "Sukkot I",           LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-    [16,  TISHREI,    "Sukkot II",          YOM_TOV_ENDS | CHUL_ONLY],
+    [15,  TISHREI,    "Sukkot I",           CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [16,  TISHREI,    "Sukkot II",          CHAG | YOM_TOV_ENDS | CHUL_ONLY],
     [17,  TISHREI,    "Sukkot III (CH''M)", CHUL_ONLY, { cholHaMoedDay: 1 }],
     [18,  TISHREI,    "Sukkot IV (CH''M)",  CHUL_ONLY, { cholHaMoedDay: 2 }],
     [19,  TISHREI,    "Sukkot V (CH''M)",   CHUL_ONLY, { cholHaMoedDay: 3 }],
     [20,  TISHREI,    "Sukkot VI (CH''M)",  CHUL_ONLY, { cholHaMoedDay: 4 }],
 
-    [15,  TISHREI,    "Sukkot I",           YOM_TOV_ENDS | IL_ONLY],
+    [15,  TISHREI,    "Sukkot I",           CHAG | YOM_TOV_ENDS | IL_ONLY],
     [16,  TISHREI,    "Sukkot II (CH''M)",  IL_ONLY, { cholHaMoedDay: 1 } ],
     [17,  TISHREI,    "Sukkot III (CH''M)", IL_ONLY, { cholHaMoedDay: 2 }],
     [18,  TISHREI,    "Sukkot IV (CH''M)",  IL_ONLY, { cholHaMoedDay: 3 }],
     [19,  TISHREI,    "Sukkot V (CH''M)",   IL_ONLY, { cholHaMoedDay: 4 }],
     [20,  TISHREI,    "Sukkot VI (CH''M)",  IL_ONLY, { cholHaMoedDay: 5 }],
     [21,  TISHREI,    "Sukkot VII (Hoshana Raba)", LIGHT_CANDLES, { cholHaMoedDay: -1 }],
-    [22,  TISHREI,    "Shmini Atzeret",     LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [22,  TISHREI,    "Shmini Atzeret",     CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
 //    [22,  TISHREI,    "Shmini Atzeret / Simchat Torah", YOM_TOV_ENDS | IL_ONLY],
-    [22,  TISHREI,    "Shmini Atzeret",     YOM_TOV_ENDS | IL_ONLY],
-    [23,  TISHREI,    "Simchat Torah",      YOM_TOV_ENDS | CHUL_ONLY],
+    [22,  TISHREI,    "Shmini Atzeret",     CHAG | YOM_TOV_ENDS | IL_ONLY],
+    [23,  TISHREI,    "Simchat Torah",      CHAG | YOM_TOV_ENDS | CHUL_ONLY],
     [24,  KISLEV,     "Chanukah: 1 Candle", CHANUKAH_CANDLES],
     [25,  KISLEV,     Chanukah(2),          CHANUKAH_CANDLES, { chanukahDay: 1} ],
     [26,  KISLEV,     Chanukah(3),          CHANUKAH_CANDLES, { chanukahDay: 2} ],
@@ -259,28 +261,28 @@ export function getHolidaysForYear(year) {
     [14, NISAN,     "Erev Pesach", LIGHT_CANDLES],
 
     // Attributes for Israel and Diaspora are different
-    [15, NISAN,     "Pesach I", YOM_TOV_ENDS | IL_ONLY],
+    [15, NISAN,     "Pesach I", CHAG | YOM_TOV_ENDS | IL_ONLY],
     [16, NISAN,     "Pesach II (CH''M)", IL_ONLY, { cholHaMoedDay: 1 }],
     [17, NISAN,     "Pesach III (CH''M)", IL_ONLY, { cholHaMoedDay: 2 }],
     [18, NISAN,     "Pesach IV (CH''M)", IL_ONLY, { cholHaMoedDay: 3 }],
     [19, NISAN,     "Pesach V (CH''M)", IL_ONLY, { cholHaMoedDay: 4 }],
     [20, NISAN,     "Pesach VI (CH''M)", LIGHT_CANDLES | IL_ONLY, { cholHaMoedDay: 5 }],
-    [21, NISAN,     "Pesach VII", YOM_TOV_ENDS | IL_ONLY],
+    [21, NISAN,     "Pesach VII", CHAG | YOM_TOV_ENDS | IL_ONLY],
 
-    [15, NISAN,     "Pesach I", LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-    [16, NISAN,     "Pesach II", YOM_TOV_ENDS | CHUL_ONLY],
+    [15, NISAN,     "Pesach I", CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [16, NISAN,     "Pesach II", CHAG | YOM_TOV_ENDS | CHUL_ONLY],
     [17, NISAN,     "Pesach III (CH''M)", CHUL_ONLY, { cholHaMoedDay: 1 }],
     [18, NISAN,     "Pesach IV (CH''M)", CHUL_ONLY, { cholHaMoedDay: 2 }],
     [19, NISAN,     "Pesach V (CH''M)", CHUL_ONLY, { cholHaMoedDay: 3 }],
     [20, NISAN,     "Pesach VI (CH''M)", LIGHT_CANDLES | CHUL_ONLY, { cholHaMoedDay: 4 }],
-    [21, NISAN,     "Pesach VII", LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-    [22, NISAN,     "Pesach VIII", YOM_TOV_ENDS | CHUL_ONLY],
+    [21, NISAN,     "Pesach VII", CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [22, NISAN,     "Pesach VIII", CHAG | YOM_TOV_ENDS | CHUL_ONLY],
     [14, months.IYYAR, "Pesach Sheni", 0],
     [18, months.IYYAR, "Lag BaOmer", 0],
     [5,  months.SIVAN, "Erev Shavuot", LIGHT_CANDLES],
-    [6,  months.SIVAN, "Shavuot I", LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-    [6,  months.SIVAN, "Shavuot", YOM_TOV_ENDS | IL_ONLY],
-    [7,  months.SIVAN, "Shavuot II", YOM_TOV_ENDS | CHUL_ONLY],
+    [6,  months.SIVAN, "Shavuot", CHAG | YOM_TOV_ENDS | IL_ONLY],
+    [6,  months.SIVAN, "Shavuot I", CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+    [7,  months.SIVAN, "Shavuot II", CHAG | YOM_TOV_ENDS | CHUL_ONLY],
     [15, months.AV,    "Tu B'Av", 0],
   ]);
   add(new Event(new HDate(c.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
