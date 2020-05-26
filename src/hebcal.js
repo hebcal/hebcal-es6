@@ -78,7 +78,7 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
     const [eventTime, timeStr] = offset ?
         sunsetTime(hd, location, timeFormat, offset) :
         tzeitTime(hd, location, timeFormat);
-    const attrs = { eventTime };
+    const attrs = { eventTime: eventTime, eventTimeStr: timeStr };
     if (typeof e !== 'undefined') {
         attrs.linkedEvent = e;
     }
@@ -331,13 +331,13 @@ export function hebcalEvents(options) {
         if (options.dafyomi) {
             const dy = dafyomi.dafyomi(greg.abs2greg(abs));
             const desc = t`Daf Yomi` + ": " + dafyomi.dafname(dy);
-            events.push(new Event(new HDate(abs), desc, flags.DAF_YOMI));
+            events.push(new Event(new HDate(abs), desc, flags.DAF_YOMI, { dafyomi: dy }));
         }
         if (options.omer && abs >= beginOmer && abs <= endOmer) {
             const omer = abs - beginOmer + 1;
             const nth = getOrdinal(omer);
             const desc = `${nth} day of the Omer`;
-            events.push(new Event(new HDate(abs), desc, flags.OMER_COUNT));
+            events.push(new Event(new HDate(abs), desc, flags.OMER_COUNT, { omer: omer }));
         }
         const hmonth = hd.getMonth();
         if (options.molad && dow == SAT && hmonth != common.months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {

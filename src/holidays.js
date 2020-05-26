@@ -122,8 +122,17 @@ export class Event {
    * Returns (translated) description of this event
    * @returns {string}
    */
-  getDesc() {
+  render() {
     return gettext(this.desc);
+  }
+
+
+  /**
+   * Returns untranslated description of this event
+   * @returns {string}
+   */
+  getDesc() {
+    return this.desc;
   }
 
   /**
