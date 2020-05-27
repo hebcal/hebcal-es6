@@ -48,17 +48,13 @@ export class Triennial {
         const hyear = hebrewYear || new HDate().getFullYear();
         const yearNum = Triennial.getYearNumber(hyear);
 
-        const cycleStartYear = Triennial.getCycleStartYear(hyear);
-        console.log(`Hebrew year ${hyear} is year ${yearNum}; triennial cycle started year ${cycleStartYear}`);
-        this.sedras = [];
-        for (const yr of [0,1,2]) {
-            this.sedras.push(new Sedra(cycleStartYear + yr, false));
-        }
-        const sedra0 = new Sedra(cycleStartYear, false).getSedraArray();
+        this.startYear = Triennial.getCycleStartYear(hyear);
+        console.debug(`Hebrew year ${hyear} is year ${yearNum}; triennial cycle started year ${this.startYear}`);
+        const sedra0 = new Sedra(this.startYear, false).getSedraArray();
         this.bereshit = [ 0 ];
         this.sedraArray = sedra0.slice(sedra0.indexOf(0));
         for (let yr = 1; yr < 4; yr++) {
-            const sedra = new Sedra(cycleStartYear + yr, false);
+            const sedra = new Sedra(this.startYear + yr, false);
             const arr = sedra.getSedraArray();
             this.bereshit[yr] = this.sedraArray.length + arr.indexOf(0);
             this.sedraArray = this.sedraArray.concat(arr);
@@ -69,6 +65,13 @@ export class Triennial {
 
     getReadings() {
         return this.readings;
+    }
+
+    /**
+     * @returns {number}
+     */
+    getStartYear() {
+        return this.startYear;
     }
 
     /**
@@ -124,7 +127,7 @@ export class Triennial {
             const p1 = parshiot[id];
             const p2 = parshiot[id + 1];
             option[name] = option[p1] = option[p2] = variation;
-            console.log(`  ${name} ${pattern} (${option[name]})`);
+            console.debug(`  ${name} ${pattern} (${option[name]})`);
         }
         return option;
     }
