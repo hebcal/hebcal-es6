@@ -211,7 +211,18 @@ test('ashkenazi', t => {
     t.is(events[0].render(), "Shabbos HaGadol");
 });
 
-test.skip('locale', t => {
+test('locale-ru', t => {
+    const options = {
+        year: 2020,
+        month: 4,
+        locale: 'ru'
+    };
+    const events = hebcal.hebcalEvents(options);
+    console.log(events.length);
+    t.is(events[0].render(), "Большой Шаббат");
+});
+
+test('locale-he', t => {
     const options = {
         year: 2020,
         month: 4,
@@ -219,7 +230,5 @@ test.skip('locale', t => {
     };
     const events = hebcal.hebcalEvents(options);
     console.log(events.length);
-    console.log(events.slice(0, 10));
-//    console.log(events);
-    t.pass('message');
+    t.is(events[0].render(), "שַׁבָּת הַגָּדוֹל");
 });

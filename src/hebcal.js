@@ -18,7 +18,7 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import { t, gettext, addLocale, useLocale } from 'ttag';
+import { addLocale, useLocale } from 'ttag';
 import common from './common';
 import { HDate, hebrew2abs, getMolad } from './hdate';
 import holidays from './holidays';
@@ -282,7 +282,7 @@ export function hebcalEvents(options) {
         if (locale.length == 2 && numeralLocales.indexOf(locale) != -1) {
             const numeralLocaleFilename = `numeral/locales/${locale}`;
             console.debug(`Loading ${numeralLocaleFilename}...`);
-            require(numeralLocaleFilename);
+            const numeralLocale = require(numeralLocaleFilename);
             numeral.locale(locale);
         }
     }
@@ -315,7 +315,7 @@ export function hebcalEvents(options) {
         }
         const dow = abs % 7;
         let candlesToday = false;
-        const ev = holidaysYear[hd];
+        const ev = holidaysYear.get(hd.toString());
         if (typeof ev !== 'undefined') {
             for (const e of ev) {
                 const eFlags = e.getFlags();

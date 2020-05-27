@@ -24,7 +24,7 @@ function testFullYear(t, hyear, il, expected0) {
         const hebDt = new HDate(absDt);
         const gregDt = greg.abs2greg(absDt);
         const dateStr = gregDt.toLocaleDateString("en-US");
-        const ev = year[hebDt];
+        const ev = year.get(hebDt.toString());
         if (typeof ev !== 'undefined') {
             const evFiltered = ev.filter(e => !(e.getFlags() & flags.SHABBAT_MEVARCHIM));
             for (const e of evFiltered) {

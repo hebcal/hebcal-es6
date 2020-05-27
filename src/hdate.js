@@ -157,11 +157,22 @@ export class HDate {
   }
 
   /**
-   * Returns translated/transliterated Hebrew month name
+   * Returns untranslated Hebrew month name
    * @returns {string}
    */
   getMonthName() {
-    return gettext(c.getMonthName(this.getMonth(), this.getFullYear()));
+    return c.getMonthName(this.getMonth(), this.getFullYear());
+  }
+
+  /**
+   * Returns translated/transliterated Hebrew date
+   * @returns {string}
+   */
+  render() {
+    const day = this.getDate();
+    const fullYear = this.getFullYear();
+    const monthName = gettext(this.getMonthName());
+    return `${day} ${monthName} ${fullYear}`;
   }
 
   /**

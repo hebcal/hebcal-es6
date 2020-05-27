@@ -68,23 +68,21 @@ export function getHolidaysForYear(year) {
   const RH = new HDate(1, TISHREI, year);
   const pesach = new HDate(15, NISAN, year);
 
-  const h = {};
-
+  const h = new Map();
   function add(ev) {
     if (Array.isArray(ev)) {
       for (const e of ev) {
         add(e);
       }
     } else {
-      if (h[ev.date]) {
-        h[ev.date].push(ev);
+      const key = ev.date.toString();
+      if (h.has(key)) {
+        h.get(key).push(ev);
       } else {
-        h[ev.date] = [ev];
+        h.set(key, [ ev ]);
       }
     }
   }
-
-  Object.defineProperty(h, "add", { value: add });
 
   function addEvents(year, arr) {
     for (const a of arr) {
@@ -328,7 +326,7 @@ function atzmaut(year) {
 export function getHolidaysOnDate(date) {
   const hd = date instanceof HDate ? date : new HDate(date);
   const y = getHolidaysForYear(hd.getFullYear());
-  return y[hd];
+  return y.get(hd.toString());
 }
 
 export { Event, flags } from './event';
