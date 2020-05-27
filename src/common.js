@@ -129,6 +129,9 @@ export function daysInHebMonth(month, year) {
  * @returns {string}
  */
 export function getMonthName(month, year) {
+  if (typeof month !== 'number' || month < 1 || month > 14) {
+    throw new TypeError(`bad month argument ${month}`);
+  }
   return monthNames[+hebLeapYear(year)][month];
 }
 

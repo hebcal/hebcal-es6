@@ -30,10 +30,12 @@ const options0 = {
 
 const options = {
     year: 1975,
+    locale: "ru",
     isHebrewYear: false,
     noHolidays: false,
     dafyomi: false,
     molad: true,
+    omer: true,
     ashkenazi: false
 //    locale: "ashkenazi"
 };
@@ -49,5 +51,5 @@ const events = hebcal.hebcalEvents(options);
 for (const e of events) {
     const gregDt = e.getDate().greg();
     const gregDtStr = dateFormat.format(gregDt);
-    console.log(gregDtStr, e.getDesc());
+    console.log(gregDtStr, e.render());
 }

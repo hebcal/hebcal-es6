@@ -27,11 +27,13 @@ import { Sedra } from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
 import Location from './location';
+import numeral from 'numeral';
 import { Triennial, getTriennial } from './triennial';
 
 const FRI = common.days.FRI;
 const SAT = common.days.SAT;
 const shortDayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const numeralLocales = ['fi', 'fr', 'hu', 'pl', 'ru'];
 
 function formatTime(timeFormat, dt) {
     const time = timeFormat.format(dt);
@@ -274,6 +276,11 @@ export function hebcalEvents(options) {
         const translationObj = require(`./${locale}.po.json`);
         addLocale(locale, translationObj); // adding locale to ttag
         useLocale(locale); // make locale active
+        // use numeraljs for number formatting only if they support our locale
+        if (locale.length == 2 && numeralLocales.indexOf(locale) != -1) {
+            require(`numeral/locales/${locale}`);
+            numeral.locale(locale);
+        }
     }
 
     let events = [];
@@ -347,7 +354,7 @@ export function hebcalEvents(options) {
             const monthNext = (hmonth == common.monthsInHebYear(hyear) ? 1 : hmonth + 1);
             const moladNext = getMolad(hyear, monthNext);
             const mevarchim = new HDate(29, hmonth, hyear).onOrBefore(SAT);
-            const nextMonthName = gettext(common.getMonthName(moladNext, hyear));
+            const nextMonthName = common.getMonthName(monthNext, hyear);
             const dayName = shortDayNames[moladNext.dow];
             const desc = `Molad ${nextMonthName}: ${dayName}, ${moladNext.minutes} minutes and ${moladNext.chalakim} chalakim after ${moladNext.hour}:00`;
             events.push(new Event(mevarchim, desc, flags.MOLAD));
