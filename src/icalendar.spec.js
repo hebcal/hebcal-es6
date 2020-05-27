@@ -38,6 +38,7 @@ test('ical-transp-opaque', t => {
     };
     const events = hebcal.hebcalEvents(options);
     let lines = icalendar.eventToIcal(events[0], options).split("\r\n");
+    t.is(lines.length, 13);
     t.is(lines[4], 'SUMMARY:Erev Pesach');
     t.is(lines[7], "TRANSP:TRANSPARENT");
     let dtstart = lines[5];
@@ -47,6 +48,7 @@ test('ical-transp-opaque', t => {
     let dtend = lines[6];
     t.is(dtend.startsWith("DTEND"), true);
     t.is(dtend.substring(dtend.indexOf(":") + 1), "19930406");
+    t.is(lines[10], 'DESCRIPTION:https://hebcal.com/h/pesach');
 
     lines = icalendar.eventToIcal(events[1], options).split("\r\n");
     t.is(lines[4], 'SUMMARY:Pesach I');
@@ -69,10 +71,12 @@ test('ical-candles', t => {
         candlelighting: true,
         noHolidays: true,
     };
-    const ev = hebcal.hebcalEvents(options)[0];
-    const ical = icalendar.eventToIcal(ev, options);
-    const lines = ical.split("\r\n");
+    const events = hebcal.hebcalEvents(options);
+    const ical = icalendar.eventToIcal(events[0], options);
+    let lines = ical.split("\r\n");
+    t.is(lines.length, 18);
     t.is(lines[0], 'BEGIN:VEVENT');
+    t.is(lines[4], 'SUMMARY:Candle lighting');
     t.is(lines[17], 'END:VEVENT');
     const dtstart = lines[5];
     t.is(dtstart.startsWith("DTSTART"), true);
@@ -83,4 +87,36 @@ test('ical-candles', t => {
     t.is(dtend.substring(dtend.indexOf(":") + 1), "19930305T172900");
     t.is(lines[15], 'TRIGGER;RELATED=START:-PT10M');
     t.is(lines[10], "LOCATION:Chicago");
+
+    const havdalah = icalendar.eventToIcal(events[1], options);
+    lines = havdalah.split("\r\n");
+    t.is(lines.length, 13);
+    t.is(lines[0], 'BEGIN:VEVENT');
+    t.is(lines[4], 'SUMMARY:Havdalah');
+    t.is(lines[10], "LOCATION:Chicago");
+});
+
+test('ical-dafyomi', t => {
+    const options = {
+        year: 1993,
+        month: 3,
+        noHolidays: true,
+        dafyomi: true,
+        locale: 'he'
+    };
+    const ev = hebcal.hebcalEvents(options)[0];
+    const ical = icalendar.eventToIcal(ev, options);
+    const lines = ical.split("\r\n");
+    t.is(lines.length, 12);
+    t.is(lines[4], 'SUMMARY:נדרים 14');
+    t.is(lines[10], 'LOCATION:דף יומי');
+});
+
+test('ical-omer', t => {
+    const options = { year: 1993, noHolidays: true, omer: true };
+    const ev = hebcal.hebcalEvents(options)[0];
+    const ical = icalendar.eventToIcal(ev, options);
+    const lines = ical.split("\r\n");
+    t.is(lines.length, 16);
+    t.is(lines[4], 'SUMMARY:1st day of the Omer');
 });

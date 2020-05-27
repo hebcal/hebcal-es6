@@ -202,33 +202,19 @@ test('multi-year', t => {
 });
 
 test('ashkenazi', t => {
-    const options = {
-        year: 2020,
-        month: 4,
-        ashkenazi: true
-    };
-    const events = hebcal.hebcalEvents(options);
-    t.is(events[0].render(), "Shabbos HaGadol");
+    const options = { year: 2020, month: 4, ashkenazi: true };
+    const ev = hebcal.hebcalEvents(options)[0];
+    t.is(ev.render(), "Shabbos HaGadol");
 });
 
 test('locale-ru', t => {
-    const options = {
-        year: 2020,
-        month: 4,
-        locale: 'ru'
-    };
-    const events = hebcal.hebcalEvents(options);
-    console.log(events.length);
-    t.is(events[0].render(), "Большой Шаббат");
+    const options = { year: 2020, month: 4, locale: 'ru' };
+    const ev = hebcal.hebcalEvents(options)[0];
+    t.is(ev.render(), "Большой Шаббат");
 });
 
 test('locale-he', t => {
-    const options = {
-        year: 2020,
-        month: 4,
-        locale: 'he'
-    };
-    const events = hebcal.hebcalEvents(options);
-    console.log(events.length);
-    t.is(events[0].render(), "שַׁבָּת הַגָּדוֹל");
+    const options = { year: 2020, month: 4, locale: 'he' };
+    const ev = hebcal.hebcalEvents(options)[0];
+    t.is(ev.render(), "שַׁבָּת הַגָּדוֹל");
 });

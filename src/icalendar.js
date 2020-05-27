@@ -3,6 +3,7 @@ import { Event, flags } from "./event";
 import Location from './location';
 import md5 from 'md5';
 import leyning from './leyning';
+import { gettext } from 'ttag';
 
 /**
  * Options to configure which events are returned
@@ -79,6 +80,12 @@ function getHolidayBasename(desc) {
         .replace(/^Erev /, '');
 }
 
+const NO_URL_FLAGS = flags.USER_EVENT |
+    flags.OMER_COUNT |
+    flags.SHABBAT_MEVARCHIM |
+    flags.DAF_YOMI |
+    flags.MOLAD;
+
 /**
  * 
  * @param {Event} e 
@@ -86,7 +93,7 @@ function getHolidayBasename(desc) {
  */
 function getShortUrl(e) {
     const mask = e.getFlags();
-    if (mask & (flags.USER_EVENT | flags.OMER_COUNT | flags.SHABBAT_MEVARCHIM)) {
+    if (mask & NO_URL_FLAGS) {
         return undefined;
     }
     const desc = e.getDesc();
@@ -182,8 +189,8 @@ export function eventToIcal(e, options) {
     const untimed = !attrs || !attrs.eventTime;
     let location = untimed ? undefined : options.location.name;
     if (mask & flags.DAF_YOMI) {
-        subj = subj.substring(subj.indexOf(':') + 1);
-        location = 'Daf Yomi';
+        subj = gettext(e.getDesc());
+        location = gettext('Daf Yomi');
     }
 
     // create memo (holiday descr, Torah, etc)
@@ -207,6 +214,8 @@ export function eventToIcal(e, options) {
             memo += "\\nHaftarah: " + parshaLeyning.haftara;
         }
         memo += "\\n\\n" + url;
+    } else if (url) {
+        memo = url;
     }
 
     const date = formatYYYYMMDD(e.getDate().greg());
@@ -231,6 +240,7 @@ export function eventToIcal(e, options) {
         startDate += 'T' + formatTime(hour, minute, 0);
         endDate = startDate;
         dtargs = `;TZID=${options.location.tzid}`;
+        subj = gettext(desc);  // replace "Candle lighting: 15:34" with shorter title
     }
 
     const digest = md5(subj);
