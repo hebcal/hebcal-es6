@@ -1,6 +1,6 @@
 import test from 'ava';
-import Location from './location';
-import HDate from './hdate';
+import { Location } from './location';
+import { HDate } from './hdate';
 
 test('sunset', t => {
     const locations = [

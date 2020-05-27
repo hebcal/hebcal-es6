@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import c, { months, days } from "./common";
-import HDate from "./hdate";
+import { HDate } from "./hdate";
 import { gettext } from 'ttag';
 import { Event, flags } from "./event";
 

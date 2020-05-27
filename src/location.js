@@ -27,7 +27,7 @@ suncalc.addTime(-10.2, "misheyakir_machmir", 0);
 suncalc.addTime(-8.5, 0, "tzeit");
 
 /** Class representing Location */
-export default class Location {
+export class Location {
   /**
    * Initialize a Location instance
    * @param {number} latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
@@ -154,3 +154,5 @@ export default class Location {
       return this.sunset(hdate);
   }
 }
+
+export default Location;

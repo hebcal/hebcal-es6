@@ -26,7 +26,7 @@ import { Event, flags, HavdalahEvent, CandleLightingEvent, OmerEvent, DafYomiEve
 import { Sedra } from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
-import Location from './location';
+import { Location } from './location';
 import numeral from 'numeral';
 import { Triennial, getTriennial } from './triennial';
 

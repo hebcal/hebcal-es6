@@ -31,7 +31,7 @@
  *
  */
 import c from './common';
-import HDate from './hdate';
+import { HDate } from './hdate';
 import { gettext } from 'ttag';
 
 const INCOMPLETE = 0;

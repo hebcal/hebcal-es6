@@ -1,7 +1,7 @@
 import test from 'ava';
 import icalendar from './icalendar';
 import hebcal from './hebcal';
-import Location from './location';
+import { Location } from './location';
 
 test('ical-sedra', t => {
     const options = { year: 1993, month: 4, sedrot: true, noHolidays: true };

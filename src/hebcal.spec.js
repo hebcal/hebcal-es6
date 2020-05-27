@@ -1,7 +1,7 @@
 import test from 'ava';
 import hebcal from './hebcal';
 import { flags } from "./event";
-import Location from './location';
+import { Location } from './location';
 
 test('heb-month', t => {
     const options = {

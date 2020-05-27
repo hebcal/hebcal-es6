@@ -1,5 +1,5 @@
 import test from 'ava';
-import HDate from './hdate';
+import { HDate } from './hdate';
 import { Sedra } from './sedra';
 import greg from './greg';
 

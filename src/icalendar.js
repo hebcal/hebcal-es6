@@ -1,6 +1,6 @@
 import stream from 'stream';
 import { Event, flags } from "./event";
-import Location from './location';
+import { Location } from './location';
 import md5 from 'md5';
 import leyning from './leyning';
 import { gettext } from 'ttag';

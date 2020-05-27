@@ -1,5 +1,5 @@
 import cities from './cities';
-import Location from './location';
+import { Location } from './location';
 import hebcal from './hebcal';
 
 cities.init();

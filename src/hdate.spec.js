@@ -1,5 +1,5 @@
 import test from 'ava';
-import HDate, { hebrew2abs, abs2hebrew, getMolad } from './hdate';
+import { HDate, hebrew2abs, abs2hebrew, getMolad } from './hdate';
 import common from "./common";
 
 test('mdy', t => {
