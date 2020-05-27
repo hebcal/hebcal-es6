@@ -92,7 +92,30 @@ test('candles-only-diaspora', t => {
     const events = hebcal.hebcalEvents(options);
     t.is(events.length, 126);
     t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
+    t.is(events[0].render(), "Candle lighting: 16:13");
+    t.is(events[0].getDesc(), "Candle lighting");
+    t.is(events[0].getAttrs().eventTimeStr, '16:13');
+    t.is(events[1].getFlags(), flags.LIGHT_CANDLES);
+    t.is(events[1].render(), "Havdalah: 17:18");
+    t.is(events[1].getDesc(), "Havdalah");
+    t.is(events[1].getAttrs().eventTimeStr, '17:18');
     t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
+});
+
+test('havdalah-mins', t => {
+    const options = {
+        year: 2020,
+        month: 4,
+        noSpecialShabbat: true,
+        havdalahMins: 47,
+        location: new Location(41.82399, -71.41283, false, "America/New_York", "Providence"),
+        candlelighting: true
+    };
+    const ev = hebcal.hebcalEvents(options)[1];
+    t.is(ev.getFlags(), flags.LIGHT_CANDLES);
+    t.is(ev.render(), "Havdalah (47 min): 20:02");
+    t.is(ev.getDesc(), "Havdalah");
+    t.is(ev.getAttrs().eventTimeStr, '20:02');
 });
 
 test('candles-only-israel', t => {
@@ -108,6 +131,7 @@ test('candles-only-israel', t => {
     t.is(events[0].getFlags(), flags.LIGHT_CANDLES, 'Candle lighting 0');
     t.is(events[33].getFlags(), flags.CHAG | flags.YOM_TOV_ENDS | flags.IL_ONLY, 'Havdalah in Israel on Pesach VII');
 });
+
 test('dafyomi-only', t => {
     const options = {
         year: 1975,
@@ -140,8 +164,12 @@ test('omer-only', t => {
     t.is(events.length, 30);
     t.is(events[0].getDate().greg().toLocaleDateString("en-US"), "4/29/1968");
     t.is(events[0].getFlags(), flags.OMER_COUNT);
-    t.is(events[29].getDate().greg().toLocaleDateString("en-US"), "5/28/1968");
-    t.is(events[29].getFlags(), flags.OMER_COUNT);
+    t.is(events[0].getAttrs().omer, 16);
+    t.is(events[0].render(), "16th day of the Omer");
+    t.is(events[25].getDate().greg().toLocaleDateString("en-US"), "5/24/1968");
+    t.is(events[25].getFlags(), flags.OMER_COUNT);
+    t.is(events[25].getAttrs().omer, 41);
+    t.is(events[25].render(), "41st day of the Omer");
 });
 
 test('molad-only', t => {

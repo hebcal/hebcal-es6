@@ -22,7 +22,7 @@ import { t, gettext, addLocale, useLocale } from 'ttag';
 import common from './common';
 import { HDate, hebrew2abs, getMolad } from './hdate';
 import holidays from './holidays';
-import { Event, flags } from "./event";
+import { Event, flags, HavdalahEvent, CandleLightingEvent, OmerEvent, DafYomiEvent } from "./event";
 import { Sedra } from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
@@ -56,33 +56,27 @@ function tzeitTime(hd, location, timeFormat) {
     return [dt, time];
 }
 
-class CandleLightingEvent extends Event {
-    constructor(date, desc, mask, attrs) {
-        super(date, desc, mask, attrs);
-    }
-}
 
 function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
-    let name = "Candle lighting";
-    let offset = candlesOffset;
-    let mask = flags.LIGHT_CANDLES;
+    let havdalahTitle = false;
+    let useHavdalahOffset = false;
+    const mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
     if (typeof e !== 'undefined') {
-        mask = e.getFlags();
+        // if linked event && dow == FRI, use Candle lighting time & title
         if (dow != FRI) {
             if (mask & (flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
-                offset = havdalahOffset;
+                useHavdalahOffset = true;
             } else if (mask & flags.YOM_TOV_ENDS) {
-                name = "Havdalah";
-                offset = havdalahOffset;
+                havdalahTitle = true;
+                useHavdalahOffset = true;
             }
         }
     } else if (dow == SAT) {
-        name = "Havdalah";
-        offset = havdalahOffset;
+        havdalahTitle = true;
+        useHavdalahOffset = true;
     }
-    if (name === "Havdalah" && havdalahOffset) {
-        name = `Havdalah (${offset} min)`;
-    }
+    // if offset is 0 or undefined, we'll use tzeit time
+    const offset = useHavdalahOffset ? havdalahOffset : candlesOffset;
     const [eventTime, timeStr] = offset ?
         sunsetTime(hd, location, timeFormat, offset) :
         tzeitTime(hd, location, timeFormat);
@@ -90,13 +84,9 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
     if (typeof e !== 'undefined') {
         attrs.linkedEvent = e;
     }
-    return new CandleLightingEvent(hd, gettext(name) + ": " + timeStr, mask, attrs);
-}
-
-function getOrdinal(n) {
-    const s = ["th", "st", "nd", "rd"],
-        v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    return havdalahTitle ?
+        new HavdalahEvent(hd, mask, attrs, havdalahOffset) :
+        new CandleLightingEvent(hd, mask, attrs);
 }
 
 function getCandleLightingMinutes(options) {
@@ -254,15 +244,6 @@ function getMaskFromOptions(options) {
     return mask;
 }
 
-class DafYomiEvent extends Event {
-    constructor(date, desc, attrs) {
-        super(date, desc, flags.DAF_YOMI, attrs);
-    }
-    render() {
-        return gettext('Daf Yomi') + ': ' + gettext(this.getDesc());
-    }
-}
-
 /**
  * Generates a list of holidays
  * @param {HebcalOptions} options
@@ -281,7 +262,7 @@ export function hebcalEvents(options) {
         minute: 'numeric'
     });
     const candleLightingMinutes = getCandleLightingMinutes(options);
-    const havdalahMinutes = options.havdalahMins;
+    const havdalahMinutes = options.havdalahMins; // if undefined, use tzeit
     const mask = getMaskFromOptions(options);
     const MASK_LIGHT_CANDLES =
         flags.LIGHT_CANDLES |
@@ -359,9 +340,7 @@ export function hebcalEvents(options) {
         }
         if (options.omer && abs >= beginOmer && abs <= endOmer) {
             const omer = abs - beginOmer + 1;
-            const nth = getOrdinal(omer);
-            const desc = `${nth} day of the Omer`;
-            events.push(new Event(new HDate(abs), desc, flags.OMER_COUNT, { omer: omer }));
+            events.push(new OmerEvent(new HDate(abs), omer));
         }
         const hmonth = hd.getMonth();
         if (options.molad && dow == SAT && hmonth != common.months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {

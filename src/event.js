@@ -1,4 +1,5 @@
 import { gettext } from 'ttag';
+import numeral from 'numeral';
 
 const CHAG                = 1;
 const LIGHT_CANDLES       = 2;
@@ -103,5 +104,51 @@ export class Event {
    */
   getDate() {
     return this.date;
+  }
+}
+
+export class OmerEvent extends Event {
+  constructor(date, omerDay) {
+      super(date, `Omer ${omerDay}`, flags.OMER_COUNT, { omer: omerDay });
+  }
+  /**
+   * @todo use gettext()
+   */
+  render() {
+      const nth = numeral(this.getAttrs().omer).format('ordinal');
+      return `${nth} day of the Omer`;
+  }
+}
+
+export class DafYomiEvent extends Event {
+  constructor(date, desc, attrs) {
+      super(date, desc, flags.DAF_YOMI, attrs);
+  }
+  render() {
+      return gettext('Daf Yomi') + ': ' + gettext(this.getDesc());
+  }
+}
+
+export class HavdalahEvent extends Event {
+  constructor(date, mask, attrs, havdalahMins) {
+      super(date, 'Havdalah', mask, Object.assign({ havdalahMins}, attrs));
+  }
+  render() {
+      const attrs = this.getAttrs();
+      let str = gettext(this.getDesc());
+      if (attrs.havdalahMins) {
+          const min = gettext('min');
+          str += ` (${attrs.havdalahMins} ${min})`;
+      }
+      return str + ': ' + attrs.eventTimeStr;
+  }
+}
+
+export class CandleLightingEvent extends Event {
+  constructor(date, mask, attrs) {
+      super(date, 'Candle lighting', mask, attrs);
+  }
+  render() {
+      return gettext(this.getDesc()) + ': ' + this.getAttrs().eventTimeStr;
   }
 }
