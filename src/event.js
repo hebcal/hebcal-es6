@@ -120,12 +120,16 @@ export class OmerEvent extends Event {
   }
 }
 
+/**
+ * For a Daf Yomi, the name is already translated
+ * attrs.dafyomi.name contains the untranslated string
+ */
 export class DafYomiEvent extends Event {
   constructor(date, desc, attrs) {
       super(date, desc, flags.DAF_YOMI, attrs);
   }
   render() {
-      return gettext('Daf Yomi') + ': ' + gettext(this.getDesc());
+      return gettext('Daf Yomi') + ': ' + this.getDesc();
   }
 }
 
