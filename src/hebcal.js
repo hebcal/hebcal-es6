@@ -21,11 +21,13 @@
 import { t, gettext, addLocale, useLocale } from 'ttag';
 import common from './common';
 import { HDate, hebrew2abs, getMolad } from './hdate';
-import holidays, { Event, flags } from './holidays';
+import holidays from './holidays';
+import { Event, flags } from "./event";
 import { Sedra } from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
 import Location from './location';
+import { Triennial, getTriennial } from './triennial';
 
 const FRI = common.days.FRI;
 const SAT = common.days.SAT;
@@ -281,6 +283,7 @@ export function hebcalEvents(options) {
 
     let events = [];
     let sedra, holidaysYear, beginOmer, endOmer;
+    let triennial
     let currentYear = -1;
     const [startAbs, endAbs] = getStartAndEnd(options);
     for (let abs = startAbs; abs <= endAbs; abs++) {
@@ -295,6 +298,14 @@ export function hebcalEvents(options) {
             if (options.omer) {
                 [beginOmer, endOmer] = getOmerStartAndEnd(currentYear);
             }
+/*
+            if (options.leyning) {
+                const triYear = Triennial.getYearNumber(hd.getFullYear());
+                const tri = getTriennial(hd.getFullYear());
+                const triReadings = tri.getReadings();
+                result.triennial = triReadings[name][triYear];
+            }
+*/
         }
         const dow = abs % 7;
         let candlesToday = false;
@@ -356,7 +367,7 @@ export function hebcalEvents(options) {
 }
 
 export { HDate } from './hdate';
-export { Event, flags } from './holidays';
+export { Event, flags } from './event';
 export { getBirthdayOrAnniversary, getYahrzeit } from './anniversary';
 export { Location } from './location';
 

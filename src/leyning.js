@@ -1,4 +1,5 @@
-import { Event, flags, getHolidaysOnDate } from './holidays';
+import { getHolidaysOnDate } from './holidays';
+import { Event, flags } from "./event";
 import common from './common';
 
 const festivals = require('./holiday-readings.json');

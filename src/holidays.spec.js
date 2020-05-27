@@ -3,6 +3,7 @@ import holidays from './holidays';
 import common from './common';
 import greg from './greg';
 import { HDate, hebrew2abs } from './hdate';
+import { flags } from './event';
 
 function testFullYear(t, hyear, il, expected0) {
     let expected = {};
@@ -25,7 +26,7 @@ function testFullYear(t, hyear, il, expected0) {
         const dateStr = gregDt.toLocaleDateString("en-US");
         const ev = year[hebDt];
         if (typeof ev !== 'undefined') {
-            const evFiltered = ev.filter(e => !(e.getFlags() & holidays.flags.SHABBAT_MEVARCHIM));
+            const evFiltered = ev.filter(e => !(e.getFlags() & flags.SHABBAT_MEVARCHIM));
             for (const e of evFiltered) {
                 if ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora())) {
                     const desc = e.getDesc();

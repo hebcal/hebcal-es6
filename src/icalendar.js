@@ -1,7 +1,8 @@
 import stream from 'stream';
-import { Event, flags } from './holidays';
+import { Event, flags } from "./event";
 import Location from './location';
 import md5 from 'md5';
+import leyning from './leyning';
 
 /**
  * Options to configure which events are returned
@@ -84,7 +85,8 @@ function getHolidayBasename(desc) {
  * @returns {string}
  */
 function getShortUrl(e) {
-    if (e.getFlags() & (flags.USER_EVENT | flags.OMER_COUNT | flags.SHABBAT_MEVARCHIM)) {
+    const mask = e.getFlags();
+    if (mask & (flags.USER_EVENT | flags.OMER_COUNT | flags.SHABBAT_MEVARCHIM)) {
         return undefined;
     }
     const desc = e.getDesc();
@@ -92,11 +94,8 @@ function getShortUrl(e) {
         return undefined;
     }
     const name = makeAnchor(getHolidayBasename(desc));
-    if (e.getFlags() & flags.PARSHA_HASHAVUA) {
-        return "https://hebcal.com/s/" + name;
-    } else {
-        return "https://hebcal.com/h/" + name;
-    }
+    const dir = (mask & flags.PARSHA_HASHAVUA) ? 's' : 'h';
+    return `https://hebcal.com/${dir}/${name}`;
 }
 
 /**
@@ -190,6 +189,11 @@ export function eventToIcal(e, options) {
     // create memo (holiday descr, Torah, etc)
     const url = getShortUrl(e);
     let memo = '';
+    if (mask & flags.PARSHA_HASHAVUA) {
+        const parshaLeyning = leyning.getLeyningForParshaHaShavua(e, options.il);
+        memo = `Torah: ${parshaLeyning.summary}`;
+        memo = ''; // temporary
+    }
 
     const date = formatYYYYMMDD(e.getDate().greg());
     let startDate = date;
