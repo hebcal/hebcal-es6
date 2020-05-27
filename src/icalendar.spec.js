@@ -7,11 +7,25 @@ test('ical-sedra', t => {
     const options = { year: 1993, month: 4, sedrot: true, noHolidays: true };
     const events = hebcal.hebcalEvents(options);
     const tzav = icalendar.eventToIcal(events[0], options);
-    const lines = tzav.split("\r\n");
+    let lines = tzav.split("\r\n");
+    t.is(lines.length, 13);
     t.is(lines[0], 'BEGIN:VEVENT');
     t.is(lines[7], "TRANSP:TRANSPARENT");
-    t.is(lines[10], "URL:https://hebcal.com/s/tzav");
-    t.is(lines[11], 'END:VEVENT');
+    t.is(lines[10], "DESCRIPTION:Torah: Leviticus 6:1-8:36\\nHaftarah: Malachi 3:4 - 3:24\\n\\nhttps://hebcal.com/s/tzav");
+    t.is(lines[11], "URL:https://hebcal.com/s/tzav");
+    t.is(lines[12], 'END:VEVENT');
+
+    const options2 = { year: 1993, month: 6, sedrot: true, noHolidays: true };
+    const events2 = hebcal.hebcalEvents(options2);
+    const korach = icalendar.eventToIcal(events2[2], options);
+    lines = korach.split("\r\n");
+    t.is(lines.length, 13);
+    t.is(lines[0], 'BEGIN:VEVENT');
+    t.is(lines[7], "TRANSP:TRANSPARENT");
+    t.is(lines[10], "DESCRIPTION:Torah: Numbers 16:1-18:32\\nMaftir: Numbers 28:9 - 28:15 | Shabbat Rosh Chodesh\\nHaftarah: Isaiah 66:1 - 66:24\\n\\nhttps://hebcal.com/s/korach");
+    t.is(lines[11], "URL:https://hebcal.com/s/korach");
+    t.is(lines[12], 'END:VEVENT');
+
 });
 
 test('ical-transp-opaque', t => {

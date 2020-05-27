@@ -142,12 +142,12 @@ function aliyotCombine67(aliyot) {
     const result = Object.assign({}, aliyot);
     delete result['7'];
     result['6'] = {
-        book: a6.book,
-        begin: a6.begin,
-        end: a7.end
+        k: a6.k,
+        b: a6.b,
+        e: a7.e
     };
-    if (a6.numverses && a7.numverses) {
-        result['6'].numverses = a6.numverses + a7.numverses;
+    if (a6.v && a7.v) {
+        result['6'].v = a6.v + a7.v;
     }
     return result;
 }
@@ -212,9 +212,9 @@ export function getLeyningForParshaHaShavua(e, il=false) {
     let haftara = parshiyotObj[getHaftaraKey(parsha)].haftara;
     let fullkriyah = {};
     for (const [num, src] of Object.entries(raw.fullkriyah)) {
-        const reading = { book: raw.book, begin: src.b, end: src.e };
+        const reading = { k: raw.book, b: src.b, e: src.e };
         if (src.v) {
-            reading.numverses = src.v;
+            reading.v = src.v;
         }
         fullkriyah[num] = reading;
     }
@@ -268,8 +268,18 @@ export function getLeyningForParshaHaShavua(e, il=false) {
     return result;
 }
 
+/**
+ * Formats an aliyah object like "Numbers 28:9 - 28:15"
+ * @param {*} a aliyah
+ * @returns {string}
+ */
+export function formatAliyahWithBook(a) {
+    return `${a.k} ${a.b} - ${a.e}`;
+}
+
 export default {
     getLeyningForHoliday,
     getLeyningForParshaHaShavua,
-    getLeyningKeyForEvent
+    getLeyningKeyForEvent,
+    formatAliyahWithBook
 };

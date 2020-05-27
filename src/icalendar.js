@@ -192,7 +192,21 @@ export function eventToIcal(e, options) {
     if (mask & flags.PARSHA_HASHAVUA) {
         const parshaLeyning = leyning.getLeyningForParshaHaShavua(e, options.il);
         memo = `Torah: ${parshaLeyning.summary}`;
-        memo = ''; // temporary
+        if (parshaLeyning.reason) {
+            for (const num of ['7', '8', 'M']) {
+                if (parshaLeyning.reason[num]) {
+                    const aname = Number(num) ? `${num}th aliyah` : 'Maftir';
+                    memo += `\\n${aname}: ` +
+                        leyning.formatAliyahWithBook(parshaLeyning.fullkriyah[num]) +
+                        ' | ' +
+                        parshaLeyning.reason[num];
+                }
+            }
+        }
+        if (parshaLeyning.haftara) {
+            memo += "\\nHaftarah: " + parshaLeyning.haftara;
+        }
+        memo += "\\n\\n" + url;
     }
 
     const date = formatYYYYMMDD(e.getDate().greg());

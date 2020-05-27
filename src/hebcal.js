@@ -273,12 +273,16 @@ export function hebcalEvents(options) {
         flags.YOM_TOV_ENDS;
     if (options.ashkenazi || options.locale) {
         const locale = options.ashkenazi ? "ashkenazi" : options.locale;
-        const translationObj = require(`./${locale}.po.json`);
+        const localeFilename = `./${locale}.po.json`;
+        console.debug(`Loading ${localeFilename}...`);
+        const translationObj = require(localeFilename);
         addLocale(locale, translationObj); // adding locale to ttag
         useLocale(locale); // make locale active
         // use numeraljs for number formatting only if they support our locale
         if (locale.length == 2 && numeralLocales.indexOf(locale) != -1) {
-            require(`numeral/locales/${locale}`);
+            const numeralLocaleFilename = `numeral/locales/${locale}`;
+            console.debug(`Loading ${numeralLocaleFilename}...`);
+            require(numeralLocaleFilename);
             numeral.locale(locale);
         }
     }

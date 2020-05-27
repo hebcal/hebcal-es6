@@ -67,8 +67,7 @@ test('pinchas17Tamuz', t => {
 });
 
 function formatAliyah(aliyot, num) {
-    const a = aliyot.fullkriyah[num];
-    return `${a.k} ${a.b} - ${a.e}`;
+    return leyning.formatAliyahWithBook(aliyot.fullkriyah[num]);
 }
 
 test('getLeyningForParshaHaShavua', t => {

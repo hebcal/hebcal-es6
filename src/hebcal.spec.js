@@ -200,3 +200,26 @@ test('multi-year', t => {
     }
     t.is(numRoshHashanaII, 7);
 });
+
+test('ashkenazi', t => {
+    const options = {
+        year: 2020,
+        month: 4,
+        ashkenazi: true
+    };
+    const events = hebcal.hebcalEvents(options);
+    t.is(events[0].render(), "Shabbos HaGadol");
+});
+
+test.skip('locale', t => {
+    const options = {
+        year: 2020,
+        month: 4,
+        locale: 'he'
+    };
+    const events = hebcal.hebcalEvents(options);
+    console.log(events.length);
+    console.log(events.slice(0, 10));
+//    console.log(events);
+    t.pass('message');
+});
