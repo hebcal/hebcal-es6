@@ -56,6 +56,12 @@ function tzeitTime(hd, location, timeFormat) {
     return [dt, time];
 }
 
+class CandleLightingEvent extends Event {
+    constructor(date, desc, mask, attrs) {
+        super(date, desc, mask, attrs);
+    }
+}
+
 function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
     let name = "Candle lighting";
     let offset = candlesOffset;
@@ -84,8 +90,7 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
     if (typeof e !== 'undefined') {
         attrs.linkedEvent = e;
     }
-    const e2 = new Event(hd, gettext(name) + ": " + timeStr, mask, attrs);
-    return e2;
+    return new CandleLightingEvent(hd, gettext(name) + ": " + timeStr, mask, attrs);
 }
 
 function getOrdinal(n) {
@@ -249,6 +254,15 @@ function getMaskFromOptions(options) {
     return mask;
 }
 
+class DafYomiEvent extends Event {
+    constructor(date, desc, attrs) {
+        super(date, desc, flags.DAF_YOMI, attrs);
+    }
+    render() {
+        return gettext('Daf Yomi') + ': ' + gettext(this.getDesc());
+    }
+}
+
 /**
  * Generates a list of holidays
  * @param {HebcalOptions} options
@@ -341,8 +355,7 @@ export function hebcalEvents(options) {
         }
         if (options.dafyomi) {
             const dy = dafyomi.dafyomi(greg.abs2greg(abs));
-            const desc = t`Daf Yomi` + ": " + dafyomi.dafname(dy);
-            events.push(new Event(new HDate(abs), desc, flags.DAF_YOMI, { dafyomi: dy }));
+            events.push(new DafYomiEvent(new HDate(abs), dafyomi.dafname(dy), { dafyomi: dy }));
         }
         if (options.omer && abs >= beginOmer && abs <= endOmer) {
             const omer = abs - beginOmer + 1;

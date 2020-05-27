@@ -120,8 +120,12 @@ test('dafyomi-only', t => {
     t.is(events.length, 30);
     t.is(events[0].getDate().greg().toLocaleDateString("en-US"), "6/1/1975");
     t.is(events[0].getFlags(), flags.DAF_YOMI);
+    t.is(events[0].render(), "Daf Yomi: Niddah 42");
+    t.is(events[0].getDesc(), "Niddah 42");
     t.is(events[29].getDate().greg().toLocaleDateString("en-US"), "6/30/1975");
     t.is(events[29].getFlags(), flags.DAF_YOMI);
+    t.is(events[29].render(), "Daf Yomi: Berachot 8");
+    t.is(events[29].getDesc(), "Berachot 8");
 });
 
 test('omer-only', t => {
