@@ -69,12 +69,8 @@ export function getHolidaysForYear(year) {
   const pesach = new HDate(15, NISAN, year);
 
   const h = new Map();
-  function add(ev) {
-    if (Array.isArray(ev)) {
-      for (const e of ev) {
-        add(e);
-      }
-    } else {
+  function add(...events) {
+    for (const ev of events) {
       const key = ev.date.toString();
       if (h.has(key)) {
         h.get(key).push(ev);
@@ -137,18 +133,18 @@ export function getHolidaysForYear(year) {
     [15,  months.SHVAT, "Tu BiShvat",       0],
   ]);
   const pesachAbs = pesach.abs();
-  add([
+  add(
     new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 43)), "Shabbat Shekalim", SPECIAL_SHABBAT),
     new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 30)), "Shabbat Zachor",   SPECIAL_SHABBAT),
     new Event(new HDate(pesachAbs - (pesach.getDay() == days.TUE ? 33 : 31)),
       "Ta'anit Esther", MINOR_FAST)
-  ]);
+  );
   addEvents(year, [
     [13,  months.ADAR_II, "Erev Purim",     0],
     [14,  months.ADAR_II, "Purim",          0],
     [15,  months.ADAR_II, "Shushan Purim",  0],
   ]);
-  add([
+  add(
     new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14) - 7), "Shabbat Parah", SPECIAL_SHABBAT),
     new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14)), "Shabbat HaChodesh", SPECIAL_SHABBAT),
     new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 1)),  "Shabbat HaGadol", SPECIAL_SHABBAT),
@@ -160,7 +156,7 @@ export function getHolidaysForYear(year) {
       "Ta'anit Bechorot",
       MINOR_FAST
     )
-  ]);
+  );
   addEvents(year, [
     [14, NISAN,     "Erev Pesach", LIGHT_CANDLES],
 
@@ -224,7 +220,29 @@ export function getHolidaysForYear(year) {
     add(new Event(nisan27dt, "Yom HaShoah", MODERN_HOLIDAY));
   }
 
-  add(atzmaut(year));
+  if (year >= 5708) {
+    // Yom HaAtzma'ut only celebrated after 1948
+    let tmpDate = new HDate(1, months.IYYAR, year);
+
+    const pesach = new HDate(15, NISAN, year);
+
+    if (pesach.getDay() == days.SUN) {
+      tmpDate.setDate(2);
+    } else if (pesach.getDay() == SAT) {
+      tmpDate.setDate(3);
+    } else if (year < 5764) {
+      tmpDate.setDate(4);
+    } else if (pesach.getDay() == days.TUE) {
+      tmpDate.setDate(5);
+    } else {
+      tmpDate.setDate(4);
+    }
+
+    add(
+      new Event(tmpDate, "Yom HaZikaron", MODERN_HOLIDAY),
+      new Event(tmpDate.next(), "Yom HaAtzma'ut", MODERN_HOLIDAY)
+    );
+  }
 
   if (year >= 5727) {
     // Yom Yerushalayim only celebrated after 1967
@@ -254,13 +272,12 @@ export function getHolidaysForYear(year) {
     av9attrs = { observed: true };
   }
 
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs())), "Shabbat Chazon", SPECIAL_SHABBAT));
-
-  add(new Event(av9dt.prev(), "Erev Tish'a B'Av", 0, av9attrs));
-
-  add(new Event(av9dt, "Tish'a B'Av", MAJOR_FAST, av9attrs));
-
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), "Shabbat Nachamu", SPECIAL_SHABBAT));
+  add(
+    new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs())), "Shabbat Chazon", SPECIAL_SHABBAT),
+    new Event(av9dt.prev(), "Erev Tish'a B'Av", 0, av9attrs),
+    new Event(av9dt, "Tish'a B'Av", MAJOR_FAST, av9attrs),
+    new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), "Shabbat Nachamu", SPECIAL_SHABBAT)
+  );
 
   for (let month = 1; month <= c.monthsInHebYear(year); month++) {
     const monthName = c.getMonthName(month, year);
@@ -289,33 +306,6 @@ export function getHolidaysForYear(year) {
 
   __cache.set(year, h);
   return h;
-}
-
-function atzmaut(year) {
-  if (year >= 5708) {
-    // Yom HaAtzma'ut only celebrated after 1948
-    let tmpDate = new HDate(1, months.IYYAR, year);
-
-    const pesach = new HDate(15, NISAN, year);
-
-    if (pesach.getDay() == days.SUN) {
-      tmpDate.setDate(2);
-    } else if (pesach.getDay() == SAT) {
-      tmpDate.setDate(3);
-    } else if (year < 5764) {
-      tmpDate.setDate(4);
-    } else if (pesach.getDay() == days.TUE) {
-      tmpDate.setDate(5);
-    } else {
-      tmpDate.setDate(4);
-    }
-
-    return [
-      new Event(tmpDate, "Yom HaZikaron", MODERN_HOLIDAY),
-      new Event(tmpDate.next(), "Yom HaAtzma'ut", MODERN_HOLIDAY),
-    ];
-  }
-  return [];
 }
 
 /**
