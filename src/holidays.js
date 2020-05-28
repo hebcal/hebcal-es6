@@ -55,9 +55,9 @@ const SHABBAT_MEVARCHIM   = flags.SHABBAT_MEVARCHIM;
 const __cache = new Map();
 
 /**
- * Returns an array of Event[] indexed by HDate
+ * Returns a Map for the year indexed by HDate.toString()
  * @param {number} year Hebrew year
- * @returns {Event[][]}
+ * @returns {Map<string,Event[]>}
  */
 export function getHolidaysForYear(year) {
   const cached = __cache.get(year);
