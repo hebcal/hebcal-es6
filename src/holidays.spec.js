@@ -2,71 +2,78 @@ import test from 'ava';
 import holidays from './holidays';
 import common from './common';
 import greg from './greg';
-import { HDate, hebrew2abs } from './hdate';
-import { flags } from './event';
+import {HDate, hebrew2abs} from './hdate';
+import {flags} from './event';
 
+/**
+ * @param {*} t
+ * @param {number} hyear
+ * @param {boolean} il
+ * @param {string[]} expected0
+ */
 function testFullYear(t, hyear, il, expected0) {
-    let expected = {};
-    for (const line of expected0) {
-        const space = line.indexOf(" ");
-        const dt = line.substring(0, space);
-        const desc = line.substring(space + 1);
-        if (expected[dt]) {
-            expected[dt].push(desc);
-        } else {
-            expected[dt] = [desc];
-        }
+  const expected = {};
+  for (const line of expected0) {
+    const space = line.indexOf(' ');
+    const dt = line.substring(0, space);
+    const desc = line.substring(space + 1);
+    if (expected[dt]) {
+      expected[dt].push(desc);
+    } else {
+      expected[dt] = [desc];
     }
-    const year = holidays.getHolidaysForYear(hyear);
-    const startAbs = hebrew2abs({ yy: hyear, mm: common.months.TISHREI, dd: 1});
-    const endAbs = hebrew2abs({ yy: hyear + 1, mm: common.months.TISHREI, dd: 1});
-    for (let absDt = startAbs; absDt <= endAbs; absDt++) {
-        const hebDt = new HDate(absDt);
-        const gregDt = greg.abs2greg(absDt);
-        const dateStr = gregDt.toLocaleDateString("en-US");
-        const ev = year.get(hebDt.toString());
-        if (typeof ev !== 'undefined') {
-            const evFiltered = ev.filter(e => !(e.getFlags() & flags.SHABBAT_MEVARCHIM));
-            for (const e of evFiltered) {
-                if ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora())) {
-                    const desc = e.getDesc();
-                    if (expected[dateStr]) {
-                        let found = false;
-                        for (const h of expected[dateStr]) {
-                            if (h === desc) {
-                                found = true;
-                                t.is(desc, h);
-                            }
-                        }
-                        if (!found) {
-                            const j = expected[dateStr].join(",");
-                            t.fail(`Found "${desc}" on ${dateStr}, but we expected {${j}}`);
-                        }
-                    } else {
-                        t.fail(`Unexpected ${dateStr} ${desc}`);
-                    }
-                }
+  }
+  const year = holidays.getHolidaysForYear(hyear);
+  const startAbs = hebrew2abs({yy: hyear, mm: common.months.TISHREI, dd: 1});
+  const endAbs = hebrew2abs({yy: hyear + 1, mm: common.months.TISHREI, dd: 1});
+  for (let absDt = startAbs; absDt <= endAbs; absDt++) {
+    const hebDt = new HDate(absDt);
+    const gregDt = greg.abs2greg(absDt);
+    const dateStr = gregDt.toLocaleDateString('en-US');
+    const ev = year.get(hebDt.toString());
+    if (typeof ev !== 'undefined') {
+      const evFiltered = ev.filter((e) => !(e.getFlags() & flags.SHABBAT_MEVARCHIM));
+      for (const e of evFiltered) {
+        if ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora())) {
+          const desc = e.getDesc();
+          if (expected[dateStr]) {
+            let found = false;
+            for (const h of expected[dateStr]) {
+              if (h === desc) {
+                found = true;
+                t.is(desc, h);
+              }
             }
-        } else if (expected[dateStr]) {
-            const j = expected[dateStr].join(",");
-            t.fail(`No events found on ${dateStr}, but we expected {${j}}`);
+            if (!found) {
+              const j = expected[dateStr].join(',');
+              t.fail(`Found "${desc}" on ${dateStr}, but we expected {${j}}`);
+            }
+          } else {
+            t.fail(`Unexpected ${dateStr} ${desc}`);
+          }
         }
+      }
+    } else if (expected[dateStr]) {
+      const j = expected[dateStr].join(',');
+      t.fail(`No events found on ${dateStr}, but we expected {${j}}`);
     }
+  }
 }
 
-test('diaspora', t => {
-    const expected = diaspora5771();
-    testFullYear(t, 5771, false, expected);
+test('diaspora', (t) => {
+  const expected = diaspora5771();
+  testFullYear(t, 5771, false, expected);
 });
 
-test('israel', t => {
-    const expected = israel5720();
-    testFullYear(t, 5720, true, expected);
+test('israel', (t) => {
+  const expected = israel5720();
+  testFullYear(t, 5720, true, expected);
 });
 
 // hebcal -i -H -5720
+// eslint-disable-next-line require-jsdoc
 function israel5720() {
-    return `10/2/1959 Erev Rosh Hashana
+  return `10/2/1959 Erev Rosh Hashana
 10/3/1959 Rosh Hashana 5720
 10/4/1959 Rosh Hashana II
 10/5/1959 Tzom Gedaliah
@@ -144,12 +151,13 @@ function israel5720() {
 8/24/1960 Rosh Chodesh Elul
 9/17/1960 Leil Selichot
 9/21/1960 Erev Rosh Hashana
-`.split("\n");
+`.split('\n');
 }
 
 // hebcal -H 5771
+// eslint-disable-next-line require-jsdoc
 function diaspora5771() {
-return `9/9/2010 Rosh Hashana 5771
+  return `9/9/2010 Rosh Hashana 5771
 9/10/2010 Rosh Hashana II
 9/11/2010 Shabbat Shuva
 9/12/2010 Tzom Gedaliah
@@ -235,5 +243,5 @@ return `9/9/2010 Rosh Hashana 5771
 8/31/2011 Rosh Chodesh Elul
 9/24/2011 Leil Selichot
 9/28/2011 Erev Rosh Hashana
-`.split("\n");
+`.split('\n');
 }

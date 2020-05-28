@@ -64,10 +64,6 @@ export const monthNames = [
   'December',
 ];
 
-export function lookupMonthNum(month) {
-  return new Date(month + ' 1').getMonth() + 1;
-}
-
 /**
  * Returns number of days since January 1 of that year
  * @param {Date} date Gregorian date
@@ -144,7 +140,6 @@ const greg = {
   gregLeapYear,
   daysInGregMonth,
   monthNames,
-  lookupMonthNum,
   dayOfYear,
   greg2abs,
   abs2greg,

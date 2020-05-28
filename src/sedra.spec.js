@@ -1,28 +1,29 @@
 import test from 'ava';
-import { HDate } from './hdate';
-import { Sedra } from './sedra';
+import {HDate} from './hdate';
+import {Sedra} from './sedra';
 import greg from './greg';
 
+// eslint-disable-next-line require-jsdoc
 function testFullYear(t, gregYear, sedra, expected) {
-    let startAbs = greg.greg2abs(new Date(Date.UTC(gregYear, 0, 1)));
-    let endAbs = greg.greg2abs(new Date(Date.UTC(gregYear, 11, 31)));
-    let i = 0;
-    for (let abs = startAbs; abs <= endAbs; abs++) {
-        const dow = abs % 7;
-        if (dow == 6) { // Saturday
-            const todayHeb = new HDate(abs);
-            const parshaStr = sedra.getString(todayHeb);
-            const todayGreg = greg.abs2greg(abs);
-            const [date, time] = todayGreg.toLocaleString('en-US').split(', ');
-            const str = date + " " + parshaStr;
-            t.is(str, expected[i]);
-            i++;
-        }
+  const startAbs = greg.greg2abs(new Date(Date.UTC(gregYear, 0, 1)));
+  const endAbs = greg.greg2abs(new Date(Date.UTC(gregYear, 11, 31)));
+  let i = 0;
+  for (let abs = startAbs; abs <= endAbs; abs++) {
+    const dow = abs % 7;
+    if (dow == 6) { // Saturday
+      const todayHeb = new HDate(abs);
+      const parshaStr = sedra.getString(todayHeb);
+      const todayGreg = greg.abs2greg(abs);
+      const date = todayGreg.toLocaleDateString('en-US');
+      const str = date + ' ' + parshaStr;
+      t.is(str, expected[i]);
+      i++;
     }
+  }
 }
 
-test('sedra-diaspora', t => {
-    const expected = 
+test('sedra-diaspora', (t) => {
+  const expected =
 `1/4/2020 Parashat Vayigash
 1/11/2020 Parashat Vayechi
 1/18/2020 Parashat Shemot
@@ -75,13 +76,13 @@ test('sedra-diaspora', t => {
 12/12/2020 Parashat Vayeshev
 12/19/2020 Parashat Miketz
 12/26/2020 Parashat Vayigash
-`.split("\n");
-    const hyear = new HDate(new Date(Date.UTC(2020, 5, 2))).getFullYear();
-    testFullYear(t, 2020, new Sedra(hyear, false), expected);
+`.split('\n');
+  const hyear = new HDate(new Date(Date.UTC(2020, 5, 2))).getFullYear();
+  testFullYear(t, 2020, new Sedra(hyear, false), expected);
 });
 
-test('sedra-israel', t => {
-    const expected = 
+test('sedra-israel', (t) => {
+  const expected =
 `1/4/2020 Parashat Vayigash
 1/11/2020 Parashat Vayechi
 1/18/2020 Parashat Shemot
@@ -134,7 +135,7 @@ test('sedra-israel', t => {
 12/12/2020 Parashat Vayeshev
 12/19/2020 Parashat Miketz
 12/26/2020 Parashat Vayigash
-`.split("\n");
-    const hyear = new HDate(new Date(Date.UTC(2020, 5, 2))).getFullYear();
-    testFullYear(t, 2020, new Sedra(hyear, true), expected);
+`.split('\n');
+  const hyear = new HDate(new Date(Date.UTC(2020, 5, 2))).getFullYear();
+  testFullYear(t, 2020, new Sedra(hyear, true), expected);
 });

@@ -1,35 +1,36 @@
+/* eslint-disable require-jsdoc */
 import test from 'ava';
 import dafyomi from './dafyomi';
-import { HDate, hebrew2abs } from './hdate';
-import { months } from './common';
+import {hebrew2abs} from './hdate';
+import {months} from './common';
 import greg from './greg';
 
-test('dafyomi-single', t => {
-    const dt = new Date(1995, 11, 17);
-    const dy = dafyomi.dafyomi(dt);
-    t.is(dy.name, "Avodah Zarah");
-    t.is(dy.blatt, 68);
-    t.is(dafyomi.dafname(dy), "Avodah Zarah 68");
+test('dafyomi-single', (t) => {
+  const dt = new Date(1995, 11, 17);
+  const dy = dafyomi.dafyomi(dt);
+  t.is(dy.name, 'Avodah Zarah');
+  t.is(dy.blatt, 68);
+  t.is(dafyomi.dafname(dy), 'Avodah Zarah 68');
 });
 
-test('dafyomi-multi', t => {
-    const expected = getDafYomi5780();
-    const startAbs = hebrew2abs({yy: 5780, mm: months.TISHREI, dd: 1}) - 1;
-    const endAbs = hebrew2abs({yy: 5781, mm: months.TISHREI, dd: 1}) - 1;
-    let i = 0;
-    for (let abs = startAbs; abs <= endAbs; abs++) {
-        const dt = greg.abs2greg(abs);
-        const dy = dafyomi.dafyomi(dt);
-        const dateStr = dt.toLocaleDateString("en-US");
-        const str = dateStr + " Daf Yomi: " + dafyomi.dafname(dy);
-        t.is(str, expected[i]);
-        i++;
-    }
+test('dafyomi-multi', (t) => {
+  const expected = getDafYomi5780();
+  const startAbs = hebrew2abs({yy: 5780, mm: months.TISHREI, dd: 1}) - 1;
+  const endAbs = hebrew2abs({yy: 5781, mm: months.TISHREI, dd: 1}) - 1;
+  let i = 0;
+  for (let abs = startAbs; abs <= endAbs; abs++) {
+    const dt = greg.abs2greg(abs);
+    const dy = dafyomi.dafyomi(dt);
+    const dateStr = dt.toLocaleDateString('en-US');
+    const str = dateStr + ' Daf Yomi: ' + dafyomi.dafname(dy);
+    t.is(str, expected[i]);
+    i++;
+  }
 });
 
 // hebcal --daf-yomi -h -x -H 5780
 function getDafYomi5780() {
-    return `9/29/2019 Daf Yomi: Meilah 12
+  return `9/29/2019 Daf Yomi: Meilah 12
 9/30/2019 Daf Yomi: Meilah 13
 10/1/2019 Daf Yomi: Meilah 14
 10/2/2019 Daf Yomi: Meilah 15
@@ -385,5 +386,5 @@ function getDafYomi5780() {
 9/16/2020 Daf Yomi: Eruvin 38
 9/17/2020 Daf Yomi: Eruvin 39
 9/18/2020 Daf Yomi: Eruvin 40
-`.split("\n");
+`.split('\n');
 }

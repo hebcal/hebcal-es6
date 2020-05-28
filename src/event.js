@@ -1,24 +1,24 @@
-import { gettext } from 'ttag';
+import {gettext} from 'ttag';
 import numeral from 'numeral';
 
-const CHAG                = 1;
-const LIGHT_CANDLES       = 2;
-const YOM_TOV_ENDS        = 4;
-const CHUL_ONLY           = 8;  // chutz l'aretz (Diaspora)
-const IL_ONLY             = 16;   // b'aretz (Israel)
+const CHAG = 1;
+const LIGHT_CANDLES = 2;
+const YOM_TOV_ENDS = 4;
+const CHUL_ONLY = 8; // chutz l'aretz (Diaspora)
+const IL_ONLY = 16; // b'aretz (Israel)
 const LIGHT_CANDLES_TZEIS = 32;
-const CHANUKAH_CANDLES    = 64;
-const ROSH_CHODESH        = 128;
-const MINOR_FAST          = 256;
-const SPECIAL_SHABBAT     = 512;
-const PARSHA_HASHAVUA     = 1024;
-const DAF_YOMI            = 2048;
-const OMER_COUNT          = 4096;
-const MODERN_HOLIDAY      = 8192;
-const MAJOR_FAST          = 16384;
-const SHABBAT_MEVARCHIM   = 32768;
-const MOLAD               = 65536;
-const USER_EVENT          = 131072;
+const CHANUKAH_CANDLES = 64;
+const ROSH_CHODESH = 128;
+const MINOR_FAST = 256;
+const SPECIAL_SHABBAT = 512;
+const PARSHA_HASHAVUA = 1024;
+const DAF_YOMI = 2048;
+const OMER_COUNT = 4096;
+const MODERN_HOLIDAY = 8192;
+const MAJOR_FAST = 16384;
+const SHABBAT_MEVARCHIM = 32768;
+const MOLAD = 65536;
+const USER_EVENT = 131072;
 
 /**
  * Holiday flags
@@ -45,6 +45,7 @@ export const flags = {
   USER_EVENT,
 };
 
+/** Represents an Event with a title, date, and flags */
 export class Event {
   /**
    * Constructs Event
@@ -62,61 +63,70 @@ export class Event {
     }
   }
   /**
-   * @returns {number}
+   * @return {number}
    */
   getFlags() {
     return this.mask;
   }
+  /**
+   * @return {*}
+   */
   getAttrs() {
     return this.attrs;
   }
   /**
    * Is this event observed in Israel?
-   * @returns {boolean}
+   * @return {boolean}
    */
   observedInIsrael() {
     return !(this.mask & CHUL_ONLY);
   }
   /**
    * Is this event observed in the Diaspora?
-   * @returns {boolean}
+   * @return {boolean}
    */
   observedInDiaspora() {
     return !(this.mask & IL_ONLY);
   }
   /**
    * Returns (translated) description of this event
-   * @returns {string}
+   * @return {string}
    */
   render() {
     return gettext(this.desc);
   }
   /**
    * Returns untranslated description of this event
-   * @returns {string}
+   * @return {string}
    */
   getDesc() {
     return this.desc;
   }
   /**
    * Returns Hebrew date of this event
-   * @returns {HDate}
+   * @return {HDate}
    */
   getDate() {
     return this.date;
   }
 }
 
+/** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
 export class OmerEvent extends Event {
+  /**
+   * @param {HDate} date
+   * @param {number} omerDay
+   */
   constructor(date, omerDay) {
-      super(date, `Omer ${omerDay}`, flags.OMER_COUNT, { omer: omerDay });
+    super(date, `Omer ${omerDay}`, flags.OMER_COUNT, {omer: omerDay});
   }
   /**
    * @todo use gettext()
+   * @return {string}
    */
   render() {
-      const nth = numeral(this.getAttrs().omer).format('ordinal');
-      return `${nth} day of the Omer`;
+    const nth = numeral(this.getAttrs().omer).format('ordinal');
+    return `${nth} day of the Omer`;
   }
 }
 
@@ -125,34 +135,55 @@ export class OmerEvent extends Event {
  * attrs.dafyomi.name contains the untranslated string
  */
 export class DafYomiEvent extends Event {
+  /**
+   * @param {HDate} date
+   * @param {string} desc
+   * @param {*} attrs
+   */
   constructor(date, desc, attrs) {
-      super(date, desc, flags.DAF_YOMI, attrs);
+    super(date, desc, flags.DAF_YOMI, attrs);
   }
+  /** @return {string} */
   render() {
-      return gettext('Daf Yomi') + ': ' + this.getDesc();
+    return gettext('Daf Yomi') + ': ' + this.getDesc();
   }
 }
 
+/** Havdalah after Shabbat or holiday */
 export class HavdalahEvent extends Event {
+  /**
+   * @param {HDate} date
+   * @param {number} mask
+   * @param {*} attrs
+   * @param {number} [havdalahMins]
+   */
   constructor(date, mask, attrs, havdalahMins) {
-      super(date, 'Havdalah', mask, Object.assign({ havdalahMins}, attrs));
+    super(date, 'Havdalah', mask, Object.assign({havdalahMins}, attrs));
   }
+  /** @return {string} */
   render() {
-      const attrs = this.getAttrs();
-      let str = gettext(this.getDesc());
-      if (attrs.havdalahMins) {
-          const min = gettext('min');
-          str += ` (${attrs.havdalahMins} ${min})`;
-      }
-      return str + ': ' + attrs.eventTimeStr;
+    const attrs = this.getAttrs();
+    let str = gettext(this.getDesc());
+    if (attrs.havdalahMins) {
+      const min = gettext('min');
+      str += ` (${attrs.havdalahMins} ${min})`;
+    }
+    return str + ': ' + attrs.eventTimeStr;
   }
 }
 
+/** Candle lighting before Shabbat or holiday */
 export class CandleLightingEvent extends Event {
+  /**
+   * @param {HDate} date
+   * @param {number} mask
+   * @param {*} attrs
+   */
   constructor(date, mask, attrs) {
-      super(date, 'Candle lighting', mask, attrs);
+    super(date, 'Candle lighting', mask, attrs);
   }
+  /** @return {string} */
   render() {
-      return gettext(this.getDesc()) + ': ' + this.getAttrs().eventTimeStr;
+    return gettext(this.getDesc()) + ': ' + this.getAttrs().eventTimeStr;
   }
 }
