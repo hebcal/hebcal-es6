@@ -26,7 +26,7 @@ const monthLengths = [
 /**
  * Returns true if the Gregorian year is a leap year
  * @param {number} year Gregorian year
- * @returns {boolean}
+ * @return {boolean}
  */
 export function gregLeapYear(year) {
   return !(year % 4) && (!!(year % 100) || !(year % 400));
@@ -36,7 +36,7 @@ export function gregLeapYear(year) {
  * Number of days in the Gregorian month for given year
  * @param {number} month Gregorian month (1=January, 12=December)
  * @param {number} year Gregorian year
- * @returns {number}
+ * @return {number}
  */
 export function daysInGregMonth(month, year) {
   // 1 based months
@@ -49,33 +49,33 @@ export function daysInGregMonth(month, year) {
  * @enum {number}
  */
 export const monthNames = [
-  "",
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  '',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 export function lookupMonthNum(month) {
-  return new Date(month + " 1").getMonth() + 1;
+  return new Date(month + ' 1').getMonth() + 1;
 }
 
 /**
  * Returns number of days since January 1 of that year
  * @param {Date} date Gregorian date
- * @returns {number}
+ * @return {number}
  */
 export function dayOfYear(date) {
   if (!date instanceof Date) {
-    throw new TypeError("Argument to greg.dayOfYear not a Date");
+    throw new TypeError('Argument to greg.dayOfYear not a Date');
   }
   let doy = date.getDate() + 31 * date.getMonth();
   if (date.getMonth() > 1) {
@@ -91,11 +91,11 @@ export function dayOfYear(date) {
 /**
  * Converts Gregorian date to Julian Day Count
  * @param {Date} date Gregorian date
- * @returns {number}
+ * @return {number}
  */
 export function greg2abs(date) {
   if (!date instanceof Date) {
-    throw new TypeError("Argument to greg.greg2abs not a Date");
+    throw new TypeError('Argument to greg.greg2abs not a Date');
   }
   const year = date.getFullYear() - 1;
   return (
@@ -114,11 +114,11 @@ export function greg2abs(date) {
  * Clamen, Software--Practice and Experience, Volume 23, Number 4
  * (April, 1993), pages 383-404 for an explanation.
  * @param {number} theDate absolute Julian days
- * @returns {Date}
+ * @return {Date}
  */
 export function abs2greg(theDate) {
   if (typeof theDate !== 'number') {
-    throw new TypeError("Argument to greg.abs2greg not a Number");
+    throw new TypeError('Argument to greg.abs2greg not a Number');
   }
   // calculations copied from original JS code
   const d0 = theDate - 1;

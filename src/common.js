@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /*
     Hebcal - A Jewish Calendar Generator
     Copyright (c) 1994-2020 Danny Sadinoff
@@ -18,7 +19,7 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import gematriya from "gematriya";
+import gematriya from 'gematriya';
 
 /**
  * Hebrew months of the year
@@ -42,29 +43,29 @@ export const months = {
 };
 
 const monthNames0 = [
-  "",
-  "Nisan",
-  "Iyyar",
-  "Sivan",
-  "Tamuz",
-  "Av",
-  "Elul",
-  "Tishrei",
-  "Cheshvan",
-  "Kislev",
-  "Tevet",
-  "Sh'vat"
+  '',
+  'Nisan',
+  'Iyyar',
+  'Sivan',
+  'Tamuz',
+  'Av',
+  'Elul',
+  'Tishrei',
+  'Cheshvan',
+  'Kislev',
+  'Tevet',
+  'Sh\'vat',
 ];
 
 export const monthNames = [
   monthNames0.concat([
-    "Adar",
-    "Nisan"
+    'Adar',
+    'Nisan',
   ]),
   monthNames0.concat([
-    "Adar I",
-    "Adar II",
-    "Nisan"
+    'Adar I',
+    'Adar II',
+    'Nisan',
   ]),
 ];
 
@@ -86,7 +87,7 @@ export const days = {
 /**
  * Returns true if Hebrew year is a leap year
  * @param {number} x Hebrew year
- * @returns {boolean}
+ * @return {boolean}
  */
 export function hebLeapYear(x) {
   return (1 + x * 7) % 19 < 7;
@@ -95,7 +96,7 @@ export function hebLeapYear(x) {
 /**
  * Number of months in Hebrew year
  * @param {number} x Hebrew year
- * @returns {number}
+ * @return {number}
  */
 export function monthsInHebYear(x) {
   return 12 + hebLeapYear(x); // boolean is cast to 1 or 0
@@ -105,7 +106,7 @@ export function monthsInHebYear(x) {
  * Number of days in Hebrew month in a given year
  * @param {number} month Hebrew month (e.g. months.TISHREI)
  * @param {number} year Hebrew year
- * @returns {number}
+ * @return {number}
  */
 export function daysInHebMonth(month, year) {
   if (month == months.IYYAR ||
@@ -116,17 +117,17 @@ export function daysInHebMonth(month, year) {
       (month == months.ADAR_I && !hebLeapYear(year)) ||
       (month == months.CHESHVAN && !longCheshvan(year)) ||
       (month == months.KISLEV && shortKislev(year))) {
-      return 29;
-    } else {
-      return 30;
-    }
+    return 29;
+  } else {
+    return 30;
+  }
 }
 
 /**
  * Returns an (untranslated) string name of Hebrew month in year
  * @param {number} month Hebrew month (e.g. months.TISHREI)
  * @param {number} year Hebrew year
- * @returns {string}
+ * @return {string}
  */
 export function getMonthName(month, year) {
   if (typeof month !== 'number' || month < 1 || month > 14) {
@@ -139,34 +140,40 @@ export function getMonthName(month, year) {
 /**
  * Returns the Hebrew month number
  * @param {*} month A number, or Hebrew month name string
+ * @return {number}
  */
 export function monthNum(month) {
-  return typeof month === "number"
-    ? month
-    : month.charCodeAt(0) >= 1488 &&
+  return typeof month === 'number' ?
+    month :
+    month.charCodeAt(0) >= 1488 &&
       month.charCodeAt(0) <= 1514 &&
-      /('|")/.test(month)
-    ? gematriya(month)
-    : month.charCodeAt(0) >= 48 && month.charCodeAt(0) <= 57 /* number */
-    ? parseInt(month, 10)
-    : monthFromName(month);
+      /('|")/.test(month) ?
+    gematriya(month) :
+    month.charCodeAt(0) >= 48 && month.charCodeAt(0) <= 57 ? /* number */
+    parseInt(month, 10) :
+    monthFromName(month);
 }
 
+/**
+ * Helper function to converts a string or number to a string
+ * @param {number|string} str string or number
+ * @return {number}
+ */
 export function dayYearNum(str) {
-  return typeof str === "number"
-    ? str
-    : str.charCodeAt(0) >= 1488 && str.charCodeAt(0) <= 1514
-    ? gematriya(str, true)
-    : parseInt(str, 10);
+  return typeof str === 'number' ?
+    str :
+    str.charCodeAt(0) >= 1488 && str.charCodeAt(0) <= 1514 ?
+    gematriya(str, true) :
+    parseInt(str, 10);
 }
 
 /**
  * Days from sunday prior to start of Hebrew calendar to mean
  * conjunction of Tishrei in Hebrew YEAR
  * @param {number} hYear Hebrew year
- * @returns {number}
+ * @return {number}
  */
- export function hebElapsedDays(hYear) {
+export function hebElapsedDays(hYear) {
   // borrowed from original JS
   const m_elapsed =
     235 * Math.floor((hYear - 1) / 19) +
@@ -196,7 +203,7 @@ export function dayYearNum(str) {
 /**
  * Number of days in the hebrew YEAR
  * @param {number} year Hebrew year
- * @returns {number}
+ * @return {number}
  */
 export function daysInYear(year) {
   return hebElapsedDays(year + 1) - hebElapsedDays(year);
@@ -205,6 +212,7 @@ export function daysInYear(year) {
 /**
  * true if Cheshvan is long in Hebrew YEAR
  * @param {number} year Hebrew year
+ * @return {boolean}
  */
 export function longCheshvan(year) {
   return daysInYear(year) % 10 == 5;
@@ -213,11 +221,17 @@ export function longCheshvan(year) {
 /**
  * true if Kislev is short in Hebrew YEAR
  * @param {number} year Hebrew year
+ * @return {boolean}
  */
 export function shortKislev(year) {
   return daysInYear(year) % 10 == 3;
 }
 
+/**
+ * Converts Hebrew month string name to numeric
+ * @param {string} c monthName
+ * @return {number}
+ */
 export function monthFromName(c) {
   /*
   the Hebrew months are unique to their second letter
@@ -242,77 +256,77 @@ export function monthFromName(c) {
   תמ תש        תמוז תשרי
   */
   switch (c.toLowerCase()[0]) {
-    case "n":
-    case "נ":
-      return c.toLowerCase()[1] == "o" /* this catches "november" */
-        ? 0
-        : months.NISAN;
-    case "i":
+    case 'n':
+    case 'נ':
+      return c.toLowerCase()[1] == 'o' ? /* this catches "november" */
+        0 :
+        months.NISAN;
+    case 'i':
       return months.IYYAR;
-    case "e":
+    case 'e':
       return months.ELUL;
-    case "c":
-    case "ח":
+    case 'c':
+    case 'ח':
       return months.CHESHVAN;
-    case "k":
-    case "כ":
+    case 'k':
+    case 'כ':
       return months.KISLEV;
-    case "s":
+    case 's':
       switch (c.toLowerCase()[1]) {
-        case "i":
+        case 'i':
           return months.SIVAN;
-        case "h":
+        case 'h':
           return months.SHVAT;
         default:
           return 0;
       }
-    case "t":
+    case 't':
       switch (c.toLowerCase()[1]) {
-        case "a":
+        case 'a':
           return months.TAMUZ;
-        case "i":
+        case 'i':
           return months.TISHREI;
-        case "e":
+        case 'e':
           return months.TEVET;
       }
       break;
-    case "a":
+    case 'a':
       switch (c.toLowerCase()[1]) {
-        case "v":
+        case 'v':
           return months.AV;
-        case "d":
+        case 'd':
           if (/(1|[^i]i|a|א)$/i.test(c)) {
             return months.ADAR_I;
           }
           return months.ADAR_II; // else assume sheini
       }
       break;
-    case "ס":
+    case 'ס':
       return months.SIVAN;
-    case "ט":
+    case 'ט':
       return months.TEVET;
-    case "ש":
+    case 'ש':
       return months.SHVAT;
-    case "א":
+    case 'א':
       switch (c.toLowerCase()[1]) {
-        case "ב":
+        case 'ב':
           return months.AV;
-        case "ד":
+        case 'ד':
           if (/(1|[^i]i|a|א)$/i.test(c)) {
             return months.ADAR_I;
           }
           return months.ADAR_II; // else assume sheini
-        case "י":
+        case 'י':
           return months.IYYAR;
-        case "ל":
+        case 'ל':
           return months.ELUL;
       }
       break;
-    case "ת":
+    case 'ת':
       switch (c.toLowerCase()[1]) {
-        case "מ":
+        case 'מ':
           return months.TAMUZ;
-        case "ש":
+        case 'ש':
           return months.TISHREI;
       }
       break;
@@ -325,13 +339,21 @@ export function monthFromName(c) {
  * absolute day d.  Similarly, applying it to d+3 gives the DAYNAME nearest to
  * absolute date d, applying it to d-1 gives the DAYNAME previous to absolute
  * date d, and applying it to d+7 gives the DAYNAME following absolute date d.
- * @param {number} day_of_week 
- * @param {number} absdate 
+ * @param {number} day_of_week
+ * @param {number} absdate
+ * @return {number}
  */
 export function dayOnOrBefore(day_of_week, absdate) {
   return absdate - ((absdate - day_of_week) % 7);
 }
 
+/**
+ * Returns an array from start to end
+ * @param {number} start beginning number, inclusive
+ * @param {number} end ending number, inclusive
+ * @param {number} [step=1]
+ * @return {number[]}
+ */
 export function range(start, end, step = 1) {
   if (step < 0) {
     step = 0 - step;
