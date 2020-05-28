@@ -120,3 +120,23 @@ test('ical-omer', t => {
     t.is(lines.length, 16);
     t.is(lines[4], 'SUMMARY:1st day of the Omer');
 });
+
+
+test('eventToCsv', t => {
+    const options = {
+        year: 1993,
+        month: 4,
+        noMinorFast: true,
+        noRoshChodesh: true,
+        noSpecialShabbat: true,
+        candlelighting: true,
+        location: new Location(41.85003, -87.65005, false, "America/Chicago", "Chicago", 'US', 4887398),
+    };
+    const events = hebcal.hebcalEvents(options).slice(0, 5);
+    const csv = events.map(e => icalendar.eventToCsv(e, options));
+    t.is(csv[0], `"Candle lighting",4/2/1993,"6:00 PM",4/2/1993,"6:00 PM","false","",4,"Chicago"`);
+    t.is(csv[1], `"Havdalah",4/3/1993,"7:01 PM",4/3/1993,"7:01 PM","false","",4,"Chicago"`);
+    t.is(csv[2], `"Erev Pesach",4/5/1993,,,,"true","",3,"Jewish Holidays"`);
+    t.is(csv[3], `"Candle lighting",4/5/1993,"7:03 PM",4/5/1993,"7:03 PM","false","",4,"Chicago"`);
+    t.is(csv[4], `"Pesach I",4/6/1993,,,,"true","",4,"Jewish Holidays"`);
+});

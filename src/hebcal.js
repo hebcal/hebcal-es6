@@ -34,6 +34,10 @@ const FRI = common.days.FRI;
 const SAT = common.days.SAT;
 const shortDayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const numeralLocales = ['fi', 'fr', 'hu', 'pl', 'ru'];
+const emptyPoData = {
+  headers: { "plural-forms": "nplurals=2; plural=(n!=1);" },
+  contexts: { "": {} }
+};
 
 function formatTime(timeFormat, dt) {
     const time = timeFormat.format(dt);
@@ -285,6 +289,9 @@ export function hebcalEvents(options) {
             const numeralLocale = require(numeralLocaleFilename);
             numeral.locale(locale);
         }
+    } else {
+        addLocale('en', emptyPoData);
+        useLocale('en');
     }
 
     let events = [];

@@ -186,10 +186,10 @@ export function eventToIcal(e, options) {
     const desc = e.getDesc(); // original untranslated
     const attrs = e.getAttrs();
     const mask = e.getFlags();
-    const untimed = !attrs || !attrs.eventTime;
-    let location = untimed ? undefined : options.location.name;
+    const timed = Boolean(attrs && attrs.eventTime);
+    let location = timed ? options.location.name : undefined;
     if (mask & flags.DAF_YOMI) {
-        subj = gettext(e.getDesc());
+        subj = gettext(desc);
         location = gettext('Daf Yomi');
     }
 
@@ -222,7 +222,16 @@ export function eventToIcal(e, options) {
     let startDate = date;
     let dtargs, endDate;
     let transp = 'TRANSPARENT', busyStatus = 'FREE';
-    if (untimed) {
+    if (timed) {
+        let [hour,minute] = attrs.eventTimeStr.split(':');
+        if (Number(hour) < 12) {
+            hour = 12 + Number(hour);
+        }
+        startDate += 'T' + formatTime(hour, minute, 0);
+        endDate = startDate;
+        dtargs = `;TZID=${options.location.tzid}`;
+        subj = gettext(desc);  // replace "Candle lighting: 15:34" with shorter title
+    } else {
         endDate = formatYYYYMMDD(e.getDate().next().greg());
         // for all-day untimed, use DTEND;VALUE=DATE intsead of DURATION:P1D.
         // It's more compatible with everthing except ancient versions of
@@ -232,20 +241,11 @@ export function eventToIcal(e, options) {
             transp = 'OPAQUE';
             busyStatus = 'OOF';
         }
-    } else {
-        let [hour,minute] = attrs.eventTimeStr.split(':');        
-        if (Number(hour) < 12) {
-            hour = 12 + Number(hour);
-        }
-        startDate += 'T' + formatTime(hour, minute, 0);
-        endDate = startDate;
-        dtargs = `;TZID=${options.location.tzid}`;
-        subj = gettext(desc);  // replace "Candle lighting: 15:34" with shorter title
     }
 
     const digest = md5(subj);
     let uid = `hebcal-${date}-${digest}`;
-    if (!untimed && options.location) {
+    if (timed && options.location) {
         if (options.location.geoid) {
             uid += `-${options.location.geoid}`;
         } else if (options.location.name) {
@@ -283,7 +283,7 @@ export function eventToIcal(e, options) {
         alarm = '3H'; // 9pm Omer alarm evening before
     } else if (e.getFlags() & flags.USER_EVENT) {
         alarm = '12H'; // noon the day before
-    } else if (!untimed && desc.startsWith("Candle lighting")) {
+    } else if (timed && desc.startsWith("Candle lighting")) {
         alarm = '10M'; // ten minutes
     }
     if (alarm) {
@@ -301,6 +301,12 @@ export function eventToIcal(e, options) {
     return arr.join("\r\n");
 }
 
+function exportHttpHeader(res, mimeType, fileName) {
+    res.setHeader('Content-Type', `${mimeType}; filename=\"${fileName}\"`);
+    res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
+    res.setHeader('Last-Modified', new Date().toUTCString());
+}
+
 /**
  * 
  * @param {stream.Writable} res 
@@ -309,58 +315,51 @@ export function eventToIcal(e, options) {
  * @param {HebcalOptions} options
  */
 export function icalWriteContents(res, events, title, options) {
-    if (options.icalendar) {
-        const mimeType = "text/calendar; charset=UTF-8";
-        if (options.subscribe) {
-            res.setHeader('Content-Type', mimeType);
-        } else {
-            res.setHeader('Content-Type', "${mimeType}; filename=\"${fileName}\"");
-            res.setHeader('Content-Disposition', "attachment; filename=${fileName}");
-            res.setHeader('Last-Modified', new Date().toUTCString());
-        }
+    const mimeType = "text/calendar; charset=UTF-8";
+    if (options.subscribe) {
+        res.setHeader('Content-Type', mimeType);
+    } else {
+        const fileName = getDownloadFilename(options) + '.ics';
+        exportHttpHeader(res, mimeType, fileName);
     }
 
     icalWriteLine(res, "BEGIN:VCALENDAR");
-    if (!options.icalendar) {
-        icalWriteLine(res, "VERSION:1.0", "METHOD:PUBLISH");
+    const location = options.location;
+    if (location && location.name) {
+        title = location.name + ' ' + title;
+    } else if (!options.yahrzeit) {
+        title = (options.il ? 'Israel' : 'Diaspora') + ' ' + title;
+    }
+    title = title
+        .replace(/,/g, '\\,')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    icalWriteLine(res, "VERSION:2.0");
+    const uclang = (options.locale || "en").toUpperCase();
+    icalWriteLine(res,
+        "PRODID:-//hebcal.com/NONSGML Hebcal Calendar v7.0//${uclang}",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "X-LOTUS-CHARSET:UTF-8",
+        "X-PUBLISHED-TTL:PT7D");
+    if (title) {
+        icalWriteLine(res, `X-WR-CALNAME:Hebcal ${title}`);
     } else {
-        const location = options.location;
-        if (location && location.name) {
-            title = location.name + ' ' + title;
-        } else if (!options.yahrzeit) {
-            title = (options.il ? 'Israel' : 'Diaspora') + ' ' + title;
-        }
-        title = title
-            .replace(/,/g, '\\,')
-            .replace(/\s+/g, ' ')
-            .trim();
+        icalWriteLine(res, "X-WR-CALNAME:Hebcal");
+    }
 
-        icalWriteLine(res, "VERSION:2.0");
-        const uclang = (options.locale || "en").toUpperCase();
-        icalWriteLine(res,
-            "PRODID:-//hebcal.com/NONSGML Hebcal Calendar v7.0//${uclang}",
-            "CALSCALE:GREGORIAN",
-            "METHOD:PUBLISH",
-            "X-LOTUS-CHARSET:UTF-8",
-            "X-PUBLISHED-TTL:PT7D");
-        if (title) {
-            icalWriteLine(res, `X-WR-CALNAME:Hebcal ${title}`);
+    // include an iCal description
+    const caldesc = options.yahrzeit ? "Yahrzeits + Anniversaries from www.hebcal.com" : "Jewish Holidays from www.hebcal.com";
+    icalWriteLine(res, `X-WR-CALDESC:${caldesc}`);
+
+    if (location && location.tzid) {
+        icalWriteLine(res, `X-WR-TIMEZONE;VALUE=TEXT:${tzid}`);
+        if (VTIMEZONE[tzid]) {
+            icalWriteLine(res, VTIMEZONE[tzid]);
         } else {
-            icalWriteLine(res, "X-WR-CALNAME:Hebcal");
-        }
-
-        // include an iCal description
-        const caldesc = options.yahrzeit ? "Yahrzeits + Anniversaries from www.hebcal.com" : "Jewish Holidays from www.hebcal.com";
-        icalWriteLine(res, `X-WR-CALDESC:${caldesc}`);
-
-        if (location && location.tzid) {
-            icalWriteLine(res, `X-WR-TIMEZONE;VALUE=TEXT:${tzid}`);
-            if (VTIMEZONE[tzid]) {
-                icalWriteLine(res, VTIMEZONE[tzid]);
-            } else {
-                const vtimezoneIcs = `/foo/zoneinfo/${tzid}.ics`;
-                // read it from disk
-            }
+            const vtimezoneIcs = `/foo/zoneinfo/${tzid}.ics`;
+            // read it from disk
         }
     }
 
@@ -369,8 +368,77 @@ export function icalWriteContents(res, events, title, options) {
     icalWriteLine(res, "END:VCALENDAR");
 }
 
+function getDownloadFilename(options) {
+    let fileName = 'hebcal_' + options.year;
+    if (options.isHebrewYear) {
+        fileName += 'H';
+    }
+    if (options.month) {
+        fileName += '_' + options.month;
+    }
+    if (options.location && options.location.name) {
+        fileName += '_' + makeAnchor(options.location.name);
+    }
+    return fileName;
+}
+
+export function eventToCsv(e, options) {
+    const d = e.getDate().greg();
+    const mday = d.getDate();
+    const mon = d.getMonth() + 1;
+    const year = String(d.getFullYear()).padStart(4, '0');
+    const date = options.euro ? `${mday}/${mon}/${year}` : `${mon}/${mday}/${year}`;
+
+    let subj = e.render();
+    let start_time = '';
+    let end_time = '';
+    let end_date = '';
+    let all_day = '"true"';
+
+    const attrs = e.getAttrs();
+    const timed = Boolean(attrs && attrs.eventTime);
+    if (timed) {
+        let [hour,minute] = attrs.eventTimeStr.split(':');
+        hour = Number(hour);
+        if (hour > 12) {
+            hour = hour % 12;
+        }
+        end_time = start_time = `"${hour}:${minute} PM"`;
+        end_date = date;
+        all_day = '"false"';
+        subj = gettext(e.getDesc());  // replace "Candle lighting: 15:34" with shorter title
+    }
+
+    let loc = 'Jewish Holidays';
+    const mask = e.getFlags();
+    if (timed && options.location && options.location.name) {
+        loc = options.location.name;
+    } else if (mask & flags.DAF_YOMI) {
+        subj = gettext(e.getDesc());
+        loc = gettext('Daf Yomi');
+    }
+
+    subj = subj.replace(/,/g, '').replace(/"/g, "''");
+    const memo = ''; // update this eventually
+//    memo = memo.replace(/,/g, ';').replace(/"/g, "''");
+
+    const showTimeAs = (timed || (mask & flags.CHAG)) ? 4 : 3;
+    return `"${subj}",${date},${start_time},${end_date},${end_time},${all_day},"${memo}",${showTimeAs},"${loc}"`;
+}
+
+export function csvWriteContents(res, events, options) {
+    const fileName = getDownloadFilename(options) + '.csv';
+    exportHttpHeader(res, 'text/x-csv', fileName);
+    res.write('"Subject","Start Date","Start Time","End Date","End Time","All day event","Description","Show time as","Location"\r\n');
+    events.forEach((e) => {
+        res.write(eventToCsv(e, options));
+        res.write("\r\n");
+    });
+}
 
 export default {
+    eventToCsv,
+    csvWriteContents,
     eventToIcal,
     icalWriteContents
 };
