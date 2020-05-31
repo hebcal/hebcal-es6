@@ -1,12 +1,25 @@
 {
-  "name": "hebcal-es6",
+  "name": "@hebcal/core",
   "version": "1.0.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
     "Danny Sadinoff (https://github.com/dsadinoff)"
   ],
-  "description": "Hebcal",
+  "keywords": [
+    "hebcal",
+    "hebrew",
+    "calendar",
+    "jewish",
+    "holidays",
+    "chagim",
+    "sedra",
+    "date",
+    "dafyomi",
+    "zemanim",
+    "zmanim"
+  ],
+  "description": "A perpetual Jewish Calendar API",
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
   "browser": "./dist/index.umd.js",

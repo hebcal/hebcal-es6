@@ -31,12 +31,4 @@ export {
   abs2greg,
 } from './greg';
 export {getHolidaysOnDate, getHolidaysForYear} from './holidays';
-export {csvWriteContents, icalWriteContents} from './icalendar';
-export {
-  getLeyningForHoliday,
-  getLeyningForParshaHaShavua,
-  getLeyningKeyForEvent,
-  formatAliyahWithBook,
-} from './leyning';
-export {getTriennial, Triennial} from './triennial';
 export {hebcalEvents} from './hebcal';

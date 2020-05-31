@@ -73,10 +73,10 @@ export class Event {
     return this.mask;
   }
   /**
-   * @return {*}
+   * @return {Object}
    */
   getAttrs() {
-    return this.attrs;
+    return this.attrs || {};
   }
   /**
    * Is this event observed in Israel?
@@ -142,7 +142,7 @@ export class DafYomiEvent extends Event {
   /**
    * @param {HDate} date
    * @param {string} desc
-   * @param {*} attrs
+   * @param {Object} attrs
    */
   constructor(date, desc, attrs) {
     super(date, desc, flags.DAF_YOMI, attrs);
@@ -158,7 +158,7 @@ export class HavdalahEvent extends Event {
   /**
    * @param {HDate} date
    * @param {number} mask
-   * @param {*} attrs
+   * @param {Object} attrs
    * @param {number} [havdalahMins]
    */
   constructor(date, mask, attrs, havdalahMins) {
@@ -181,7 +181,7 @@ export class CandleLightingEvent extends Event {
   /**
    * @param {HDate} date
    * @param {number} mask
-   * @param {*} attrs
+   * @param {Object} attrs
    */
   constructor(date, mask, attrs) {
     super(date, 'Candle lighting', mask, attrs);

@@ -356,14 +356,6 @@ export function hebcalEvents(options={}) {
       if (options.omer) {
         [beginOmer, endOmer] = getOmerStartAndEnd(currentYear);
       }
-      /*
-            if (options.leyning) {
-                const triYear = Triennial.getYearNumber(hd.getFullYear());
-                const tri = getTriennial(hd.getFullYear());
-                const triReadings = tri.getReadings();
-                result.triennial = triReadings[name][triYear];
-            }
-*/
     }
     const dow = abs % 7;
     let candlesToday = false;
