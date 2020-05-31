@@ -53,7 +53,7 @@ export class HDate {
         this.month = day.month;
         this.year = day.year;
       } else {
-        throw new TypeError('HDate called with bad argument');
+        throw new TypeError(`HDate called with bad argument: ${day}`);
       }
     } else if (arguments.length == 3) {
       // Hebrew day, Hebrew month, Hebrew year
