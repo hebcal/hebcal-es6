@@ -21,6 +21,7 @@
   ],
   "description": "A perpetual Jewish Calendar API",
   "main": "./dist/index.js",
+  "typings": "hebcal.d.ts",
   "module": "./dist/index.esm.js",
   "browser": "./dist/index.umd.js",
   "repository": {
@@ -45,6 +46,7 @@
     "po2json": "for infile in ./po/*.po; do outfile=`basename -s .po $infile`; echo $outfile; npx ttag po2json $infile --format compact > src/$outfile.po.json; done && exit 0",
     "readme": "npx jsdoc2md dist/index.js",
     "pretest": "npm run build",
+    "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/ && mv out/types.d.ts hebcal.d.ts",
     "test": "ava"
   },
   "license": "GPL-2.0",
@@ -80,6 +82,7 @@
     "jsdoc-to-markdown": "^5.0.3",
     "rollup": "^1.29.0",
     "rollup-plugin-terser": "^6.1.0",
+    "tsd-jsdoc": "^2.5.0",
     "ttag-cli": "^1.8.2"
   }
 }

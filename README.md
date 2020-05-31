@@ -4,10 +4,32 @@ Hebcal, a perpetual Jewish Calendar (ES6)
 
 [![Build Status](https://travis-ci.org/hebcal/hebcal-es6.svg?branch=master)](https://travis-ci.org/hebcal/hebcal-es6)
 
+## Installation
+```bash
+$ npm install @hebcal/core
+```
 
-> @hebcal/core@1.0.0 readme /Users/mradwin/dev/hebcal-es6
-> npx jsdoc2md dist/index.js
+## Synopsis
+```javascript
+import {hebcal, cities, Location, Event} from '@hebcal/core';
 
+cities.init();
+
+const options = {
+  year: 1981,
+  isHebrewYear: false,
+  candlelighting: true,
+  location: Location.newFromCity(cities.getCity('San Francisco')),
+  sedrot: true,
+  omer: true,
+};
+const events = hebcal.hebrewCalendar(options);
+for (const ev of events) {
+  const hd = e.getDate();
+  const date = hd.greg();
+  console.log(date.toLocaleDateString(), e.render(), hd.toString());
+}
+```
 ## Classes
 
 <dl>
