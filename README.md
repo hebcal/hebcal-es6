@@ -11,7 +11,7 @@ $ npm install @hebcal/core
 
 ## Synopsis
 ```javascript
-import {hebcal, cities, Location, Event} from '@hebcal/core';
+import {hebcal, HDate, cities, Location, Event} from '@hebcal/core';
 
 cities.init();
 
@@ -24,6 +24,7 @@ const options = {
   omer: true,
 };
 const events = hebcal.hebrewCalendar(options);
+
 for (const ev of events) {
   const hd = e.getDate();
   const date = hd.greg();
