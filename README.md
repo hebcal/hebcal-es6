@@ -115,7 +115,7 @@ Gregorian date Sunday, December 31, 1 BC.</p>
 <dt><a href="#abs2hebrew">abs2hebrew(d)</a> ⇒ <code><a href="#SimpleHebrewDate">SimpleHebrewDate</a></code></dt>
 <dd><p>Converts Julian days to Hebrew date to absolute Julian days</p>
 </dd>
-<dt><a href="#getMolad">getMolad(year, month)</a> ⇒ <code>*</code></dt>
+<dt><a href="#getMolad">getMolad(year, month)</a> ⇒ <code><a href="#Molad">Molad</a></code></dt>
 <dd><p>Calculates the molad for a Hebrew month</p>
 </dd>
 <dt><a href="#getBirthdayOrAnniversary">getBirthdayOrAnniversary(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
@@ -151,7 +151,7 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 <dt><a href="#getLeyningKeyForEvent">getLeyningKeyForEvent(e, [il])</a> ⇒ <code>string</code></dt>
 <dd><p>Based on the event date, type and title, finds the relevant leyning key</p>
 </dd>
-<dt><a href="#getLeyningForHoliday">getLeyningForHoliday(e, [il])</a> ⇒ <code>Object</code></dt>
+<dt><a href="#getLeyningForHoliday">getLeyningForHoliday(e, [il])</a> ⇒ <code><a href="#Leyning">Leyning</a></code></dt>
 <dd><p>Looks up leyning for a given holiday name. Name should be an
 (untranslated) string used in holiday-readons.json. Returns some
 of full kriyah aliyot, special Maftir, special Haftarah</p>
@@ -168,7 +168,7 @@ except for Nitzavim-Vayelech</p>
 <dt><a href="#getHolidayEvents">getHolidayEvents(hd, il)</a> ⇒ <code><a href="#Event">Array.&lt;Event&gt;</a></code></dt>
 <dd><p>Filters out Rosh Chodesh and events that don&#39;t occur in this location</p>
 </dd>
-<dt><a href="#getLeyningForParshaHaShavua">getLeyningForParshaHaShavua(e, [il])</a> ⇒ <code>Object</code></dt>
+<dt><a href="#getLeyningForParshaHaShavua">getLeyningForParshaHaShavua(e, [il])</a> ⇒ <code><a href="#Leyning">Leyning</a></code></dt>
 <dd><p>Looks up leyning for a regular Shabbat parsha.</p>
 </dd>
 <dt><a href="#formatAliyahWithBook">formatAliyahWithBook(a)</a> ⇒ <code>string</code></dt>
@@ -241,11 +241,20 @@ except for Nitzavim-Vayelech</p>
 <dt><a href="#SimpleHebrewDate">SimpleHebrewDate</a> : <code>Object</code></dt>
 <dd><p>A simple Hebrew date</p>
 </dd>
+<dt><a href="#Molad">Molad</a> : <code>Object</code></dt>
+<dd><p>Represents an Molad</p>
+</dd>
 <dt><a href="#CityResult">CityResult</a> : <code>Object</code></dt>
 <dd><p>A City result</p>
 </dd>
 <dt><a href="#DafYomiResult">DafYomiResult</a> : <code>Object</code></dt>
 <dd><p>A Daf Yomi result</p>
+</dd>
+<dt><a href="#Aliyah">Aliyah</a> : <code>Object</code></dt>
+<dd><p>Represents an aliyah</p>
+</dd>
+<dt><a href="#Leyning">Leyning</a> : <code>Object</code></dt>
+<dd><p>Leyning for a parsha hashavua or holiday</p>
 </dd>
 <dt><a href="#HebcalOptions">HebcalOptions</a> : <code>Object</code></dt>
 <dd><p>Options to configure which events are returned</p>
@@ -487,7 +496,7 @@ Constructs Event
 | date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
 | desc | <code>string</code> |  | Description (not translated) |
 | [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
-| [attrs] | <code>\*</code> |  |  |
+| [attrs] | <code>Object</code> | <code>{}</code> |  |
 
 <a name="Event+getFlags"></a>
 
@@ -1015,7 +1024,7 @@ Builds a Triennial object
 | Param | Type | Description |
 | --- | --- | --- |
 | [hebrewYear] | <code>number</code> | Hebrew Year (default current year) |
-| [aliyot] | <code>\*</code> | aliyot.json object |
+| [aliyot] | <code>Object</code> | aliyot.json object |
 
 <a name="Triennial+getReadings"></a>
 
@@ -1247,7 +1256,7 @@ Returns the Hebrew month number
 
 | Param | Type | Description |
 | --- | --- | --- |
-| month | <code>\*</code> | A number, or Hebrew month name string |
+| month | <code>number</code> \| <code>string</code> | A number, or Hebrew month name string |
 
 <a name="hebElapsedDays"></a>
 
@@ -1430,7 +1439,7 @@ Converts Julian days to Hebrew date to absolute Julian days
 
 <a name="getMolad"></a>
 
-## getMolad(year, month) ⇒ <code>\*</code>
+## getMolad(year, month) ⇒ [<code>Molad</code>](#Molad)
 Calculates the molad for a Hebrew month
 
 **Kind**: global function  
@@ -1572,13 +1581,13 @@ Based on the event date, type and title, finds the relevant leyning key
 
 <a name="getLeyningForHoliday"></a>
 
-## getLeyningForHoliday(e, [il]) ⇒ <code>Object</code>
+## getLeyningForHoliday(e, [il]) ⇒ [<code>Leyning</code>](#Leyning)
 Looks up leyning for a given holiday name. Name should be an
 (untranslated) string used in holiday-readons.json. Returns some
 of full kriyah aliyot, special Maftir, special Haftarah
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - map of aliyot  
+**Returns**: [<code>Leyning</code>](#Leyning) - map of aliyot  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1632,11 +1641,11 @@ Filters out Rosh Chodesh and events that don't occur in this location
 
 <a name="getLeyningForParshaHaShavua"></a>
 
-## getLeyningForParshaHaShavua(e, [il]) ⇒ <code>Object</code>
+## getLeyningForParshaHaShavua(e, [il]) ⇒ [<code>Leyning</code>](#Leyning)
 Looks up leyning for a regular Shabbat parsha.
 
 **Kind**: global function  
-**Returns**: <code>Object</code> - map of aliyot  
+**Returns**: [<code>Leyning</code>](#Leyning) - map of aliyot  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1652,7 +1661,7 @@ Formats an aliyah object like "Numbers 28:9 - 28:15"
 
 | Param | Type | Description |
 | --- | --- | --- |
-| a | <code>\*</code> | aliyah |
+| a | [<code>Aliyah</code>](#Aliyah) | aliyah |
 
 <a name="makeAnchor"></a>
 
@@ -1946,6 +1955,21 @@ A simple Hebrew date
 | mm | <code>number</code> | Hebrew month of year (1=NISAN, 7=TISHREI) |
 | dd | <code>number</code> | Day of month (1-30) |
 
+<a name="Molad"></a>
+
+## Molad : <code>Object</code>
+Represents an Molad
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| dow | <code>number</code> | Day of Week (0=Sunday, 6=Saturday) |
+| hour | <code>number</code> | hour of day (0-23) |
+| minutes | <code>number</code> | minutes past hour (0-59) |
+| chalakim | <code>number</code> | parts of a minute (0-17) |
+
 <a name="CityResult"></a>
 
 ## CityResult : <code>Object</code>
@@ -1977,6 +2001,38 @@ A Daf Yomi result
 | --- | --- | --- |
 | name | <code>string</code> | Tractate name |
 | blatt | <code>number</code> | Page number |
+
+<a name="Aliyah"></a>
+
+## Aliyah : <code>Object</code>
+Represents an aliyah
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| k | <code>string</code> | Book (e.g. "Numbers") |
+| b | <code>string</code> | beginning verse (e.g. "28:9") |
+| e | <code>string</code> | ending verse (e.g. "28:15") |
+| [v] | <code>number</code> | number of verses |
+| [p] | <code>number</code> | parsha number (1=Bereshit, 54=Vezot HaBracha) |
+
+<a name="Leyning"></a>
+
+## Leyning : <code>Object</code>
+Leyning for a parsha hashavua or holiday
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| summary | <code>string</code> |  |
+| haftara | <code>string</code> | Haftarah |
+| fullkriyah | [<code>Array.&lt;Aliyah&gt;</code>](#Aliyah) |  |
+| [triennial] | <code>Object</code> |  |
+| [reason] | <code>Object</code> |  |
 
 <a name="HebcalOptions"></a>
 

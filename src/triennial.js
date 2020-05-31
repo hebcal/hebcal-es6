@@ -37,7 +37,7 @@ export class Triennial {
   /**
    * Builds a Triennial object
    * @param {number} [hebrewYear] Hebrew Year (default current year)
-   * @param {*} [aliyot] aliyot.json object
+   * @param {Object} [aliyot] aliyot.json object
    */
   constructor(hebrewYear, aliyot) {
     if (typeof aliyot == 'object' && typeof aliyot.Bereshit == 'object') {

@@ -56,7 +56,7 @@ export class Event {
    * @param {HDate} date Hebrew date event occurs
    * @param {string} desc Description (not translated)
    * @param {number} [mask=0] optional holiday flags
-   * @param {*} [attrs]
+   * @param {Object} [attrs={}]
    */
   constructor(date, desc, mask, attrs) {
     this.date = date;

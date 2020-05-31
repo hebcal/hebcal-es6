@@ -418,10 +418,19 @@ export function abs2hebrew(d) {
 }
 
 /**
+ * Represents an Molad
+ * @typedef {Object} Molad
+ * @property {number} dow - Day of Week (0=Sunday, 6=Saturday)
+ * @property {number} hour - hour of day (0-23)
+ * @property {number} minutes - minutes past hour (0-59)
+ * @property {number} chalakim - parts of a minute (0-17)
+ */
+
+/**
  * Calculates the molad for a Hebrew month
  * @param {number} year
  * @param {number} month
- * @return {*}
+ * @return {Molad}
  */
 export function getMolad(year, month) {
   let m_adj = month - 7;

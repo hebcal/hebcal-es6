@@ -6,6 +6,26 @@ const festivals = require('./holiday-readings.json');
 const parshiyotObj = require('./aliyot.json');
 
 /**
+ * Represents an aliyah
+ * @typedef {Object} Aliyah
+ * @property {string} k - Book (e.g. "Numbers")
+ * @property {string} b - beginning verse (e.g. "28:9")
+ * @property {string} e - ending verse (e.g. "28:15")
+ * @property {number} [v] - number of verses
+ * @property {number} [p] - parsha number (1=Bereshit, 54=Vezot HaBracha)
+ */
+
+/**
+ * Leyning for a parsha hashavua or holiday
+ * @typedef {Object} Leyning
+ * @property {string} summary
+ * @property {string} haftara - Haftarah
+ * @property {Aliyah[]} fullkriyah
+ * @property {Object} [triennial]
+ * @property {Object} [reason]
+ */
+
+/**
  * Based on the event date, type and title, finds the relevant leyning key
  * @param {Event} e event
  * @param {boolean} [il] true if Israel holiday scheme
@@ -87,7 +107,7 @@ export function getLeyningKeyForEvent(e, il=false) {
  * of full kriyah aliyot, special Maftir, special Haftarah
  * @param {Event} e the Hebcal event associated with this leyning
  * @param {boolean} [il] true if Israel holiday scheme
- * @return {Object} map of aliyot
+ * @return {Leyning} map of aliyot
  */
 export function getLeyningForHoliday(e, il=false) {
   const key = getLeyningKeyForEvent(e, il);
@@ -201,7 +221,7 @@ function getHolidayEvents(hd, il) {
  * Looks up leyning for a regular Shabbat parsha.
  * @param {Event} e the Hebcal event associated with this leyning
  * @param {booleam} [il] in Israel
- * @return {Object} map of aliyot
+ * @return {Leyning} map of aliyot
  */
 export function getLeyningForParshaHaShavua(e, il=false) {
   if (e.getFlags() != flags.PARSHA_HASHAVUA) {
@@ -272,7 +292,7 @@ export function getLeyningForParshaHaShavua(e, il=false) {
 
 /**
  * Formats an aliyah object like "Numbers 28:9 - 28:15"
- * @param {*} a aliyah
+ * @param {Aliyah} a aliyah
  * @return {string}
  */
 export function formatAliyahWithBook(a) {

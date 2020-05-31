@@ -3,7 +3,7 @@ import {parshiot} from './sedra';
 
 /**
  * Helper function to formats aliyah as a string
- * @param {*} aliyot aliyot object
+ * @param {Object} aliyot aliyot object
  * @param {string|number} num aliyah number such as 1, 7, or M
  * @return {string}
  */

@@ -6,7 +6,7 @@ import {HDate, hebrew2abs} from './hdate';
 import {flags} from './event';
 
 /**
- * @param {*} t
+ * @param {Object} t
  * @param {number} hyear
  * @param {boolean} il
  * @param {string[]} expected0

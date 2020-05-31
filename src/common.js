@@ -158,7 +158,7 @@ export function getMonthName(month, year) {
 
 /**
  * Returns the Hebrew month number
- * @param {*} month A number, or Hebrew month name string
+ * @param {number|string} month A number, or Hebrew month name string
  * @return {number}
  */
 export function monthNum(month) {
