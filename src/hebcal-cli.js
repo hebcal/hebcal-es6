@@ -48,7 +48,7 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
 });
 
-const events = hebcal.hebcalEvents(options);
+const events = hebcal.hebrewCalendar(options);
 for (const e of events) {
   const gregDt = e.getDate().greg();
   const gregDtStr = dateFormat.format(gregDt);

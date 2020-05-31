@@ -301,7 +301,7 @@ function getMaskFromOptions(options) {
  * @param {HebcalOptions} options
  * @return {Event[]}
  */
-export function hebcalEvents(options={}) {
+export function hebrewCalendar(options={}) {
   if (options.candlelighting && (typeof options.location === 'undefined' || !options.location instanceof Location)) {
     throw new TypeError('Candle-lighting requires location');
   }
@@ -414,5 +414,5 @@ export function hebcalEvents(options={}) {
 }
 
 export default {
-  hebcalEvents,
+  hebrewCalendar,
 };

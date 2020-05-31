@@ -31,4 +31,4 @@ export {
   abs2greg,
 } from './greg';
 export {getHolidaysOnDate, getHolidaysForYear} from './holidays';
-export {hebcalEvents} from './hebcal';
+export {hebrewCalendar} from './hebcal';
