@@ -971,6 +971,9 @@
   ["Incline Village","US","NV",39.2513,-119.97297,"America/Los_Angeles"],
   ["Framingham","US","MA",42.32614,-71.42378,"America/New_York"],
   ["Newton","US","MA",42.33739,-71.2088,"America/New_York"],
+  ["Livingston","US","NJ",40.79593,-74.31487,"America/New_York"],
+  ["Pawtucket","US","RI",41.87871,-71.38256,"America/New_York"],
+  ["White Plains","US","NY",41.03399,-73.76291,"America/New_York"],
   ["Plymouth","MS","",16.70555,-62.21292,"America/Montserrat"]
   ]
 }

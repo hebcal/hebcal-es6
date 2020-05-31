@@ -58,7 +58,7 @@ function formatTime(timeFormat, dt) {
  * @param {Location} location
  * @param {Intl.DateTimeFormat} timeFormat
  * @param {number} offset
- * @return {[Date, string]}
+ * @return {Object[]}
  */
 function sunsetTime(hd, location, timeFormat, offset) {
   const sunset = location.sunset(hd);
@@ -71,7 +71,7 @@ function sunsetTime(hd, location, timeFormat, offset) {
  * @param {HDate} hd
  * @param {Location} location
  * @param {Intl.DateTimeFormat} timeFormat
- * @return {[Date, string]}
+ * @return {Object[]}
  */
 function tzeitTime(hd, location, timeFormat) {
   const dt = location.tzeit(hd);
@@ -174,10 +174,10 @@ function getCandleLightingMinutes(options) {
 /**
  * Parse options object to determine start & end days
  * @param {HebcalOptions} options
- * @return {[number, number]}
+ * @return {number[]}
  */
 function getStartAndEnd(options) {
-  const theYear = options.year ? common.dayYearNum(options.year) : new Date().getFullYear();
+  const theYear = options.year ? Number(options.year) : new Date().getFullYear();
   const isHebrewYear = Boolean(options.isHebrewYear);
   let theMonth = NaN;
   if (options.month) {
@@ -209,7 +209,7 @@ function getStartAndEnd(options) {
 
 /**
  * @param {number} hyear
- * @return {[number,number]}
+ * @return {number[]}
  */
 function getOmerStartAndEnd(hyear) {
   return [
@@ -301,7 +301,7 @@ function getMaskFromOptions(options) {
  * @param {HebcalOptions} options
  * @return {Event[]}
  */
-export function hebcalEvents(options) {
+export function hebcalEvents(options={}) {
   if (options.candlelighting && (typeof options.location === 'undefined' || !options.location instanceof Location)) {
     throw new TypeError('Candle-lighting requires location');
   }
@@ -342,7 +342,6 @@ export function hebcalEvents(options) {
 
   const events = [];
   let sedra; let holidaysYear; let beginOmer; let endOmer;
-  let triennial;
   let currentYear = -1;
   const [startAbs, endAbs] = getStartAndEnd(options);
   for (let abs = startAbs; abs <= endAbs; abs++) {
@@ -408,24 +407,19 @@ export function hebcalEvents(options) {
     }
     const hmonth = hd.getMonth();
     if (options.molad && dow == SAT && hmonth != common.months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
-      const monthNext = (hmonth == common.monthsInHebYear(hyear) ? 1 : hmonth + 1);
-      const moladNext = getMolad(hyear, monthNext);
+      const monNext = (hmonth == common.monthsInHebYear(hyear) ? 1 : hmonth + 1);
+      const m = getMolad(hyear, monNext);
       const mevarchim = new HDate(29, hmonth, hyear).onOrBefore(SAT);
-      const nextMonthName = common.getMonthName(monthNext, hyear);
-      const dayName = shortDayNames[moladNext.dow];
-      const desc = `Molad ${nextMonthName}: ${dayName}, ${moladNext.minutes} minutes and ${moladNext.chalakim} chalakim after ${moladNext.hour}:00`;
-      events.push(new Event(mevarchim, desc, flags.MOLAD));
+      const mMonth = common.getMonthName(monNext, hyear);
+      const mDay = shortDayNames[m.dow];
+      const desc = `Molad ${mMonth}: ${mDay}, ${m.minutes} minutes and ${m.chalakim} chalakim after ${m.hour}:00`;
+      events.push(new Event(mevarchim, desc, flags.MOLAD, {molad: m}));
     }
   }
 
   //    return events.sort((a, b) => a.getDate().abs() - b.getDate().abs());
   return events;
 }
-
-export {HDate} from './hdate';
-export {Event, flags} from './event';
-export {getBirthdayOrAnniversary, getYahrzeit} from './anniversary';
-export {Location} from './location';
 
 export default {
   hebcalEvents,

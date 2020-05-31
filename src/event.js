@@ -21,12 +21,16 @@ const MOLAD = 65536;
 const USER_EVENT = 131072;
 
 /**
- * Holiday flags
+ * Holiday flags for Event
  * @readonly
+ * @enum {number}
  */
 export const flags = {
+  /** Chag, yontiff, yom tov */
   CHAG,
+  /** Light candles before sundown */
   LIGHT_CANDLES,
+  /** End of holiday (end of Yom Tov)  */
   YOM_TOV_ENDS,
   CHUL_ONLY,
   IL_ONLY,

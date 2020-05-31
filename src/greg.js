@@ -23,6 +23,22 @@ const monthLengths = [
   [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 ];
 
+export const monthNames = [
+  '',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
 /**
  * Returns true if the Gregorian year is a leap year
  * @param {number} year Gregorian year
@@ -42,27 +58,6 @@ export function daysInGregMonth(month, year) {
   // 1 based months
   return monthLengths[+gregLeapYear(year)][month];
 }
-
-/**
- * Gregorian months of the year
- * @readonly
- * @enum {number}
- */
-export const monthNames = [
-  '',
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
 
 /**
  * Returns number of days since January 1 of that year

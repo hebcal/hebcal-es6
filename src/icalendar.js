@@ -5,33 +5,6 @@ import md5 from 'md5';
 import leyning from './leyning';
 import {gettext} from 'ttag';
 
-/**
- * Options to configure which events are returned
- * @typedef {Object} HebcalOptions
- * @property {Location} location - latitude/longitude/tzid used for candle-lighting
- * @property {number} year - Gregorian or Hebrew year
- * @property {boolean} isHebrewYear - to interpret year as Hebrew year
- * @property {number} month - Gregorian or Hebrew month (to filter results to a single month)
- * @property {number} numYears - generate calendar for multiple years (default 1)
- * @property {boolean} candlelighting - calculate candle-lighting and havdalah times
- * @property {number} candleLightingMins - minutes before sundown to light candles (default 18)
- * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
- * @property {boolean} havdalahTzeit - calculate Havdalah according to Tzeit Hakochavim - Nightfall (the point when 3 small stars are observable in the night time sky with the naked eye). Defaults to `true` unless havdalahMins is specified
- * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
- * @property {boolean} il - Israeli holiday and sedra schedule
- * @property {boolean} noMinorFast - suppress minor fasts
- * @property {boolean} noModern - suppress modern holidays
- * @property {boolean} noRoshChodesh - suppress Rosh Chodesh & Shabbat Mevarchim
- * @property {boolean} noSpecialShabbat - suppress Special Shabbat
- * @property {boolean} noHolidays - suppress regular holidays
- * @property {boolean} dafyomi - include Daf Yomi
- * @property {boolean} omer - include Days of the Omer
- * @property {boolean} molad - include event announcing the molad
- * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
- * @property {string} locale - translate event titles according to a locale (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`, `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
- * @property {boolean} hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
- */
-
 const VTIMEZONE = {
   'US/Eastern': 'BEGIN:VTIMEZONE\r\nTZID:US/Eastern\r\nBEGIN:STANDARD\r\nDTSTART:19701101T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\r\nTZOFFSETTO:-0500\r\nTZOFFSETFROM:-0400\r\nTZNAME:EST\r\nEND:STANDARD\r\nBEGIN:DAYLIGHT\r\nDTSTART:19700308T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\r\nTZOFFSETTO:-0400\r\nTZOFFSETFROM:-0500\r\nTZNAME:EDT\r\nEND:DAYLIGHT\r\nEND:VTIMEZONE',
   'US/Central': 'BEGIN:VTIMEZONE\r\nTZID:US/Central\r\nBEGIN:STANDARD\r\nDTSTART:19701101T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU\r\nTZOFFSETTO:-0600\r\nTZOFFSETFROM:-0500\r\nTZNAME:CST\r\nEND:STANDARD\r\nBEGIN:DAYLIGHT\r\nDTSTART:19700308T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU\r\nTZOFFSETTO:-0500\r\nTZOFFSETFROM:-0600\r\nTZNAME:CDT\r\nEND:DAYLIGHT\r\nEND:VTIMEZONE',

@@ -18,13 +18,33 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const cities = {
-  cities: {},
+
+/**
+ * A City result
+ * @typedef {Object} CityResult
+ * @property {string} name Short city name
+ * @property {number} latitude
+ * @property {number} longitude
+ * @property {string} tzid Timezone Identifier (for tzdata/Olson tzdb)
+ * @property {string} cc ISO 3166 two-letter country code
+ * @property {string} cityName longer city name with US State or country code
+ * @property {string} [state] U.S. State name (only if cc='US')
+ * @property {number} [geoid] optional numerical geoid
+ */
+
+/** Interface to lookup cities */
+export const cities = {
+  cities: new Map(),
 
   geo: {},
 
+  /**
+   * Looks up a city
+   * @param {string} str city name
+   * @return {CityResult}
+   */
   getCity(str) {
-    return this.cities[str.toLowerCase()];
+    return this.cities.get(str.toLowerCase());
   },
 
   init() {
@@ -32,11 +52,11 @@ const cities = {
     this.geo = require('./geo.json');
     console.debug(`Parsing ${this.geo.cities.length} cities`);
     this.cities = this.loadCities(this.geo.cities);
-    // this.initCityAliases();
+    this.initCityAliases();
   },
 
   loadCities(allCities) {
-    const cities = {};
+    const cities = new Map();
     const cityObjs = allCities.map(this.parseCityString, this);
     for (const city of cityObjs) {
       const cityLc = city.name.toLowerCase();
@@ -44,26 +64,26 @@ const cities = {
       if (city.cc == 'US') {
         const stateLc = this.geo.stateNames[city.state].toLowerCase();
         aliasLc = `${cityLc} ${stateLc}`;
-      } else {
+      } else if (city.country) {
         const countryLc = city.country.toLowerCase();
         aliasLc = `${cityLc} ${countryLc}`;
       }
-      if (!cities[cityLc]) {
-        cities[cityLc] = city;
+      if (!cities.has(cityLc)) {
+        cities.set(cityLc, city);
       }
-      cities[aliasLc] = city;
+      cities.set(aliasLc, city);
     }
     // this is silly, but alias the first occurrence of each country and US state
     for (const city of cityObjs) {
       if (city.cc == 'US') {
         const stateLc = this.geo.stateNames[city.state].toLowerCase();
-        if (!cities[stateLc]) {
-          cities[stateLc] = city;
+        if (!cities.has(stateLc)) {
+          cities.set(stateLc, city);
         }
       } else {
         const countryLc = city.country.toLowerCase();
-        if (!cities[countryLc]) {
-          cities[countryLc] = city;
+        if (!cities.has(countryLc)) {
+          cities.set(countryLc, city);
         }
       }
     }
@@ -103,6 +123,7 @@ const cities = {
 
   initCityAliases() {
     const aliasMap = {
+      // geo.json name: [ alias1, alias2, alias3 ...]
       'new york': ['nyc', 'n y c', 'new york city', 'new york new york'],
       'beer sheva': ['beersheba'],
       'the bronx': ['bronx', 'bronx new york'],
@@ -114,13 +135,76 @@ const cities = {
       'cardiff': ['wales'],
       'south lake tahoe': ['lake tahoe', 'tahoe'],
       'las vegas': ['vegas'],
+      'Marseille': ['Marseilles'],
+      'Panama': ['Panama City'],
+      'Petah Tiqwa': ['Petach Tikvah', 'Petach Tikva', 'Petah Tikvah'],
+      'Bene Beraq': ['Bnei Brak'],
     };
-    for (const city of Object.keys(aliasMap)) {
-      const c = this.cities[city];
-      const aliases = aliasMap[city];
-      for (let i = 0; i < aliases.length; i++) {
-        this.cities[aliases[i]] = c;
+    const ccCityMap = {
+      'Ashdod': 'IL-Ashdod',
+      'Atlanta': 'US-Atlanta-GA',
+      'Austin': 'US-Austin-TX',
+      'Baghdad': 'IQ-Baghdad',
+      'Beer Sheva': 'IL-Beer Sheva',
+      'Berlin': 'DE-Berlin',
+      'Baltimore': 'US-Baltimore-MD',
+      'Bogota': 'CO-Bogota',
+      'Boston': 'US-Boston-MA',
+      'Buenos Aires': 'AR-Buenos Aires',
+      'Buffalo': 'US-Buffalo-NY',
+      'Chicago': 'US-Chicago-IL',
+      'Cincinnati': 'US-Cincinnati-OH',
+      'Cleveland': 'US-Cleveland-OH',
+      'Dallas': 'US-Dallas-TX',
+      'Denver': 'US-Denver-CO',
+      'Detroit': 'US-Detroit-MI',
+      'Eilat': 'IL-Eilat',
+      'Gibraltar': 'GI-Gibraltar',
+      'Haifa': 'IL-Haifa',
+      'Hawaii': 'US-Honolulu-HI',
+      'Houston': 'US-Houston-TX',
+      'Jerusalem': 'IL-Jerusalem',
+      'Johannesburg': 'ZA-Johannesburg',
+      'Kiev': 'UA-Kiev',
+      'La Paz': 'BO-La Paz',
+      'Livingston': 'US-Livingston-NY',
+      'London': 'GB-London',
+      'Los Angeles': 'US-Los Angeles-CA',
+      'Miami': 'US-Miami-FL',
+      'Melbourne': 'AU-Melbourne',
+      'Mexico City': 'MX-Mexico City',
+      'Montreal': 'CA-Montreal',
+      'Moscow': 'RU-Moscow',
+      'New York': 'US-New York-NY',
+      'Omaha': 'US-Omaha-NE',
+      'Ottawa': 'CA-Ottawa',
+      'Panama City': 'PA-Panama City',
+      'Paris': 'FR-Paris',
+      'Petach Tikvah': 'IL-Petach Tikvah',
+      'Philadelphia': 'US-Philadelphia-PA',
+      'Phoenix': 'US-Phoenix-AZ',
+      'Pittsburgh': 'US-Pittsburgh-PA',
+      'Saint Louis': 'US-Saint Louis-MO',
+      'Saint Petersburg': 'RU-Saint Petersburg',
+      'San Francisco': 'US-San Francisco-CA',
+      'Seattle': 'US-Seattle-WA',
+      'Sydney': 'AU-Sydney',
+      'Tel Aviv': 'IL-Tel Aviv',
+      'Tiberias': 'IL-Tiberias',
+      'Toronto': 'CA-Toronto',
+      'Vancouver': 'CA-Vancouver',
+      'White Plains': 'US-White Plains-NY',
+      'Washington DC': 'US-Washington-DC',
+      'Bene Beraq': 'IL-Bnei Brak',
+    };
+    for (const [city, aliases] of Object.entries(aliasMap)) {
+      const c = this.cities.get(city.toLowerCase());
+      for (const a of aliases) {
+        this.cities.set(a.toLowerCase(), c);
       }
+    }
+    for (const [city, alias] of Object.entries(ccCityMap)) {
+      this.cities.set(alias.toLowerCase(), this.cities.get(city.toLowerCase()));
     }
   },
 };

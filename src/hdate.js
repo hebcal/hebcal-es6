@@ -27,9 +27,9 @@ import {gettext} from 'ttag';
 export class HDate {
   /**
    * Create a Hebrew date.
-   * @param {number} day - Day of month (1-30)
-   * @param {number} month - Hebrew month of year (1=NISAN, 7=TISHREI)
-   * @param {number} year - Hebrew year
+   * @param {number|Date|HDate} [day] - Day of month (1-30)
+   * @param {number} [month] - Hebrew month of year (1=NISAN, 7=TISHREI)
+   * @param {number} [year] - Hebrew year
    */
   constructor(day, month, year) {
     if (!arguments.length) {
@@ -58,11 +58,11 @@ export class HDate {
     } else if (arguments.length == 3) {
       // Hebrew day, Hebrew month, Hebrew year
       this.day = this.month = 1;
-      this.year = c.dayYearNum(year);
+      this.year = Number(year);
       this.setMonth(c.monthNum(month));
-      this.setDate(c.dayYearNum(day));
+      this.setDate(Number(day));
     } else {
-      throw new TypeError('HDate called with bad argument');
+      throw new TypeError('HDate constructor requires 0, 1 or 3 arguments');
     }
   }
 

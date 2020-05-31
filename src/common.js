@@ -19,27 +19,61 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import gematriya from 'gematriya';
 
 /**
- * Hebrew months of the year
+ * Hebrew months of the year (NISAN=1, TISHREI=7)
  * @readonly
  * @enum {number}
  */
 export const months = {
+  /** Nissan / ניסן */
   NISAN: 1,
+  /** Iyyar / אייר */
   IYYAR: 2,
+  /** Sivan / סיון */
   SIVAN: 3,
+  /** Tamuz (sometimes Tammuz) / תמוז */
   TAMUZ: 4,
+  /** Av / אב */
   AV: 5,
+  /** Elul / אלול */
   ELUL: 6,
+  /** Tishrei / תִשְׁרֵי */
   TISHREI: 7,
+  /** Cheshvan / חשון */
   CHESHVAN: 8,
+  /** Kislev / כסלו */
   KISLEV: 9,
+  /** Tevet / טבת */
   TEVET: 10,
+  /** Sh'vat / שבט */
   SHVAT: 11,
+  /** Adar or Adar Rishon / אדר */
   ADAR_I: 12,
+  /** Adar Sheini (only on leap years) / אדר ב׳ */
   ADAR_II: 13,
+};
+
+/**
+ * Days of the week (SUN=0, SAT=6)
+ * @readonly
+ * @enum {number}
+ */
+export const days = {
+  /** Sunday */
+  SUN: 0,
+  /** Monday */
+  MON: 1,
+  /** Tuesday */
+  TUE: 2,
+  /** Wednesday */
+  WED: 3,
+  /** Thursday */
+  THU: 4,
+  /** Friday */
+  FRI: 5,
+  /** Saturday */
+  SAT: 6,
 };
 
 const monthNames0 = [
@@ -68,21 +102,6 @@ export const monthNames = [
     'Nisan',
   ]),
 ];
-
-/**
- * Days of the week
- * @readonly
- * @enum {number}
- */
-export const days = {
-  SUN: 0,
-  MON: 1,
-  TUE: 2,
-  WED: 3,
-  THU: 4,
-  FRI: 5,
-  SAT: 6,
-};
 
 /**
  * Returns true if Hebrew year is a leap year
@@ -145,26 +164,9 @@ export function getMonthName(month, year) {
 export function monthNum(month) {
   return typeof month === 'number' ?
     month :
-    month.charCodeAt(0) >= 1488 &&
-      month.charCodeAt(0) <= 1514 &&
-      /('|")/.test(month) ?
-    gematriya(month) :
     month.charCodeAt(0) >= 48 && month.charCodeAt(0) <= 57 ? /* number */
     parseInt(month, 10) :
     monthFromName(month);
-}
-
-/**
- * Helper function to converts a string or number to a string
- * @param {number|string} str string or number
- * @return {number}
- */
-export function dayYearNum(str) {
-  return typeof str === 'number' ?
-    str :
-    str.charCodeAt(0) >= 1488 && str.charCodeAt(0) <= 1514 ?
-    gematriya(str, true) :
-    parseInt(str, 10);
 }
 
 /**
@@ -375,14 +377,12 @@ export function range(start, end, step = 1) {
 
 const common = {
   months,
-  monthNames,
   days,
   hebLeapYear,
   monthsInHebYear,
   getMonthName,
   daysInHebMonth,
   monthNum,
-  dayYearNum,
   hebElapsedDays,
   daysInYear,
   longCheshvan,
