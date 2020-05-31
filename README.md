@@ -2,6 +2,12 @@
 # hebcal-es6
 Hebcal, a perpetual Jewish Calendar (ES6)
 
+[![Build Status](https://travis-ci.org/hebcal/hebcal-es6.svg?branch=master)](https://travis-ci.org/hebcal/hebcal-es6)
+
+
+> @hebcal/core@1.0.0 readme /Users/mradwin/dev/hebcal-es6
+> npx jsdoc2md dist/index.js
+
 ## Classes
 
 <dl>
@@ -29,9 +35,6 @@ attrs.dafyomi.name contains the untranslated string</p>
 </dd>
 <dt><a href="#Sedra">Sedra</a></dt>
 <dd><p>Represents Parashah HaShavua for an entire Hebrew year</p>
-</dd>
-<dt><a href="#Triennial">Triennial</a></dt>
-<dd><p>Triennial Torah readings</p>
 </dd>
 </dl>
 
@@ -148,71 +151,7 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 <dt><a href="#getHolidaysOnDate">getHolidaysOnDate(date)</a> ⇒ <code><a href="#Event">Array.&lt;Event&gt;</a></code></dt>
 <dd><p>Returns an array of Events on this date (or undefined if no events)</p>
 </dd>
-<dt><a href="#getLeyningKeyForEvent">getLeyningKeyForEvent(e, [il])</a> ⇒ <code>string</code></dt>
-<dd><p>Based on the event date, type and title, finds the relevant leyning key</p>
-</dd>
-<dt><a href="#getLeyningForHoliday">getLeyningForHoliday(e, [il])</a> ⇒ <code><a href="#Leyning">Leyning</a></code></dt>
-<dd><p>Looks up leyning for a given holiday name. Name should be an
-(untranslated) string used in holiday-readons.json. Returns some
-of full kriyah aliyot, special Maftir, special Haftarah</p>
-</dd>
-<dt><a href="#parshaToString">parshaToString(parsha)</a> ⇒ <code>string</code></dt>
-<dd><p>Formats parsha as a string</p>
-</dd>
-<dt><a href="#getHaftaraKey">getHaftaraKey(parsha)</a> ⇒ <code>string</code></dt>
-<dd><p>on doubled parshiot, read only the second Haftarah
-except for Nitzavim-Vayelech</p>
-</dd>
-<dt><a href="#getChanukahShabbatKey">getChanukahShabbatKey(e, key)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getHolidayEvents">getHolidayEvents(hd, il)</a> ⇒ <code><a href="#Event">Array.&lt;Event&gt;</a></code></dt>
-<dd><p>Filters out Rosh Chodesh and events that don&#39;t occur in this location</p>
-</dd>
-<dt><a href="#getLeyningForParshaHaShavua">getLeyningForParshaHaShavua(e, [il])</a> ⇒ <code><a href="#Leyning">Leyning</a></code></dt>
-<dd><p>Looks up leyning for a regular Shabbat parsha.</p>
-</dd>
-<dt><a href="#formatAliyahWithBook">formatAliyahWithBook(a)</a> ⇒ <code>string</code></dt>
-<dd><p>Formats an aliyah object like &quot;Numbers 28:9 - 28:15&quot;</p>
-</dd>
-<dt><a href="#makeAnchor">makeAnchor(s)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getHolidayBasename">getHolidayBasename(desc)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getShortUrl">getShortUrl(e)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#icalWriteLine">icalWriteLine(res, ...str)</a></dt>
-<dd></dd>
-<dt><a href="#formatYYYYMMDD">formatYYYYMMDD(d)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#formatTime">formatTime(hour, min, sec)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#makeDtstamp">makeDtstamp(dt)</a> ⇒ <code>string</code></dt>
-<dd><p>Returns UTC string for iCalendar</p>
-</dd>
-<dt><a href="#icalWriteEvent">icalWriteEvent(res, e, dtstamp, options)</a></dt>
-<dd></dd>
-<dt><a href="#addOptional">addOptional(arr, key, val)</a></dt>
-<dd></dd>
-<dt><a href="#eventToIcal">eventToIcal(e, options)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#exportHttpHeader">exportHttpHeader(res, mimeType, fileName)</a></dt>
-<dd></dd>
-<dt><a href="#icalWriteContents">icalWriteContents(res, events, title, options)</a></dt>
-<dd></dd>
-<dt><a href="#getDownloadFilename">getDownloadFilename(options)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#eventToCsv">eventToCsv(e, options)</a> ⇒ <code>string</code></dt>
-<dd><p>Renders an Event as a string</p>
-</dd>
-<dt><a href="#csvWriteContents">csvWriteContents(res, events, options)</a></dt>
-<dd></dd>
-<dt><a href="#getDoubledName">getDoubledName(id)</a> ⇒ <code>string</code></dt>
-<dd><p>takes a 0-based (Bereshit=0) parsha ID</p>
-</dd>
-<dt><a href="#getTriennial">getTriennial(year)</a> ⇒ <code><a href="#Triennial">Triennial</a></code></dt>
-<dd><p>Calculates the 3-year readings for a given year</p>
-</dd>
-<dt><a href="#formatTime$1">formatTime$1(timeFormat, dt)</a> ⇒ <code>string</code></dt>
+<dt><a href="#formatTime">formatTime(timeFormat, dt)</a> ⇒ <code>string</code></dt>
 <dd></dd>
 <dt><a href="#sunsetTime">sunsetTime(hd, location, timeFormat, offset)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
 <dd></dd>
@@ -249,12 +188,6 @@ except for Nitzavim-Vayelech</p>
 </dd>
 <dt><a href="#DafYomiResult">DafYomiResult</a> : <code>Object</code></dt>
 <dd><p>A Daf Yomi result</p>
-</dd>
-<dt><a href="#Aliyah">Aliyah</a> : <code>Object</code></dt>
-<dd><p>Represents an aliyah</p>
-</dd>
-<dt><a href="#Leyning">Leyning</a> : <code>Object</code></dt>
-<dd><p>Leyning for a parsha hashavua or holiday</p>
 </dd>
 <dt><a href="#HebcalOptions">HebcalOptions</a> : <code>Object</code></dt>
 <dd><p>Options to configure which events are returned</p>
@@ -478,7 +411,7 @@ Represents an Event with a title, date, and flags
 * [Event](#Event)
     * [new Event(date, desc, [mask], [attrs])](#new_Event_new)
     * [.getFlags()](#Event+getFlags) ⇒ <code>number</code>
-    * [.getAttrs()](#Event+getAttrs) ⇒ <code>\*</code>
+    * [.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>
     * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
     * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
     * [.render()](#Event+render) ⇒ <code>string</code>
@@ -504,7 +437,7 @@ Constructs Event
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="Event+getAttrs"></a>
 
-### event.getAttrs() ⇒ <code>\*</code>
+### event.getAttrs() ⇒ <code>Object</code>
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="Event+observedInIsrael"></a>
 
@@ -584,7 +517,7 @@ attrs.dafyomi.name contains the untranslated string
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | desc | <code>string</code> | 
-| attrs | <code>\*</code> | 
+| attrs | <code>Object</code> | 
 
 <a name="DafYomiEvent+render"></a>
 
@@ -609,7 +542,7 @@ Havdalah after Shabbat or holiday
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | mask | <code>number</code> | 
-| attrs | <code>\*</code> | 
+| attrs | <code>Object</code> | 
 | [havdalahMins] | <code>number</code> | 
 
 <a name="HavdalahEvent+render"></a>
@@ -635,7 +568,7 @@ Candle lighting before Shabbat or holiday
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | mask | <code>number</code> | 
-| attrs | <code>\*</code> | 
+| attrs | <code>Object</code> | 
 
 <a name="CandleLightingEvent+render"></a>
 
@@ -993,122 +926,6 @@ Translates object describing the parsha to a string
 | Param | Type |
 | --- | --- |
 | parsha | <code>Array.&lt;string&gt;</code> | 
-
-<a name="Triennial"></a>
-
-## Triennial
-Triennial Torah readings
-
-**Kind**: global class  
-
-* [Triennial](#Triennial)
-    * [new Triennial([hebrewYear], [aliyot])](#new_Triennial_new)
-    * _instance_
-        * [.getReadings()](#Triennial+getReadings) ⇒ <code>Object</code>
-        * [.getStartYear()](#Triennial+getStartYear) ⇒ <code>number</code>
-        * [.getThreeYearPattern(id)](#Triennial+getThreeYearPattern) ⇒ <code>string</code>
-        * [.cycleReadings(cycleOption)](#Triennial+cycleReadings) ⇒ <code>Object</code>
-        * [.cycleReadingsForYear(option, readings, yr)](#Triennial+cycleReadingsForYear)
-    * _static_
-        * [.getYearNumber(year)](#Triennial.getYearNumber) ⇒ <code>number</code>
-        * [.getCycleStartYear(year)](#Triennial.getCycleStartYear) ⇒ <code>number</code>
-        * [.getTriennialAliyot()](#Triennial.getTriennialAliyot) ⇒ <code>Object</code>
-        * [.resolveSameAs(parsha, book, triennial)](#Triennial.resolveSameAs) ⇒ <code>Object</code>
-
-<a name="new_Triennial_new"></a>
-
-### new Triennial([hebrewYear], [aliyot])
-Builds a Triennial object
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [hebrewYear] | <code>number</code> | Hebrew Year (default current year) |
-| [aliyot] | <code>Object</code> | aliyot.json object |
-
-<a name="Triennial+getReadings"></a>
-
-### triennial.getReadings() ⇒ <code>Object</code>
-**Kind**: instance method of [<code>Triennial</code>](#Triennial)  
-<a name="Triennial+getStartYear"></a>
-
-### triennial.getStartYear() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Triennial</code>](#Triennial)  
-<a name="Triennial+getThreeYearPattern"></a>
-
-### triennial.getThreeYearPattern(id) ⇒ <code>string</code>
-First, determine if a doubled parsha is read [T]ogether or [S]eparately
-in each of the 3 years. Yields a pattern like 'SSS', 'STS', 'TTT', 'TTS'.
-
-**Kind**: instance method of [<code>Triennial</code>](#Triennial)  
-
-| Param | Type |
-| --- | --- |
-| id | <code>number</code> | 
-
-<a name="Triennial+cycleReadings"></a>
-
-### triennial.cycleReadings(cycleOption) ⇒ <code>Object</code>
-Builds a lookup table readings["Bereshit"][1], readings["Matot-Masei"][3]
-
-**Kind**: instance method of [<code>Triennial</code>](#Triennial)  
-
-| Param | Type |
-| --- | --- |
-| cycleOption | <code>Object</code> | 
-
-<a name="Triennial+cycleReadingsForYear"></a>
-
-### triennial.cycleReadingsForYear(option, readings, yr)
-**Kind**: instance method of [<code>Triennial</code>](#Triennial)  
-
-| Param | Type |
-| --- | --- |
-| option | <code>string</code> | 
-| readings | <code>Object</code> | 
-| yr | <code>number</code> | 
-
-<a name="Triennial.getYearNumber"></a>
-
-### Triennial.getYearNumber(year) ⇒ <code>number</code>
-Returns triennial year 1, 2 or 3 based on this Hebrew year
-
-**Kind**: static method of [<code>Triennial</code>](#Triennial)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
-
-<a name="Triennial.getCycleStartYear"></a>
-
-### Triennial.getCycleStartYear(year) ⇒ <code>number</code>
-Returns Hebrew year that this 3-year triennial cycle began
-
-**Kind**: static method of [<code>Triennial</code>](#Triennial)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
-
-<a name="Triennial.getTriennialAliyot"></a>
-
-### Triennial.getTriennialAliyot() ⇒ <code>Object</code>
-Walks parshiyotObj and builds lookup table for triennial aliyot
-
-**Kind**: static method of [<code>Triennial</code>](#Triennial)  
-<a name="Triennial.resolveSameAs"></a>
-
-### Triennial.resolveSameAs(parsha, book, triennial) ⇒ <code>Object</code>
-Transforms input JSON with sameAs shortcuts like "D.2":"A.3" to
-actual aliyot objects for a given variation/year
-
-**Kind**: static method of [<code>Triennial</code>](#Triennial)  
-
-| Param | Type |
-| --- | --- |
-| parsha | <code>string</code> | 
-| book | <code>string</code> | 
-| triennial | <code>Object</code> | 
 
 <a name="months"></a>
 
@@ -1566,285 +1383,9 @@ Returns an array of Events on this date (or undefined if no events)
 | --- | --- | --- |
 | date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
 
-<a name="getLeyningKeyForEvent"></a>
-
-## getLeyningKeyForEvent(e, [il]) ⇒ <code>string</code>
-Based on the event date, type and title, finds the relevant leyning key
-
-**Kind**: global function  
-**Returns**: <code>string</code> - key to look up in holiday-reading.json  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| e | [<code>Event</code>](#Event) | event |
-| [il] | <code>boolean</code> | true if Israel holiday scheme |
-
-<a name="getLeyningForHoliday"></a>
-
-## getLeyningForHoliday(e, [il]) ⇒ [<code>Leyning</code>](#Leyning)
-Looks up leyning for a given holiday name. Name should be an
-(untranslated) string used in holiday-readons.json. Returns some
-of full kriyah aliyot, special Maftir, special Haftarah
-
-**Kind**: global function  
-**Returns**: [<code>Leyning</code>](#Leyning) - map of aliyot  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| e | [<code>Event</code>](#Event) | the Hebcal event associated with this leyning |
-| [il] | <code>boolean</code> | true if Israel holiday scheme |
-
-<a name="parshaToString"></a>
-
-## parshaToString(parsha) ⇒ <code>string</code>
-Formats parsha as a string
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| parsha | <code>Array.&lt;string&gt;</code> | 
-
-<a name="getHaftaraKey"></a>
-
-## getHaftaraKey(parsha) ⇒ <code>string</code>
-on doubled parshiot, read only the second Haftarah
-except for Nitzavim-Vayelech
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| parsha | <code>Array.&lt;string&gt;</code> | 
-
-<a name="getChanukahShabbatKey"></a>
-
-## getChanukahShabbatKey(e, key) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-| key | <code>string</code> | 
-
-<a name="getHolidayEvents"></a>
-
-## getHolidayEvents(hd, il) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-Filters out Rosh Chodesh and events that don't occur in this location
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hd | [<code>HDate</code>](#HDate) | Hebrew date |
-| il | <code>boolean</code> | in Israel |
-
-<a name="getLeyningForParshaHaShavua"></a>
-
-## getLeyningForParshaHaShavua(e, [il]) ⇒ [<code>Leyning</code>](#Leyning)
-Looks up leyning for a regular Shabbat parsha.
-
-**Kind**: global function  
-**Returns**: [<code>Leyning</code>](#Leyning) - map of aliyot  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| e | [<code>Event</code>](#Event) | the Hebcal event associated with this leyning |
-| [il] | <code>booleam</code> | in Israel |
-
-<a name="formatAliyahWithBook"></a>
-
-## formatAliyahWithBook(a) ⇒ <code>string</code>
-Formats an aliyah object like "Numbers 28:9 - 28:15"
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| a | [<code>Aliyah</code>](#Aliyah) | aliyah |
-
-<a name="makeAnchor"></a>
-
-## makeAnchor(s) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| s | <code>string</code> | 
-
-<a name="getHolidayBasename"></a>
-
-## getHolidayBasename(desc) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| desc | <code>string</code> | 
-
-<a name="getShortUrl"></a>
-
-## getShortUrl(e) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-
-<a name="icalWriteLine"></a>
-
-## icalWriteLine(res, ...str)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| res | <code>stream.Writable</code> | 
-| ...str | <code>string</code> | 
-
-<a name="formatYYYYMMDD"></a>
-
-## formatYYYYMMDD(d) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| d | <code>Date</code> | 
-
 <a name="formatTime"></a>
 
-## formatTime(hour, min, sec) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| hour | <code>number</code> \| <code>string</code> | 
-| min | <code>number</code> \| <code>string</code> | 
-| sec | <code>number</code> \| <code>string</code> | 
-
-<a name="makeDtstamp"></a>
-
-## makeDtstamp(dt) ⇒ <code>string</code>
-Returns UTC string for iCalendar
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| dt | <code>Date</code> | 
-
-<a name="icalWriteEvent"></a>
-
-## icalWriteEvent(res, e, dtstamp, options)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| res | <code>stream.Writable</code> | 
-| e | [<code>Event</code>](#Event) | 
-| dtstamp | <code>string</code> | 
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="addOptional"></a>
-
-## addOptional(arr, key, val)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| arr | <code>Array.&lt;string&gt;</code> | 
-| key | <code>string</code> | 
-| val | <code>string</code> | 
-
-<a name="eventToIcal"></a>
-
-## eventToIcal(e, options) ⇒ <code>string</code>
-**Kind**: global function  
-**Returns**: <code>string</code> - multi-line result, delimited by \r\n  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="exportHttpHeader"></a>
-
-## exportHttpHeader(res, mimeType, fileName)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| res | <code>stream.Writable</code> | 
-| mimeType | <code>string</code> | 
-| fileName | <code>string</code> | 
-
-<a name="icalWriteContents"></a>
-
-## icalWriteContents(res, events, title, options)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| res | <code>stream.Writable</code> | 
-| events | [<code>Array.&lt;Event&gt;</code>](#Event) | 
-| title | <code>string</code> | 
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="getDownloadFilename"></a>
-
-## getDownloadFilename(options) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="eventToCsv"></a>
-
-## eventToCsv(e, options) ⇒ <code>string</code>
-Renders an Event as a string
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="csvWriteContents"></a>
-
-## csvWriteContents(res, events, options)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| res | <code>stream.Writable</code> | 
-| events | [<code>Array.&lt;Event&gt;</code>](#Event) | 
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="getDoubledName"></a>
-
-## getDoubledName(id) ⇒ <code>string</code>
-takes a 0-based (Bereshit=0) parsha ID
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| id | <code>number</code> | 
-
-<a name="getTriennial"></a>
-
-## getTriennial(year) ⇒ [<code>Triennial</code>](#Triennial)
-Calculates the 3-year readings for a given year
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
-
-<a name="formatTime$1"></a>
-
-## formatTime$1(timeFormat, dt) ⇒ <code>string</code>
+## formatTime(timeFormat, dt) ⇒ <code>string</code>
 **Kind**: global function  
 
 | Param | Type |
@@ -2001,38 +1542,6 @@ A Daf Yomi result
 | --- | --- | --- |
 | name | <code>string</code> | Tractate name |
 | blatt | <code>number</code> | Page number |
-
-<a name="Aliyah"></a>
-
-## Aliyah : <code>Object</code>
-Represents an aliyah
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| k | <code>string</code> | Book (e.g. "Numbers") |
-| b | <code>string</code> | beginning verse (e.g. "28:9") |
-| e | <code>string</code> | ending verse (e.g. "28:15") |
-| [v] | <code>number</code> | number of verses |
-| [p] | <code>number</code> | parsha number (1=Bereshit, 54=Vezot HaBracha) |
-
-<a name="Leyning"></a>
-
-## Leyning : <code>Object</code>
-Leyning for a parsha hashavua or holiday
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| summary | <code>string</code> |  |
-| haftara | <code>string</code> | Haftarah |
-| fullkriyah | [<code>Array.&lt;Aliyah&gt;</code>](#Aliyah) |  |
-| [triennial] | <code>Object</code> |  |
-| [reason] | <code>Object</code> |  |
 
 <a name="HebcalOptions"></a>
 
