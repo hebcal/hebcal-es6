@@ -55,6 +55,11 @@ export const greg = {
   monthNames,
   dayOfYear,
 };
+import {getHolidaysOnDate, getHolidaysForYear} from './holidays';
+export const holidays = {
+  getHolidaysOnDate,
+  getHolidaysForYear,
+};
 import {hebrewCalendar} from './hebcal';
 export const hebcal = {
   hebrewCalendar,
