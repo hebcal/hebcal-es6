@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "core-js": "^2.6.11",
-    "md5": "^2.2.1",
     "numeral": "^2.0.6",
     "suncalc": "^1.8.0",
     "ttag": "^1.7.22"
