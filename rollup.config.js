@@ -9,9 +9,7 @@ export default [
   {
     input: 'src/index.js',
     output: [
-      // {file: pkg.browser, format: 'umd', name: 'hebcal-core'},
-      {file: pkg.main, format: 'umd', name: 'hebcalCore'},
-      // {file: pkg.module, format: 'es'},
+      {file: pkg.main, format: 'cjs', name: 'hebcalCore'},
       {
         file: 'dist/bundle.min.js',
         format: 'umd',
