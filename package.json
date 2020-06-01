@@ -48,7 +48,7 @@
     "po2json": "for infile in ./po/*.po; do outfile=`basename -s .po $infile`; echo $outfile; npx ttag po2json $infile --format compact > src/$outfile.po.json; done && exit 0",
     "readme": "npx jsdoc2md dist/index.js",
     "pretest": "npm run build",
-    "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/ && mv out/types.d.ts hebcal.d.ts",
+    "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
     "test": "ava"
   },
   "license": "GPL-2.0",
