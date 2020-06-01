@@ -10,12 +10,12 @@ export default [
     input: 'src/index.js',
     output: [
       // {file: pkg.browser, format: 'umd', name: 'hebcal-core'},
-      {file: pkg.main, format: 'umd', name: pkg.name},
+      {file: pkg.main, format: 'umd', name: 'hebcalCore'},
       // {file: pkg.module, format: 'es'},
       {
         file: 'dist/bundle.min.js',
         format: 'umd',
-        name: 'hebcal-leyning',
+        name: 'hebcalCore',
         plugins: [terser()],
       },
     ],
