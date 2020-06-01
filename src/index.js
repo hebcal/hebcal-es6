@@ -20,6 +20,10 @@ import {
   dayOnOrBefore,
   range,
 } from './common';
+/**
+ * Common hebrew date routines
+ * @namespace
+ */
 export const common = {
   months,
   days,
@@ -37,6 +41,10 @@ export const common = {
   range,
 };
 import {dafyomi as getDafYomi, dafname} from './dafyomi';
+/**
+ * Daf Yomi
+ * @namespace
+ */
 export const dafyomi = {
   dafyomi: getDafYomi,
   dafname,
@@ -49,6 +57,10 @@ import {
   monthNames,
   dayOfYear,
 } from './greg';
+/**
+ * Gregorian date routines
+ * @namespace
+ */
 export const greg = {
   gregLeapYear,
   daysInGregMonth,
@@ -56,11 +68,19 @@ export const greg = {
   dayOfYear,
 };
 import {getHolidaysOnDate, getHolidaysForYear} from './holidays';
+/**
+ * Lower-level holidays interface
+ * @namespace
+ */
 export const holidays = {
   getHolidaysOnDate,
   getHolidaysForYear,
 };
 import {hebrewCalendar} from './hebcal';
+/**
+ * Main interface to Hebcal
+ * @namespace
+ */
 export const hebcal = {
   hebrewCalendar,
   getBirthdayOrAnniversary,

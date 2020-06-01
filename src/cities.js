@@ -32,7 +32,10 @@
  * @property {number} [geoid] optional numerical geoid
  */
 
-/** Interface to lookup cities */
+/**
+ * Interface to lookup cities
+ * @namespace
+ */
 export const cities = {
   cities: new Map(),
 
@@ -40,13 +43,16 @@ export const cities = {
 
   /**
    * Looks up a city
-   * @param {string} str city name
+   * @param {string} str city name (such as "San Francisco" or "Jerusalem")
    * @return {CityResult}
    */
   getCity(str) {
     return this.cities.get(str.toLowerCase());
   },
 
+  /**
+   * Parses `geo.json`; must be called before `getCity()`
+   */
   init() {
     console.debug('Loading geo.json...');
     this.geo = require('./geo.json');
