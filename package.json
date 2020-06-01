@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -22,8 +22,6 @@
   "description": "A perpetual Jewish Calendar API",
   "main": "./dist/index.js",
   "typings": "hebcal.d.ts",
-  "module": "./dist/index.esm.js",
-  "browser": "./dist/index.umd.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mjradwin/hebcal-es6.git"
@@ -31,6 +29,9 @@
   "bugs": {
     "url": "https://github.com/mjradwin/hebcal-es6/issues"
   },
+  "files": [
+    "hebcal.d.ts"
+  ],
   "dependencies": {
     "core-js": "^2.6.11",
     "numeral": "^2.0.6",
