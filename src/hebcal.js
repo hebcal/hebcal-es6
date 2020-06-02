@@ -358,7 +358,7 @@ export function hebrewCalendar(options={}) {
       }
     }
     const dow = abs % 7;
-    let candlesToday = false;
+    let candlesEv = undefined;
     const ev = holidaysYear.get(hd.toString());
     if (typeof ev !== 'undefined') {
       for (const e of ev) {
@@ -370,9 +370,7 @@ export function hebrewCalendar(options={}) {
             events.push(e);
           }
           if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
-            const e2 = candleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
-            events.push(e2);
-            candlesToday = true;
+            candlesEv = candleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
           }
         }
       }
@@ -384,10 +382,6 @@ export function hebrewCalendar(options={}) {
         const attrs = {parsha: parsha0.parsha};
         events.push(new Event(hd, parshaStr, flags.PARSHA_HASHAVUA, attrs));
       }
-    }
-    if (options.candlelighting && !candlesToday && (dow == FRI || dow == SAT)) {
-      const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
-      events.push(e2);
     }
     if (options.dafyomi) {
       const dy = dafyomi.dafyomi(greg.abs2greg(abs));
@@ -406,6 +400,12 @@ export function hebrewCalendar(options={}) {
       const mDay = shortDayNames[m.dow];
       const desc = `Molad ${mMonth}: ${mDay}, ${m.minutes} minutes and ${m.chalakim} chalakim after ${m.hour}:00`;
       events.push(new Event(mevarchim, desc, flags.MOLAD, {molad: m}));
+    }
+    if (candlesEv) {
+      events.push(candlesEv);
+    } else if (options.candlelighting && (dow == FRI || dow == SAT)) {
+      const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
+      events.push(e2);
     }
   }
 
