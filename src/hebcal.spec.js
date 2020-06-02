@@ -213,6 +213,13 @@ test('locale-ru', (t) => {
   t.is(ev.render(), 'Большой Шаббат');
 });
 
+test('locale-ru-ordinal', (t) => {
+  // test numeraljs ordinal
+  const options = {year: 2020, noHolidays: true, omer: true, locale: 'ru'};
+  const ev = hebcal.hebrewCalendar(options)[0];
+  t.is(ev.render(), '1. day of the Omer');
+});
+
 test('locale-he', (t) => {
   const options = {year: 2020, month: 4, locale: 'he'};
   const ev = hebcal.hebrewCalendar(options)[0];

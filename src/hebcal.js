@@ -28,6 +28,11 @@ import greg from './greg';
 import dafyomi from './dafyomi';
 import {Location} from './location';
 import numeral from 'numeral';
+import 'numeral/locales/fi';
+import 'numeral/locales/fr';
+import 'numeral/locales/hu';
+import 'numeral/locales/pl';
+import 'numeral/locales/ru';
 
 const FRI = common.days.FRI;
 const SAT = common.days.SAT;
@@ -330,9 +335,6 @@ export function hebrewCalendar(options={}) {
     useLocale(locale); // make locale active
     // use numeraljs for number formatting only if they support our locale
     if (locale.length == 2 && numeralLocales.indexOf(locale) != -1) {
-      const numeralLocaleFilename = `numeral/locales/${locale}`;
-      console.debug(`Loading ${numeralLocaleFilename}...`);
-      require(numeralLocaleFilename);
       numeral.locale(locale);
     }
   } else {
