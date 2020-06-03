@@ -193,6 +193,7 @@ declare namespace hebcal {
         noMinorFast: boolean;
         noModern: boolean;
         noRoshChodesh: boolean;
+        shabbatMevarchim: boolean;
         noSpecialShabbat: boolean;
         noHolidays: boolean;
         dafyomi: boolean;
@@ -201,6 +202,8 @@ declare namespace hebcal {
         ashkenazi: boolean;
         locale: string;
         hour12: boolean;
+        addHebrewDates: boolean;
+        addHebrewDatesForEvents: boolean;
     };
 
     /**
