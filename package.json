@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -35,6 +35,7 @@
   ],
   "dependencies": {
     "core-js": "^2.6.11",
+    "gematriya": "^2.0.0",
     "numeral": "^2.0.6",
     "suncalc": "^1.8.0",
     "ttag": "^1.7.22"

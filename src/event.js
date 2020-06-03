@@ -1,5 +1,6 @@
 import {gettext} from 'ttag';
 import numeral from 'numeral';
+import gematriya from 'gematriya';
 
 const CHAG = 1;
 const LIGHT_CANDLES = 2;
@@ -214,12 +215,24 @@ export class CandleLightingEvent extends Event {
 export class HebrewDateEvent extends Event {
   /**
    * @param {HDate} date
+   * @param {string} locale
    */
-  constructor(date) {
-    super(date, date.toString(), flags.HEBREW_DATE);
+  constructor(date, locale) {
+    super(date, date.toString(), flags.HEBREW_DATE, {locale});
   }
   /** @return {string} */
   render() {
-    return this.getDate().render();
+    const locale = this.getAttrs().locale || '';
+    const hd = this.getDate();
+    const fullYear = hd.getFullYear();
+    const monthName = gettext(hd.getMonthName());
+    const day = hd.getDate();
+    if (locale == 'he') {
+      return gematriya(day) + ' ' + monthName + ' ' + gematriya(fullYear, {limit: 3});
+    } else {
+      const nth = numeral(day).format('ordinal');
+      const dayOf = (locale.length == 2) ? '' : ' of';
+      return `${nth}${dayOf} ${monthName}, ${fullYear}`;
+    }
   }
 }

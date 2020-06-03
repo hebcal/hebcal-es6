@@ -246,7 +246,7 @@ test('addHebrewDates', (t) => {
   t.is(ev0.length, 31);
   t.is(ev0[0].getFlags(), flags.HEBREW_DATE);
   t.is(ev0[0].getDesc(), '3 Adar 5777');
-  t.is(ev0[0].render(), '3 Adar 5777');
+  t.is(ev0[0].render(), '3rd of Adar, 5777');
 
   const options = {year: 2017, month: 3, addHebrewDates: true};
   const ev = hebcal.hebrewCalendar(options);
@@ -258,5 +258,15 @@ test('addHebrewDates-locale', (t) => {
   const ev = hebcal.hebrewCalendar(options)[0];
   t.is(ev.getFlags(), flags.HEBREW_DATE);
   t.is(ev.getDesc(), '3 Adar 5777');
-  t.is(ev.render(), '3 אַדָר 5777');
+  t.is(ev.render(), 'ג׳ אַדָר תשע״ז');
+
+  options.locale = 'fr';
+  const evFR = hebcal.hebrewCalendar(options)[0];
+  t.is(evFR.getDesc(), '3 Adar 5777');
+  t.is(evFR.render(), '3e Adar, 5777');
+
+  options.locale = 'ru';
+  const evRU = hebcal.hebrewCalendar(options)[0];
+  t.is(evRU.getDesc(), '3 Adar 5777');
+  t.is(evRU.render(), '3. Адар, 5777');
 });

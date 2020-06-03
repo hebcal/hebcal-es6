@@ -305,7 +305,7 @@ function getMaskFromOptions(options) {
  */
 export function hebrewCalendar(options={}) {
   if (options.candlelighting && (typeof options.location === 'undefined' || !options.location instanceof Location)) {
-    throw new TypeError('Candle-lighting requires location');
+    throw new TypeError('options.candlelighting requires valid options.location');
   }
   const location = options.location || new Location(0, 0, false);
   const il = options.il || location.il || false;
@@ -324,6 +324,9 @@ export function hebrewCalendar(options={}) {
         flags.CHANUKAH_CANDLES |
         flags.YOM_TOV_ENDS;
   if (options.ashkenazi || options.locale) {
+    if (options.locale && typeof options.locale !== 'string') {
+      throw new TypeError(`Invalid options.locale: ${options.locale}`);
+    }
     const locale = options.ashkenazi ? 'ashkenazi' : options.locale;
     const localeFilename = `./${locale}.po.json`;
     console.debug(`Loading ${localeFilename}...`);
@@ -333,10 +336,14 @@ export function hebrewCalendar(options={}) {
     // use numeraljs for number formatting only if they support our locale
     if (locale.length == 2 && numeralLocales.indexOf(locale) != -1) {
       numeral.locale(locale);
+    } else {
+      numeral.locale('en');
     }
   } else {
-    addLocale('en', emptyPoData);
-    useLocale('en');
+    const locale = 'en';
+    addLocale(locale, emptyPoData);
+    useLocale(locale);
+    numeral.locale(locale);
   }
 
   const events = [];
@@ -408,9 +415,9 @@ export function hebrewCalendar(options={}) {
       events.push(e2);
     }
     if (options.addHebrewDates) {
-      events.push(new HebrewDateEvent(hd));
+      events.push(new HebrewDateEvent(hd, options.locale));
     } else if (options.addHebrewDatesForEvents && prevEventsLength != events.length) {
-      events.push(new HebrewDateEvent(hd));
+      events.push(new HebrewDateEvent(hd, options.locale));
     }
   }
 
