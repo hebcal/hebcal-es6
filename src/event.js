@@ -19,6 +19,7 @@ const MAJOR_FAST = 16384;
 const SHABBAT_MEVARCHIM = 32768;
 const MOLAD = 65536;
 const USER_EVENT = 131072;
+const HEBREW_DATE = 262144;
 
 /**
  * Holiday flags for Event
@@ -28,25 +29,42 @@ const USER_EVENT = 131072;
 export const flags = {
   /** Chag, yontiff, yom tov */
   CHAG,
-  /** Light candles before sundown */
+  /** Light candles 18 minutes before sundown */
   LIGHT_CANDLES,
   /** End of holiday (end of Yom Tov)  */
   YOM_TOV_ENDS,
+  /** Observed only in the Diaspora (chutz l'aretz)  */
   CHUL_ONLY,
+  /** Observed only in Israel */
   IL_ONLY,
+  /** Light candles in the evening at Tzeit time (3 small stars) */
   LIGHT_CANDLES_TZEIS,
+  /** Candle-lighting for Chanukah */
   CHANUKAH_CANDLES,
+  /** Rosh Chodesh, beginning of a new Hebrew month */
   ROSH_CHODESH,
+  /** Minor fasts like Tzom Tammuz, Ta'anit Esther, ... */
   MINOR_FAST,
+  /** Shabbat Shekalim, Zachor, ... */
   SPECIAL_SHABBAT,
+  /** Weekly sedrot on Saturdays */
   PARSHA_HASHAVUA,
+  /** Daily page of Talmud */
   DAF_YOMI,
+  /** Days of the Omer */
   OMER_COUNT,
+  /** Yom HaShoah, Yom HaAtzma'ut, ... */
   MODERN_HOLIDAY,
+  /** Yom Kippur and Tish'a B'Av */
   MAJOR_FAST,
+  /** On the Saturday before Rosh Chodesh */
   SHABBAT_MEVARCHIM,
+  /** Molad */
   MOLAD,
+  /** Yahrzeit or Hebrew Anniversary */
   USER_EVENT,
+  /** Daily Hebrew date ("11th of Sivan, 5780") */
+  HEBREW_DATE,
 };
 
 /** Represents an Event with a title, date, and flags */
@@ -189,5 +207,19 @@ export class CandleLightingEvent extends Event {
   /** @return {string} */
   render() {
     return gettext(this.getDesc()) + ': ' + this.getAttrs().eventTimeStr;
+  }
+}
+
+/** Daily Hebrew date ("11th of Sivan, 5780") */
+export class HebrewDateEvent extends Event {
+  /**
+   * @param {HDate} date
+   */
+  constructor(date) {
+    super(date, date.toString(), flags.HEBREW_DATE);
+  }
+  /** @return {string} */
+  render() {
+    return this.getDate().render();
   }
 }

@@ -22,7 +22,7 @@ import {addLocale, useLocale} from 'ttag';
 import common from './common';
 import {HDate, hebrew2abs, getMolad} from './hdate';
 import holidays from './holidays';
-import {Event, flags, HavdalahEvent, CandleLightingEvent, OmerEvent, DafYomiEvent} from './event';
+import {Event, flags, HavdalahEvent, CandleLightingEvent, OmerEvent, DafYomiEvent, HebrewDateEvent} from './event';
 import {Sedra} from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
@@ -163,7 +163,8 @@ function getCandleLightingMinutes(options) {
  * @property {boolean} il - Israeli holiday and sedra schedule
  * @property {boolean} noMinorFast - suppress minor fasts
  * @property {boolean} noModern - suppress modern holidays
- * @property {boolean} noRoshChodesh - suppress Rosh Chodesh & Shabbat Mevarchim
+ * @property {boolean} noRoshChodesh - suppress Rosh Chodesh
+ * @property {boolean} shabbatMevarchim - add Shabbat Mevarchim
  * @property {boolean} noSpecialShabbat - suppress Special Shabbat
  * @property {boolean} noHolidays - suppress regular holidays
  * @property {boolean} dafyomi - include Daf Yomi
@@ -174,6 +175,8 @@ function getCandleLightingMinutes(options) {
  *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
  *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
  * @property {boolean} hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
+ * @property {boolean} addHebrewDates - print the Hebrew date for the entire date range
+ * @property {boolean} addHebrewDatesForEvents - print the Hebrew date for dates with some events
  */
 
 /**
@@ -238,7 +241,6 @@ function getMaskFromOptions(options) {
                 flags.YOM_TOV_ENDS |
                 flags.MINOR_FAST |
                 flags.SPECIAL_SHABBAT |
-                flags.SHABBAT_MEVARCHIM |
                 flags.MODERN_HOLIDAY |
                 flags.MAJOR_FAST |
                 flags.LIGHT_CANDLES |
@@ -289,14 +291,9 @@ function getMaskFromOptions(options) {
     mask |= flags.OMER_COUNT;
   }
 
-  /*
-    // debug
-    for (const x in flags) {
-        if (mask & flags[x]) {
-            console.debug(x);
-        }
-    }
-    */
+  if (options.shabbatMevarchim) {
+    mask |= flags.SHABBAT_MEVARCHIM;
+  }
 
   return mask;
 }
@@ -359,6 +356,7 @@ export function hebrewCalendar(options={}) {
         [beginOmer, endOmer] = getOmerStartAndEnd(currentYear);
       }
     }
+    const prevEventsLength = events.length;
     const dow = abs % 7;
     let candlesEv = undefined;
     const ev = holidaysYear.get(hd.toString());
@@ -408,6 +406,11 @@ export function hebrewCalendar(options={}) {
     } else if (options.candlelighting && (dow == FRI || dow == SAT)) {
       const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
       events.push(e2);
+    }
+    if (options.addHebrewDates) {
+      events.push(new HebrewDateEvent(hd));
+    } else if (options.addHebrewDatesForEvents && prevEventsLength != events.length) {
+      events.push(new HebrewDateEvent(hd));
     }
   }
 

@@ -10,7 +10,7 @@ test('heb-month', (t) => {
     month: 'Iyyar',
   };
   const events = hebcal.hebrewCalendar(options);
-  t.is(events.length, 8);
+  t.is(events.length, 7);
   t.is(events[0].getDesc(), 'Rosh Chodesh Iyyar');
   t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '4/25/2020');
   t.is(events[4].getDesc(), 'Lag BaOmer');
@@ -24,11 +24,11 @@ test('greg-month', (t) => {
     month: 3,
   };
   const events = hebcal.hebrewCalendar(options);
-  t.is(events.length, 9);
+  t.is(events.length, 8);
   t.is(events[0].getDesc(), 'Ta\'anit Esther');
   t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '3/9/2017');
-  t.is(events[8].getDesc(), 'Rosh Chodesh Nisan');
-  t.is(events[8].getDate().greg().toLocaleDateString('en-US'), '3/28/2017');
+  t.is(events[7].getDesc(), 'Rosh Chodesh Nisan');
+  t.is(events[7].getDate().greg().toLocaleDateString('en-US'), '3/28/2017');
 });
 
 test('greg-year', (t) => {
@@ -36,13 +36,13 @@ test('greg-year', (t) => {
     year: 1993,
   };
   const events = hebcal.hebrewCalendar(options);
-  t.is(events.length, 93);
+  t.is(events.length, 82);
   t.is(events[0].getDesc(), 'Asara B\'Tevet');
   t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '1/3/1993');
-  t.is(events[80].getDesc(), 'Chanukah: 1 Candle');
-  t.is(events[80].getDate().greg().toLocaleDateString('en-US'), '12/8/1993');
-  t.is(events[92].getDesc(), 'Asara B\'Tevet');
-  t.is(events[92].getDate().greg().toLocaleDateString('en-US'), '12/24/1993');
+  t.is(events[70].getDesc(), 'Chanukah: 1 Candle');
+  t.is(events[70].getDate().greg().toLocaleDateString('en-US'), '12/8/1993');
+  t.is(events[81].getDesc(), 'Asara B\'Tevet');
+  t.is(events[81].getDate().greg().toLocaleDateString('en-US'), '12/24/1993');
 });
 
 test('heb-year', (t) => {
@@ -51,15 +51,15 @@ test('heb-year', (t) => {
     isHebrewYear: true,
   };
   const events = hebcal.hebrewCalendar(options);
-  t.is(events.length, 94);
+  t.is(events.length, 82);
   t.is(events[0].getDesc(), 'Rosh Hashana 5749');
   t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '9/12/1988');
   t.is(events[1].getDesc(), 'Rosh Hashana II');
   t.is(events[1].getDate().greg().toLocaleDateString('en-US'), '9/13/1988');
   t.is(events[4].getDesc(), 'Erev Yom Kippur');
   t.is(events[4].getDate().greg().toLocaleDateString('en-US'), '9/20/1988');
-  t.is(events[93].getDesc(), 'Erev Rosh Hashana');
-  t.is(events[93].getDate().greg().toLocaleDateString('en-US'), '9/29/1989');
+  t.is(events[81].getDesc(), 'Erev Rosh Hashana');
+  t.is(events[81].getDate().greg().toLocaleDateString('en-US'), '9/29/1989');
 });
 
 test('no-options', (t) => {
@@ -224,4 +224,39 @@ test('locale-he', (t) => {
   const options = {year: 2020, month: 4, locale: 'he'};
   const ev = hebcal.hebrewCalendar(options)[0];
   t.is(ev.render(), 'שַׁבָּת הַגָּדוֹל');
+});
+
+test('addHebrewDatesForEvents', (t) => {
+  const options0 = {year: 2017, month: 3, noHolidays: true, addHebrewDatesForEvents: true};
+  const ev0 = hebcal.hebrewCalendar(options0);
+  t.is(ev0.length, 0);
+
+  const options1 = {year: 2017, month: 3};
+  const ev1 = hebcal.hebrewCalendar(options1);
+  t.is(ev1.length, 8);
+
+  const options = {year: 2017, month: 3, addHebrewDatesForEvents: true};
+  const ev = hebcal.hebrewCalendar(options);
+  t.is(ev.length, 15);
+});
+
+test('addHebrewDates', (t) => {
+  const options0 = {year: 2017, month: 3, noHolidays: true, addHebrewDates: true};
+  const ev0 = hebcal.hebrewCalendar(options0);
+  t.is(ev0.length, 31);
+  t.is(ev0[0].getFlags(), flags.HEBREW_DATE);
+  t.is(ev0[0].getDesc(), '3 Adar 5777');
+  t.is(ev0[0].render(), '3 Adar 5777');
+
+  const options = {year: 2017, month: 3, addHebrewDates: true};
+  const ev = hebcal.hebrewCalendar(options);
+  t.is(ev.length, 39);
+});
+
+test('addHebrewDates-locale', (t) => {
+  const options = {year: 2017, month: 3, noHolidays: true, addHebrewDates: true, locale: 'he'};
+  const ev = hebcal.hebrewCalendar(options)[0];
+  t.is(ev.getFlags(), flags.HEBREW_DATE);
+  t.is(ev.getDesc(), '3 Adar 5777');
+  t.is(ev.render(), '3 אַדָר 5777');
 });
