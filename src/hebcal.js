@@ -414,10 +414,14 @@ export function hebrewCalendar(options={}) {
       const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
       events.push(e2);
     }
-    if (options.addHebrewDates) {
-      events.push(new HebrewDateEvent(hd, options.locale));
-    } else if (options.addHebrewDatesForEvents && prevEventsLength != events.length) {
-      events.push(new HebrewDateEvent(hd, options.locale));
+    if (options.addHebrewDates ||
+      (options.addHebrewDatesForEvents && prevEventsLength != events.length)) {
+      const e2 = new HebrewDateEvent(hd, options.locale);
+      if (prevEventsLength == events.length) {
+        events.push(e2);
+      } else {
+        events.splice(prevEventsLength - 1, 0, e2);
+      }
     }
   }
 
