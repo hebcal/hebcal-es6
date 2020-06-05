@@ -106,6 +106,45 @@ declare module '@hebcal/core' {
         isSameDate(other: HDate): boolean;
     }
 
+    /**
+     * Class representing Location
+     */
+    export class Location {
+        /**
+         * Initialize a Location instance
+         * @param latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
+         * @param longitude - Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
+         * @param il - in Israel (true) or Diaspora (false)
+         * @param tzid - Olson timezone ID, e.g. "America/Chicago"
+         * @param cityName - optional descriptive city name
+         * @param countryCode - ISO 3166 alpha-2 country code (e.g. "FR")
+         * @param geoid - optional numeric geographic ID
+         */
+        constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: number);
+        suntime(hdate: HDate): suncalc.GetTimesResult;
+        sunrise(hdate: HDate): Date;
+        sunset(hdate: HDate): Date;
+        hour(hdate: HDate): number;
+        hourMins(hdate: HDate): number;
+        gregEve(hdate: HDate): Date;
+        nightHour(hdate: HDate): number;
+        nightHourMins(hdate: HDate): number;
+        hourOffset(hdate: HDate, hours: number): Date;
+        chatzot(hdate: HDate): Date;
+        chatzotNight(hdate: HDate): Date;
+        alotHaShachar(hdate: HDate): Date;
+        misheyakir(hdate: HDate): Date;
+        misheyakirMachmir(hdate: HDate): Date;
+        sofZmanShma(hdate: HDate): Date;
+        sofZmanTfilla(hdate: HDate): Date;
+        minchaGedola(hdate: HDate): Date;
+        minchaKetana(hdate: HDate): Date;
+        plagHaMincha(hdate: HDate): Date;
+        tzeit(hdate: HDate): Date;
+        neitzHaChama(hdate: HDate): Date;
+        shkiah(hdate: HDate): Date;
+    }
+
     export namespace hebcal {
         /**
          * A simple Hebrew date
