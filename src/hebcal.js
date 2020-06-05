@@ -67,6 +67,10 @@ function formatTime(timeFormat, dt) {
  */
 function sunsetTime(hd, location, timeFormat, offset) {
   const sunset = location.sunset(hd);
+  // For Havdalah only, round up to next minute if needed
+  if (sunset.getSeconds() >= 30 && offset > 0) {
+    offset++;
+  }
   const dt = new Date(sunset.getTime() + (offset * 60 * 1000));
   const time = formatTime(timeFormat, dt);
   return [dt, time];
@@ -80,7 +84,9 @@ function sunsetTime(hd, location, timeFormat, offset) {
  */
 function tzeitTime(hd, location, timeFormat) {
   const dt = location.tzeit(hd);
-  const time = formatTime(timeFormat, dt);
+  // Round up to next minute if needed
+  const dtRounded = (dt.getSeconds() >= 30) ? new Date(dt.getTime() + (60 * 1000)) : dt;
+  const time = formatTime(timeFormat, dtRounded);
   return [dt, time];
 }
 

@@ -96,9 +96,9 @@ test('candles-only-diaspora', (t) => {
   t.is(events[0].getDesc(), 'Candle lighting');
   t.is(events[0].getAttrs().eventTimeStr, '16:13');
   t.is(events[1].getFlags(), flags.LIGHT_CANDLES);
-  t.is(events[1].render(), 'Havdalah: 17:18');
+  t.is(events[1].render(), 'Havdalah: 17:19');
   t.is(events[1].getDesc(), 'Havdalah');
-  t.is(events[1].getAttrs().eventTimeStr, '17:18');
+  t.is(events[1].getAttrs().eventTimeStr, '17:19');
   t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
 });
 
@@ -111,11 +111,17 @@ test('havdalah-mins', (t) => {
     location: new Location(41.82399, -71.41283, false, 'America/New_York', 'Providence'),
     candlelighting: true,
   };
-  const ev = hebcal.hebrewCalendar(options)[1];
+  const events = hebcal.hebrewCalendar(options)
+      .filter((ev) => ev.getDesc().startsWith('Havdalah'));
+  const ev = events[0];
   t.is(ev.getFlags(), flags.LIGHT_CANDLES);
   t.is(ev.render(), 'Havdalah (47 min): 20:02');
   t.is(ev.getDesc(), 'Havdalah');
   t.is(ev.getAttrs().eventTimeStr, '20:02');
+  t.is(events[1].render(), 'Havdalah (47 min): 20:10');
+  t.is(events[2].render(), 'Havdalah (47 min): 20:16');
+  t.is(events[3].render(), 'Havdalah (47 min): 20:18');
+  t.is(events[4].render(), 'Havdalah (47 min): 20:26');
 });
 
 test('candles-only-israel', (t) => {
