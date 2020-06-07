@@ -1,3 +1,7 @@
+/// <reference types="node"/>
+
+import suncalc from 'suncalc';
+
 declare module '@hebcal/core' {
     /**
      * Represents an Event with a title, date, and flags
