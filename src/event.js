@@ -81,9 +81,7 @@ export class Event {
     this.date = date;
     this.desc = desc;
     this.mask = +mask;
-    if (attrs) {
-      this.attrs = attrs;
-    }
+    this.attrs = attrs || {};
   }
   /**
    * @return {number}
@@ -95,7 +93,7 @@ export class Event {
    * @return {Object}
    */
   getAttrs() {
-    return this.attrs || {};
+    return this.attrs;
   }
   /**
    * Is this event observed in Israel?

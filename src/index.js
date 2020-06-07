@@ -76,6 +76,13 @@ export const holidays = {
   getHolidaysOnDate,
   getHolidaysForYear,
 };
+import {
+  makeAnchor,
+  getHolidayBasename,
+  getShortUrl,
+  getEventUrl,
+  reformatTimeStr,
+} from './url';
 import {hebrewCalendar} from './hebcal';
 /**
  * Main interface to Hebcal
@@ -83,10 +90,12 @@ import {hebrewCalendar} from './hebcal';
  */
 export const hebcal = {
   hebrewCalendar,
-  getBirthdayOrAnniversary,
-  getYahrzeit,
-  greg2abs,
-  abs2greg,
-  hebrew2abs,
-  abs2hebrew,
+  // anniversary.js
+  getBirthdayOrAnniversary, getYahrzeit,
+  // greg.js
+  greg2abs, abs2greg,
+  // hdate.js
+  hebrew2abs, abs2hebrew,
+  // url.js
+  makeAnchor, getHolidayBasename, getShortUrl, getEventUrl, reformatTimeStr,
 };

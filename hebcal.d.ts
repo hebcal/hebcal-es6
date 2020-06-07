@@ -12,7 +12,7 @@ declare module '@hebcal/core' {
          */
         constructor(date: HDate, desc: string, mask?: number, attrs?: any);
         getFlags(): number;
-        getAttrs(): number;
+        getAttrs(): any;
         getDesc(): string;
         getDate(): HDate;
         render(): string;
@@ -269,6 +269,12 @@ declare module '@hebcal/core' {
          * Generates a list of holidays
          */
         export function hebrewCalendar(options: HebcalOptions): Event[];
+
+        export function makeAnchor(s: string): string;
+        export function getHolidayBasename(s: string): string;
+        export function getShortUrl(e: Event): string;
+        export function getEventUrl(e: Event): string;
+        export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
     }
 
     /**

@@ -248,4 +248,8 @@ export class Location {
   }
 }
 
+Location.prototype.toString = function locationToString() {
+  return JSON.stringify(this);
+};
+
 export default Location;

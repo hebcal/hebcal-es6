@@ -67,6 +67,10 @@ function formatTime(timeFormat, dt) {
  */
 function sunsetTime(hd, location, timeFormat, offset) {
   const sunset = location.sunset(hd);
+  if (isNaN(sunset.getTime())) {
+    // `No sunset for ${location} on ${hd}`
+    return [undefined, undefined];
+  }
   // For Havdalah only, round up to next minute if needed
   if (sunset.getSeconds() >= 30 && offset > 0) {
     offset++;
@@ -84,6 +88,10 @@ function sunsetTime(hd, location, timeFormat, offset) {
  */
 function tzeitTime(hd, location, timeFormat) {
   const dt = location.tzeit(hd);
+  if (isNaN(dt.getTime())) {
+    // `No tzeit time for ${location} on ${hd}`
+    return [undefined, undefined];
+  }
   // Round up to next minute if needed
   const dtRounded = (dt.getSeconds() >= 30) ? new Date(dt.getTime() + (60 * 1000)) : dt;
   const time = formatTime(timeFormat, dtRounded);
@@ -103,7 +111,7 @@ function tzeitTime(hd, location, timeFormat) {
 function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
   let havdalahTitle = false;
   let useHavdalahOffset = false;
-  const mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
+  let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
   if (typeof e !== 'undefined') {
     // if linked event && dow == FRI, use Candle lighting time & title
     if (dow != FRI) {
@@ -117,12 +125,16 @@ function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOf
   } else if (dow == SAT) {
     havdalahTitle = true;
     useHavdalahOffset = true;
+    mask = flags.LIGHT_CANDLES_TZEIS;
   }
   // if offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset ? havdalahOffset : candlesOffset;
   const [eventTime, timeStr] = offset ?
         sunsetTime(hd, location, timeFormat, offset) :
         tzeitTime(hd, location, timeFormat);
+  if (!eventTime) {
+    return null; // no sunset
+  }
   const attrs = {eventTime: eventTime, eventTimeStr: timeStr};
   if (typeof e !== 'undefined') {
     attrs.linkedEvent = e;
@@ -414,11 +426,15 @@ export function hebrewCalendar(options={}) {
       const desc = `Molad ${mMonth}: ${mDay}, ${m.minutes} minutes and ${m.chalakim} chalakim after ${m.hour}:00`;
       events.push(new Event(mevarchim, desc, flags.MOLAD, {molad: m}));
     }
+    if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
+      candlesEv = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
+    }
+    // suppress Havdalah when options.havdalahMins=0
+    if (candlesEv instanceof HavdalahEvent && typeof options.havdalahMins == 'number' && havdalahMinutes === 0) {
+      candlesEv = null;
+    }
     if (candlesEv) {
       events.push(candlesEv);
-    } else if (options.candlelighting && (dow == FRI || dow == SAT)) {
-      const e2 = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
-      events.push(e2);
     }
     if (options.addHebrewDates ||
       (options.addHebrewDatesForEvents && prevEventsLength != events.length)) {

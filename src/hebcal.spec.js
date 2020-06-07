@@ -95,7 +95,7 @@ test('candles-only-diaspora', (t) => {
   t.is(events[0].render(), 'Candle lighting: 16:13');
   t.is(events[0].getDesc(), 'Candle lighting');
   t.is(events[0].getAttrs().eventTimeStr, '16:13');
-  t.is(events[1].getFlags(), flags.LIGHT_CANDLES);
+  t.is(events[1].getFlags(), flags.LIGHT_CANDLES_TZEIS);
   t.is(events[1].render(), 'Havdalah: 17:19');
   t.is(events[1].getDesc(), 'Havdalah');
   t.is(events[1].getAttrs().eventTimeStr, '17:19');
@@ -114,7 +114,7 @@ test('havdalah-mins', (t) => {
   const events = hebcal.hebrewCalendar(options)
       .filter((ev) => ev.getDesc().startsWith('Havdalah'));
   const ev = events[0];
-  t.is(ev.getFlags(), flags.LIGHT_CANDLES);
+  t.is(ev.getFlags(), flags.LIGHT_CANDLES_TZEIS);
   t.is(ev.render(), 'Havdalah (47 min): 20:02');
   t.is(ev.getDesc(), 'Havdalah');
   t.is(ev.getAttrs().eventTimeStr, '20:02');
@@ -122,6 +122,56 @@ test('havdalah-mins', (t) => {
   t.is(events[2].render(), 'Havdalah (47 min): 20:16');
   t.is(events[3].render(), 'Havdalah (47 min): 20:18');
   t.is(events[4].render(), 'Havdalah (47 min): 20:26');
+});
+
+test('havdalah-zero-suppressed', (t) => {
+  const options = {
+    year: 2020,
+    month: 4,
+    noHolidays: true,
+    candlelighting: true,
+    havdalahMins: 0,
+    location: new Location(41.82399, -71.41283, false, 'America/New_York', 'Providence'),
+  };
+  const events = hebcal.hebrewCalendar(options);
+  t.is(events.length, 8);
+  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  t.is(candlelighting.length, 8);
+  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  t.is(havdalah.length, 0);
+});
+
+test('havdalah-fixed-st-petersburg', (t) => {
+  const options = {
+    year: 2020,
+    month: 6,
+    noHolidays: true,
+    candlelighting: true,
+    havdalahMins: 42,
+    location: new Location(59.93863, 30.31413, false, 'Europe/Moscow', 'Saint Petersburg'),
+  };
+  const events = hebcal.hebrewCalendar(options);
+  t.is(events.length, 8);
+  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  t.is(candlelighting.length, 4);
+  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  t.is(havdalah.length, 4);
+});
+
+test('havdalah-no-tzeit-st-petersburg', (t) => {
+  const options = {
+    year: 2020,
+    month: 6,
+    noHolidays: true,
+    candlelighting: true,
+    location: new Location(59.93863, 30.31413, false, 'Europe/Moscow', 'Saint Petersburg'),
+  };
+  const events = hebcal.hebrewCalendar(options);
+  t.is(events.length, 4);
+  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  t.is(candlelighting.length, 4);
+  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  t.is(havdalah.length, 0);
 });
 
 test('candles-only-israel', (t) => {
