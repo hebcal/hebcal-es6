@@ -26,9 +26,9 @@ const options = {
 const events = hebcal.hebrewCalendar(options);
 
 for (const ev of events) {
-  const hd = e.getDate();
+  const hd = ev.getDate();
   const date = hd.greg();
-  console.log(date.toLocaleDateString(), e.render(), hd.toString());
+  console.log(date.toLocaleDateString(), ev.render(), hd.toString());
 }
 ```
 ## Classes
@@ -967,7 +967,7 @@ Hebrew months of the year (NISAN=1, TISHREI=7)
 | TAMUZ | <code>number</code> | <code>4</code> | Tamuz (sometimes Tammuz) / תמוז |
 | AV | <code>number</code> | <code>5</code> | Av / אב |
 | ELUL | <code>number</code> | <code>6</code> | Elul / אלול |
-| TISHREI | <code>number</code> | <code>7</code> | Tishrei / תִשְׁרֵי |
+| TISHREI | <code>number</code> | <code>7</code> | Tishrei / תִשְׁרֵי |
 | CHESHVAN | <code>number</code> | <code>8</code> | Cheshvan / חשון |
 | KISLEV | <code>number</code> | <code>9</code> | Kislev / כסלו |
 | TEVET | <code>number</code> | <code>10</code> | Tevet / טבת |
