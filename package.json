@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -24,10 +24,10 @@
   "typings": "hebcal.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mjradwin/hebcal-es6.git"
+    "url": "https://github.com/hebcal/hebcal-es6.git"
   },
   "bugs": {
-    "url": "https://github.com/mjradwin/hebcal-es6/issues"
+    "url": "https://github.com/hebcal/hebcal-es6/issues"
   },
   "files": [
     "dist",
