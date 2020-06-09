@@ -22,7 +22,7 @@ function writePoFile(inpath, outpath, nostrip) {
       delete msg.comments;
     }
   }
-  const outstream = fs.createWriteStream('out.json', {flags: 'w'});
+  const outstream = fs.createWriteStream(outpath, {flags: 'w'});
   outstream.write(JSON.stringify(utils.convert2Compact(poData), null, 0));
   outstream.end();
 }
