@@ -496,4 +496,42 @@ declare module '@hebcal/core' {
          */
         export function getHolidaysOnDate(date: HDate | Date | number): Event[];
     }
+
+    export class Sedra {
+        /**
+         * Caculates the Parashah HaShavua for an entire Hebrew year
+         * @param hebYr - Hebrew year (e.g. 5749)
+         * @param il - Use Israel sedra schedule (false for Diaspora)
+         */
+        constructor(hebYr: number, il: boolean);
+        /**
+         * Returns the parsha (or parshiyot) read on Hebrew date
+         * @param hDate Hebrew date or absolute days
+         */
+        get(hDate: HDate | number): string[];
+        /**
+         * Looks up parsha for the date, then returns a (translated) string
+         * @param hDate Hebrew date or absolute days
+         */
+        getString(hDate: HDate | number): string;
+        /**
+         * Translates object describing the parsha to a string
+         * @param parsha
+         */
+        static parshaToString(parsha: string[]): string;
+        /**
+         * Returns an object describing the parsha on the first Saturday on or after absdate
+         * @param hDate Hebrew date or absolute days
+         */
+        lookup(hDate: HDate | number): Object;
+        /**
+         * Checks to see if this day would be a regular parasha HaShavua
+         * Torah reading or special holiday reading
+         * @param hDate Hebrew date or absolute days
+         */
+        isParsha(hDate: HDate | number): boolean;
+        getYear(): number;
+    }
+
+    export const parshiyot: string[];
 }

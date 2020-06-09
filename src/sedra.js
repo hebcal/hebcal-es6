@@ -233,13 +233,13 @@ const RH = 'Rosh Hashana'; // 0
 const YK = 'Yom Kippur'; // 1
 
 const SUKKOT = 'Sukkot'; // 0
-const CHMSUKOT = 'Chol hamoed Sukkot'; // 0
+const CHMSUKOT = 'Sukkot Shabbat Chol ha-Moed'; // 0
 const SHMINI = 'Shmini Atzeret'; // 0
 const EOY = 'End-of-Year: Simchat-Torah, Sukkot'; // 0
 
 const PESACH = 'Pesach'; // 25
-const CHMPESACH = 'Chol hamoed Pesach'; // 25
-const PESACH7 = 'Second days of Pesach'; // 25
+const CHMPESACH = 'Pesach Shabbat Chol ha-Moed'; // 25
+const PESACH7 = 'Pesach VII'; // 25
 
 const SHAVUOT = 'Shavuot'; // 33
 
