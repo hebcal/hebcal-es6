@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -33,12 +33,6 @@
     "dist",
     "hebcal.d.ts"
   ],
-  "dependencies": {
-    "gematriya": "^2.0.0",
-    "numeral": "^2.0.6",
-    "suncalc": "^1.8.0",
-    "ttag": "^1.7.22"
-  },
   "scripts": {
     "build:rollup": "rollup -c",
     "build:babel": "babel src --out-dir dist --source-maps",
@@ -81,11 +75,15 @@
     "core-js": "^3.6.5",
     "eslint": "^7.1.0",
     "eslint-config-google": "^0.14.0",
+    "gematriya": "^2.0.0",
     "jsdoc": "^3.6.4",
     "jsdoc-to-markdown": "^5.0.3",
+    "numeral": "^2.0.6",
     "rollup": "^1.29.0",
     "rollup-plugin-terser": "^6.1.0",
+    "suncalc": "^1.8.0",
     "tsd-jsdoc": "^2.5.0",
+    "ttag": "^1.7.22",
     "ttag-cli": "^1.8.2"
   }
 }
