@@ -31,6 +31,7 @@ for (const ev of events) {
   console.log(date.toLocaleDateString(), ev.render(), hd.toString());
 }
 ```
+
 ## Classes
 
 <dl>
@@ -53,6 +54,9 @@ attrs.dafyomi.name contains the untranslated string</p>
 <dt><a href="#CandleLightingEvent">CandleLightingEvent</a></dt>
 <dd><p>Candle lighting before Shabbat or holiday</p>
 </dd>
+<dt><a href="#HebrewDateEvent">HebrewDateEvent</a></dt>
+<dd><p>Daily Hebrew date (&quot;11th of Sivan, 5780&quot;)</p>
+</dd>
 <dt><a href="#Location">Location</a></dt>
 <dd><p>Class representing Location</p>
 </dd>
@@ -61,11 +65,26 @@ attrs.dafyomi.name contains the untranslated string</p>
 </dd>
 </dl>
 
-## Constants
+## Objects
 
 <dl>
-<dt><a href="#cities">cities</a></dt>
+<dt><a href="#cities">cities</a> : <code>object</code></dt>
 <dd><p>Interface to lookup cities</p>
+</dd>
+<dt><a href="#common$1">common$1</a> : <code>object</code></dt>
+<dd><p>Common hebrew date routines</p>
+</dd>
+<dt><a href="#dafyomi$2">dafyomi$2</a> : <code>object</code></dt>
+<dd><p>Daf Yomi</p>
+</dd>
+<dt><a href="#greg$1">greg$1</a> : <code>object</code></dt>
+<dd><p>Gregorian date routines</p>
+</dd>
+<dt><a href="#holidays$1">holidays$1</a> : <code>object</code></dt>
+<dd><p>Lower-level holidays interface</p>
+</dd>
+<dt><a href="#hebcal">hebcal</a> : <code>object</code></dt>
+<dd><p>Main interface to Hebcal</p>
 </dd>
 </dl>
 
@@ -174,6 +193,21 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 <dt><a href="#getHolidaysOnDate">getHolidaysOnDate(date)</a> ⇒ <code><a href="#Event">Array.&lt;Event&gt;</a></code></dt>
 <dd><p>Returns an array of Events on this date (or undefined if no events)</p>
 </dd>
+<dt><a href="#reformatTimeStr">reformatTimeStr(timeStr, suffix, options)</a> ⇒ <code>string</code></dt>
+<dd><p>Returns &quot;8:13p&quot; for US or &quot;20:13&quot; for any other locale/country</p>
+</dd>
+<dt><a href="#makeAnchor">makeAnchor(s)</a> ⇒ <code>string</code></dt>
+<dd></dd>
+<dt><a href="#getHolidayBasename">getHolidayBasename(desc)</a> ⇒ <code>string</code></dt>
+<dd></dd>
+<dt><a href="#getUrlInternal">getUrlInternal(e, hostname, dirs)</a> ⇒ <code>string</code></dt>
+<dd></dd>
+<dt><a href="#getShortUrl">getShortUrl(e)</a> ⇒ <code>string</code></dt>
+<dd><p>Gets a short redirector URL for hebcal.com</p>
+</dd>
+<dt><a href="#getEventUrl">getEventUrl(e)</a> ⇒ <code>string</code></dt>
+<dd><p>Gets a regular (long, non-redirector) URL for hebcal.com</p>
+</dd>
 <dt><a href="#formatTime">formatTime(timeFormat, dt)</a> ⇒ <code>string</code></dt>
 <dd></dd>
 <dt><a href="#sunsetTime">sunsetTime(hd, location, timeFormat, offset)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
@@ -184,6 +218,9 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 <dd></dd>
 <dt><a href="#getCandleLightingMinutes">getCandleLightingMinutes(options)</a> ⇒ <code>number</code></dt>
 <dd></dd>
+<dt><a href="#getAbs">getAbs(d)</a> ⇒ <code>number</code></dt>
+<dd><p>Gets the Julian absolute days for a number, Date, or HDate</p>
+</dd>
 <dt><a href="#getStartAndEnd">getStartAndEnd(options)</a> ⇒ <code>Array.&lt;number&gt;</code></dt>
 <dd><p>Parse options object to determine start &amp; end days</p>
 </dd>
@@ -192,7 +229,7 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 <dt><a href="#getMaskFromOptions">getMaskFromOptions(options)</a> ⇒ <code>number</code></dt>
 <dd><p>Mask to filter Holiday array</p>
 </dd>
-<dt><a href="#hebcalEvents">hebcalEvents(options)</a> ⇒ <code><a href="#Event">Array.&lt;Event&gt;</a></code></dt>
+<dt><a href="#hebrewCalendar">hebrewCalendar(options)</a> ⇒ <code><a href="#Event">Array.&lt;Event&gt;</a></code></dt>
 <dd><p>Generates a list of holidays</p>
 </dd>
 </dl>
@@ -597,6 +634,30 @@ Candle lighting before Shabbat or holiday
 
 ### candleLightingEvent.render() ⇒ <code>string</code>
 **Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
+<a name="HebrewDateEvent"></a>
+
+## HebrewDateEvent
+Daily Hebrew date ("11th of Sivan, 5780")
+
+**Kind**: global class  
+
+* [HebrewDateEvent](#HebrewDateEvent)
+    * [new HebrewDateEvent(date, locale)](#new_HebrewDateEvent_new)
+    * [.render()](#HebrewDateEvent+render) ⇒ <code>string</code>
+
+<a name="new_HebrewDateEvent_new"></a>
+
+### new HebrewDateEvent(date, locale)
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) | 
+| locale | <code>string</code> | 
+
+<a name="HebrewDateEvent+render"></a>
+
+### hebrewDateEvent.render() ⇒ <code>string</code>
+**Kind**: instance method of [<code>HebrewDateEvent</code>](#HebrewDateEvent)  
 <a name="Location"></a>
 
 ## Location
@@ -950,6 +1011,64 @@ Translates object describing the parsha to a string
 | --- | --- |
 | parsha | <code>Array.&lt;string&gt;</code> | 
 
+<a name="cities"></a>
+
+## cities : <code>object</code>
+Interface to lookup cities
+
+**Kind**: global namespace  
+
+* [cities](#cities) : <code>object</code>
+    * [.getCity(str)](#cities.getCity) ⇒ [<code>CityResult</code>](#CityResult)
+    * [.init()](#cities.init)
+
+<a name="cities.getCity"></a>
+
+### cities.getCity(str) ⇒ [<code>CityResult</code>](#CityResult)
+Looks up a city
+
+**Kind**: static method of [<code>cities</code>](#cities)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>string</code> | city name (such as "San Francisco" or "Jerusalem") |
+
+<a name="cities.init"></a>
+
+### cities.init()
+Parses `geo.json`; must be called before `getCity()`
+
+**Kind**: static method of [<code>cities</code>](#cities)  
+<a name="common$1"></a>
+
+## common$1 : <code>object</code>
+Common hebrew date routines
+
+**Kind**: global namespace  
+<a name="dafyomi$2"></a>
+
+## dafyomi$2 : <code>object</code>
+Daf Yomi
+
+**Kind**: global namespace  
+<a name="greg$1"></a>
+
+## greg$1 : <code>object</code>
+Gregorian date routines
+
+**Kind**: global namespace  
+<a name="holidays$1"></a>
+
+## holidays$1 : <code>object</code>
+Lower-level holidays interface
+
+**Kind**: global namespace  
+<a name="hebcal"></a>
+
+## hebcal : <code>object</code>
+Main interface to Hebcal
+
+**Kind**: global namespace  
 <a name="months"></a>
 
 ## months : <code>enum</code>
@@ -967,7 +1086,7 @@ Hebrew months of the year (NISAN=1, TISHREI=7)
 | TAMUZ | <code>number</code> | <code>4</code> | Tamuz (sometimes Tammuz) / תמוז |
 | AV | <code>number</code> | <code>5</code> | Av / אב |
 | ELUL | <code>number</code> | <code>6</code> | Elul / אלול |
-| TISHREI | <code>number</code> | <code>7</code> | Tishrei / תִשְׁרֵי |
+| TISHREI | <code>number</code> | <code>7</code> | Tishrei / תִשְׁרֵי |
 | CHESHVAN | <code>number</code> | <code>8</code> | Cheshvan / חשון |
 | KISLEV | <code>number</code> | <code>9</code> | Kislev / כסלו |
 | TEVET | <code>number</code> | <code>10</code> | Tevet / טבת |
@@ -1006,40 +1125,24 @@ Holiday flags for Event
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | CHAG | <code>number</code> | <code>CHAG</code> | Chag, yontiff, yom tov |
-| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES</code> | Light candles before sundown |
+| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES</code> | Light candles 18 minutes before sundown |
 | YOM_TOV_ENDS | <code>number</code> | <code>YOM_TOV_ENDS</code> | End of holiday (end of Yom Tov) |
-| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY</code> |  |
-| IL_ONLY | <code>number</code> | <code>IL_ONLY</code> |  |
-| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS</code> |  |
-| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES</code> |  |
-| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH</code> |  |
-| MINOR_FAST | <code>number</code> | <code>MINOR_FAST</code> |  |
-| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT</code> |  |
-| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA</code> |  |
-| DAF_YOMI | <code>number</code> | <code>DAF_YOMI</code> |  |
-| OMER_COUNT | <code>number</code> | <code>OMER_COUNT</code> |  |
-| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY</code> |  |
-| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST</code> |  |
-| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM</code> |  |
-| MOLAD | <code>number</code> | <code>MOLAD</code> |  |
-| USER_EVENT | <code>number</code> | <code>USER_EVENT</code> |  |
-
-<a name="cities"></a>
-
-## cities
-Interface to lookup cities
-
-**Kind**: global constant  
-<a name="cities.getCity"></a>
-
-### cities.getCity(str) ⇒ [<code>CityResult</code>](#CityResult)
-Looks up a city
-
-**Kind**: static method of [<code>cities</code>](#cities)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>string</code> | city name |
+| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY</code> | Observed only in the Diaspora (chutz l'aretz) |
+| IL_ONLY | <code>number</code> | <code>IL_ONLY</code> | Observed only in Israel |
+| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS</code> | Light candles in the evening at Tzeit time (3 small stars) |
+| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES</code> | Candle-lighting for Chanukah |
+| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH</code> | Rosh Chodesh, beginning of a new Hebrew month |
+| MINOR_FAST | <code>number</code> | <code>MINOR_FAST</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
+| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT</code> | Shabbat Shekalim, Zachor, ... |
+| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA</code> | Weekly sedrot on Saturdays |
+| DAF_YOMI | <code>number</code> | <code>DAF_YOMI</code> | Daily page of Talmud |
+| OMER_COUNT | <code>number</code> | <code>OMER_COUNT</code> | Days of the Omer |
+| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
+| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST</code> | Yom Kippur and Tish'a B'Av |
+| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM</code> | On the Saturday before Rosh Chodesh |
+| MOLAD | <code>number</code> | <code>MOLAD</code> | Molad |
+| USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
+| HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
 
 <a name="hebLeapYear"></a>
 
@@ -1406,6 +1509,70 @@ Returns an array of Events on this date (or undefined if no events)
 | --- | --- | --- |
 | date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
 
+<a name="reformatTimeStr"></a>
+
+## reformatTimeStr(timeStr, suffix, options) ⇒ <code>string</code>
+Returns "8:13p" for US or "20:13" for any other locale/country
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| timeStr | <code>string</code> | original time like "20:30" |
+| suffix | <code>string</code> | "p" or "pm" or " P.M.". Add leading space if you want it |
+| options | <code>Object</code> |  |
+
+<a name="makeAnchor"></a>
+
+## makeAnchor(s) ⇒ <code>string</code>
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| s | <code>string</code> | 
+
+<a name="getHolidayBasename"></a>
+
+## getHolidayBasename(desc) ⇒ <code>string</code>
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| desc | <code>string</code> | 
+
+<a name="getUrlInternal"></a>
+
+## getUrlInternal(e, hostname, dirs) ⇒ <code>string</code>
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | [<code>Event</code>](#Event) | 
+| hostname | <code>string</code> | 
+| dirs | <code>Array.&lt;string&gt;</code> | 
+
+<a name="getShortUrl"></a>
+
+## getShortUrl(e) ⇒ <code>string</code>
+Gets a short redirector URL for hebcal.com
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | [<code>Event</code>](#Event) | 
+
+<a name="getEventUrl"></a>
+
+## getEventUrl(e) ⇒ <code>string</code>
+Gets a regular (long, non-redirector) URL for hebcal.com
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | [<code>Event</code>](#Event) | 
+
 <a name="formatTime"></a>
 
 ## formatTime(timeFormat, dt) ⇒ <code>string</code>
@@ -1463,6 +1630,17 @@ Returns an array of Events on this date (or undefined if no events)
 | --- | --- |
 | options | [<code>HebcalOptions</code>](#HebcalOptions) | 
 
+<a name="getAbs"></a>
+
+## getAbs(d) ⇒ <code>number</code>
+Gets the Julian absolute days for a number, Date, or HDate
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| d | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | 
+
 <a name="getStartAndEnd"></a>
 
 ## getStartAndEnd(options) ⇒ <code>Array.&lt;number&gt;</code>
@@ -1494,9 +1672,9 @@ Mask to filter Holiday array
 | --- | --- |
 | options | [<code>HebcalOptions</code>](#HebcalOptions) | 
 
-<a name="hebcalEvents"></a>
+<a name="hebrewCalendar"></a>
 
-## hebcalEvents(options) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+## hebrewCalendar(options) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
 Generates a list of holidays
 
 **Kind**: global function  
@@ -1581,6 +1759,8 @@ Options to configure which events are returned
 | isHebrewYear | <code>boolean</code> | to interpret year as Hebrew year |
 | month | <code>number</code> | Gregorian or Hebrew month (to filter results to a single month) |
 | numYears | <code>number</code> | generate calendar for multiple years (default 1) |
+| start | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific start date (requires end date) |
+| end | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific end date (requires start date) |
 | candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
 | candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
 | havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72) |
@@ -1589,7 +1769,8 @@ Options to configure which events are returned
 | il | <code>boolean</code> | Israeli holiday and sedra schedule |
 | noMinorFast | <code>boolean</code> | suppress minor fasts |
 | noModern | <code>boolean</code> | suppress modern holidays |
-| noRoshChodesh | <code>boolean</code> | suppress Rosh Chodesh & Shabbat Mevarchim |
+| noRoshChodesh | <code>boolean</code> | suppress Rosh Chodesh |
+| shabbatMevarchim | <code>boolean</code> | add Shabbat Mevarchim |
 | noSpecialShabbat | <code>boolean</code> | suppress Special Shabbat |
 | noHolidays | <code>boolean</code> | suppress regular holidays |
 | dafyomi | <code>boolean</code> | include Daf Yomi |
@@ -1598,4 +1779,5 @@ Options to configure which events are returned
 | ashkenazi | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
 | locale | <code>string</code> | translate event titles according to a locale      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`) |
 | hour12 | <code>boolean</code> | use 12-hour time (1-12) instead of default 24-hour time (0-23) |
-
+| addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
+| addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |

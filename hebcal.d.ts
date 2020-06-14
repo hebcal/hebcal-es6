@@ -219,6 +219,8 @@ declare module '@hebcal/core' {
          * @property isHebrewYear - to interpret year as Hebrew year
          * @property month - Gregorian or Hebrew month (to filter results to a single month)
          * @property numYears - generate calendar for multiple years (default 1)
+         * @property start - use specific start date (requires end date)
+         * @property end - use specific end date (requires start date)
          * @property candlelighting - calculate candle-lighting and havdalah times
          * @property candleLightingMins - minutes before sundown to light candles (default 18)
          * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
@@ -240,6 +242,8 @@ declare module '@hebcal/core' {
          *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
          *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
          * @property hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
+         * @property addHebrewDates - print the Hebrew date for the entire date range
+         * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
          */
         export type HebcalOptions = {
             location: Location;
@@ -247,6 +251,8 @@ declare module '@hebcal/core' {
             isHebrewYear: boolean;
             month: number;
             numYears: number;
+            start: Date | HDate | number;
+            end: Date | HDate | number;
             candlelighting: boolean;
             candleLightingMins: number;
             havdalahMins: number;

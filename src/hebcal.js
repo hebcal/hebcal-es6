@@ -171,6 +171,8 @@ function getCandleLightingMinutes(options) {
  * @property {boolean} isHebrewYear - to interpret year as Hebrew year
  * @property {number} month - Gregorian or Hebrew month (to filter results to a single month)
  * @property {number} numYears - generate calendar for multiple years (default 1)
+ * @property {Date|HDate|number} start - use specific start date (requires end date)
+ * @property {Date|HDate|number} end - use specific end date (requires start date)
  * @property {boolean} candlelighting - calculate candle-lighting and havdalah times
  * @property {number} candleLightingMins - minutes before sundown to light candles (default 18)
  * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
@@ -198,13 +200,31 @@ function getCandleLightingMinutes(options) {
  */
 
 /**
+  * Gets the Julian absolute days for a number, Date, or HDate
+  * @param {Date|HDate|number} d
+  * @return {number}
+  */
+function getAbs(d) {
+  if (typeof d == 'number') return d;
+  if (d instanceof Date) return greg.greg2abs(d);
+  if (d instanceof HDate) return d.abs();
+  throw new TypeError(`Invalid date type: ${d}`);
+}
+
+/**
  * Parse options object to determine start & end days
  * @param {HebcalOptions} options
  * @return {number[]}
  */
 function getStartAndEnd(options) {
-  const theYear = options.year ? Number(options.year) : new Date().getFullYear();
+  if ((options.start && !options.end) || (options.end && !options.start)) {
+    throw new TypeError('Both options.start and options.end are required');
+  } else if (options.start && options.end) {
+    return [getAbs(options.start), getAbs(options.end)];
+  }
   const isHebrewYear = Boolean(options.isHebrewYear);
+  const theYear = options.year ? Number(options.year) :
+    isHebrewYear ? new HDate().getFullYear() : new Date().getFullYear();
   let theMonth = NaN;
   if (options.month) {
     if (isHebrewYear) {

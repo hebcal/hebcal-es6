@@ -1,7 +1,17 @@
 import test from 'ava';
 import hebcal from './hebcal';
+import {Event} from './event';
+import {HDate} from './hdate';
 import {flags} from './event';
 import {Location} from './location';
+
+/**
+ * @param {Event} ev
+ * @return {string}
+ */
+function gregDtString(ev) {
+  return ev.getDate().greg().toLocaleDateString('en-US');
+}
 
 test('heb-month', (t) => {
   const options = {
@@ -12,9 +22,9 @@ test('heb-month', (t) => {
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 7);
   t.is(events[0].getDesc(), 'Rosh Chodesh Iyyar');
-  t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '4/25/2020');
+  t.is(gregDtString(events[0]), '4/25/2020');
   t.is(events[4].getDesc(), 'Lag BaOmer');
-  t.is(events[4].getDate().greg().toLocaleDateString('en-US'), '5/12/2020');
+  t.is(gregDtString(events[4]), '5/12/2020');
 });
 
 test('greg-month', (t) => {
@@ -26,9 +36,9 @@ test('greg-month', (t) => {
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 8);
   t.is(events[0].getDesc(), 'Ta\'anit Esther');
-  t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '3/9/2017');
+  t.is(gregDtString(events[0]), '3/9/2017');
   t.is(events[7].getDesc(), 'Rosh Chodesh Nisan');
-  t.is(events[7].getDate().greg().toLocaleDateString('en-US'), '3/28/2017');
+  t.is(gregDtString(events[7]), '3/28/2017');
 });
 
 test('greg-year', (t) => {
@@ -38,11 +48,11 @@ test('greg-year', (t) => {
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 82);
   t.is(events[0].getDesc(), 'Asara B\'Tevet');
-  t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '1/3/1993');
+  t.is(gregDtString(events[0]), '1/3/1993');
   t.is(events[70].getDesc(), 'Chanukah: 1 Candle');
-  t.is(events[70].getDate().greg().toLocaleDateString('en-US'), '12/8/1993');
+  t.is(gregDtString(events[70]), '12/8/1993');
   t.is(events[81].getDesc(), 'Asara B\'Tevet');
-  t.is(events[81].getDate().greg().toLocaleDateString('en-US'), '12/24/1993');
+  t.is(gregDtString(events[81]), '12/24/1993');
 });
 
 test('heb-year', (t) => {
@@ -53,13 +63,13 @@ test('heb-year', (t) => {
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 82);
   t.is(events[0].getDesc(), 'Rosh Hashana 5749');
-  t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '9/12/1988');
+  t.is(gregDtString(events[0]), '9/12/1988');
   t.is(events[1].getDesc(), 'Rosh Hashana II');
-  t.is(events[1].getDate().greg().toLocaleDateString('en-US'), '9/13/1988');
+  t.is(gregDtString(events[1]), '9/13/1988');
   t.is(events[4].getDesc(), 'Erev Yom Kippur');
-  t.is(events[4].getDate().greg().toLocaleDateString('en-US'), '9/20/1988');
+  t.is(gregDtString(events[4]), '9/20/1988');
   t.is(events[81].getDesc(), 'Erev Rosh Hashana');
-  t.is(events[81].getDate().greg().toLocaleDateString('en-US'), '9/29/1989');
+  t.is(gregDtString(events[81]), '9/29/1989');
 });
 
 test('no-options', (t) => {
@@ -198,11 +208,11 @@ test('dafyomi-only', (t) => {
   };
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 30);
-  t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '6/1/1975');
+  t.is(gregDtString(events[0]), '6/1/1975');
   t.is(events[0].getFlags(), flags.DAF_YOMI);
   t.is(events[0].render(), 'Daf Yomi: Niddah 42');
   t.is(events[0].getDesc(), 'Niddah 42');
-  t.is(events[29].getDate().greg().toLocaleDateString('en-US'), '6/30/1975');
+  t.is(gregDtString(events[29]), '6/30/1975');
   t.is(events[29].getFlags(), flags.DAF_YOMI);
   t.is(events[29].render(), 'Daf Yomi: Berachot 8');
   t.is(events[29].getDesc(), 'Berachot 8');
@@ -218,11 +228,11 @@ test('omer-only', (t) => {
   };
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 30);
-  t.is(events[0].getDate().greg().toLocaleDateString('en-US'), '4/29/1968');
+  t.is(gregDtString(events[0]), '4/29/1968');
   t.is(events[0].getFlags(), flags.OMER_COUNT);
   t.is(events[0].getAttrs().omer, 16);
   t.is(events[0].render(), '16th day of the Omer');
-  t.is(events[25].getDate().greg().toLocaleDateString('en-US'), '5/24/1968');
+  t.is(gregDtString(events[25]), '5/24/1968');
   t.is(events[25].getFlags(), flags.OMER_COUNT);
   t.is(events[25].getAttrs().omer, 41);
   t.is(events[25].render(), '41st day of the Omer');
@@ -325,4 +335,33 @@ test('addHebrewDates-locale', (t) => {
   const evRU = hebcal.hebrewCalendar(options)[0];
   t.is(evRU.getDesc(), '3 Adar 5777');
   t.is(evRU.render(), '3. Адар, 5777');
+});
+
+test('startAndEnd', (t) => {
+  const ev1 = hebcal.hebrewCalendar({
+    addHebrewDates: true,
+    start: new Date(2018, 6, 4),
+    end: new Date(2018, 6, 19),
+  });
+  t.is(gregDtString(ev1[0]), '7/4/2018');
+  t.is(gregDtString(ev1[ev1.length - 1]), '7/19/2018');
+  t.is(ev1.length, 17);
+
+  const eventsHDate = hebcal.hebrewCalendar({
+    addHebrewDates: true,
+    start: new HDate(25, 'Tishrei', 5769),
+    end: new HDate(9, 'Cheshvan', 5769),
+  });
+  t.is(gregDtString(eventsHDate[0]), '10/24/2008');
+  t.is(gregDtString(eventsHDate[eventsHDate.length - 1]), '11/7/2008');
+  t.is(eventsHDate.length, 17);
+
+  const eventsAbsDate = hebcal.hebrewCalendar({
+    addHebrewDates: true,
+    start: 733319,
+    end: 733359,
+  });
+  t.is(gregDtString(eventsAbsDate[0]), '10/4/2008');
+  t.is(gregDtString(eventsAbsDate[eventsAbsDate.length - 1]), '11/13/2008');
+  t.is(eventsAbsDate.length, 56);
 });
