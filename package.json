@@ -34,7 +34,6 @@
     "hebcal.d.ts"
   ],
   "dependencies": {
-    "core-js": "^2.6.11",
     "gematriya": "^2.0.0",
     "numeral": "^2.0.6",
     "suncalc": "^1.8.0",
@@ -79,6 +78,7 @@
     "@rollup/plugin-commonjs": "^12.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "ava": "^3.8.2",
+    "core-js": "^3.6.5",
     "eslint": "^7.1.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.4",
