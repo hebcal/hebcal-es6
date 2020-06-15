@@ -9,11 +9,12 @@ export default [
   {
     input: 'src/index.js',
     output: [
-      {file: pkg.main, format: 'cjs', name: 'hebcalCore'},
+      {file: pkg.main, format: 'cjs', name: pkg.name},
+      {file: 'dist/bundle.js', format: 'umd', name: 'hebcal__core'},
       {
         file: 'dist/bundle.min.js',
         format: 'umd',
-        name: 'hebcalCore',
+        name: 'hebcal__core',
         plugins: [terser()],
       },
     ],
