@@ -33,6 +33,8 @@ import 'numeral/locales/fr';
 import 'numeral/locales/hu';
 import 'numeral/locales/pl';
 import 'numeral/locales/ru';
+import poHe from './he.po.json';
+import poAshkenazi from './ashkenazi.po.json';
 
 const FRI = common.days.FRI;
 const SAT = common.days.SAT;
@@ -42,6 +44,19 @@ const emptyPoData = {
   headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
   contexts: {'': {}},
 };
+
+const locales = new Map();
+locales.set('he', poHe);
+locales.set('ashkenazi', poAshkenazi);
+
+/**
+ * Registers a ttag locale for hebcal.hebrewCalendar()
+ * @param {string} locale
+ * @param {any} data
+ */
+export function registerLocale(locale, data) {
+  locales.set(locale, data);
+}
 
 /**
  * @param {Intl.DateTimeFormat} timeFormat
@@ -366,9 +381,10 @@ export function hebrewCalendar(options={}) {
       throw new TypeError(`Invalid options.locale: ${options.locale}`);
     }
     const locale = options.ashkenazi ? 'ashkenazi' : options.locale;
-    const localeFilename = `./${locale}.po.json`;
-    console.debug(`Loading ${localeFilename}...`);
-    const translationObj = require(localeFilename);
+    const translationObj = locales.get(locale);
+    if (!translationObj) {
+      throw new TypeError(`Locale '${locale}' not found; did you forget to import @hebcal/locales?`);
+    }
     addLocale(locale, translationObj); // adding locale to ttag
     useLocale(locale); // make locale active
     // use numeraljs for number formatting only if they support our locale
@@ -470,7 +486,3 @@ export function hebrewCalendar(options={}) {
   //    return events.sort((a, b) => a.getDate().abs() - b.getDate().abs());
   return events;
 }
-
-export default {
-  hebrewCalendar,
-};

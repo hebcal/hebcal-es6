@@ -1,4 +1,3 @@
-
 # hebcal-es6
 Hebcal, a perpetual Jewish Calendar (ES6)
 
@@ -11,15 +10,13 @@ $ npm install @hebcal/core
 
 ## Synopsis
 ```javascript
-import {hebcal, HDate, cities, Location, Event} from '@hebcal/core';
-
-cities.init();
+import {hebcal, HDate, Location, Event} from '@hebcal/core';
 
 const options = {
   year: 1981,
   isHebrewYear: false,
   candlelighting: true,
-  location: Location.newFromCity(cities.getCity('San Francisco')),
+  location: Location.lookup('San Francisco'),
   sedrot: true,
   omer: true,
 };
@@ -68,9 +65,6 @@ attrs.dafyomi.name contains the untranslated string</p>
 ## Objects
 
 <dl>
-<dt><a href="#cities">cities</a> : <code>object</code></dt>
-<dd><p>Interface to lookup cities</p>
-</dd>
 <dt><a href="#common$1">common$1</a> : <code>object</code></dt>
 <dd><p>Common hebrew date routines</p>
 </dd>
@@ -208,6 +202,9 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 <dt><a href="#getEventUrl">getEventUrl(e)</a> ⇒ <code>string</code></dt>
 <dd><p>Gets a regular (long, non-redirector) URL for hebcal.com</p>
 </dd>
+<dt><a href="#registerLocale">registerLocale(locale, data)</a></dt>
+<dd><p>Registers a ttag locale for hebcal.hebrewCalendar()</p>
+</dd>
 <dt><a href="#formatTime">formatTime(timeFormat, dt)</a> ⇒ <code>string</code></dt>
 <dd></dd>
 <dt><a href="#sunsetTime">sunsetTime(hd, location, timeFormat, offset)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
@@ -242,9 +239,6 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 </dd>
 <dt><a href="#Molad">Molad</a> : <code>Object</code></dt>
 <dd><p>Represents an Molad</p>
-</dd>
-<dt><a href="#CityResult">CityResult</a> : <code>Object</code></dt>
-<dd><p>A City result</p>
 </dd>
 <dt><a href="#DafYomiResult">DafYomiResult</a> : <code>Object</code></dt>
 <dd><p>A Daf Yomi result</p>
@@ -668,6 +662,12 @@ Class representing Location
 * [Location](#Location)
     * [new Location(latitude, longitude, il, tzid, cityName, countryCode, geoid)](#new_Location_new)
     * _instance_
+        * [.getLatitude()](#Location+getLatitude) ⇒ <code>number</code>
+        * [.getLongitude()](#Location+getLongitude) ⇒ <code>number</code>
+        * [.getIsrael()](#Location+getIsrael) ⇒ <code>boolean</code>
+        * [.getName()](#Location+getName) ⇒ <code>string</code>
+        * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
+        * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
         * [.suntime(hdate)](#Location+suntime) ⇒ <code>suncalc.GetTimesResult</code>
         * [.sunrise(hdate)](#Location+sunrise) ⇒ <code>Date</code>
         * [.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>
@@ -691,7 +691,7 @@ Class representing Location
         * [.neitzHaChama(hdate)](#Location+neitzHaChama) ⇒ <code>Date</code>
         * [.shkiah(hdate)](#Location+shkiah) ⇒ <code>Date</code>
     * _static_
-        * [.newFromCity(city)](#Location.newFromCity) ⇒ [<code>Location</code>](#Location)
+        * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
 
 <a name="new_Location_new"></a>
 
@@ -709,6 +709,30 @@ Initialize a Location instance
 | countryCode | <code>string</code> | ISO 3166 alpha-2 country code (e.g. "FR") |
 | geoid | <code>number</code> | optional numeric geographic ID |
 
+<a name="Location+getLatitude"></a>
+
+### location.getLatitude() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getLongitude"></a>
+
+### location.getLongitude() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getIsrael"></a>
+
+### location.getIsrael() ⇒ <code>boolean</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getName"></a>
+
+### location.getName() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getCountryCode"></a>
+
+### location.getCountryCode() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getTzid"></a>
+
+### location.getTzid() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+suntime"></a>
 
 ### location.suntime(hdate) ⇒ <code>suncalc.GetTimesResult</code>
@@ -908,14 +932,16 @@ Initialize a Location instance
 | --- | --- |
 | hdate | [<code>HDate</code>](#HDate) | 
 
-<a name="Location.newFromCity"></a>
+<a name="Location.lookup"></a>
 
-### Location.newFromCity(city) ⇒ [<code>Location</code>](#Location)
+### Location.lookup(name) ⇒ [<code>Location</code>](#Location)
+Creates a location object from one of 60 "classic" Hebcal city names
+
 **Kind**: static method of [<code>Location</code>](#Location)  
 
 | Param | Type |
 | --- | --- |
-| city | <code>Object</code> | 
+| name | <code>string</code> | 
 
 <a name="Sedra"></a>
 
@@ -1011,34 +1037,6 @@ Translates object describing the parsha to a string
 | --- | --- |
 | parsha | <code>Array.&lt;string&gt;</code> | 
 
-<a name="cities"></a>
-
-## cities : <code>object</code>
-Interface to lookup cities
-
-**Kind**: global namespace  
-
-* [cities](#cities) : <code>object</code>
-    * [.getCity(str)](#cities.getCity) ⇒ [<code>CityResult</code>](#CityResult)
-    * [.init()](#cities.init)
-
-<a name="cities.getCity"></a>
-
-### cities.getCity(str) ⇒ [<code>CityResult</code>](#CityResult)
-Looks up a city
-
-**Kind**: static method of [<code>cities</code>](#cities)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| str | <code>string</code> | city name (such as "San Francisco" or "Jerusalem") |
-
-<a name="cities.init"></a>
-
-### cities.init()
-Parses `geo.json`; must be called before `getCity()`
-
-**Kind**: static method of [<code>cities</code>](#cities)  
 <a name="common$1"></a>
 
 ## common$1 : <code>object</code>
@@ -1573,6 +1571,18 @@ Gets a regular (long, non-redirector) URL for hebcal.com
 | --- | --- |
 | e | [<code>Event</code>](#Event) | 
 
+<a name="registerLocale"></a>
+
+## registerLocale(locale, data)
+Registers a ttag locale for hebcal.hebrewCalendar()
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| locale | <code>string</code> | 
+| data | <code>any</code> | 
+
 <a name="formatTime"></a>
 
 ## formatTime(timeFormat, dt) ⇒ <code>string</code>
@@ -1711,25 +1721,6 @@ Represents an Molad
 | hour | <code>number</code> | hour of day (0-23) |
 | minutes | <code>number</code> | minutes past hour (0-59) |
 | chalakim | <code>number</code> | parts of a minute (0-17) |
-
-<a name="CityResult"></a>
-
-## CityResult : <code>Object</code>
-A City result
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| name | <code>string</code> | Short city name |
-| latitude | <code>number</code> |  |
-| longitude | <code>number</code> |  |
-| tzid | <code>string</code> | Timezone Identifier (for tzdata/Olson tzdb) |
-| cc | <code>string</code> | ISO 3166 two-letter country code |
-| cityName | <code>string</code> | longer city name with US State or country code |
-| [state] | <code>string</code> | U.S. State name (only if cc='US') |
-| [geoid] | <code>number</code> | optional numerical geoid |
 
 <a name="DafYomiResult"></a>
 

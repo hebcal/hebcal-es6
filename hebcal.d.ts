@@ -147,6 +147,13 @@ declare module '@hebcal/core' {
         tzeit(hdate: HDate): Date;
         neitzHaChama(hdate: HDate): Date;
         shkiah(hdate: HDate): Date;
+        static lookup(name: string): Location;
+        getLatitude(): number;
+        getLongitude(): number;
+        getIsrael(): boolean;
+        getName(): string;
+        getCountryCode(): string;
+        getTzid(): string;
     }
 
     export namespace hebcal {
@@ -280,46 +287,24 @@ declare module '@hebcal/core' {
          */
         export function hebrewCalendar(options: HebcalOptions): Event[];
 
+        export interface Headers {
+            'content-type'?: string;
+            'plural-forms'?: string;
+        }
+        export interface Translations {
+            [key: string]: any;
+        }
+        export interface LocaleData {
+            headers: Headers;
+            translations: Translations;
+        }
+        export function registerLocale(locale: string, data: LocaleData): void;
+
         export function makeAnchor(s: string): string;
         export function getHolidayBasename(s: string): string;
         export function getShortUrl(e: Event): string;
         export function getEventUrl(e: Event): string;
         export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
-    }
-
-    /**
-     * Interface to lookup cities
-     */
-    export namespace cities {
-        /**
-         * A City result
-         * @property name - Short city name
-         * @property tzid - Timezone Identifier (for tzdata/Olson tzdb)
-         * @property cc - ISO 3166 two-letter country code
-         * @property cityName - longer city name with US State or country code
-         * @property [state] - U.S. State name (only if cc='US')
-         * @property [geoid] - optional numerical geoid
-         */
-        export type CityResult = {
-            name: string;
-            latitude: number;
-            longitude: number;
-            tzid: string;
-            cc: string;
-            cityName: string;
-            state?: string;
-            geoid?: number;
-        };
-
-        /**
-         * Looks up a city
-         * @param str - city name (such as "San Francisco" or "Jerusalem")
-         */
-        function getCity(str: string): CityResult;
-        /**
-         * Parses `geo.json`; must be called before `getCity()`
-         */
-        function init(): void;
     }
 
     export namespace dafyomi {

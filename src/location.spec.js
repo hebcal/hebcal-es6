@@ -47,3 +47,15 @@ test('zmanim', (t) => {
   t.is(f.format(loc.neitzHaChama(dt)), '5:17 AM');
   t.is(f.format(loc.shkiah(dt)), '8:23 PM');
 });
+
+test('lookup', (t) => {
+  const loc1 = Location.lookup('San Francisco');
+  t.is(loc1.getCountryCode(), 'US');
+  t.is(loc1.getIsrael(), false);
+  t.is(loc1.getTzid(), 'America/Los_Angeles');
+
+  const loc2 = Location.lookup('Jerusalem');
+  t.is(loc2.getCountryCode(), 'IL');
+  t.is(loc2.getIsrael(), true);
+  t.is(loc2.getTzid(), 'Asia/Jerusalem');
+});

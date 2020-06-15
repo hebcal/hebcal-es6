@@ -3,7 +3,6 @@ import {hebrew2abs, abs2hebrew} from './hdate';
 export {Event, flags} from './event';
 import {getBirthdayOrAnniversary, getYahrzeit} from './anniversary';
 export {Location} from './location';
-export {cities} from './cities';
 import {
   months,
   days,
@@ -83,13 +82,14 @@ import {
   getEventUrl,
   reformatTimeStr,
 } from './url';
-import {hebrewCalendar} from './hebcal';
+import {hebrewCalendar, registerLocale} from './hebcal';
 /**
  * Main interface to Hebcal
  * @namespace
  */
 export const hebcal = {
   hebrewCalendar,
+  registerLocale,
   // anniversary.js
   getBirthdayOrAnniversary, getYahrzeit,
   // greg.js

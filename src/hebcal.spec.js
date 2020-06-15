@@ -1,5 +1,5 @@
 import test from 'ava';
-import hebcal from './hebcal';
+import * as hebcal from './hebcal';
 import {Event} from './event';
 import {HDate} from './hdate';
 import {flags} from './event';
@@ -273,19 +273,6 @@ test('ashkenazi', (t) => {
   t.is(ev.render(), 'Shabbos HaGadol');
 });
 
-test('locale-ru', (t) => {
-  const options = {year: 2020, month: 4, locale: 'ru'};
-  const ev = hebcal.hebrewCalendar(options)[0];
-  t.is(ev.render(), 'Большой Шаббат');
-});
-
-test('locale-ru-ordinal', (t) => {
-  // test numeraljs ordinal
-  const options = {year: 2020, noHolidays: true, omer: true, locale: 'ru'};
-  const ev = hebcal.hebrewCalendar(options)[0];
-  t.is(ev.render(), '1. day of the Omer');
-});
-
 test('locale-he', (t) => {
   const options = {year: 2020, month: 4, locale: 'he'};
   const ev = hebcal.hebrewCalendar(options)[0];
@@ -325,16 +312,6 @@ test('addHebrewDates-locale', (t) => {
   t.is(ev.getFlags(), flags.HEBREW_DATE);
   t.is(ev.getDesc(), '3 Adar 5777');
   t.is(ev.render(), 'ג׳ אַדָר תשע״ז');
-
-  options.locale = 'fr';
-  const evFR = hebcal.hebrewCalendar(options)[0];
-  t.is(evFR.getDesc(), '3 Adar 5777');
-  t.is(evFR.render(), '3e Adar, 5777');
-
-  options.locale = 'ru';
-  const evRU = hebcal.hebrewCalendar(options)[0];
-  t.is(evRU.getDesc(), '3 Adar 5777');
-  t.is(evRU.render(), '3. Адар, 5777');
 });
 
 test('startAndEnd', (t) => {
