@@ -60,8 +60,19 @@ export function getHolidayBasename(desc) {
 const NO_URL_FLAGS = flags.USER_EVENT |
     flags.OMER_COUNT |
     flags.SHABBAT_MEVARCHIM |
-    flags.DAF_YOMI |
     flags.MOLAD;
+
+const dafYomiSefaria = {
+  'Berachot': 'Berakhot',
+  'Rosh Hashana': 'Rosh Hashanah',
+  'Gitin': 'Gittin',
+  'Baba Kamma': 'Bava Kamma',
+  'Baba Metzia': 'Bava Metzia',
+  'Baba Batra': 'Bava Batra',
+  'Bechorot': 'Bekhorot',
+  'Arachin': 'Arakhin',
+  'Midot': 'Middot',
+};
 
 /**
  * @param {Event} e
@@ -73,6 +84,16 @@ function getUrlInternal(e, hostname, dirs) {
   const mask = e.getFlags();
   if (mask & NO_URL_FLAGS) {
     return undefined;
+  } else if (mask & flags.DAF_YOMI) {
+    const tractate = e.getAttrs().dafyomi.name;
+    const blatt = e.getAttrs().dafyomi.blatt;
+    if (tractate == 'Kinnim' || tractate == 'Midot') {
+      return `https://www.dafyomi.org/index.php?masechta=meilah&daf=${blatt}a`;
+    } else {
+      const name0 = dafYomiSefaria[tractate] || tractate;
+      const name = name0.replace(/ /g, '_');
+      return `https://www.sefaria.org/${name}.${blatt}a?lang=bi`;
+    }
   }
   const desc = e.getDesc();
   if (desc.startsWith('Havdalah') || desc.startsWith('Candle lighting')) {
