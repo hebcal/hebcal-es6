@@ -106,7 +106,7 @@ export function getHolidaysForYear(year) {
     [9, TISHREI, 'Erev Yom Kippur', LIGHT_CANDLES],
   ]);
   // first SAT after RH
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', 0));
+  add(new Event(new HDate(c.dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', SPECIAL_SHABBAT));
   addEvents(year, [
     [10, TISHREI, 'Yom Kippur', CHAG | YOM_TOV_ENDS | MAJOR_FAST],
     [14, TISHREI, 'Erev Sukkot', LIGHT_CANDLES],
