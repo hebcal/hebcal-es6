@@ -3,6 +3,7 @@ import {hebrew2abs, abs2hebrew} from './hdate';
 export {Event, flags} from './event';
 import {getBirthdayOrAnniversary, getYahrzeit} from './anniversary';
 export {Location} from './location';
+import {registerLocation} from './location';
 import {
   months,
   days,
@@ -98,4 +99,6 @@ export const hebcal = {
   hebrew2abs, abs2hebrew,
   // url.js
   makeAnchor, getHolidayBasename, getShortUrl, getEventUrl, reformatTimeStr,
+  // location.js
+  registerLocation,
 };

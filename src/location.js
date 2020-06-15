@@ -367,4 +367,19 @@ for (const city of classicCities0) {
       new Location(city[2], city[3], city[1] == 'IL', city[4], city[0], city[1]));
 }
 
-export default Location;
+/**
+ * Adds a location name for `Location.lookup()` only if the name isn't
+ * already being used. Returns `false` if the name is already taken
+ * and `true` if successfully added.
+ * @param {string} cityName
+ * @param {Location} location
+ * @return {boolean}
+ */
+export function registerLocation(cityName, location) {
+  const name = cityName.toLowerCase();
+  if (classicCities.has(name)) {
+    return false;
+  }
+  classicCities.set(name, location);
+  return true;
+}

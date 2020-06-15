@@ -305,6 +305,8 @@ declare module '@hebcal/core' {
         export function getShortUrl(e: Event): string;
         export function getEventUrl(e: Event): string;
         export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
+
+        export function registerLocation(cityName: string, location: Location): boolean;
     }
 
     export namespace dafyomi {

@@ -167,6 +167,11 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 Year must be after original date of death.
 Returns undefined when requested year preceeds or is same as original year.</p>
 </dd>
+<dt><a href="#registerLocation">registerLocation(cityName, location)</a> ⇒ <code>boolean</code></dt>
+<dd><p>Adds a location name for <code>Location.lookup()</code> only if the name isn&#39;t
+already being used. Returns <code>false</code> if the name is already taken
+and <code>true</code> if successfully added.</p>
+</dd>
 <dt><a href="#dafyomi">dafyomi(gregdate)</a> ⇒ <code><a href="#DafYomiResult">DafYomiResult</a></code></dt>
 <dd><p>Returns the Daf Yomi for given date</p>
 </dd>
@@ -1419,6 +1424,20 @@ Returns undefined when requested year preceeds or is same as original year.
 | --- | --- | --- |
 | hyear | <code>number</code> | Hebrew year |
 | gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
+
+<a name="registerLocation"></a>
+
+## registerLocation(cityName, location) ⇒ <code>boolean</code>
+Adds a location name for `Location.lookup()` only if the name isn't
+already being used. Returns `false` if the name is already taken
+and `true` if successfully added.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| cityName | <code>string</code> | 
+| location | [<code>Location</code>](#Location) | 
 
 <a name="dafyomi"></a>
 

@@ -1,5 +1,5 @@
 import test from 'ava';
-import {Location} from './location';
+import {Location, registerLocation} from './location';
 import {HDate} from './hdate';
 
 test('sunset', (t) => {
@@ -58,4 +58,20 @@ test('lookup', (t) => {
   t.is(loc2.getCountryCode(), 'IL');
   t.is(loc2.getIsrael(), true);
   t.is(loc2.getTzid(), 'Asia/Jerusalem');
+});
+
+test('lookup-notfound', (t) => {
+  const city = Location.lookup('**does not exist**');
+  t.is(city, undefined);
+});
+
+test('registerLocation', (t) => {
+  const cityName = 'Ra\'anana';
+  const missing = Location.lookup(cityName);
+  t.is(missing, undefined);
+  const success = registerLocation(cityName, new Location(
+      32.1836, 34.87386, true, 'Asia/Jerusalem', cityName, 'IL'));
+  t.is(success, true);
+  const found = Location.lookup(cityName);
+  t.is(found.getLatitude(), 32.1836);
 });
