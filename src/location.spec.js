@@ -75,3 +75,25 @@ test('registerLocation', (t) => {
   const found = Location.lookup(cityName);
   t.is(found.getLatitude(), 32.1836);
 });
+
+test('classic-cities', (t) => {
+  const classic = [
+    'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
+    'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
+    'Buenos Aires', 'Buffalo', 'Chicago', 'Cincinnati', 'Cleveland',
+    'Dallas', 'Denver', 'Detroit', 'Eilat', 'Gibraltar', 'Haifa',
+    'Hawaii', 'Helsinki', 'Houston', 'Jerusalem', 'Johannesburg',
+    'Kiev', 'La Paz', 'Livingston', 'Las Vegas', 'London', 'Los Angeles',
+    'Marseilles', 'Miami', 'Minneapolis', 'Melbourne', 'Mexico City',
+    'Montreal', 'Moscow', 'New York', 'Omaha', 'Ottawa', 'Panama City',
+    'Paris', 'Pawtucket', 'Petach Tikvah', 'Philadelphia', 'Phoenix',
+    'Pittsburgh', 'Providence', 'Portland', 'Saint Louis', 'Saint Petersburg',
+    'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
+    'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
+    'Washington DC', 'Worcester',
+  ];
+  for (const s of classic) {
+    const city = Location.lookup(s);
+    t.is(typeof city, 'object', s);
+  }
+});
