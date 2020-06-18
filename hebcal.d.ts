@@ -298,6 +298,9 @@ declare module '@hebcal/core' {
             headers: Headers;
             translations: Translations;
         }
+        /**
+         * Registers a ttag locale for hebcal.hebrewCalendar()
+         */
         export function registerLocale(locale: string, data: LocaleData): void;
 
         export function makeAnchor(s: string): string;
@@ -306,7 +309,21 @@ declare module '@hebcal/core' {
         export function getEventUrl(e: Event): string;
         export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
 
+        /**
+         * Adds a location name for `Location.lookup()` only if the name isn't
+         * already being used. Returns `false` if the name is already taken
+         * and `true` if successfully added.
+         */
         export function registerLocation(cityName: string, location: Location): boolean;
+
+        /**
+         * A little bit like `gettext()` but only returns a non-empty string
+         */
+        export function getHebrewText(str: string): string | undefined;
+        /**
+         * Removes nekudot from Hebrew string
+         */
+        export function hebrewStripNikkud(str: string): string;
     }
 
     export namespace dafyomi {

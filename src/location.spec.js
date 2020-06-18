@@ -58,6 +58,17 @@ test('lookup', (t) => {
   t.is(loc2.getCountryCode(), 'IL');
   t.is(loc2.getIsrael(), true);
   t.is(loc2.getTzid(), 'Asia/Jerusalem');
+
+  const providence = Location.lookup('Providence');
+  t.is(providence.latitude, 41.82399);
+  t.is(providence.longitude, -71.41283);
+  t.is(providence.tzid, 'America/New_York');
+
+  const melbourne = Location.lookup('Melbourne');
+  t.is(melbourne.latitude, -37.814);
+  t.is(melbourne.longitude, 144.96332);
+  t.is(melbourne.tzid, 'Australia/Melbourne');
+  t.is(melbourne.cc, 'AU');
 });
 
 test('lookup-notfound', (t) => {

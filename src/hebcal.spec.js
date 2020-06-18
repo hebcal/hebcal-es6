@@ -342,3 +342,21 @@ test('startAndEnd', (t) => {
   t.is(gregDtString(eventsAbsDate[eventsAbsDate.length - 1]), '11/13/2008');
   t.is(eventsAbsDate.length, 56);
 });
+
+test('getHebrewText', (t) => {
+  t.is(hebcal.getHebrewText('Yom Kippur'), 'יוֹם כִּפּוּר');
+  t.is(hebcal.getHebrewText('Lech-Lecha'), 'לֶךְ־לְךָ');
+  t.is(hebcal.getHebrewText('** not found **'), undefined);
+});
+
+test('hebrewStripNikkud', (t) => {
+  const strs = [
+    ['יוֹם כִּפּוּר',
+      'יום כפור'],
+    ['לֶךְ־לְךָ',
+      'לך־לך'],
+  ];
+  for (const [original, expected] of strs) {
+    t.is(hebcal.hebrewStripNikkud(original), expected);
+  }
+});

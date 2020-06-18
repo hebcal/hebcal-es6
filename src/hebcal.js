@@ -59,6 +59,27 @@ export function registerLocale(locale, data) {
 }
 
 /**
+ * A little bit like `gettext()` but only returns a non-empty string
+ * @param {string} str
+ * @return {string}
+ */
+export function getHebrewText(str) {
+  const a = poHe.contexts[''][str];
+  if (a && a[0] && a[0].length) return a[0];
+  return undefined;
+}
+
+/**
+ * Removes nekudot from Hebrew string
+ * @param {string} str
+ * @return {string}
+ */
+export function hebrewStripNikkud(str) {
+  return str.replace(/[\u0590-\u05bd]/g, '').replace(/[\u05bf-\u05c7]/g, '');
+}
+
+
+/**
  * @param {Intl.DateTimeFormat} timeFormat
  * @param {Date} dt
  * @return {string}

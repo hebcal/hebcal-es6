@@ -83,7 +83,12 @@ import {
   getEventUrl,
   reformatTimeStr,
 } from './url';
-import {hebrewCalendar, registerLocale} from './hebcal';
+import {
+  hebrewCalendar,
+  registerLocale,
+  getHebrewText,
+  hebrewStripNikkud,
+} from './hebcal';
 /**
  * Main interface to Hebcal
  * @namespace
@@ -91,6 +96,8 @@ import {hebrewCalendar, registerLocale} from './hebcal';
 export const hebcal = {
   hebrewCalendar,
   registerLocale,
+  getHebrewText,
+  hebrewStripNikkud,
   // anniversary.js
   getBirthdayOrAnniversary, getYahrzeit,
   // greg.js
