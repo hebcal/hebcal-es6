@@ -320,6 +320,7 @@ declare module '@hebcal/core' {
          * A little bit like `gettext()` but only returns a non-empty string
          */
         export function getHebrewText(str: string): string | undefined;
+        export function getHebrewForEvent(ev: Event): string;
         /**
          * Removes nekudot from Hebrew string
          */

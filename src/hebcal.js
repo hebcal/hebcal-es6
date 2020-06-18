@@ -35,6 +35,7 @@ import 'numeral/locales/pl';
 import 'numeral/locales/ru';
 import poHe from './he.po.json';
 import poAshkenazi from './ashkenazi.po.json';
+import {getHolidayBasename} from './url';
 
 const FRI = common.days.FRI;
 const SAT = common.days.SAT;
@@ -61,12 +62,28 @@ export function registerLocale(locale, data) {
 /**
  * A little bit like `gettext()` but only returns a non-empty string
  * @param {string} str
- * @return {string}
+ * @return {string|undefined}
  */
 export function getHebrewText(str) {
   const a = poHe.contexts[''][str];
   if (a && a[0] && a[0].length) return a[0];
   return undefined;
+}
+
+/**
+ * A little bit like `gettext()` but only returns a non-empty string
+ * @param {Event} ev
+ * @return {string|undefined}
+ */
+export function getHebrewForEvent(ev) {
+  if (ev.getFlags() == flags.PARSHA_HASHAVUA) {
+    return getHebrewText('Parashat') + ' ' +
+      ev.getAttrs().parsha.map((s) => getHebrewText(s)).join('־');
+  }
+  const desc = ev.getDesc();
+  const str = getHebrewText(desc);
+  if (str) return str;
+  return getHebrewText(getHolidayBasename(desc));
 }
 
 /**

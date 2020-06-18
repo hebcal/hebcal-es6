@@ -1,6 +1,5 @@
 import test from 'ava';
 import * as hebcal from './hebcal';
-import {Event} from './event';
 import {HDate} from './hdate';
 import {flags} from './event';
 import {Location} from './location';
@@ -96,7 +95,7 @@ test('candles-only-diaspora', (t) => {
   const options = {
     year: 1993,
     noHolidays: true,
-    location: new Location(41.85003, -87.65005, false, 'America/Chicago'),
+    location: Location.lookup('Chicago'),
     candlelighting: true,
   };
   const events = hebcal.hebrewCalendar(options);
@@ -118,7 +117,7 @@ test('havdalah-mins', (t) => {
     month: 4,
     noSpecialShabbat: true,
     havdalahMins: 47,
-    location: new Location(41.82399, -71.41283, false, 'America/New_York', 'Providence'),
+    location: Location.lookup('Providence'),
     candlelighting: true,
   };
   const events = hebcal.hebrewCalendar(options)
@@ -141,7 +140,7 @@ test('havdalah-zero-suppressed', (t) => {
     noHolidays: true,
     candlelighting: true,
     havdalahMins: 0,
-    location: new Location(41.82399, -71.41283, false, 'America/New_York', 'Providence'),
+    location: Location.lookup('Providence'),
   };
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 8);
@@ -158,7 +157,7 @@ test('havdalah-fixed-st-petersburg', (t) => {
     noHolidays: true,
     candlelighting: true,
     havdalahMins: 42,
-    location: new Location(59.93863, 30.31413, false, 'Europe/Moscow', 'Saint Petersburg'),
+    location: Location.lookup('Saint Petersburg'),
   };
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 8);
@@ -174,7 +173,7 @@ test('havdalah-no-tzeit-st-petersburg', (t) => {
     month: 6,
     noHolidays: true,
     candlelighting: true,
-    location: new Location(59.93863, 30.31413, false, 'Europe/Moscow', 'Saint Petersburg'),
+    location: Location.lookup('Saint Petersburg'),
   };
   const events = hebcal.hebrewCalendar(options);
   t.is(events.length, 4);
@@ -347,6 +346,42 @@ test('getHebrewText', (t) => {
   t.is(hebcal.getHebrewText('Yom Kippur'), 'יוֹם כִּפּוּר');
   t.is(hebcal.getHebrewText('Lech-Lecha'), 'לֶךְ־לְךָ');
   t.is(hebcal.getHebrewText('** not found **'), undefined);
+});
+
+test('getHebrewForEvent', (t) => {
+  const options = {
+    year: 2020,
+    month: 3,
+    location: Location.lookup('Helsinki'),
+    candlelighting: true,
+    sedrot: true,
+  };
+  const events = hebcal.hebrewCalendar(options);
+  const expected = [
+    ['Candle lighting', 'הדלקת נרות'],
+    ['Shabbat Zachor', 'שַׁבָּת זָכוֹר'],
+    ['Parashat Tetzaveh', 'פרשת תְּצַוֶּה'],
+    ['Havdalah', 'הַבדָלָה'],
+    ['Ta\'anit Esther', 'תַּעֲנִית אֶסְתֵּר'],
+    ['Erev Purim', 'עֶרֶב פּוּרִים'],
+    ['Purim', 'פּוּרִים'],
+    ['Shushan Purim', 'שׁוּשָׁן פּוּרִים'],
+    ['Candle lighting', 'הדלקת נרות'],
+    ['Shabbat Parah', 'שַׁבָּת פּרה'],
+    ['Parashat Ki Tisa', 'פרשת כִּי תִשָּׂא'],
+    ['Havdalah', 'הַבדָלָה'],
+    ['Candle lighting', 'הדלקת נרות'],
+    ['Shabbat HaChodesh', 'שַׁבָּת הַחֹדֶשׁ'],
+    ['Parashat Vayakhel-Pekudei', 'פרשת וַיַּקְהֵל־פְקוּדֵי'],
+    ['Havdalah', 'הַבדָלָה'],
+    ['Rosh Chodesh Nisan', 'רֹאשׁ חודש נִיסָן'],
+    ['Candle lighting', 'הדלקת נרות'],
+    ['Parashat Vayikra', 'פרשת וַיִּקְרָא'],
+    ['Havdalah', 'הַבדָלָה'],
+  ];
+  for (let i = 0; i < events.length; i++) {
+    t.is(hebcal.getHebrewForEvent(events[i]), expected[i][1]);
+  }
 });
 
 test('hebrewStripNikkud', (t) => {

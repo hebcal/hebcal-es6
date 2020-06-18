@@ -87,6 +87,7 @@ import {
   hebrewCalendar,
   registerLocale,
   getHebrewText,
+  getHebrewForEvent,
   hebrewStripNikkud,
 } from './hebcal';
 /**
@@ -97,6 +98,7 @@ export const hebcal = {
   hebrewCalendar,
   registerLocale,
   getHebrewText,
+  getHebrewForEvent,
   hebrewStripNikkud,
   // anniversary.js
   getBirthdayOrAnniversary, getYahrzeit,
