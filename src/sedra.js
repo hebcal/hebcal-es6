@@ -34,7 +34,6 @@
  */
 import c from './common';
 import {HDate} from './hdate';
-import {gettext} from 'ttag';
 
 const INCOMPLETE = 0;
 const REGULAR = 1;
@@ -109,23 +108,7 @@ export class Sedra {
      */
   getString(hDate) {
     const parsha = this.get(hDate);
-    return Sedra.parshaToString(parsha);
-  }
-
-  /**
-     * Translates object describing the parsha to a string
-     * @param {string[]} parsha
-     * @return {string}
-     */
-  static parshaToString(parsha) {
-    if (!Array.isArray(parsha) || parsha.length == 0) {
-      throw new TypeError('Bad parsha argument');
-    }
-    let s = gettext(parsha[0]);
-    if (parsha.length == 2) {
-      s += '-' + gettext(parsha[1]);
-    }
-    return gettext('Parashat') + ' ' + s;
+    return 'Parashat ' + parsha.join('-');
   }
 
   /**

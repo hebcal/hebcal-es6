@@ -22,7 +22,8 @@ import {addLocale, useLocale} from 'ttag';
 import common from './common';
 import {HDate, hebrew2abs, getMolad} from './hdate';
 import holidays from './holidays';
-import {Event, flags, HavdalahEvent, CandleLightingEvent, OmerEvent, DafYomiEvent, HebrewDateEvent} from './event';
+import {Event, flags, ParshaEvent, HavdalahEvent, CandleLightingEvent,
+  OmerEvent, DafYomiEvent, HebrewDateEvent} from './event';
 import {Sedra} from './sedra';
 import greg from './greg';
 import dafyomi from './dafyomi';
@@ -477,18 +478,16 @@ export function hebrewCalendar(options={}) {
     if (options.sedrot && dow == SAT) {
       const parsha0 = sedra.lookup(abs);
       if (!parsha0.chag) {
-        const parshaStr = Sedra.parshaToString(parsha0.parsha);
-        const attrs = {parsha: parsha0.parsha};
-        events.push(new Event(hd, parshaStr, flags.PARSHA_HASHAVUA, attrs));
+        events.push(new ParshaEvent(hd, parsha0.parsha));
       }
     }
     if (options.dafyomi) {
       const dy = dafyomi.dafyomi(greg.abs2greg(abs));
-      events.push(new DafYomiEvent(new HDate(abs), dafyomi.dafname(dy), {dafyomi: dy}));
+      events.push(new DafYomiEvent(hd, dafyomi.dafname(dy), {dafyomi: dy}));
     }
     if (options.omer && abs >= beginOmer && abs <= endOmer) {
       const omer = abs - beginOmer + 1;
-      events.push(new OmerEvent(new HDate(abs), omer));
+      events.push(new OmerEvent(hd, omer));
     }
     const hmonth = hd.getMonth();
     if (options.molad && dow == SAT && hmonth != common.months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {

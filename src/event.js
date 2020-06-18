@@ -132,6 +132,33 @@ export class Event {
   }
 }
 
+/** Represents one of 54 weekly Torah portions, always on a Saturday  */
+export class ParshaEvent extends Event {
+  /**
+   * @param {HDate} date
+   * @param {string[]} parsha - untranslated name of single or double parsha,
+   *   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim']
+   */
+  constructor(date, parsha) {
+    if (!Array.isArray(parsha) || parsha.length == 0) {
+      throw new TypeError('Bad parsha argument');
+    }
+    const desc = 'Parashat ' + parsha.join('-');
+    super(date, desc, flags.PARSHA_HASHAVUA, {parsha: parsha});
+  }
+  /**
+   * @return {string}
+   */
+  render() {
+    const parsha = this.getAttrs().parsha;
+    let name = gettext(parsha[0]);
+    if (parsha.length == 2) {
+      name += '-' + gettext(parsha[1]);
+    }
+    return gettext('Parashat') + ' ' + name;
+  }
+}
+
 /** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
 export class OmerEvent extends Event {
   /**
