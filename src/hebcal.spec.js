@@ -1,7 +1,7 @@
 import test from 'ava';
 import * as hebcal from './hebcal';
 import {HDate} from './hdate';
-import {flags} from './event';
+import {DafYomiEvent, flags} from './event';
 import {Location} from './location';
 
 /**
@@ -382,6 +382,22 @@ test('getHebrewForEvent', (t) => {
   for (let i = 0; i < events.length; i++) {
     t.is(hebcal.getHebrewForEvent(events[i]), expected[i][1]);
   }
+});
+
+test('getHebrewForEvent-dafyomi', (t) => {
+  const dy = {name: 'Shabbat', blatt: 104};
+  const ev = new DafYomiEvent(new HDate(2020, 5, 18), 'Shabbat 104', {dafyomi: dy});
+  t.is(hebcal.getHebrewForEvent(ev), 'דף יומי: שבת 104');
+});
+
+test('getHebrewForEvent-hebdate', (t) => {
+  const events = hebcal.hebrewCalendar({
+    addHebrewDates: true,
+    start: new HDate(29, 'Elul', 5779),
+    end: new HDate(1, 'Tishrei', 5780),
+  });
+  t.is(hebcal.getHebrewForEvent(events[0]), 'כ״ט אֱלוּל תשע״ט');
+  t.is(hebcal.getHebrewForEvent(events[1]), 'א׳ תִשְׁרֵי תש״פ');
 });
 
 test('hebrewStripNikkud', (t) => {

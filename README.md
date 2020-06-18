@@ -38,6 +38,9 @@ for (const ev of events) {
 <dt><a href="#Event">Event</a></dt>
 <dd><p>Represents an Event with a title, date, and flags</p>
 </dd>
+<dt><a href="#ParshaEvent">ParshaEvent</a></dt>
+<dd><p>Represents one of 54 weekly Torah portions, always on a Saturday</p>
+</dd>
 <dt><a href="#OmerEvent">OmerEvent</a></dt>
 <dd><p>Represents a day 1-49 of counting the Omer from Pesach to Shavuot</p>
 </dd>
@@ -528,6 +531,30 @@ Returns untranslated description of this event
 Returns Hebrew date of this event
 
 **Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="ParshaEvent"></a>
+
+## ParshaEvent
+Represents one of 54 weekly Torah portions, always on a Saturday
+
+**Kind**: global class  
+
+* [ParshaEvent](#ParshaEvent)
+    * [new ParshaEvent(date, parsha)](#new_ParshaEvent_new)
+    * [.render()](#ParshaEvent+render) ⇒ <code>string</code>
+
+<a name="new_ParshaEvent_new"></a>
+
+### new ParshaEvent(date, parsha)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) |  |
+| parsha | <code>Array.&lt;string&gt;</code> | untranslated name of single or double parsha,   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim'] |
+
+<a name="ParshaEvent+render"></a>
+
+### parshaEvent.render() ⇒ <code>string</code>
+**Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
 <a name="OmerEvent"></a>
 
 ## OmerEvent
@@ -957,15 +984,12 @@ Represents Parashah HaShavua for an entire Hebrew year
 
 * [Sedra](#Sedra)
     * [new Sedra(hebYr, il)](#new_Sedra_new)
-    * _instance_
-        * [.get(hDate)](#Sedra+get) ⇒ <code>Array.&lt;string&gt;</code>
-        * [.getString(hDate)](#Sedra+getString) ⇒ <code>string</code>
-        * [.lookup(hDate)](#Sedra+lookup) ⇒ <code>Object</code>
-        * [.isParsha(hDate)](#Sedra+isParsha) ⇒ <code>boolean</code>
-        * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;Object&gt;</code>
-        * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
-    * _static_
-        * [.parshaToString(parsha)](#Sedra.parshaToString) ⇒ <code>string</code>
+    * [.get(hDate)](#Sedra+get) ⇒ <code>Array.&lt;string&gt;</code>
+    * [.getString(hDate)](#Sedra+getString) ⇒ <code>string</code>
+    * [.lookup(hDate)](#Sedra+lookup) ⇒ <code>Object</code>
+    * [.isParsha(hDate)](#Sedra+isParsha) ⇒ <code>boolean</code>
+    * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;Object&gt;</code>
+    * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
 
 <a name="new_Sedra_new"></a>
 
@@ -1031,16 +1055,6 @@ Torah reading or special holiday reading
 
 ### sedra.getYear() ⇒ <code>number</code>
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-<a name="Sedra.parshaToString"></a>
-
-### Sedra.parshaToString(parsha) ⇒ <code>string</code>
-Translates object describing the parsha to a string
-
-**Kind**: static method of [<code>Sedra</code>](#Sedra)  
-
-| Param | Type |
-| --- | --- |
-| parsha | <code>Array.&lt;string&gt;</code> | 
 
 <a name="common$1"></a>
 

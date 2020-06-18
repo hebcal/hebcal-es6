@@ -77,14 +77,26 @@ export function getHebrewText(str) {
  * @return {string|undefined}
  */
 export function getHebrewForEvent(ev) {
-  if (ev.getFlags() == flags.PARSHA_HASHAVUA) {
-    return getHebrewText('Parashat') + ' ' +
-      ev.getAttrs().parsha.map((s) => getHebrewText(s)).join('־');
+  switch (ev.getFlags()) {
+    case flags.PARSHA_HASHAVUA:
+      return getHebrewText('Parashat') + ' ' +
+        ev.getAttrs().parsha.map((s) => getHebrewText(s)).join('־');
+    case flags.DAF_YOMI:
+      const dy = ev.getAttrs().dafyomi;
+      return getHebrewText('Daf Yomi') + ': ' +
+        getHebrewText(dy.name) + ' ' + dy.blatt;
+    case flags.HEBREW_DATE:
+      const hd = ev.getDate();
+      const fullYear = hd.getFullYear();
+      const monthName = getHebrewText(hd.getMonthName());
+      const day = hd.getDate();
+      return HebrewDateEvent.renderHebrew(day, monthName, fullYear);
+    default:
+      const desc = ev.getDesc();
+      const str = getHebrewText(desc);
+      if (str) return str;
+      return getHebrewText(getHolidayBasename(desc));
   }
-  const desc = ev.getDesc();
-  const str = getHebrewText(desc);
-  if (str) return str;
-  return getHebrewText(getHolidayBasename(desc));
 }
 
 /**

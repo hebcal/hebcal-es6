@@ -253,11 +253,21 @@ export class HebrewDateEvent extends Event {
     const monthName = gettext(hd.getMonthName());
     const day = hd.getDate();
     if (locale == 'he') {
-      return gematriya(day) + ' ' + monthName + ' ' + gematriya(fullYear, {limit: 3});
+      return HebrewDateEvent.renderHebrew(day, monthName, fullYear);
     } else {
       const nth = numeral(day).format('ordinal');
       const dayOf = (locale.length == 2) ? '' : ' of';
       return `${nth}${dayOf} ${monthName}, ${fullYear}`;
     }
+  }
+  /**
+   * Helper function to render a Hebrew date
+   * @param {number} day
+   * @param {string} monthName
+   * @param {number} fullYear
+   * @return {string}
+   */
+  static renderHebrew(day, monthName, fullYear) {
+    return gematriya(day) + ' ' + monthName + ' ' + gematriya(fullYear, {limit: 3});
   }
 }
