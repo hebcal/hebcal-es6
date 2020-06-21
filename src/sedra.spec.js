@@ -1,7 +1,18 @@
 import test from 'ava';
 import {HDate} from './hdate';
-import {Sedra} from './sedra';
+import {Sedra, ParshaEvent} from './sedra';
 import {abs2greg, greg2abs} from './greg';
+
+test('ParshaEvent', (t) => {
+  const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai']);
+  t.is(ev1.url(), 'https://www.hebcal.com/sedrot/beharbechukotai');
+  const ev2 = new ParshaEvent(new HDate(new Date(2020, 5, 6)), ['Nasso']);
+  t.is(ev2.url(), 'https://www.hebcal.com/sedrot/nasso');
+  const ev3 = new ParshaEvent(new HDate(new Date(2020, 5, 13)), ['Beha\'alotcha']);
+  t.is(ev3.url(), 'https://www.hebcal.com/sedrot/behaalotcha');
+  const ev4 = new ParshaEvent(new HDate(new Date(2022, 3, 30)), ['Achrei Mot']);
+  t.is(ev4.url(), 'https://www.hebcal.com/sedrot/achreimot');
+});
 
 // eslint-disable-next-line require-jsdoc
 function testFullYear(t, gregYear, sedra, expected) {

@@ -423,6 +423,7 @@ export class ParshaEvent extends Event {
   }
   /** @return {string} */
   url() {
-    return 'https://www.hebcal.com/sedrot/' + this.basename().toLowerCase();
+    return 'https://www.hebcal.com/sedrot/' +
+      this.basename().toLowerCase().replace(/[\-\' ]/g, '');
   }
 }
