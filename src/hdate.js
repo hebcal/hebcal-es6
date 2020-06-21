@@ -351,7 +351,7 @@ function onOrBefore(day, t, offset) {
 /**
  * Converts Hebrew date to absolute Julian days.
  * The absolute date is the number of days elapsed since the (imaginary)
- * Gregorian date Sunday, December 31, 1 B
+ * Gregorian date Sunday, December 31, 1 BC.
  * @param {(HDate|SimpleHebrewDate)} d Hebrew Date
  * @return {number}
  */

@@ -19,6 +19,7 @@ declare module '@hebcal/core' {
         getAttrs(): any;
         getDesc(): string;
         basename(): string;
+        url(): string;
         getDate(): HDate;
         render(locale?: string): string;
         renderBrief(locale?: string): string;
@@ -127,28 +128,6 @@ declare module '@hebcal/core' {
          * @param geoid - optional numeric geographic ID
          */
         constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: number);
-        suntime(hdate: HDate): suncalc.GetTimesResult;
-        sunrise(hdate: HDate): Date;
-        sunset(hdate: HDate): Date;
-        hour(hdate: HDate): number;
-        hourMins(hdate: HDate): number;
-        gregEve(hdate: HDate): Date;
-        nightHour(hdate: HDate): number;
-        nightHourMins(hdate: HDate): number;
-        hourOffset(hdate: HDate, hours: number): Date;
-        chatzot(hdate: HDate): Date;
-        chatzotNight(hdate: HDate): Date;
-        alotHaShachar(hdate: HDate): Date;
-        misheyakir(hdate: HDate): Date;
-        misheyakirMachmir(hdate: HDate): Date;
-        sofZmanShma(hdate: HDate): Date;
-        sofZmanTfilla(hdate: HDate): Date;
-        minchaGedola(hdate: HDate): Date;
-        minchaKetana(hdate: HDate): Date;
-        plagHaMincha(hdate: HDate): Date;
-        tzeit(hdate: HDate): Date;
-        neitzHaChama(hdate: HDate): Date;
-        shkiah(hdate: HDate): Date;
         static lookup(name: string): Location;
         getLatitude(): number;
         getLongitude(): number;
@@ -156,6 +135,42 @@ declare module '@hebcal/core' {
         getName(): string;
         getCountryCode(): string;
         getTzid(): string;
+        sunset(hdate: Date | HDate): Date;
+        tzeit(hdate: Date | HDate): Date;
+    }
+
+    /**
+     * Class representing halachic times
+     */
+    export class Zmanim {
+        /**
+         * Initialize a Zmanim instance
+         * @param date Regular or Hebrew Date
+         * @param location
+         */
+        constructor(date: Date | HDate, location: Location);
+        suntime(): suncalc.GetTimesResult;
+        sunrise(): Date;
+        sunset(): Date;
+        hour(): number;
+        hourMins(): number;
+        gregEve(): Date;
+        nightHour(): number;
+        nightHourMins(): number;
+        hourOffset(hours: number): Date;
+        chatzot(): Date;
+        chatzotNight(): Date;
+        alotHaShachar(): Date;
+        misheyakir(): Date;
+        misheyakirMachmir(): Date;
+        sofZmanShma(): Date;
+        sofZmanTfilla(): Date;
+        minchaGedola(): Date;
+        minchaKetana(): Date;
+        plagHaMincha(): Date;
+        tzeit(): Date;
+        neitzHaChama(): Date;
+        shkiah(): Date;
     }
 
     export namespace hebcal {
@@ -301,7 +316,7 @@ declare module '@hebcal/core' {
             translations: Translations;
         }
         export function gettext(id: string): string;
-        export function getTranslation(id: string): string;
+        export function lookupTranslation(id: string): string;
         export function addLocale(locale: string, data: LocaleData): void;
         export function useLocale(locale: string): void;
         /**
@@ -310,9 +325,6 @@ declare module '@hebcal/core' {
         export function registerLocale(locale: string, data: LocaleData): void;
 
         export function makeAnchor(s: string): string;
-        export function getHolidayBasename(s: string): string;
-        export function getShortUrl(e: Event): string;
-        export function getEventUrl(e: Event): string;
         export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
 
         /**

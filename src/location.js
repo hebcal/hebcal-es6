@@ -20,6 +20,7 @@
  */
 
 import suncalc from 'suncalc';
+import {HDate} from './hdate';
 
 suncalc.addTime(-16.1, 'alot_hashachar', 0);
 suncalc.addTime(-11.5, 'misheyakir', 0);
@@ -171,190 +172,19 @@ export class Location {
   }
 
   /**
-   * @param {HDate} hdate
-   * @return {suncalc.GetTimesResult}
-   */
-  suntime(hdate) {
-    // reset the date to midday before calling suncalc api
-    // https://github.com/mourner/suncalc/issues/11
-    const date = hdate.greg();
-    return suncalc.getTimes(
-        new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0, 0, 0),
-        this.latitude,
-        this.longitude,
-    );
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  sunrise(hdate) {
-    return this.suntime(hdate).sunrise;
-  }
-
-  /**
-   * @param {HDate} hdate
+   * @param {Date|HDate} hdate
    * @return {Date}
    */
   sunset(hdate) {
-    return this.suntime(hdate).sunset;
+    return new Zmanim(hdate, this).sunset();
   }
 
   /**
-   * @param {HDate} hdate
-   * @return {number}
-   */
-  hour(hdate) {
-    const st = this.suntime(hdate);
-    return (st.sunset - st.sunrise) / 12; // ms in hour
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {number}
-   */
-  hourMins(hdate) {
-    // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
-    return this.hour(hdate) / (1000 * 60);
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  gregEve(hdate) {
-    return this.sunset(hdate.prev());
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {number}
-   */
-  nightHour(hdate) {
-    return (this.sunrise(hdate) - this.gregEve(hdate)) / 12; // ms in hour
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {number}
-   */
-  nightHourMins(hdate) {
-    // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
-    return this.nightHour(hdate) / (1000 * 60);
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @param {number} hours
-   * @return {Date}
-   */
-  hourOffset(hdate, hours) {
-    return new Date(this.sunrise(hdate).getTime() + (this.hour(hdate) * hours));
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  chatzot(hdate) {
-    return this.hourOffset(hdate, 6);
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  chatzotNight(hdate) {
-    return new Date(this.sunrise(hdate).getTime() - (this.nightHour(hdate) * 6));
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  alotHaShachar(hdate) {
-    return this.suntime(hdate).alot_hashachar;
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  misheyakir(hdate) {
-    return this.suntime(hdate).misheyakir;
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  misheyakirMachmir(hdate) {
-    return this.suntime(hdate).misheyakir_machmir;
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  sofZmanShma(hdate) { // Gra
-    return this.hourOffset(hdate, 3);
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  sofZmanTfilla(hdate) { // Gra
-    return this.hourOffset(hdate, 4);
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  minchaGedola(hdate) {
-    return this.hourOffset(hdate, 6.5);
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  minchaKetana(hdate) {
-    return this.hourOffset(hdate, 9.5);
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  plagHaMincha(hdate) {
-    return this.hourOffset(hdate, 10.75);
-  }
-
-  /**
-   * @param {HDate} hdate
+   * @param {Date|HDate} hdate
    * @return {Date}
    */
   tzeit(hdate) {
-    return this.suntime(hdate).tzeit;
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  neitzHaChama(hdate) {
-    return this.sunrise(hdate);
-  }
-
-  /**
-   * @param {HDate} hdate
-   * @return {Date}
-   */
-  shkiah(hdate) {
-    return this.sunset(hdate);
+    return new Zmanim(hdate, this).tzeit();
   }
 }
 
@@ -382,4 +212,123 @@ export function registerLocation(cityName, location) {
   }
   classicCities.set(name, location);
   return true;
+}
+
+// eslint-disable-next-line require-jsdoc
+function throwError(error) {
+  throw new Error(error);
+}
+
+/** Class representing halachic times */
+export class Zmanim {
+  /**
+   * Initialize a Zmanim instance
+   * @param {Date|HDate} date Regular or Hebrew Date
+   * @param {Location} location
+   */
+  constructor(date, location) {
+    const dt = date instanceof Date ? date :
+      date instanceof HDate ? date.greg() :
+      throwError(`invalid date: ${date}`);
+    // reset the date to midday before calling suncalc api
+    // https://github.com/mourner/suncalc/issues/11
+    this.date = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12, 0, 0, 0, 0);
+    this.times = suncalc.getTimes(this.date, location.getLatitude(), location.getLongitude());
+    this.location = location;
+  }
+  /** @return {suncalc.GetTimesResult} */
+  suntime() {
+    return this.times;
+  }
+  /** @return {Date} */
+  sunrise() {
+    return this.times.sunrise;
+  }
+  /** @return {Date} */
+  sunset() {
+    return this.times.sunset;
+  }
+  /** @return {number} */
+  hour() {
+    return (this.times.sunset - this.times.sunrise) / 12; // ms in hour
+  }
+  /** @return {number} */
+  hourMins() {
+    // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
+    return this.hour() / (1000 * 60);
+  }
+  /** @return {Date} */
+  gregEve() {
+    const prev = new Date(this.date.getTime() - 24 * 60 * 60 * 1000);
+    const zman = new Zmanim(prev, this.location);
+    return zman.sunset();
+  }
+  /** @return {number} */
+  nightHour() {
+    return (this.sunrise() - this.gregEve()) / 12; // ms in hour
+  }
+  /** @return {number} */
+  nightHourMins() {
+    // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
+    return this.nightHour() / (1000 * 60);
+  }
+  /**
+   * @param {number} hours
+   * @return {Date}
+   */
+  hourOffset(hours) {
+    return new Date(this.sunrise().getTime() + (this.hour() * hours));
+  }
+  /** @return {Date} */
+  chatzot() {
+    return this.hourOffset(6);
+  }
+  /** @return {Date} */
+  chatzotNight() {
+    return new Date(this.sunrise().getTime() - (this.nightHour() * 6));
+  }
+  /** @return {Date} */
+  alotHaShachar() {
+    return this.times.alot_hashachar;
+  }
+  /** @return {Date} */
+  misheyakir() {
+    return this.times.misheyakir;
+  }
+  /** @return {Date} */
+  misheyakirMachmir() {
+    return this.times.misheyakir_machmir;
+  }
+  /** @return {Date} */
+  sofZmanShma() { // Gra
+    return this.hourOffset(3);
+  }
+  /** @return {Date} */
+  sofZmanTfilla() { // Gra
+    return this.hourOffset(4);
+  }
+  /** @return {Date} */
+  minchaGedola() {
+    return this.hourOffset(6.5);
+  }
+  /** @return {Date} */
+  minchaKetana() {
+    return this.hourOffset(9.5);
+  }
+  /** @return {Date} */
+  plagHaMincha() {
+    return this.hourOffset(10.75);
+  }
+  /** @return {Date} */
+  tzeit() {
+    return this.times.tzeit;
+  }
+  /** @return {Date} */
+  neitzHaChama() {
+    return this.sunrise();
+  }
+  /** @return {Date} */
+  shkiah() {
+    return this.sunset();
+  }
 }

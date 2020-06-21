@@ -20,7 +20,7 @@
  */
 import {months, days, monthsInHebYear, daysInHebMonth, getMonthName, dayOnOrBefore, hebLeapYear} from './common';
 import {HDate} from './hdate';
-import {gettext, getTranslation} from './locale';
+import {gettext, lookupTranslation} from './locale';
 import {Event, flags} from './event';
 
 // for byte optimizations
@@ -81,9 +81,9 @@ export class HolidayEvent extends Event {
    * @return {string}
    */
   renderFullOrBasename(locale) {
-    const str = getTranslation(this.getDesc(), locale);
+    const str = lookupTranslation(this.getDesc(), locale);
     if (typeof str == 'string') return str;
-    return getTranslation(this.basename(), locale);
+    return lookupTranslation(this.basename(), locale);
   }
   /** @return {string} */
   url() {

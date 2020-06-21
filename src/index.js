@@ -1,8 +1,10 @@
-export {HDate} from './hdate';
+export {HDate, HebrewDateEvent} from './hdate';
 import {hebrew2abs, abs2hebrew} from './hdate';
 export {Event, flags} from './event';
 import {getBirthdayOrAnniversary, getYahrzeit} from './anniversary';
-export {Location} from './location';
+export {Location, Zmanim} from './location';
+export {CandleLightingEvent, HavdalahEvent} from './candles';
+export {getMolad, MoladEvent} from './molad';
 import {registerLocation} from './location';
 import {
   months,
@@ -40,7 +42,9 @@ export const common = {
   dayOnOrBefore,
   range,
 };
+export {OmerEvent} from './omer';
 import {dafyomi as getDafYomi, dafname} from './dafyomi';
+export {DafYomiEvent} from './dafyomi';
 /**
  * Daf Yomi
  * @namespace
@@ -49,7 +53,7 @@ export const dafyomi = {
   dafyomi: getDafYomi,
   dafname,
 };
-export {Sedra, parshiot} from './sedra';
+export {Sedra, parshiot, ParshaEvent} from './sedra';
 import {greg2abs, abs2greg} from './greg';
 import {
   gregLeapYear,
@@ -67,6 +71,7 @@ export const greg = {
   monthNames,
   dayOfYear,
 };
+export {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
 import {getHolidaysOnDate, getHolidaysForYear} from './holidays';
 /**
  * Lower-level holidays interface

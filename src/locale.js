@@ -15,7 +15,7 @@ let activeLocale = null;
  * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
  * @return {string}
  */
-export function getTranslation(id, locale) {
+export function lookupTranslation(id, locale) {
   const loc = locale && locales.has(locale) ? locales.get(locale) : activeLocale;
   const array = loc[id];
   if (array && array.length && array[0].length) {
@@ -31,7 +31,7 @@ export function getTranslation(id, locale) {
  * @return {string}
  */
 export function gettext(id, locale) {
-  const text = getTranslation(id, locale);
+  const text = lookupTranslation(id, locale);
   if (typeof text == 'undefined') {
     return id;
   }

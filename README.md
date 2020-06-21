@@ -32,14 +32,29 @@ for (const ev of events) {
 ## Classes
 
 <dl>
-<dt><a href="#HDate">HDate</a></dt>
-<dd><p>Class representing a Hebrew date</p>
-</dd>
 <dt><a href="#Event">Event</a></dt>
 <dd><p>Represents an Event with a title, date, and flags</p>
 </dd>
-<dt><a href="#ParshaEvent">ParshaEvent</a></dt>
-<dd><p>Represents one of 54 weekly Torah portions, always on a Saturday</p>
+<dt><a href="#HDate">HDate</a></dt>
+<dd><p>Class representing a Hebrew date</p>
+</dd>
+<dt><a href="#HebrewDateEvent">HebrewDateEvent</a></dt>
+<dd><p>Daily Hebrew date (&quot;11th of Sivan, 5780&quot;)</p>
+</dd>
+<dt><a href="#Location">Location</a></dt>
+<dd><p>Class representing Location</p>
+</dd>
+<dt><a href="#Zmanim">Zmanim</a></dt>
+<dd><p>Class representing halachic times</p>
+</dd>
+<dt><a href="#HavdalahEvent">HavdalahEvent</a></dt>
+<dd><p>Havdalah after Shabbat or holiday</p>
+</dd>
+<dt><a href="#CandleLightingEvent">CandleLightingEvent</a></dt>
+<dd><p>Candle lighting before Shabbat or holiday</p>
+</dd>
+<dt><a href="#MoladEvent">MoladEvent</a></dt>
+<dd><p>Represents a Molad announcement on Shabbat Mevarchim</p>
 </dd>
 <dt><a href="#OmerEvent">OmerEvent</a></dt>
 <dd><p>Represents a day 1-49 of counting the Omer from Pesach to Shavuot</p>
@@ -48,36 +63,36 @@ for (const ev of events) {
 <dd><p>For a Daf Yomi, the name is already translated
 attrs.dafyomi.name contains the untranslated string</p>
 </dd>
-<dt><a href="#HavdalahEvent">HavdalahEvent</a></dt>
-<dd><p>Havdalah after Shabbat or holiday</p>
-</dd>
-<dt><a href="#CandleLightingEvent">CandleLightingEvent</a></dt>
-<dd><p>Candle lighting before Shabbat or holiday</p>
-</dd>
-<dt><a href="#HebrewDateEvent">HebrewDateEvent</a></dt>
-<dd><p>Daily Hebrew date (&quot;11th of Sivan, 5780&quot;)</p>
-</dd>
-<dt><a href="#Location">Location</a></dt>
-<dd><p>Class representing Location</p>
-</dd>
 <dt><a href="#Sedra">Sedra</a></dt>
 <dd><p>Represents Parashah HaShavua for an entire Hebrew year</p>
+</dd>
+<dt><a href="#ParshaEvent">ParshaEvent</a></dt>
+<dd><p>Represents one of 54 weekly Torah portions, always on a Saturday</p>
+</dd>
+<dt><a href="#HolidayEvent">HolidayEvent</a></dt>
+<dd><p>Represents a built-in holiday like Pesach, Purim or Tu BiShvat</p>
+</dd>
+<dt><a href="#RoshChodeshEvent">RoshChodeshEvent</a></dt>
+<dd><p>Represents Rosh Chodesh, the beginning of a new month</p>
+</dd>
+<dt><a href="#MevarchimChodeshEvent">MevarchimChodeshEvent</a></dt>
+<dd><p>Represents Mevarchim haChodesh, the announcement of the new month</p>
 </dd>
 </dl>
 
 ## Objects
 
 <dl>
-<dt><a href="#common$1">common$1</a> : <code>object</code></dt>
+<dt><a href="#common">common</a> : <code>object</code></dt>
 <dd><p>Common hebrew date routines</p>
 </dd>
-<dt><a href="#dafyomi$2">dafyomi$2</a> : <code>object</code></dt>
+<dt><a href="#dafyomi$1">dafyomi$1</a> : <code>object</code></dt>
 <dd><p>Daf Yomi</p>
 </dd>
-<dt><a href="#greg$1">greg$1</a> : <code>object</code></dt>
+<dt><a href="#greg">greg</a> : <code>object</code></dt>
 <dd><p>Gregorian date routines</p>
 </dd>
-<dt><a href="#holidays$1">holidays$1</a> : <code>object</code></dt>
+<dt><a href="#holidays">holidays</a> : <code>object</code></dt>
 <dd><p>Lower-level holidays interface</p>
 </dd>
 <dt><a href="#hebcal">hebcal</a> : <code>object</code></dt>
@@ -147,6 +162,27 @@ Three Historical Calendars&#39;&#39; by E. M. Reingold,  N. Dershowitz, and S. M
 Clamen, Software--Practice and Experience, Volume 23, Number 4
 (April, 1993), pages 383-404 for an explanation.</p>
 </dd>
+<dt><a href="#lookupTranslation">lookupTranslation(id, [locale])</a> ⇒ <code>string</code></dt>
+<dd><p>Returns translation only if <code>locale</code> offers a translation for <code>id</code>.
+Otherwise, returns undefined.</p>
+</dd>
+<dt><a href="#gettext">gettext(id, [locale])</a> ⇒ <code>string</code></dt>
+<dd><p>By default, if no translation was found, returns <code>id</code>.</p>
+</dd>
+<dt><a href="#addLocale">addLocale(locale, data)</a></dt>
+<dd><p>Register locale translations.</p>
+</dd>
+<dt><a href="#registerLocale">registerLocale(locale, data)</a></dt>
+<dd><p>Alias for addLocale()</p>
+</dd>
+<dt><a href="#useLocale">useLocale(locale)</a> ⇒ <code>LocaleData</code></dt>
+<dd><p>Activates a locale. Throws an error if the locale has not been previously added.
+After setting the locale to be used, all strings marked for translations
+will be represented by the corresponding translation in the specified locale.</p>
+</dd>
+<dt><a href="#hebrewStripNikkud">hebrewStripNikkud(str)</a> ⇒ <code>string</code></dt>
+<dd><p>Removes nekudot from Hebrew string</p>
+</dd>
 <dt><a href="#onOrBefore">onOrBefore(day, t, offset)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
 <dd></dd>
 <dt><a href="#hebrew2abs">hebrew2abs(d)</a> ⇒ <code>number</code></dt>
@@ -156,9 +192,6 @@ Gregorian date Sunday, December 31, 1 BC.</p>
 </dd>
 <dt><a href="#abs2hebrew">abs2hebrew(d)</a> ⇒ <code><a href="#SimpleHebrewDate">SimpleHebrewDate</a></code></dt>
 <dd><p>Converts Julian days to Hebrew date to absolute Julian days</p>
-</dd>
-<dt><a href="#getMolad">getMolad(year, month)</a> ⇒ <code><a href="#Molad">Molad</a></code></dt>
-<dd><p>Calculates the molad for a Hebrew month</p>
 </dd>
 <dt><a href="#getBirthdayOrAnniversary">getBirthdayOrAnniversary(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
 <dd><p>Calculates a birthday or anniversary (non-yahrzeit).
@@ -175,10 +208,21 @@ Returns undefined when requested year preceeds or is same as original year.</p>
 already being used. Returns <code>false</code> if the name is already taken
 and <code>true</code> if successfully added.</p>
 </dd>
+<dt><a href="#formatTime">formatTime(timeFormat, dt)</a> ⇒ <code>string</code></dt>
+<dd></dd>
+<dt><a href="#sunsetTime">sunsetTime(hd, location, timeFormat, offset)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
+<dd></dd>
+<dt><a href="#tzeitTime">tzeitTime(hd, location, timeFormat)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
+<dd></dd>
+<dt><a href="#makeCandleEvent">makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset)</a> ⇒ <code><a href="#Event">Event</a></code></dt>
+<dd></dd>
+<dt><a href="#getMolad">getMolad(year, month)</a> ⇒ <code><a href="#Molad">Molad</a></code></dt>
+<dd><p>Calculates the molad for a Hebrew month</p>
+</dd>
 <dt><a href="#dafyomi">dafyomi(gregdate)</a> ⇒ <code><a href="#DafYomiResult">DafYomiResult</a></code></dt>
 <dd><p>Returns the Daf Yomi for given date</p>
 </dd>
-<dt><a href="#dafname">dafname(daf)</a> ⇒ <code>string</code></dt>
+<dt><a href="#dafname">dafname(daf, [locale])</a> ⇒ <code>string</code></dt>
 <dd><p>Formats (with translation) the dafyomi result as a string like &quot;Pesachim 34&quot;</p>
 </dd>
 <dt><a href="#D">D(p)</a> ⇒ <code>number</code></dt>
@@ -199,27 +243,6 @@ and <code>true</code> if successfully added.</p>
 <dd><p>Returns &quot;8:13p&quot; for US or &quot;20:13&quot; for any other locale/country</p>
 </dd>
 <dt><a href="#makeAnchor">makeAnchor(s)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getHolidayBasename">getHolidayBasename(desc)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getUrlInternal">getUrlInternal(e, hostname, dirs)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getShortUrl">getShortUrl(e)</a> ⇒ <code>string</code></dt>
-<dd><p>Gets a short redirector URL for hebcal.com</p>
-</dd>
-<dt><a href="#getEventUrl">getEventUrl(e)</a> ⇒ <code>string</code></dt>
-<dd><p>Gets a regular (long, non-redirector) URL for hebcal.com</p>
-</dd>
-<dt><a href="#registerLocale">registerLocale(locale, data)</a></dt>
-<dd><p>Registers a ttag locale for hebcal.hebrewCalendar()</p>
-</dd>
-<dt><a href="#formatTime">formatTime(timeFormat, dt)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#sunsetTime">sunsetTime(hd, location, timeFormat, offset)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
-<dd></dd>
-<dt><a href="#tzeitTime">tzeitTime(hd, location, timeFormat)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
-<dd></dd>
-<dt><a href="#candleEvent">candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset)</a> ⇒ <code><a href="#Event">Event</a></code></dt>
 <dd></dd>
 <dt><a href="#getCandleLightingMinutes">getCandleLightingMinutes(options)</a> ⇒ <code>number</code></dt>
 <dd></dd>
@@ -246,7 +269,7 @@ and <code>true</code> if successfully added.</p>
 <dd><p>A simple Hebrew date</p>
 </dd>
 <dt><a href="#Molad">Molad</a> : <code>Object</code></dt>
-<dd><p>Represents an Molad</p>
+<dd><p>Represents a Molad</p>
 </dd>
 <dt><a href="#DafYomiResult">DafYomiResult</a> : <code>Object</code></dt>
 <dd><p>A Daf Yomi result</p>
@@ -256,6 +279,107 @@ and <code>true</code> if successfully added.</p>
 </dd>
 </dl>
 
+<a name="Event"></a>
+
+## Event
+Represents an Event with a title, date, and flags
+
+**Kind**: global class  
+
+* [Event](#Event)
+    * [new Event(date, desc, [mask], [attrs])](#new_Event_new)
+    * [.getFlags()](#Event+getFlags) ⇒ <code>number</code>
+    * [.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>
+    * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
+    * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
+    * [.render([locale])](#Event+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#Event+renderBrief) ⇒ <code>string</code>
+    * [.getDesc()](#Event+getDesc) ⇒ <code>string</code>
+    * [.basename()](#Event+basename) ⇒ <code>string</code>
+    * [.getDate()](#Event+getDate) ⇒ [<code>HDate</code>](#HDate)
+    * [.url()](#Event+url) ⇒ <code>string</code>
+
+<a name="new_Event_new"></a>
+
+### new Event(date, desc, [mask], [attrs])
+Constructs Event
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
+| desc | <code>string</code> |  | Description (not translated) |
+| [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
+| [attrs] | <code>Object</code> | <code>{}</code> |  |
+
+<a name="Event+getFlags"></a>
+
+### event.getFlags() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+getAttrs"></a>
+
+### event.getAttrs() ⇒ <code>Object</code>
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+observedInIsrael"></a>
+
+### event.observedInIsrael() ⇒ <code>boolean</code>
+Is this event observed in Israel?
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+observedInDiaspora"></a>
+
+### event.observedInDiaspora() ⇒ <code>boolean</code>
+Is this event observed in the Diaspora?
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+render"></a>
+
+### event.render([locale]) ⇒ <code>string</code>
+Returns (translated) description of this event
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="Event+renderBrief"></a>
+
+### event.renderBrief([locale]) ⇒ <code>string</code>
+Returns a brief (translated) description of this event.
+For most events, this is the same as render(). For some events, it procudes
+a shorter text (e.g. without a time or added description).
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="Event+getDesc"></a>
+
+### event.getDesc() ⇒ <code>string</code>
+Returns untranslated description of this event
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+basename"></a>
+
+### event.basename() ⇒ <code>string</code>
+Returns a simplified (untranslated) description for this event. For example,
+"Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
+For many holidays the basename and the event description are the same.
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+getDate"></a>
+
+### event.getDate() ⇒ [<code>HDate</code>](#HDate)
+Returns Hebrew date of this event
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+url"></a>
+
+### event.url() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="HDate"></a>
 
 ## HDate
@@ -279,7 +403,7 @@ Class representing a Hebrew date
     * [.greg()](#HDate+greg) ⇒ <code>Date</code>
     * [.abs()](#HDate+abs) ⇒ <code>number</code>
     * [.getMonthName()](#HDate+getMonthName) ⇒ <code>string</code>
-    * [.render()](#HDate+render) ⇒ <code>string</code>
+    * [.render([locale])](#HDate+render) ⇒ <code>string</code>
     * [.before(day)](#HDate+before) ⇒ [<code>HDate</code>](#HDate)
     * [.onOrBefore(day)](#HDate+onOrBefore) ⇒ [<code>HDate</code>](#HDate)
     * [.nearest(day)](#HDate+nearest) ⇒ [<code>HDate</code>](#HDate)
@@ -397,10 +521,15 @@ Returns untranslated Hebrew month name
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+render"></a>
 
-### hDate.render() ⇒ <code>string</code>
+### hDate.render([locale]) ⇒ <code>string</code>
 Returns translated/transliterated Hebrew date
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
 <a name="HDate+before"></a>
 
 ### hDate.before(day) ⇒ [<code>HDate</code>](#HDate)
@@ -463,203 +592,6 @@ Returns translated/transliterated Hebrew date
 | --- | --- | --- |
 | other | [<code>HDate</code>](#HDate) | Hebrew date to compare |
 
-<a name="Event"></a>
-
-## Event
-Represents an Event with a title, date, and flags
-
-**Kind**: global class  
-
-* [Event](#Event)
-    * [new Event(date, desc, [mask], [attrs])](#new_Event_new)
-    * [.getFlags()](#Event+getFlags) ⇒ <code>number</code>
-    * [.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>
-    * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
-    * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
-    * [.render()](#Event+render) ⇒ <code>string</code>
-    * [.getDesc()](#Event+getDesc) ⇒ <code>string</code>
-    * [.getDate()](#Event+getDate) ⇒ [<code>HDate</code>](#HDate)
-
-<a name="new_Event_new"></a>
-
-### new Event(date, desc, [mask], [attrs])
-Constructs Event
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
-| desc | <code>string</code> |  | Description (not translated) |
-| [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
-| [attrs] | <code>Object</code> | <code>{}</code> |  |
-
-<a name="Event+getFlags"></a>
-
-### event.getFlags() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+getAttrs"></a>
-
-### event.getAttrs() ⇒ <code>Object</code>
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+observedInIsrael"></a>
-
-### event.observedInIsrael() ⇒ <code>boolean</code>
-Is this event observed in Israel?
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+observedInDiaspora"></a>
-
-### event.observedInDiaspora() ⇒ <code>boolean</code>
-Is this event observed in the Diaspora?
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+render"></a>
-
-### event.render() ⇒ <code>string</code>
-Returns (translated) description of this event
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+getDesc"></a>
-
-### event.getDesc() ⇒ <code>string</code>
-Returns untranslated description of this event
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+getDate"></a>
-
-### event.getDate() ⇒ [<code>HDate</code>](#HDate)
-Returns Hebrew date of this event
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="ParshaEvent"></a>
-
-## ParshaEvent
-Represents one of 54 weekly Torah portions, always on a Saturday
-
-**Kind**: global class  
-
-* [ParshaEvent](#ParshaEvent)
-    * [new ParshaEvent(date, parsha)](#new_ParshaEvent_new)
-    * [.render()](#ParshaEvent+render) ⇒ <code>string</code>
-
-<a name="new_ParshaEvent_new"></a>
-
-### new ParshaEvent(date, parsha)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  |
-| parsha | <code>Array.&lt;string&gt;</code> | untranslated name of single or double parsha,   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim'] |
-
-<a name="ParshaEvent+render"></a>
-
-### parshaEvent.render() ⇒ <code>string</code>
-**Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
-<a name="OmerEvent"></a>
-
-## OmerEvent
-Represents a day 1-49 of counting the Omer from Pesach to Shavuot
-
-**Kind**: global class  
-
-* [OmerEvent](#OmerEvent)
-    * [new OmerEvent(date, omerDay)](#new_OmerEvent_new)
-    * [.render()](#OmerEvent+render) ⇒ <code>string</code>
-
-<a name="new_OmerEvent_new"></a>
-
-### new OmerEvent(date, omerDay)
-
-| Param | Type |
-| --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
-| omerDay | <code>number</code> | 
-
-<a name="OmerEvent+render"></a>
-
-### omerEvent.render() ⇒ <code>string</code>
-**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
-**Todo**
-
-- [ ] use gettext()
-
-<a name="DafYomiEvent"></a>
-
-## DafYomiEvent
-For a Daf Yomi, the name is already translated
-attrs.dafyomi.name contains the untranslated string
-
-**Kind**: global class  
-
-* [DafYomiEvent](#DafYomiEvent)
-    * [new DafYomiEvent(date, desc, attrs)](#new_DafYomiEvent_new)
-    * [.render()](#DafYomiEvent+render) ⇒ <code>string</code>
-
-<a name="new_DafYomiEvent_new"></a>
-
-### new DafYomiEvent(date, desc, attrs)
-
-| Param | Type |
-| --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
-| desc | <code>string</code> | 
-| attrs | <code>Object</code> | 
-
-<a name="DafYomiEvent+render"></a>
-
-### dafYomiEvent.render() ⇒ <code>string</code>
-**Kind**: instance method of [<code>DafYomiEvent</code>](#DafYomiEvent)  
-<a name="HavdalahEvent"></a>
-
-## HavdalahEvent
-Havdalah after Shabbat or holiday
-
-**Kind**: global class  
-
-* [HavdalahEvent](#HavdalahEvent)
-    * [new HavdalahEvent(date, mask, attrs, [havdalahMins])](#new_HavdalahEvent_new)
-    * [.render()](#HavdalahEvent+render) ⇒ <code>string</code>
-
-<a name="new_HavdalahEvent_new"></a>
-
-### new HavdalahEvent(date, mask, attrs, [havdalahMins])
-
-| Param | Type |
-| --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
-| mask | <code>number</code> | 
-| attrs | <code>Object</code> | 
-| [havdalahMins] | <code>number</code> | 
-
-<a name="HavdalahEvent+render"></a>
-
-### havdalahEvent.render() ⇒ <code>string</code>
-**Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
-<a name="CandleLightingEvent"></a>
-
-## CandleLightingEvent
-Candle lighting before Shabbat or holiday
-
-**Kind**: global class  
-
-* [CandleLightingEvent](#CandleLightingEvent)
-    * [new CandleLightingEvent(date, mask, attrs)](#new_CandleLightingEvent_new)
-    * [.render()](#CandleLightingEvent+render) ⇒ <code>string</code>
-
-<a name="new_CandleLightingEvent_new"></a>
-
-### new CandleLightingEvent(date, mask, attrs)
-
-| Param | Type |
-| --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
-| mask | <code>number</code> | 
-| attrs | <code>Object</code> | 
-
-<a name="CandleLightingEvent+render"></a>
-
-### candleLightingEvent.render() ⇒ <code>string</code>
-**Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
 <a name="HebrewDateEvent"></a>
 
 ## HebrewDateEvent
@@ -669,7 +601,10 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 * [HebrewDateEvent](#HebrewDateEvent)
     * [new HebrewDateEvent(date, locale)](#new_HebrewDateEvent_new)
-    * [.render()](#HebrewDateEvent+render) ⇒ <code>string</code>
+    * _instance_
+        * [.render([locale])](#HebrewDateEvent+render) ⇒ <code>string</code>
+    * _static_
+        * [.renderHebrew(day, monthName, fullYear)](#HebrewDateEvent.renderHebrew) ⇒ <code>string</code>
 
 <a name="new_HebrewDateEvent_new"></a>
 
@@ -682,8 +617,26 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 <a name="HebrewDateEvent+render"></a>
 
-### hebrewDateEvent.render() ⇒ <code>string</code>
+### hebrewDateEvent.render([locale]) ⇒ <code>string</code>
 **Kind**: instance method of [<code>HebrewDateEvent</code>](#HebrewDateEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="HebrewDateEvent.renderHebrew"></a>
+
+### HebrewDateEvent.renderHebrew(day, monthName, fullYear) ⇒ <code>string</code>
+Helper function to render a Hebrew date
+
+**Kind**: static method of [<code>HebrewDateEvent</code>](#HebrewDateEvent)  
+
+| Param | Type |
+| --- | --- |
+| day | <code>number</code> | 
+| monthName | <code>string</code> | 
+| fullYear | <code>number</code> | 
+
 <a name="Location"></a>
 
 ## Location
@@ -700,28 +653,8 @@ Class representing Location
         * [.getName()](#Location+getName) ⇒ <code>string</code>
         * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
         * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
-        * [.suntime(hdate)](#Location+suntime) ⇒ <code>suncalc.GetTimesResult</code>
-        * [.sunrise(hdate)](#Location+sunrise) ⇒ <code>Date</code>
         * [.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>
-        * [.hour(hdate)](#Location+hour) ⇒ <code>number</code>
-        * [.hourMins(hdate)](#Location+hourMins) ⇒ <code>number</code>
-        * [.gregEve(hdate)](#Location+gregEve) ⇒ <code>Date</code>
-        * [.nightHour(hdate)](#Location+nightHour) ⇒ <code>number</code>
-        * [.nightHourMins(hdate)](#Location+nightHourMins) ⇒ <code>number</code>
-        * [.hourOffset(hdate, hours)](#Location+hourOffset) ⇒ <code>Date</code>
-        * [.chatzot(hdate)](#Location+chatzot) ⇒ <code>Date</code>
-        * [.chatzotNight(hdate)](#Location+chatzotNight) ⇒ <code>Date</code>
-        * [.alotHaShachar(hdate)](#Location+alotHaShachar) ⇒ <code>Date</code>
-        * [.misheyakir(hdate)](#Location+misheyakir) ⇒ <code>Date</code>
-        * [.misheyakirMachmir(hdate)](#Location+misheyakirMachmir) ⇒ <code>Date</code>
-        * [.sofZmanShma(hdate)](#Location+sofZmanShma) ⇒ <code>Date</code>
-        * [.sofZmanTfilla(hdate)](#Location+sofZmanTfilla) ⇒ <code>Date</code>
-        * [.minchaGedola(hdate)](#Location+minchaGedola) ⇒ <code>Date</code>
-        * [.minchaKetana(hdate)](#Location+minchaKetana) ⇒ <code>Date</code>
-        * [.plagHaMincha(hdate)](#Location+plagHaMincha) ⇒ <code>Date</code>
         * [.tzeit(hdate)](#Location+tzeit) ⇒ <code>Date</code>
-        * [.neitzHaChama(hdate)](#Location+neitzHaChama) ⇒ <code>Date</code>
-        * [.shkiah(hdate)](#Location+shkiah) ⇒ <code>Date</code>
     * _static_
         * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
 
@@ -765,24 +698,6 @@ Initialize a Location instance
 
 ### location.getTzid() ⇒ <code>string</code>
 **Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+suntime"></a>
-
-### location.suntime(hdate) ⇒ <code>suncalc.GetTimesResult</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+sunrise"></a>
-
-### location.sunrise(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
 <a name="Location+sunset"></a>
 
 ### location.sunset(hdate) ⇒ <code>Date</code>
@@ -790,152 +705,7 @@ Initialize a Location instance
 
 | Param | Type |
 | --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+hour"></a>
-
-### location.hour(hdate) ⇒ <code>number</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+hourMins"></a>
-
-### location.hourMins(hdate) ⇒ <code>number</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+gregEve"></a>
-
-### location.gregEve(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+nightHour"></a>
-
-### location.nightHour(hdate) ⇒ <code>number</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+nightHourMins"></a>
-
-### location.nightHourMins(hdate) ⇒ <code>number</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+hourOffset"></a>
-
-### location.hourOffset(hdate, hours) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-| hours | <code>number</code> | 
-
-<a name="Location+chatzot"></a>
-
-### location.chatzot(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+chatzotNight"></a>
-
-### location.chatzotNight(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+alotHaShachar"></a>
-
-### location.alotHaShachar(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+misheyakir"></a>
-
-### location.misheyakir(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+misheyakirMachmir"></a>
-
-### location.misheyakirMachmir(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+sofZmanShma"></a>
-
-### location.sofZmanShma(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+sofZmanTfilla"></a>
-
-### location.sofZmanTfilla(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+minchaGedola"></a>
-
-### location.minchaGedola(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+minchaKetana"></a>
-
-### location.minchaKetana(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+plagHaMincha"></a>
-
-### location.plagHaMincha(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
+| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
 
 <a name="Location+tzeit"></a>
 
@@ -944,30 +714,26 @@ Initialize a Location instance
 
 | Param | Type |
 | --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+neitzHaChama"></a>
-
-### location.neitzHaChama(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
-
-<a name="Location+shkiah"></a>
-
-### location.shkiah(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | [<code>HDate</code>](#HDate) | 
+| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
 
 <a name="Location.lookup"></a>
 
 ### Location.lookup(name) ⇒ [<code>Location</code>](#Location)
-Creates a location object from one of 60 "classic" Hebcal city names
+Creates a location object from one of 60 "classic" Hebcal city names.
+The following city names are supported:
+'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
+'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
+'Buenos Aires', 'Buffalo', 'Chicago', 'Cincinnati', 'Cleveland',
+'Dallas', 'Denver', 'Detroit', 'Eilat', 'Gibraltar', 'Haifa',
+'Hawaii', 'Helsinki', 'Houston', 'Jerusalem', 'Johannesburg',
+'Kiev', 'La Paz', 'Livingston', 'Las Vegas', 'London', 'Los Angeles',
+'Marseilles', 'Miami', 'Minneapolis', 'Melbourne', 'Mexico City',
+'Montreal', 'Moscow', 'New York', 'Omaha', 'Ottawa', 'Panama City',
+'Paris', 'Pawtucket', 'Petach Tikvah', 'Philadelphia', 'Phoenix',
+'Pittsburgh', 'Providence', 'Portland', 'Saint Louis', 'Saint Petersburg',
+'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
+'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
+'Washington DC', 'Worcester'
 
 **Kind**: static method of [<code>Location</code>](#Location)  
 
@@ -975,6 +741,349 @@ Creates a location object from one of 60 "classic" Hebcal city names
 | --- | --- |
 | name | <code>string</code> | 
 
+<a name="Zmanim"></a>
+
+## Zmanim
+Class representing halachic times
+
+**Kind**: global class  
+
+* [Zmanim](#Zmanim)
+    * [new Zmanim(date, location)](#new_Zmanim_new)
+    * [.suntime()](#Zmanim+suntime) ⇒ <code>suncalc.GetTimesResult</code>
+    * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
+    * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
+    * [.hour()](#Zmanim+hour) ⇒ <code>number</code>
+    * [.hourMins()](#Zmanim+hourMins) ⇒ <code>number</code>
+    * [.gregEve()](#Zmanim+gregEve) ⇒ <code>Date</code>
+    * [.nightHour()](#Zmanim+nightHour) ⇒ <code>number</code>
+    * [.nightHourMins()](#Zmanim+nightHourMins) ⇒ <code>number</code>
+    * [.hourOffset(hours)](#Zmanim+hourOffset) ⇒ <code>Date</code>
+    * [.chatzot()](#Zmanim+chatzot) ⇒ <code>Date</code>
+    * [.chatzotNight()](#Zmanim+chatzotNight) ⇒ <code>Date</code>
+    * [.alotHaShachar()](#Zmanim+alotHaShachar) ⇒ <code>Date</code>
+    * [.misheyakir()](#Zmanim+misheyakir) ⇒ <code>Date</code>
+    * [.misheyakirMachmir()](#Zmanim+misheyakirMachmir) ⇒ <code>Date</code>
+    * [.sofZmanShma()](#Zmanim+sofZmanShma) ⇒ <code>Date</code>
+    * [.sofZmanTfilla()](#Zmanim+sofZmanTfilla) ⇒ <code>Date</code>
+    * [.minchaGedola()](#Zmanim+minchaGedola) ⇒ <code>Date</code>
+    * [.minchaKetana()](#Zmanim+minchaKetana) ⇒ <code>Date</code>
+    * [.plagHaMincha()](#Zmanim+plagHaMincha) ⇒ <code>Date</code>
+    * [.tzeit()](#Zmanim+tzeit) ⇒ <code>Date</code>
+    * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
+    * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
+
+<a name="new_Zmanim_new"></a>
+
+### new Zmanim(date, location)
+Initialize a Zmanim instance
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> \| [<code>HDate</code>](#HDate) | Regular or Hebrew Date |
+| location | [<code>Location</code>](#Location) |  |
+
+<a name="Zmanim+suntime"></a>
+
+### zmanim.suntime() ⇒ <code>suncalc.GetTimesResult</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sunrise"></a>
+
+### zmanim.sunrise() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sunset"></a>
+
+### zmanim.sunset() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+hour"></a>
+
+### zmanim.hour() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+hourMins"></a>
+
+### zmanim.hourMins() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+gregEve"></a>
+
+### zmanim.gregEve() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+nightHour"></a>
+
+### zmanim.nightHour() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+nightHourMins"></a>
+
+### zmanim.nightHourMins() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+hourOffset"></a>
+
+### zmanim.hourOffset(hours) ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| hours | <code>number</code> | 
+
+<a name="Zmanim+chatzot"></a>
+
+### zmanim.chatzot() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+chatzotNight"></a>
+
+### zmanim.chatzotNight() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+alotHaShachar"></a>
+
+### zmanim.alotHaShachar() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+misheyakir"></a>
+
+### zmanim.misheyakir() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+misheyakirMachmir"></a>
+
+### zmanim.misheyakirMachmir() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sofZmanShma"></a>
+
+### zmanim.sofZmanShma() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sofZmanTfilla"></a>
+
+### zmanim.sofZmanTfilla() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+minchaGedola"></a>
+
+### zmanim.minchaGedola() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+minchaKetana"></a>
+
+### zmanim.minchaKetana() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+plagHaMincha"></a>
+
+### zmanim.plagHaMincha() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+tzeit"></a>
+
+### zmanim.tzeit() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+neitzHaChama"></a>
+
+### zmanim.neitzHaChama() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+shkiah"></a>
+
+### zmanim.shkiah() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="HavdalahEvent"></a>
+
+## HavdalahEvent
+Havdalah after Shabbat or holiday
+
+**Kind**: global class  
+
+* [HavdalahEvent](#HavdalahEvent)
+    * [new HavdalahEvent(date, mask, attrs, [havdalahMins])](#new_HavdalahEvent_new)
+    * [.render([locale])](#HavdalahEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#HavdalahEvent+renderBrief) ⇒ <code>string</code>
+
+<a name="new_HavdalahEvent_new"></a>
+
+### new HavdalahEvent(date, mask, attrs, [havdalahMins])
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) | 
+| mask | <code>number</code> | 
+| attrs | <code>Object</code> | 
+| [havdalahMins] | <code>number</code> | 
+
+<a name="HavdalahEvent+render"></a>
+
+### havdalahEvent.render([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="HavdalahEvent+renderBrief"></a>
+
+### havdalahEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns translation of "Havdalah" without the time.
+
+**Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="CandleLightingEvent"></a>
+
+## CandleLightingEvent
+Candle lighting before Shabbat or holiday
+
+**Kind**: global class  
+
+* [CandleLightingEvent](#CandleLightingEvent)
+    * [new CandleLightingEvent(date, mask, attrs)](#new_CandleLightingEvent_new)
+    * [.render([locale])](#CandleLightingEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#CandleLightingEvent+renderBrief) ⇒ <code>string</code>
+
+<a name="new_CandleLightingEvent_new"></a>
+
+### new CandleLightingEvent(date, mask, attrs)
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) | 
+| mask | <code>number</code> | 
+| attrs | <code>Object</code> | 
+
+<a name="CandleLightingEvent+render"></a>
+
+### candleLightingEvent.render([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="CandleLightingEvent+renderBrief"></a>
+
+### candleLightingEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns translation of "Candle lighting" without the time.
+
+**Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="MoladEvent"></a>
+
+## MoladEvent
+Represents a Molad announcement on Shabbat Mevarchim
+
+**Kind**: global class  
+
+* [MoladEvent](#MoladEvent)
+    * [new MoladEvent(date, hyear, hmonth)](#new_MoladEvent_new)
+    * [.render([locale])](#MoladEvent+render) ⇒ <code>string</code>
+
+<a name="new_MoladEvent_new"></a>
+
+### new MoladEvent(date, hyear, hmonth)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
+| hyear | <code>number</code> | molad year |
+| hmonth | <code>number</code> | molad month |
+
+<a name="MoladEvent+render"></a>
+
+### moladEvent.render([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>MoladEvent</code>](#MoladEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="OmerEvent"></a>
+
+## OmerEvent
+Represents a day 1-49 of counting the Omer from Pesach to Shavuot
+
+**Kind**: global class  
+
+* [OmerEvent](#OmerEvent)
+    * [new OmerEvent(date, omerDay)](#new_OmerEvent_new)
+    * [.render([locale])](#OmerEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#OmerEvent+renderBrief) ⇒ <code>string</code>
+
+<a name="new_OmerEvent_new"></a>
+
+### new OmerEvent(date, omerDay)
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) | 
+| omerDay | <code>number</code> | 
+
+<a name="OmerEvent+render"></a>
+
+### omerEvent.render([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
+**Todo**
+
+- [ ] use gettext()
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="OmerEvent+renderBrief"></a>
+
+### omerEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns translation of "Omer 22" without ordinal numbers.
+
+**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="DafYomiEvent"></a>
+
+## DafYomiEvent
+For a Daf Yomi, the name is already translated
+attrs.dafyomi.name contains the untranslated string
+
+**Kind**: global class  
+
+* [DafYomiEvent](#DafYomiEvent)
+    * [new DafYomiEvent(date, daf)](#new_DafYomiEvent_new)
+    * [.render([locale])](#DafYomiEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#DafYomiEvent+renderBrief) ⇒ <code>string</code>
+    * [.url()](#DafYomiEvent+url) ⇒ <code>string</code>
+
+<a name="new_DafYomiEvent_new"></a>
+
+### new DafYomiEvent(date, daf)
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) | 
+| daf | [<code>DafYomiResult</code>](#DafYomiResult) | 
+
+<a name="DafYomiEvent+render"></a>
+
+### dafYomiEvent.render([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>DafYomiEvent</code>](#DafYomiEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="DafYomiEvent+renderBrief"></a>
+
+### dafYomiEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns daf yomi name the 'Daf Yomi: ' prefix.
+
+**Kind**: instance method of [<code>DafYomiEvent</code>](#DafYomiEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="DafYomiEvent+url"></a>
+
+### dafYomiEvent.url() ⇒ <code>string</code>
+**Kind**: instance method of [<code>DafYomiEvent</code>](#DafYomiEvent)  
 <a name="Sedra"></a>
 
 ## Sedra
@@ -1055,28 +1164,192 @@ Torah reading or special holiday reading
 
 ### sedra.getYear() ⇒ <code>number</code>
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+<a name="ParshaEvent"></a>
 
-<a name="common$1"></a>
+## ParshaEvent
+Represents one of 54 weekly Torah portions, always on a Saturday
 
-## common$1 : <code>object</code>
+**Kind**: global class  
+
+* [ParshaEvent](#ParshaEvent)
+    * [new ParshaEvent(date, parsha)](#new_ParshaEvent_new)
+    * [.render([locale])](#ParshaEvent+render) ⇒ <code>string</code>
+    * [.basename()](#ParshaEvent+basename) ⇒ <code>string</code>
+    * [.url()](#ParshaEvent+url) ⇒ <code>string</code>
+
+<a name="new_ParshaEvent_new"></a>
+
+### new ParshaEvent(date, parsha)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) |  |
+| parsha | <code>Array.&lt;string&gt;</code> | untranslated name of single or double parsha,   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim'] |
+
+<a name="ParshaEvent+render"></a>
+
+### parshaEvent.render([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="ParshaEvent+basename"></a>
+
+### parshaEvent.basename() ⇒ <code>string</code>
+**Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
+<a name="ParshaEvent+url"></a>
+
+### parshaEvent.url() ⇒ <code>string</code>
+**Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
+<a name="HolidayEvent"></a>
+
+## HolidayEvent
+Represents a built-in holiday like Pesach, Purim or Tu BiShvat
+
+**Kind**: global class  
+
+* [HolidayEvent](#HolidayEvent)
+    * [new HolidayEvent(date, desc, [mask], [attrs])](#new_HolidayEvent_new)
+    * [.basename()](#HolidayEvent+basename) ⇒ <code>string</code>
+    * [.renderFullOrBasename(locale)](#HolidayEvent+renderFullOrBasename) ⇒ <code>string</code>
+    * [.url()](#HolidayEvent+url) ⇒ <code>string</code>
+
+<a name="new_HolidayEvent_new"></a>
+
+### new HolidayEvent(date, desc, [mask], [attrs])
+Constructs Holiday event
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
+| desc | <code>string</code> |  | Description (not translated) |
+| [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
+| [attrs] | <code>Object</code> | <code>{}</code> |  |
+
+<a name="HolidayEvent+basename"></a>
+
+### holidayEvent.basename() ⇒ <code>string</code>
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+<a name="HolidayEvent+renderFullOrBasename"></a>
+
+### holidayEvent.renderFullOrBasename(locale) ⇒ <code>string</code>
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+
+| Param | Type |
+| --- | --- |
+| locale | <code>string</code> | 
+
+<a name="HolidayEvent+url"></a>
+
+### holidayEvent.url() ⇒ <code>string</code>
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+<a name="RoshChodeshEvent"></a>
+
+## RoshChodeshEvent
+Represents Rosh Chodesh, the beginning of a new month
+
+**Kind**: global class  
+
+* [RoshChodeshEvent](#RoshChodeshEvent)
+    * [new RoshChodeshEvent(date, monthName)](#new_RoshChodeshEvent_new)
+    * [.render([locale])](#RoshChodeshEvent+render) ⇒ <code>string</code>
+    * [.basename()](#RoshChodeshEvent+basename) ⇒ <code>string</code>
+
+<a name="new_RoshChodeshEvent_new"></a>
+
+### new RoshChodeshEvent(date, monthName)
+Constructs Rosh Chodesh event
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
+| monthName | <code>string</code> | Hebrew month name (not translated) |
+
+<a name="RoshChodeshEvent+render"></a>
+
+### roshChodeshEvent.render([locale]) ⇒ <code>string</code>
+Returns (translated) description of this event
+
+**Kind**: instance method of [<code>RoshChodeshEvent</code>](#RoshChodeshEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="RoshChodeshEvent+basename"></a>
+
+### roshChodeshEvent.basename() ⇒ <code>string</code>
+**Kind**: instance method of [<code>RoshChodeshEvent</code>](#RoshChodeshEvent)  
+<a name="MevarchimChodeshEvent"></a>
+
+## MevarchimChodeshEvent
+Represents Mevarchim haChodesh, the announcement of the new month
+
+**Kind**: global class  
+
+* [MevarchimChodeshEvent](#MevarchimChodeshEvent)
+    * [new MevarchimChodeshEvent(date, monthName)](#new_MevarchimChodeshEvent_new)
+    * [.render([locale])](#MevarchimChodeshEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#MevarchimChodeshEvent+renderBrief) ⇒ <code>string</code>
+
+<a name="new_MevarchimChodeshEvent_new"></a>
+
+### new MevarchimChodeshEvent(date, monthName)
+Constructs Mevarchim haChodesh event
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
+| monthName | <code>string</code> | Hebrew month name (not translated) |
+
+<a name="MevarchimChodeshEvent+render"></a>
+
+### mevarchimChodeshEvent.render([locale]) ⇒ <code>string</code>
+Returns (translated) description of this event
+
+**Kind**: instance method of [<code>MevarchimChodeshEvent</code>](#MevarchimChodeshEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="MevarchimChodeshEvent+renderBrief"></a>
+
+### mevarchimChodeshEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns (translated) description of this event
+
+**Kind**: instance method of [<code>MevarchimChodeshEvent</code>](#MevarchimChodeshEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="common"></a>
+
+## common : <code>object</code>
 Common hebrew date routines
 
 **Kind**: global namespace  
-<a name="dafyomi$2"></a>
+<a name="dafyomi$1"></a>
 
-## dafyomi$2 : <code>object</code>
+## dafyomi$1 : <code>object</code>
 Daf Yomi
 
 **Kind**: global namespace  
-<a name="greg$1"></a>
+<a name="greg"></a>
 
-## greg$1 : <code>object</code>
+## greg : <code>object</code>
 Gregorian date routines
 
 **Kind**: global namespace  
-<a name="holidays$1"></a>
+<a name="holidays"></a>
 
-## holidays$1 : <code>object</code>
+## holidays : <code>object</code>
 Lower-level holidays interface
 
 **Kind**: global namespace  
@@ -1362,6 +1635,79 @@ Clamen, Software--Practice and Experience, Volume 23, Number 4
 | --- | --- | --- |
 | theDate | <code>number</code> | absolute Julian days |
 
+<a name="lookupTranslation"></a>
+
+## lookupTranslation(id, [locale]) ⇒ <code>string</code>
+Returns translation only if `locale` offers a translation for `id`.
+Otherwise, returns undefined.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID to translate |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="gettext"></a>
+
+## gettext(id, [locale]) ⇒ <code>string</code>
+By default, if no translation was found, returns `id`.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID to translate |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="addLocale"></a>
+
+## addLocale(locale, data)
+Register locale translations.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
+| data | <code>LocaleDate</code> | parsed data from a `.po` file. |
+
+<a name="registerLocale"></a>
+
+## registerLocale(locale, data)
+Alias for addLocale()
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| locale | <code>string</code> | 
+| data | <code>any</code> | 
+
+<a name="useLocale"></a>
+
+## useLocale(locale) ⇒ <code>LocaleData</code>
+Activates a locale. Throws an error if the locale has not been previously added.
+After setting the locale to be used, all strings marked for translations
+will be represented by the corresponding translation in the specified locale.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`) |
+
+<a name="hebrewStripNikkud"></a>
+
+## hebrewStripNikkud(str) ⇒ <code>string</code>
+Removes nekudot from Hebrew string
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
+
 <a name="onOrBefore"></a>
 
 ## onOrBefore(day, t, offset) ⇒ [<code>HDate</code>](#HDate)
@@ -1396,18 +1742,6 @@ Converts Julian days to Hebrew date to absolute Julian days
 | Param | Type | Description |
 | --- | --- | --- |
 | d | <code>number</code> | absolute Julian days |
-
-<a name="getMolad"></a>
-
-## getMolad(year, month) ⇒ [<code>Molad</code>](#Molad)
-Calculates the molad for a Hebrew month
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| year | <code>number</code> | 
-| month | <code>number</code> | 
 
 <a name="getBirthdayOrAnniversary"></a>
 
@@ -1453,6 +1787,66 @@ and `true` if successfully added.
 | cityName | <code>string</code> | 
 | location | [<code>Location</code>](#Location) | 
 
+<a name="formatTime"></a>
+
+## formatTime(timeFormat, dt) ⇒ <code>string</code>
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| timeFormat | <code>Intl.DateTimeFormat</code> | 
+| dt | <code>Date</code> | 
+
+<a name="sunsetTime"></a>
+
+## sunsetTime(hd, location, timeFormat, offset) ⇒ <code>Array.&lt;Object&gt;</code>
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| hd | [<code>HDate</code>](#HDate) | 
+| location | [<code>Location</code>](#Location) | 
+| timeFormat | <code>Intl.DateTimeFormat</code> | 
+| offset | <code>number</code> | 
+
+<a name="tzeitTime"></a>
+
+## tzeitTime(hd, location, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| hd | [<code>HDate</code>](#HDate) | 
+| location | [<code>Location</code>](#Location) | 
+| timeFormat | <code>Intl.DateTimeFormat</code> | 
+
+<a name="makeCandleEvent"></a>
+
+## makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) ⇒ [<code>Event</code>](#Event)
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | [<code>Event</code>](#Event) | 
+| hd | [<code>HDate</code>](#HDate) | 
+| dow | <code>number</code> | 
+| location | [<code>Location</code>](#Location) | 
+| timeFormat | <code>Intl.DateTimeFormat</code> | 
+| candlesOffset | <code>number</code> | 
+| havdalahOffset | <code>number</code> | 
+
+<a name="getMolad"></a>
+
+## getMolad(year, month) ⇒ [<code>Molad</code>](#Molad)
+Calculates the molad for a Hebrew month
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| year | <code>number</code> | 
+| month | <code>number</code> | 
+
 <a name="dafyomi"></a>
 
 ## dafyomi(gregdate) ⇒ [<code>DafYomiResult</code>](#DafYomiResult)
@@ -1467,7 +1861,7 @@ Returns the Daf Yomi for given date
 
 <a name="dafname"></a>
 
-## dafname(daf) ⇒ <code>string</code>
+## dafname(daf, [locale]) ⇒ <code>string</code>
 Formats (with translation) the dafyomi result as a string like "Pesachim 34"
 
 **Kind**: global function  
@@ -1475,6 +1869,7 @@ Formats (with translation) the dafyomi result as a string like "Pesachim 34"
 | Param | Type | Description |
 | --- | --- | --- |
 | daf | [<code>DafYomiResult</code>](#DafYomiResult) | the Daf Yomi |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
 <a name="D"></a>
 
@@ -1562,108 +1957,6 @@ Returns "8:13p" for US or "20:13" for any other locale/country
 | --- | --- |
 | s | <code>string</code> | 
 
-<a name="getHolidayBasename"></a>
-
-## getHolidayBasename(desc) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| desc | <code>string</code> | 
-
-<a name="getUrlInternal"></a>
-
-## getUrlInternal(e, hostname, dirs) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-| hostname | <code>string</code> | 
-| dirs | <code>Array.&lt;string&gt;</code> | 
-
-<a name="getShortUrl"></a>
-
-## getShortUrl(e) ⇒ <code>string</code>
-Gets a short redirector URL for hebcal.com
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-
-<a name="getEventUrl"></a>
-
-## getEventUrl(e) ⇒ <code>string</code>
-Gets a regular (long, non-redirector) URL for hebcal.com
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-
-<a name="registerLocale"></a>
-
-## registerLocale(locale, data)
-Registers a ttag locale for hebcal.hebrewCalendar()
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| locale | <code>string</code> | 
-| data | <code>any</code> | 
-
-<a name="formatTime"></a>
-
-## formatTime(timeFormat, dt) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-| dt | <code>Date</code> | 
-
-<a name="sunsetTime"></a>
-
-## sunsetTime(hd, location, timeFormat, offset) ⇒ <code>Array.&lt;Object&gt;</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| hd | [<code>HDate</code>](#HDate) | 
-| location | [<code>Location</code>](#Location) | 
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-| offset | <code>number</code> | 
-
-<a name="tzeitTime"></a>
-
-## tzeitTime(hd, location, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| hd | [<code>HDate</code>](#HDate) | 
-| location | [<code>Location</code>](#Location) | 
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-
-<a name="candleEvent"></a>
-
-## candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) ⇒ [<code>Event</code>](#Event)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-| hd | [<code>HDate</code>](#HDate) | 
-| dow | <code>number</code> | 
-| location | [<code>Location</code>](#Location) | 
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-| candlesOffset | <code>number</code> | 
-| havdalahOffset | <code>number</code> | 
-
 <a name="getCandleLightingMinutes"></a>
 
 ## getCandleLightingMinutes(options) ⇒ <code>number</code>
@@ -1743,7 +2036,7 @@ A simple Hebrew date
 <a name="Molad"></a>
 
 ## Molad : <code>Object</code>
-Represents an Molad
+Represents a Molad
 
 **Kind**: global typedef  
 **Properties**
