@@ -133,7 +133,9 @@ export class Event {
     return this.desc;
   }
   /**
-   * Returns a simplified (untranslated) name for this event
+   * Returns a simplified (untranslated) description for this event. For example,
+   * "Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
+   * For many holidays the basename and the event description are the same.
    * @return {string}
    */
   basename() {

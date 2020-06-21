@@ -301,6 +301,7 @@ declare module '@hebcal/core' {
             translations: Translations;
         }
         export function gettext(id: string): string;
+        export function getTranslation(id: string): string;
         export function addLocale(locale: string, data: LocaleData): void;
         export function useLocale(locale: string): void;
         /**
