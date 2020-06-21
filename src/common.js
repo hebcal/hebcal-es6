@@ -374,22 +374,3 @@ export function range(start, end, step = 1) {
   }
   return arr;
 }
-
-const common = {
-  months,
-  days,
-  hebLeapYear,
-  monthsInHebYear,
-  getMonthName,
-  daysInHebMonth,
-  monthNum,
-  hebElapsedDays,
-  daysInYear,
-  longCheshvan,
-  shortKislev,
-  monthFromName,
-  dayOnOrBefore,
-  range,
-};
-
-export default common;

@@ -18,8 +18,10 @@ declare module '@hebcal/core' {
         getFlags(): number;
         getAttrs(): any;
         getDesc(): string;
+        basename(): string;
         getDate(): HDate;
-        render(): string;
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
         observedInIsrael(): boolean;
         observedInDiaspora(): boolean;
     }
@@ -298,6 +300,9 @@ declare module '@hebcal/core' {
             headers: Headers;
             translations: Translations;
         }
+        export function gettext(id: string): string;
+        export function addLocale(locale: string, data: LocaleData): void;
+        export function useLocale(locale: string): void;
         /**
          * Registers a ttag locale for hebcal.hebrewCalendar()
          */
@@ -316,11 +321,6 @@ declare module '@hebcal/core' {
          */
         export function registerLocation(cityName: string, location: Location): boolean;
 
-        /**
-         * A little bit like `gettext()` but only returns a non-empty string
-         */
-        export function getHebrewText(str: string): string | undefined;
-        export function getHebrewForEvent(ev: Event): string;
         /**
          * Removes nekudot from Hebrew string
          */
@@ -349,7 +349,7 @@ declare module '@hebcal/core' {
          * Formats (with translation) the dafyomi result as a string like "Pesachim 34"
          * @param daf - the Daf Yomi
          */
-        export function dafname(daf: DafYomiResult): string;
+        export function dafname(daf: DafYomiResult, locale?: string): string;
     }
 
     /**

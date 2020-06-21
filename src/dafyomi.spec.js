@@ -1,9 +1,10 @@
 /* eslint-disable require-jsdoc */
 import test from 'ava';
-import dafyomi from './dafyomi';
+import * as dafyomi from './dafyomi';
 import {hebrew2abs} from './hdate';
 import {months} from './common';
-import greg from './greg';
+import {abs2greg} from './greg';
+import {HDate} from './hdate';
 
 test('dafyomi-single', (t) => {
   const dt = new Date(1995, 11, 17);
@@ -19,13 +20,22 @@ test('dafyomi-multi', (t) => {
   const endAbs = hebrew2abs({yy: 5781, mm: months.TISHREI, dd: 1}) - 1;
   let i = 0;
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    const dt = greg.abs2greg(abs);
+    const dt = abs2greg(abs);
     const dy = dafyomi.dafyomi(dt);
     const dateStr = dt.toLocaleDateString('en-US');
     const str = dateStr + ' Daf Yomi: ' + dafyomi.dafname(dy);
     t.is(str, expected[i]);
     i++;
   }
+});
+
+test('dafyomi-render', (t) => {
+  const daf = {name: 'Shabbat', blatt: 104};
+  const ev = new dafyomi.DafYomiEvent(new HDate(2020, 5, 18), daf);
+  t.is(ev.render(), 'Daf Yomi: Shabbat 104');
+  t.is(ev.render('a'), 'Daf Yomi: Shabbos 104');
+  t.is(ev.render('he'), 'דף יומי: שבת 104');
+  t.is(ev.url(), 'https://www.sefaria.org/Shabbat.104a?lang=bi');
 });
 
 // hebcal --daf-yomi -h -x -H 5780

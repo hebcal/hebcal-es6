@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import test from 'ava';
-import anniversary from './anniversary';
+import * as anniversary from './anniversary';
 import {HDate} from './hdate';
 
 test('yahrzeit', (t) => {

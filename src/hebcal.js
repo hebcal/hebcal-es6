@@ -18,15 +18,16 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {addLocale, useLocale} from 'ttag';
-import common from './common';
-import {HDate, hebrew2abs, getMolad} from './hdate';
-import holidays from './holidays';
-import {Event, flags, ParshaEvent, HavdalahEvent, CandleLightingEvent,
-  OmerEvent, DafYomiEvent, HebrewDateEvent} from './event';
-import {Sedra} from './sedra';
-import greg from './greg';
-import dafyomi from './dafyomi';
+import {useLocale} from './locale';
+import {months, days, monthNum, monthsInHebYear} from './common';
+import {HDate, hebrew2abs, HebrewDateEvent} from './hdate';
+import {MoladEvent} from './molad';
+import {getHolidaysForYear} from './holidays';
+import {flags} from './event';
+import {OmerEvent} from './omer';
+import {Sedra, ParshaEvent} from './sedra';
+import {greg2abs, abs2greg, daysInGregMonth} from './greg';
+import {DafYomiEvent, dafyomi} from './dafyomi';
 import {Location} from './location';
 import numeral from 'numeral';
 import 'numeral/locales/fi';
@@ -34,181 +35,9 @@ import 'numeral/locales/fr';
 import 'numeral/locales/hu';
 import 'numeral/locales/pl';
 import 'numeral/locales/ru';
-import poHe from './he.po.json';
-import poAshkenazi from './ashkenazi.po.json';
-import {getHolidayBasename} from './url';
+import {makeCandleEvent, HavdalahEvent} from './candles';
 
-const FRI = common.days.FRI;
-const SAT = common.days.SAT;
-const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const numeralLocales = ['fi', 'fr', 'hu', 'pl', 'ru'];
-const emptyPoData = {
-  headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
-  contexts: {'': {}},
-};
-
-const locales = new Map();
-locales.set('he', poHe);
-locales.set('ashkenazi', poAshkenazi);
-
-/**
- * Registers a ttag locale for hebcal.hebrewCalendar()
- * @param {string} locale
- * @param {any} data
- */
-export function registerLocale(locale, data) {
-  locales.set(locale, data);
-}
-
-/**
- * A little bit like `gettext()` but only returns a non-empty string
- * @param {string} str
- * @return {string|undefined}
- */
-export function getHebrewText(str) {
-  const a = poHe.contexts[''][str];
-  if (a && a[0] && a[0].length) return a[0];
-  return undefined;
-}
-
-/**
- * A little bit like `gettext()` but only returns a non-empty string
- * @param {Event} ev
- * @return {string|undefined}
- */
-export function getHebrewForEvent(ev) {
-  switch (ev.getFlags()) {
-    case flags.PARSHA_HASHAVUA:
-      return getHebrewText('Parashat') + ' ' +
-        ev.getAttrs().parsha.map((s) => getHebrewText(s)).join('־');
-    case flags.DAF_YOMI:
-      const dy = ev.getAttrs().dafyomi;
-      return getHebrewText('Daf Yomi') + ': ' +
-        getHebrewText(dy.name) + ' ' + dy.blatt;
-    case flags.HEBREW_DATE:
-      const hd = ev.getDate();
-      const fullYear = hd.getFullYear();
-      const monthName = getHebrewText(hd.getMonthName());
-      const day = hd.getDate();
-      return HebrewDateEvent.renderHebrew(day, monthName, fullYear);
-    default:
-      const desc = ev.getDesc();
-      const str = getHebrewText(desc);
-      if (str) return str;
-      return getHebrewText(getHolidayBasename(desc));
-  }
-}
-
-/**
- * Removes nekudot from Hebrew string
- * @param {string} str
- * @return {string}
- */
-export function hebrewStripNikkud(str) {
-  return str.replace(/[\u0590-\u05bd]/g, '').replace(/[\u05bf-\u05c7]/g, '');
-}
-
-
-/**
- * @param {Intl.DateTimeFormat} timeFormat
- * @param {Date} dt
- * @return {string}
- */
-function formatTime(timeFormat, dt) {
-  const time = timeFormat.format(dt);
-  // Possibly convert from "5:45 PM" to "5:45"
-  const space = time.indexOf(' ');
-  if (space != -1) {
-    return time.substring(0, space);
-  }
-  return time;
-}
-
-/**
- * @param {HDate} hd
- * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
- * @param {number} offset
- * @return {Object[]}
- */
-function sunsetTime(hd, location, timeFormat, offset) {
-  const sunset = location.sunset(hd);
-  if (isNaN(sunset.getTime())) {
-    // `No sunset for ${location} on ${hd}`
-    return [undefined, undefined];
-  }
-  // For Havdalah only, round up to next minute if needed
-  if (sunset.getSeconds() >= 30 && offset > 0) {
-    offset++;
-  }
-  const dt = new Date(sunset.getTime() + (offset * 60 * 1000));
-  const time = formatTime(timeFormat, dt);
-  return [dt, time];
-}
-
-/**
- * @param {HDate} hd
- * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
- * @return {Object[]}
- */
-function tzeitTime(hd, location, timeFormat) {
-  const dt = location.tzeit(hd);
-  if (isNaN(dt.getTime())) {
-    // `No tzeit time for ${location} on ${hd}`
-    return [undefined, undefined];
-  }
-  // Round up to next minute if needed
-  const dtRounded = (dt.getSeconds() >= 30) ? new Date(dt.getTime() + (60 * 1000)) : dt;
-  const time = formatTime(timeFormat, dtRounded);
-  return [dt, time];
-}
-
-/**
- * @param {Event} e
- * @param {HDate} hd
- * @param {number} dow
- * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
- * @param {number} candlesOffset
- * @param {number} havdalahOffset
- * @return {Event}
- */
-function candleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
-  let havdalahTitle = false;
-  let useHavdalahOffset = false;
-  let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
-  if (typeof e !== 'undefined') {
-    // if linked event && dow == FRI, use Candle lighting time & title
-    if (dow != FRI) {
-      if (mask & (flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
-        useHavdalahOffset = true;
-      } else if (mask & flags.YOM_TOV_ENDS) {
-        havdalahTitle = true;
-        useHavdalahOffset = true;
-      }
-    }
-  } else if (dow == SAT) {
-    havdalahTitle = true;
-    useHavdalahOffset = true;
-    mask = flags.LIGHT_CANDLES_TZEIS;
-  }
-  // if offset is 0 or undefined, we'll use tzeit time
-  const offset = useHavdalahOffset ? havdalahOffset : candlesOffset;
-  const [eventTime, timeStr] = offset ?
-        sunsetTime(hd, location, timeFormat, offset) :
-        tzeitTime(hd, location, timeFormat);
-  if (!eventTime) {
-    return null; // no sunset
-  }
-  const attrs = {eventTime: eventTime, eventTimeStr: timeStr};
-  if (typeof e !== 'undefined') {
-    attrs.linkedEvent = e;
-  }
-  return havdalahTitle ?
-        new HavdalahEvent(hd, mask, attrs, havdalahOffset) :
-        new CandleLightingEvent(hd, mask, attrs);
-}
 
 /**
  * @param {HebcalOptions} options
@@ -272,7 +101,7 @@ function getCandleLightingMinutes(options) {
   */
 function getAbs(d) {
   if (typeof d == 'number') return d;
-  if (d instanceof Date) return greg.greg2abs(d);
+  if (d instanceof Date) return greg2abs(d);
   if (d instanceof HDate) return d.abs();
   throw new TypeError(`Invalid date type: ${d}`);
 }
@@ -294,27 +123,27 @@ function getStartAndEnd(options) {
   let theMonth = NaN;
   if (options.month) {
     if (isHebrewYear) {
-      theMonth = common.monthNum(options.month);
+      theMonth = monthNum(options.month);
     } else {
       theMonth = options.month;
     }
   }
   if (isHebrewYear) {
-    const startDate = new HDate(1, theMonth || common.months.TISHREI, theYear);
+    const startDate = new HDate(1, theMonth || months.TISHREI, theYear);
     const startAbs = startDate.abs();
     const numYears = Number(options.numYears) || 1;
     const endAbs = options.month ?
         startAbs + startDate.daysInMonth() :
-        new HDate(1, common.months.TISHREI, theYear + numYears).abs() - 1;
+        new HDate(1, months.TISHREI, theYear + numYears).abs() - 1;
     return [startAbs, endAbs];
   } else {
     const gregMonth = options.month ? theMonth - 1 : 0;
     const startGreg = new Date(theYear, gregMonth, 1);
-    const startAbs = greg.greg2abs(startGreg);
+    const startAbs = greg2abs(startGreg);
     const numYears = Number(options.numYears) || 1;
     const endAbs = options.month ?
-        startAbs + greg.daysInGregMonth(theMonth, theYear) - 1 :
-        greg.greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
+        startAbs + daysInGregMonth(theMonth, theYear) - 1 :
+        greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
     return [startAbs, endAbs];
   }
 }
@@ -325,8 +154,8 @@ function getStartAndEnd(options) {
  */
 function getOmerStartAndEnd(hyear) {
   return [
-    hebrew2abs({yy: hyear, mm: common.months.NISAN, dd: 16}),
-    hebrew2abs({yy: hyear, mm: common.months.SIVAN, dd: 5}),
+    hebrew2abs({yy: hyear, mm: months.NISAN, dd: 16}),
+    hebrew2abs({yy: hyear, mm: months.SIVAN, dd: 5}),
   ];
 }
 
@@ -432,12 +261,10 @@ export function hebrewCalendar(options={}) {
       throw new TypeError(`Invalid options.locale: ${options.locale}`);
     }
     const locale = options.ashkenazi ? 'ashkenazi' : options.locale;
-    const translationObj = locales.get(locale);
+    const translationObj = useLocale(locale);
     if (!translationObj) {
       throw new TypeError(`Locale '${locale}' not found; did you forget to import @hebcal/locales?`);
     }
-    addLocale(locale, translationObj); // adding locale to ttag
-    useLocale(locale); // make locale active
     // use numeraljs for number formatting only if they support our locale
     if (locale.length == 2 && numeralLocales.indexOf(locale) != -1) {
       numeral.locale(locale);
@@ -445,10 +272,8 @@ export function hebrewCalendar(options={}) {
       numeral.locale('en');
     }
   } else {
-    const locale = 'en';
-    addLocale(locale, emptyPoData);
-    useLocale(locale);
-    numeral.locale(locale);
+    useLocale('');
+    numeral.locale('en');
   }
 
   const events = [];
@@ -460,7 +285,7 @@ export function hebrewCalendar(options={}) {
     const hyear = hd.getFullYear();
     if (hyear != currentYear) {
       currentYear = hyear;
-      holidaysYear = holidays.getHolidaysForYear(currentYear);
+      holidaysYear = getHolidaysForYear(currentYear);
       if (options.sedrot) {
         sedra = new Sedra(currentYear, il);
       }
@@ -482,37 +307,32 @@ export function hebrewCalendar(options={}) {
             events.push(e);
           }
           if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
-            candlesEv = candleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
+            candlesEv = makeCandleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
           }
         }
       }
     }
-    if (options.sedrot && dow == SAT) {
+    if (options.sedrot && dow == days.SAT) {
       const parsha0 = sedra.lookup(abs);
       if (!parsha0.chag) {
         events.push(new ParshaEvent(hd, parsha0.parsha));
       }
     }
     if (options.dafyomi) {
-      const dy = dafyomi.dafyomi(greg.abs2greg(abs));
-      events.push(new DafYomiEvent(hd, dafyomi.dafname(dy), {dafyomi: dy}));
+      const dy = dafyomi(abs2greg(abs));
+      events.push(new DafYomiEvent(hd, dy));
     }
     if (options.omer && abs >= beginOmer && abs <= endOmer) {
       const omer = abs - beginOmer + 1;
       events.push(new OmerEvent(hd, omer));
     }
     const hmonth = hd.getMonth();
-    if (options.molad && dow == SAT && hmonth != common.months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
-      const monNext = (hmonth == common.monthsInHebYear(hyear) ? 1 : hmonth + 1);
-      const m = getMolad(hyear, monNext);
-      const mevarchim = new HDate(29, hmonth, hyear).onOrBefore(SAT);
-      const mMonth = common.getMonthName(monNext, hyear);
-      const mDay = shortDayNames[m.dow];
-      const desc = `Molad ${mMonth}: ${mDay}, ${m.minutes} minutes and ${m.chalakim} chalakim after ${m.hour}:00`;
-      events.push(new Event(mevarchim, desc, flags.MOLAD, {molad: m}));
+    if (options.molad && dow == days.SAT && hmonth != months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
+      const monNext = (hmonth == monthsInHebYear(hyear) ? months.NISAN : hmonth + 1);
+      events.push(new MoladEvent(hd, hyear, monNext));
     }
-    if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
-      candlesEv = candleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
+    if (!candlesEv && options.candlelighting && (dow == days.FRI || dow == days.SAT)) {
+      candlesEv = makeCandleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
     }
     // suppress Havdalah when options.havdalahMins=0
     if (candlesEv instanceof HavdalahEvent && typeof options.havdalahMins == 'number' && havdalahMinutes === 0) {

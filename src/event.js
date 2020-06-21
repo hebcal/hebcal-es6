@@ -1,6 +1,4 @@
-import {gettext} from 'ttag';
-import numeral from 'numeral';
-import gematriya from 'gematriya';
+import {gettext} from './locale';
 
 const CHAG = 1;
 const LIGHT_CANDLES = 2;
@@ -111,10 +109,21 @@ export class Event {
   }
   /**
    * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  render() {
-    return gettext(this.desc);
+  render(locale) {
+    return gettext(this.desc, locale);
+  }
+  /**
+   * Returns a brief (translated) description of this event.
+   * For most events, this is the same as render(). For some events, it procudes
+   * a shorter text (e.g. without a time or added description).
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  renderBrief(locale) {
+    return this.render(locale);
   }
   /**
    * Returns untranslated description of this event
@@ -124,150 +133,21 @@ export class Event {
     return this.desc;
   }
   /**
+   * Returns a simplified (untranslated) name for this event
+   * @return {string}
+   */
+  basename() {
+    return this.getDesc();
+  }
+  /**
    * Returns Hebrew date of this event
    * @return {HDate}
    */
   getDate() {
     return this.date;
   }
-}
-
-/** Represents one of 54 weekly Torah portions, always on a Saturday  */
-export class ParshaEvent extends Event {
-  /**
-   * @param {HDate} date
-   * @param {string[]} parsha - untranslated name of single or double parsha,
-   *   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim']
-   */
-  constructor(date, parsha) {
-    if (!Array.isArray(parsha) || parsha.length == 0) {
-      throw new TypeError('Bad parsha argument');
-    }
-    const desc = 'Parashat ' + parsha.join('-');
-    super(date, desc, flags.PARSHA_HASHAVUA, {parsha: parsha});
-  }
-  /**
-   * @return {string}
-   */
-  render() {
-    const parsha = this.getAttrs().parsha;
-    let name = gettext(parsha[0]);
-    if (parsha.length == 2) {
-      name += '-' + gettext(parsha[1]);
-    }
-    return gettext('Parashat') + ' ' + name;
-  }
-}
-
-/** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
-export class OmerEvent extends Event {
-  /**
-   * @param {HDate} date
-   * @param {number} omerDay
-   */
-  constructor(date, omerDay) {
-    super(date, `Omer ${omerDay}`, flags.OMER_COUNT, {omer: omerDay});
-  }
-  /**
-   * @todo use gettext()
-   * @return {string}
-   */
-  render() {
-    const nth = numeral(this.getAttrs().omer).format('ordinal');
-    return `${nth} day of the Omer`;
-  }
-}
-
-/**
- * For a Daf Yomi, the name is already translated
- * attrs.dafyomi.name contains the untranslated string
- */
-export class DafYomiEvent extends Event {
-  /**
-   * @param {HDate} date
-   * @param {string} desc
-   * @param {Object} attrs
-   */
-  constructor(date, desc, attrs) {
-    super(date, desc, flags.DAF_YOMI, attrs);
-  }
   /** @return {string} */
-  render() {
-    return gettext('Daf Yomi') + ': ' + this.getDesc();
-  }
-}
-
-/** Havdalah after Shabbat or holiday */
-export class HavdalahEvent extends Event {
-  /**
-   * @param {HDate} date
-   * @param {number} mask
-   * @param {Object} attrs
-   * @param {number} [havdalahMins]
-   */
-  constructor(date, mask, attrs, havdalahMins) {
-    super(date, 'Havdalah', mask, Object.assign({havdalahMins}, attrs));
-  }
-  /** @return {string} */
-  render() {
-    const attrs = this.getAttrs();
-    let str = gettext(this.getDesc());
-    if (attrs.havdalahMins) {
-      const min = gettext('min');
-      str += ` (${attrs.havdalahMins} ${min})`;
-    }
-    return str + ': ' + attrs.eventTimeStr;
-  }
-}
-
-/** Candle lighting before Shabbat or holiday */
-export class CandleLightingEvent extends Event {
-  /**
-   * @param {HDate} date
-   * @param {number} mask
-   * @param {Object} attrs
-   */
-  constructor(date, mask, attrs) {
-    super(date, 'Candle lighting', mask, attrs);
-  }
-  /** @return {string} */
-  render() {
-    return gettext(this.getDesc()) + ': ' + this.getAttrs().eventTimeStr;
-  }
-}
-
-/** Daily Hebrew date ("11th of Sivan, 5780") */
-export class HebrewDateEvent extends Event {
-  /**
-   * @param {HDate} date
-   * @param {string} locale
-   */
-  constructor(date, locale) {
-    super(date, date.toString(), flags.HEBREW_DATE, {locale});
-  }
-  /** @return {string} */
-  render() {
-    const locale = this.getAttrs().locale || '';
-    const hd = this.getDate();
-    const fullYear = hd.getFullYear();
-    const monthName = gettext(hd.getMonthName());
-    const day = hd.getDate();
-    if (locale == 'he') {
-      return HebrewDateEvent.renderHebrew(day, monthName, fullYear);
-    } else {
-      const nth = numeral(day).format('ordinal');
-      const dayOf = (locale.length == 2) ? '' : ' of';
-      return `${nth}${dayOf} ${monthName}, ${fullYear}`;
-    }
-  }
-  /**
-   * Helper function to render a Hebrew date
-   * @param {number} day
-   * @param {string} monthName
-   * @param {number} fullYear
-   * @return {string}
-   */
-  static renderHebrew(day, monthName, fullYear) {
-    return gematriya(day) + ' ' + monthName + ' ' + gematriya(fullYear, {limit: 3});
+  url() {
+    return undefined;
   }
 }

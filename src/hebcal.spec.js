@@ -1,7 +1,7 @@
 import test from 'ava';
 import * as hebcal from './hebcal';
 import {HDate} from './hdate';
-import {DafYomiEvent, flags} from './event';
+import {flags} from './event';
 import {Location} from './location';
 
 /**
@@ -210,10 +210,12 @@ test('dafyomi-only', (t) => {
   t.is(gregDtString(events[0]), '6/1/1975');
   t.is(events[0].getFlags(), flags.DAF_YOMI);
   t.is(events[0].render(), 'Daf Yomi: Niddah 42');
+  t.is(events[0].renderBrief(), 'Niddah 42');
   t.is(events[0].getDesc(), 'Niddah 42');
   t.is(gregDtString(events[29]), '6/30/1975');
   t.is(events[29].getFlags(), flags.DAF_YOMI);
   t.is(events[29].render(), 'Daf Yomi: Berachot 8');
+  t.is(events[29].renderBrief(), 'Berachot 8');
   t.is(events[29].getDesc(), 'Berachot 8');
 });
 
@@ -342,13 +344,7 @@ test('startAndEnd', (t) => {
   t.is(eventsAbsDate.length, 56);
 });
 
-test('getHebrewText', (t) => {
-  t.is(hebcal.getHebrewText('Yom Kippur'), 'יוֹם כִּפּוּר');
-  t.is(hebcal.getHebrewText('Lech-Lecha'), 'לֶךְ־לְךָ');
-  t.is(hebcal.getHebrewText('** not found **'), undefined);
-});
-
-test('getHebrewForEvent', (t) => {
+test('renderBrief', (t) => {
   const options = {
     year: 2020,
     month: 3,
@@ -380,34 +376,7 @@ test('getHebrewForEvent', (t) => {
     ['Havdalah', 'הַבדָלָה'],
   ];
   for (let i = 0; i < events.length; i++) {
-    t.is(hebcal.getHebrewForEvent(events[i]), expected[i][1]);
-  }
-});
-
-test('getHebrewForEvent-dafyomi', (t) => {
-  const dy = {name: 'Shabbat', blatt: 104};
-  const ev = new DafYomiEvent(new HDate(2020, 5, 18), 'Shabbat 104', {dafyomi: dy});
-  t.is(hebcal.getHebrewForEvent(ev), 'דף יומי: שבת 104');
-});
-
-test('getHebrewForEvent-hebdate', (t) => {
-  const events = hebcal.hebrewCalendar({
-    addHebrewDates: true,
-    start: new HDate(29, 'Elul', 5779),
-    end: new HDate(1, 'Tishrei', 5780),
-  });
-  t.is(hebcal.getHebrewForEvent(events[0]), 'כ״ט אֱלוּל תשע״ט');
-  t.is(hebcal.getHebrewForEvent(events[1]), 'א׳ תִשְׁרֵי תש״פ');
-});
-
-test('hebrewStripNikkud', (t) => {
-  const strs = [
-    ['יוֹם כִּפּוּר',
-      'יום כפור'],
-    ['לֶךְ־לְךָ',
-      'לך־לך'],
-  ];
-  for (const [original, expected] of strs) {
-    t.is(hebcal.hebrewStripNikkud(original), expected);
+    t.is(events[i].renderBrief(), expected[i][0]);
+    t.is(events[i].renderBrief('he'), expected[i][1]);
   }
 });

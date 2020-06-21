@@ -1,19 +1,19 @@
 import test from 'ava';
 import {HDate} from './hdate';
 import {Sedra} from './sedra';
-import greg from './greg';
+import {abs2greg, greg2abs} from './greg';
 
 // eslint-disable-next-line require-jsdoc
 function testFullYear(t, gregYear, sedra, expected) {
-  const startAbs = greg.greg2abs(new Date(Date.UTC(gregYear, 0, 1)));
-  const endAbs = greg.greg2abs(new Date(Date.UTC(gregYear, 11, 31)));
+  const startAbs = greg2abs(new Date(Date.UTC(gregYear, 0, 1)));
+  const endAbs = greg2abs(new Date(Date.UTC(gregYear, 11, 31)));
   let i = 0;
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const dow = abs % 7;
     if (dow == 6) { // Saturday
       const todayHeb = new HDate(abs);
       const parshaStr = sedra.getString(todayHeb);
-      const todayGreg = greg.abs2greg(abs);
+      const todayGreg = abs2greg(abs);
       const date = todayGreg.toLocaleDateString('en-US');
       const str = date + ' ' + parshaStr;
       t.is(str, expected[i]);

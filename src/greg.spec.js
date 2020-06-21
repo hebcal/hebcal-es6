@@ -1,5 +1,5 @@
 import test from 'ava';
-import greg from './greg';
+import * as greg from './greg';
 
 test('greg2abs', (t) => {
   const dt = new Date(1995, 11, 17);

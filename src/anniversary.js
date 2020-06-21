@@ -18,7 +18,7 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import common from './common';
+import * as common from './common';
 import {HDate, hebrew2abs, abs2hebrew} from './hdate';
 
 const NISAN = common.months.NISAN;
@@ -136,8 +136,3 @@ export function getYahrzeit(hyear, gdate) {
 
   return new HDate(hDeath.dd, hDeath.mm, hyear);
 }
-
-export default {
-  getBirthdayOrAnniversary,
-  getYahrzeit,
-};

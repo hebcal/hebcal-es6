@@ -439,6 +439,12 @@ msgstr "חֲנוּכָּה: יוֹם ח׳"
 msgid "Days of the Omer"
 msgstr "עוֹמֶר"
 
+msgid "Omer"
+msgstr "עוֹמֶר"
+
+msgid "day of the Omer"
+msgstr "בָּעוֹמֶר"
+
 msgid "Erev Pesach"
 msgstr "עֶרֶב פֶּסַח"
 
@@ -467,7 +473,7 @@ msgid "Havdalah"
 msgstr "הַבדָלָה"
 
 msgid "Lag BaOmer"
-msgstr "ל״ג בְּעוֹמֶר"
+msgstr "ל״ג בָּעוֹמֶר"
 
 msgid "Leil Selichot"
 msgstr "סליחות"

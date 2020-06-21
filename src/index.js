@@ -78,28 +78,16 @@ export const holidays = {
 };
 import {
   makeAnchor,
-  getHolidayBasename,
-  getShortUrl,
-  getEventUrl,
   reformatTimeStr,
 } from './url';
-import {
-  hebrewCalendar,
-  registerLocale,
-  getHebrewText,
-  getHebrewForEvent,
-  hebrewStripNikkud,
-} from './hebcal';
+import {hebrewCalendar} from './hebcal';
+import {gettext, addLocale, useLocale, registerLocale, hebrewStripNikkud} from './locale';
 /**
  * Main interface to Hebcal
  * @namespace
  */
 export const hebcal = {
   hebrewCalendar,
-  registerLocale,
-  getHebrewText,
-  getHebrewForEvent,
-  hebrewStripNikkud,
   // anniversary.js
   getBirthdayOrAnniversary, getYahrzeit,
   // greg.js
@@ -107,7 +95,9 @@ export const hebcal = {
   // hdate.js
   hebrew2abs, abs2hebrew,
   // url.js
-  makeAnchor, getHolidayBasename, getShortUrl, getEventUrl, reformatTimeStr,
+  makeAnchor, reformatTimeStr,
   // location.js
   registerLocation,
+  // locale.js
+  gettext, addLocale, useLocale, registerLocale, hebrewStripNikkud,
 };

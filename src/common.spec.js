@@ -1,5 +1,5 @@
 import test from 'ava';
-import common from './common';
+import * as common from './common';
 
 test('hebElapsedDays', (t) => {
   const elapsed = common.hebElapsedDays(5780);

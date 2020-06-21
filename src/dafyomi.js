@@ -19,8 +19,9 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import greg from './greg';
-import {gettext} from 'ttag';
+import {greg2abs} from './greg';
+import {gettext} from './locale';
+import {Event, flags} from './event';
 
 const shas = [
   ['Berachot',       64],
@@ -88,9 +89,9 @@ export function dafyomi(gregdate) {
     throw new TypeError('non-date given to dafyomi');
   }
 
-  const osday = greg.greg2abs(new Date(1923, 8, 11));
-  const nsday = greg.greg2abs(new Date(1975, 5, 24));
-  const cday = greg.greg2abs(gregdate);
+  const osday = greg2abs(new Date(1923, 8, 11));
+  const nsday = greg2abs(new Date(1975, 5, 24));
+  const cday = greg2abs(gregdate);
 
   if (cday < osday) { // no cycle; dy didn't start yet
     return {name: [], blatt: 0};
@@ -149,13 +150,62 @@ export function dafyomi(gregdate) {
 /**
  * Formats (with translation) the dafyomi result as a string like "Pesachim 34"
  * @param {DafYomiResult} daf the Daf Yomi
+ * @param {string} [locale] Optional locale name (defaults to active locale).
  * @return {string}
  */
-export function dafname(daf) {
-  return gettext(daf.name) + ' ' + daf.blatt;
+export function dafname(daf, locale) {
+  return gettext(daf.name, locale) + ' ' + daf.blatt;
 }
 
-export default {
-  dafyomi,
-  dafname,
+const dafYomiSefaria = {
+  'Berachot': 'Berakhot',
+  'Rosh Hashana': 'Rosh Hashanah',
+  'Gitin': 'Gittin',
+  'Baba Kamma': 'Bava Kamma',
+  'Baba Metzia': 'Bava Metzia',
+  'Baba Batra': 'Bava Batra',
+  'Bechorot': 'Bekhorot',
+  'Arachin': 'Arakhin',
+  'Midot': 'Middot',
 };
+
+/**
+ * For a Daf Yomi, the name is already translated
+ * attrs.dafyomi.name contains the untranslated string
+ */
+export class DafYomiEvent extends Event {
+  /**
+   * @param {HDate} date
+   * @param {DafYomiResult} daf
+   */
+  constructor(date, daf) {
+    super(date, dafname(daf), flags.DAF_YOMI, {dafyomi: daf});
+  }
+  /**
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    return gettext('Daf Yomi', locale) + ': ' + dafname(this.getAttrs().dafyomi, locale);
+  }
+  /**
+   * Returns daf yomi name the 'Daf Yomi: ' prefix.
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  renderBrief(locale) {
+    return dafname(this.getAttrs().dafyomi, locale);
+  }
+  /** @return {string} */
+  url() {
+    const daf = this.getAttrs().dafyomi;
+    const tractate = daf.name;
+    if (tractate == 'Kinnim' || tractate == 'Midot') {
+      return `https://www.dafyomi.org/index.php?masechta=meilah&daf=${daf.blatt}a`;
+    } else {
+      const name0 = dafYomiSefaria[tractate] || tractate;
+      const name = name0.replace(/ /g, '_');
+      return `https://www.sefaria.org/${name}.${daf.blatt}a?lang=bi`;
+    }
+  }
+}

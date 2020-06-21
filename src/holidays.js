@@ -18,9 +18,9 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import c, {months, days} from './common';
+import {months, days, monthsInHebYear, daysInHebMonth, getMonthName, dayOnOrBefore, hebLeapYear} from './common';
 import {HDate} from './hdate';
-import {gettext} from 'ttag';
+import {gettext, getTranslation} from './locale';
 import {Event, flags} from './event';
 
 // for byte optimizations
@@ -44,19 +44,113 @@ const CHUL_ONLY = flags.CHUL_ONLY;
 const IL_ONLY = flags.IL_ONLY;
 const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
 const CHANUKAH_CANDLES = flags.CHANUKAH_CANDLES;
-const ROSH_CHODESH = flags.ROSH_CHODESH;
 const MINOR_FAST = flags.MINOR_FAST;
 const SPECIAL_SHABBAT = flags.SPECIAL_SHABBAT;
-// const PARSHA_HASHAVUA     = flags.PARSHA_HASHAVUA;
-// const DAF_YOMI            = flags.DAF_YOMI;
-// const OMER_COUNT          = flags.OMER_COUNT;
 const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
 const MAJOR_FAST = flags.MAJOR_FAST;
-const SHABBAT_MEVARCHIM = flags.SHABBAT_MEVARCHIM;
-// const MOLAD               = flags.MOLAD;
-// const USER_EVENT          = flags.USER_EVENT;
 
 const __cache = new Map();
+
+/** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
+export class HolidayEvent extends Event {
+  /**
+   * Constructs Holiday event
+   * @param {HDate} date Hebrew date event occurs
+   * @param {string} desc Description (not translated)
+   * @param {number} [mask=0] optional holiday flags
+   * @param {Object} [attrs={}]
+   */
+  constructor(date, desc, mask, attrs) {
+    super(date, desc, mask, attrs);
+  }
+  /** @return {string} */
+  basename() {
+    let s = this.getDesc().replace(/ \d{4}$/, '')
+        .replace(/ \(CH''M\)$/, '')
+        .replace(/ \(Hoshana Raba\)$/, '');
+    if (s != 'Rosh Chodesh Adar II') {
+      s = s.replace(/ [IV]+$/, '');
+    }
+    s = s.replace(/: \d Candles?$/, '')
+        .replace(/: 8th Day$/, '')
+        .replace(/^Erev /, '');
+    return s;
+  }
+  /**
+   * @param {string} locale
+   * @return {string}
+   */
+  renderFullOrBasename(locale) {
+    const str = getTranslation(this.getDesc(), locale);
+    if (typeof str == 'string') return str;
+    return getTranslation(this.basename(), locale);
+  }
+  /** @return {string} */
+  url() {
+    return 'https://www.hebcal.com/holidays/' +
+      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-');
+  }
+}
+
+const roshChodeshStr = 'Rosh Chodesh';
+
+/** Represents Rosh Chodesh, the beginning of a new month */
+export class RoshChodeshEvent extends HolidayEvent {
+  /**
+   * Constructs Rosh Chodesh event
+   * @param {HDate} date Hebrew date event occurs
+   * @param {string} monthName Hebrew month name (not translated)
+   */
+  constructor(date, monthName) {
+    super(date, `${roshChodeshStr} ${monthName}`, flags.ROSH_CHODESH);
+  }
+  /**
+   * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    const monthName = this.getDesc().substring(roshChodeshStr.length + 1);
+    return gettext(roshChodeshStr, locale) + ' ' + gettext(monthName, locale);
+  }
+  /** @return {string} */
+  basename() {
+    return this.getDesc();
+  }
+}
+
+const mevarchimChodeshStr = 'Shabbat Mevarchim Chodesh';
+
+/** Represents Mevarchim haChodesh, the announcement of the new month */
+export class MevarchimChodeshEvent extends Event {
+  /**
+   * Constructs Mevarchim haChodesh event
+   * @param {HDate} date Hebrew date event occurs
+   * @param {string} monthName Hebrew month name (not translated)
+   */
+  constructor(date, monthName) {
+    super(date, `${mevarchimChodeshStr} ${monthName}`, flags.SHABBAT_MEVARCHIM);
+  }
+  /**
+   * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    const monthName = this.getDesc().substring(mevarchimChodeshStr.length + 1);
+    return gettext(mevarchimChodeshStr, locale) + ' ' + gettext(monthName, locale);
+  }
+  /**
+   * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  renderBrief(locale) {
+    const str = this.render(locale);
+    const space = str.indexOf(' ');
+    return str.substring(space + 1);
+  }
+}
 
 /**
  * Returns a Map for the year indexed by HDate.toString()
@@ -93,12 +187,12 @@ export function getHolidaysForYear(year) {
     for (const a of arr) {
       const [day, month, desc, mask, attrs] = a;
       //      console.debug(day, month, year, desc, mask);
-      add(new Event(new HDate(day, month, year), desc, mask, attrs));
+      add(new HolidayEvent(new HDate(day, month, year), desc, mask, attrs));
     }
   }
 
   // standard holidays that don't shift based on year
-  add(new Event(RH, `Rosh Hashana ${year}`, CHAG | LIGHT_CANDLES_TZEIS));
+  add(new HolidayEvent(RH, `Rosh Hashana ${year}`, CHAG | LIGHT_CANDLES_TZEIS));
   addEvents(year, [
     [2, TISHREI, 'Rosh Hashana II', CHAG | YOM_TOV_ENDS],
     [3 + (RH.getDay() == days.THU),
@@ -106,7 +200,7 @@ export function getHolidaysForYear(year) {
     [9, TISHREI, 'Erev Yom Kippur', LIGHT_CANDLES],
   ]);
   // first SAT after RH
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', SPECIAL_SHABBAT));
+  add(new HolidayEvent(new HDate(dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', SPECIAL_SHABBAT));
   addEvents(year, [
     [10, TISHREI, 'Yom Kippur', CHAG | YOM_TOV_ENDS | MAJOR_FAST],
     [14, TISHREI, 'Erev Sukkot', LIGHT_CANDLES],
@@ -143,9 +237,9 @@ export function getHolidaysForYear(year) {
   ]);
   const pesachAbs = pesach.abs();
   add(
-      new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 43)), 'Shabbat Shekalim', SPECIAL_SHABBAT),
-      new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 30)), 'Shabbat Zachor', SPECIAL_SHABBAT),
-      new Event(new HDate(pesachAbs - (pesach.getDay() == days.TUE ? 33 : 31)),
+      new HolidayEvent(new HDate(dayOnOrBefore(SAT, pesachAbs - 43)), 'Shabbat Shekalim', SPECIAL_SHABBAT),
+      new HolidayEvent(new HDate(dayOnOrBefore(SAT, pesachAbs - 30)), 'Shabbat Zachor', SPECIAL_SHABBAT),
+      new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == days.TUE ? 33 : 31)),
           'Ta\'anit Esther', MINOR_FAST),
   );
   addEvents(year, [
@@ -154,10 +248,10 @@ export function getHolidaysForYear(year) {
     [15, months.ADAR_II, 'Shushan Purim', 0],
   ]);
   add(
-      new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14) - 7), 'Shabbat Parah', SPECIAL_SHABBAT),
-      new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 14)), 'Shabbat HaChodesh', SPECIAL_SHABBAT),
-      new Event(new HDate(c.dayOnOrBefore(SAT, pesachAbs - 1)), 'Shabbat HaGadol', SPECIAL_SHABBAT),
-      new Event(
+      new HolidayEvent(new HDate(dayOnOrBefore(SAT, pesachAbs - 14) - 7), 'Shabbat Parah', SPECIAL_SHABBAT),
+      new HolidayEvent(new HDate(dayOnOrBefore(SAT, pesachAbs - 14)), 'Shabbat HaChodesh', SPECIAL_SHABBAT),
+      new HolidayEvent(new HDate(dayOnOrBefore(SAT, pesachAbs - 1)), 'Shabbat HaGadol', SPECIAL_SHABBAT),
+      new HolidayEvent(
       // if the fast falls on Shabbat, move to Thursday
       pesach.prev().getDay() == SAT ?
         pesach.onOrBefore(days.THU) :
@@ -194,9 +288,9 @@ export function getHolidaysForYear(year) {
     [7, months.SIVAN, 'Shavuot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
     [15, months.AV, 'Tu B\'Av', 0],
   ]);
-  add(new Event(new HDate(c.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
+  add(new HolidayEvent(new HDate(dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
       'Leil Selichot', 0));
-  add(new Event(new HDate(29, months.ELUL, year), 'Erev Rosh Hashana', LIGHT_CANDLES));
+  add(new HolidayEvent(new HDate(29, months.ELUL, year), 'Erev Rosh Hashana', LIGHT_CANDLES));
 
   let tevet10dt = new HDate(10, months.TEVET, year);
   let tevet10attrs;
@@ -204,10 +298,10 @@ export function getHolidaysForYear(year) {
     tevet10dt = tevet10dt.next();
     tevet10attrs = {observed: true};
   }
-  add(new Event(tevet10dt, 'Asara B\'Tevet', MINOR_FAST, tevet10attrs));
+  add(new HolidayEvent(tevet10dt, 'Asara B\'Tevet', MINOR_FAST, tevet10attrs));
 
-  if (c.hebLeapYear(year)) {
-    add(new Event(new HDate(14, months.ADAR_I, year), 'Purim Katan', 0));
+  if (hebLeapYear(year)) {
+    add(new HolidayEvent(new HDate(14, months.ADAR_I, year), 'Purim Katan', 0));
   }
 
   if (year >= 5711) {
@@ -226,7 +320,7 @@ export function getHolidaysForYear(year) {
       nisan27dt = nisan27dt.next();
     }
 
-    add(new Event(nisan27dt, 'Yom HaShoah', MODERN_HOLIDAY));
+    add(new HolidayEvent(nisan27dt, 'Yom HaShoah', MODERN_HOLIDAY));
   }
 
   if (year >= 5708) {
@@ -248,22 +342,22 @@ export function getHolidaysForYear(year) {
     }
 
     add(
-        new Event(tmpDate, 'Yom HaZikaron', MODERN_HOLIDAY),
-        new Event(tmpDate.next(), 'Yom HaAtzma\'ut', MODERN_HOLIDAY),
+        new HolidayEvent(tmpDate, 'Yom HaZikaron', MODERN_HOLIDAY),
+        new HolidayEvent(tmpDate.next(), 'Yom HaAtzma\'ut', MODERN_HOLIDAY),
     );
   }
 
   if (year >= 5727) {
     // Yom Yerushalayim only celebrated after 1967
-    add(new Event(new HDate(28, months.IYYAR, year), 'Yom Yerushalayim', MODERN_HOLIDAY));
+    add(new HolidayEvent(new HDate(28, months.IYYAR, year), 'Yom Yerushalayim', MODERN_HOLIDAY));
   }
 
   if (year >= 5769) {
-    add(new Event(new HDate(29, months.CHESHVAN, year), 'Sigd', MODERN_HOLIDAY));
+    add(new HolidayEvent(new HDate(29, months.CHESHVAN, year), 'Sigd', MODERN_HOLIDAY));
   }
 
   if (year >= 5777) {
-    add(new Event(new HDate(7, months.CHESHVAN, year), 'Yom HaAliyah', MODERN_HOLIDAY));
+    add(new HolidayEvent(new HDate(7, months.CHESHVAN, year), 'Yom HaAliyah', MODERN_HOLIDAY));
   }
 
   let tamuz17 = new HDate(17, months.TAMUZ, year);
@@ -272,7 +366,7 @@ export function getHolidaysForYear(year) {
     tamuz17 = tamuz17.next();
     tamuz17attrs = {observed: true};
   }
-  add(new Event(tamuz17, 'Tzom Tammuz', MINOR_FAST, tamuz17attrs));
+  add(new HolidayEvent(tamuz17, 'Tzom Tammuz', MINOR_FAST, tamuz17attrs));
 
   let av9dt = new HDate(9, months.AV, year);
   let av9attrs;
@@ -282,24 +376,23 @@ export function getHolidaysForYear(year) {
   }
 
   add(
-      new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs())), 'Shabbat Chazon', SPECIAL_SHABBAT),
-      new Event(av9dt.prev(), 'Erev Tish\'a B\'Av', 0, av9attrs),
-      new Event(av9dt, 'Tish\'a B\'Av', MAJOR_FAST, av9attrs),
-      new Event(new HDate(c.dayOnOrBefore(SAT, av9dt.abs() + 7)), 'Shabbat Nachamu', SPECIAL_SHABBAT),
+      new HolidayEvent(new HDate(dayOnOrBefore(SAT, av9dt.abs())), 'Shabbat Chazon', SPECIAL_SHABBAT),
+      new HolidayEvent(av9dt.prev(), 'Erev Tish\'a B\'Av', 0, av9attrs),
+      new HolidayEvent(av9dt, 'Tish\'a B\'Av', MAJOR_FAST, av9attrs),
+      new HolidayEvent(new HDate(dayOnOrBefore(SAT, av9dt.abs() + 7)), 'Shabbat Nachamu', SPECIAL_SHABBAT),
   );
 
-  for (let month = 1; month <= c.monthsInHebYear(year); month++) {
-    const monthName = c.getMonthName(month, year);
-    const desc = gettext('Rosh Chodesh') + ' ' + gettext(monthName);
+  for (let month = 1; month <= monthsInHebYear(year); month++) {
+    const monthName = getMonthName(month, year);
     if (
       (month == NISAN ?
-        c.daysInHebMonth(c.monthsInHebYear(year - 1), year - 1) :
-        c.daysInHebMonth(month - 1, year)) == 30
+        daysInHebMonth(monthsInHebYear(year - 1), year - 1) :
+        daysInHebMonth(month - 1, year)) == 30
     ) {
-      add(new Event(new HDate(1, month, year), desc, ROSH_CHODESH));
-      add(new Event(new HDate(30, month - 1, year), desc, ROSH_CHODESH));
+      add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
+      add(new RoshChodeshEvent(new HDate(30, month - 1, year), monthName));
     } else if (month !== TISHREI) {
-      add(new Event(new HDate(1, month, year), desc, ROSH_CHODESH));
+      add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
     }
 
     if (month == months.ELUL) {
@@ -307,10 +400,8 @@ export function getHolidaysForYear(year) {
     }
 
     // Don't worry about month overrun; will get "Nisan" for month=14
-    const nextMonthName = c.getMonthName(month + 1, year);
-    add(new Event(new HDate(29, month, year).onOrBefore(SAT),
-        gettext('Shabbat Mevarchim Chodesh') + ' ' + gettext(nextMonthName),
-        SHABBAT_MEVARCHIM));
+    const nextMonthName = getMonthName(month + 1, year);
+    add(new MevarchimChodeshEvent(new HDate(29, month, year).onOrBefore(SAT), nextMonthName));
   }
 
   __cache.set(year, h);
@@ -327,10 +418,3 @@ export function getHolidaysOnDate(date) {
   const y = getHolidaysForYear(hd.getFullYear());
   return y.get(hd.toString());
 }
-
-export {Event, flags} from './event';
-
-export default {
-  getHolidaysOnDate,
-  getHolidaysForYear,
-};
