@@ -32,7 +32,7 @@ const ADAR_II = common.months.ADAR_II;
 /**
  * Calculates a birthday or anniversary (non-yahrzeit).
  * `hyear` must be after original `gdate` of anniversary.
- * Returns undefined when requested year preceeds or is same as original year.
+ * Returns `undefined` when requested year preceeds or is same as original year.
  *
  * Hebcal uses the algorithm defined in "Calendrical Calculations"
  * by Edward M. Reingold and Nachum Dershowitz.
@@ -46,7 +46,11 @@ const ADAR_II = common.months.ADAR_II;
  * Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
  * has his birthday postponed until the first of the following month in
  * years where that day does not occur. [Calendrical Calculations p. 111]
- *
+ * @example
+ * import {hebcal} from '@hebcal/core';
+ * const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+ * const hd = hebcal.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
+ * console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
  * @param {number} hyear Hebrew year
  * @param {Date|HDate} gdate Gregorian or Hebrew date of event
  * @return {HDate} anniversary occurring in `hyear`
@@ -97,7 +101,7 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
 /**
  * Calculates yahrzeit.
  * `hyear` must be after original `gdate` of death.
- * Returns undefined when requested year preceeds or is same as original year.
+ * Returns `undefined` when requested year preceeds or is same as original year.
  *
  * Hebcal uses the algorithm defined in "Calendrical Calculations"
  * by Edward M. Reingold and Nachum Dershowitz.
@@ -119,7 +123,11 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
  *   Shevat.
  * * In all other cases, use the normal (that is, same month number) anniversary
  *   of the date of death. [Calendrical Calculations p. 113]
- *
+ * @example
+ * import {hebcal} from '@hebcal/core';
+ * const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+ * const hd = hebcal.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
+ * console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
  * @param {number} hyear Hebrew year
  * @param {Date|HDate} gdate Gregorian or Hebrew date of death
  * @return {HDate} anniversary occurring in hyear

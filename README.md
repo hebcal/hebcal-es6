@@ -41,11 +41,11 @@ for (const ev of events) {
 <dt><a href="#HebrewDateEvent">HebrewDateEvent</a></dt>
 <dd><p>Daily Hebrew date (&quot;11th of Sivan, 5780&quot;)</p>
 </dd>
-<dt><a href="#Location">Location</a></dt>
-<dd><p>Class representing Location</p>
-</dd>
 <dt><a href="#Zmanim">Zmanim</a></dt>
 <dd><p>Class representing halachic times</p>
+</dd>
+<dt><a href="#Location">Location</a></dt>
+<dd><p>Class representing Location</p>
 </dd>
 <dt><a href="#HavdalahEvent">HavdalahEvent</a></dt>
 <dd><p>Havdalah after Shabbat or holiday</p>
@@ -197,7 +197,7 @@ Gregorian date Sunday, December 31, 1 BC.</p>
 <dt><a href="#getBirthdayOrAnniversary">getBirthdayOrAnniversary(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
 <dd><p>Calculates a birthday or anniversary (non-yahrzeit).
 <code>hyear</code> must be after original <code>gdate</code> of anniversary.
-Returns undefined when requested year preceeds or is same as original year.</p>
+Returns <code>undefined</code> when requested year preceeds or is same as original year.</p>
 <p>Hebcal uses the algorithm defined in &quot;Calendrical Calculations&quot;
 by Edward M. Reingold and Nachum Dershowitz.</p>
 <p>The birthday of someone born in Adar of an ordinary year or Adar II of
@@ -212,7 +212,7 @@ years where that day does not occur. [Calendrical Calculations p. 111]</p>
 <dt><a href="#getYahrzeit">getYahrzeit(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
 <dd><p>Calculates yahrzeit.
 <code>hyear</code> must be after original <code>gdate</code> of death.
-Returns undefined when requested year preceeds or is same as original year.</p>
+Returns <code>undefined</code> when requested year preceeds or is same as original year.</p>
 <p>Hebcal uses the algorithm defined in &quot;Calendrical Calculations&quot;
 by Edward M. Reingold and Nachum Dershowitz.</p>
 <p>The customary anniversary date of a death is more complicated and depends
@@ -234,6 +234,8 @@ Shevat.</li>
 of the date of death. [Calendrical Calculations p. 113]</li>
 </ul>
 </dd>
+<dt><a href="#throwError">throwError(error)</a></dt>
+<dd></dd>
 <dt><a href="#registerLocation">registerLocation(cityName, location)</a> ⇒ <code>boolean</code></dt>
 <dd><p>Adds a location name for <code>Location.lookup()</code> only if the name isn&#39;t
 already being used. Returns <code>false</code> if the name is already taken
@@ -245,7 +247,7 @@ and <code>true</code> if successfully added.</p>
 <dd></dd>
 <dt><a href="#tzeitTime">tzeitTime(hd, location, timeFormat)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
 <dd></dd>
-<dt><a href="#makeCandleEvent">makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset)</a> ⇒ <code><a href="#Event">Event</a></code></dt>
+<dt><a href="#makeCandleEvent">makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, [havdalahOffset])</a> ⇒ <code><a href="#Event">Event</a></code></dt>
 <dd></dd>
 <dt><a href="#getMolad">getMolad(year, month)</a> ⇒ <code><a href="#Molad">Molad</a></code></dt>
 <dd><p>Calculates the molad for a Hebrew month</p>
@@ -297,7 +299,7 @@ and <code>true</code> if successfully added.</p>
 
 <dl>
 <dt><a href="#SimpleHebrewDate">SimpleHebrewDate</a> : <code>Object</code></dt>
-<dd><p>A simple Hebrew date</p>
+<dd><p>A simple Hebrew date object with numeric fields <code>yy</code>, <code>mm</code>, and <code>dd</code></p>
 </dd>
 <dt><a href="#Molad">Molad</a> : <code>Object</code></dt>
 <dd><p>Represents a Molad</p>
@@ -443,6 +445,7 @@ Class representing a Hebrew date
     * [.next()](#HDate+next) ⇒ [<code>HDate</code>](#HDate)
     * [.prev()](#HDate+prev) ⇒ [<code>HDate</code>](#HDate)
     * [.isSameDate(other)](#HDate+isSameDate) ⇒ <code>boolean</code>
+    * [.toString()](#HDate+toString) ⇒ <code>string</code>
 
 <a name="new_HDate_new"></a>
 
@@ -465,16 +468,20 @@ Create a Hebrew date. There are 3 basic forms for the `HDate()` constructor.
 | Param | Type | Description |
 | --- | --- | --- |
 | [day] | <code>number</code> \| <code>Date</code> \| [<code>HDate</code>](#HDate) | Day of month (1-30) if a `number`.   If a `Date` is specified, represents the Hebrew date corresponding to the   Gregorian date using local time.   If an `HDate` is specified, clones a copy of the given Hebrew date. |
-| [month] | <code>number</code> | Hebrew month of year (1=NISAN, 7=TISHREI) |
+| [month] | <code>number</code> \| <code>string</code> | Hebrew month of year (1=NISAN, 7=TISHREI) |
 | [year] | <code>number</code> | Hebrew year |
 
 **Example**  
 ```js
-const hd = new HDate();
-const hd = new HDate(new Date(2008, 10, 13));
-const hd = new HDate(15, 'Cheshvan', 5769);
-const hd = new HDate(5, 'אייר', 5773);
-const hd = new HDate(733359); // ==> 15 Cheshvan 5769
+import {HDate, common} from '@hebcal/core';
+
+const hd1 = new HDate();
+const hd2 = new HDate(new Date(2008, 10, 13));
+const hd3 = new HDate(15, 'Cheshvan', 5769);
+const hd4 = new HDate(15, common.months.CHESHVAN, 5769);
+const hd5 = new HDate(733359); // ==> 15 Cheshvan 5769
+const monthName = 'אייר';
+const hd6 = new HDate(5, monthName, 5773);
 ```
 <a name="HDate+getFullYear"></a>
 
@@ -581,6 +588,14 @@ Returns translated/transliterated Hebrew date, e.g. `'15 Cheshvan 5769'`.
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+**Example**  
+```js
+import {HDate, common} from '@hebcal/core';
+
+const hd = new HDate(15, common.months.CHESHVAN, 5769);
+console.log(hd.render()); // '15 Cheshvan 5769'
+console.log(hd.render('he')); // '15 חֶשְׁוָן 5769'
+```
 <a name="HDate+before"></a>
 
 ### hDate.before(day) ⇒ [<code>HDate</code>](#HDate)
@@ -649,6 +664,10 @@ Compares this date to another date, returning `true` if the dates match.
 | --- | --- | --- |
 | other | [<code>HDate</code>](#HDate) | Hebrew date to compare |
 
+<a name="HDate+toString"></a>
+
+### hDate.toString() ⇒ <code>string</code>
+**Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HebrewDateEvent"></a>
 
 ## HebrewDateEvent
@@ -681,6 +700,15 @@ Daily Hebrew date ("11th of Sivan, 5780")
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+**Example**  
+```js
+import {HDate, HebrewDateEvent, common} from '@hebcal/core';
+
+const hd = new HDate(15, common.months.CHESHVAN, 5769);
+const ev = new HebrewDateEvent(hd);
+console.log(ev.render()); // '15th of Cheshvan, 5769'
+console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'
+```
 <a name="HebrewDateEvent.renderHebrew"></a>
 
 ### HebrewDateEvent.renderHebrew(day, monthName, fullYear) ⇒ <code>string</code>
@@ -694,110 +722,6 @@ Helper function to render a Hebrew date
 | monthName | <code>string</code> | 
 | fullYear | <code>number</code> | 
 
-<a name="Location"></a>
-
-## Location
-Class representing Location
-
-**Kind**: global class  
-
-* [Location](#Location)
-    * [new Location(latitude, longitude, il, tzid, cityName, countryCode, geoid)](#new_Location_new)
-    * _instance_
-        * [.getLatitude()](#Location+getLatitude) ⇒ <code>number</code>
-        * [.getLongitude()](#Location+getLongitude) ⇒ <code>number</code>
-        * [.getIsrael()](#Location+getIsrael) ⇒ <code>boolean</code>
-        * [.getName()](#Location+getName) ⇒ <code>string</code>
-        * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
-        * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
-        * [.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>
-        * [.tzeit(hdate)](#Location+tzeit) ⇒ <code>Date</code>
-    * _static_
-        * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
-
-<a name="new_Location_new"></a>
-
-### new Location(latitude, longitude, il, tzid, cityName, countryCode, geoid)
-Initialize a Location instance
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| latitude | <code>number</code> | Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003) |
-| longitude | <code>number</code> | Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005) |
-| il | <code>boolean</code> | in Israel (true) or Diaspora (false) |
-| tzid | <code>string</code> | Olson timezone ID, e.g. "America/Chicago" |
-| cityName | <code>string</code> | optional descriptive city name |
-| countryCode | <code>string</code> | ISO 3166 alpha-2 country code (e.g. "FR") |
-| geoid | <code>number</code> | optional numeric geographic ID |
-
-<a name="Location+getLatitude"></a>
-
-### location.getLatitude() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getLongitude"></a>
-
-### location.getLongitude() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getIsrael"></a>
-
-### location.getIsrael() ⇒ <code>boolean</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getName"></a>
-
-### location.getName() ⇒ <code>string</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getCountryCode"></a>
-
-### location.getCountryCode() ⇒ <code>string</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getTzid"></a>
-
-### location.getTzid() ⇒ <code>string</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+sunset"></a>
-
-### location.sunset(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
-
-<a name="Location+tzeit"></a>
-
-### location.tzeit(hdate) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
-
-<a name="Location.lookup"></a>
-
-### Location.lookup(name) ⇒ [<code>Location</code>](#Location)
-Creates a location object from one of 60 "classic" Hebcal city names.
-The following city names are supported:
-'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
-'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
-'Buenos Aires', 'Buffalo', 'Chicago', 'Cincinnati', 'Cleveland',
-'Dallas', 'Denver', 'Detroit', 'Eilat', 'Gibraltar', 'Haifa',
-'Hawaii', 'Helsinki', 'Houston', 'Jerusalem', 'Johannesburg',
-'Kiev', 'La Paz', 'Livingston', 'Las Vegas', 'London', 'Los Angeles',
-'Marseilles', 'Miami', 'Minneapolis', 'Melbourne', 'Mexico City',
-'Montreal', 'Moscow', 'New York', 'Omaha', 'Ottawa', 'Panama City',
-'Paris', 'Pawtucket', 'Petach Tikvah', 'Philadelphia', 'Phoenix',
-'Pittsburgh', 'Providence', 'Portland', 'Saint Louis', 'Saint Petersburg',
-'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
-'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
-'Washington DC', 'Worcester'
-
-**Kind**: static method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| name | <code>string</code> | 
-
 <a name="Zmanim"></a>
 
 ## Zmanim
@@ -806,7 +730,7 @@ Class representing halachic times
 **Kind**: global class  
 
 * [Zmanim](#Zmanim)
-    * [new Zmanim(date, location)](#new_Zmanim_new)
+    * [new Zmanim(date, latitude, longitude)](#new_Zmanim_new)
     * [.suntime()](#Zmanim+suntime) ⇒ <code>suncalc.GetTimesResult</code>
     * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
     * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
@@ -832,14 +756,15 @@ Class representing halachic times
 
 <a name="new_Zmanim_new"></a>
 
-### new Zmanim(date, location)
-Initialize a Zmanim instance
+### new Zmanim(date, latitude, longitude)
+Initialize a Zmanim instance.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | <code>Date</code> \| [<code>HDate</code>](#HDate) | Regular or Hebrew Date |
-| location | [<code>Location</code>](#Location) |  |
+| date | <code>Date</code> \| [<code>HDate</code>](#HDate) | Regular or Hebrew Date. If `date` is a regular `Date`,    hours, minutes, seconds and milliseconds are ignored. |
+| latitude | <code>number</code> |  |
+| longitude | <code>number</code> |  |
 
 <a name="Zmanim+suntime"></a>
 
@@ -934,6 +859,115 @@ Initialize a Zmanim instance
 
 ### zmanim.shkiah() ⇒ <code>Date</code>
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Location"></a>
+
+## Location
+Class representing Location
+
+**Kind**: global class  
+
+* [Location](#Location)
+    * [new Location(latitude, longitude, il, tzid, cityName, countryCode, geoid)](#new_Location_new)
+    * _instance_
+        * [.getLatitude()](#Location+getLatitude) ⇒ <code>number</code>
+        * [.getLongitude()](#Location+getLongitude) ⇒ <code>number</code>
+        * [.getIsrael()](#Location+getIsrael) ⇒ <code>boolean</code>
+        * [.getName()](#Location+getName) ⇒ <code>string</code>
+        * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
+        * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
+        * [.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>
+        * [.tzeit(hdate)](#Location+tzeit) ⇒ <code>Date</code>
+        * [.toString()](#Location+toString) ⇒ <code>string</code>
+    * _static_
+        * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
+
+<a name="new_Location_new"></a>
+
+### new Location(latitude, longitude, il, tzid, cityName, countryCode, geoid)
+Initialize a Location instance
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| latitude | <code>number</code> | Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003) |
+| longitude | <code>number</code> | Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005) |
+| il | <code>boolean</code> | in Israel (true) or Diaspora (false) |
+| tzid | <code>string</code> | Olson timezone ID, e.g. "America/Chicago" |
+| cityName | <code>string</code> | optional descriptive city name |
+| countryCode | <code>string</code> | ISO 3166 alpha-2 country code (e.g. "FR") |
+| geoid | <code>number</code> | optional numeric geographic ID |
+
+<a name="Location+getLatitude"></a>
+
+### location.getLatitude() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getLongitude"></a>
+
+### location.getLongitude() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getIsrael"></a>
+
+### location.getIsrael() ⇒ <code>boolean</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getName"></a>
+
+### location.getName() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getCountryCode"></a>
+
+### location.getCountryCode() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getTzid"></a>
+
+### location.getTzid() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+sunset"></a>
+
+### location.sunset(hdate) ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+
+| Param | Type |
+| --- | --- |
+| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
+
+<a name="Location+tzeit"></a>
+
+### location.tzeit(hdate) ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+
+| Param | Type |
+| --- | --- |
+| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
+
+<a name="Location+toString"></a>
+
+### location.toString() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location.lookup"></a>
+
+### Location.lookup(name) ⇒ [<code>Location</code>](#Location)
+Creates a location object from one of 60 "classic" Hebcal city names.
+The following city names are supported:
+'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
+'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
+'Buenos Aires', 'Buffalo', 'Chicago', 'Cincinnati', 'Cleveland',
+'Dallas', 'Denver', 'Detroit', 'Eilat', 'Gibraltar', 'Haifa',
+'Hawaii', 'Helsinki', 'Houston', 'Jerusalem', 'Johannesburg',
+'Kiev', 'La Paz', 'Livingston', 'Las Vegas', 'London', 'Los Angeles',
+'Marseilles', 'Miami', 'Minneapolis', 'Melbourne', 'Mexico City',
+'Montreal', 'Moscow', 'New York', 'Omaha', 'Ottawa', 'Panama City',
+'Paris', 'Pawtucket', 'Petach Tikvah', 'Philadelphia', 'Phoenix',
+'Pittsburgh', 'Providence', 'Portland', 'Saint Louis', 'Saint Petersburg',
+'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
+'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
+'Washington DC', 'Worcester'
+
+**Kind**: static method of [<code>Location</code>](#Location)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>string</code> | 
+
 <a name="HavdalahEvent"></a>
 
 ## HavdalahEvent
@@ -1806,7 +1840,7 @@ Converts absolute Julian days to Hebrew date
 ## getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
 Calculates a birthday or anniversary (non-yahrzeit).
 `hyear` must be after original `gdate` of anniversary.
-Returns undefined when requested year preceeds or is same as original year.
+Returns `undefined` when requested year preceeds or is same as original year.
 
 Hebcal uses the algorithm defined in "Calendrical Calculations"
 by Edward M. Reingold and Nachum Dershowitz.
@@ -1829,12 +1863,19 @@ years where that day does not occur. [Calendrical Calculations p. 111]
 | hyear | <code>number</code> | Hebrew year |
 | gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of event |
 
+**Example**  
+```js
+import {hebcal} from '@hebcal/core';
+const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+const hd = hebcal.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
+console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
+```
 <a name="getYahrzeit"></a>
 
 ## getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
 Calculates yahrzeit.
 `hyear` must be after original `gdate` of death.
-Returns undefined when requested year preceeds or is same as original year.
+Returns `undefined` when requested year preceeds or is same as original year.
 
 Hebcal uses the algorithm defined in "Calendrical Calculations"
 by Edward M. Reingold and Nachum Dershowitz.
@@ -1864,6 +1905,22 @@ There are several cases:
 | --- | --- | --- |
 | hyear | <code>number</code> | Hebrew year |
 | gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
+
+**Example**  
+```js
+import {hebcal} from '@hebcal/core';
+const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+const hd = hebcal.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
+console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
+```
+<a name="throwError"></a>
+
+## throwError(error)
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| error | <code>string</code> | 
 
 <a name="registerLocation"></a>
 
@@ -1914,7 +1971,7 @@ and `true` if successfully added.
 
 <a name="makeCandleEvent"></a>
 
-## makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) ⇒ [<code>Event</code>](#Event)
+## makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, [havdalahOffset]) ⇒ [<code>Event</code>](#Event)
 **Kind**: global function  
 
 | Param | Type |
@@ -1925,7 +1982,7 @@ and `true` if successfully added.
 | location | [<code>Location</code>](#Location) | 
 | timeFormat | <code>Intl.DateTimeFormat</code> | 
 | candlesOffset | <code>number</code> | 
-| havdalahOffset | <code>number</code> | 
+| [havdalahOffset] | <code>number</code> | 
 
 <a name="getMolad"></a>
 
@@ -2114,7 +2171,7 @@ Generates a list of holidays
 <a name="SimpleHebrewDate"></a>
 
 ## SimpleHebrewDate : <code>Object</code>
-A simple Hebrew date
+A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
 
 **Kind**: global typedef  
 **Properties**
