@@ -32,8 +32,29 @@ import {gettext} from './locale';
 /** Class representing a Hebrew date */
 export class HDate {
   /**
-   * Create a Hebrew date.
-   * @param {number|Date|HDate} [day] - Day of month (1-30)
+   * Create a Hebrew date. There are 3 basic forms for the `HDate()` constructor.
+   *
+   * 1. No parameters - represents the current Hebrew date at time of instantiation
+   * 2. One parameter
+   *    * `Date` - represents the Hebrew date corresponding to the Gregorian date using
+   *       local time. Hours, minutes, seconds and milliseconds are ignored.
+   *    * `HDate` - clones a copy of the given Hebrew date
+   *    * `number` - Converts absolute Julian days to Hebrew date. The absolute Julian
+   *       date is the number of days elapsed since the (imaginary) Gregorian date
+   *       Sunday, December 31, 1 BC
+   * 3. Three parameters: Hebrew day, Hebrew month, Hebrew year. Hebrew day should
+   *    be a number between 1-30, Hebrew month can be a number or string, and
+   *    Hebrew year is always a number.
+   * @example
+   * const hd = new HDate();
+   * const hd = new HDate(new Date(2008, 10, 13));
+   * const hd = new HDate(15, 'Cheshvan', 5769);
+   * const hd = new HDate(5, 'אייר', 5773);
+   * const hd = new HDate(733359); // ==> 15 Cheshvan 5769
+   * @param {number|Date|HDate} [day] - Day of month (1-30) if a `number`.
+   *   If a `Date` is specified, represents the Hebrew date corresponding to the
+   *   Gregorian date using local time.
+   *   If an `HDate` is specified, clones a copy of the given Hebrew date.
    * @param {number} [month] - Hebrew month of year (1=NISAN, 7=TISHREI)
    * @param {number} [year] - Hebrew year
    */
@@ -181,7 +202,7 @@ export class HDate {
   }
 
   /**
-   * Returns untranslated Hebrew month name
+   * Returns a transliterated Hebrew month name, e.g. `'Elul'` or `'Cheshvan'`.
    * @return {string}
    */
   getMonthName() {
@@ -189,7 +210,7 @@ export class HDate {
   }
 
   /**
-   * Returns translated/transliterated Hebrew date
+   * Returns translated/transliterated Hebrew date, e.g. `'15 Cheshvan 5769'`.
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
@@ -246,7 +267,7 @@ export class HDate {
   }
 
   /**
-   *
+   * Returns the next Hebrew date
    * @return {HDate}
    */
   next() {
@@ -254,7 +275,7 @@ export class HDate {
   }
 
   /**
-   *
+   * Returns the previous Hebrew date
    * @return {HDate}
    */
   prev() {
@@ -262,7 +283,7 @@ export class HDate {
   }
 
   /**
-   *
+   * Compares this date to another date, returning `true` if the dates match.
    * @param {HDate} other Hebrew date to compare
    * @return {boolean}
    */
@@ -379,7 +400,7 @@ export function hebrew2abs(d) {
 }
 
 /**
- * Converts Julian days to Hebrew date to absolute Julian days
+ * Converts absolute Julian days to Hebrew date
  * @param {number} d absolute Julian days
  * @return {SimpleHebrewDate}
  */

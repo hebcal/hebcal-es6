@@ -143,7 +143,8 @@ export function daysInHebMonth(month, year) {
 }
 
 /**
- * Returns an (untranslated) string name of Hebrew month in year
+ * Returns a transliterated string name of Hebrew month in year,
+ * for example 'Elul' or 'Cheshvan'.
  * @param {number} month Hebrew month (e.g. months.TISHREI)
  * @param {number} year Hebrew year
  * @return {string}

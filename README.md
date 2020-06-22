@@ -113,7 +113,8 @@ attrs.dafyomi.name contains the untranslated string</p>
 <dd><p>Number of days in Hebrew month in a given year</p>
 </dd>
 <dt><a href="#getMonthName">getMonthName(month, year)</a> ⇒ <code>string</code></dt>
-<dd><p>Returns an (untranslated) string name of Hebrew month in year</p>
+<dd><p>Returns a transliterated string name of Hebrew month in year,
+for example &#39;Elul&#39; or &#39;Cheshvan&#39;.</p>
 </dd>
 <dt><a href="#monthNum">monthNum(month)</a> ⇒ <code>number</code></dt>
 <dd><p>Returns the Hebrew month number</p>
@@ -191,17 +192,47 @@ The absolute date is the number of days elapsed since the (imaginary)
 Gregorian date Sunday, December 31, 1 BC.</p>
 </dd>
 <dt><a href="#abs2hebrew">abs2hebrew(d)</a> ⇒ <code><a href="#SimpleHebrewDate">SimpleHebrewDate</a></code></dt>
-<dd><p>Converts Julian days to Hebrew date to absolute Julian days</p>
+<dd><p>Converts absolute Julian days to Hebrew date</p>
 </dd>
 <dt><a href="#getBirthdayOrAnniversary">getBirthdayOrAnniversary(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
 <dd><p>Calculates a birthday or anniversary (non-yahrzeit).
-Year must be after original date of anniversary.
+<code>hyear</code> must be after original <code>gdate</code> of anniversary.
 Returns undefined when requested year preceeds or is same as original year.</p>
+<p>Hebcal uses the algorithm defined in &quot;Calendrical Calculations&quot;
+by Edward M. Reingold and Nachum Dershowitz.</p>
+<p>The birthday of someone born in Adar of an ordinary year or Adar II of
+a leap year is also always in the last month of the year, be that Adar
+or Adar II. The birthday in an ordinary year of someone born during the
+first 29 days of Adar I in a leap year is on the corresponding day of Adar;
+in a leap year, the birthday occurs in Adar I, as expected.</p>
+<p>Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
+has his birthday postponed until the first of the following month in
+years where that day does not occur. [Calendrical Calculations p. 111]</p>
 </dd>
 <dt><a href="#getYahrzeit">getYahrzeit(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
 <dd><p>Calculates yahrzeit.
-Year must be after original date of death.
+<code>hyear</code> must be after original <code>gdate</code> of death.
 Returns undefined when requested year preceeds or is same as original year.</p>
+<p>Hebcal uses the algorithm defined in &quot;Calendrical Calculations&quot;
+by Edward M. Reingold and Nachum Dershowitz.</p>
+<p>The customary anniversary date of a death is more complicated and depends
+also on the character of the year in which the first anniversary occurs.
+There are several cases:</p>
+<ul>
+<li>If the date of death is Marcheshvan 30, the anniversary in general depends
+on the first anniversary; if that first anniversary was not Marcheshvan 30,
+use the day before Kislev 1.</li>
+<li>If the date of death is Kislev 30, the anniversary in general again depends
+on the first anniversary — if that was not Kislev 30, use the day before
+Tevet 1.</li>
+<li>If the date of death is Adar II, the anniversary is the same day in the
+last month of the Hebrew year (Adar or Adar II).</li>
+<li>If the date of death is Adar I 30, the anniversary in a Hebrew year that
+is not a leap year (in which Adar only has 29 days) is the last day in
+Shevat.</li>
+<li>In all other cases, use the normal (that is, same month number) anniversary
+of the date of death. [Calendrical Calculations p. 113]</li>
+</ul>
 </dd>
 <dt><a href="#registerLocation">registerLocation(cityName, location)</a> ⇒ <code>boolean</code></dt>
 <dd><p>Adds a location name for <code>Location.lookup()</code> only if the name isn&#39;t
@@ -416,15 +447,35 @@ Class representing a Hebrew date
 <a name="new_HDate_new"></a>
 
 ### new HDate([day], [month], [year])
-Create a Hebrew date.
+Create a Hebrew date. There are 3 basic forms for the `HDate()` constructor.
+
+1. No parameters - represents the current Hebrew date at time of instantiation
+2. One parameter
+   * `Date` - represents the Hebrew date corresponding to the Gregorian date using
+      local time. Hours, minutes, seconds and milliseconds are ignored.
+   * `HDate` - clones a copy of the given Hebrew date
+   * `number` - Converts absolute Julian days to Hebrew date. The absolute Julian
+      date is the number of days elapsed since the (imaginary) Gregorian date
+      Sunday, December 31, 1 BC
+3. Three parameters: Hebrew day, Hebrew month, Hebrew year. Hebrew day should
+   be a number between 1-30, Hebrew month can be a number or string, and
+   Hebrew year is always a number.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [day] | <code>number</code> \| <code>Date</code> \| [<code>HDate</code>](#HDate) | Day of month (1-30) |
+| [day] | <code>number</code> \| <code>Date</code> \| [<code>HDate</code>](#HDate) | Day of month (1-30) if a `number`.   If a `Date` is specified, represents the Hebrew date corresponding to the   Gregorian date using local time.   If an `HDate` is specified, clones a copy of the given Hebrew date. |
 | [month] | <code>number</code> | Hebrew month of year (1=NISAN, 7=TISHREI) |
 | [year] | <code>number</code> | Hebrew year |
 
+**Example**  
+```js
+const hd = new HDate();
+const hd = new HDate(new Date(2008, 10, 13));
+const hd = new HDate(15, 'Cheshvan', 5769);
+const hd = new HDate(5, 'אייר', 5773);
+const hd = new HDate(733359); // ==> 15 Cheshvan 5769
+```
 <a name="HDate+getFullYear"></a>
 
 ### hDate.getFullYear() ⇒ <code>number</code>
@@ -516,13 +567,13 @@ Returns Julian absolute days
 <a name="HDate+getMonthName"></a>
 
 ### hDate.getMonthName() ⇒ <code>string</code>
-Returns untranslated Hebrew month name
+Returns a transliterated Hebrew month name, e.g. `'Elul'` or `'Cheshvan'`.
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+render"></a>
 
 ### hDate.render([locale]) ⇒ <code>string</code>
-Returns translated/transliterated Hebrew date
+Returns translated/transliterated Hebrew date, e.g. `'15 Cheshvan 5769'`.
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
@@ -578,14 +629,20 @@ Returns translated/transliterated Hebrew date
 <a name="HDate+next"></a>
 
 ### hDate.next() ⇒ [<code>HDate</code>](#HDate)
+Returns the next Hebrew date
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+prev"></a>
 
 ### hDate.prev() ⇒ [<code>HDate</code>](#HDate)
+Returns the previous Hebrew date
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+isSameDate"></a>
 
 ### hDate.isSameDate(other) ⇒ <code>boolean</code>
+Compares this date to another date, returning `true` if the dates match.
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type | Description |
@@ -1471,7 +1528,8 @@ Number of days in Hebrew month in a given year
 <a name="getMonthName"></a>
 
 ## getMonthName(month, year) ⇒ <code>string</code>
-Returns an (untranslated) string name of Hebrew month in year
+Returns a transliterated string name of Hebrew month in year,
+for example 'Elul' or 'Cheshvan'.
 
 **Kind**: global function  
 
@@ -1735,7 +1793,7 @@ Gregorian date Sunday, December 31, 1 BC.
 <a name="abs2hebrew"></a>
 
 ## abs2hebrew(d) ⇒ [<code>SimpleHebrewDate</code>](#SimpleHebrewDate)
-Converts Julian days to Hebrew date to absolute Julian days
+Converts absolute Julian days to Hebrew date
 
 **Kind**: global function  
 
@@ -1747,11 +1805,24 @@ Converts Julian days to Hebrew date to absolute Julian days
 
 ## getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
 Calculates a birthday or anniversary (non-yahrzeit).
-Year must be after original date of anniversary.
+`hyear` must be after original `gdate` of anniversary.
 Returns undefined when requested year preceeds or is same as original year.
 
+Hebcal uses the algorithm defined in "Calendrical Calculations"
+by Edward M. Reingold and Nachum Dershowitz.
+
+The birthday of someone born in Adar of an ordinary year or Adar II of
+a leap year is also always in the last month of the year, be that Adar
+or Adar II. The birthday in an ordinary year of someone born during the
+first 29 days of Adar I in a leap year is on the corresponding day of Adar;
+in a leap year, the birthday occurs in Adar I, as expected.
+
+Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
+has his birthday postponed until the first of the following month in
+years where that day does not occur. [Calendrical Calculations p. 111]
+
 **Kind**: global function  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in hyear  
+**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in `hyear`  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1762,8 +1833,29 @@ Returns undefined when requested year preceeds or is same as original year.
 
 ## getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
 Calculates yahrzeit.
-Year must be after original date of death.
+`hyear` must be after original `gdate` of death.
 Returns undefined when requested year preceeds or is same as original year.
+
+Hebcal uses the algorithm defined in "Calendrical Calculations"
+by Edward M. Reingold and Nachum Dershowitz.
+
+The customary anniversary date of a death is more complicated and depends
+also on the character of the year in which the first anniversary occurs.
+There are several cases:
+
+* If the date of death is Marcheshvan 30, the anniversary in general depends
+  on the first anniversary; if that first anniversary was not Marcheshvan 30,
+  use the day before Kislev 1.
+* If the date of death is Kislev 30, the anniversary in general again depends
+  on the first anniversary — if that was not Kislev 30, use the day before
+  Tevet 1.
+* If the date of death is Adar II, the anniversary is the same day in the
+  last month of the Hebrew year (Adar or Adar II).
+* If the date of death is Adar I 30, the anniversary in a Hebrew year that
+  is not a leap year (in which Adar only has 29 days) is the last day in
+  Shevat.
+* In all other cases, use the normal (that is, same month number) anniversary
+  of the date of death. [Calendrical Calculations p. 113]
 
 **Kind**: global function  
 **Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in hyear  

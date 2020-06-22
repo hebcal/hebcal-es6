@@ -31,11 +31,25 @@ const ADAR_II = common.months.ADAR_II;
 
 /**
  * Calculates a birthday or anniversary (non-yahrzeit).
- * Year must be after original date of anniversary.
+ * `hyear` must be after original `gdate` of anniversary.
  * Returns undefined when requested year preceeds or is same as original year.
+ *
+ * Hebcal uses the algorithm defined in "Calendrical Calculations"
+ * by Edward M. Reingold and Nachum Dershowitz.
+ *
+ * The birthday of someone born in Adar of an ordinary year or Adar II of
+ * a leap year is also always in the last month of the year, be that Adar
+ * or Adar II. The birthday in an ordinary year of someone born during the
+ * first 29 days of Adar I in a leap year is on the corresponding day of Adar;
+ * in a leap year, the birthday occurs in Adar I, as expected.
+ *
+ * Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
+ * has his birthday postponed until the first of the following month in
+ * years where that day does not occur. [Calendrical Calculations p. 111]
+ *
  * @param {number} hyear Hebrew year
  * @param {Date|HDate} gdate Gregorian or Hebrew date of event
- * @return {HDate} anniversary occurring in hyear
+ * @return {HDate} anniversary occurring in `hyear`
  */
 export function getBirthdayOrAnniversary(hyear, gdate) {
   const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
@@ -82,8 +96,30 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
 
 /**
  * Calculates yahrzeit.
- * Year must be after original date of death.
+ * `hyear` must be after original `gdate` of death.
  * Returns undefined when requested year preceeds or is same as original year.
+ *
+ * Hebcal uses the algorithm defined in "Calendrical Calculations"
+ * by Edward M. Reingold and Nachum Dershowitz.
+ *
+ * The customary anniversary date of a death is more complicated and depends
+ * also on the character of the year in which the first anniversary occurs.
+ * There are several cases:
+ *
+ * * If the date of death is Marcheshvan 30, the anniversary in general depends
+ *   on the first anniversary; if that first anniversary was not Marcheshvan 30,
+ *   use the day before Kislev 1.
+ * * If the date of death is Kislev 30, the anniversary in general again depends
+ *   on the first anniversary — if that was not Kislev 30, use the day before
+ *   Tevet 1.
+ * * If the date of death is Adar II, the anniversary is the same day in the
+ *   last month of the Hebrew year (Adar or Adar II).
+ * * If the date of death is Adar I 30, the anniversary in a Hebrew year that
+ *   is not a leap year (in which Adar only has 29 days) is the last day in
+ *   Shevat.
+ * * In all other cases, use the normal (that is, same month number) anniversary
+ *   of the date of death. [Calendrical Calculations p. 113]
+ *
  * @param {number} hyear Hebrew year
  * @param {Date|HDate} gdate Gregorian or Hebrew date of death
  * @return {HDate} anniversary occurring in hyear
