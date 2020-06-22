@@ -2,9 +2,11 @@ export {HDate, HebrewDateEvent} from './hdate';
 import {hebrew2abs, abs2hebrew} from './hdate';
 export {Event, flags} from './event';
 import {getBirthdayOrAnniversary, getYahrzeit} from './anniversary';
-export {Location, Zmanim} from './location';
+export {Location} from './location';
+export {Zmanim} from './zmanim';
 export {CandleLightingEvent, HavdalahEvent} from './candles';
-export {getMolad, MoladEvent} from './molad';
+import {getMolad} from './molad';
+export {MoladEvent} from './molad';
 import {registerLocation} from './location';
 import {
   months,
@@ -99,6 +101,8 @@ export const hebcal = {
   greg2abs, abs2greg,
   // hdate.js
   hebrew2abs, abs2hebrew,
+  // molad.js
+  getMolad,
   // url.js
   makeAnchor, reformatTimeStr,
   // location.js

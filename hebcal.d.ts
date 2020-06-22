@@ -146,9 +146,10 @@ declare module '@hebcal/core' {
         /**
          * Initialize a Zmanim instance
          * @param date Regular or Hebrew Date
-         * @param location
+         * @param latitude
+         * @param longitude
          */
-        constructor(date: Date | HDate, location: Location);
+        constructor(date: Date | HDate, latitude: number, longitude: number);
         suntime(): suncalc.GetTimesResult;
         sunrise(): Date;
         sunset(): Date;
@@ -338,6 +339,18 @@ declare module '@hebcal/core' {
          * Removes nekudot from Hebrew string
          */
         export function hebrewStripNikkud(str: string): string;
+
+        export type Molad = {
+            dow: number;
+            hour: number;
+            minutes: number;
+            chalakim: number;
+        }
+
+        /**
+         * Calculates the molad for a Hebrew month
+         */
+        export function getMolad(year: number, month: number): Molad;
     }
 
     export namespace dafyomi {
@@ -558,4 +571,58 @@ declare module '@hebcal/core' {
     }
 
     export const parshiyot: string[];
+
+    export class CandleLightingEvent extends Event {
+        constructor(date: HDate, mask: number, attrs: any);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+    }
+    export class DafYomiEvent extends Event {
+        constructor(date: HDate, daf: DafYomiResult);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+        url(): string;
+    }
+    export class HavdalahEvent extends Event {
+        constructor(date: HDate, mask: number, attrs: any, havdalahMins?: number);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+    }
+    export class HebrewDateEvent extends Event {
+        constructor(date: HDate, locale?: string);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+    }
+    export class HolidayEvent extends Event {
+        constructor(date: HDate, desc: string, mask?: number, attrs?: any);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+        basename(): string;
+        url(): string;
+    }
+    export class MevarchimChodeshEvent extends Event {
+        constructor(date: HDate, monthName: string);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+    }
+    export class MoladEvent extends Event {
+        constructor(date: HDate, hyear: number, hmonth: number);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+    }
+    export class OmerEvent extends Event {
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+    }
+    export class ParshaEvent extends Event {
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+        url(): string;
+    }
+    export class RoshChodeshEvent extends HolidayEvent {
+        constructor(date: HDate, monthName: string);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+        basename(): string;
+    }
 }

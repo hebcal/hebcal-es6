@@ -19,13 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import suncalc from 'suncalc';
-import {HDate} from './hdate';
-
-suncalc.addTime(-16.1, 'alot_hashachar', 0);
-suncalc.addTime(-11.5, 'misheyakir', 0);
-suncalc.addTime(-10.2, 'misheyakir_machmir', 0);
-suncalc.addTime(-8.5, 0, 'tzeit');
+import {Zmanim} from './zmanim';
 
 const classicCities0 = [
   ['Ashdod', 'IL', 31.79213, 34.64966, 'Asia/Jerusalem'],
@@ -110,7 +104,13 @@ export class Location {
    */
   constructor(latitude, longitude, il, tzid, cityName, countryCode, geoid) {
     this.latitude = +latitude;
+    if (this.latitude < -90 || this.latitude > 90) {
+      throw new RangeError(`Latitude ${this.latitude} out of range [-90,90]`);
+    }
     this.longitude = +longitude;
+    if (this.longitude < -180 || this.longitude > 180) {
+      throw new RangeError(`Longitude ${this.longitude} out of range [-180,180]`);
+    }
     this.il = Boolean(il);
     this.tzid = tzid;
     this.name = cityName;
@@ -176,7 +176,7 @@ export class Location {
    * @return {Date}
    */
   sunset(hdate) {
-    return new Zmanim(hdate, this).sunset();
+    return new Zmanim(hdate, this.getLatitude(), this.getLongitude()).sunset();
   }
 
   /**
@@ -184,13 +184,14 @@ export class Location {
    * @return {Date}
    */
   tzeit(hdate) {
-    return new Zmanim(hdate, this).tzeit();
+    return new Zmanim(hdate, this.getLatitude(), this.getLongitude()).tzeit();
+  }
+
+  /** @return {string} */
+  toString() {
+    return JSON.stringify(this);
   }
 }
-
-Location.prototype.toString = function locationToString() {
-  return JSON.stringify(this);
-};
 
 for (const city of classicCities0) {
   classicCities.set(city[0].toLowerCase(),
@@ -212,123 +213,4 @@ export function registerLocation(cityName, location) {
   }
   classicCities.set(name, location);
   return true;
-}
-
-// eslint-disable-next-line require-jsdoc
-function throwError(error) {
-  throw new Error(error);
-}
-
-/** Class representing halachic times */
-export class Zmanim {
-  /**
-   * Initialize a Zmanim instance
-   * @param {Date|HDate} date Regular or Hebrew Date
-   * @param {Location} location
-   */
-  constructor(date, location) {
-    const dt = date instanceof Date ? date :
-      date instanceof HDate ? date.greg() :
-      throwError(`invalid date: ${date}`);
-    // reset the date to midday before calling suncalc api
-    // https://github.com/mourner/suncalc/issues/11
-    this.date = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12, 0, 0, 0, 0);
-    this.times = suncalc.getTimes(this.date, location.getLatitude(), location.getLongitude());
-    this.location = location;
-  }
-  /** @return {suncalc.GetTimesResult} */
-  suntime() {
-    return this.times;
-  }
-  /** @return {Date} */
-  sunrise() {
-    return this.times.sunrise;
-  }
-  /** @return {Date} */
-  sunset() {
-    return this.times.sunset;
-  }
-  /** @return {number} */
-  hour() {
-    return (this.times.sunset - this.times.sunrise) / 12; // ms in hour
-  }
-  /** @return {number} */
-  hourMins() {
-    // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
-    return this.hour() / (1000 * 60);
-  }
-  /** @return {Date} */
-  gregEve() {
-    const prev = new Date(this.date.getTime() - 24 * 60 * 60 * 1000);
-    const zman = new Zmanim(prev, this.location);
-    return zman.sunset();
-  }
-  /** @return {number} */
-  nightHour() {
-    return (this.sunrise() - this.gregEve()) / 12; // ms in hour
-  }
-  /** @return {number} */
-  nightHourMins() {
-    // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
-    return this.nightHour() / (1000 * 60);
-  }
-  /**
-   * @param {number} hours
-   * @return {Date}
-   */
-  hourOffset(hours) {
-    return new Date(this.sunrise().getTime() + (this.hour() * hours));
-  }
-  /** @return {Date} */
-  chatzot() {
-    return this.hourOffset(6);
-  }
-  /** @return {Date} */
-  chatzotNight() {
-    return new Date(this.sunrise().getTime() - (this.nightHour() * 6));
-  }
-  /** @return {Date} */
-  alotHaShachar() {
-    return this.times.alot_hashachar;
-  }
-  /** @return {Date} */
-  misheyakir() {
-    return this.times.misheyakir;
-  }
-  /** @return {Date} */
-  misheyakirMachmir() {
-    return this.times.misheyakir_machmir;
-  }
-  /** @return {Date} */
-  sofZmanShma() { // Gra
-    return this.hourOffset(3);
-  }
-  /** @return {Date} */
-  sofZmanTfilla() { // Gra
-    return this.hourOffset(4);
-  }
-  /** @return {Date} */
-  minchaGedola() {
-    return this.hourOffset(6.5);
-  }
-  /** @return {Date} */
-  minchaKetana() {
-    return this.hourOffset(9.5);
-  }
-  /** @return {Date} */
-  plagHaMincha() {
-    return this.hourOffset(10.75);
-  }
-  /** @return {Date} */
-  tzeit() {
-    return this.times.tzeit;
-  }
-  /** @return {Date} */
-  neitzHaChama() {
-    return this.sunrise();
-  }
-  /** @return {Date} */
-  shkiah() {
-    return this.sunset();
-  }
 }

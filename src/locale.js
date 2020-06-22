@@ -90,4 +90,6 @@ addLocale('h', poHe);
 addLocale('ashkenazi', poAshkenazi);
 addLocale('a', poAshkenazi);
 addLocale('', noopLocale);
+addLocale('s', noopLocale);
+addLocale('en', noopLocale);
 useLocale('');

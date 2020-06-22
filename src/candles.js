@@ -64,7 +64,7 @@ function tzeitTime(hd, location, timeFormat) {
  * @param {Location} location
  * @param {Intl.DateTimeFormat} timeFormat
  * @param {number} candlesOffset
- * @param {number} havdalahOffset
+ * @param {number} [havdalahOffset]
  * @return {Event}
  */
 export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {

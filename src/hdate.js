@@ -46,16 +46,20 @@ export class HDate {
    *    be a number between 1-30, Hebrew month can be a number or string, and
    *    Hebrew year is always a number.
    * @example
-   * const hd = new HDate();
-   * const hd = new HDate(new Date(2008, 10, 13));
-   * const hd = new HDate(15, 'Cheshvan', 5769);
-   * const hd = new HDate(5, 'אייר', 5773);
-   * const hd = new HDate(733359); // ==> 15 Cheshvan 5769
+   * import {HDate, common} from '@hebcal/core';
+   *
+   * const hd1 = new HDate();
+   * const hd2 = new HDate(new Date(2008, 10, 13));
+   * const hd3 = new HDate(15, 'Cheshvan', 5769);
+   * const hd4 = new HDate(15, common.months.CHESHVAN, 5769);
+   * const hd5 = new HDate(733359); // ==> 15 Cheshvan 5769
+   * const monthName = 'אייר';
+   * const hd6 = new HDate(5, monthName, 5773);
    * @param {number|Date|HDate} [day] - Day of month (1-30) if a `number`.
    *   If a `Date` is specified, represents the Hebrew date corresponding to the
    *   Gregorian date using local time.
    *   If an `HDate` is specified, clones a copy of the given Hebrew date.
-   * @param {number} [month] - Hebrew month of year (1=NISAN, 7=TISHREI)
+   * @param {number|string} [month] - Hebrew month of year (1=NISAN, 7=TISHREI)
    * @param {number} [year] - Hebrew year
    */
   constructor(day, month, year) {
@@ -211,6 +215,12 @@ export class HDate {
 
   /**
    * Returns translated/transliterated Hebrew date, e.g. `'15 Cheshvan 5769'`.
+   * @example
+   * import {HDate, common} from '@hebcal/core';
+   *
+   * const hd = new HDate(15, common.months.CHESHVAN, 5769);
+   * console.log(hd.render()); // '15 Cheshvan 5769'
+   * console.log(hd.render('he')); // '15 חֶשְׁוָן 5769'
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
@@ -296,15 +306,15 @@ export class HDate {
     }
     return false;
   }
+
+  /** @return {string} */
+  toString() {
+    const day = this.getDate();
+    const fullYear = this.getFullYear();
+    const monthName = this.getMonthName();
+    return `${day} ${monthName} ${fullYear}`;
+  };
 }
-
-HDate.prototype.toString = function hdateToString() {
-  const day = this.getDate();
-  const fullYear = this.getFullYear();
-  const monthName = this.getMonthName();
-  return `${day} ${monthName} ${fullYear}`;
-};
-
 
 // eslint-disable-next-line require-jsdoc
 function fix(date) {
@@ -362,7 +372,7 @@ function onOrBefore(day, t, offset) {
 }
 
 /**
- * A simple Hebrew date
+ * A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
  * @typedef {Object} SimpleHebrewDate
  * @property {number} yy Hebrew year
  * @property {number} mm Hebrew month of year (1=NISAN, 7=TISHREI)
@@ -456,6 +466,13 @@ export class HebrewDateEvent extends Event {
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @example
+   * import {HDate, HebrewDateEvent, common} from '@hebcal/core';
+   *
+   * const hd = new HDate(15, common.months.CHESHVAN, 5769);
+   * const ev = new HebrewDateEvent(hd);
+   * console.log(ev.render()); // '15th of Cheshvan, 5769'
+   * console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'
    * @return {string}
    */
   render(locale) {
