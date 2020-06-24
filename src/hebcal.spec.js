@@ -296,15 +296,57 @@ test('addHebrewDatesForEvents', (t) => {
 
 test('addHebrewDates', (t) => {
   const options0 = {year: 2017, month: 3, noHolidays: true, addHebrewDates: true};
-  const ev0 = hebcal.hebrewCalendar(options0);
-  t.is(ev0.length, 31);
-  t.is(ev0[0].getFlags(), flags.HEBREW_DATE);
-  t.is(ev0[0].getDesc(), '3 Adar 5777');
-  t.is(ev0[0].render(), '3rd of Adar, 5777');
+  const events = hebcal.hebrewCalendar(options0);
+  t.is(events.length, 31);
+  t.is(events[0].getFlags(), flags.HEBREW_DATE);
+  t.is(gregDtString(events[0]), '3/1/2017');
+  t.is(events[0].getDesc(), '3 Adar 5777');
+  t.is(events[0].render(), '3rd of Adar, 5777');
 
-  const options = {year: 2017, month: 3, addHebrewDates: true};
+  t.is(events[1].getFlags(), flags.HEBREW_DATE);
+  t.is(gregDtString(events[1]), '3/2/2017');
+  t.is(events[1].getDesc(), '4 Adar 5777');
+  t.is(events[1].render(), '4th of Adar, 5777');
+
+  t.is(events[2].getFlags(), flags.HEBREW_DATE);
+  t.is(gregDtString(events[2]), '3/3/2017');
+  t.is(events[2].getDesc(), '5 Adar 5777');
+  t.is(events[2].render(), '5th of Adar, 5777');
+
+  const options = {
+    addHebrewDates: true,
+    omer: true,
+    candlelighting: true,
+    sedrot: true,
+    year: 2020,
+    havdalahMins: 50,
+    candleLightingMins: 18,
+    isHebrewDate: false,
+    month: 4,
+    locale: 's',
+    location: Location.lookup('Providence'),
+  };
   const ev = hebcal.hebrewCalendar(options);
-  t.is(ev.length, 39);
+  t.is(ev.length, 83);
+  t.is(ev[0].getFlags(), flags.HEBREW_DATE);
+  t.is(gregDtString(ev[0]), '4/1/2020');
+  t.is(ev[0].getDesc(), '7 Nisan 5780');
+  t.is(ev[0].render(), '7th of Nisan, 5780');
+
+  t.is(gregDtString(ev[1]), '4/2/2020');
+  t.is(ev[1].getDesc(), '8 Nisan 5780');
+
+  t.is(gregDtString(ev[2]), '4/3/2020');
+  t.is(ev[2].getDesc(), '9 Nisan 5780');
+
+  t.is(gregDtString(ev[3]), '4/3/2020');
+  t.is(ev[3].getDesc(), 'Candle lighting');
+
+  t.is(gregDtString(ev[4]), '4/4/2020');
+  t.is(ev[4].getDesc(), '10 Nisan 5780');
+
+  t.is(gregDtString(ev[5]), '4/4/2020');
+  t.is(ev[5].getDesc(), 'Shabbat HaGadol');
 });
 
 test('addHebrewDates-locale', (t) => {

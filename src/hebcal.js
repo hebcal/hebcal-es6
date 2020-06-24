@@ -347,7 +347,7 @@ export function hebrewCalendar(options={}) {
       if (prevEventsLength == events.length) {
         events.push(e2);
       } else {
-        events.splice(prevEventsLength - 1, 0, e2);
+        events.splice(prevEventsLength, 0, e2);
       }
     }
   }
