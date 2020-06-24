@@ -171,12 +171,11 @@ declare module '@hebcal/core' {
          */
         static getUsaTzid(state: string, tz: number, dst: string): string;
         /**
-         * Builds a city description from geonameid string components
-         * @param cityName e.g. 'Tel Aviv' or 'Chicago'
-         * @param admin1 e.g. 'England' or 'Massachusetts'
-         * @param countryName full country name, e.g. 'Israel' or 'United States'
+         * Converts legacy Hebcal timezone to a standard Olson tzid.
+         * @param tz integer, GMT offset in hours
+         * @param dst 'none', 'eu', 'usa', or 'israel'
          */
-        static geonameCityDescr(cityName: string, admin1: string, countryName: string): string;
+        static legacyTzToTzid(tz: number, dst: string): string;
     }
 
     /**
