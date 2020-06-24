@@ -90,6 +90,22 @@ const classicCities0 = [
 ];
 const classicCities = new Map();
 
+// Zip-Codes.com TimeZone IDs
+const ZIPCODES_TZ_MAP = {
+  '0': 'UTC',
+  '4': 'America/Puerto_Rico', // Atlantic (GMT -04:00)
+  '5': 'America/New_York', //    Eastern  (GMT -05:00)
+  '6': 'America/Chicago', //     Central  (GMT -06:00)
+  '7': 'America/Denver', //      Mountain (GMT -07:00)
+  '8': 'America/Los_Angeles', // Pacific  (GMT -08:00)
+  '9': 'America/Anchorage', //   Alaska   (GMT -09:00)
+  '10': 'Pacific/Honolulu', //   Hawaii-Aleutian Islands (GMT -10:00)
+  '11': 'Pacific/Pago_Pago', //  American Samoa (GMT -11:00)
+  '13': 'Pacific/Funafuti', //   Marshall Islands (GMT +12:00)
+  '14': 'Pacific/Guam', //       Guam     (GMT +10:00)
+  '15': 'Pacific/Palau', //      Palau    (GMT +9:00)
+};
+
 /** Class representing Location */
 export class Location {
   /**
@@ -190,6 +206,69 @@ export class Location {
   /** @return {string} */
   toString() {
     return JSON.stringify(this);
+  }
+
+  /**
+   * Converts legacy Hebcal timezone to a standard Olson tzid.
+   * @param {number} tz integer, GMT offset in hours
+   * @param {string} dst 'none', 'eu', 'usa', or 'israel'
+   * @return {string}
+   */
+  static legacyTzToTzid(tz, dst) {
+    tz = +tz;
+    if (tz == 0 && dst == 'none') {
+      return 'UTC';
+    } else if (tz == 2 && dst == 'israel') {
+      return 'Asia/Jerusalem';
+    } else if (tz == 0 && dst == 'eu') {
+      return 'Europe/London';
+    } else if (tz == 1 && dst == 'eu') {
+      return 'Europe/Paris';
+    } else if (tz == 2 && dst == 'eu') {
+      return 'Europe/Athens';
+    } else if (dst == 'usa') {
+      return ZIPCODES_TZ_MAP[String(tz * -1)];
+    }
+    return undefined;
+  }
+
+  /**
+   * Converts timezone info from Zip-Codes.com to a standard Olson tzid.
+   * @example
+   * Location.getUsaTzid('AZ', 7, 'Y') // 'America/Denver'
+   * @param {string} state two-letter all-caps US state abbreviation like 'CA'
+   * @param {number} tz positive number, 5=America/New_York, 8=America/Los_Angeles
+   * @param {string} dst single char 'Y' or 'N'
+   * @return {string}
+   */
+  static getUsaTzid(state, tz, dst) {
+    if (tz == 10 && state == 'AK') {
+      return 'America/Adak';
+    } else if (tz == 7 && state == 'AZ') {
+      return dst == 'Y' ? 'America/Denver' : 'America/Phoenix';
+    } else {
+      return ZIPCODES_TZ_MAP[tz];
+    }
+  }
+
+  /**
+   * Builds a city description from geonameid string components
+   * @param {string} cityName e.g. 'Tel Aviv' or 'Chicago'
+   * @param {string} admin1 e.g. 'England' or 'Massachusetts'
+   * @param {string} countryName full country name, e.g. 'Israel' or 'United States'
+   * @return {string}
+   */
+  static geonameCityDescr(cityName, admin1, countryName) {
+    if (countryName == 'United States') countryName = 'USA';
+    if (countryName == 'United Kingdom') countryName = 'UK';
+    let cityDescr = cityName;
+    if (admin1 && !admin1.startsWith(cityName) && countryName != 'Israel') {
+      cityDescr += ', ' + admin1;
+    }
+    if (countryName) {
+      cityDescr += ', ' + countryName;
+    }
+    return cityDescr;
   }
 }
 

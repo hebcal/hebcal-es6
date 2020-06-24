@@ -880,6 +880,9 @@ Class representing Location
         * [.toString()](#Location+toString) ⇒ <code>string</code>
     * _static_
         * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
+        * [.legacyTzToTzid(tz, dst)](#Location.legacyTzToTzid) ⇒ <code>string</code>
+        * [.getUsaTzid(state, tz, dst)](#Location.getUsaTzid) ⇒ <code>string</code>
+        * [.geonameCityDescr(cityName, admin1, countryName)](#Location.geonameCityDescr) ⇒ <code>string</code>
 
 <a name="new_Location_new"></a>
 
@@ -967,6 +970,48 @@ The following city names are supported:
 | Param | Type |
 | --- | --- |
 | name | <code>string</code> | 
+
+<a name="Location.legacyTzToTzid"></a>
+
+### Location.legacyTzToTzid(tz, dst) ⇒ <code>string</code>
+Converts legacy Hebcal timezone to a standard Olson tzid.
+
+**Kind**: static method of [<code>Location</code>](#Location)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| tz | <code>number</code> | integer, GMT offset in hours |
+| dst | <code>string</code> | 'none', 'eu', 'usa', or 'israel' |
+
+<a name="Location.getUsaTzid"></a>
+
+### Location.getUsaTzid(state, tz, dst) ⇒ <code>string</code>
+Converts timezone info from Zip-Codes.com to a standard Olson tzid.
+
+**Kind**: static method of [<code>Location</code>](#Location)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| state | <code>string</code> | two-letter all-caps US state abbreviation like 'CA' |
+| tz | <code>number</code> | positive number, 5=America/New_York, 8=America/Los_Angeles |
+| dst | <code>string</code> | single char 'Y' or 'N' |
+
+**Example**  
+```js
+Location.getUsaTzid('AZ', 7, 'Y') // 'America/Denver'
+```
+<a name="Location.geonameCityDescr"></a>
+
+### Location.geonameCityDescr(cityName, admin1, countryName) ⇒ <code>string</code>
+Builds a city description from geonameid string components
+
+**Kind**: static method of [<code>Location</code>](#Location)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cityName | <code>string</code> | e.g. 'Tel Aviv' or 'Chicago' |
+| admin1 | <code>string</code> | e.g. 'England' or 'Massachusetts' |
+| countryName | <code>string</code> | full country name, e.g. 'Israel' or 'United States' |
 
 <a name="HavdalahEvent"></a>
 

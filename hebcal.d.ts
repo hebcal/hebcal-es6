@@ -128,6 +128,23 @@ declare module '@hebcal/core' {
          * @param geoid - optional numeric geographic ID
          */
         constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: number);
+        /**
+         * Creates a location object from one of 60 "classic" Hebcal city names.
+         * The following city names are supported:
+         * 'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
+         * 'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
+         * 'Buenos Aires', 'Buffalo', 'Chicago', 'Cincinnati', 'Cleveland',
+         * 'Dallas', 'Denver', 'Detroit', 'Eilat', 'Gibraltar', 'Haifa',
+         * 'Hawaii', 'Helsinki', 'Houston', 'Jerusalem', 'Johannesburg',
+         * 'Kiev', 'La Paz', 'Livingston', 'Las Vegas', 'London', 'Los Angeles',
+         * 'Marseilles', 'Miami', 'Minneapolis', 'Melbourne', 'Mexico City',
+         * 'Montreal', 'Moscow', 'New York', 'Omaha', 'Ottawa', 'Panama City',
+         * 'Paris', 'Pawtucket', 'Petach Tikvah', 'Philadelphia', 'Phoenix',
+         * 'Pittsburgh', 'Providence', 'Portland', 'Saint Louis', 'Saint Petersburg',
+         * 'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
+         * 'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
+         * 'Washington DC', 'Worcester'
+         */
         static lookup(name: string): Location;
         getLatitude(): number;
         getLongitude(): number;
@@ -137,6 +154,29 @@ declare module '@hebcal/core' {
         getTzid(): string;
         sunset(hdate: Date | HDate): Date;
         tzeit(hdate: Date | HDate): Date;
+        /**
+         * Builds a city description from geonameid string components
+         * @param cityName e.g. 'Tel Aviv' or 'Chicago'
+         * @param admin1 e.g. 'England' or 'Massachusetts'
+         * @param countryName full country name, e.g. 'Israel' or 'United States'
+         */
+        static geonameCityDescr(cityName: string, admin1: string, countryName: string): string;
+        /**
+         * Converts timezone info from Zip-Codes.com to a standard Olson tzid.
+         * @example
+         * Location.getUsaTzid('AZ', 7, 'Y') // 'America/Denver'
+         * @param state two-letter all-caps US state abbreviation like 'CA'
+         * @param tz positive number, 5=America/New_York, 8=America/Los_Angeles
+         * @param dst single char 'Y' or 'N'
+         */
+        static getUsaTzid(state: string, tz: number, dst: string): string;
+        /**
+         * Builds a city description from geonameid string components
+         * @param cityName e.g. 'Tel Aviv' or 'Chicago'
+         * @param admin1 e.g. 'England' or 'Massachusetts'
+         * @param countryName full country name, e.g. 'Israel' or 'United States'
+         */
+        static geonameCityDescr(cityName: string, admin1: string, countryName: string): string;
     }
 
     /**

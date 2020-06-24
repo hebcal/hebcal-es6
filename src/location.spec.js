@@ -84,3 +84,26 @@ test('classic-cities', (t) => {
     t.is(typeof city, 'object', s);
   }
 });
+
+test('getUsaTzid', (t) => {
+  t.is(Location.getUsaTzid('CA', 8, 'Y'), 'America/Los_Angeles');
+  t.is(Location.getUsaTzid('IL', 6, 'Y'), 'America/Chicago');
+});
+
+test('legacyTzToTzid', (t) => {
+  t.is(Location.legacyTzToTzid(-8, 'usa'), 'America/Los_Angeles');
+  t.is(Location.legacyTzToTzid(-6, 'usa'), 'America/Chicago');
+  t.is(Location.legacyTzToTzid(-5, 'usa'), 'America/New_York');
+  t.is(Location.legacyTzToTzid(0, 'eu'), 'Europe/London');
+  t.is(Location.legacyTzToTzid(1, 'eu'), 'Europe/Paris');
+  t.is(Location.legacyTzToTzid(2, 'eu'), 'Europe/Athens');
+  t.is(Location.legacyTzToTzid(2, 'israel'), 'Asia/Jerusalem');
+  t.is(Location.legacyTzToTzid(0, 'none'), 'UTC');
+});
+
+test('geonameCityDescr', (t) => {
+  t.is(Location.geonameCityDescr('Providence', 'Rhode Island', 'United States'), 'Providence, Rhode Island, USA');
+  t.is(Location.geonameCityDescr('London', 'England', 'United Kingdom'), 'London, England, UK');
+  t.is(Location.geonameCityDescr('Tel Aviv', 'Central District', 'Israel'), 'Tel Aviv, Israel');
+  t.is(Location.geonameCityDescr('Montréal', 'Quebec', 'Canada'), 'Montréal, Quebec, Canada');
+});
