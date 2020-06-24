@@ -107,3 +107,9 @@ test('geonameCityDescr', (t) => {
   t.is(Location.geonameCityDescr('Tel Aviv', 'Central District', 'Israel'), 'Tel Aviv, Israel');
   t.is(Location.geonameCityDescr('Montréal', 'Quebec', 'Canada'), 'Montréal, Quebec, Canada');
 });
+
+test('shortName', (t) => {
+  const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
+  t.is(loc.getName(), 'Foo Bar, Baaz, Quux');
+  t.is(loc.getShortName(), 'Foo Bar');
+});

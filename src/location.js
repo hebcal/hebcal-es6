@@ -116,7 +116,7 @@ export class Location {
    * @param {string} tzid - Olson timezone ID, e.g. "America/Chicago"
    * @param {string} cityName - optional descriptive city name
    * @param {string} countryCode - ISO 3166 alpha-2 country code (e.g. "FR")
-   * @param {number} geoid - optional numeric geographic ID
+   * @param {string} geoid - optional string or numeric geographic ID
    */
   constructor(latitude, longitude, il, tzid, cityName, countryCode, geoid) {
     this.latitude = +latitude;
@@ -152,6 +152,16 @@ export class Location {
   /** @return {string} */
   getName() {
     return this.name;
+  }
+
+  /**
+   * Returns the location name, up to the first comma
+   * @return {string}
+   */
+  getShortName() {
+    if (!this.name) return this.name;
+    const comma = this.name.indexOf(',');
+    return comma == -1 ? this.name : this.name.substring(0, comma);
   }
 
   /** @return {string} */

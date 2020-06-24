@@ -125,9 +125,9 @@ declare module '@hebcal/core' {
          * @param tzid - Olson timezone ID, e.g. "America/Chicago"
          * @param cityName - optional descriptive city name
          * @param countryCode - ISO 3166 alpha-2 country code (e.g. "FR")
-         * @param geoid - optional numeric geographic ID
+         * @param geoid - optional string or numeric geographic ID
          */
-        constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: number);
+        constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: string);
         /**
          * Creates a location object from one of 60 "classic" Hebcal city names.
          * The following city names are supported:
@@ -150,6 +150,10 @@ declare module '@hebcal/core' {
         getLongitude(): number;
         getIsrael(): boolean;
         getName(): string;
+        /**
+         * Returns the location name, up to the first comma
+         */
+        getShortName(): string;
         getCountryCode(): string;
         getTzid(): string;
         sunset(hdate: Date | HDate): Date;
