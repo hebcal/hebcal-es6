@@ -688,10 +688,12 @@ declare module '@hebcal/core' {
         renderBrief(locale?: string): string;
     }
     export class OmerEvent extends Event {
+        constructor(date: HDate, omerDay: number);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
     }
     export class ParshaEvent extends Event {
+        constructor(date: HDate, parsha: string[]);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         url(): string;
