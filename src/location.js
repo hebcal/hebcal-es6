@@ -174,6 +174,11 @@ export class Location {
     return this.tzid;
   }
 
+  /** @return {string} */
+  getGeoId() {
+    return this.geoid;
+  }
+
   /**
    * Creates a location object from one of 60 "classic" Hebcal city names.
    * The following city names are supported:

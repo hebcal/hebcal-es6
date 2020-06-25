@@ -155,6 +155,7 @@ declare module '@hebcal/core' {
          */
         getShortName(): string;
         getCountryCode(): string;
+        getGeoId(): string;
         getTzid(): string;
         sunset(hdate: Date | HDate): Date;
         tzeit(hdate: Date | HDate): Date;
