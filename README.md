@@ -164,8 +164,8 @@ Clamen, Software--Practice and Experience, Volume 23, Number 4
 (April, 1993), pages 383-404 for an explanation.</p>
 </dd>
 <dt><a href="#lookupTranslation">lookupTranslation(id, [locale])</a> ⇒ <code>string</code></dt>
-<dd><p>Returns translation only if <code>locale</code> offers a translation for <code>id</code>.
-Otherwise, returns undefined.</p>
+<dd><p>Returns translation only if <code>locale</code> offers a non-empty translation for <code>id</code>.
+Otherwise, returns <code>undefined</code>.</p>
 </dd>
 <dt><a href="#gettext">gettext(id, [locale])</a> ⇒ <code>string</code></dt>
 <dd><p>By default, if no translation was found, returns <code>id</code>.</p>
@@ -181,6 +181,13 @@ Otherwise, returns undefined.</p>
 After setting the locale to be used, all strings marked for translations
 will be represented by the corresponding translation in the specified locale.</p>
 </dd>
+<dt><a href="#getLocaleName">getLocaleName()</a> ⇒ <code>string</code></dt>
+<dd><p>Returns the name of the active locale (i.e. &#39;he&#39;, &#39;ashkenazi&#39;, &#39;fr&#39;)</p>
+</dd>
+<dt><a href="#getEnOrdinal">getEnOrdinal(n)</a> ⇒ <code>string</code></dt>
+<dd></dd>
+<dt><a href="#ordinal">ordinal(n)</a> ⇒ <code>string</code></dt>
+<dd></dd>
 <dt><a href="#hebrewStripNikkud">hebrewStripNikkud(str)</a> ⇒ <code>string</code></dt>
 <dd><p>Removes nekudot from Hebrew string</p>
 </dd>
@@ -437,6 +444,7 @@ Class representing a Hebrew date
     * [.abs()](#HDate+abs) ⇒ <code>number</code>
     * [.getMonthName()](#HDate+getMonthName) ⇒ <code>string</code>
     * [.render([locale])](#HDate+render) ⇒ <code>string</code>
+    * [.renderGematriya()](#HDate+renderGematriya) ⇒ <code>string</code>
     * [.before(day)](#HDate+before) ⇒ [<code>HDate</code>](#HDate)
     * [.onOrBefore(day)](#HDate+onOrBefore) ⇒ [<code>HDate</code>](#HDate)
     * [.nearest(day)](#HDate+nearest) ⇒ [<code>HDate</code>](#HDate)
@@ -580,7 +588,8 @@ Returns a transliterated Hebrew month name, e.g. `'Elul'` or `'Cheshvan'`.
 <a name="HDate+render"></a>
 
 ### hDate.render([locale]) ⇒ <code>string</code>
-Returns translated/transliterated Hebrew date, e.g. `'15 Cheshvan 5769'`.
+Renders this Hebrew date as a translated or transliterated string,
+including ordinal e.g. `'15th of Cheshvan, 5769'`.
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
@@ -593,8 +602,20 @@ Returns translated/transliterated Hebrew date, e.g. `'15 Cheshvan 5769'`.
 import {HDate, common} from '@hebcal/core';
 
 const hd = new HDate(15, common.months.CHESHVAN, 5769);
-console.log(hd.render()); // '15 Cheshvan 5769'
-console.log(hd.render('he')); // '15 חֶשְׁוָן 5769'
+console.log(hd.render()); // '15th of Cheshvan, 5769'
+console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
+```
+<a name="HDate+renderGematriya"></a>
+
+### hDate.renderGematriya() ⇒ <code>string</code>
+Renders this Hebrew date in Hebrew gematriya, regardless of locale.
+
+**Kind**: instance method of [<code>HDate</code>](#HDate)  
+**Example**  
+```js
+import {HDate, common} from '@hebcal/core';
+const hd = new HDate(15, common.months.CHESHVAN, 5769);
+console.log(ev.renderGematriya()); // 'ט״ו חֶשְׁוָן תשס״ט'
 ```
 <a name="HDate+before"></a>
 
@@ -676,7 +697,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 **Kind**: global class  
 
 * [HebrewDateEvent](#HebrewDateEvent)
-    * [new HebrewDateEvent(date, locale)](#new_HebrewDateEvent_new)
+    * [new HebrewDateEvent(date)](#new_HebrewDateEvent_new)
     * _instance_
         * [.render([locale])](#HebrewDateEvent+render) ⇒ <code>string</code>
     * _static_
@@ -684,12 +705,11 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 <a name="new_HebrewDateEvent_new"></a>
 
-### new HebrewDateEvent(date, locale)
+### new HebrewDateEvent(date)
 
 | Param | Type |
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
-| locale | <code>string</code> | 
 
 <a name="HebrewDateEvent+render"></a>
 
@@ -873,8 +893,10 @@ Class representing Location
         * [.getLongitude()](#Location+getLongitude) ⇒ <code>number</code>
         * [.getIsrael()](#Location+getIsrael) ⇒ <code>boolean</code>
         * [.getName()](#Location+getName) ⇒ <code>string</code>
+        * [.getShortName()](#Location+getShortName) ⇒ <code>string</code>
         * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
         * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
+        * [.getGeoId()](#Location+getGeoId) ⇒ <code>string</code>
         * [.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>
         * [.tzeit(hdate)](#Location+tzeit) ⇒ <code>Date</code>
         * [.toString()](#Location+toString) ⇒ <code>string</code>
@@ -898,7 +920,7 @@ Initialize a Location instance
 | tzid | <code>string</code> | Olson timezone ID, e.g. "America/Chicago" |
 | cityName | <code>string</code> | optional descriptive city name |
 | countryCode | <code>string</code> | ISO 3166 alpha-2 country code (e.g. "FR") |
-| geoid | <code>number</code> | optional numeric geographic ID |
+| geoid | <code>string</code> | optional string or numeric geographic ID |
 
 <a name="Location+getLatitude"></a>
 
@@ -916,6 +938,12 @@ Initialize a Location instance
 
 ### location.getName() ⇒ <code>string</code>
 **Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getShortName"></a>
+
+### location.getShortName() ⇒ <code>string</code>
+Returns the location name, up to the first comma
+
+**Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+getCountryCode"></a>
 
 ### location.getCountryCode() ⇒ <code>string</code>
@@ -923,6 +951,10 @@ Initialize a Location instance
 <a name="Location+getTzid"></a>
 
 ### location.getTzid() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getGeoId"></a>
+
+### location.getGeoId() ⇒ <code>string</code>
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+sunset"></a>
 
@@ -1775,8 +1807,8 @@ Clamen, Software--Practice and Experience, Volume 23, Number 4
 <a name="lookupTranslation"></a>
 
 ## lookupTranslation(id, [locale]) ⇒ <code>string</code>
-Returns translation only if `locale` offers a translation for `id`.
-Otherwise, returns undefined.
+Returns translation only if `locale` offers a non-empty translation for `id`.
+Otherwise, returns `undefined`.
 
 **Kind**: global function  
 
@@ -1833,6 +1865,30 @@ will be represented by the corresponding translation in the specified locale.
 | Param | Type | Description |
 | --- | --- | --- |
 | locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`) |
+
+<a name="getLocaleName"></a>
+
+## getLocaleName() ⇒ <code>string</code>
+Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
+
+**Kind**: global function  
+<a name="getEnOrdinal"></a>
+
+## getEnOrdinal(n) ⇒ <code>string</code>
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| n | <code>number</code> | 
+
+<a name="ordinal"></a>
+
+## ordinal(n) ⇒ <code>string</code>
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| n | <code>number</code> | 
 
 <a name="hebrewStripNikkud"></a>
 

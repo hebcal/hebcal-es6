@@ -26,7 +26,7 @@ import {
 import {greg2abs, abs2greg} from './greg';
 import {Event, flags} from './event';
 import gematriya from 'gematriya';
-import {gettext, ordinal} from './locale';
+import {gettext, ordinal, lookupTranslation, getLocaleName} from './locale';
 
 /** Class representing a Hebrew date */
 export class HDate {
@@ -213,21 +213,48 @@ export class HDate {
   }
 
   /**
-   * Returns translated/transliterated Hebrew date, e.g. `'15 Cheshvan 5769'`.
+   * Renders this Hebrew date as a translated or transliterated string,
+   * including ordinal e.g. `'15th of Cheshvan, 5769'`.
    * @example
    * import {HDate, common} from '@hebcal/core';
    *
    * const hd = new HDate(15, common.months.CHESHVAN, 5769);
-   * console.log(hd.render()); // '15 Cheshvan 5769'
-   * console.log(hd.render('he')); // '15 חֶשְׁוָן 5769'
+   * console.log(hd.render()); // '15th of Cheshvan, 5769'
+   * console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
   render(locale) {
+    const locale0 = locale || getLocaleName();
     const day = this.getDate();
     const fullYear = this.getFullYear();
     const monthName = gettext(this.getMonthName(), locale);
-    return `${day} ${monthName} ${fullYear}`;
+    const nth = ordinal(day);
+    let dayOf = '';
+    if (locale0 == 'en' || locale0.startsWith('ashkenazi')) {
+      dayOf = ' of';
+    } else {
+      const ofStr = lookupTranslation('of', locale0);
+      if (ofStr) {
+        dayOf = ' ' + ofStr;
+      }
+    }
+    return `${nth}${dayOf} ${monthName}, ${fullYear}`;
+  }
+
+  /**
+   * Renders this Hebrew date in Hebrew gematriya, regardless of locale.
+   * @example
+   * import {HDate, common} from '@hebcal/core';
+   * const hd = new HDate(15, common.months.CHESHVAN, 5769);
+   * console.log(ev.renderGematriya()); // 'ט״ו חֶשְׁוָן תשס״ט'
+   * @return {string}
+   */
+  renderGematriya() {
+    const d = this.getDate();
+    const m = gettext(this.getMonthName(), 'he');
+    const y = this.getFullYear();
+    return gematriya(d) + ' ' + m + ' ' + gematriya(y, {limit: 3});
   }
 
   /**
@@ -458,10 +485,9 @@ export function abs2hebrew(d) {
 export class HebrewDateEvent extends Event {
   /**
    * @param {HDate} date
-   * @param {string} locale
    */
-  constructor(date, locale) {
-    super(date, date.toString(), flags.HEBREW_DATE, {locale});
+  constructor(date) {
+    super(date, date.toString(), flags.HEBREW_DATE);
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).
@@ -475,18 +501,9 @@ export class HebrewDateEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const locale0 = locale || this.getAttrs().locale || '';
+    const locale0 = locale || getLocaleName();
     const hd = this.getDate();
-    const fullYear = hd.getFullYear();
-    const monthName = gettext(hd.getMonthName(), locale0);
-    const day = hd.getDate();
-    if (locale0 == 'he') {
-      return HebrewDateEvent.renderHebrew(day, monthName, fullYear);
-    } else {
-      const nth = ordinal(day);
-      const dayOf = (locale0 && locale0.length == 2 && locale0 != 'en') ? '' : ' of';
-      return `${nth}${dayOf} ${monthName}, ${fullYear}`;
-    }
+    return locale0 == 'he' ? hd.renderGematriya() : hd.render(locale0);
   }
   /**
    * Helper function to render a Hebrew date

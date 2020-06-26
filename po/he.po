@@ -557,7 +557,7 @@ msgid "Sivan"
 msgstr "סִיוָן"
 
 msgid "Tamuz"
-msgstr "תָּמוּז"
+msgstr "תַּמּוּז"
 
 msgid "Tevet"
 msgstr "טֵבֵת"

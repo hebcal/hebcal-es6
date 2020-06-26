@@ -88,7 +88,15 @@ import {
   reformatTimeStr,
 } from './url';
 import {hebrewCalendar} from './hebcal';
-import {gettext, addLocale, useLocale, registerLocale, hebrewStripNikkud, ordinal} from './locale';
+import {gettext, addLocale, useLocale, registerLocale, hebrewStripNikkud, ordinal, getLocaleName} from './locale';
+export const locale = {
+  gettext,
+  addLocale,
+  useLocale,
+  hebrewStripNikkud,
+  ordinal,
+  getLocaleName,
+};
 /**
  * Main interface to Hebcal
  * @namespace
@@ -108,5 +116,5 @@ export const hebcal = {
   // location.js
   registerLocation,
   // locale.js
-  gettext, addLocale, useLocale, registerLocale, hebrewStripNikkud, ordinal,
+  gettext, addLocale, useLocale, registerLocale, hebrewStripNikkud,
 };

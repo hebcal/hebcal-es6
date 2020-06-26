@@ -218,6 +218,26 @@ declare module '@hebcal/core' {
         shkiah(): Date;
     }
 
+    export namespace locale {
+        export interface Headers {
+            'content-type'?: string;
+            'plural-forms'?: string;
+        }
+        export interface Translations {
+            [key: string]: any;
+        }
+        export interface LocaleData {
+            headers: Headers;
+            translations: Translations;
+        }
+        export function addLocale(locale: string, data: LocaleData): void;
+        export function useLocale(locale: string): void;
+        export function getLocaleName(): string;
+        export function gettext(id: string): string;
+        export function lookupTranslation(id: string): string;
+        export function ordinal(n: number): string;
+    }
+
     export namespace hebcal {
         /**
          * A simple Hebrew date
@@ -383,25 +403,10 @@ declare module '@hebcal/core' {
          */
         export function hebrewCalendar(options: HebcalOptions): Event[];
 
-        export interface Headers {
-            'content-type'?: string;
-            'plural-forms'?: string;
-        }
-        export interface Translations {
-            [key: string]: any;
-        }
-        export interface LocaleData {
-            headers: Headers;
-            translations: Translations;
-        }
-        export function gettext(id: string): string;
-        export function lookupTranslation(id: string): string;
-        export function addLocale(locale: string, data: LocaleData): void;
-        export function useLocale(locale: string): void;
         /**
-         * Registers a ttag locale for hebcal.hebrewCalendar()
+         * Registers a locale for hebcal.hebrewCalendar()
          */
-        export function registerLocale(locale: string, data: LocaleData): void;
+        export function registerLocale(locale: string, data: locale.LocaleData): void;
 
         export function makeAnchor(s: string): string;
         export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;

@@ -328,7 +328,7 @@ export function hebrewCalendar(options={}) {
     }
     if (options.addHebrewDates ||
       (options.addHebrewDatesForEvents && prevEventsLength != events.length)) {
-      const e2 = new HebrewDateEvent(hd, options.locale);
+      const e2 = new HebrewDateEvent(hd);
       if (prevEventsLength == events.length) {
         events.push(e2);
       } else {

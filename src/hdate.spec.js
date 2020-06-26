@@ -86,11 +86,18 @@ test('render', (t) => {
   const hd1 = new HebrewDateEvent(new HDate(29, 'Elul', 5779));
   const hd2 = new HebrewDateEvent(new HDate(1, 'Tishrei', 5780));
   t.is(hd1.render(), '29th of Elul, 5779');
-  t.is(hd1.render('a'), '29th of Elul, 5779');
+  t.is(hd1.render('en'), '29th of Elul, 5779');
+  t.is(hd1.render(''), '29th of Elul, 5779');
+  t.is(hd1.render('ashkenazi'), '29th of Elul, 5779');
   t.is(hd1.render('he'), 'כ״ט אֱלוּל תשע״ט');
   t.is(hd2.render(), '1st of Tishrei, 5780');
-  t.is(hd2.render('a'), '1st of Tishrei, 5780');
+  t.is(hd2.render(''), '1st of Tishrei, 5780');
+  t.is(hd2.render('en'), '1st of Tishrei, 5780');
+  t.is(hd2.render('ashkenazi'), '1st of Tishrei, 5780');
   t.is(hd2.render('he'), 'א׳ תִשְׁרֵי תש״פ');
-  const hd3 = new HebrewDateEvent(new HDate(20, 'Tishrei', 5780), 'he');
-  t.is(hd3.render(), 'כ׳ תִשְׁרֵי תש״פ');
+});
+
+test('renderGematriya', (t) => {
+  t.is(new HDate(17, 'Tamuz', 5748).renderGematriya(), 'י״ז תַּמּוּז תשמ״ח');
+  t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִשְׁרֵי תש״פ');
 });

@@ -16,8 +16,8 @@ const alias = {
 };
 
 /**
- * Returns translation only if `locale` offers a translation for `id`.
- * Otherwise, returns undefined.
+ * Returns translation only if `locale` offers a non-empty translation for `id`.
+ * Otherwise, returns `undefined`.
  * @param {string} id Message ID to translate
  * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
  * @return {string}
@@ -85,6 +85,14 @@ export function useLocale(locale) {
 }
 
 /**
+ * Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
+ * @return {string}
+ */
+export function getLocaleName() {
+  return activeName;
+}
+
+/**
  * @param {number} n
  * @return {string}
  */
@@ -124,4 +132,4 @@ addLocale('a', poAshkenazi);
 addLocale('', noopLocale);
 addLocale('s', noopLocale);
 addLocale('en', noopLocale);
-useLocale('');
+useLocale('en');
