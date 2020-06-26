@@ -57,10 +57,11 @@ test('registerLocation', (t) => {
   const missing = Location.lookup(cityName);
   t.is(missing, undefined);
   const success = registerLocation(cityName, new Location(
-      32.1836, 34.87386, true, 'Asia/Jerusalem', cityName, 'IL'));
+      32.1836, 34.87386, true, 'Asia/Jerusalem', cityName, 'IL', 999888777666));
   t.is(success, true);
   const found = Location.lookup(cityName);
   t.is(found.getLatitude(), 32.1836);
+  t.is(found.getGeoId(), 999888777666);
 });
 
 test('classic-cities', (t) => {
