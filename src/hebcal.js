@@ -29,15 +29,7 @@ import {Sedra, ParshaEvent} from './sedra';
 import {greg2abs, abs2greg, daysInGregMonth} from './greg';
 import {DafYomiEvent, dafyomi} from './dafyomi';
 import {Location} from './location';
-import numeral from 'numeral';
-import 'numeral/locales/fi';
-import 'numeral/locales/fr';
-import 'numeral/locales/hu';
-import 'numeral/locales/pl';
-import 'numeral/locales/ru';
 import {makeCandleEvent, HavdalahEvent} from './candles';
-
-const numeralLocales = ['fi', 'fr', 'hu', 'pl', 'ru'];
 
 /**
  * @param {HebcalOptions} options
@@ -265,15 +257,8 @@ export function hebrewCalendar(options={}) {
     if (!translationObj) {
       throw new TypeError(`Locale '${locale}' not found; did you forget to import @hebcal/locales?`);
     }
-    // use numeraljs for number formatting only if they support our locale
-    if (locale.length == 2 && numeralLocales.indexOf(locale) != -1) {
-      numeral.locale(locale);
-    } else {
-      numeral.locale('en');
-    }
   } else {
     useLocale('');
-    numeral.locale('en');
   }
 
   const events = [];

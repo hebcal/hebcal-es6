@@ -1,5 +1,5 @@
 import test from 'ava';
-import {gettext, hebrewStripNikkud} from './locale';
+import {gettext, useLocale, hebrewStripNikkud, ordinal} from './locale';
 
 test('gettext-he', (t) => {
   t.is(gettext('Yom Kippur', 'he'), 'יוֹם כִּפּוּר');
@@ -16,4 +16,21 @@ test('hebrewStripNikkud', (t) => {
   for (const [original, expected] of strs) {
     t.is(hebrewStripNikkud(original), expected);
   }
+});
+
+test('useLocale-ordinal', (t) => {
+  t.is(ordinal(3), '3rd');
+  const expected = {
+    a: '3rd',
+    ashkenazi: '3rd',
+    en: '3rd',
+    he: '3.',
+    h: '3.',
+  };
+  for (const [locale, str] of Object.entries(expected)) {
+    useLocale(locale);
+    t.is(ordinal(3), str, locale);
+  }
+  useLocale('');
+  t.is(ordinal(3), '3rd');
 });

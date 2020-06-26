@@ -7,6 +7,13 @@ const noopLocale = {
   contexts: {'': {}},
 };
 let activeLocale = null;
+let activeName = null;
+const alias = {
+  'h': 'he',
+  'a': 'ashkenazi',
+  's': 'en',
+  '': 'en',
+};
 
 /**
  * Returns translation only if `locale` offers a translation for `id`.
@@ -16,7 +23,7 @@ let activeLocale = null;
  * @return {string}
  */
 export function lookupTranslation(id, locale) {
-  const loc = locale && locales.has(locale) ? locales.get(locale) : activeLocale;
+  const loc = typeof locale == 'string' && locales.has(locale) ? locales.get(locale) : activeLocale;
   const array = loc[id];
   if (array && array.length && array[0].length) {
     return array[0];
@@ -42,7 +49,6 @@ export function gettext(id, locale) {
  * Register locale translations.
  * @param {string} locale Locale name (i.e.: `'he'`, `'fr'`)
  * @param {LocaleDate} data parsed data from a `.po` file.
-
  */
 export function addLocale(locale, data) {
   if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
@@ -68,12 +74,38 @@ export function registerLocale(locale, data) {
  * @return {LocaleData}
  */
 export function useLocale(locale) {
-  const loc = locales.get(locale.toLowerCase());
-  if (!loc) {
+  const locale0 = locale.toLowerCase();
+  const obj = locales.get(locale0);
+  if (!obj) {
     throw new Error(`Locale '${locale}' not found`);
   }
-  activeLocale = loc;
+  activeName = alias[locale0] || locale0;
+  activeLocale = obj;
   return activeLocale;
+}
+
+/**
+ * @param {number} n
+ * @return {string}
+ */
+function getEnOrdinal(n) {
+  const s = ['th', 'st', 'nd', 'rd'];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+/**
+ * @param {number} n
+ * @return {string}
+ */
+export function ordinal(n) {
+  if (!activeName || activeName == 'en' || activeName.startsWith('ashkenazi')) {
+    return getEnOrdinal(n);
+  } else if (activeName == 'fr') {
+    return n == 1 ? (n + 'er') : (n + 'ème');
+  } else {
+    return n + '.';
+  }
 }
 
 /**

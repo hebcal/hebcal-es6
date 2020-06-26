@@ -26,8 +26,7 @@ import {
 import {greg2abs, abs2greg} from './greg';
 import {Event, flags} from './event';
 import gematriya from 'gematriya';
-import numeral from 'numeral';
-import {gettext} from './locale';
+import {gettext, ordinal} from './locale';
 
 /** Class representing a Hebrew date */
 export class HDate {
@@ -484,8 +483,8 @@ export class HebrewDateEvent extends Event {
     if (locale0 == 'he') {
       return HebrewDateEvent.renderHebrew(day, monthName, fullYear);
     } else {
-      const nth = numeral(day).format('ordinal');
-      const dayOf = (locale0 && locale0.length == 2) ? '' : ' of';
+      const nth = ordinal(day);
+      const dayOf = (locale0 && locale0.length == 2 && locale0 != 'en') ? '' : ' of';
       return `${nth}${dayOf} ${monthName}, ${fullYear}`;
     }
   }
