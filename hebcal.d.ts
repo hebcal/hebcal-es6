@@ -409,6 +409,7 @@ declare module '@hebcal/core' {
 
         /**
          * Registers a locale for hebcal.hebrewCalendar()
+         * @deprecated
          */
         export function registerLocale(locale: string, data: locale.LocaleData): void;
 

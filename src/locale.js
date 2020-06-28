@@ -124,16 +124,6 @@ function getEnOrdinal(n) {
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
-/**
- * Alias for addLocale()
- * @private
- * @param {string} locale
- * @param {any} data
- */
-export function registerLocale(locale, data) {
-  locale.addLocale(locale, data);
-}
-
 locale.addLocale('he', poHe);
 locale.addLocale('h', poHe);
 locale.addLocale('ashkenazi', poAshkenazi);

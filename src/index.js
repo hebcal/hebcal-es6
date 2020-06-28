@@ -19,7 +19,6 @@ import {getMolad} from './molad';
 import {registerLocation} from './location';
 import {makeAnchor, reformatTimeStr} from './url';
 import {hebrewCalendar} from './hebcal';
-import {registerLocale} from './locale';
 
 /**
  * Main interface to Hebcal
@@ -163,8 +162,8 @@ export const hebcal = {
   registerLocation,
   // provide these locale.js functions for backwards compatibility only
   // don't add jsdoc because we don't want to publicize them
-  registerLocale,
   gettext: l.gettext.bind(l),
+  registerLocale: l.addLocale.bind(l),
   addLocale: l.addLocale.bind(l),
   useLocale: l.useLocale.bind(l),
   hebrewStripNikkud: l.hebrewStripNikkud.bind(l),
