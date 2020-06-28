@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {monthsInHebYear, getMonthName} from './common';
+import {common} from './common';
 import {Event, flags} from './event';
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -15,6 +15,7 @@ const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 /**
  * Calculates the molad for a Hebrew month
+ * @private
  * @param {number} year
  * @param {number} month
  * @return {Molad}
@@ -22,7 +23,7 @@ const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 export function getMolad(year, month) {
   let m_adj = month - 7;
   if (m_adj < 0) {
-    m_adj += monthsInHebYear(year);
+    m_adj += common.monthsInHebYear(year);
   }
 
   const m_elapsed = (235 * Math.floor((year - 1) / 19)) + // Months in complete 19 year lunar (Metonic) cycles so far
@@ -59,7 +60,7 @@ export class MoladEvent extends Event {
    */
   constructor(date, hyear, hmonth) {
     const m = getMolad(hyear, hmonth);
-    const mMonthName = getMonthName(hmonth, hyear);
+    const mMonthName = common.getMonthName(hmonth, hyear);
     super(date, `Molad ${mMonthName} ${hyear}`, flags.MOLAD, {molad: m, monthName: mMonthName});
   }
   /**

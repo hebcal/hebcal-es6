@@ -18,20 +18,25 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {useLocale} from './locale';
-import {months, days, monthNum, monthsInHebYear} from './common';
+import {locale as l} from './locale';
+import {common} from './common';
 import {HDate, hebrew2abs, HebrewDateEvent} from './hdate';
 import {MoladEvent} from './molad';
-import {getHolidaysForYear} from './holidays';
+import {holidays} from './holidays';
 import {flags} from './event';
 import {OmerEvent} from './omer';
 import {Sedra, ParshaEvent} from './sedra';
-import {greg2abs, abs2greg, daysInGregMonth} from './greg';
+import {greg as g} from './greg';
 import {DafYomiEvent, dafyomi} from './dafyomi';
 import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent} from './candles';
 
+const months = common.months;
+const FRI = common.days.FRI;
+const SAT = common.days.SAT;
+
 /**
+ * @private
  * @param {HebcalOptions} options
  * @return {number}
  */
@@ -87,19 +92,21 @@ function getCandleLightingMinutes(options) {
  */
 
 /**
-  * Gets the Julian absolute days for a number, Date, or HDate
-  * @param {Date|HDate|number} d
-  * @return {number}
-  */
+ * Gets the Julian absolute days for a number, Date, or HDate
+ * @private
+ * @param {Date|HDate|number} d
+ * @return {number}
+ */
 function getAbs(d) {
   if (typeof d == 'number') return d;
-  if (d instanceof Date) return greg2abs(d);
+  if (d instanceof Date) return g.greg2abs(d);
   if (d instanceof HDate) return d.abs();
   throw new TypeError(`Invalid date type: ${d}`);
 }
 
 /**
  * Parse options object to determine start & end days
+ * @private
  * @param {HebcalOptions} options
  * @return {number[]}
  */
@@ -115,7 +122,7 @@ function getStartAndEnd(options) {
   let theMonth = NaN;
   if (options.month) {
     if (isHebrewYear) {
-      theMonth = monthNum(options.month);
+      theMonth = common.monthNum(options.month);
     } else {
       theMonth = options.month;
     }
@@ -131,16 +138,17 @@ function getStartAndEnd(options) {
   } else {
     const gregMonth = options.month ? theMonth - 1 : 0;
     const startGreg = new Date(theYear, gregMonth, 1);
-    const startAbs = greg2abs(startGreg);
+    const startAbs = g.greg2abs(startGreg);
     const numYears = Number(options.numYears) || 1;
     const endAbs = options.month ?
-        startAbs + daysInGregMonth(theMonth, theYear) - 1 :
-        greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
+        startAbs + g.daysInGregMonth(theMonth, theYear) - 1 :
+        g.greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
     return [startAbs, endAbs];
   }
 }
 
 /**
+ * @private
  * @param {number} hyear
  * @return {number[]}
  */
@@ -153,6 +161,7 @@ function getOmerStartAndEnd(hyear) {
 
 /**
  * Mask to filter Holiday array
+ * @private
  * @param {HebcalOptions} options
  * @return {number}
  */
@@ -224,8 +233,13 @@ function getMaskFromOptions(options) {
 }
 
 /**
- * Generates a list of holidays
- * @param {HebcalOptions} options
+ * Generates a list of holidays and other hebrew date events based on `options`.
+ * This is the main interface to the `@hebcal/core` library, and can be used to
+ * retrieve holidays, rosh chodesh, candle lighting & havdalah times,
+ * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
+ * Event names can be rendered in several languges using the `locale` option.
+ * @private
+ * @param {HebcalOptions} [options={}]
  * @return {Event[]}
  */
 export function hebrewCalendar(options={}) {
@@ -253,12 +267,12 @@ export function hebrewCalendar(options={}) {
       throw new TypeError(`Invalid options.locale: ${options.locale}`);
     }
     const locale = options.ashkenazi ? 'ashkenazi' : options.locale;
-    const translationObj = useLocale(locale);
+    const translationObj = l.useLocale(locale);
     if (!translationObj) {
       throw new TypeError(`Locale '${locale}' not found; did you forget to import @hebcal/locales?`);
     }
   } else {
-    useLocale('');
+    l.useLocale('en');
   }
 
   const events = [];
@@ -270,7 +284,7 @@ export function hebrewCalendar(options={}) {
     const hyear = hd.getFullYear();
     if (hyear != currentYear) {
       currentYear = hyear;
-      holidaysYear = getHolidaysForYear(currentYear);
+      holidaysYear = holidays.getHolidaysForYear(currentYear);
       if (options.sedrot) {
         sedra = new Sedra(currentYear, il);
       }
@@ -285,9 +299,8 @@ export function hebrewCalendar(options={}) {
     if (typeof ev !== 'undefined') {
       for (const e of ev) {
         const eFlags = e.getFlags();
-        //                console.debug(e);
         if ((!eFlags || (eFlags & mask)) &&
-                    ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
+           ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
           if (!options.noHolidays) {
             events.push(e);
           }
@@ -297,14 +310,14 @@ export function hebrewCalendar(options={}) {
         }
       }
     }
-    if (options.sedrot && dow == days.SAT) {
+    if (options.sedrot && dow == SAT) {
       const parsha0 = sedra.lookup(abs);
       if (!parsha0.chag) {
         events.push(new ParshaEvent(hd, parsha0.parsha));
       }
     }
     if (options.dafyomi) {
-      const dy = dafyomi(abs2greg(abs));
+      const dy = dafyomi.dafyomi(g.abs2greg(abs));
       events.push(new DafYomiEvent(hd, dy));
     }
     if (options.omer && abs >= beginOmer && abs <= endOmer) {
@@ -312,11 +325,11 @@ export function hebrewCalendar(options={}) {
       events.push(new OmerEvent(hd, omer));
     }
     const hmonth = hd.getMonth();
-    if (options.molad && dow == days.SAT && hmonth != months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
-      const monNext = (hmonth == monthsInHebYear(hyear) ? months.NISAN : hmonth + 1);
+    if (options.molad && dow == SAT && hmonth != months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
+      const monNext = (hmonth == common.monthsInHebYear(hyear) ? months.NISAN : hmonth + 1);
       events.push(new MoladEvent(hd, hyear, monNext));
     }
-    if (!candlesEv && options.candlelighting && (dow == days.FRI || dow == days.SAT)) {
+    if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
       candlesEv = makeCandleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
     }
     // suppress Havdalah when options.havdalahMins=0
@@ -337,6 +350,5 @@ export function hebrewCalendar(options={}) {
     }
   }
 
-  //    return events.sort((a, b) => a.getDate().abs() - b.getDate().abs());
   return events;
 }

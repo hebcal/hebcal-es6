@@ -18,16 +18,16 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import * as common from './common';
+import {common as c} from './common';
 import {HDate, hebrew2abs, abs2hebrew} from './hdate';
 
-const NISAN = common.months.NISAN;
-const CHESHVAN = common.months.CHESHVAN;
-const KISLEV = common.months.KISLEV;
-const TEVET = common.months.TEVET;
-const SHVAT = common.months.SHVAT;
-const ADAR_I = common.months.ADAR_I;
-const ADAR_II = common.months.ADAR_II;
+const NISAN = c.months.NISAN;
+const CHESHVAN = c.months.CHESHVAN;
+const KISLEV = c.months.KISLEV;
+const TEVET = c.months.TEVET;
+const SHVAT = c.months.SHVAT;
+const ADAR_I = c.months.ADAR_I;
+const ADAR_II = c.months.ADAR_II;
 
 /**
  * Calculates a birthday or anniversary (non-yahrzeit).
@@ -51,6 +51,7 @@ const ADAR_II = common.months.ADAR_II;
  * const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
  * const hd = hebcal.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
  * console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
+ * @private
  * @param {number} hyear Hebrew year
  * @param {Date|HDate} gdate Gregorian or Hebrew date of event
  * @return {HDate} anniversary occurring in `hyear`
@@ -62,7 +63,7 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
     // `Hebrew year ${hyear} occurs on or before original date in ${origYear}`
     return undefined;
   }
-  const isOrigLeap = common.hebLeapYear(origYear);
+  const isOrigLeap = c.hebLeapYear(origYear);
   let month = orig.getMonth();
   let day = orig.getDate();
 
@@ -72,8 +73,8 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
      * Adar II of a leap year is also always in the last month of the
      * year, be that Adar or Adar II.
      */
-    month = common.monthsInHebYear(hyear);
-  } else if (month == CHESHVAN && day == 30 && !common.longCheshvan(hyear)) {
+    month = c.monthsInHebYear(hyear);
+  } else if (month == CHESHVAN && day == 30 && !c.longCheshvan(hyear)) {
     /*
      * The birthday in an ordinary year of someone born during the
      * first 29 days of Adar I in a leap year is on the corresponding
@@ -87,10 +88,10 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
      */
     month = KISLEV;
     day = 1;
-  } else if (month == KISLEV && day == 30 && common.shortKislev(hyear)) {
+  } else if (month == KISLEV && day == 30 && c.shortKislev(hyear)) {
     month = TEVET;
     day = 1;
-  } else if (month == ADAR_I && day == 30 && isOrigLeap && !common.hebLeapYear(hyear)) {
+  } else if (month == ADAR_I && day == 30 && isOrigLeap && !c.hebLeapYear(hyear)) {
     month = NISAN;
     day = 1;
   }
@@ -128,6 +129,7 @@ export function getBirthdayOrAnniversary(hyear, gdate) {
  * const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
  * const hd = hebcal.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
  * console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
+ * @private
  * @param {number} hyear Hebrew year
  * @param {Date|HDate} gdate Gregorian or Hebrew date of death
  * @return {HDate} anniversary occurring in hyear
@@ -144,14 +146,14 @@ export function getYahrzeit(hyear, gdate) {
     return undefined;
   }
 
-  if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !common.longCheshvan(hDeath.yy + 1)) {
+  if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !c.longCheshvan(hDeath.yy + 1)) {
     // If it's Heshvan 30 it depends on the first anniversary;
     // if that was not Heshvan 30, use the day before Kislev 1.
     hDeath.dd = 1;
     hDeath.mm = KISLEV;
     hDeath.yy = hyear;
     hDeath = abs2hebrew(hebrew2abs(hDeath) - 1);
-  } else if (hDeath.mm == KISLEV && hDeath.dd == 30 && common.shortKislev(hDeath.yy + 1)) {
+  } else if (hDeath.mm == KISLEV && hDeath.dd == 30 && c.shortKislev(hDeath.yy + 1)) {
     // If it's Kislev 30 it depends on the first anniversary;
     // if that was not Kislev 30, use the day before Teveth 1.
     hDeath.dd = 1;
@@ -160,8 +162,8 @@ export function getYahrzeit(hyear, gdate) {
     hDeath = abs2hebrew(hebrew2abs(hDeath) - 1);
   } else if (hDeath.mm == ADAR_II) {
     // If it's Adar II, use the same day in last month of year (Adar or Adar II).
-    hDeath.mm = common.monthsInHebYear(hyear);
-  } else if (hDeath.mm == ADAR_I && hDeath.dd == 30 && !common.hebLeapYear(hyear)) {
+    hDeath.mm = c.monthsInHebYear(hyear);
+  } else if (hDeath.mm == ADAR_I && hDeath.dd == 30 && !c.hebLeapYear(hyear)) {
     // If it's the 30th in Adar I and year is not a leap year
     // (so Adar has only 29 days), use the last day in Shevat.
     hDeath.dd = 30;
@@ -170,10 +172,10 @@ export function getYahrzeit(hyear, gdate) {
   // In all other cases, use the normal anniversary of the date of death.
 
   // advance day to rosh chodesh if needed
-  if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !common.longCheshvan(hyear)) {
+  if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !c.longCheshvan(hyear)) {
     hDeath.mm = KISLEV;
     hDeath.dd = 1;
-  } else if (hDeath.mm == KISLEV && hDeath.dd == 30 && common.shortKislev(hyear)) {
+  } else if (hDeath.mm == KISLEV && hDeath.dd == 30 && c.shortKislev(hyear)) {
     hDeath.mm = TEVET;
     hDeath.dd = 1;
   }

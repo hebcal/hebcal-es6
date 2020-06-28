@@ -84,221 +84,39 @@ attrs.dafyomi.name contains the untranslated string</p>
 
 <dl>
 <dt><a href="#common">common</a> : <code>object</code></dt>
-<dd><p>Common hebrew date routines</p>
-</dd>
-<dt><a href="#dafyomi$1">dafyomi$1</a> : <code>object</code></dt>
-<dd><p>Daf Yomi</p>
+<dd><p>Hebrew date utility functions.</p>
 </dd>
 <dt><a href="#greg">greg</a> : <code>object</code></dt>
-<dd><p>Gregorian date routines</p>
+<dd><p>Gregorian date helper functions.</p>
+</dd>
+<dt><a href="#locale">locale</a> : <code>object</code></dt>
+<dd><p>A locale in Hebcal is used for translations/transliterations of
+holidays. @hebcal/core supports three locales by default</p>
+<ul>
+<li><code>en</code> - default, Sephardic transliterations (e.g. &quot;Shabbat&quot;)</li>
+<li><code>ashkenazi</code> - Ashkenazi transliterations (e.g. &quot;Shabbos&quot;)</li>
+<li><code>he</code> - Hebrew (e.g. &quot;שַׁבָּת&quot;)</li>
+</ul>
+</dd>
+<dt><a href="#dafyomi">dafyomi</a> : <code>object</code></dt>
+<dd><p>Low-level interface to Daf Yomi.</p>
 </dd>
 <dt><a href="#holidays">holidays</a> : <code>object</code></dt>
-<dd><p>Lower-level holidays interface</p>
+<dd><p>Lower-level holidays interface, which returns a set of Events that must be
+filtered especially for <code>flags.IL_ONLY</code> or <code>flags.CHUL_ONLY</code> depending on
+Israel vs. Diaspora holiday scheme.</p>
 </dd>
 <dt><a href="#hebcal">hebcal</a> : <code>object</code></dt>
 <dd><p>Main interface to Hebcal</p>
 </dd>
 </dl>
 
-## Functions
+## Constants
 
 <dl>
-<dt><a href="#hebLeapYear">hebLeapYear(x)</a> ⇒ <code>boolean</code></dt>
-<dd><p>Returns true if Hebrew year is a leap year</p>
-</dd>
-<dt><a href="#monthsInHebYear">monthsInHebYear(x)</a> ⇒ <code>number</code></dt>
-<dd><p>Number of months in Hebrew year</p>
-</dd>
-<dt><a href="#daysInHebMonth">daysInHebMonth(month, year)</a> ⇒ <code>number</code></dt>
-<dd><p>Number of days in Hebrew month in a given year</p>
-</dd>
-<dt><a href="#getMonthName">getMonthName(month, year)</a> ⇒ <code>string</code></dt>
-<dd><p>Returns a transliterated string name of Hebrew month in year,
-for example &#39;Elul&#39; or &#39;Cheshvan&#39;.</p>
-</dd>
-<dt><a href="#monthNum">monthNum(month)</a> ⇒ <code>number</code></dt>
-<dd><p>Returns the Hebrew month number</p>
-</dd>
-<dt><a href="#hebElapsedDays">hebElapsedDays(hYear)</a> ⇒ <code>number</code></dt>
-<dd><p>Days from sunday prior to start of Hebrew calendar to mean
-conjunction of Tishrei in Hebrew YEAR</p>
-</dd>
-<dt><a href="#daysInYear">daysInYear(year)</a> ⇒ <code>number</code></dt>
-<dd><p>Number of days in the hebrew YEAR</p>
-</dd>
-<dt><a href="#longCheshvan">longCheshvan(year)</a> ⇒ <code>boolean</code></dt>
-<dd><p>true if Cheshvan is long in Hebrew YEAR</p>
-</dd>
-<dt><a href="#shortKislev">shortKislev(year)</a> ⇒ <code>boolean</code></dt>
-<dd><p>true if Kislev is short in Hebrew YEAR</p>
-</dd>
-<dt><a href="#monthFromName">monthFromName(c)</a> ⇒ <code>number</code></dt>
-<dd><p>Converts Hebrew month string name to numeric</p>
-</dd>
-<dt><a href="#dayOnOrBefore">dayOnOrBefore(day_of_week, absdate)</a> ⇒ <code>number</code></dt>
-<dd><p>Note: Applying this function to d+6 gives us the DAYNAME on or after an
-absolute day d.  Similarly, applying it to d+3 gives the DAYNAME nearest to
-absolute date d, applying it to d-1 gives the DAYNAME previous to absolute
-date d, and applying it to d+7 gives the DAYNAME following absolute date d.</p>
-</dd>
-<dt><a href="#range">range(start, end, [step])</a> ⇒ <code>Array.&lt;number&gt;</code></dt>
-<dd><p>Returns an array from start to end</p>
-</dd>
-<dt><a href="#gregLeapYear">gregLeapYear(year)</a> ⇒ <code>boolean</code></dt>
-<dd><p>Returns true if the Gregorian year is a leap year</p>
-</dd>
-<dt><a href="#daysInGregMonth">daysInGregMonth(month, year)</a> ⇒ <code>number</code></dt>
-<dd><p>Number of days in the Gregorian month for given year</p>
-</dd>
-<dt><a href="#dayOfYear">dayOfYear(date)</a> ⇒ <code>number</code></dt>
-<dd><p>Returns number of days since January 1 of that year</p>
-</dd>
-<dt><a href="#greg2abs">greg2abs(date)</a> ⇒ <code>number</code></dt>
-<dd><p>Converts Gregorian date to Julian Day Count</p>
-</dd>
-<dt><a href="#abs2greg">abs2greg(theDate)</a> ⇒ <code>Date</code></dt>
-<dd><p>Converts from Julian Day Count to Gregorian date.
-See the footnote on page 384 of ``Calendrical Calculations, Part II:
-Three Historical Calendars&#39;&#39; by E. M. Reingold,  N. Dershowitz, and S. M.
-Clamen, Software--Practice and Experience, Volume 23, Number 4
-(April, 1993), pages 383-404 for an explanation.</p>
-</dd>
-<dt><a href="#lookupTranslation">lookupTranslation(id, [locale])</a> ⇒ <code>string</code></dt>
-<dd><p>Returns translation only if <code>locale</code> offers a non-empty translation for <code>id</code>.
-Otherwise, returns <code>undefined</code>.</p>
-</dd>
-<dt><a href="#gettext">gettext(id, [locale])</a> ⇒ <code>string</code></dt>
-<dd><p>By default, if no translation was found, returns <code>id</code>.</p>
-</dd>
-<dt><a href="#addLocale">addLocale(locale, data)</a></dt>
-<dd><p>Register locale translations.</p>
-</dd>
-<dt><a href="#registerLocale">registerLocale(locale, data)</a></dt>
-<dd><p>Alias for addLocale()</p>
-</dd>
-<dt><a href="#useLocale">useLocale(locale)</a> ⇒ <code>LocaleData</code></dt>
-<dd><p>Activates a locale. Throws an error if the locale has not been previously added.
-After setting the locale to be used, all strings marked for translations
-will be represented by the corresponding translation in the specified locale.</p>
-</dd>
-<dt><a href="#getLocaleName">getLocaleName()</a> ⇒ <code>string</code></dt>
-<dd><p>Returns the name of the active locale (i.e. &#39;he&#39;, &#39;ashkenazi&#39;, &#39;fr&#39;)</p>
-</dd>
-<dt><a href="#getEnOrdinal">getEnOrdinal(n)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#ordinal">ordinal(n)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#hebrewStripNikkud">hebrewStripNikkud(str)</a> ⇒ <code>string</code></dt>
-<dd><p>Removes nekudot from Hebrew string</p>
-</dd>
-<dt><a href="#onOrBefore">onOrBefore(day, t, offset)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
-<dd></dd>
-<dt><a href="#hebrew2abs">hebrew2abs(d)</a> ⇒ <code>number</code></dt>
-<dd><p>Converts Hebrew date to absolute Julian days.
-The absolute date is the number of days elapsed since the (imaginary)
-Gregorian date Sunday, December 31, 1 BC.</p>
-</dd>
-<dt><a href="#abs2hebrew">abs2hebrew(d)</a> ⇒ <code><a href="#SimpleHebrewDate">SimpleHebrewDate</a></code></dt>
-<dd><p>Converts absolute Julian days to Hebrew date</p>
-</dd>
-<dt><a href="#getBirthdayOrAnniversary">getBirthdayOrAnniversary(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
-<dd><p>Calculates a birthday or anniversary (non-yahrzeit).
-<code>hyear</code> must be after original <code>gdate</code> of anniversary.
-Returns <code>undefined</code> when requested year preceeds or is same as original year.</p>
-<p>Hebcal uses the algorithm defined in &quot;Calendrical Calculations&quot;
-by Edward M. Reingold and Nachum Dershowitz.</p>
-<p>The birthday of someone born in Adar of an ordinary year or Adar II of
-a leap year is also always in the last month of the year, be that Adar
-or Adar II. The birthday in an ordinary year of someone born during the
-first 29 days of Adar I in a leap year is on the corresponding day of Adar;
-in a leap year, the birthday occurs in Adar I, as expected.</p>
-<p>Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
-has his birthday postponed until the first of the following month in
-years where that day does not occur. [Calendrical Calculations p. 111]</p>
-</dd>
-<dt><a href="#getYahrzeit">getYahrzeit(hyear, gdate)</a> ⇒ <code><a href="#HDate">HDate</a></code></dt>
-<dd><p>Calculates yahrzeit.
-<code>hyear</code> must be after original <code>gdate</code> of death.
-Returns <code>undefined</code> when requested year preceeds or is same as original year.</p>
-<p>Hebcal uses the algorithm defined in &quot;Calendrical Calculations&quot;
-by Edward M. Reingold and Nachum Dershowitz.</p>
-<p>The customary anniversary date of a death is more complicated and depends
-also on the character of the year in which the first anniversary occurs.
-There are several cases:</p>
-<ul>
-<li>If the date of death is Marcheshvan 30, the anniversary in general depends
-on the first anniversary; if that first anniversary was not Marcheshvan 30,
-use the day before Kislev 1.</li>
-<li>If the date of death is Kislev 30, the anniversary in general again depends
-on the first anniversary — if that was not Kislev 30, use the day before
-Tevet 1.</li>
-<li>If the date of death is Adar II, the anniversary is the same day in the
-last month of the Hebrew year (Adar or Adar II).</li>
-<li>If the date of death is Adar I 30, the anniversary in a Hebrew year that
-is not a leap year (in which Adar only has 29 days) is the last day in
-Shevat.</li>
-<li>In all other cases, use the normal (that is, same month number) anniversary
-of the date of death. [Calendrical Calculations p. 113]</li>
-</ul>
-</dd>
-<dt><a href="#throwError">throwError(error)</a></dt>
-<dd></dd>
-<dt><a href="#registerLocation">registerLocation(cityName, location)</a> ⇒ <code>boolean</code></dt>
-<dd><p>Adds a location name for <code>Location.lookup()</code> only if the name isn&#39;t
-already being used. Returns <code>false</code> if the name is already taken
-and <code>true</code> if successfully added.</p>
-</dd>
-<dt><a href="#formatTime">formatTime(timeFormat, dt)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#sunsetTime">sunsetTime(hd, location, timeFormat, offset)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
-<dd></dd>
-<dt><a href="#tzeitTime">tzeitTime(hd, location, timeFormat)</a> ⇒ <code>Array.&lt;Object&gt;</code></dt>
-<dd></dd>
-<dt><a href="#makeCandleEvent">makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, [havdalahOffset])</a> ⇒ <code><a href="#Event">Event</a></code></dt>
-<dd></dd>
-<dt><a href="#getMolad">getMolad(year, month)</a> ⇒ <code><a href="#Molad">Molad</a></code></dt>
-<dd><p>Calculates the molad for a Hebrew month</p>
-</dd>
-<dt><a href="#dafyomi">dafyomi(gregdate)</a> ⇒ <code><a href="#DafYomiResult">DafYomiResult</a></code></dt>
-<dd><p>Returns the Daf Yomi for given date</p>
-</dd>
-<dt><a href="#dafname">dafname(daf, [locale])</a> ⇒ <code>string</code></dt>
-<dd><p>Formats (with translation) the dafyomi result as a string like &quot;Pesachim 34&quot;</p>
-</dd>
-<dt><a href="#D">D(p)</a> ⇒ <code>number</code></dt>
-<dd><p>parsha doubler/undoubler</p>
-</dd>
-<dt><a href="#abs">abs(year, absDate)</a> ⇒ <code>Object</code></dt>
-<dd><p>Returns an object describing the parsha on the first Saturday on or after absdate</p>
-</dd>
-<dt><a href="#chanukah">chanukah(day)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getHolidaysForYear">getHolidaysForYear(year)</a> ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code></dt>
-<dd><p>Returns a Map for the year indexed by HDate.toString()</p>
-</dd>
-<dt><a href="#getHolidaysOnDate">getHolidaysOnDate(date)</a> ⇒ <code><a href="#Event">Array.&lt;Event&gt;</a></code></dt>
-<dd><p>Returns an array of Events on this date (or undefined if no events)</p>
-</dd>
-<dt><a href="#reformatTimeStr">reformatTimeStr(timeStr, suffix, options)</a> ⇒ <code>string</code></dt>
-<dd><p>Returns &quot;8:13p&quot; for US or &quot;20:13&quot; for any other locale/country</p>
-</dd>
-<dt><a href="#makeAnchor">makeAnchor(s)</a> ⇒ <code>string</code></dt>
-<dd></dd>
-<dt><a href="#getCandleLightingMinutes">getCandleLightingMinutes(options)</a> ⇒ <code>number</code></dt>
-<dd></dd>
-<dt><a href="#getAbs">getAbs(d)</a> ⇒ <code>number</code></dt>
-<dd><p>Gets the Julian absolute days for a number, Date, or HDate</p>
-</dd>
-<dt><a href="#getStartAndEnd">getStartAndEnd(options)</a> ⇒ <code>Array.&lt;number&gt;</code></dt>
-<dd><p>Parse options object to determine start &amp; end days</p>
-</dd>
-<dt><a href="#getOmerStartAndEnd">getOmerStartAndEnd(hyear)</a> ⇒ <code>Array.&lt;number&gt;</code></dt>
-<dd></dd>
-<dt><a href="#getMaskFromOptions">getMaskFromOptions(options)</a> ⇒ <code>number</code></dt>
-<dd><p>Mask to filter Holiday array</p>
-</dd>
-<dt><a href="#hebrewCalendar">hebrewCalendar(options)</a> ⇒ <code><a href="#Event">Array.&lt;Event&gt;</a></code></dt>
-<dd><p>Generates a list of holidays</p>
+<dt><a href="#parshiot">parshiot</a></dt>
+<dd><p>The 54 parshiyot of the Torah as transilterated strings
+parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &#39;Ha&#39;Azinu&#39;.</p>
 </dd>
 </dl>
 
@@ -446,9 +264,9 @@ Class representing a Hebrew date
     * [.render([locale])](#HDate+render) ⇒ <code>string</code>
     * [.renderGematriya()](#HDate+renderGematriya) ⇒ <code>string</code>
     * [.before(day)](#HDate+before) ⇒ [<code>HDate</code>](#HDate)
-    * [.onOrBefore(day)](#HDate+onOrBefore) ⇒ [<code>HDate</code>](#HDate)
-    * [.nearest(day)](#HDate+nearest) ⇒ [<code>HDate</code>](#HDate)
-    * [.onOrAfter(day)](#HDate+onOrAfter) ⇒ [<code>HDate</code>](#HDate)
+    * [.onOrBefore(dow)](#HDate+onOrBefore) ⇒ [<code>HDate</code>](#HDate)
+    * [.nearest(dow)](#HDate+nearest) ⇒ [<code>HDate</code>](#HDate)
+    * [.onOrAfter(dow)](#HDate+onOrAfter) ⇒ [<code>HDate</code>](#HDate)
     * [.after(day)](#HDate+after) ⇒ [<code>HDate</code>](#HDate)
     * [.next()](#HDate+next) ⇒ [<code>HDate</code>](#HDate)
     * [.prev()](#HDate+prev) ⇒ [<code>HDate</code>](#HDate)
@@ -512,6 +330,8 @@ Gets the Hebrew month (1=NISAN, 7=TISHREI) of this Hebrew date
 <a name="HDate+getTishreiMonth"></a>
 
 ### hDate.getTishreiMonth() ⇒ <code>number</code>
+The Tishrei-based month of the date. 1 is Tishrei, 7 is Nisan, 13 is Elul in a leap year
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+daysInMonth"></a>
 
@@ -528,12 +348,14 @@ Gets the day within the month (1-30)
 <a name="HDate+getDay"></a>
 
 ### hDate.getDay() ⇒ <code>number</code>
-Gets the day of the week, using local time.
+Gets the day of the week, using local time. 0=Sunday, 6=Saturday
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+setFullYear"></a>
 
 ### hDate.setFullYear(year) ⇒ [<code>HDate</code>](#HDate)
+Sets the year of the date. Returns the object it was called upon.
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type |
@@ -543,6 +365,8 @@ Gets the day of the week, using local time.
 <a name="HDate+setMonth"></a>
 
 ### hDate.setMonth(month) ⇒ [<code>HDate</code>](#HDate)
+Sets the day of the month of the date. Returns the object it was called upon
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type |
@@ -552,6 +376,8 @@ Gets the day of the week, using local time.
 <a name="HDate+setTishreiMonth"></a>
 
 ### hDate.setTishreiMonth(month) ⇒ [<code>HDate</code>](#HDate)
+Sets the Tishrei-based month of the date. Returns the object it was called upon
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type |
@@ -620,48 +446,90 @@ console.log(ev.renderGematriya()); // 'ט״ו חֶשְׁוָן תשס״ט'
 <a name="HDate+before"></a>
 
 ### hDate.before(day) ⇒ [<code>HDate</code>](#HDate)
+Returns an `HDate` representing the a dayNumber before the current date.
+Sunday=0, Saturday=6
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | day | <code>number</code> | day of week |
 
+**Example**  
+```js
+new HDate(new Date('Wednesday February 19, 2014')).before(6).greg() // Sat Feb 15 2014
+```
 <a name="HDate+onOrBefore"></a>
 
-### hDate.onOrBefore(day) ⇒ [<code>HDate</code>](#HDate)
+### hDate.onOrBefore(dow) ⇒ [<code>HDate</code>](#HDate)
+Returns an `HDate` representing the a dayNumber on or before the current date.
+Sunday=0, Saturday=6
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| day | <code>number</code> | day of week |
+| dow | <code>number</code> | day of week |
 
+**Example**  
+```js
+new HDate(new Date('Wednesday February 19, 2014')).onOrBefore(6).greg() // Sat Feb 15 2014
+new HDate(new Date('Saturday February 22, 2014')).onOrBefore(6).greg() // Sat Feb 22 2014
+new HDate(new Date('Sunday February 23, 2014')).onOrBefore(6).greg() // Sat Feb 22 2014
+```
 <a name="HDate+nearest"></a>
 
-### hDate.nearest(day) ⇒ [<code>HDate</code>](#HDate)
+### hDate.nearest(dow) ⇒ [<code>HDate</code>](#HDate)
+Returns an `HDate` representing the nearest dayNumber to the current date
+Sunday=0, Saturday=6
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| day | <code>number</code> | day of week |
+| dow | <code>number</code> | day of week |
 
+**Example**  
+```js
+new HDate(new Date('Wednesday February 19, 2014')).nearest(6).greg() // Sat Feb 22 2014
+new HDate(new Date('Tuesday February 18, 2014')).nearest(6).greg() // Sat Feb 15 2014
+```
 <a name="HDate+onOrAfter"></a>
 
-### hDate.onOrAfter(day) ⇒ [<code>HDate</code>](#HDate)
+### hDate.onOrAfter(dow) ⇒ [<code>HDate</code>](#HDate)
+Returns an `HDate` representing the a dayNumber on or after the current date.
+Sunday=0, Saturday=6
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| day | <code>number</code> | day of week |
+| dow | <code>number</code> | day of week |
 
+**Example**  
+```js
+new HDate(new Date('Wednesday February 19, 2014')).onOrAfter(6).greg() // Sat Feb 22 2014
+new HDate(new Date('Saturday February 22, 2014')).onOrAfter(6).greg() // Sat Feb 22 2014
+new HDate(new Date('Sunday February 23, 2014')).onOrAfter(6).greg() // Sat Mar 01 2014
+```
 <a name="HDate+after"></a>
 
 ### hDate.after(day) ⇒ [<code>HDate</code>](#HDate)
+Returns an `HDate` representing the a dayNumber after the current date.
+Sunday=0, Saturday=6
+
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | day | <code>number</code> | day of week |
 
+**Example**  
+```js
+new HDate(new Date('Wednesday February 19, 2014')).after(6).greg() // Sat Feb 22 2014
+new HDate(new Date('Saturday February 22, 2014')).after(6).greg() // Sat Mar 01 2014
+new HDate(new Date('Sunday February 23, 2014')).after(6).greg() // Sat Mar 01 2014
+```
 <a name="HDate+next"></a>
 
 ### hDate.next() ⇒ [<code>HDate</code>](#HDate)
@@ -1231,6 +1099,8 @@ attrs.dafyomi.name contains the untranslated string
 <a name="DafYomiEvent+render"></a>
 
 ### dafYomiEvent.render([locale]) ⇒ <code>string</code>
+Returns Daf Yomi name including the 'Daf Yomi: ' prefix (e.g. "Daf Yomi: Pesachim 107").
+
 **Kind**: instance method of [<code>DafYomiEvent</code>](#DafYomiEvent)  
 
 | Param | Type | Description |
@@ -1240,7 +1110,7 @@ attrs.dafyomi.name contains the untranslated string
 <a name="DafYomiEvent+renderBrief"></a>
 
 ### dafYomiEvent.renderBrief([locale]) ⇒ <code>string</code>
-Returns daf yomi name the 'Daf Yomi: ' prefix.
+Returns Daf Yomi name without the 'Daf Yomi: ' prefix (e.g. "Pesachim 107").
 
 **Kind**: instance method of [<code>DafYomiEvent</code>](#DafYomiEvent)  
 
@@ -1251,6 +1121,8 @@ Returns daf yomi name the 'Daf Yomi: ' prefix.
 <a name="DafYomiEvent+url"></a>
 
 ### dafYomiEvent.url() ⇒ <code>string</code>
+Returns a link to sefaria.org or dafyomi.org
+
 **Kind**: instance method of [<code>DafYomiEvent</code>](#DafYomiEvent)  
 <a name="Sedra"></a>
 
@@ -1500,39 +1372,46 @@ Returns (translated) description of this event
 <a name="common"></a>
 
 ## common : <code>object</code>
-Common hebrew date routines
+Hebrew date utility functions.
 
 **Kind**: global namespace  
-<a name="dafyomi$1"></a>
 
-## dafyomi$1 : <code>object</code>
-Daf Yomi
+* [common](#common) : <code>object</code>
+    * [.monthNames](#common.monthNames)
+    * [.months](#common.months) : <code>enum</code>
+    * [.days](#common.days) : <code>enum</code>
+    * [.hebLeapYear(year)](#common.hebLeapYear) ⇒ <code>boolean</code>
+    * [.monthsInHebYear(year)](#common.monthsInHebYear) ⇒ <code>number</code>
+    * [.daysInHebMonth(month, year)](#common.daysInHebMonth) ⇒ <code>number</code>
+    * [.getMonthName(month, year)](#common.getMonthName) ⇒ <code>string</code>
+    * [.monthNum(month)](#common.monthNum) ⇒ <code>number</code>
+    * [.hebElapsedDays(year)](#common.hebElapsedDays) ⇒ <code>number</code>
+    * [.daysInYear(year)](#common.daysInYear) ⇒ <code>number</code>
+    * [.longCheshvan(year)](#common.longCheshvan) ⇒ <code>boolean</code>
+    * [.shortKislev(year)](#common.shortKislev) ⇒ <code>boolean</code>
+    * [.monthFromName(c)](#common.monthFromName) ⇒ <code>number</code>
+    * [.dayOnOrBefore(dayOfWeek, absdate)](#common.dayOnOrBefore) ⇒ <code>number</code>
 
-**Kind**: global namespace  
-<a name="greg"></a>
+<a name="common.monthNames"></a>
 
-## greg : <code>object</code>
-Gregorian date routines
+### common.monthNames
+Transliterations of Hebrew month names.
+Regular years are index 0 and leap years are index 1.
 
-**Kind**: global namespace  
-<a name="holidays"></a>
+**Kind**: static property of [<code>common</code>](#common)  
+**Read only**: true  
+**Example**  
+```js
+common.monthNames[0][common.months.ADAR_I] // "Adar"
+common.monthNames[1][common.months.ADAR_I] // "Adar I"
+common.monthNames[1][common.months.ADAR_II] // "Adar II"
+```
+<a name="common.months"></a>
 
-## holidays : <code>object</code>
-Lower-level holidays interface
-
-**Kind**: global namespace  
-<a name="hebcal"></a>
-
-## hebcal : <code>object</code>
-Main interface to Hebcal
-
-**Kind**: global namespace  
-<a name="months"></a>
-
-## months : <code>enum</code>
+### common.months : <code>enum</code>
 Hebrew months of the year (NISAN=1, TISHREI=7)
 
-**Kind**: global enum  
+**Kind**: static enum of [<code>common</code>](#common)  
 **Read only**: true  
 **Properties**
 
@@ -1552,12 +1431,12 @@ Hebrew months of the year (NISAN=1, TISHREI=7)
 | ADAR_I | <code>number</code> | <code>12</code> | Adar or Adar Rishon / אדר |
 | ADAR_II | <code>number</code> | <code>13</code> | Adar Sheini (only on leap years) / אדר ב׳ |
 
-<a name="days"></a>
+<a name="common.days"></a>
 
-## days : <code>enum</code>
+### common.days : <code>enum</code>
 Days of the week (SUN=0, SAT=6)
 
-**Kind**: global enum  
+**Kind**: static enum of [<code>common</code>](#common)  
 **Read only**: true  
 **Properties**
 
@@ -1570,6 +1449,575 @@ Days of the week (SUN=0, SAT=6)
 | THU | <code>number</code> | <code>4</code> | Thursday |
 | FRI | <code>number</code> | <code>5</code> | Friday |
 | SAT | <code>number</code> | <code>6</code> | Saturday |
+
+<a name="common.hebLeapYear"></a>
+
+### common.hebLeapYear(year) ⇒ <code>boolean</code>
+Returns true if Hebrew year is a leap year
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="common.monthsInHebYear"></a>
+
+### common.monthsInHebYear(year) ⇒ <code>number</code>
+Number of months in this Hebrew year (either 12 or 13 depending on leap year)
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="common.daysInHebMonth"></a>
+
+### common.daysInHebMonth(month, year) ⇒ <code>number</code>
+Number of days in Hebrew month in a given year (29 or 30)
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> | Hebrew month (e.g. months.TISHREI) |
+| year | <code>number</code> | Hebrew year |
+
+<a name="common.getMonthName"></a>
+
+### common.getMonthName(month, year) ⇒ <code>string</code>
+Returns a transliterated string name of Hebrew month in year,
+for example 'Elul' or 'Cheshvan'.
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> | Hebrew month (e.g. months.TISHREI) |
+| year | <code>number</code> | Hebrew year |
+
+<a name="common.monthNum"></a>
+
+### common.monthNum(month) ⇒ <code>number</code>
+Returns the Hebrew month number (NISAN=1, TISHREI=7)
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> \| <code>string</code> | A number, or Hebrew month name string |
+
+<a name="common.hebElapsedDays"></a>
+
+### common.hebElapsedDays(year) ⇒ <code>number</code>
+Days from sunday prior to start of Hebrew calendar to mean
+conjunction of Tishrei in Hebrew YEAR
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="common.daysInYear"></a>
+
+### common.daysInYear(year) ⇒ <code>number</code>
+Number of days in the hebrew YEAR
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="common.longCheshvan"></a>
+
+### common.longCheshvan(year) ⇒ <code>boolean</code>
+true if Cheshvan is long in Hebrew year
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="common.shortKislev"></a>
+
+### common.shortKislev(year) ⇒ <code>boolean</code>
+true if Kislev is short in Hebrew year
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="common.monthFromName"></a>
+
+### common.monthFromName(c) ⇒ <code>number</code>
+Converts Hebrew month string name to numeric
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| c | <code>string</code> | monthName |
+
+<a name="common.dayOnOrBefore"></a>
+
+### common.dayOnOrBefore(dayOfWeek, absdate) ⇒ <code>number</code>
+Note: Applying this function to d+6 gives us the DAYNAME on or after an
+absolute day d. Similarly, applying it to d+3 gives the DAYNAME nearest to
+absolute date d, applying it to d-1 gives the DAYNAME previous to absolute
+date d, and applying it to d+7 gives the DAYNAME following absolute date d.
+
+**Kind**: static method of [<code>common</code>](#common)  
+
+| Param | Type |
+| --- | --- |
+| dayOfWeek | <code>number</code> | 
+| absdate | <code>number</code> | 
+
+<a name="greg"></a>
+
+## greg : <code>object</code>
+Gregorian date helper functions.
+
+**Kind**: global namespace  
+
+* [greg](#greg) : <code>object</code>
+    * [.monthNames](#greg.monthNames)
+    * [.gregLeapYear(year)](#greg.gregLeapYear) ⇒ <code>boolean</code>
+    * [.daysInGregMonth(month, year)](#greg.daysInGregMonth) ⇒ <code>number</code>
+    * [.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>
+    * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
+    * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
+
+<a name="greg.monthNames"></a>
+
+### greg.monthNames
+Long names of the Gregorian months (1='January', 12='December')
+
+**Kind**: static property of [<code>greg</code>](#greg)  
+**Read only**: true  
+<a name="greg.gregLeapYear"></a>
+
+### greg.gregLeapYear(year) ⇒ <code>boolean</code>
+Returns true if the Gregorian year is a leap year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Gregorian year |
+
+<a name="greg.daysInGregMonth"></a>
+
+### greg.daysInGregMonth(month, year) ⇒ <code>number</code>
+Number of days in the Gregorian month for given year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> | Gregorian month (1=January, 12=December) |
+| year | <code>number</code> | Gregorian year |
+
+<a name="greg.dayOfYear"></a>
+
+### greg.dayOfYear(date) ⇒ <code>number</code>
+Returns number of days since January 1 of that year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> | Gregorian date |
+
+<a name="greg.greg2abs"></a>
+
+### greg.greg2abs(date) ⇒ <code>number</code>
+Converts Gregorian date to Julian Day Count
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> | Gregorian date |
+
+<a name="greg.abs2greg"></a>
+
+### greg.abs2greg(theDate) ⇒ <code>Date</code>
+Converts from Julian Day Count to Gregorian date.
+See the footnote on page 384 of ``Calendrical Calculations, Part II:
+Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
+Clamen, Software--Practice and Experience, Volume 23, Number 4
+(April, 1993), pages 383-404 for an explanation.
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| theDate | <code>number</code> | absolute Julian days |
+
+<a name="locale"></a>
+
+## locale : <code>object</code>
+A locale in Hebcal is used for translations/transliterations of
+holidays. @hebcal/core supports three locales by default
+* `en` - default, Sephardic transliterations (e.g. "Shabbat")
+* `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
+* `he` - Hebrew (e.g. "שַׁבָּת")
+
+**Kind**: global namespace  
+
+* [locale](#locale) : <code>object</code>
+    * [.lookupTranslation(id, [locale])](#locale.lookupTranslation) ⇒ <code>string</code>
+    * [.gettext(id, [locale])](#locale.gettext) ⇒ <code>string</code>
+    * [.addLocale(locale, data)](#locale.addLocale)
+    * [.useLocale(locale)](#locale.useLocale) ⇒ <code>LocaleData</code>
+    * [.getLocaleName()](#locale.getLocaleName) ⇒ <code>string</code>
+    * [.ordinal(n)](#locale.ordinal) ⇒ <code>string</code>
+    * [.hebrewStripNikkud(str)](#locale.hebrewStripNikkud) ⇒ <code>string</code>
+
+<a name="locale.lookupTranslation"></a>
+
+### locale.lookupTranslation(id, [locale]) ⇒ <code>string</code>
+Returns translation only if `locale` offers a non-empty translation for `id`.
+Otherwise, returns `undefined`.
+
+**Kind**: static method of [<code>locale</code>](#locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID to translate |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="locale.gettext"></a>
+
+### locale.gettext(id, [locale]) ⇒ <code>string</code>
+By default, if no translation was found, returns `id`.
+
+**Kind**: static method of [<code>locale</code>](#locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID to translate |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="locale.addLocale"></a>
+
+### locale.addLocale(locale, data)
+Register locale translations.
+
+**Kind**: static method of [<code>locale</code>](#locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
+| data | <code>LocaleDate</code> | parsed data from a `.po` file. |
+
+<a name="locale.useLocale"></a>
+
+### locale.useLocale(locale) ⇒ <code>LocaleData</code>
+Activates a locale. Throws an error if the locale has not been previously added.
+After setting the locale to be used, all strings marked for translations
+will be represented by the corresponding translation in the specified locale.
+
+**Kind**: static method of [<code>locale</code>](#locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`) |
+
+<a name="locale.getLocaleName"></a>
+
+### locale.getLocaleName() ⇒ <code>string</code>
+Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
+
+**Kind**: static method of [<code>locale</code>](#locale)  
+<a name="locale.ordinal"></a>
+
+### locale.ordinal(n) ⇒ <code>string</code>
+**Kind**: static method of [<code>locale</code>](#locale)  
+
+| Param | Type |
+| --- | --- |
+| n | <code>number</code> | 
+
+<a name="locale.hebrewStripNikkud"></a>
+
+### locale.hebrewStripNikkud(str) ⇒ <code>string</code>
+Removes nekudot from Hebrew string
+
+**Kind**: static method of [<code>locale</code>](#locale)  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
+
+<a name="dafyomi"></a>
+
+## dafyomi : <code>object</code>
+Low-level interface to Daf Yomi.
+
+**Kind**: global namespace  
+
+* [dafyomi](#dafyomi) : <code>object</code>
+    * [.dafyomi(gregdate)](#dafyomi.dafyomi) ⇒ [<code>DafYomiResult</code>](#DafYomiResult)
+    * [.dafname(daf, [locale])](#dafyomi.dafname) ⇒ <code>string</code>
+
+<a name="dafyomi.dafyomi"></a>
+
+### dafyomi.dafyomi(gregdate) ⇒ [<code>DafYomiResult</code>](#DafYomiResult)
+Returns the Daf Yomi for given date
+
+**Kind**: static method of [<code>dafyomi</code>](#dafyomi)  
+**Returns**: [<code>DafYomiResult</code>](#DafYomiResult) - Tractact name and page number  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gregdate | <code>Date</code> | Gregorian date |
+
+<a name="dafyomi.dafname"></a>
+
+### dafyomi.dafname(daf, [locale]) ⇒ <code>string</code>
+Formats (with translation) the dafyomi result as a string like "Pesachim 34"
+
+**Kind**: static method of [<code>dafyomi</code>](#dafyomi)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| daf | [<code>DafYomiResult</code>](#DafYomiResult) | the Daf Yomi |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="holidays"></a>
+
+## holidays : <code>object</code>
+Lower-level holidays interface, which returns a set of Events that must be
+filtered especially for `flags.IL_ONLY` or `flags.CHUL_ONLY` depending on
+Israel vs. Diaspora holiday scheme.
+
+**Kind**: global namespace  
+
+* [holidays](#holidays) : <code>object</code>
+    * [.getHolidaysForYear(year)](#holidays.getHolidaysForYear) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
+    * [.getHolidaysOnDate(date)](#holidays.getHolidaysOnDate) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+
+<a name="holidays.getHolidaysForYear"></a>
+
+### holidays.getHolidaysForYear(year) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
+Returns a Map for the year indexed by HDate.toString()
+
+**Kind**: static method of [<code>holidays</code>](#holidays)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="holidays.getHolidaysOnDate"></a>
+
+### holidays.getHolidaysOnDate(date) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+Returns an array of Events on this date (or undefined if no events)
+
+**Kind**: static method of [<code>holidays</code>](#holidays)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
+
+<a name="hebcal"></a>
+
+## hebcal : <code>object</code>
+Main interface to Hebcal
+
+**Kind**: global namespace  
+
+* [hebcal](#hebcal) : <code>object</code>
+    * [.hebrewCalendar([options])](#hebcal.hebrewCalendar) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+    * [.getBirthdayOrAnniversary(hyear, gdate)](#hebcal.getBirthdayOrAnniversary) ⇒ [<code>HDate</code>](#HDate)
+    * [.getYahrzeit(hyear, gdate)](#hebcal.getYahrzeit) ⇒ [<code>HDate</code>](#HDate)
+    * [.hebrew2abs(d)](#hebcal.hebrew2abs) ⇒ <code>number</code>
+    * [.abs2hebrew(d)](#hebcal.abs2hebrew) ⇒ [<code>SimpleHebrewDate</code>](#SimpleHebrewDate)
+    * [.getMolad(year, month)](#hebcal.getMolad) ⇒ [<code>Molad</code>](#Molad)
+    * [.makeAnchor(s)](#hebcal.makeAnchor) ⇒ <code>string</code>
+    * [.reformatTimeStr(timeStr, suffix, options)](#hebcal.reformatTimeStr) ⇒ <code>string</code>
+    * [.registerLocation(cityName, location)](#hebcal.registerLocation) ⇒ <code>boolean</code>
+
+<a name="hebcal.hebrewCalendar"></a>
+
+### hebcal.hebrewCalendar([options]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+Generates a list of holidays and other hebrew date events based on `options`.
+This is the main interface to the `@hebcal/core` library, and can be used to
+retrieve holidays, rosh chodesh, candle lighting & havdalah times,
+Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
+Event names can be rendered in several languges using the `locale` option.
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [options] | [<code>HebcalOptions</code>](#HebcalOptions) | <code>{}</code> | 
+
+<a name="hebcal.getBirthdayOrAnniversary"></a>
+
+### hebcal.getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+Calculates a birthday or anniversary (non-yahrzeit).
+`hyear` must be after original `gdate` of anniversary.
+Returns `undefined` when requested year preceeds or is same as original year.
+
+Hebcal uses the algorithm defined in "Calendrical Calculations"
+by Edward M. Reingold and Nachum Dershowitz.
+
+The birthday of someone born in Adar of an ordinary year or Adar II of
+a leap year is also always in the last month of the year, be that Adar
+or Adar II. The birthday in an ordinary year of someone born during the
+first 29 days of Adar I in a leap year is on the corresponding day of Adar;
+in a leap year, the birthday occurs in Adar I, as expected.
+
+Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
+has his birthday postponed until the first of the following month in
+years where that day does not occur. [Calendrical Calculations p. 111]
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in `hyear`  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year |
+| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of event |
+
+**Example**  
+```js
+import {hebcal} from '@hebcal/core';
+const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+const hd = hebcal.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
+console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
+```
+<a name="hebcal.getYahrzeit"></a>
+
+### hebcal.getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+Calculates yahrzeit.
+`hyear` must be after original `gdate` of death.
+Returns `undefined` when requested year preceeds or is same as original year.
+
+Hebcal uses the algorithm defined in "Calendrical Calculations"
+by Edward M. Reingold and Nachum Dershowitz.
+
+The customary anniversary date of a death is more complicated and depends
+also on the character of the year in which the first anniversary occurs.
+There are several cases:
+
+* If the date of death is Marcheshvan 30, the anniversary in general depends
+  on the first anniversary; if that first anniversary was not Marcheshvan 30,
+  use the day before Kislev 1.
+* If the date of death is Kislev 30, the anniversary in general again depends
+  on the first anniversary — if that was not Kislev 30, use the day before
+  Tevet 1.
+* If the date of death is Adar II, the anniversary is the same day in the
+  last month of the Hebrew year (Adar or Adar II).
+* If the date of death is Adar I 30, the anniversary in a Hebrew year that
+  is not a leap year (in which Adar only has 29 days) is the last day in
+  Shevat.
+* In all other cases, use the normal (that is, same month number) anniversary
+  of the date of death. [Calendrical Calculations p. 113]
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in hyear  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year |
+| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
+
+**Example**  
+```js
+import {hebcal} from '@hebcal/core';
+const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+const hd = hebcal.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
+console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
+```
+<a name="hebcal.hebrew2abs"></a>
+
+### hebcal.hebrew2abs(d) ⇒ <code>number</code>
+Converts Hebrew date to absolute Julian days.
+The absolute date is the number of days elapsed since the (imaginary)
+Gregorian date Sunday, December 31, 1 BC.
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| d | [<code>HDate</code>](#HDate) \| [<code>SimpleHebrewDate</code>](#SimpleHebrewDate) | Hebrew Date |
+
+<a name="hebcal.abs2hebrew"></a>
+
+### hebcal.abs2hebrew(d) ⇒ [<code>SimpleHebrewDate</code>](#SimpleHebrewDate)
+Converts absolute Julian days to Hebrew date
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| d | <code>number</code> | absolute Julian days |
+
+<a name="hebcal.getMolad"></a>
+
+### hebcal.getMolad(year, month) ⇒ [<code>Molad</code>](#Molad)
+Calculates the molad for a Hebrew month
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+
+| Param | Type |
+| --- | --- |
+| year | <code>number</code> | 
+| month | <code>number</code> | 
+
+<a name="hebcal.makeAnchor"></a>
+
+### hebcal.makeAnchor(s) ⇒ <code>string</code>
+Helper function to transform a string to make it more usable in a URL or filename.
+Converts to lowercase and replaces non-word characters with hyphen ('-').
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+
+| Param | Type |
+| --- | --- |
+| s | <code>string</code> | 
+
+**Example**  
+```js
+hebcal.makeAnchor('Rosh Chodesh Adar II') // 'rosh-chodesh-adar-ii'
+```
+<a name="hebcal.reformatTimeStr"></a>
+
+### hebcal.reformatTimeStr(timeStr, suffix, options) ⇒ <code>string</code>
+Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
+keep as "20:13" for any other locale/country. Uses `HebcalOptions` to determine
+locale.
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| timeStr | <code>string</code> | original time like "20:30" |
+| suffix | <code>string</code> | "p" or "pm" or " P.M.". Add leading space if you want it |
+| options | [<code>HebcalOptions</code>](#HebcalOptions) |  |
+
+<a name="hebcal.registerLocation"></a>
+
+### hebcal.registerLocation(cityName, location) ⇒ <code>boolean</code>
+Adds a location name for `Location.lookup()` only if the name isn't
+already being used. Returns `false` if the name is already taken
+and `true` if successfully added.
+
+**Kind**: static method of [<code>hebcal</code>](#hebcal)  
+
+| Param | Type |
+| --- | --- |
+| cityName | <code>string</code> | 
+| location | [<code>Location</code>](#Location) | 
 
 <a name="flags"></a>
 
@@ -1602,673 +2050,13 @@ Holiday flags for Event
 | USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
 | HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
 
-<a name="hebLeapYear"></a>
+<a name="parshiot"></a>
 
-## hebLeapYear(x) ⇒ <code>boolean</code>
-Returns true if Hebrew year is a leap year
+## parshiot
+The 54 parshiyot of the Torah as transilterated strings
+parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'Azinu'.
 
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| x | <code>number</code> | Hebrew year |
-
-<a name="monthsInHebYear"></a>
-
-## monthsInHebYear(x) ⇒ <code>number</code>
-Number of months in Hebrew year
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| x | <code>number</code> | Hebrew year |
-
-<a name="daysInHebMonth"></a>
-
-## daysInHebMonth(month, year) ⇒ <code>number</code>
-Number of days in Hebrew month in a given year
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| month | <code>number</code> | Hebrew month (e.g. months.TISHREI) |
-| year | <code>number</code> | Hebrew year |
-
-<a name="getMonthName"></a>
-
-## getMonthName(month, year) ⇒ <code>string</code>
-Returns a transliterated string name of Hebrew month in year,
-for example 'Elul' or 'Cheshvan'.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| month | <code>number</code> | Hebrew month (e.g. months.TISHREI) |
-| year | <code>number</code> | Hebrew year |
-
-<a name="monthNum"></a>
-
-## monthNum(month) ⇒ <code>number</code>
-Returns the Hebrew month number
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| month | <code>number</code> \| <code>string</code> | A number, or Hebrew month name string |
-
-<a name="hebElapsedDays"></a>
-
-## hebElapsedDays(hYear) ⇒ <code>number</code>
-Days from sunday prior to start of Hebrew calendar to mean
-conjunction of Tishrei in Hebrew YEAR
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hYear | <code>number</code> | Hebrew year |
-
-<a name="daysInYear"></a>
-
-## daysInYear(year) ⇒ <code>number</code>
-Number of days in the hebrew YEAR
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
-
-<a name="longCheshvan"></a>
-
-## longCheshvan(year) ⇒ <code>boolean</code>
-true if Cheshvan is long in Hebrew YEAR
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
-
-<a name="shortKislev"></a>
-
-## shortKislev(year) ⇒ <code>boolean</code>
-true if Kislev is short in Hebrew YEAR
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
-
-<a name="monthFromName"></a>
-
-## monthFromName(c) ⇒ <code>number</code>
-Converts Hebrew month string name to numeric
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| c | <code>string</code> | monthName |
-
-<a name="dayOnOrBefore"></a>
-
-## dayOnOrBefore(day_of_week, absdate) ⇒ <code>number</code>
-Note: Applying this function to d+6 gives us the DAYNAME on or after an
-absolute day d.  Similarly, applying it to d+3 gives the DAYNAME nearest to
-absolute date d, applying it to d-1 gives the DAYNAME previous to absolute
-date d, and applying it to d+7 gives the DAYNAME following absolute date d.
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| day_of_week | <code>number</code> | 
-| absdate | <code>number</code> | 
-
-<a name="range"></a>
-
-## range(start, end, [step]) ⇒ <code>Array.&lt;number&gt;</code>
-Returns an array from start to end
-
-**Kind**: global function  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| start | <code>number</code> |  | beginning number, inclusive |
-| end | <code>number</code> |  | ending number, inclusive |
-| [step] | <code>number</code> | <code>1</code> |  |
-
-<a name="gregLeapYear"></a>
-
-## gregLeapYear(year) ⇒ <code>boolean</code>
-Returns true if the Gregorian year is a leap year
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Gregorian year |
-
-<a name="daysInGregMonth"></a>
-
-## daysInGregMonth(month, year) ⇒ <code>number</code>
-Number of days in the Gregorian month for given year
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| month | <code>number</code> | Gregorian month (1=January, 12=December) |
-| year | <code>number</code> | Gregorian year |
-
-<a name="dayOfYear"></a>
-
-## dayOfYear(date) ⇒ <code>number</code>
-Returns number of days since January 1 of that year
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg2abs"></a>
-
-## greg2abs(date) ⇒ <code>number</code>
-Converts Gregorian date to Julian Day Count
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="abs2greg"></a>
-
-## abs2greg(theDate) ⇒ <code>Date</code>
-Converts from Julian Day Count to Gregorian date.
-See the footnote on page 384 of ``Calendrical Calculations, Part II:
-Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
-Clamen, Software--Practice and Experience, Volume 23, Number 4
-(April, 1993), pages 383-404 for an explanation.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| theDate | <code>number</code> | absolute Julian days |
-
-<a name="lookupTranslation"></a>
-
-## lookupTranslation(id, [locale]) ⇒ <code>string</code>
-Returns translation only if `locale` offers a non-empty translation for `id`.
-Otherwise, returns `undefined`.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | Message ID to translate |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
-
-<a name="gettext"></a>
-
-## gettext(id, [locale]) ⇒ <code>string</code>
-By default, if no translation was found, returns `id`.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | Message ID to translate |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
-
-<a name="addLocale"></a>
-
-## addLocale(locale, data)
-Register locale translations.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
-| data | <code>LocaleDate</code> | parsed data from a `.po` file. |
-
-<a name="registerLocale"></a>
-
-## registerLocale(locale, data)
-Alias for addLocale()
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| locale | <code>string</code> | 
-| data | <code>any</code> | 
-
-<a name="useLocale"></a>
-
-## useLocale(locale) ⇒ <code>LocaleData</code>
-Activates a locale. Throws an error if the locale has not been previously added.
-After setting the locale to be used, all strings marked for translations
-will be represented by the corresponding translation in the specified locale.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`) |
-
-<a name="getLocaleName"></a>
-
-## getLocaleName() ⇒ <code>string</code>
-Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
-
-**Kind**: global function  
-<a name="getEnOrdinal"></a>
-
-## getEnOrdinal(n) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| n | <code>number</code> | 
-
-<a name="ordinal"></a>
-
-## ordinal(n) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| n | <code>number</code> | 
-
-<a name="hebrewStripNikkud"></a>
-
-## hebrewStripNikkud(str) ⇒ <code>string</code>
-Removes nekudot from Hebrew string
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| str | <code>string</code> | 
-
-<a name="onOrBefore"></a>
-
-## onOrBefore(day, t, offset) ⇒ [<code>HDate</code>](#HDate)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| day | <code>number</code> | 
-| t | [<code>HDate</code>](#HDate) | 
-| offset | <code>number</code> | 
-
-<a name="hebrew2abs"></a>
-
-## hebrew2abs(d) ⇒ <code>number</code>
-Converts Hebrew date to absolute Julian days.
-The absolute date is the number of days elapsed since the (imaginary)
-Gregorian date Sunday, December 31, 1 BC.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| d | [<code>HDate</code>](#HDate) \| [<code>SimpleHebrewDate</code>](#SimpleHebrewDate) | Hebrew Date |
-
-<a name="abs2hebrew"></a>
-
-## abs2hebrew(d) ⇒ [<code>SimpleHebrewDate</code>](#SimpleHebrewDate)
-Converts absolute Julian days to Hebrew date
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| d | <code>number</code> | absolute Julian days |
-
-<a name="getBirthdayOrAnniversary"></a>
-
-## getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
-Calculates a birthday or anniversary (non-yahrzeit).
-`hyear` must be after original `gdate` of anniversary.
-Returns `undefined` when requested year preceeds or is same as original year.
-
-Hebcal uses the algorithm defined in "Calendrical Calculations"
-by Edward M. Reingold and Nachum Dershowitz.
-
-The birthday of someone born in Adar of an ordinary year or Adar II of
-a leap year is also always in the last month of the year, be that Adar
-or Adar II. The birthday in an ordinary year of someone born during the
-first 29 days of Adar I in a leap year is on the corresponding day of Adar;
-in a leap year, the birthday occurs in Adar I, as expected.
-
-Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
-has his birthday postponed until the first of the following month in
-years where that day does not occur. [Calendrical Calculations p. 111]
-
-**Kind**: global function  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in `hyear`  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hyear | <code>number</code> | Hebrew year |
-| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of event |
-
-**Example**  
-```js
-import {hebcal} from '@hebcal/core';
-const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
-const hd = hebcal.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
-console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
-```
-<a name="getYahrzeit"></a>
-
-## getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
-Calculates yahrzeit.
-`hyear` must be after original `gdate` of death.
-Returns `undefined` when requested year preceeds or is same as original year.
-
-Hebcal uses the algorithm defined in "Calendrical Calculations"
-by Edward M. Reingold and Nachum Dershowitz.
-
-The customary anniversary date of a death is more complicated and depends
-also on the character of the year in which the first anniversary occurs.
-There are several cases:
-
-* If the date of death is Marcheshvan 30, the anniversary in general depends
-  on the first anniversary; if that first anniversary was not Marcheshvan 30,
-  use the day before Kislev 1.
-* If the date of death is Kislev 30, the anniversary in general again depends
-  on the first anniversary — if that was not Kislev 30, use the day before
-  Tevet 1.
-* If the date of death is Adar II, the anniversary is the same day in the
-  last month of the Hebrew year (Adar or Adar II).
-* If the date of death is Adar I 30, the anniversary in a Hebrew year that
-  is not a leap year (in which Adar only has 29 days) is the last day in
-  Shevat.
-* In all other cases, use the normal (that is, same month number) anniversary
-  of the date of death. [Calendrical Calculations p. 113]
-
-**Kind**: global function  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in hyear  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hyear | <code>number</code> | Hebrew year |
-| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
-
-**Example**  
-```js
-import {hebcal} from '@hebcal/core';
-const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
-const hd = hebcal.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
-console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
-```
-<a name="throwError"></a>
-
-## throwError(error)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| error | <code>string</code> | 
-
-<a name="registerLocation"></a>
-
-## registerLocation(cityName, location) ⇒ <code>boolean</code>
-Adds a location name for `Location.lookup()` only if the name isn't
-already being used. Returns `false` if the name is already taken
-and `true` if successfully added.
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| cityName | <code>string</code> | 
-| location | [<code>Location</code>](#Location) | 
-
-<a name="formatTime"></a>
-
-## formatTime(timeFormat, dt) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-| dt | <code>Date</code> | 
-
-<a name="sunsetTime"></a>
-
-## sunsetTime(hd, location, timeFormat, offset) ⇒ <code>Array.&lt;Object&gt;</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| hd | [<code>HDate</code>](#HDate) | 
-| location | [<code>Location</code>](#Location) | 
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-| offset | <code>number</code> | 
-
-<a name="tzeitTime"></a>
-
-## tzeitTime(hd, location, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| hd | [<code>HDate</code>](#HDate) | 
-| location | [<code>Location</code>](#Location) | 
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-
-<a name="makeCandleEvent"></a>
-
-## makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, [havdalahOffset]) ⇒ [<code>Event</code>](#Event)
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| e | [<code>Event</code>](#Event) | 
-| hd | [<code>HDate</code>](#HDate) | 
-| dow | <code>number</code> | 
-| location | [<code>Location</code>](#Location) | 
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-| candlesOffset | <code>number</code> | 
-| [havdalahOffset] | <code>number</code> | 
-
-<a name="getMolad"></a>
-
-## getMolad(year, month) ⇒ [<code>Molad</code>](#Molad)
-Calculates the molad for a Hebrew month
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| year | <code>number</code> | 
-| month | <code>number</code> | 
-
-<a name="dafyomi"></a>
-
-## dafyomi(gregdate) ⇒ [<code>DafYomiResult</code>](#DafYomiResult)
-Returns the Daf Yomi for given date
-
-**Kind**: global function  
-**Returns**: [<code>DafYomiResult</code>](#DafYomiResult) - Tractact name and page number  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| gregdate | <code>Date</code> | Gregorian date |
-
-<a name="dafname"></a>
-
-## dafname(daf, [locale]) ⇒ <code>string</code>
-Formats (with translation) the dafyomi result as a string like "Pesachim 34"
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| daf | [<code>DafYomiResult</code>](#DafYomiResult) | the Daf Yomi |
-| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
-
-<a name="D"></a>
-
-## D(p) ⇒ <code>number</code>
-parsha doubler/undoubler
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| p | <code>number</code> | 
-
-<a name="abs"></a>
-
-## abs(year, absDate) ⇒ <code>Object</code>
-Returns an object describing the parsha on the first Saturday on or after absdate
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| year | <code>number</code> | 
-| absDate | <code>number</code> | 
-
-<a name="chanukah"></a>
-
-## chanukah(day) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| day | <code>number</code> | 
-
-<a name="getHolidaysForYear"></a>
-
-## getHolidaysForYear(year) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
-Returns a Map for the year indexed by HDate.toString()
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
-
-<a name="getHolidaysForYear..addEvents"></a>
-
-### getHolidaysForYear~addEvents(year, arr)
-**Kind**: inner method of [<code>getHolidaysForYear</code>](#getHolidaysForYear)  
-
-| Param | Type |
-| --- | --- |
-| year | <code>number</code> | 
-| arr | <code>Array.&lt;Object&gt;</code> | 
-
-<a name="getHolidaysOnDate"></a>
-
-## getHolidaysOnDate(date) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-Returns an array of Events on this date (or undefined if no events)
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
-
-<a name="reformatTimeStr"></a>
-
-## reformatTimeStr(timeStr, suffix, options) ⇒ <code>string</code>
-Returns "8:13p" for US or "20:13" for any other locale/country
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| timeStr | <code>string</code> | original time like "20:30" |
-| suffix | <code>string</code> | "p" or "pm" or " P.M.". Add leading space if you want it |
-| options | <code>Object</code> |  |
-
-<a name="makeAnchor"></a>
-
-## makeAnchor(s) ⇒ <code>string</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| s | <code>string</code> | 
-
-<a name="getCandleLightingMinutes"></a>
-
-## getCandleLightingMinutes(options) ⇒ <code>number</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="getAbs"></a>
-
-## getAbs(d) ⇒ <code>number</code>
-Gets the Julian absolute days for a number, Date, or HDate
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| d | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | 
-
-<a name="getStartAndEnd"></a>
-
-## getStartAndEnd(options) ⇒ <code>Array.&lt;number&gt;</code>
-Parse options object to determine start & end days
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="getOmerStartAndEnd"></a>
-
-## getOmerStartAndEnd(hyear) ⇒ <code>Array.&lt;number&gt;</code>
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| hyear | <code>number</code> | 
-
-<a name="getMaskFromOptions"></a>
-
-## getMaskFromOptions(options) ⇒ <code>number</code>
-Mask to filter Holiday array
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
-<a name="hebrewCalendar"></a>
-
-## hebrewCalendar(options) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-Generates a list of holidays
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| options | [<code>HebcalOptions</code>](#HebcalOptions) | 
-
+**Kind**: global constant  
 <a name="SimpleHebrewDate"></a>
 
 ## SimpleHebrewDate : <code>Object</code>

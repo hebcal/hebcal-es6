@@ -1,8 +1,11 @@
-import {gettext} from './locale';
-import {days} from './common';
+import {locale as l} from './locale';
+import {common} from './common';
 import {flags, Event} from './event';
 
+const days = common.days;
+
 /**
+ * @private
  * @param {Intl.DateTimeFormat} timeFormat
  * @param {Date} dt
  * @return {string}
@@ -18,6 +21,7 @@ function formatTime(timeFormat, dt) {
 }
 
 /**
+ * @private
  * @param {HDate} hd
  * @param {Location} location
  * @param {Intl.DateTimeFormat} timeFormat
@@ -40,6 +44,7 @@ function sunsetTime(hd, location, timeFormat, offset) {
 }
 
 /**
+ * @private
  * @param {HDate} hd
  * @param {Location} location
  * @param {Intl.DateTimeFormat} timeFormat
@@ -58,6 +63,7 @@ function tzeitTime(hd, location, timeFormat) {
 }
 
 /**
+ * @private
  * @param {Event} e
  * @param {HDate} hd
  * @param {number} dow
@@ -120,9 +126,9 @@ export class HavdalahEvent extends Event {
    */
   render(locale) {
     const attrs = this.getAttrs();
-    let str = gettext(this.getDesc(), locale);
+    let str = l.gettext(this.getDesc(), locale);
     if (attrs.havdalahMins) {
-      const min = gettext('min', locale);
+      const min = l.gettext('min', locale);
       str += ` (${attrs.havdalahMins} ${min})`;
     }
     return str + ': ' + attrs.eventTimeStr;
@@ -133,7 +139,7 @@ export class HavdalahEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    return gettext(this.getDesc(), locale);
+    return l.gettext(this.getDesc(), locale);
   }
 }
 
@@ -152,7 +158,7 @@ export class CandleLightingEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    return gettext(this.getDesc(), locale) + ': ' + this.getAttrs().eventTimeStr;
+    return l.gettext(this.getDesc(), locale) + ': ' + this.getAttrs().eventTimeStr;
   }
   /**
    * Returns translation of "Candle lighting" without the time.
@@ -160,6 +166,6 @@ export class CandleLightingEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    return gettext(this.getDesc(), locale);
+    return l.gettext(this.getDesc(), locale);
   }
 }

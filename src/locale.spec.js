@@ -1,9 +1,9 @@
 import test from 'ava';
-import {gettext, useLocale, hebrewStripNikkud, ordinal} from './locale';
+import {locale} from './locale';
 
 test('gettext-he', (t) => {
-  t.is(gettext('Yom Kippur', 'he'), 'יוֹם כִּפּוּר');
-  t.is(gettext('Lech-Lecha', 'he'), 'לֶךְ־לְךָ');
+  t.is(locale.gettext('Yom Kippur', 'he'), 'יוֹם כִּפּוּר');
+  t.is(locale.gettext('Lech-Lecha', 'he'), 'לֶךְ־לְךָ');
 });
 
 test('hebrewStripNikkud', (t) => {
@@ -14,12 +14,12 @@ test('hebrewStripNikkud', (t) => {
       'לך־לך'],
   ];
   for (const [original, expected] of strs) {
-    t.is(hebrewStripNikkud(original), expected);
+    t.is(locale.hebrewStripNikkud(original), expected);
   }
 });
 
 test('useLocale-ordinal', (t) => {
-  t.is(ordinal(3), '3rd');
+  t.is(locale.ordinal(3), '3rd');
   const expected = {
     a: '3rd',
     ashkenazi: '3rd',
@@ -27,10 +27,10 @@ test('useLocale-ordinal', (t) => {
     he: '3.',
     h: '3.',
   };
-  for (const [locale, str] of Object.entries(expected)) {
-    useLocale(locale);
-    t.is(ordinal(3), str, locale);
+  for (const [loc, str] of Object.entries(expected)) {
+    locale.useLocale(loc);
+    t.is(locale.ordinal(3), str, loc);
   }
-  useLocale('');
-  t.is(ordinal(3), '3rd');
+  locale.useLocale('');
+  t.is(locale.ordinal(3), '3rd');
 });

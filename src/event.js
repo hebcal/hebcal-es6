@@ -1,4 +1,4 @@
-import {gettext} from './locale';
+import {locale as l} from './locale';
 
 const CHAG = 1;
 const LIGHT_CANDLES = 2;
@@ -113,7 +113,7 @@ export class Event {
    * @return {string}
    */
   render(locale) {
-    return gettext(this.desc, locale);
+    return l.gettext(this.desc, locale);
   }
   /**
    * Returns a brief (translated) description of this event.

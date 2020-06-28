@@ -1,7 +1,7 @@
 import test from 'ava';
 import {HDate} from './hdate';
 import {Sedra, ParshaEvent} from './sedra';
-import {abs2greg, greg2abs} from './greg';
+import {greg as g} from './greg';
 
 test('ParshaEvent', (t) => {
   const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai']);
@@ -16,15 +16,15 @@ test('ParshaEvent', (t) => {
 
 // eslint-disable-next-line require-jsdoc
 function testFullYear(t, gregYear, sedra, expected) {
-  const startAbs = greg2abs(new Date(Date.UTC(gregYear, 0, 1)));
-  const endAbs = greg2abs(new Date(Date.UTC(gregYear, 11, 31)));
+  const startAbs = g.greg2abs(new Date(Date.UTC(gregYear, 0, 1)));
+  const endAbs = g.greg2abs(new Date(Date.UTC(gregYear, 11, 31)));
   let i = 0;
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const dow = abs % 7;
     if (dow == 6) { // Saturday
       const todayHeb = new HDate(abs);
       const parshaStr = sedra.getString(todayHeb);
-      const todayGreg = abs2greg(abs);
+      const todayGreg = g.abs2greg(abs);
       const date = todayGreg.toLocaleDateString('en-US');
       const str = date + ' ' + parshaStr;
       t.is(str, expected[i]);

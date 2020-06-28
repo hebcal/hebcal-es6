@@ -6,7 +6,7 @@ suncalc.addTime(-11.5, 'misheyakir', 0);
 suncalc.addTime(-10.2, 'misheyakirMachmir', 0);
 suncalc.addTime(-8.5, 0, 'tzeit');
 
-/** @param {string} error */
+// eslint-disable-next-line require-jsdoc
 function throwError(error) {
   throw new Error(error);
 }

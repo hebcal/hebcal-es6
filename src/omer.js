@@ -1,5 +1,5 @@
 import {flags, Event} from './event';
-import {gettext, ordinal} from './locale';
+import {locale as l} from './locale';
 import gematriya from 'gematriya';
 
 /** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
@@ -18,8 +18,8 @@ export class OmerEvent extends Event {
    */
   render(locale) {
     const omer = this.getAttrs().omer;
-    const nth = (locale == 'he') ? gematriya(omer) : ordinal(omer);
-    return nth + ' ' + gettext('day of the Omer', locale);
+    const nth = (locale == 'he') ? gematriya(omer) : l.ordinal(omer);
+    return nth + ' ' + l.gettext('day of the Omer', locale);
   }
   /**
    * Returns translation of "Omer 22" without ordinal numbers.
@@ -27,6 +27,6 @@ export class OmerEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    return gettext('Omer', locale) + ' ' + this.getAttrs().omer;
+    return l.gettext('Omer', locale) + ' ' + this.getAttrs().omer;
   }
 }

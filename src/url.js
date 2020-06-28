@@ -1,8 +1,11 @@
 /**
- * Returns "8:13p" for US or "20:13" for any other locale/country
+ * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
+ * keep as "20:13" for any other locale/country. Uses `HebcalOptions` to determine
+ * locale.
+ * @private
  * @param {string} timeStr - original time like "20:30"
  * @param {string} suffix - "p" or "pm" or " P.M.". Add leading space if you want it
- * @param {Object} options
+ * @param {HebcalOptions} options
  * @return {string}
  */
 export function reformatTimeStr(timeStr, suffix, options) {
@@ -19,6 +22,11 @@ export function reformatTimeStr(timeStr, suffix, options) {
 }
 
 /**
+ * Helper function to transform a string to make it more usable in a URL or filename.
+ * Converts to lowercase and replaces non-word characters with hyphen ('-').
+ * @example
+ * hebcal.makeAnchor('Rosh Chodesh Adar II') // 'rosh-chodesh-adar-ii'
+ * @private
  * @param {string} s
  * @return {string}
  */

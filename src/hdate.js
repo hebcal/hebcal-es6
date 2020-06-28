@@ -18,15 +18,11 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {
-  dayOnOrBefore, daysInHebMonth, getMonthName,
-  hebElapsedDays, hebLeapYear,
-  monthNum, months, monthsInHebYear,
-} from './common';
-import {greg2abs, abs2greg} from './greg';
+import {common as c} from './common';
+import {greg as g} from './greg';
 import {Event, flags} from './event';
 import gematriya from 'gematriya';
-import {gettext, ordinal, lookupTranslation, getLocaleName} from './locale';
+import {locale as l} from './locale';
 
 /** Class representing a Hebrew date */
 export class HDate {
@@ -63,13 +59,13 @@ export class HDate {
    */
   constructor(day, month, year) {
     if (!arguments.length) {
-      const d = abs2hebrew(greg2abs(new Date()));
+      const d = abs2hebrew(g.greg2abs(new Date()));
       this.day = d.dd;
       this.month = d.mm;
       this.year = d.yy;
     } else if (arguments.length == 1) {
       if (day instanceof Date) {
-        const d = abs2hebrew(greg2abs(day));
+        const d = abs2hebrew(g.greg2abs(day));
         this.day = d.dd;
         this.month = d.mm;
         this.year = d.yy;
@@ -89,7 +85,7 @@ export class HDate {
       // Hebrew day, Hebrew month, Hebrew year
       this.day = this.month = 1;
       this.year = Number(year);
-      this.setMonth(monthNum(month));
+      this.setMonth(c.monthNum(month));
       this.setDate(Number(day));
     } else {
       throw new TypeError('HDate constructor requires 0, 1 or 3 arguments');
@@ -109,7 +105,7 @@ export class HDate {
    * @return {boolean}
    */
   isLeapYear() {
-    return hebLeapYear(this.year);
+    return c.hebLeapYear(this.year);
   }
 
   /**
@@ -120,9 +116,12 @@ export class HDate {
     return this.month;
   }
 
-  /** @return {number} */
+  /**
+   * The Tishrei-based month of the date. 1 is Tishrei, 7 is Nisan, 13 is Elul in a leap year
+   * @return {number}
+   */
   getTishreiMonth() {
-    const nummonths = monthsInHebYear(this.getFullYear());
+    const nummonths = c.monthsInHebYear(this.getFullYear());
     return (this.getMonth() + nummonths - 6) % nummonths || nummonths;
   }
 
@@ -131,7 +130,7 @@ export class HDate {
    * @return {number}
    */
   daysInMonth() {
-    return daysInHebMonth(this.getMonth(), this.getFullYear());
+    return c.daysInHebMonth(this.getMonth(), this.getFullYear());
   }
 
   /**
@@ -143,7 +142,7 @@ export class HDate {
   }
 
   /**
-   * Gets the day of the week, using local time.
+   * Gets the day of the week, using local time. 0=Sunday, 6=Saturday
    * @return {number}
    */
   getDay() {
@@ -151,6 +150,7 @@ export class HDate {
   }
 
   /**
+   * Sets the year of the date. Returns the object it was called upon.
    * @param {number} year
    * @return {HDate}
    */
@@ -161,21 +161,23 @@ export class HDate {
   }
 
   /**
+   * Sets the day of the month of the date. Returns the object it was called upon
    * @param {number} month
    * @return {HDate}
    */
   setMonth(month) {
-    this.month = monthNum(month);
+    this.month = c.monthNum(month);
     fix(this);
     return this;
   }
 
   /**
+   * Sets the Tishrei-based month of the date. Returns the object it was called upon
    * @param {number} month
    * @return {HDate}
    */
   setTishreiMonth(month) {
-    return this.setMonth((month + 6) % monthsInHebYear(this.getFullYear()) || 13);
+    return this.setMonth((month + 6) % c.monthsInHebYear(this.getFullYear()) || 13);
   }
 
   /**
@@ -193,7 +195,7 @@ export class HDate {
    * @return {Date}
    */
   greg() {
-    return abs2greg(hebrew2abs(this));
+    return g.abs2greg(hebrew2abs(this));
   }
 
   /**
@@ -209,7 +211,7 @@ export class HDate {
    * @return {string}
    */
   getMonthName() {
-    return getMonthName(this.getMonth(), this.getFullYear());
+    return c.getMonthName(this.getMonth(), this.getFullYear());
   }
 
   /**
@@ -225,16 +227,16 @@ export class HDate {
    * @return {string}
    */
   render(locale) {
-    const locale0 = locale || getLocaleName();
+    const locale0 = locale || l.getLocaleName();
     const day = this.getDate();
     const fullYear = this.getFullYear();
-    const monthName = gettext(this.getMonthName(), locale);
-    const nth = ordinal(day);
+    const monthName = l.gettext(this.getMonthName(), locale);
+    const nth = l.ordinal(day);
     let dayOf = '';
     if (locale0 == 'en' || locale0.startsWith('ashkenazi')) {
       dayOf = ' of';
     } else {
-      const ofStr = lookupTranslation('of', locale0);
+      const ofStr = l.lookupTranslation('of', locale0);
       if (ofStr) {
         dayOf = ' ' + ofStr;
       }
@@ -252,13 +254,16 @@ export class HDate {
    */
   renderGematriya() {
     const d = this.getDate();
-    const m = gettext(this.getMonthName(), 'he');
+    const m = l.gettext(this.getMonthName(), 'he');
     const y = this.getFullYear();
     return gematriya(d) + ' ' + m + ' ' + gematriya(y, {limit: 3});
   }
 
   /**
-   *
+   * Returns an `HDate` representing the a dayNumber before the current date.
+   * Sunday=0, Saturday=6
+   * @example
+   * new HDate(new Date('Wednesday February 19, 2014')).before(6).greg() // Sat Feb 15 2014
    * @param {number} day day of week
    * @return {HDate}
    */
@@ -267,34 +272,53 @@ export class HDate {
   }
 
   /**
-   *
-   * @param {number} day day of week
+   * Returns an `HDate` representing the a dayNumber on or before the current date.
+   * Sunday=0, Saturday=6
+   * @example
+   * new HDate(new Date('Wednesday February 19, 2014')).onOrBefore(6).greg() // Sat Feb 15 2014
+   * new HDate(new Date('Saturday February 22, 2014')).onOrBefore(6).greg() // Sat Feb 22 2014
+   * new HDate(new Date('Sunday February 23, 2014')).onOrBefore(6).greg() // Sat Feb 22 2014
+   * @param {number} dow day of week
    * @return {HDate}
    */
-  onOrBefore(day) {
-    return onOrBefore(day, this, 0);
+  onOrBefore(dow) {
+    return onOrBefore(dow, this, 0);
   }
 
   /**
-   *
-   * @param {number} day day of week
+   * Returns an `HDate` representing the nearest dayNumber to the current date
+   * Sunday=0, Saturday=6
+   * @example
+   * new HDate(new Date('Wednesday February 19, 2014')).nearest(6).greg() // Sat Feb 22 2014
+   * new HDate(new Date('Tuesday February 18, 2014')).nearest(6).greg() // Sat Feb 15 2014
+   * @param {number} dow day of week
    * @return {HDate}
    */
-  nearest(day) {
-    return onOrBefore(day, this, 3);
+  nearest(dow) {
+    return onOrBefore(dow, this, 3);
   }
 
   /**
-   *
-   * @param {number} day day of week
+   * Returns an `HDate` representing the a dayNumber on or after the current date.
+   * Sunday=0, Saturday=6
+   * @example
+   * new HDate(new Date('Wednesday February 19, 2014')).onOrAfter(6).greg() // Sat Feb 22 2014
+   * new HDate(new Date('Saturday February 22, 2014')).onOrAfter(6).greg() // Sat Feb 22 2014
+   * new HDate(new Date('Sunday February 23, 2014')).onOrAfter(6).greg() // Sat Mar 01 2014
+   * @param {number} dow day of week
    * @return {HDate}
    */
-  onOrAfter(day) {
-    return onOrBefore(day, this, 6);
+  onOrAfter(dow) {
+    return onOrBefore(dow, this, 6);
   }
 
   /**
-   *
+   * Returns an `HDate` representing the a dayNumber after the current date.
+   * Sunday=0, Saturday=6
+   * @example
+   * new HDate(new Date('Wednesday February 19, 2014')).after(6).greg() // Sat Feb 22 2014
+   * new HDate(new Date('Saturday February 22, 2014')).after(6).greg() // Sat Mar 01 2014
+   * new HDate(new Date('Sunday February 23, 2014')).after(6).greg() // Sat Mar 01 2014
    * @param {number} day day of week
    * @return {HDate}
    */
@@ -351,18 +375,18 @@ function fix(date) {
 // eslint-disable-next-line require-jsdoc
 function fixDate(date) {
   if (date.day < 1) {
-    if (date.month == months.TISHREI) {
+    if (date.month == c.months.TISHREI) {
       date.year -= 1;
     }
-    date.day += daysInHebMonth(date.month, date.year);
+    date.day += c.daysInHebMonth(date.month, date.year);
     date.month -= 1;
     fix(date);
   }
-  if (date.day > daysInHebMonth(date.month, date.year)) {
-    if (date.month == months.ELUL) {
+  if (date.day > c.daysInHebMonth(date.month, date.year)) {
+    if (date.month == c.months.ELUL) {
       date.year += 1;
     }
-    date.day -= daysInHebMonth(date.month, date.year);
+    date.day -= c.daysInHebMonth(date.month, date.year);
     date.month += 1;
     fix(date);
   }
@@ -371,30 +395,25 @@ function fixDate(date) {
 
 // eslint-disable-next-line require-jsdoc
 function fixMonth(date) {
-  if (date.month == months.ADAR_II && !date.isLeapYear()) {
+  if (date.month == c.months.ADAR_II && !date.isLeapYear()) {
     date.month -= 1; // to Adar I
     fix(date);
   }
   if (date.month < 1) {
-    date.month += monthsInHebYear(date.year);
+    date.month += c.monthsInHebYear(date.year);
     date.year -= 1;
     fix(date);
   }
-  if (date.month > monthsInHebYear(date.year)) {
-    date.month -= monthsInHebYear(date.year);
+  if (date.month > c.monthsInHebYear(date.year)) {
+    date.month -= c.monthsInHebYear(date.year);
     date.year += 1;
     fix(date);
   }
 }
 
-/**
- * @param {number} day
- * @param {HDate} t
- * @param {number} offset
- * @return {HDate}
- */
+// eslint-disable-next-line require-jsdoc
 function onOrBefore(day, t, offset) {
-  return new HDate(dayOnOrBefore(day, t.abs() + offset));
+  return new HDate(c.dayOnOrBefore(day, t.abs() + offset));
 }
 
 /**
@@ -409,6 +428,7 @@ function onOrBefore(day, t, offset) {
  * Converts Hebrew date to absolute Julian days.
  * The absolute date is the number of days elapsed since the (imaginary)
  * Gregorian date Sunday, December 31, 1 BC.
+ * @private
  * @param {(HDate|SimpleHebrewDate)} d Hebrew Date
  * @return {number}
  */
@@ -418,25 +438,26 @@ export function hebrew2abs(d) {
   const month = isHDate ? d.getMonth() : d.mm;
   const year = isHDate ? d.getFullYear() : d.yy;
 
-  if (month < months.TISHREI) {
-    for (let m = months.TISHREI; m <= monthsInHebYear(year); m++) {
-      tempabs += daysInHebMonth(m, year);
+  if (month < c.months.TISHREI) {
+    for (let m = c.months.TISHREI; m <= c.monthsInHebYear(year); m++) {
+      tempabs += c.daysInHebMonth(m, year);
     }
 
-    for (let m = months.NISAN; m < month; m++) {
-      tempabs += daysInHebMonth(m, year);
+    for (let m = c.months.NISAN; m < month; m++) {
+      tempabs += c.daysInHebMonth(m, year);
     }
   } else {
-    for (let m = months.TISHREI; m < month; m++) {
-      tempabs += daysInHebMonth(m, year);
+    for (let m = c.months.TISHREI; m < month; m++) {
+      tempabs += c.daysInHebMonth(m, year);
     }
   }
 
-  return hebElapsedDays(year) - 1373429 + tempabs;
+  return c.hebElapsedDays(year) - 1373429 + tempabs;
 }
 
 /**
  * Converts absolute Julian days to Hebrew date
+ * @private
  * @param {number} d absolute Julian days
  * @return {SimpleHebrewDate}
  */
@@ -445,11 +466,11 @@ export function abs2hebrew(d) {
     throw new RangeError(`parameter to abs2hebrew ${d} out of range`);
   }
 
-  const gregdate = abs2greg(d);
+  const gregdate = g.abs2greg(d);
   let year = 3760 + gregdate.getFullYear();
   const hebdate = {
     dd: 1,
-    mm: months.TISHREI,
+    mm: c.months.TISHREI,
     yy: -1,
   };
 
@@ -464,14 +485,14 @@ export function abs2hebrew(d) {
     month = mmap[gregdate.getMonth()];
   } else {
     // we're outside the usual range, so assume nothing about Hebrew/Gregorian calendar drift...
-    month = months.TISHREI;
+    month = c.months.TISHREI;
   }
 
   while (hebdate.mm = month,
-  hebdate.dd = daysInHebMonth(month, year),
+  hebdate.dd = c.daysInHebMonth(month, year),
   hebdate.yy = year,
   d > hebrew2abs(hebdate)) {
-    month = (month % monthsInHebYear(year)) + 1;
+    month = (month % c.monthsInHebYear(year)) + 1;
   }
 
   hebdate.dd = 1;
@@ -501,7 +522,7 @@ export class HebrewDateEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const locale0 = locale || getLocaleName();
+    const locale0 = locale || l.getLocaleName();
     const hd = this.getDate();
     return locale0 == 'he' ? hd.renderGematriya() : hd.render(locale0);
   }

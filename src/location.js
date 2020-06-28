@@ -296,6 +296,7 @@ for (const city of classicCities0) {
  * Adds a location name for `Location.lookup()` only if the name isn't
  * already being used. Returns `false` if the name is already taken
  * and `true` if successfully added.
+ * @private
  * @param {string} cityName
  * @param {Location} location
  * @return {boolean}

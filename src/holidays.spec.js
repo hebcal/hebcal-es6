@@ -1,12 +1,14 @@
 import test from 'ava';
-import * as holidays from './holidays';
-import {months} from './common';
-import {abs2greg} from './greg';
+import {holidays, HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
+import {common} from './common';
+import {greg as g} from './greg';
 import {HDate, hebrew2abs} from './hdate';
 import {flags} from './event';
 
+const months = common.months;
+
 test('basename-and-url', (t) => {
-  const ev = new holidays.HolidayEvent(new HDate(18, months.NISAN, 5763),
+  const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
       'Pesach IV (CH\'\'M)', flags.CHUL_ONLY, {cholHaMoedDay: 2});
   t.is(ev.getDesc(), 'Pesach IV (CH\'\'M)');
   t.is(ev.render(), 'Pesach IV (CH\'\'M)');
@@ -14,7 +16,7 @@ test('basename-and-url', (t) => {
   t.is(ev.basename(), 'Pesach');
   t.is(ev.url(), 'https://www.hebcal.com/holidays/pesach');
 
-  const ev2 = new holidays.HolidayEvent(new HDate(23, months.TISHREI, 5763),
+  const ev2 = new HolidayEvent(new HDate(23, months.TISHREI, 5763),
       'Simchat Torah', flags.CHUL_ONLY);
   t.is(ev2.getDesc(), 'Simchat Torah');
   t.is(ev2.render(), 'Simchat Torah');
@@ -22,7 +24,7 @@ test('basename-and-url', (t) => {
   t.is(ev2.basename(), 'Simchat Torah');
   t.is(ev2.url(), 'https://www.hebcal.com/holidays/simchat-torah');
 
-  const ev3 = new holidays.HolidayEvent(new HDate(8, months.AV, 5783),
+  const ev3 = new HolidayEvent(new HDate(8, months.AV, 5783),
       'Erev Tish\'a B\'Av', flags.MAJOR_FAST);
   t.is(ev3.getDesc(), 'Erev Tish\'a B\'Av');
   t.is(ev3.render(), 'Erev Tish\'a B\'Av');
@@ -30,14 +32,14 @@ test('basename-and-url', (t) => {
   t.is(ev3.basename(), 'Tish\'a B\'Av');
   t.is(ev3.url(), 'https://www.hebcal.com/holidays/tisha-bav');
 
-  const rch = new holidays.RoshChodeshEvent(new HDate(30, months.ADAR_I, 5787), 'Adar II');
+  const rch = new RoshChodeshEvent(new HDate(30, months.ADAR_I, 5787), 'Adar II');
   t.is(rch.getDesc(), 'Rosh Chodesh Adar II');
   t.is(rch.render(), 'Rosh Chodesh Adar II');
   t.is(rch.renderBrief(), 'Rosh Chodesh Adar II');
   t.is(rch.basename(), 'Rosh Chodesh Adar II');
   t.is(rch.url(), 'https://www.hebcal.com/holidays/rosh-chodesh-adar-ii');
 
-  const mvch = new holidays.MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
+  const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
   t.is(mvch.getDesc(), 'Shabbat Mevarchim Chodesh Tevet');
   t.is(mvch.render(), 'Shabbat Mevarchim Chodesh Tevet');
   t.is(mvch.renderBrief(), 'Mevarchim Chodesh Tevet');
@@ -67,7 +69,7 @@ function testFullYear(t, hyear, il, expected0) {
   const endAbs = hebrew2abs({yy: hyear + 1, mm: months.TISHREI, dd: 1});
   for (let absDt = startAbs; absDt <= endAbs; absDt++) {
     const hebDt = new HDate(absDt);
-    const gregDt = abs2greg(absDt);
+    const gregDt = g.abs2greg(absDt);
     const dateStr = gregDt.toLocaleDateString('en-US');
     const ev = year.get(hebDt.toString());
     if (typeof ev !== 'undefined') {

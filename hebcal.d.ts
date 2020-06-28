@@ -369,45 +369,53 @@ declare module '@hebcal/core' {
          * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
          */
         export type HebcalOptions = {
-            location: Location;
-            year: number;
-            isHebrewYear: boolean;
-            month: number;
-            numYears: number;
-            start: Date | HDate | number;
-            end: Date | HDate | number;
-            candlelighting: boolean;
-            candleLightingMins: number;
-            havdalahMins: number;
-            havdalahTzeit: boolean;
-            sedrot: boolean;
-            il: boolean;
-            noMinorFast: boolean;
-            noModern: boolean;
-            noRoshChodesh: boolean;
-            shabbatMevarchim: boolean;
-            noSpecialShabbat: boolean;
-            noHolidays: boolean;
-            dafyomi: boolean;
-            omer: boolean;
-            molad: boolean;
-            ashkenazi: boolean;
-            locale: string;
-            hour12: boolean;
-            addHebrewDates: boolean;
-            addHebrewDatesForEvents: boolean;
+            location?: Location;
+            year?: number;
+            isHebrewYear?: boolean;
+            month?: number;
+            numYears?: number;
+            start?: Date | HDate | number;
+            end?: Date | HDate | number;
+            candlelighting?: boolean;
+            candleLightingMins?: number;
+            havdalahMins?: number;
+            havdalahTzeit?: boolean;
+            sedrot?: boolean;
+            il?: boolean;
+            noMinorFast?: boolean;
+            noModern?: boolean;
+            noRoshChodesh?: boolean;
+            shabbatMevarchim?: boolean;
+            noSpecialShabbat?: boolean;
+            noHolidays?: boolean;
+            dafyomi?: boolean;
+            omer?: boolean;
+            molad?: boolean;
+            ashkenazi?: boolean;
+            locale?: string;
+            hour12?: boolean;
+            addHebrewDates?: boolean;
+            addHebrewDatesForEvents?: boolean;
         };
 
         /**
-         * Generates a list of holidays
+         * Generates a list of holidays and other hebrew date events based on `options`.
+         * This is the main interface to the `@hebcal/core` library, and can be used to
+         * retrieve holidays, rosh chodesh, candle lighting & havdalah times,
+         * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
+         * Event names can be rendered in several languges using the `locale` option.
          */
-        export function hebrewCalendar(options: HebcalOptions): Event[];
+        export function hebrewCalendar(options?: HebcalOptions): Event[];
 
         /**
          * Registers a locale for hebcal.hebrewCalendar()
          */
         export function registerLocale(locale: string, data: locale.LocaleData): void;
 
+        /**
+         * Helper function to transform a string to make it more usable in a URL or filename.
+         * Converts to lowercase and replaces non-word characters with hyphen ('-').
+         */
         export function makeAnchor(s: string): string;
         export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
 
@@ -661,7 +669,7 @@ declare module '@hebcal/core' {
         renderBrief(locale?: string): string;
     }
     export class DafYomiEvent extends Event {
-        constructor(date: HDate, daf: DafYomiResult);
+        constructor(date: HDate, daf: dafyomi.DafYomiResult);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         url(): string;

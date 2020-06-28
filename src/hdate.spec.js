@@ -1,6 +1,8 @@
 import test from 'ava';
 import {HDate, hebrew2abs, abs2hebrew, HebrewDateEvent} from './hdate';
-import {months} from './common';
+import {common} from './common';
+
+const months = common.months;
 
 test('mdy', (t) => {
   const CHESHVAN = months.CHESHVAN;
