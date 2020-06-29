@@ -22,7 +22,53 @@ import {common as c} from './common';
 import {greg as g} from './greg';
 import {Event, flags} from './event';
 import gematriya from 'gematriya';
-import {locale as l} from './locale';
+import {Locale} from './locale';
+
+const NISAN = 1;
+const IYYAR = 2;
+const SIVAN = 3;
+const TAMUZ = 4;
+const AV = 5;
+const ELUL = 6;
+const TISHREI = 7;
+const CHESHVAN = 8;
+const KISLEV = 9;
+const TEVET = 10;
+const SHVAT = 11;
+const ADAR_I = 12;
+const ADAR_II = 13;
+
+const monthNames0 = [
+  '',
+  'Nisan',
+  'Iyyar',
+  'Sivan',
+  'Tamuz',
+  'Av',
+  'Elul',
+  'Tishrei',
+  'Cheshvan',
+  'Kislev',
+  'Tevet',
+  'Sh\'vat',
+];
+
+/**
+ * Transliterations of Hebrew month names.
+ * Regular years are index 0 and leap years are index 1.
+ * @private
+ */
+const monthNames = [
+  monthNames0.concat([
+    'Adar',
+    'Nisan',
+  ]),
+  monthNames0.concat([
+    'Adar I',
+    'Adar II',
+    'Nisan',
+  ]),
+];
 
 /** Class representing a Hebrew date */
 export class HDate {
@@ -85,7 +131,7 @@ export class HDate {
       // Hebrew day, Hebrew month, Hebrew year
       this.day = this.month = 1;
       this.year = Number(year);
-      this.setMonth(c.monthNum(month));
+      this.setMonth(HDate.monthNum(month));
       this.setDate(Number(day));
     } else {
       throw new TypeError('HDate constructor requires 0, 1 or 3 arguments');
@@ -105,7 +151,7 @@ export class HDate {
    * @return {boolean}
    */
   isLeapYear() {
-    return c.hebLeapYear(this.year);
+    return HDate.isLeapYear(this.year);
   }
 
   /**
@@ -121,7 +167,7 @@ export class HDate {
    * @return {number}
    */
   getTishreiMonth() {
-    const nummonths = c.monthsInHebYear(this.getFullYear());
+    const nummonths = HDate.monthsInYear(this.getFullYear());
     return (this.getMonth() + nummonths - 6) % nummonths || nummonths;
   }
 
@@ -130,7 +176,7 @@ export class HDate {
    * @return {number}
    */
   daysInMonth() {
-    return c.daysInHebMonth(this.getMonth(), this.getFullYear());
+    return HDate.daysInMonth(this.getMonth(), this.getFullYear());
   }
 
   /**
@@ -166,7 +212,7 @@ export class HDate {
    * @return {HDate}
    */
   setMonth(month) {
-    this.month = c.monthNum(month);
+    this.month = HDate.monthNum(month);
     fix(this);
     return this;
   }
@@ -177,7 +223,7 @@ export class HDate {
    * @return {HDate}
    */
   setTishreiMonth(month) {
-    return this.setMonth((month + 6) % c.monthsInHebYear(this.getFullYear()) || 13);
+    return this.setMonth((month + 6) % HDate.monthsInYear(this.getFullYear()) || 13);
   }
 
   /**
@@ -211,7 +257,7 @@ export class HDate {
    * @return {string}
    */
   getMonthName() {
-    return c.getMonthName(this.getMonth(), this.getFullYear());
+    return HDate.getMonthName(this.getMonth(), this.getFullYear());
   }
 
   /**
@@ -227,16 +273,16 @@ export class HDate {
    * @return {string}
    */
   render(locale) {
-    const locale0 = locale || l.getLocaleName();
+    const locale0 = locale || Locale.getLocaleName();
     const day = this.getDate();
     const fullYear = this.getFullYear();
-    const monthName = l.gettext(this.getMonthName(), locale);
-    const nth = l.ordinal(day);
+    const monthName = Locale.gettext(this.getMonthName(), locale);
+    const nth = Locale.ordinal(day);
     let dayOf = '';
     if (locale0 == 'en' || locale0.startsWith('ashkenazi')) {
       dayOf = ' of';
     } else {
-      const ofStr = l.lookupTranslation('of', locale0);
+      const ofStr = Locale.lookupTranslation('of', locale0);
       if (ofStr) {
         dayOf = ' ' + ofStr;
       }
@@ -254,7 +300,7 @@ export class HDate {
    */
   renderGematriya() {
     const d = this.getDate();
-    const m = l.gettext(this.getMonthName(), 'he');
+    const m = Locale.gettext(this.getMonthName(), 'he');
     const y = this.getFullYear();
     return gematriya(d) + ' ' + m + ' ' + gematriya(y, {limit: 3});
   }
@@ -363,7 +409,250 @@ export class HDate {
     const fullYear = this.getFullYear();
     const monthName = this.getMonthName();
     return `${day} ${monthName} ${fullYear}`;
-  };
+  }
+
+  /**
+   * Returns true if Hebrew year is a leap year
+   * @param {number} year Hebrew year
+   * @return {boolean}
+   */
+  static isLeapYear(year) {
+    return (1 + year * 7) % 19 < 7;
+  }
+
+  /**
+   * Number of months in this Hebrew year (either 12 or 13 depending on leap year)
+   * @param {number} year Hebrew year
+   * @return {number}
+   */
+  static monthsInYear(year) {
+    return 12 + HDate.isLeapYear(year); // boolean is cast to 1 or 0
+  }
+
+  /**
+   * Number of days in Hebrew month in a given year (29 or 30)
+   * @param {number} month Hebrew month (e.g. months.TISHREI)
+   * @param {number} year Hebrew year
+   * @return {number}
+   */
+  static daysInMonth(month, year) {
+    if (month == IYYAR ||
+      month == TAMUZ ||
+      month == ELUL ||
+      month == TEVET ||
+      month == ADAR_II ||
+      (month == ADAR_I && !HDate.isLeapYear(year)) ||
+      (month == CHESHVAN && !HDate.longCheshvan(year)) ||
+      (month == KISLEV && HDate.shortKislev(year))) {
+      return 29;
+    } else {
+      return 30;
+    }
+  }
+
+  /**
+   * Returns a transliterated string name of Hebrew month in year,
+   * for example 'Elul' or 'Cheshvan'.
+   * @param {number} month Hebrew month (e.g. months.TISHREI)
+   * @param {number} year Hebrew year
+   * @return {string}
+   */
+  static getMonthName(month, year) {
+    if (typeof month !== 'number' || month < 1 || month > 14) {
+      throw new TypeError(`bad month argument ${month}`);
+    }
+    return monthNames[+HDate.isLeapYear(year)][month];
+  }
+
+  /**
+   * Returns the Hebrew month number (NISAN=1, TISHREI=7)
+   * @param {number|string} month A number, or Hebrew month name string
+   * @return {number}
+   */
+  static monthNum(month) {
+    return typeof month === 'number' ?
+    month :
+    month.charCodeAt(0) >= 48 && month.charCodeAt(0) <= 57 ? /* number */
+    parseInt(month, 10) :
+    HDate.monthFromName(month);
+  }
+
+  /**
+   * Days from sunday prior to start of Hebrew calendar to mean
+   * conjunction of Tishrei in Hebrew YEAR
+   * @param {number} year Hebrew year
+   * @return {number}
+   */
+  static elapsedDays(year) {
+    // borrowed from original JS
+    const mElapsed = 235 * Math.floor((year - 1) / 19) +
+      12 * ((year - 1) % 19) +
+      Math.floor((((year - 1) % 19) * 7 + 1) / 19);
+
+    const pElapsed = 204 + 793 * (mElapsed % 1080);
+
+    const hElapsed = 5 +
+      12 * mElapsed +
+      793 * Math.floor(mElapsed / 1080) +
+      Math.floor(pElapsed / 1080);
+
+    const parts = (pElapsed % 1080) + 1080 * (hElapsed % 24);
+
+    const day = 1 + 29 * mElapsed + Math.floor(hElapsed / 24);
+    const altDay = day +
+      (parts >= 19440 ||
+        (2 == day % 7 && parts >= 9924 && !HDate.isLeapYear(year)) ||
+        (1 == day % 7 && parts >= 16789 && HDate.isLeapYear(year - 1)));
+
+    return altDay + (altDay % 7 === 0 || altDay % 7 == 3 || altDay % 7 == 5);
+  }
+
+  /**
+   * Number of days in the hebrew YEAR
+   * @param {number} year Hebrew year
+   * @return {number}
+   */
+  static daysInYear(year) {
+    return HDate.elapsedDays(year + 1) - HDate.elapsedDays(year);
+  }
+
+  /**
+   * true if Cheshvan is long in Hebrew year
+   * @param {number} year Hebrew year
+   * @return {boolean}
+   */
+  static longCheshvan(year) {
+    return HDate.daysInYear(year) % 10 == 5;
+  }
+
+  /**
+   * true if Kislev is short in Hebrew year
+   * @param {number} year Hebrew year
+   * @return {boolean}
+   */
+  static shortKislev(year) {
+    return HDate.daysInYear(year) % 10 == 3;
+  }
+
+  /**
+   * Converts Hebrew month string name to numeric
+   * @param {string} c monthName
+   * @return {number}
+   */
+  static monthFromName(c) {
+    /*
+    the Hebrew months are unique to their second letter
+    N         Nisan  (November?)
+    I         Iyyar
+    E        Elul
+    C        Cheshvan
+    K        Kislev
+    1        1Adar
+    2        2Adar
+    Si Sh     Sivan, Shvat
+    Ta Ti Te Tamuz, Tishrei, Tevet
+    Av Ad    Av, Adar
+
+    אב אד אי אל   אב אדר אייר אלול
+    ח            חשון
+    ט            טבת
+    כ            כסלו
+    נ            ניסן
+    ס            סיון
+    ש            שבט
+    תמ תש        תמוז תשרי
+    */
+    switch (c.toLowerCase()[0]) {
+      case 'n':
+      case 'נ':
+        return c.toLowerCase()[1] == 'o' ? /* this catches "november" */
+        0 :
+        NISAN;
+      case 'i':
+        return IYYAR;
+      case 'e':
+        return ELUL;
+      case 'c':
+      case 'ח':
+        return CHESHVAN;
+      case 'k':
+      case 'כ':
+        return KISLEV;
+      case 's':
+        switch (c.toLowerCase()[1]) {
+          case 'i':
+            return SIVAN;
+          case 'h':
+            return SHVAT;
+          default:
+            return 0;
+        }
+      case 't':
+        switch (c.toLowerCase()[1]) {
+          case 'a':
+            return TAMUZ;
+          case 'i':
+            return TISHREI;
+          case 'e':
+            return TEVET;
+        }
+        break;
+      case 'a':
+        switch (c.toLowerCase()[1]) {
+          case 'v':
+            return AV;
+          case 'd':
+            if (/(1|[^i]i|a|א)$/i.test(c)) {
+              return ADAR_I;
+            }
+            return ADAR_II; // else assume sheini
+        }
+        break;
+      case 'ס':
+        return SIVAN;
+      case 'ט':
+        return TEVET;
+      case 'ש':
+        return SHVAT;
+      case 'א':
+        switch (c.toLowerCase()[1]) {
+          case 'ב':
+            return AV;
+          case 'ד':
+            if (/(1|[^i]i|a|א)$/i.test(c)) {
+              return ADAR_I;
+            }
+            return ADAR_II; // else assume sheini
+          case 'י':
+            return IYYAR;
+          case 'ל':
+            return ELUL;
+        }
+        break;
+      case 'ת':
+        switch (c.toLowerCase()[1]) {
+          case 'מ':
+            return TAMUZ;
+          case 'ש':
+            return TISHREI;
+        }
+        break;
+    }
+    return 0;
+  }
+
+  /**
+   * Note: Applying this function to d+6 gives us the DAYNAME on or after an
+   * absolute day d. Similarly, applying it to d+3 gives the DAYNAME nearest to
+   * absolute date d, applying it to d-1 gives the DAYNAME previous to absolute
+   * date d, and applying it to d+7 gives the DAYNAME following absolute date d.
+   * @param {number} dayOfWeek
+   * @param {number} absdate
+   * @return {number}
+   */
+  static dayOnOrBefore(dayOfWeek, absdate) {
+    return absdate - ((absdate - dayOfWeek) % 7);
+  }
 }
 
 // eslint-disable-next-line require-jsdoc
@@ -378,15 +667,15 @@ function fixDate(date) {
     if (date.month == c.months.TISHREI) {
       date.year -= 1;
     }
-    date.day += c.daysInHebMonth(date.month, date.year);
+    date.day += HDate.daysInMonth(date.month, date.year);
     date.month -= 1;
     fix(date);
   }
-  if (date.day > c.daysInHebMonth(date.month, date.year)) {
+  if (date.day > HDate.daysInMonth(date.month, date.year)) {
     if (date.month == c.months.ELUL) {
       date.year += 1;
     }
-    date.day -= c.daysInHebMonth(date.month, date.year);
+    date.day -= HDate.daysInMonth(date.month, date.year);
     date.month += 1;
     fix(date);
   }
@@ -400,12 +689,12 @@ function fixMonth(date) {
     fix(date);
   }
   if (date.month < 1) {
-    date.month += c.monthsInHebYear(date.year);
+    date.month += HDate.monthsInYear(date.year);
     date.year -= 1;
     fix(date);
   }
-  if (date.month > c.monthsInHebYear(date.year)) {
-    date.month -= c.monthsInHebYear(date.year);
+  if (date.month > HDate.monthsInYear(date.year)) {
+    date.month -= HDate.monthsInYear(date.year);
     date.year += 1;
     fix(date);
   }
@@ -413,7 +702,7 @@ function fixMonth(date) {
 
 // eslint-disable-next-line require-jsdoc
 function onOrBefore(day, t, offset) {
-  return new HDate(c.dayOnOrBefore(day, t.abs() + offset));
+  return new HDate(HDate.dayOnOrBefore(day, t.abs() + offset));
 }
 
 /**
@@ -439,20 +728,20 @@ export function hebrew2abs(d) {
   const year = isHDate ? d.getFullYear() : d.yy;
 
   if (month < c.months.TISHREI) {
-    for (let m = c.months.TISHREI; m <= c.monthsInHebYear(year); m++) {
-      tempabs += c.daysInHebMonth(m, year);
+    for (let m = c.months.TISHREI; m <= HDate.monthsInYear(year); m++) {
+      tempabs += HDate.daysInMonth(m, year);
     }
 
     for (let m = c.months.NISAN; m < month; m++) {
-      tempabs += c.daysInHebMonth(m, year);
+      tempabs += HDate.daysInMonth(m, year);
     }
   } else {
     for (let m = c.months.TISHREI; m < month; m++) {
-      tempabs += c.daysInHebMonth(m, year);
+      tempabs += HDate.daysInMonth(m, year);
     }
   }
 
-  return c.hebElapsedDays(year) - 1373429 + tempabs;
+  return HDate.elapsedDays(year) - 1373429 + tempabs;
 }
 
 /**
@@ -489,10 +778,10 @@ export function abs2hebrew(d) {
   }
 
   while (hebdate.mm = month,
-  hebdate.dd = c.daysInHebMonth(month, year),
+  hebdate.dd = HDate.daysInMonth(month, year),
   hebdate.yy = year,
   d > hebrew2abs(hebdate)) {
-    month = (month % c.monthsInHebYear(year)) + 1;
+    month = (month % HDate.monthsInYear(year)) + 1;
   }
 
   hebdate.dd = 1;
@@ -522,7 +811,7 @@ export class HebrewDateEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const locale0 = locale || l.getLocaleName();
+    const locale0 = locale || Locale.getLocaleName();
     const hd = this.getDate();
     return locale0 == 'he' ? hd.renderGematriya() : hd.render(locale0);
   }

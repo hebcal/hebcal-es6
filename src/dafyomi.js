@@ -20,8 +20,11 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {greg as g} from './greg';
-import {locale as l} from './locale';
+import {Locale} from './locale';
 import {Event, flags} from './event';
+
+const osdate = new Date(1923, 8, 11);
+const osday = g.greg2abs(osdate);
 
 const shas = [
   ['Berachot',       64],
@@ -69,38 +72,24 @@ const shas = [
 });
 
 /**
- * Low-level interface to Daf Yomi.
- * @namespace
+ * Returns the Daf Yomi for given date
  */
-export const dafyomi = {
+export class DafYomi {
   /**
-   * A Daf Yomi result
-   * @typedef {Object} DafYomiResult
-   * @property {string} name Tractate name
-   * @property {number} blatt Page number
-   */
-
-  /**
-   * Returns the Daf Yomi for given date
+   * Initializes a daf yomi instance
    * @param {Date} gregdate Gregorian date
-   * @return {DafYomiResult} Tractact name and page number
    */
-  dafyomi: function(gregdate) {
-    const dafcnt = 40;
-    let cno;
-    let dno;
-
+   constructor(gregdate) {
     if (!(gregdate instanceof Date)) {
       throw new TypeError('non-date given to dafyomi');
     }
-
-    const osday = g.greg2abs(new Date(1923, 8, 11));
-    const nsday = g.greg2abs(new Date(1975, 5, 24));
     const cday = g.greg2abs(gregdate);
-
-    if (cday < osday) { // no cycle; dy didn't start yet
-      return {name: [], blatt: 0};
+    if (cday < osday) {
+      throw new RangeError(`Date ${gregdate} too early; Daf Yomi cycle began on ${osdate}`);
     }
+    let cno;
+    let dno;
+    const nsday = g.greg2abs(new Date(1975, 5, 24));
     if (cday >= nsday) { // "new" cycle
       cno = 8 + ( (cday - nsday) / 2711 );
       dno = (cday - nsday) % 2711;
@@ -124,6 +113,7 @@ export const dafyomi = {
 
     // Find the daf
     let j = 0;
+    const dafcnt = 40;
     while (j < dafcnt) {
       count++;
       total = total + shas[j].blatt - 1;
@@ -149,19 +139,30 @@ export const dafyomi = {
       j++;
     }
 
-    return {name: shas[count].name, blatt};
-  },
-
+    this.name = shas[count].name;
+    this.blatt = blatt;
+  }
   /**
- * Formats (with translation) the dafyomi result as a string like "Pesachim 34"
- * @param {DafYomiResult} daf the Daf Yomi
- * @param {string} [locale] Optional locale name (defaults to active locale).
- * @return {string}
- */
-  dafname: function(daf, locale) {
-    return l.gettext(daf.name, locale) + ' ' + daf.blatt;
-  },
-};
+   * @return {number}
+   */
+  getBlatt() {
+    return this.blatt;
+  }
+  /**
+   * @return {string}
+   */
+  getName() {
+    return this.name;
+  }
+  /**
+   * Formats (with translation) the dafyomi result as a string like "Pesachim 34"
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    return Locale.gettext(this.name, locale) + ' ' + this.blatt;
+  }
+}
 
 const dafYomiSefaria = {
   'Berachot': 'Berakhot',
@@ -176,16 +177,15 @@ const dafYomiSefaria = {
 };
 
 /**
- * For a Daf Yomi, the name is already translated
- * attrs.dafyomi.name contains the untranslated string
+ * Event wrapper around a DafYomi instance
  */
 export class DafYomiEvent extends Event {
   /**
    * @param {HDate} date
-   * @param {DafYomiResult} daf
    */
-  constructor(date, daf) {
-    super(date, dafyomi.dafname(daf), flags.DAF_YOMI, {dafyomi: daf});
+  constructor(date) {
+    const daf = new DafYomi(date.greg());
+    super(date, daf.render(), flags.DAF_YOMI, {daf: daf});
   }
   /**
    * Returns Daf Yomi name including the 'Daf Yomi: ' prefix (e.g. "Daf Yomi: Pesachim 107").
@@ -193,7 +193,8 @@ export class DafYomiEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    return l.gettext('Daf Yomi', locale) + ': ' + dafyomi.dafname(this.getAttrs().dafyomi, locale);
+    const daf = this.getAttrs().daf;
+    return Locale.gettext('Daf Yomi', locale) + ': ' + daf.render(locale);
   }
   /**
    * Returns Daf Yomi name without the 'Daf Yomi: ' prefix (e.g. "Pesachim 107").
@@ -201,21 +202,23 @@ export class DafYomiEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    return dafyomi.dafname(this.getAttrs().dafyomi, locale);
+    const daf = this.getAttrs().daf;
+    return daf.render(locale);
   }
   /**
    * Returns a link to sefaria.org or dafyomi.org
    * @return {string}
    */
   url() {
-    const daf = this.getAttrs().dafyomi;
-    const tractate = daf.name;
+    const daf = this.getAttrs().daf;
+    const tractate = daf.getName();
+    const blatt = daf.getBlatt();
     if (tractate == 'Kinnim' || tractate == 'Midot') {
-      return `https://www.dafyomi.org/index.php?masechta=meilah&daf=${daf.blatt}a`;
+      return `https://www.dafyomi.org/index.php?masechta=meilah&daf=${blatt}a`;
     } else {
       const name0 = dafYomiSefaria[tractate] || tractate;
       const name = name0.replace(/ /g, '_');
-      return `https://www.sefaria.org/${name}.${daf.blatt}a?lang=bi`;
+      return `https://www.sefaria.org/${name}.${blatt}a?lang=bi`;
     }
   }
 }

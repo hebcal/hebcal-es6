@@ -181,6 +181,12 @@ declare module '@hebcal/core' {
          * @param dst 'none', 'eu', 'usa', or 'israel'
          */
         static legacyTzToTzid(tz: number, dst: string): string;
+        /**
+         * Adds a location name for `Location.lookup()` only if the name isn't
+         * already being used. Returns `false` if the name is already taken
+         * and `true` if successfully added.
+         */
+        static register(cityName: string, location: Location): boolean;
     }
 
     /**
@@ -420,12 +426,6 @@ declare module '@hebcal/core' {
         export function makeAnchor(s: string): string;
         export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
 
-        /**
-         * Adds a location name for `Location.lookup()` only if the name isn't
-         * already being used. Returns `false` if the name is already taken
-         * and `true` if successfully added.
-         */
-        export function registerLocation(cityName: string, location: Location): boolean;
 
         /**
          * Removes nekudot from Hebrew string

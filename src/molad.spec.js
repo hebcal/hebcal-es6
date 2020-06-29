@@ -1,5 +1,5 @@
 import test from 'ava';
-import {getMolad, MoladEvent} from './molad';
+import {Molad, MoladEvent} from './molad';
 import {common} from './common';
 import {HDate} from './hdate';
 
@@ -21,7 +21,7 @@ test('molad', (t) => {
   ];
   for (const item of items) {
     const [month, dow, hour, minutes, chalakim] = item;
-    const molad = getMolad(5769, month);
+    const molad = new Molad(5769, month);
     t.is(molad.dow, dow);
     t.is(molad.hour, hour);
     t.is(molad.minutes, minutes);

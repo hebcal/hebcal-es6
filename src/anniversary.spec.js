@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import test from 'ava';
-import * as anniversary from './anniversary';
 import {HDate} from './hdate';
+import {HebrewCalendar} from './hebcal';
 
 test('yahrzeit', (t) => {
   // Gregorian YYYY, MM, DD
@@ -35,7 +35,7 @@ test('yahrzeit', (t) => {
     const expected = item[4].split(' ');
     for (let i = 0; i < 25; i++) {
       const hyear = i + today.getFullYear();
-      const yahrzeit = anniversary.getYahrzeit(hyear, gd);
+      const yahrzeit = HebrewCalendar.getYahrzeit(hyear, gd);
       const greg = yahrzeit.greg();
       const dateStr = greg.toLocaleDateString('en-US');
       t.is(dateStr, expected[i], `${name} ${i} ${hyear}`);
@@ -71,7 +71,7 @@ test('birthday', (t) => {
     const expected = item[4].split(' ');
     for (let i = 0; i < 21; i++) {
       const hyear = i + today.getFullYear();
-      const birthday = anniversary.getBirthdayOrAnniversary(hyear, gd);
+      const birthday = HebrewCalendar.getBirthdayOrAnniversary(hyear, gd);
       const greg = birthday.greg();
       const dateStr = greg.toLocaleDateString('en-US');
       t.is(dateStr, expected[i], `${name} ${i} ${hyear}`);
@@ -80,18 +80,18 @@ test('birthday', (t) => {
 });
 
 test('before-original', (t) => {
-  let hd = anniversary.getYahrzeit(5769, new Date(2008, 10, 13));
+  let hd = HebrewCalendar.getYahrzeit(5769, new Date(2008, 10, 13));
   t.is(hd, undefined, 'Hebrew year 5769 occurs on or before original date in 5769');
 
-  hd = anniversary.getYahrzeit(5770, new Date(2008, 10, 13));
+  hd = HebrewCalendar.getYahrzeit(5770, new Date(2008, 10, 13));
   t.is(hd.getFullYear(), 5770);
 
-  hd = anniversary.getBirthdayOrAnniversary(5778, new Date(2018, 11, 13));
+  hd = HebrewCalendar.getBirthdayOrAnniversary(5778, new Date(2018, 11, 13));
   t.is(hd, undefined, 'Hebrew year 5778 occurs on or before original date in 5779');
 
-  hd = anniversary.getBirthdayOrAnniversary(5779, new Date(2018, 11, 13));
+  hd = HebrewCalendar.getBirthdayOrAnniversary(5779, new Date(2018, 11, 13));
   t.is(hd, undefined, 'Hebrew year 5779 occurs on or before original date in 5779');
 
-  hd = anniversary.getBirthdayOrAnniversary(5780, new Date(2018, 11, 13));
+  hd = HebrewCalendar.getBirthdayOrAnniversary(5780, new Date(2018, 11, 13));
   t.is(hd.getFullYear(), 5780);
 });

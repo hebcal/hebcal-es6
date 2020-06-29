@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import test from 'ava';
-import {dafyomi, DafYomiEvent} from './dafyomi';
+import {DafYomi, DafYomiEvent} from './dafyomi';
 import {hebrew2abs} from './hdate';
 import {common} from './common';
 import {greg as g} from './greg';
@@ -10,10 +10,10 @@ const months = common.months;
 
 test('dafyomi-single', (t) => {
   const dt = new Date(1995, 11, 17);
-  const dy = dafyomi.dafyomi(dt);
-  t.is(dy.name, 'Avodah Zarah');
-  t.is(dy.blatt, 68);
-  t.is(dafyomi.dafname(dy), 'Avodah Zarah 68');
+  const dy = new DafYomi(dt);
+  t.is(dy.getName(), 'Avodah Zarah');
+  t.is(dy.getBlatt(), 68);
+  t.is(dy.render(), 'Avodah Zarah 68');
 });
 
 test('dafyomi-multi', (t) => {
@@ -23,17 +23,16 @@ test('dafyomi-multi', (t) => {
   let i = 0;
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const dt = g.abs2greg(abs);
-    const dy = dafyomi.dafyomi(dt);
+    const dy = new DafYomi(dt);
     const dateStr = dt.toLocaleDateString('en-US');
-    const str = dateStr + ' Daf Yomi: ' + dafyomi.dafname(dy);
+    const str = dateStr + ' Daf Yomi: ' + dy.render();
     t.is(str, expected[i]);
     i++;
   }
 });
 
 test('dafyomi-render', (t) => {
-  const daf = {name: 'Shabbat', blatt: 104};
-  const ev = new DafYomiEvent(new HDate(2020, 5, 18), daf);
+  const ev = new DafYomiEvent(new HDate(new Date(2020, 5, 18)));
   t.is(ev.render(), 'Daf Yomi: Shabbat 104');
   t.is(ev.render('a'), 'Daf Yomi: Shabbos 104');
   t.is(ev.render('he'), 'דף יומי: שבת 104');

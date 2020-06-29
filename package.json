@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -82,6 +82,6 @@
     "rollup-plugin-terser": "^6.1.0",
     "suncalc": "^1.8.0",
     "tsd-jsdoc": "^2.5.0",
-    "ttag-cli": "^1.8.2"
+    "ttag-cli": "^1.8.3"
   }
 }

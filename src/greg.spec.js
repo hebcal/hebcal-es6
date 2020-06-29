@@ -18,22 +18,22 @@ test('abs2greg', (t) => {
   t.is(dt.getDate(), 8);
 });
 
-test('daysInGregMonth', (t) => {
-  t.is(greg.daysInGregMonth(2, 2020), 29);
-  t.is(greg.daysInGregMonth(2, 2019), 28);
-  t.is(greg.daysInGregMonth(5, 2020), 31);
-  t.is(greg.daysInGregMonth(2, 2100), 28);
+test('daysInMonth', (t) => {
+  t.is(greg.daysInMonth(2, 2020), 29);
+  t.is(greg.daysInMonth(2, 2019), 28);
+  t.is(greg.daysInMonth(5, 2020), 31);
+  t.is(greg.daysInMonth(2, 2100), 28);
 });
 
-test('gregLeapYear', (t) => {
-  t.is(greg.gregLeapYear(2020), true);
-  t.is(greg.gregLeapYear(2019), false);
-  t.is(greg.gregLeapYear(2018), false);
-  t.is(greg.gregLeapYear(2017), false);
-  t.is(greg.gregLeapYear(2016), true);
-  t.is(greg.gregLeapYear(2000), true);
-  t.is(greg.gregLeapYear(2100), false);
-  t.is(greg.gregLeapYear(1980), true);
+test('isLeapYear', (t) => {
+  t.is(greg.isLeapYear(2020), true);
+  t.is(greg.isLeapYear(2019), false);
+  t.is(greg.isLeapYear(2018), false);
+  t.is(greg.isLeapYear(2017), false);
+  t.is(greg.isLeapYear(2016), true);
+  t.is(greg.isLeapYear(2000), true);
+  t.is(greg.isLeapYear(2100), false);
+  t.is(greg.isLeapYear(1980), true);
 });
 
 test('monthNames', (t) => {

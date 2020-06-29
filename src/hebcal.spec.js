@@ -1,5 +1,5 @@
 import test from 'ava';
-import * as hebcal from './hebcal';
+import {HebrewCalendar} from './hebcal';
 import {HDate} from './hdate';
 import {flags} from './event';
 import {Location} from './location';
@@ -18,7 +18,7 @@ test('heb-month', (t) => {
     isHebrewYear: true,
     month: 'Iyyar',
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 7);
   t.is(events[0].getDesc(), 'Rosh Chodesh Iyyar');
   t.is(gregDtString(events[0]), '4/25/2020');
@@ -32,7 +32,7 @@ test('greg-month', (t) => {
     isHebrewYear: false,
     month: 3,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 8);
   t.is(events[0].getDesc(), 'Ta\'anit Esther');
   t.is(gregDtString(events[0]), '3/9/2017');
@@ -44,7 +44,7 @@ test('greg-year', (t) => {
   const options = {
     year: 1993,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 82);
   t.is(events[0].getDesc(), 'Asara B\'Tevet');
   t.is(gregDtString(events[0]), '1/3/1993');
@@ -59,7 +59,7 @@ test('heb-year', (t) => {
     year: 5749,
     isHebrewYear: true,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 82);
   t.is(events[0].getDesc(), 'Rosh Hashana 5749');
   t.is(gregDtString(events[0]), '9/12/1988');
@@ -73,19 +73,19 @@ test('heb-year', (t) => {
 
 test('no-options', (t) => {
   const now = new Date();
-  const events = hebcal.hebrewCalendar({});
+  const events = new HebrewCalendar({}).events();
   t.is(events[0].getDate().greg().getFullYear(), now.getFullYear());
   t.is(events[events.length - 1].getDate().greg().getFullYear(), now.getFullYear());
 });
 
 test('no-holidays', (t) => {
-  const events = hebcal.hebrewCalendar({noHolidays: true});
+  const events = new HebrewCalendar({noHolidays: true}).events();
   t.is(events.length, 0);
 });
 
 test('sedrot-only', (t) => {
   const options = {year: 1993, noHolidays: true, sedrot: true, il: true};
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 49);
   t.is(events[0].getFlags(), flags.PARSHA_HASHAVUA);
   t.is(events[48].getFlags(), flags.PARSHA_HASHAVUA);
@@ -98,7 +98,7 @@ test('candles-only-diaspora', (t) => {
     location: Location.lookup('Chicago'),
     candlelighting: true,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 126);
   t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
   t.is(events[0].render(), 'Candle lighting: 16:13');
@@ -120,7 +120,7 @@ test('havdalah-mins', (t) => {
     location: Location.lookup('Providence'),
     candlelighting: true,
   };
-  const events = hebcal.hebrewCalendar(options)
+  const events = new HebrewCalendar(options).events()
       .filter((ev) => ev.getDesc().startsWith('Havdalah'));
   const ev = events[0];
   t.is(ev.getFlags(), flags.LIGHT_CANDLES_TZEIS);
@@ -142,7 +142,7 @@ test('havdalah-zero-suppressed', (t) => {
     havdalahMins: 0,
     location: Location.lookup('Providence'),
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 8);
   const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
   t.is(candlelighting.length, 8);
@@ -159,7 +159,7 @@ test('havdalah-fixed-st-petersburg', (t) => {
     havdalahMins: 42,
     location: Location.lookup('Saint Petersburg'),
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 8);
   const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
   t.is(candlelighting.length, 4);
@@ -175,7 +175,7 @@ test('havdalah-no-tzeit-st-petersburg', (t) => {
     candlelighting: true,
     location: Location.lookup('Saint Petersburg'),
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 4);
   const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
   t.is(candlelighting.length, 4);
@@ -191,7 +191,7 @@ test('candles-only-israel', (t) => {
     il: true,
     candlelighting: true,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 123);
   t.is(events[0].getFlags(), flags.LIGHT_CANDLES, 'Candle lighting 0');
   t.is(events[33].getFlags(), flags.CHAG | flags.YOM_TOV_ENDS | flags.IL_ONLY, 'Havdalah in Israel on Pesach VII');
@@ -205,7 +205,7 @@ test('dafyomi-only', (t) => {
     noHolidays: true,
     dafyomi: true,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 30);
   t.is(gregDtString(events[0]), '6/1/1975');
   t.is(events[0].getFlags(), flags.DAF_YOMI);
@@ -227,7 +227,7 @@ test('omer-only', (t) => {
     noHolidays: true,
     omer: true,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 30);
   t.is(gregDtString(events[0]), '4/29/1968');
   t.is(events[0].getFlags(), flags.OMER_COUNT);
@@ -246,7 +246,7 @@ test('molad-only', (t) => {
     noHolidays: true,
     molad: true,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   t.is(events.length, 12);
   t.is(events[0].getDesc().startsWith('Molad'), true);
   t.is(events[0].getFlags(), flags.MOLAD);
@@ -258,7 +258,7 @@ test('multi-year', (t) => {
     isHebrewYear: false,
     numYears: 7,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   let numRoshHashanaII = 0;
   for (const ev of events) {
     if (ev.getDesc() == 'Rosh Hashana II') {
@@ -270,33 +270,33 @@ test('multi-year', (t) => {
 
 test('ashkenazi', (t) => {
   const options = {year: 2020, month: 4, ashkenazi: true};
-  const ev = hebcal.hebrewCalendar(options)[0];
+  const ev = new HebrewCalendar(options).events()[0];
   t.is(ev.render(), 'Shabbos HaGadol');
 });
 
 test('locale-he', (t) => {
   const options = {year: 2020, month: 4, locale: 'he'};
-  const ev = hebcal.hebrewCalendar(options)[0];
+  const ev = new HebrewCalendar(options).events()[0];
   t.is(ev.render(), 'שַׁבָּת הַגָּדוֹל');
 });
 
 test('addHebrewDatesForEvents', (t) => {
   const options0 = {year: 2017, month: 3, noHolidays: true, addHebrewDatesForEvents: true};
-  const ev0 = hebcal.hebrewCalendar(options0);
+  const ev0 = new HebrewCalendar(options0).events();
   t.is(ev0.length, 0);
 
   const options1 = {year: 2017, month: 3};
-  const ev1 = hebcal.hebrewCalendar(options1);
+  const ev1 = new HebrewCalendar(options1).events();;
   t.is(ev1.length, 8);
 
   const options = {year: 2017, month: 3, addHebrewDatesForEvents: true};
-  const ev = hebcal.hebrewCalendar(options);
+  const ev = new HebrewCalendar(options).events();
   t.is(ev.length, 15);
 });
 
 test('addHebrewDates', (t) => {
   const options0 = {year: 2017, month: 3, noHolidays: true, addHebrewDates: true};
-  const events = hebcal.hebrewCalendar(options0);
+  const events = new HebrewCalendar(options0).events();;
   t.is(events.length, 31);
   t.is(events[0].getFlags(), flags.HEBREW_DATE);
   t.is(gregDtString(events[0]), '3/1/2017');
@@ -326,7 +326,7 @@ test('addHebrewDates', (t) => {
     locale: 's',
     location: Location.lookup('Providence'),
   };
-  const ev = hebcal.hebrewCalendar(options);
+  const ev = new HebrewCalendar(options).events();
   t.is(ev.length, 83);
   t.is(ev[0].getFlags(), flags.HEBREW_DATE);
   t.is(gregDtString(ev[0]), '4/1/2020');
@@ -351,36 +351,36 @@ test('addHebrewDates', (t) => {
 
 test('addHebrewDates-locale', (t) => {
   const options = {year: 2017, month: 3, noHolidays: true, addHebrewDates: true, locale: 'he'};
-  const ev = hebcal.hebrewCalendar(options)[0];
+  const ev = new HebrewCalendar(options).events()[0];
   t.is(ev.getFlags(), flags.HEBREW_DATE);
   t.is(ev.getDesc(), '3 Adar 5777');
   t.is(ev.render(), 'ג׳ אַדָר תשע״ז');
 });
 
 test('startAndEnd', (t) => {
-  const ev1 = hebcal.hebrewCalendar({
+  const ev1 = new HebrewCalendar({
     addHebrewDates: true,
     start: new Date(2018, 6, 4),
     end: new Date(2018, 6, 19),
-  });
+  }).events();;
   t.is(gregDtString(ev1[0]), '7/4/2018');
   t.is(gregDtString(ev1[ev1.length - 1]), '7/19/2018');
   t.is(ev1.length, 17);
 
-  const eventsHDate = hebcal.hebrewCalendar({
+  const eventsHDate = new HebrewCalendar({
     addHebrewDates: true,
     start: new HDate(25, 'Tishrei', 5769),
     end: new HDate(9, 'Cheshvan', 5769),
-  });
+  }).events();;
   t.is(gregDtString(eventsHDate[0]), '10/24/2008');
   t.is(gregDtString(eventsHDate[eventsHDate.length - 1]), '11/7/2008');
   t.is(eventsHDate.length, 17);
 
-  const eventsAbsDate = hebcal.hebrewCalendar({
+  const eventsAbsDate = new HebrewCalendar({
     addHebrewDates: true,
     start: 733319,
     end: 733359,
-  });
+  }).events();;
   t.is(gregDtString(eventsAbsDate[0]), '10/4/2008');
   t.is(gregDtString(eventsAbsDate[eventsAbsDate.length - 1]), '11/13/2008');
   t.is(eventsAbsDate.length, 56);
@@ -394,7 +394,7 @@ test('renderBrief', (t) => {
     candlelighting: true,
     sedrot: true,
   };
-  const events = hebcal.hebrewCalendar(options);
+  const events = new HebrewCalendar(options).events();
   const expected = [
     ['Candle lighting', 'הדלקת נרות'],
     ['Shabbat Zachor', 'שַׁבָּת זָכוֹר'],

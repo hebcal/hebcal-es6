@@ -1,4 +1,4 @@
-import {locale as l} from './locale';
+import {Locale} from './locale';
 import {common} from './common';
 import {flags, Event} from './event';
 
@@ -126,9 +126,9 @@ export class HavdalahEvent extends Event {
    */
   render(locale) {
     const attrs = this.getAttrs();
-    let str = l.gettext(this.getDesc(), locale);
+    let str = Locale.gettext(this.getDesc(), locale);
     if (attrs.havdalahMins) {
-      const min = l.gettext('min', locale);
+      const min = Locale.gettext('min', locale);
       str += ` (${attrs.havdalahMins} ${min})`;
     }
     return str + ': ' + attrs.eventTimeStr;
@@ -139,7 +139,7 @@ export class HavdalahEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    return l.gettext(this.getDesc(), locale);
+    return Locale.gettext(this.getDesc(), locale);
   }
 }
 
@@ -158,7 +158,7 @@ export class CandleLightingEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    return l.gettext(this.getDesc(), locale) + ': ' + this.getAttrs().eventTimeStr;
+    return Locale.gettext(this.getDesc(), locale) + ': ' + this.getAttrs().eventTimeStr;
   }
   /**
    * Returns translation of "Candle lighting" without the time.
@@ -166,6 +166,6 @@ export class CandleLightingEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    return l.gettext(this.getDesc(), locale);
+    return Locale.gettext(this.getDesc(), locale);
   }
 }

@@ -285,27 +285,26 @@ export class Location {
     }
     return cityDescr;
   }
+
+  /**
+   * Adds a location name for `Location.lookup()` only if the name isn't
+   * already being used. Returns `false` if the name is already taken
+   * and `true` if successfully added.
+   * @param {string} cityName
+   * @param {Location} location
+   * @return {boolean}
+   */
+  static register(cityName, location) {
+    const name = cityName.toLowerCase();
+    if (classicCities.has(name)) {
+      return false;
+    }
+    classicCities.set(name, location);
+    return true;
+  }
 }
 
 for (const city of classicCities0) {
-  classicCities.set(city[0].toLowerCase(),
-      new Location(city[2], city[3], city[1] == 'IL', city[4], city[0], city[1]));
-}
-
-/**
- * Adds a location name for `Location.lookup()` only if the name isn't
- * already being used. Returns `false` if the name is already taken
- * and `true` if successfully added.
- * @private
- * @param {string} cityName
- * @param {Location} location
- * @return {boolean}
- */
-export function registerLocation(cityName, location) {
-  const name = cityName.toLowerCase();
-  if (classicCities.has(name)) {
-    return false;
-  }
-  classicCities.set(name, location);
-  return true;
+  const location = new Location(city[2], city[3], city[1] == 'IL', city[4], city[0], city[1]);
+  Location.register(location.getName(), location);
 }

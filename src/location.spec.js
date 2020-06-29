@@ -1,5 +1,5 @@
 import test from 'ava';
-import {Location, registerLocation} from './location';
+import {Location} from './location';
 import {HDate} from './hdate';
 
 test('sunset', (t) => {
@@ -52,11 +52,11 @@ test('lookup-notfound', (t) => {
   t.is(city, undefined);
 });
 
-test('registerLocation', (t) => {
+test('Location.register', (t) => {
   const cityName = 'Ra\'anana';
   const missing = Location.lookup(cityName);
   t.is(missing, undefined);
-  const success = registerLocation(cityName, new Location(
+  const success = Location.register(cityName, new Location(
       32.1836, 34.87386, true, 'Asia/Jerusalem', cityName, 'IL', 999888777666));
   t.is(success, true);
   const found = Location.lookup(cityName);

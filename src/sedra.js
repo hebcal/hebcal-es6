@@ -31,7 +31,7 @@
  * The routines were included in the emacs 19 distribution.
  *
  */
-import {locale as l} from './locale';
+import {Locale} from './locale';
 import {common as c} from './common';
 import {HDate} from './hdate';
 import {Event, flags} from './event';
@@ -54,8 +54,8 @@ export class Sedra {
      */
   constructor(hebYr, il) { // the Hebrew year
     il = !!il;
-    const longC = c.longCheshvan(hebYr);
-    const shortK = c.shortKislev(hebYr);
+    const longC = HDate.longCheshvan(hebYr);
+    const shortK = HDate.shortKislev(hebYr);
     let type;
     this.year = hebYr;
     if (longC && !shortK) {
@@ -70,8 +70,8 @@ export class Sedra {
     const rhDay = (rh % 7) + 1;
 
     // find the first Saturday on or after Rosh Hashana
-    this.firstSaturday = c.dayOnOrBefore(6, rh + 6);
-    const leap = +c.hebLeapYear(hebYr);
+    this.firstSaturday = HDate.dayOnOrBefore(6, rh + 6);
+    const leap = +HDate.isLeapYear(hebYr);
     this.type = type;
     this.roshHashanaDay = rhDay;
     this.leap = leap;
@@ -155,7 +155,7 @@ export class Sedra {
    */
   calculate(absDate) {
     // find the first saturday on or after today's date
-    absDate = c.dayOnOrBefore(6, absDate + 6);
+    absDate = HDate.dayOnOrBefore(6, absDate + 6);
 
     const weekNum = (absDate - this.firstSaturday) / 7;
     let index = this.theSedraArray[weekNum];
@@ -257,6 +257,32 @@ const PESACH7 = 'Pesach VII'; // 25
 
 const SHAVUOT = 'Shavuot'; // 33
 
+/**
+ * Returns an array from start to end
+ * @private
+ * @param {number} start beginning number, inclusive
+ * @param {number} end ending number, inclusive
+ * @param {number} [step=1]
+ * @return {number[]}
+ */
+function range(start, end, step = 1) {
+  if (step < 0) {
+    step = 0 - step;
+  }
+
+  const arr = [];
+  let i = start;
+  if (start < end) {
+    for (; i <= end; i += step) {
+      arr.push(i);
+    }
+  } else {
+    for (; i >= end; i -= step) {
+      arr.push(i);
+    }
+  }
+  return arr;
+}
 
 // The ordinary year types (keviot)
 
@@ -267,51 +293,51 @@ const types = {
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
      * Kislev each have 29 days), and has Passover start on Tuesday. */
   // e.g. 5753
-  '020': [51, 52].concat(EOY, c.range(0, 20), D(21), 23, 24, PESACH, 25,
-      D(26), D(28), 30, D(31), c.range(33, 40), D(41), c.range(43, 49), D(50),
+  '020': [51, 52].concat(EOY, range(0, 20), D(21), 23, 24, PESACH, 25,
+      D(26), D(28), 30, D(31), range(33, 40), D(41), range(43, 49), D(50),
   ),
 
   /* Hebrew year that starts on Monday, is `complete' (Heshvan and
      * Kislev each have 30 days), and has Passover start on Thursday. */
   // e.g. 5756
-  '0220': [51, 52].concat(EOY, c.range(0, 20), D(21), 23, 24, PESACH, 25, D(26), D(28),
-      30, D(31), 33, SHAVUOT, c.range(34, 37), D(38), 40, D(41), c.range(43, 49), D(50),
+  '0220': [51, 52].concat(EOY, range(0, 20), D(21), 23, 24, PESACH, 25, D(26), D(28),
+      30, D(31), 33, SHAVUOT, range(34, 37), D(38), 40, D(41), range(43, 49), D(50),
   ),
 
   /* Hebrew year that starts on Thursday, is `regular' (Heshvan has 29
      * days and Kislev has 30 days), and has Passover start on Saturday. */
   // e.g. 5701
-  '0510': [52].concat(YK, EOY, c.range(0, 20), D(21), 23, 24, PESACH, PESACH,
-      25, D(26), D(28), 30, D(31), c.range(33, 40), D(41), c.range(43, 50),
+  '0510': [52].concat(YK, EOY, range(0, 20), D(21), 23, 24, PESACH, PESACH,
+      25, D(26), D(28), 30, D(31), range(33, 40), D(41), range(43, 50),
   ),
 
   /* Hebrew year that starts on Thursday, is `regular' (Heshvan has 29
      * days and Kislev has 30 days), and has Passover start on Saturday. */
   // e.g. 5745
-  '0511': [52].concat(YK, EOY, c.range(0, 20), D(21), 23, 24, PESACH,
-      25, D(26), D(28), c.range(30, 40), D(41), c.range(43, 50),
+  '0511': [52].concat(YK, EOY, range(0, 20), D(21), 23, 24, PESACH,
+      25, D(26), D(28), range(30, 40), D(41), range(43, 50),
   ),
 
   /* Hebrew year that starts on Thursday, is `complete' (Heshvan and
      * Kislev each have 30 days), and has Passover start on Sunday. */
   // e.g. 5754
-  '052': [52].concat(YK, CHMSUKOT, c.range(0, 24), PESACH7, 25, D(26),
-      D(28), 30, D(31), c.range(33, 40), D(41), c.range(43, 50),
+  '052': [52].concat(YK, CHMSUKOT, range(0, 24), PESACH7, 25, D(26),
+      D(28), 30, D(31), range(33, 40), D(41), range(43, 50),
   ),
 
   /* Hebrew year that starts on Saturday, is `incomplete' (Heshvan and Kislev
      * each have 29 days), and has Passover start on Sunday. */
   // e.g. 5761
-  '070': [].concat(RH, 52, SUKKOT, SHMINI, c.range(0, 20), D(21), 23, 24, PESACH7,
-      25, D(26), D(28), 30, D(31), c.range(33, 40), D(41), c.range(43, 50),
+  '070': [].concat(RH, 52, SUKKOT, SHMINI, range(0, 20), D(21), 23, 24, PESACH7,
+      25, D(26), D(28), 30, D(31), range(33, 40), D(41), range(43, 50),
   ),
 
 
   /* Hebrew year that starts on Saturday, is `complete' (Heshvan and
      * Kislev each have 30 days), and has Passover start on Tuesday. */
   // e.g. 5716
-  '072': [].concat(RH, 52, SUKKOT, SHMINI, c.range(0, 20), D(21), 23, 24, CHMPESACH, 25,
-      D(26), D(28), 30, D(31), c.range(33, 40), D(41), c.range(43, 49), D(50),
+  '072': [].concat(RH, 52, SUKKOT, SHMINI, range(0, 20), D(21), 23, 24, CHMPESACH, 25,
+      D(26), D(28), 30, D(31), range(33, 40), D(41), range(43, 49), D(50),
   ),
 
 
@@ -319,50 +345,50 @@ const types = {
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
      * Kislev each have 29 days), and has Passover start on Thursday. */
   // e.g. 5746
-  '1200': [51, 52].concat(CHMSUKOT, c.range(0, 27), CHMPESACH, c.range(28, 33),
-      SHAVUOT, c.range(34, 37), D(38), 40, D(41), c.range(43, 49), D(50),
+  '1200': [51, 52].concat(CHMSUKOT, range(0, 27), CHMPESACH, range(28, 33),
+      SHAVUOT, range(34, 37), D(38), 40, D(41), range(43, 49), D(50),
   ),
 
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
      * Kislev each have 29 days), and has Passover start on Thursday. */
   // e.g. 5746
-  '1201': [51, 52].concat(CHMSUKOT, c.range(0, 27), CHMPESACH,
-      c.range(28, 40), D(41), c.range(43, 49), D(50),
+  '1201': [51, 52].concat(CHMSUKOT, range(0, 27), CHMPESACH,
+      range(28, 40), D(41), range(43, 49), D(50),
   ),
 
   /* Hebrew year that starts on Monday, is `complete' (Heshvan and
      * Kislev each have 30 days), and has Passover start on Saturday. */
   // e.g.5752
-  '1220': [51, 52].concat(CHMSUKOT, c.range(0, 27), PESACH,
-      PESACH, c.range(28, 40), D(41), c.range(43, 50),
+  '1220': [51, 52].concat(CHMSUKOT, range(0, 27), PESACH,
+      PESACH, range(28, 40), D(41), range(43, 50),
   ),
 
   /* Hebrew year that starts on Monday, is `complete' (Heshvan and
      * Kislev each have 30 days), and has Passover start on Saturday. */
   // e.g.5752
-  '1221': [51, 52].concat(CHMSUKOT, c.range(0, 27), PESACH, c.range(28, 50)),
+  '1221': [51, 52].concat(CHMSUKOT, range(0, 27), PESACH, range(28, 50)),
 
   /* Hebrew year that starts on Thursday, is `incomplete' (Heshvan and
      * Kislev both have 29 days), and has Passover start on Sunday. */
   // e.g. 5768
-  '150': [52].concat(YK, CHMSUKOT, c.range(0, 28), PESACH7, c.range(29, 50)),
+  '150': [52].concat(YK, CHMSUKOT, range(0, 28), PESACH7, range(29, 50)),
 
   /* Hebrew year that starts on Thursday, is `complete' (Heshvan and
      * Kislev both have 30 days), and has Passover start on Tuesday. */
   // eg. 5771
-  '152': [52].concat(YK, CHMSUKOT, c.range(0, 28), CHMPESACH, c.range(29, 49), D(50)),
+  '152': [52].concat(YK, CHMSUKOT, range(0, 28), CHMPESACH, range(29, 49), D(50)),
 
   /* Hebrew year that starts on Saturday, is `incomplete' (Heshvan and
      * Kislev each have 29 days), and has Passover start on Tuesday. */
   // e.g.5757
-  '170': [].concat(RH, 52, SUKKOT, SHMINI, c.range(0, 27), CHMPESACH,
-      c.range(28, 40), D(41), c.range(43, 49), D(50),
+  '170': [].concat(RH, 52, SUKKOT, SHMINI, range(0, 27), CHMPESACH,
+      range(28, 40), D(41), range(43, 49), D(50),
   ),
 
   /* Hebrew year that starts on Saturday, is `complete' (Heshvan and
      * Kislev each have 30 days), and has Passover start on Thursday. */
-  '1720': [].concat(RH, 52, SUKKOT, SHMINI, c.range(0, 27), CHMPESACH, c.range(28, 33),
-      SHAVUOT, c.range(34, 37), D(38), 40, D(41), c.range(43, 49), D(50),
+  '1720': [].concat(RH, 52, SUKKOT, SHMINI, range(0, 27), CHMPESACH, range(28, 33),
+      SHAVUOT, range(34, 37), D(38), 40, D(41), range(43, 49), D(50),
   ),
 };
 
@@ -411,12 +437,12 @@ export class ParshaEvent extends Event {
    */
   render(locale) {
     const parsha = this.getAttrs().parsha;
-    let name = l.gettext(parsha[0], locale);
+    let name = Locale.gettext(parsha[0], locale);
     if (parsha.length == 2) {
       const hyphen = locale == 'he' ? '־' : '-';
-      name += hyphen + l.gettext(parsha[1], locale);
+      name += hyphen + Locale.gettext(parsha[1], locale);
     }
-    return l.gettext('Parashat', locale) + ' ' + name;
+    return Locale.gettext('Parashat', locale) + ' ' + name;
   }
   /** @return {string} */
   basename() {

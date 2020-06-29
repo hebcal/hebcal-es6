@@ -53,7 +53,7 @@ export const greg = {
    * @param {number} year Gregorian year
    * @return {boolean}
    */
-  gregLeapYear: function(year) {
+  isLeapYear: function(year) {
     return !(year % 4) && (!!(year % 100) || !(year % 400));
   },
 
@@ -63,9 +63,9 @@ export const greg = {
    * @param {number} year Gregorian year
    * @return {number}
    */
-  daysInGregMonth: function(month, year) {
+  daysInMonth: function(month, year) {
     // 1 based months
-    return monthLengths[+this.gregLeapYear(year)][month];
+    return monthLengths[+this.isLeapYear(year)][month];
   },
 
   /**
@@ -81,7 +81,7 @@ export const greg = {
     if (date.getMonth() > 1) {
       // FEB
       doy -= Math.floor((4 * (date.getMonth() + 1) + 23) / 10);
-      if (this.gregLeapYear(date.getFullYear())) {
+      if (this.isLeapYear(date.getFullYear())) {
         doy++;
       }
     }

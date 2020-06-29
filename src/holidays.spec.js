@@ -1,5 +1,6 @@
 import test from 'ava';
-import {holidays, HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
+import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
+import {HebrewCalendar} from './hebcal';
 import {common} from './common';
 import {greg as g} from './greg';
 import {HDate, hebrew2abs} from './hdate';
@@ -64,7 +65,7 @@ function testFullYear(t, hyear, il, expected0) {
       expected[dt] = [desc];
     }
   }
-  const year = holidays.getHolidaysForYear(hyear);
+  const year = HebrewCalendar.getHolidaysForYear(hyear);
   const startAbs = hebrew2abs({yy: hyear, mm: months.TISHREI, dd: 1});
   const endAbs = hebrew2abs({yy: hyear + 1, mm: months.TISHREI, dd: 1});
   for (let absDt = startAbs; absDt <= endAbs; absDt++) {
