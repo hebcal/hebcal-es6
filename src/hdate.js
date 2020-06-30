@@ -138,18 +138,18 @@ export class HDate {
    */
   constructor(day, month, year) {
     if (!arguments.length) {
-      const d = abs2hebrew(g.greg2abs(new Date()));
+      const d = HDate.abs2hebrew(g.greg2abs(new Date()));
       this.day = d.dd;
       this.month = d.mm;
       this.year = d.yy;
     } else if (arguments.length == 1) {
       if (day instanceof Date) {
-        const d = abs2hebrew(g.greg2abs(day));
+        const d = HDate.abs2hebrew(g.greg2abs(day));
         this.day = d.dd;
         this.month = d.mm;
         this.year = d.yy;
       } else if (typeof day == 'number') {
-        const d = abs2hebrew(day);
+        const d = HDate.abs2hebrew(day);
         this.day = d.dd;
         this.month = d.mm;
         this.year = d.yy;
@@ -311,6 +311,52 @@ export class HDate {
     }
 
     return HDate.elapsedDays(year) - 1373429 + tempabs;
+  }
+
+  /**
+   * Converts absolute Julian days to Hebrew date
+   * @param {number} d absolute Julian days
+   * @return {SimpleHebrewDate}
+   */
+  static abs2hebrew(d) {
+    if (d >= 10555144) {
+      throw new RangeError(`parameter to abs2hebrew ${d} out of range`);
+    }
+
+    const gregdate = g.abs2greg(d);
+    let year = 3760 + gregdate.getFullYear();
+    const hebdate = {
+      dd: 1,
+      mm: TISHREI,
+      yy: -1,
+    };
+
+    while (hebdate.yy = year + 1, d >= HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {
+      year++;
+    }
+
+    const mmap = [9, 10, 11, 12, 1, 2, 3, 4, 7, 7, 7, 8];
+    let month;
+    if (year > 4634 && year < 10666) {
+      // optimize search
+      month = mmap[gregdate.getMonth()];
+    } else {
+      // we're outside the usual range, so assume nothing about Hebrew/Gregorian calendar drift...
+      month = TISHREI;
+    }
+
+    while (hebdate.mm = month,
+    hebdate.dd = HDate.daysInMonth(month, year),
+    hebdate.yy = year,
+    d > HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {
+      month = (month % HDate.monthsInYear(year)) + 1;
+    }
+
+    hebdate.dd = 1;
+    const day = d - HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd) + 1;
+    hebdate.dd = day;
+
+    return hebdate;
   }
 
   /**
@@ -771,53 +817,6 @@ function onOrBefore(day, t, offset) {
  * @property {number} mm Hebrew month of year (1=NISAN, 7=TISHREI)
  * @property {number} dd Day of month (1-30)
  */
-
-/**
- * Converts absolute Julian days to Hebrew date
- * @private
- * @param {number} d absolute Julian days
- * @return {SimpleHebrewDate}
- */
-export function abs2hebrew(d) {
-  if (d >= 10555144) {
-    throw new RangeError(`parameter to abs2hebrew ${d} out of range`);
-  }
-
-  const gregdate = g.abs2greg(d);
-  let year = 3760 + gregdate.getFullYear();
-  const hebdate = {
-    dd: 1,
-    mm: TISHREI,
-    yy: -1,
-  };
-
-  while (hebdate.yy = year + 1, d >= HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {
-    year++;
-  }
-
-  const mmap = [9, 10, 11, 12, 1, 2, 3, 4, 7, 7, 7, 8];
-  let month;
-  if (year > 4634 && year < 10666) {
-    // optimize search
-    month = mmap[gregdate.getMonth()];
-  } else {
-    // we're outside the usual range, so assume nothing about Hebrew/Gregorian calendar drift...
-    month = TISHREI;
-  }
-
-  while (hebdate.mm = month,
-  hebdate.dd = HDate.daysInMonth(month, year),
-  hebdate.yy = year,
-  d > HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {
-    month = (month % HDate.monthsInYear(year)) + 1;
-  }
-
-  hebdate.dd = 1;
-  const day = d - HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd) + 1;
-  hebdate.dd = day;
-
-  return hebdate;
-}
 
 /** Daily Hebrew date ("11th of Sivan, 5780") */
 export class HebrewDateEvent extends Event {

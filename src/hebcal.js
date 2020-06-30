@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {Locale} from './locale';
-import {HDate, months, abs2hebrew, HebrewDateEvent} from './hdate';
+import {HDate, months, HebrewDateEvent} from './hdate';
 import {MoladEvent} from './molad';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
 import {flags} from './event';
@@ -501,17 +501,11 @@ export class HebrewCalendar {
     if (hDeath.mm == months.CHESHVAN && hDeath.dd == 30 && !HDate.longCheshvan(hDeath.yy + 1)) {
       // If it's Heshvan 30 it depends on the first anniversary;
       // if that was not Heshvan 30, use the day before Kislev 1.
-      hDeath.dd = 1;
-      hDeath.mm = months.KISLEV;
-      hDeath.yy = hyear;
-      hDeath = abs2hebrew(HDate.hebrew2abs(hDeath.yy, hDeath.mm, hDeath.dd) - 1);
+      hDeath = HDate.abs2hebrew(HDate.hebrew2abs(hyear, months.KISLEV, 1) - 1);
     } else if (hDeath.mm == months.KISLEV && hDeath.dd == 30 && HDate.shortKislev(hDeath.yy + 1)) {
       // If it's Kislev 30 it depends on the first anniversary;
       // if that was not Kislev 30, use the day before Teveth 1.
-      hDeath.dd = 1;
-      hDeath.mm = months.TEVET;
-      hDeath.yy = hyear;
-      hDeath = abs2hebrew(HDate.hebrew2abs(hDeath.yy, hDeath.mm, hDeath.dd) - 1);
+      hDeath = HDate.abs2hebrew(HDate.hebrew2abs(hyear, months.TEVET, 1) - 1);
     } else if (hDeath.mm == months.ADAR_II) {
       // If it's Adar II, use the same day in last month of year (Adar or Adar II).
       hDeath.mm = HDate.monthsInYear(hyear);

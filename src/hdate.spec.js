@@ -1,5 +1,5 @@
 import test from 'ava';
-import {HDate, months, abs2hebrew, HebrewDateEvent} from './hdate';
+import {HDate, months, HebrewDateEvent} from './hdate';
 
 test('elapsedDays', (t) => {
   const elapsed = HDate.elapsedDays(5780);
@@ -129,7 +129,7 @@ test('hebrew2abs', (t) => {
 });
 
 test('abs2hebrew', (t) => {
-  const h = abs2hebrew(733359);
+  const h = HDate.abs2hebrew(733359);
   t.is(h.yy, 5769);
   t.is(h.mm, months.CHESHVAN);
   t.is(h.dd, 15);

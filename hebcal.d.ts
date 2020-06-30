@@ -111,6 +111,79 @@ declare module '@hebcal/core' {
         next(): HDate;
         prev(): HDate;
         isSameDate(other: HDate): boolean;
+
+        /**
+         * Converts Hebrew date to absolute Julian days.
+         * The absolute date is the number of days elapsed since the (imaginary)
+         * Gregorian date Sunday, December 31, 1 BC.
+         * @param year Hebrew year
+         * @param month Hebrew month
+         * @param day Hebrew date (1-30)
+         */
+        static hebrew2abs(year: number, month: number, day: number): number;
+
+        /**
+         * Returns true if Hebrew year is a leap year
+         * @param x - Hebrew year
+         */
+        static isLeapYear(x: number): boolean;
+
+        /**
+         * Number of months in Hebrew year
+         * @param x - Hebrew year
+         */
+        static monthsInYear(x: number): number;
+
+        /**
+         * Number of days in Hebrew month in a given year
+         * @param month - Hebrew month (e.g. months.TISHREI)
+         * @param year - Hebrew year
+         */
+        static daysInMonth(month: number, year: number): number;
+
+        /**
+         * Returns an (untranslated) string name of Hebrew month in year
+         * @param month - Hebrew month (e.g. months.TISHREI)
+         * @param year - Hebrew year
+         */
+        static getMonthName(month: number, year: number): string;
+
+        /**
+         * Returns the Hebrew month number
+         * @param month - A number, or Hebrew month name string
+         */
+        static monthNum(month: number | string): number;
+
+        /**
+         * Days from sunday prior to start of Hebrew calendar to mean
+         * conjunction of Tishrei in Hebrew YEAR
+         * @param hYear - Hebrew year
+         */
+        static elapsedDays(hYear: number): number;
+
+        /**
+         * Number of days in the hebrew YEAR
+         * @param year - Hebrew year
+         */
+        static daysInYear(year: number): number;
+
+        /**
+         * true if Cheshvan is long in Hebrew YEAR
+         * @param year - Hebrew year
+         */
+        static longCheshvan(year: number): boolean;
+
+        /**
+         * true if Kislev is short in Hebrew YEAR
+         * @param year - Hebrew year
+         */
+        static shortKislev(year: number): boolean;
+
+        /**
+         * Converts Hebrew month string name to numeric
+         * @param c - monthName
+         */
+        static monthFromName(c: string): number;
     }
 
     /**
