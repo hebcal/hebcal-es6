@@ -52,11 +52,11 @@ test('lookup-notfound', (t) => {
   t.is(city, undefined);
 });
 
-test('Location.register', (t) => {
+test('Location.addLocation', (t) => {
   const cityName = 'Ra\'anana';
   const missing = Location.lookup(cityName);
   t.is(missing, undefined);
-  const success = Location.register(cityName, new Location(
+  const success = Location.addLocation(cityName, new Location(
       32.1836, 34.87386, true, 'Asia/Jerusalem', cityName, 'IL', 999888777666));
   t.is(success, true);
   const found = Location.lookup(cityName);

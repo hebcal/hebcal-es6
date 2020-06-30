@@ -935,7 +935,7 @@ Class representing Location
         * [.legacyTzToTzid(tz, dst)](#Location.legacyTzToTzid) ⇒ <code>string</code>
         * [.getUsaTzid(state, tz, dst)](#Location.getUsaTzid) ⇒ <code>string</code>
         * [.geonameCityDescr(cityName, admin1, countryName)](#Location.geonameCityDescr) ⇒ <code>string</code>
-        * [.register(cityName, location)](#Location.register) ⇒ <code>boolean</code>
+        * [.addLocation(cityName, location)](#Location.addLocation) ⇒ <code>boolean</code>
 
 <a name="new_Location_new"></a>
 
@@ -1076,9 +1076,9 @@ Builds a city description from geonameid string components
 | admin1 | <code>string</code> | e.g. 'England' or 'Massachusetts' |
 | countryName | <code>string</code> | full country name, e.g. 'Israel' or 'United States' |
 
-<a name="Location.register"></a>
+<a name="Location.addLocation"></a>
 
-### Location.register(cityName, location) ⇒ <code>boolean</code>
+### Location.addLocation(cityName, location) ⇒ <code>boolean</code>
 Adds a location name for `Location.lookup()` only if the name isn't
 already being used. Returns `false` if the name is already taken
 and `true` if successfully added.

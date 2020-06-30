@@ -259,7 +259,7 @@ declare module '@hebcal/core' {
          * already being used. Returns `false` if the name is already taken
          * and `true` if successfully added.
          */
-        static register(cityName: string, location: Location): boolean;
+        static addLocation(cityName: string, location: Location): boolean;
     }
 
     /**

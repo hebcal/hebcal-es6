@@ -294,7 +294,7 @@ export class Location {
    * @param {Location} location
    * @return {boolean}
    */
-  static register(cityName, location) {
+  static addLocation(cityName, location) {
     const name = cityName.toLowerCase();
     if (classicCities.has(name)) {
       return false;
@@ -306,5 +306,5 @@ export class Location {
 
 for (const city of classicCities0) {
   const location = new Location(city[2], city[3], city[1] == 'IL', city[4], city[0], city[1]);
-  Location.register(location.getName(), location);
+  Location.addLocation(location.getName(), location);
 }
