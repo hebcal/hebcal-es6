@@ -103,6 +103,14 @@ const monthNames = [
   ]),
 ];
 
+/**
+ * A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
+ * @typedef {Object} SimpleHebrewDate
+ * @property {number} yy Hebrew year
+ * @property {number} mm Hebrew month of year (1=NISAN, 7=TISHREI)
+ * @property {number} dd Day of month (1-30)
+ */
+
 /** Represents a Hebrew date */
 export class HDate {
   /**
@@ -809,14 +817,6 @@ function fixMonth(date) {
 function onOrBefore(day, t, offset) {
   return new HDate(HDate.dayOnOrBefore(day, t.abs() + offset));
 }
-
-/**
- * A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
- * @typedef {Object} SimpleHebrewDate
- * @property {number} yy Hebrew year
- * @property {number} mm Hebrew month of year (1=NISAN, 7=TISHREI)
- * @property {number} dd Day of month (1-30)
- */
 
 /** Daily Hebrew date ("11th of Sivan, 5780") */
 export class HebrewDateEvent extends Event {

@@ -117,8 +117,8 @@ declare module '@hebcal/core' {
          * The absolute date is the number of days elapsed since the (imaginary)
          * Gregorian date Sunday, December 31, 1 BC.
          * @param year Hebrew year
-         * @param month Hebrew month
-         * @param day Hebrew date (1-30)
+         * @param month Hebrew month of year (1=NISAN, 7=TISHREI)
+         * @param day Hebrew day of month (1-30)
          */
         static hebrew2abs(year: number, month: number, day: number): number;
 
@@ -428,11 +428,20 @@ declare module '@hebcal/core' {
         dd: number;
     };
 
+    /**
+     * HebrewCalendar is the main interface to the `@hebcal/core` library.
+     * This class is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
+     * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
+     * Event names can be rendered in several languges using the `locale` option.
+     */
     export class HebrewCalendar {
         /**
          * Generates a list of holidays and other hebrew date events based on `options`.
          */
         constructor(options?: HebcalOptions);
+
+        /** Get list of events calculated by constructor */
+        events(): Event[];
 
         /**
          * Returns a Map for the year indexed by HDate.toString()
@@ -508,6 +517,16 @@ declare module '@hebcal/core' {
          * Event names can be rendered in several languges using the `locale` option.
          */
         static calculate(options: HebcalOptions): Event[];
+
+        /**
+         * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
+         * keep as "20:13" for any other locale/country. Uses `HebcalOptions` to determine
+         * locale.
+         * @param timeStr - original time like "20:30"
+         * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
+         * @param options
+         */
+        static reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
     }
 
     /**
@@ -601,19 +620,19 @@ declare module '@hebcal/core' {
      * Hebrew months of the year (NISAN=1, TISHREI=7)
      */
     export const enum months {
-        NISAN,
-        IYYAR,
-        SIVAN,
-        TAMUZ,
-        AV,
-        ELUL,
-        TISHREI,
-        CHESHVAN,
-        KISLEV,
-        TEVET,
-        SHVAT,
-        ADAR_I,
-        ADAR_II,
+        NISAN = 1,
+        IYYAR = 2,
+        SIVAN = 3,
+        TAMUZ = 4,
+        AV = 5,
+        ELUL = 6,
+        TISHREI = 7,
+        CHESHVAN = 8,
+        KISLEV = 9,
+        TEVET = 10,
+        SHVAT = 11,
+        ADAR_I = 12,
+        ADAR_II = 13
     }
 
     /**

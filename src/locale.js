@@ -21,6 +21,7 @@ const alias = {
  * * `en` - default, Sephardic transliterations (e.g. "Shabbat")
  * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
  * * `he` - Hebrew (e.g. "שַׁבָּת")
+ * @namespace
  */
 export const Locale = {
   /**
