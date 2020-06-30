@@ -79,7 +79,7 @@ export class DafYomi {
    * Initializes a daf yomi instance
    * @param {Date} gregdate Gregorian date
    */
-   constructor(gregdate) {
+  constructor(gregdate) {
     if (!(gregdate instanceof Date)) {
       throw new TypeError('non-date given to dafyomi');
     }

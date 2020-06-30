@@ -23,25 +23,25 @@ export class Molad {
           (12 * ((year - 1) % 19)) + // Regular months in this cycle
           Math.floor((7 * ((year - 1) % 19) + 1) / 19) + // Leap months this cycle
           m_adj; // add elapsed months till the start of the molad of the month
-  
+
     const p_elapsed = 204 + Math.floor(793 * (m_elapsed % 1080));
-  
+
     const h_elapsed = 5 + (12 * m_elapsed) + (793 * Math.floor(m_elapsed / 1080)) + Math.floor(p_elapsed / 1080) - 6;
-  
+
     const parts = (p_elapsed % 1080) + (1080 * (h_elapsed % 24));
-  
+
     const chalakim = parts % 1080;
-  
+
     const day = 1 + (29 * m_elapsed) + Math.floor(h_elapsed / 24);
-  
+
     const dow = day % 7;
-  
+
     this.year = year;
     this.month = month;
     this.dow = dow;
     this.hour = h_elapsed % 24;
     this.minutes = Math.floor(chalakim / 18);
-    this.chalakim = chalakim % 18;  
+    this.chalakim = chalakim % 18;
   }
   /**
    * @return {number}

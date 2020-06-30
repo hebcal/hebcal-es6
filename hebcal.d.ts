@@ -282,18 +282,98 @@ declare module '@hebcal/core' {
         static hebrewStripNikkud(str: string): string;
     }
 
-    export namespace hebcal {
+    /**
+     * Options to configure which events are returned
+     * @property location - latitude/longitude/tzid used for candle-lighting
+     * @property year - Gregorian or Hebrew year
+     * @property isHebrewYear - to interpret year as Hebrew year
+     * @property month - Gregorian or Hebrew month (to filter results to a single month)
+     * @property numYears - generate calendar for multiple years (default 1)
+     * @property start - use specific start date (requires end date)
+     * @property end - use specific end date (requires start date)
+     * @property candlelighting - calculate candle-lighting and havdalah times
+     * @property candleLightingMins - minutes before sundown to light candles (default 18)
+     * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
+     * @property havdalahTzeit - calculate Havdalah according to Tzeit Hakochavim -
+     *      Nightfall (the point when 3 small stars are observable in the night time sky with
+     *      the naked eye). Defaults to `true` unless havdalahMins is specified
+     * @property sedrot - calculate parashah hashavua on Saturdays
+     * @property il - Israeli holiday and sedra schedule
+     * @property noMinorFast - suppress minor fasts
+     * @property noModern - suppress modern holidays
+     * @property noRoshChodesh - suppress Rosh Chodesh & Shabbat Mevarchim
+     * @property noSpecialShabbat - suppress Special Shabbat
+     * @property noHolidays - suppress regular holidays
+     * @property dafyomi - include Daf Yomi
+     * @property omer - include Days of the Omer
+     * @property molad - include event announcing the molad
+     * @property ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
+     * @property locale - translate event titles according to a locale
+     *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
+     *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
+     * @property hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
+     * @property addHebrewDates - print the Hebrew date for the entire date range
+     * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
+     */
+    export type HebcalOptions = {
+        location?: Location;
+        year?: number;
+        isHebrewYear?: boolean;
+        month?: number;
+        numYears?: number;
+        start?: Date | HDate | number;
+        end?: Date | HDate | number;
+        candlelighting?: boolean;
+        candleLightingMins?: number;
+        havdalahMins?: number;
+        havdalahTzeit?: boolean;
+        sedrot?: boolean;
+        il?: boolean;
+        noMinorFast?: boolean;
+        noModern?: boolean;
+        noRoshChodesh?: boolean;
+        shabbatMevarchim?: boolean;
+        noSpecialShabbat?: boolean;
+        noHolidays?: boolean;
+        dafyomi?: boolean;
+        omer?: boolean;
+        molad?: boolean;
+        ashkenazi?: boolean;
+        locale?: string;
+        hour12?: boolean;
+        addHebrewDates?: boolean;
+        addHebrewDatesForEvents?: boolean;
+    };
+
+    /**
+     * A simple Hebrew date
+     * @property yy - Hebrew year
+     * @property mm - Hebrew month of year (1=NISAN, 7=TISHREI)
+     * @property dd - Day of month (1-30)
+     */
+    export type SimpleHebrewDate = {
+        yy: number;
+        mm: number;
+        dd: number;
+    };
+
+    export class HebrewCalendar {
         /**
-         * A simple Hebrew date
-         * @property yy - Hebrew year
-         * @property mm - Hebrew month of year (1=NISAN, 7=TISHREI)
-         * @property dd - Day of month (1-30)
+         * Generates a list of holidays and other hebrew date events based on `options`.
          */
-        export type SimpleHebrewDate = {
-            yy: number;
-            mm: number;
-            dd: number;
-        };
+        constructor(options?: HebcalOptions);
+
+        /**
+         * Returns a Map for the year indexed by HDate.toString()
+         * @param year - Hebrew year
+         */
+        static getHolidaysForYear(year: number): Map<string, Event[]>;
+
+        /**
+         * Returns an array of Events on this date (or undefined if no events)
+         * @param date - Hebrew Date, Gregorian date, or absolute Julian date
+         */
+        static getHolidaysOnDate(date: HDate | Date | number): Event[];
 
         /**
          * Calculates a birthday or anniversary (non-yahrzeit).
@@ -316,7 +396,7 @@ declare module '@hebcal/core' {
          * @param gdate - Gregorian or Hebrew date of event
          * @returns anniversary occurring in hyear
          */
-        export function getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate;
+        static getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate;
 
         /**
          * Calculates yahrzeit.
@@ -347,100 +427,7 @@ declare module '@hebcal/core' {
          * @param gdate - Gregorian or Hebrew date of death
          * @returns anniversary occurring in hyear
          */
-        export function getYahrzeit(hyear: number, gdate: Date | HDate): HDate;
-
-        /**
-         * Converts Gregorian date to Julian Day Count
-         * @param date - Gregorian date
-         */
-        export function greg2abs(date: Date): number;
-
-        /**
-         * Converts from Julian Day Count to Gregorian date.
-         * See the footnote on page 384 of ``Calendrical Calculations, Part II:
-         * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
-         * Clamen, Software--Practice and Experience, Volume 23, Number 4
-         * (April, 1993), pages 383-404 for an explanation.
-         * @param theDate - absolute Julian days
-         */
-        export function abs2greg(theDate: number): Date;
-
-        /**
-         * Converts Hebrew date to absolute Julian days.
-         * The absolute date is the number of days elapsed since the (imaginary)
-         * Gregorian date Sunday, December 31, 1 BC.
-         * @param d - Hebrew Date
-         */
-        export function hebrew2abs(d: HDate | SimpleHebrewDate): number;
-
-        /**
-         * Converts Julian days to Hebrew date to absolute Julian days
-         * @param d - absolute Julian days
-         */
-        export function abs2hebrew(d: number): SimpleHebrewDate;
-
-        /**
-         * Options to configure which events are returned
-         * @property location - latitude/longitude/tzid used for candle-lighting
-         * @property year - Gregorian or Hebrew year
-         * @property isHebrewYear - to interpret year as Hebrew year
-         * @property month - Gregorian or Hebrew month (to filter results to a single month)
-         * @property numYears - generate calendar for multiple years (default 1)
-         * @property start - use specific start date (requires end date)
-         * @property end - use specific end date (requires start date)
-         * @property candlelighting - calculate candle-lighting and havdalah times
-         * @property candleLightingMins - minutes before sundown to light candles (default 18)
-         * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
-         * @property havdalahTzeit - calculate Havdalah according to Tzeit Hakochavim -
-         *      Nightfall (the point when 3 small stars are observable in the night time sky with
-         *      the naked eye). Defaults to `true` unless havdalahMins is specified
-         * @property sedrot - calculate parashah hashavua on Saturdays
-         * @property il - Israeli holiday and sedra schedule
-         * @property noMinorFast - suppress minor fasts
-         * @property noModern - suppress modern holidays
-         * @property noRoshChodesh - suppress Rosh Chodesh & Shabbat Mevarchim
-         * @property noSpecialShabbat - suppress Special Shabbat
-         * @property noHolidays - suppress regular holidays
-         * @property dafyomi - include Daf Yomi
-         * @property omer - include Days of the Omer
-         * @property molad - include event announcing the molad
-         * @property ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
-         * @property locale - translate event titles according to a locale
-         *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
-         *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
-         * @property hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
-         * @property addHebrewDates - print the Hebrew date for the entire date range
-         * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
-         */
-        export type HebcalOptions = {
-            location?: Location;
-            year?: number;
-            isHebrewYear?: boolean;
-            month?: number;
-            numYears?: number;
-            start?: Date | HDate | number;
-            end?: Date | HDate | number;
-            candlelighting?: boolean;
-            candleLightingMins?: number;
-            havdalahMins?: number;
-            havdalahTzeit?: boolean;
-            sedrot?: boolean;
-            il?: boolean;
-            noMinorFast?: boolean;
-            noModern?: boolean;
-            noRoshChodesh?: boolean;
-            shabbatMevarchim?: boolean;
-            noSpecialShabbat?: boolean;
-            noHolidays?: boolean;
-            dafyomi?: boolean;
-            omer?: boolean;
-            molad?: boolean;
-            ashkenazi?: boolean;
-            locale?: string;
-            hour12?: boolean;
-            addHebrewDates?: boolean;
-            addHebrewDatesForEvents?: boolean;
-        };
+        static getYahrzeit(hyear: number, gdate: Date | HDate): HDate;
 
         /**
          * Generates a list of holidays and other hebrew date events based on `options`.
@@ -449,63 +436,54 @@ declare module '@hebcal/core' {
          * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
          * Event names can be rendered in several languges using the `locale` option.
          */
-        export function hebrewCalendar(options?: HebcalOptions): Event[];
+        static calculate(options: HebcalOptions): Event[];
+    }
 
-        /**
-         * Registers a locale for hebcal.hebrewCalendar()
-         * @deprecated
-         */
-        export function registerLocale(locale: string, data: locale.LocaleData): void;
-
-        /**
-         * Helper function to transform a string to make it more usable in a URL or filename.
-         * Converts to lowercase and replaces non-word characters with hyphen ('-').
-         */
-        export function makeAnchor(s: string): string;
-        export function reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
-
-
-        /**
-         * Removes nekudot from Hebrew string
-         */
-        export function hebrewStripNikkud(str: string): string;
-
-        export type Molad = {
-            dow: number;
-            hour: number;
-            minutes: number;
-            chalakim: number;
-        }
-
+    /**
+     * Represents a molad, the moment when the new moon is "born"
+     */
+    export class Molad {
         /**
          * Calculates the molad for a Hebrew month
          */
-        export function getMolad(year: number, month: number): Molad;
+        constructor(year: number, month: number);
+        getYear(): number;
+        getMonth(): number;
+        getMonthName(): string;
+        /**
+         * @return Day of Week (0=Sunday, 6=Saturday)
+         */
+        getDow(): number;
+        /**
+         * @return hour of day (0-23)
+         */
+        getHour(): number;
+        /**
+         * @return minutes past hour (0-59)
+         */
+        getMinutes(): number;
+        /**
+         * @return parts of a minute (0-17)
+         */
+        getChalakim(): number;
     }
 
-    export namespace dafyomi {
+    /**
+     * Returns the Daf Yomi for given date
+     */
+    export class DafYomi {
         /**
-         * A Daf Yomi result
-         * @property name - Tractate name
-         * @property blatt - Page number
+         * Initializes a daf yomi instance
+         * @param gregdate Gregorian date
          */
-        export type DafYomiResult = {
-            name: string;
-            blatt: number;
-        };
-
-        /**
-         * Returns the Daf Yomi for given date
-         * @param gregdate - Gregorian date
-         * @returns Tractact name and page number
-         */
-        export function dafyomi(gregdate: Date): DafYomiResult;
-
+        constructor(gregdate: Date);
+        getBlatt(): number;
+        getName(): string;
         /**
          * Formats (with translation) the dafyomi result as a string like "Pesachim 34"
-         * @param daf - the Daf Yomi
+         * @param [locale] Optional locale name (defaults to active locale).
          */
-        export function dafname(daf: DafYomiResult, locale?: string): string;
+        render(locale?: string): string;
     }
 
     /**
@@ -549,135 +527,22 @@ declare module '@hebcal/core' {
     }
 
     /**
-     * Common hebrew date routines
+     * Hebrew months of the year (NISAN=1, TISHREI=7)
      */
-    export namespace common {
-        /**
-         * Hebrew months of the year (NISAN=1, TISHREI=7)
-         */
-        export const enum months {
-            NISAN,
-            IYYAR,
-            SIVAN,
-            TAMUZ,
-            AV,
-            ELUL,
-            TISHREI,
-            CHESHVAN,
-            KISLEV,
-            TEVET,
-            SHVAT,
-            ADAR_I,
-            ADAR_II,
-        }
-
-        /**
-         * Days of the week (SUN=0, SAT=6)
-         */
-        export const enum days {
-            SUN,
-            MON,
-            TUE,
-            WED,
-            THU,
-            FRI,
-            SAT,
-        }
-
-        /**
-         * Returns true if Hebrew year is a leap year
-         * @param x - Hebrew year
-         */
-        export function hebLeapYear(x: number): boolean;
-
-        /**
-         * Number of months in Hebrew year
-         * @param x - Hebrew year
-         */
-        export function monthsInHebYear(x: number): number;
-
-        /**
-         * Number of days in Hebrew month in a given year
-         * @param month - Hebrew month (e.g. months.TISHREI)
-         * @param year - Hebrew year
-         */
-        export function daysInHebMonth(month: number, year: number): number;
-
-        /**
-         * Returns an (untranslated) string name of Hebrew month in year
-         * @param month - Hebrew month (e.g. months.TISHREI)
-         * @param year - Hebrew year
-         */
-        export function getMonthName(month: number, year: number): string;
-
-        /**
-         * Returns the Hebrew month number
-         * @param month - A number, or Hebrew month name string
-         */
-        export function monthNum(month: number | string): number;
-
-        /**
-         * Days from sunday prior to start of Hebrew calendar to mean
-         * conjunction of Tishrei in Hebrew YEAR
-         * @param hYear - Hebrew year
-         */
-        export function hebElapsedDays(hYear: number): number;
-
-        /**
-         * Number of days in the hebrew YEAR
-         * @param year - Hebrew year
-         */
-        export function daysInYear(year: number): number;
-
-        /**
-         * true if Cheshvan is long in Hebrew YEAR
-         * @param year - Hebrew year
-         */
-        export function longCheshvan(year: number): boolean;
-
-        /**
-         * true if Kislev is short in Hebrew YEAR
-         * @param year - Hebrew year
-         */
-        export function shortKislev(year: number): boolean;
-
-        /**
-         * Converts Hebrew month string name to numeric
-         * @param c - monthName
-         */
-        export function monthFromName(c: string): number;
-
-        /**
-         * Note: Applying this function to d+6 gives us the DAYNAME on or after an
-         * absolute day d.  Similarly, applying it to d+3 gives the DAYNAME nearest to
-         * absolute date d, applying it to d-1 gives the DAYNAME previous to absolute
-         * date d, and applying it to d+7 gives the DAYNAME following absolute date d.
-         */
-        export function dayOnOrBefore(day_of_week: number, absdate: number): number;
-
-        /**
-         * Returns an array from start to end
-         * @param start - beginning number, inclusive
-         * @param end - ending number, inclusive
-         */
-        export function range(start: number, end: number, step?: number): number[];
-    }
-
-    /**
-     * Lower-level holidays interface
-     */
-    export namespace holidays {
-        /**
-         * Returns a Map for the year indexed by HDate.toString()
-         * @param year - Hebrew year
-         */
-        export function getHolidaysForYear(year: number): Map<string, Event[]>;
-
-        /**
-         * Returns an array of Events on this date (or undefined if no events)
-         * @param date - Hebrew Date, Gregorian date, or absolute Julian date
-         */
-        export function getHolidaysOnDate(date: HDate | Date | number): Event[];
+    export const enum months {
+        NISAN,
+        IYYAR,
+        SIVAN,
+        TAMUZ,
+        AV,
+        ELUL,
+        TISHREI,
+        CHESHVAN,
+        KISLEV,
+        TEVET,
+        SHVAT,
+        ADAR_I,
+        ADAR_II,
     }
 
     /**
@@ -722,15 +587,13 @@ declare module '@hebcal/core' {
         getYear(): number;
     }
 
-    export const parshiyot: string[];
-
     export class CandleLightingEvent extends Event {
         constructor(date: HDate, mask: number, attrs: any);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
     }
     export class DafYomiEvent extends Event {
-        constructor(date: HDate, daf: dafyomi.DafYomiResult);
+        constructor(date: HDate);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         url(): string;
