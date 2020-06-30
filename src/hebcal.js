@@ -357,7 +357,7 @@ export class HebrewCalendar {
           evts.push(new ParshaEvent(hd, parsha0.parsha));
         }
       }
-      if (options.dafyomi) {
+      if (options.dafyomi && hyear >= 5684) {
         evts.push(new DafYomiEvent(hd));
       }
       if (options.omer && abs >= beginOmer && abs <= endOmer) {
