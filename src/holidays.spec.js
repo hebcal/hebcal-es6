@@ -1,12 +1,9 @@
 import test from 'ava';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
 import {HebrewCalendar} from './hebcal';
-import {common} from './common';
 import {greg as g} from './greg';
-import {HDate, hebrew2abs} from './hdate';
+import {HDate, months, hebrew2abs} from './hdate';
 import {flags} from './event';
-
-const months = common.months;
 
 test('basename-and-url', (t) => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),

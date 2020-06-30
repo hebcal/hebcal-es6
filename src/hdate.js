@@ -18,7 +18,6 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {common as c} from './common';
 import {greg as g} from './greg';
 import {Event, flags} from './event';
 import gematriya from 'gematriya';
@@ -37,6 +36,40 @@ const TEVET = 10;
 const SHVAT = 11;
 const ADAR_I = 12;
 const ADAR_II = 13;
+
+/**
+ * Hebrew months of the year (NISAN=1, TISHREI=7)
+ * @readonly
+ * @enum {number}
+ */
+export const months = {
+  /** Nissan / ניסן */
+  NISAN: 1,
+  /** Iyyar / אייר */
+  IYYAR: 2,
+  /** Sivan / סיון */
+  SIVAN: 3,
+  /** Tamuz (sometimes Tammuz) / תמוז */
+  TAMUZ: 4,
+  /** Av / אב */
+  AV: 5,
+  /** Elul / אלול */
+  ELUL: 6,
+  /** Tishrei / תִשְׁרֵי */
+  TISHREI: 7,
+  /** Cheshvan / חשון */
+  CHESHVAN: 8,
+  /** Kislev / כסלו */
+  KISLEV: 9,
+  /** Tevet / טבת */
+  TEVET: 10,
+  /** Sh'vat / שבט */
+  SHVAT: 11,
+  /** Adar or Adar Rishon / אדר */
+  ADAR_I: 12,
+  /** Adar Sheini (only on leap years) / אדר ב׳ */
+  ADAR_II: 13,
+};
 
 const monthNames0 = [
   '',
@@ -87,12 +120,12 @@ export class HDate {
    *    be a number between 1-30, Hebrew month can be a number or string, and
    *    Hebrew year is always a number.
    * @example
-   * import {HDate, common} from '@hebcal/core';
+   * import {HDate, months} from '@hebcal/core';
    *
    * const hd1 = new HDate();
    * const hd2 = new HDate(new Date(2008, 10, 13));
    * const hd3 = new HDate(15, 'Cheshvan', 5769);
-   * const hd4 = new HDate(15, common.months.CHESHVAN, 5769);
+   * const hd4 = new HDate(15, months.CHESHVAN, 5769);
    * const hd5 = new HDate(733359); // ==> 15 Cheshvan 5769
    * const monthName = 'אייר';
    * const hd6 = new HDate(5, monthName, 5773);
@@ -264,9 +297,9 @@ export class HDate {
    * Renders this Hebrew date as a translated or transliterated string,
    * including ordinal e.g. `'15th of Cheshvan, 5769'`.
    * @example
-   * import {HDate, common} from '@hebcal/core';
+   * import {HDate, months} from '@hebcal/core';
    *
-   * const hd = new HDate(15, common.months.CHESHVAN, 5769);
+   * const hd = new HDate(15, months.CHESHVAN, 5769);
    * console.log(hd.render()); // '15th of Cheshvan, 5769'
    * console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
    * @param {string} [locale] Optional locale name (defaults to active locale).
@@ -293,8 +326,8 @@ export class HDate {
   /**
    * Renders this Hebrew date in Hebrew gematriya, regardless of locale.
    * @example
-   * import {HDate, common} from '@hebcal/core';
-   * const hd = new HDate(15, common.months.CHESHVAN, 5769);
+   * import {HDate, months} from '@hebcal/core';
+   * const hd = new HDate(15, months.CHESHVAN, 5769);
    * console.log(ev.renderGematriya()); // 'ט״ו חֶשְׁוָן תשס״ט'
    * @return {string}
    */
@@ -664,7 +697,7 @@ function fix(date) {
 // eslint-disable-next-line require-jsdoc
 function fixDate(date) {
   if (date.day < 1) {
-    if (date.month == c.months.TISHREI) {
+    if (date.month == TISHREI) {
       date.year -= 1;
     }
     date.day += HDate.daysInMonth(date.month, date.year);
@@ -672,7 +705,7 @@ function fixDate(date) {
     fix(date);
   }
   if (date.day > HDate.daysInMonth(date.month, date.year)) {
-    if (date.month == c.months.ELUL) {
+    if (date.month == ELUL) {
       date.year += 1;
     }
     date.day -= HDate.daysInMonth(date.month, date.year);
@@ -684,7 +717,7 @@ function fixDate(date) {
 
 // eslint-disable-next-line require-jsdoc
 function fixMonth(date) {
-  if (date.month == c.months.ADAR_II && !date.isLeapYear()) {
+  if (date.month == ADAR_II && !date.isLeapYear()) {
     date.month -= 1; // to Adar I
     fix(date);
   }
@@ -727,16 +760,16 @@ export function hebrew2abs(d) {
   const month = isHDate ? d.getMonth() : d.mm;
   const year = isHDate ? d.getFullYear() : d.yy;
 
-  if (month < c.months.TISHREI) {
-    for (let m = c.months.TISHREI; m <= HDate.monthsInYear(year); m++) {
+  if (month < TISHREI) {
+    for (let m = TISHREI; m <= HDate.monthsInYear(year); m++) {
       tempabs += HDate.daysInMonth(m, year);
     }
 
-    for (let m = c.months.NISAN; m < month; m++) {
+    for (let m = NISAN; m < month; m++) {
       tempabs += HDate.daysInMonth(m, year);
     }
   } else {
-    for (let m = c.months.TISHREI; m < month; m++) {
+    for (let m = TISHREI; m < month; m++) {
       tempabs += HDate.daysInMonth(m, year);
     }
   }
@@ -759,7 +792,7 @@ export function abs2hebrew(d) {
   let year = 3760 + gregdate.getFullYear();
   const hebdate = {
     dd: 1,
-    mm: c.months.TISHREI,
+    mm: TISHREI,
     yy: -1,
   };
 
@@ -774,7 +807,7 @@ export function abs2hebrew(d) {
     month = mmap[gregdate.getMonth()];
   } else {
     // we're outside the usual range, so assume nothing about Hebrew/Gregorian calendar drift...
-    month = c.months.TISHREI;
+    month = TISHREI;
   }
 
   while (hebdate.mm = month,
@@ -802,9 +835,9 @@ export class HebrewDateEvent extends Event {
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @example
-   * import {HDate, HebrewDateEvent, common} from '@hebcal/core';
+   * import {HDate, HebrewDateEvent, months} from '@hebcal/core';
    *
-   * const hd = new HDate(15, common.months.CHESHVAN, 5769);
+   * const hd = new HDate(15, months.CHESHVAN, 5769);
    * const ev = new HebrewDateEvent(hd);
    * console.log(ev.render()); // '15th of Cheshvan, 5769'
    * console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'

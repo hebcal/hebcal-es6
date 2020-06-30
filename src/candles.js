@@ -1,8 +1,10 @@
 import {Locale} from './locale';
-import {common} from './common';
 import {flags, Event} from './event';
 
-const days = common.days;
+const days = {
+  FRI: 5,
+  SAT: 6,
+};
 
 /**
  * @private

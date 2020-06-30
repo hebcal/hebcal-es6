@@ -1,9 +1,6 @@
 import test from 'ava';
 import {Molad, MoladEvent} from './molad';
-import {common} from './common';
-import {HDate} from './hdate';
-
-const months = common.months;
+import {HDate, months} from './hdate';
 
 test('molad', (t) => {
   const items = [

@@ -19,8 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {Locale} from './locale';
-import {common} from './common';
-import {HDate, hebrew2abs, abs2hebrew, HebrewDateEvent} from './hdate';
+import {HDate, months, hebrew2abs, abs2hebrew, HebrewDateEvent} from './hdate';
 import {MoladEvent} from './molad';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
 import {flags} from './event';
@@ -32,8 +31,15 @@ import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent} from './candles';
 
 // for byte optimizations
-const months = common.months;
-const days = common.days;
+const days = {
+  SUN: 0,
+  MON: 1,
+  TUE: 2,
+  WED: 3,
+  THU: 4,
+  FRI: 5,
+  SAT: 6,
+};
 const FRI = days.FRI;
 const SAT = days.SAT;
 

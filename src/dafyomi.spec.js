@@ -2,11 +2,8 @@
 import test from 'ava';
 import {DafYomi, DafYomiEvent} from './dafyomi';
 import {hebrew2abs} from './hdate';
-import {common} from './common';
 import {greg as g} from './greg';
-import {HDate} from './hdate';
-
-const months = common.months;
+import {HDate, months} from './hdate';
 
 test('dafyomi-single', (t) => {
   const dt = new Date(1995, 11, 17);

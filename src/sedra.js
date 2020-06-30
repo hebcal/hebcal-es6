@@ -32,8 +32,7 @@
  *
  */
 import {Locale} from './locale';
-import {common as c} from './common';
-import {HDate} from './hdate';
+import {HDate, months} from './hdate';
 import {Event, flags} from './event';
 
 const INCOMPLETE = 0;
@@ -66,7 +65,7 @@ export class Sedra {
       type = REGULAR;
     }
 
-    const rh = new HDate(1, c.months.TISHREI, hebYr).abs();
+    const rh = new HDate(1, months.TISHREI, hebYr).abs();
     const rhDay = (rh % 7) + 1;
 
     // find the first Saturday on or after Rosh Hashana
@@ -180,6 +179,7 @@ export class Sedra {
 /**
  * The 54 parshiyot of the Torah as transilterated strings
  * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'Azinu'.
+ * @readonly
  */
 export const parshiot = [
   'Bereshit',
