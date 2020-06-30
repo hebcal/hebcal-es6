@@ -2,7 +2,7 @@ import test from 'ava';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
 import {HebrewCalendar} from './hebcal';
 import {greg as g} from './greg';
-import {HDate, months, hebrew2abs} from './hdate';
+import {HDate, months} from './hdate';
 import {flags} from './event';
 
 test('basename-and-url', (t) => {
@@ -64,8 +64,8 @@ function testFullYear(t, hyear, il, expected0) {
     }
   }
   const year = HebrewCalendar.getHolidaysForYear(hyear);
-  const startAbs = hebrew2abs({yy: hyear, mm: months.TISHREI, dd: 1});
-  const endAbs = hebrew2abs({yy: hyear + 1, mm: months.TISHREI, dd: 1});
+  const startAbs = HDate.hebrew2abs(hyear, months.TISHREI, 1);
+  const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1);
   for (let absDt = startAbs; absDt <= endAbs; absDt++) {
     const hebDt = new HDate(absDt);
     const gregDt = g.abs2greg(absDt);

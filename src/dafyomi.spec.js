@@ -1,7 +1,6 @@
 /* eslint-disable require-jsdoc */
 import test from 'ava';
 import {DafYomi, DafYomiEvent} from './dafyomi';
-import {hebrew2abs} from './hdate';
 import {greg as g} from './greg';
 import {HDate, months} from './hdate';
 
@@ -15,8 +14,8 @@ test('dafyomi-single', (t) => {
 
 test('dafyomi-multi', (t) => {
   const expected = getDafYomi5780();
-  const startAbs = hebrew2abs({yy: 5780, mm: months.TISHREI, dd: 1}) - 1;
-  const endAbs = hebrew2abs({yy: 5781, mm: months.TISHREI, dd: 1}) - 1;
+  const startAbs = HDate.hebrew2abs(5780, months.TISHREI, 1) - 1;
+  const endAbs = HDate.hebrew2abs(5781, months.TISHREI, 1) - 1;
   let i = 0;
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const dt = g.abs2greg(abs);

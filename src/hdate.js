@@ -274,7 +274,7 @@ export class HDate {
    * @return {Date}
    */
   greg() {
-    return g.abs2greg(hebrew2abs(this));
+    return g.abs2greg(HDate.hebrew2abs(this.year, this.month, this.day));
   }
 
   /**
@@ -282,7 +282,35 @@ export class HDate {
    * @return {number}
    */
   abs() {
-    return hebrew2abs(this);
+    return HDate.hebrew2abs(this.year, this.month, this.day);
+  }
+
+  /**
+   * Converts Hebrew date to absolute Julian days.
+   * The absolute date is the number of days elapsed since the (imaginary)
+   * Gregorian date Sunday, December 31, 1 BC.
+   * @param {number} year Hebrew year
+   * @param {number} month Hebrew month
+   * @param {number} day Hebrew date (1-30)
+   * @return {number}
+   */
+  static hebrew2abs(year, month, day) {
+    let tempabs = day;
+
+    if (month < TISHREI) {
+      for (let m = TISHREI; m <= HDate.monthsInYear(year); m++) {
+        tempabs += HDate.daysInMonth(m, year);
+      }
+      for (let m = NISAN; m < month; m++) {
+        tempabs += HDate.daysInMonth(m, year);
+      }
+    } else {
+      for (let m = TISHREI; m < month; m++) {
+        tempabs += HDate.daysInMonth(m, year);
+      }
+    }
+
+    return HDate.elapsedDays(year) - 1373429 + tempabs;
   }
 
   /**
@@ -720,13 +748,11 @@ function fixMonth(date) {
   if (date.month == ADAR_II && !date.isLeapYear()) {
     date.month -= 1; // to Adar I
     fix(date);
-  }
-  if (date.month < 1) {
+  } else if (date.month < 1) {
     date.month += HDate.monthsInYear(date.year);
     date.year -= 1;
     fix(date);
-  }
-  if (date.month > HDate.monthsInYear(date.year)) {
+  } else if (date.month > HDate.monthsInYear(date.year)) {
     date.month -= HDate.monthsInYear(date.year);
     date.year += 1;
     fix(date);
@@ -747,37 +773,6 @@ function onOrBefore(day, t, offset) {
  */
 
 /**
- * Converts Hebrew date to absolute Julian days.
- * The absolute date is the number of days elapsed since the (imaginary)
- * Gregorian date Sunday, December 31, 1 BC.
- * @private
- * @param {(HDate|SimpleHebrewDate)} d Hebrew Date
- * @return {number}
- */
-export function hebrew2abs(d) {
-  const isHDate = d instanceof HDate;
-  let tempabs = isHDate ? d.getDate() : d.dd;
-  const month = isHDate ? d.getMonth() : d.mm;
-  const year = isHDate ? d.getFullYear() : d.yy;
-
-  if (month < TISHREI) {
-    for (let m = TISHREI; m <= HDate.monthsInYear(year); m++) {
-      tempabs += HDate.daysInMonth(m, year);
-    }
-
-    for (let m = NISAN; m < month; m++) {
-      tempabs += HDate.daysInMonth(m, year);
-    }
-  } else {
-    for (let m = TISHREI; m < month; m++) {
-      tempabs += HDate.daysInMonth(m, year);
-    }
-  }
-
-  return HDate.elapsedDays(year) - 1373429 + tempabs;
-}
-
-/**
  * Converts absolute Julian days to Hebrew date
  * @private
  * @param {number} d absolute Julian days
@@ -796,7 +791,7 @@ export function abs2hebrew(d) {
     yy: -1,
   };
 
-  while (hebdate.yy = year + 1, d >= hebrew2abs(hebdate)) {
+  while (hebdate.yy = year + 1, d >= HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {
     year++;
   }
 
@@ -813,12 +808,12 @@ export function abs2hebrew(d) {
   while (hebdate.mm = month,
   hebdate.dd = HDate.daysInMonth(month, year),
   hebdate.yy = year,
-  d > hebrew2abs(hebdate)) {
+  d > HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {
     month = (month % HDate.monthsInYear(year)) + 1;
   }
 
   hebdate.dd = 1;
-  const day = d - hebrew2abs(hebdate) + 1;
+  const day = d - HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd) + 1;
   hebdate.dd = day;
 
   return hebdate;
