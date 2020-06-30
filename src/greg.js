@@ -31,6 +31,7 @@ export const greg = {
   /**
    * Long names of the Gregorian months (1='January', 12='December')
    * @readonly
+   * @type {string[]}
    */
   monthNames: [
     '',

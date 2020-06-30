@@ -49,6 +49,7 @@ test('basename-and-url', (t) => {
  * @param {number} hyear
  * @param {boolean} il
  * @param {string[]} expected0
+ * @private
  */
 function testFullYear(t, hyear, il, expected0) {
   const expected = {};

@@ -7,6 +7,7 @@ import {Location} from './location';
 /**
  * @param {Event} ev
  * @return {string}
+ * @private
  */
 function gregDtString(ev) {
   return ev.getDate().greg().toLocaleDateString('en-US');

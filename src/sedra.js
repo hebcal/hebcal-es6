@@ -44,13 +44,15 @@ function throwError(errorMessage) {
   throw new Error(errorMessage);
 }
 
-/** Represents Parashah HaShavua for an entire Hebrew year */
+/**
+ * Represents Parashah HaShavua for an entire Hebrew year
+ */
 export class Sedra {
   /**
-     * Caculates the Parashah HaShavua for an entire Hebrew year
-     * @param {number} hebYr - Hebrew year (e.g. 5749)
-     * @param {boolean} il - Use Israel sedra schedule (false for Diaspora)
-     */
+   * Caculates the Parashah HaShavua for an entire Hebrew year
+   * @param {number} hebYr - Hebrew year (e.g. 5749)
+   * @param {boolean} il - Use Israel sedra schedule (false for Diaspora)
+   */
   constructor(hebYr, il) { // the Hebrew year
     il = !!il;
     const longC = HDate.longCheshvan(hebYr);
@@ -90,10 +92,10 @@ export class Sedra {
   }
 
   /**
-     * Returns the parsha (or parshiyot) read on Hebrew date
-     * @param {HDate|number} hDate Hebrew date or absolute days
-     * @return {string[]}
-     */
+   * Returns the parsha (or parshiyot) read on Hebrew date
+   * @param {HDate|number} hDate Hebrew date or absolute days
+   * @return {string[]}
+   */
   get(hDate) {
     const abs0 = (typeof hDate == 'number') ?
         hDate : ((hDate instanceof HDate) ?
@@ -102,20 +104,20 @@ export class Sedra {
   }
 
   /**
-     * Looks up parsha for the date, then returns a (translated) string
-     * @param {HDate|number} hDate Hebrew date or absolute days
-     * @return {string}
-     */
+   * Looks up parsha for the date, then returns a (translated) string
+   * @param {HDate|number} hDate Hebrew date or absolute days
+   * @return {string}
+   */
   getString(hDate) {
     const parsha = this.get(hDate);
     return 'Parashat ' + parsha.join('-');
   }
 
   /**
-     * Returns an object describing the parsha on the first Saturday on or after absdate
-     * @param {HDate|number} hDate Hebrew date or absolute days
-     * @return {Object}
-     */
+   * Returns an object describing the parsha on the first Saturday on or after absdate
+   * @param {HDate|number} hDate Hebrew date or absolute days
+   * @return {Object}
+   */
   lookup(hDate) {
     const abs0 = (typeof hDate == 'number') ?
         hDate : ((hDate instanceof HDate) ?
@@ -124,11 +126,11 @@ export class Sedra {
   }
 
   /**
-     * Checks to see if this day would be a regular parasha HaShavua
-     * Torah reading or special holiday reading
-     * @param {HDate|number} hDate Hebrew date or absolute days
-     * @return {boolean}
-     */
+   * Checks to see if this day would be a regular parasha HaShavua
+   * Torah reading or special holiday reading
+   * @param {HDate|number} hDate Hebrew date or absolute days
+   * @return {boolean}
+   */
   isParsha(hDate) {
     const abs0 = (typeof hDate == 'number') ?
         hDate : ((hDate instanceof HDate) ?
@@ -180,6 +182,7 @@ export class Sedra {
  * The 54 parshiyot of the Torah as transilterated strings
  * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'Azinu'.
  * @readonly
+ * @type {string[]}
  */
 export const parshiot = [
   'Bereshit',

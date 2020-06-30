@@ -224,24 +224,62 @@ declare module '@hebcal/core' {
         shkiah(): Date;
     }
 
-    export namespace locale {
-        export interface Headers {
-            'content-type'?: string;
-            'plural-forms'?: string;
-        }
-        export interface Translations {
-            [key: string]: any;
-        }
-        export interface LocaleData {
-            headers: Headers;
-            translations: Translations;
-        }
-        export function addLocale(locale: string, data: LocaleData): void;
-        export function useLocale(locale: string): void;
-        export function getLocaleName(): string;
-        export function gettext(id: string): string;
-        export function lookupTranslation(id: string): string;
-        export function ordinal(n: number): string;
+    // for the Locale class
+    export interface Headers {
+        'content-type'?: string;
+        'plural-forms'?: string;
+    }
+    export interface Translations {
+        [key: string]: any;
+    }
+    export interface LocaleData {
+        headers: Headers;
+        translations: Translations;
+    }
+
+    /**
+     * A locale in Hebcal is used for translations/transliterations of
+     * holidays. @hebcal/core supports three locales by default
+     * * `en` - default, Sephardic transliterations (e.g. "Shabbat")
+     * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
+     * * `he` - Hebrew (e.g. "שַׁבָּת")
+     */
+    export class Locale {
+        /**
+         * Returns translation only if `locale` offers a non-empty translation for `id`.
+         * Otherwise, returns `undefined`.
+         * @param id - Message ID to translate
+         * @param [locale] - Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
+         */
+        static lookupTranslation(id: string, locale?: string): string;
+        /**
+         * By default, if no translation was found, returns `id`.
+         * @param id - Message ID to translate
+         * @param [locale] - Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
+         */
+        static gettext(id: string, locale?: string): string;
+        /**
+         * Register locale translations.
+         * @param locale - Locale name (i.e.: `'he'`, `'fr'`)
+         * @param data - parsed data from a `.po` file.
+         */
+        static addLocale(locale: string, data: LocaleDate): void;
+        /**
+         * Activates a locale. Throws an error if the locale has not been previously added.
+         * After setting the locale to be used, all strings marked for translations
+         * will be represented by the corresponding translation in the specified locale.
+         * @param locale - Locale name (i.e: `'he'`, `'fr'`)
+         */
+        static useLocale(locale: string): LocaleData;
+        /**
+         * Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
+         */
+        static getLocaleName(): string;
+        static ordinal(n: number): string;
+        /**
+         * Removes nekudot from Hebrew string
+         */
+        static hebrewStripNikkud(str: string): string;
     }
 
     export namespace hebcal {
@@ -471,27 +509,43 @@ declare module '@hebcal/core' {
     }
 
     /**
-     * Gregorian date routines
+     * Gregorian date helper functions.
      */
     export namespace greg {
+        /**
+         * Long names of the Gregorian months (1='January', 12='December')
+         */
+        export const monthNames: string[];
         /**
          * Returns true if the Gregorian year is a leap year
          * @param year - Gregorian year
          */
-        export function gregLeapYear(year: number): boolean;
-
+        export function isLeapYear(year: number): boolean;
         /**
          * Number of days in the Gregorian month for given year
          * @param month - Gregorian month (1=January, 12=December)
          * @param year - Gregorian year
          */
-        export function daysInGregMonth(month: number, year: number): number;
-
+        export function daysInMonth(month: number, year: number): number;
         /**
          * Returns number of days since January 1 of that year
          * @param date - Gregorian date
          */
         export function dayOfYear(date: Date): number;
+        /**
+         * Converts Gregorian date to Julian Day Count
+         * @param date - Gregorian date
+         */
+        export function greg2abs(date: Date): number;
+        /**
+         * Converts from Julian Day Count to Gregorian date.
+         * See the footnote on page 384 of ``Calendrical Calculations, Part II:
+         * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
+         * Clamen, Software--Practice and Experience, Volume 23, Number 4
+         * (April, 1993), pages 383-404 for an explanation.
+         * @param theDate - absolute Julian days
+         */
+        export function abs2greg(theDate: number): Date;
     }
 
     /**
@@ -625,6 +679,12 @@ declare module '@hebcal/core' {
          */
         export function getHolidaysOnDate(date: HDate | Date | number): Event[];
     }
+
+    /**
+     * The 54 parshiyot of the Torah as transilterated strings
+     * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'Azinu'.
+     */
+    export const parshiot: string[];
 
     export class Sedra {
         /**
