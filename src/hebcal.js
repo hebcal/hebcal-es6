@@ -417,9 +417,9 @@ export class HebrewCalendar {
    * has his birthday postponed until the first of the following month in
    * years where that day does not occur. [Calendrical Calculations p. 111]
    * @example
-   * import {hebcal} from '@hebcal/core';
+   * import {HebrewCalendar} from '@hebcal/core';
    * const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
-   * const hd = hebcal.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
+   * const hd = HebrewCalendar.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
    * console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
    * @param {number} hyear Hebrew year
    * @param {Date|HDate} gdate Gregorian or Hebrew date of event
@@ -478,9 +478,9 @@ export class HebrewCalendar {
    * * In all other cases, use the normal (that is, same month number) anniversary
    *   of the date of death. [Calendrical Calculations p. 113]
    * @example
-   * import {hebcal} from '@hebcal/core';
+   * import {HebrewCalendar} from '@hebcal/core';
    * const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
-   * const hd = hebcal.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
+   * const hd = HebrewCalendar.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
    * console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
    * @param {number} hyear Hebrew year
    * @param {Date|HDate} gdate Gregorian or Hebrew date of death
