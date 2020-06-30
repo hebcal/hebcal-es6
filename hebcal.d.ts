@@ -224,19 +224,6 @@ declare module '@hebcal/core' {
         shkiah(): Date;
     }
 
-    // for the Locale class
-    export interface Headers {
-        'content-type'?: string;
-        'plural-forms'?: string;
-    }
-    export interface Translations {
-        [key: string]: any;
-    }
-    export interface LocaleData {
-        headers: Headers;
-        translations: Translations;
-    }
-
     /**
      * A locale in Hebcal is used for translations/transliterations of
      * holidays. @hebcal/core supports three locales by default
@@ -244,42 +231,53 @@ declare module '@hebcal/core' {
      * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
      * * `he` - Hebrew (e.g. "שַׁבָּת")
      */
-    export class Locale {
+    export namespace Locale {
+        export interface Headers {
+            'content-type'?: string;
+            'plural-forms'?: string;
+        }
+        export interface Translations {
+            [key: string]: any;
+        }
+        export interface LocaleData {
+            headers: Headers;
+            translations: Translations;
+        }
         /**
          * Returns translation only if `locale` offers a non-empty translation for `id`.
          * Otherwise, returns `undefined`.
          * @param id - Message ID to translate
          * @param [locale] - Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
          */
-        static lookupTranslation(id: string, locale?: string): string;
+        export function lookupTranslation(id: string, locale?: string): string;
         /**
          * By default, if no translation was found, returns `id`.
          * @param id - Message ID to translate
          * @param [locale] - Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
          */
-        static gettext(id: string, locale?: string): string;
+        export function gettext(id: string, locale?: string): string;
         /**
          * Register locale translations.
          * @param locale - Locale name (i.e.: `'he'`, `'fr'`)
          * @param data - parsed data from a `.po` file.
          */
-        static addLocale(locale: string, data: LocaleDate): void;
+        export function addLocale(locale: string, data: LocaleDate): void;
         /**
          * Activates a locale. Throws an error if the locale has not been previously added.
          * After setting the locale to be used, all strings marked for translations
          * will be represented by the corresponding translation in the specified locale.
          * @param locale - Locale name (i.e: `'he'`, `'fr'`)
          */
-        static useLocale(locale: string): LocaleData;
+        export function useLocale(locale: string): LocaleData;
         /**
          * Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
          */
-        static getLocaleName(): string;
-        static ordinal(n: number): string;
+        export function getLocaleName(): string;
+        export function ordinal(n: number): string;
         /**
          * Removes nekudot from Hebrew string
          */
-        static hebrewStripNikkud(str: string): string;
+        export function hebrewStripNikkud(str: string): string;
     }
 
     /**

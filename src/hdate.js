@@ -103,7 +103,7 @@ const monthNames = [
   ]),
 ];
 
-/** Class representing a Hebrew date */
+/** Represents a Hebrew date */
 export class HDate {
   /**
    * Create a Hebrew date. There are 3 basic forms for the `HDate()` constructor.

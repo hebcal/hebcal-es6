@@ -22,7 +22,7 @@ const alias = {
  * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
  * * `he` - Hebrew (e.g. "שַׁבָּת")
  */
-export class Locale {
+export const Locale = {
   /**
    * Returns translation only if `locale` offers a non-empty translation for `id`.
    * Otherwise, returns `undefined`.
@@ -30,14 +30,14 @@ export class Locale {
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
    * @return {string}
    */
-  static lookupTranslation(id, locale) {
+  lookupTranslation: function(id, locale) {
     const loc = typeof locale == 'string' && locales.has(locale) ? locales.get(locale) : activeLocale;
     const array = loc[id];
     if (array && array.length && array[0].length) {
       return array[0];
     }
     return undefined;
-  }
+  },
 
   /**
    * By default, if no translation was found, returns `id`.
@@ -45,25 +45,25 @@ export class Locale {
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
    * @return {string}
    */
-  static gettext(id, locale) {
-    const text = Locale.lookupTranslation(id, locale);
+  gettext: function(id, locale) {
+    const text = this.lookupTranslation(id, locale);
     if (typeof text == 'undefined') {
       return id;
     }
     return text;
-  }
+  },
 
   /**
    * Register locale translations.
    * @param {string} locale Locale name (i.e.: `'he'`, `'fr'`)
    * @param {LocaleDate} data parsed data from a `.po` file.
    */
-  static addLocale(locale, data) {
+  addLocale: function(locale, data) {
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
       throw new Error(`Locale '${locale}' invalid compact format`);
     }
     locales.set(locale.toLowerCase(), data.contexts['']);
-  }
+  },
 
   /**
    * Activates a locale. Throws an error if the locale has not been previously added.
@@ -72,7 +72,7 @@ export class Locale {
    * @param {string} locale Locale name (i.e: `'he'`, `'fr'`)
    * @return {LocaleData}
    */
-  static useLocale(locale) {
+  useLocale: function(locale) {
     const locale0 = locale.toLowerCase();
     const obj = locales.get(locale0);
     if (!obj) {
@@ -81,21 +81,21 @@ export class Locale {
     activeName = alias[locale0] || locale0;
     activeLocale = obj;
     return activeLocale;
-  }
+  },
 
   /**
    * Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
    * @return {string}
    */
-  static getLocaleName() {
+  getLocaleName: function() {
     return activeName;
-  }
+  },
 
   /**
    * @param {number} n
    * @return {string}
    */
-  static ordinal(n) {
+  ordinal: function(n) {
     if (!activeName || activeName == 'en' || activeName.startsWith('ashkenazi')) {
       return getEnOrdinal(n);
     } else if (activeName == 'fr') {
@@ -103,17 +103,17 @@ export class Locale {
     } else {
       return n + '.';
     }
-  }
+  },
 
   /**
    * Removes nekudot from Hebrew string
    * @param {string} str
    * @return {string}
    */
-  static hebrewStripNikkud(str) {
+  hebrewStripNikkud: function(str) {
     return str.replace(/[\u0590-\u05bd]/g, '').replace(/[\u05bf-\u05c7]/g, '');
-  }
-}
+  },
+};
 
 // eslint-disable-next-line require-jsdoc
 function getEnOrdinal(n) {
