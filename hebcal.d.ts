@@ -442,7 +442,7 @@ declare module '@hebcal/core' {
          * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
          * Event names can be rendered in several languges using the `locale` option.
          */
-        function calculate(options: Options): Event[];
+        function calendar(options: Options): Event[];
 
         /**
          * Returns a Map for the year indexed by HDate.toString()
