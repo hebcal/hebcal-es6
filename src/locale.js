@@ -17,7 +17,7 @@ const alias = {
 
 /**
  * A locale in Hebcal is used for translations/transliterations of
- * holidays. @hebcal/core supports three locales by default
+ * holidays. `@hebcal/core` supports three locales by default
  * * `en` - default, Sephardic transliterations (e.g. "Shabbat")
  * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
  * * `he` - Hebrew (e.g. "שַׁבָּת")

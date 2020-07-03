@@ -1,7 +1,19 @@
 # hebcal-es6
-Hebcal, a perpetual Jewish Calendar (ES6)
+Hebcal is a perpetual Jewish Calendar. This library converts between Hebrew and Gregorian
+dates, and generates lists of Jewish holidays for any year (past, present or future).
+Shabbat and holiday candle lighting and havdalah times are approximated based on
+location. Torah readings (Parashat HaShavua), Daf Yomi, and counting of the Omer can
+also be specified. Hebcal also includes algorithms to calculate yahrzeits,
+birthdays and anniversaries.
 
 [![Build Status](https://travis-ci.org/hebcal/hebcal-es6.svg?branch=master)](https://travis-ci.org/hebcal/hebcal-es6)
+
+Hebcal was created in 1994 by Danny Sadinoff as a Unix/Linux program written in C, inspired
+by similar functionality written in Emacs Lisp. This ECMAScript 2015 implementation targets
+browser-based JavaScript and server-side Node.js.
+
+Many users of this library will utilize the [HebrewCalendar](#HebrewCalendar)
+and [HDate](#HDate) interfaces.
 
 ## Installation
 ```bash
@@ -20,8 +32,7 @@ const options = {
   sedrot: true,
   omer: true,
 };
-const cal = new HebrewCalendar(options);
-const events = cal.events();
+const events = HebrewCalendar.calendar(options);
 
 for (const ev of events) {
   const hd = ev.getDate();
@@ -84,12 +95,6 @@ for (const ev of events) {
 <dt><a href="#MevarchimChodeshEvent">MevarchimChodeshEvent</a></dt>
 <dd><p>Represents Mevarchim haChodesh, the announcement of the new month</p>
 </dd>
-<dt><a href="#HebrewCalendar">HebrewCalendar</a></dt>
-<dd><p>HebrewCalendar is the main interface to the <code>@hebcal/core</code> library.
-This class is used to calculate holidays, rosh chodesh, candle lighting &amp; havdalah times,
-Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
-Event names can be rendered in several languges using the <code>locale</code> option.</p>
-</dd>
 </dl>
 
 ## Objects
@@ -100,7 +105,7 @@ Event names can be rendered in several languges using the <code>locale</code> op
 </dd>
 <dt><a href="#Locale">Locale</a> : <code>object</code></dt>
 <dd><p>A locale in Hebcal is used for translations/transliterations of
-holidays. @hebcal/core supports three locales by default</p>
+holidays. <code>@hebcal/core</code> supports three locales by default</p>
 <ul>
 <li><code>en</code> - default, Sephardic transliterations (e.g. &quot;Shabbat&quot;)</li>
 <li><code>ashkenazi</code> - Ashkenazi transliterations (e.g. &quot;Shabbos&quot;)</li>
@@ -116,16 +121,11 @@ holidays. @hebcal/core supports three locales by default</p>
 <dd><p>The 54 parshiyot of the Torah as transilterated strings
 parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &#39;Ha&#39;Azinu&#39;.</p>
 </dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#SimpleHebrewDate">SimpleHebrewDate</a> : <code>Object</code></dt>
-<dd><p>A simple Hebrew date object with numeric fields <code>yy</code>, <code>mm</code>, and <code>dd</code></p>
-</dd>
-<dt><a href="#HebcalOptions">HebcalOptions</a> : <code>Object</code></dt>
-<dd><p>Options to configure which events are returned</p>
+<dt><a href="#HebrewCalendar">HebrewCalendar</a></dt>
+<dd><p>HebrewCalendar is the main interface to the <code>@hebcal/core</code> library.
+This namespace is used to calculate holidays, rosh chodesh, candle lighting &amp; havdalah times,
+Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
+Event names can be rendered in several languges using the <code>locale</code> option.</p>
 </dd>
 </dl>
 
@@ -267,7 +267,6 @@ Represents a Hebrew date
         * [.toString()](#HDate+toString) ⇒ <code>string</code>
     * _static_
         * [.hebrew2abs(year, month, day)](#HDate.hebrew2abs) ⇒ <code>number</code>
-        * [.abs2hebrew(d)](#HDate.abs2hebrew) ⇒ [<code>SimpleHebrewDate</code>](#SimpleHebrewDate)
         * [.isLeapYear(year)](#HDate.isLeapYear) ⇒ <code>boolean</code>
         * [.monthsInYear(year)](#HDate.monthsInYear) ⇒ <code>number</code>
         * [.daysInMonth(month, year)](#HDate.daysInMonth) ⇒ <code>number</code>
@@ -578,17 +577,6 @@ Gregorian date Sunday, December 31, 1 BC.
 | year | <code>number</code> | Hebrew year |
 | month | <code>number</code> | Hebrew month |
 | day | <code>number</code> | Hebrew date (1-30) |
-
-<a name="HDate.abs2hebrew"></a>
-
-### HDate.abs2hebrew(d) ⇒ [<code>SimpleHebrewDate</code>](#SimpleHebrewDate)
-Converts absolute Julian days to Hebrew date
-
-**Kind**: static method of [<code>HDate</code>](#HDate)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| d | <code>number</code> | absolute Julian days |
 
 <a name="HDate.isLeapYear"></a>
 
@@ -1646,158 +1634,6 @@ Returns (translated) description of this event
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
-<a name="HebrewCalendar"></a>
-
-## HebrewCalendar
-HebrewCalendar is the main interface to the `@hebcal/core` library.
-This class is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
-Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
-Event names can be rendered in several languges using the `locale` option.
-
-**Kind**: global class  
-
-* [HebrewCalendar](#HebrewCalendar)
-    * [new HebrewCalendar([options])](#new_HebrewCalendar_new)
-    * _instance_
-        * [.events()](#HebrewCalendar+events) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-    * _static_
-        * [.getBirthdayOrAnniversary(hyear, gdate)](#HebrewCalendar.getBirthdayOrAnniversary) ⇒ [<code>HDate</code>](#HDate)
-        * [.getYahrzeit(hyear, gdate)](#HebrewCalendar.getYahrzeit) ⇒ [<code>HDate</code>](#HDate)
-        * [.getHolidaysForYear(year)](#HebrewCalendar.getHolidaysForYear) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
-        * [.getHolidaysOnDate(date)](#HebrewCalendar.getHolidaysOnDate) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-        * [.reformatTimeStr(timeStr, suffix, options)](#HebrewCalendar.reformatTimeStr) ⇒ <code>string</code>
-
-<a name="new_HebrewCalendar_new"></a>
-
-### new HebrewCalendar([options])
-Generates a list of holidays and other hebrew date events based on `options`.
-
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [options] | [<code>HebcalOptions</code>](#HebcalOptions) | <code>{}</code> | 
-
-<a name="HebrewCalendar+events"></a>
-
-### hebrewCalendar.events() ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-**Kind**: instance method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-<a name="HebrewCalendar.getBirthdayOrAnniversary"></a>
-
-### HebrewCalendar.getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
-Calculates a birthday or anniversary (non-yahrzeit).
-`hyear` must be after original `gdate` of anniversary.
-Returns `undefined` when requested year preceeds or is same as original year.
-
-Hebcal uses the algorithm defined in "Calendrical Calculations"
-by Edward M. Reingold and Nachum Dershowitz.
-
-The birthday of someone born in Adar of an ordinary year or Adar II of
-a leap year is also always in the last month of the year, be that Adar
-or Adar II. The birthday in an ordinary year of someone born during the
-first 29 days of Adar I in a leap year is on the corresponding day of Adar;
-in a leap year, the birthday occurs in Adar I, as expected.
-
-Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
-has his birthday postponed until the first of the following month in
-years where that day does not occur. [Calendrical Calculations p. 111]
-
-**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in `hyear`  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hyear | <code>number</code> | Hebrew year |
-| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of event |
-
-**Example**  
-```js
-import {HebrewCalendar} from '@hebcal/core';
-const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
-const hd = HebrewCalendar.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
-console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
-```
-<a name="HebrewCalendar.getYahrzeit"></a>
-
-### HebrewCalendar.getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
-Calculates yahrzeit.
-`hyear` must be after original `gdate` of death.
-Returns `undefined` when requested year preceeds or is same as original year.
-
-Hebcal uses the algorithm defined in "Calendrical Calculations"
-by Edward M. Reingold and Nachum Dershowitz.
-
-The customary anniversary date of a death is more complicated and depends
-also on the character of the year in which the first anniversary occurs.
-There are several cases:
-
-* If the date of death is Marcheshvan 30, the anniversary in general depends
-  on the first anniversary; if that first anniversary was not Marcheshvan 30,
-  use the day before Kislev 1.
-* If the date of death is Kislev 30, the anniversary in general again depends
-  on the first anniversary — if that was not Kislev 30, use the day before
-  Tevet 1.
-* If the date of death is Adar II, the anniversary is the same day in the
-  last month of the Hebrew year (Adar or Adar II).
-* If the date of death is Adar I 30, the anniversary in a Hebrew year that
-  is not a leap year (in which Adar only has 29 days) is the last day in
-  Shevat.
-* In all other cases, use the normal (that is, same month number) anniversary
-  of the date of death. [Calendrical Calculations p. 113]
-
-**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in hyear  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hyear | <code>number</code> | Hebrew year |
-| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
-
-**Example**  
-```js
-import {HebrewCalendar} from '@hebcal/core';
-const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
-const hd = HebrewCalendar.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
-console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
-```
-<a name="HebrewCalendar.getHolidaysForYear"></a>
-
-### HebrewCalendar.getHolidaysForYear(year) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
-Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
-`HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
-or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
-
-**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
-
-<a name="HebrewCalendar.getHolidaysOnDate"></a>
-
-### HebrewCalendar.getHolidaysOnDate(date) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-Returns an array of Events on this date (or undefined if no events)
-
-**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
-
-<a name="HebrewCalendar.reformatTimeStr"></a>
-
-### HebrewCalendar.reformatTimeStr(timeStr, suffix, options) ⇒ <code>string</code>
-Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-keep as "20:13" for any other locale/country. Uses `HebcalOptions` to determine
-locale.
-
-**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| timeStr | <code>string</code> | original time like "20:30" |
-| suffix | <code>string</code> | "p" or "pm" or " P.M.". Add leading space if you want it |
-| options | [<code>HebcalOptions</code>](#HebcalOptions) |  |
-
 <a name="greg"></a>
 
 ## greg : <code>object</code>
@@ -1884,7 +1720,7 @@ Clamen, Software--Practice and Experience, Volume 23, Number 4
 
 ## Locale : <code>object</code>
 A locale in Hebcal is used for translations/transliterations of
-holidays. @hebcal/core supports three locales by default
+holidays. `@hebcal/core` supports three locales by default
 * `en` - default, Sephardic transliterations (e.g. "Shabbat")
 * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
 * `he` - Hebrew (e.g. "שַׁבָּת")
@@ -2040,26 +1876,237 @@ parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'Azinu'.
 
 **Kind**: global constant  
 **Read only**: true  
-<a name="SimpleHebrewDate"></a>
+<a name="HebrewCalendar"></a>
 
-## SimpleHebrewDate : <code>Object</code>
-A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
+## HebrewCalendar
+HebrewCalendar is the main interface to the `@hebcal/core` library.
+This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
+Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
+Event names can be rendered in several languges using the `locale` option.
 
-**Kind**: global typedef  
-**Properties**
+**Kind**: global constant  
 
-| Name | Type | Description |
+* [HebrewCalendar](#HebrewCalendar)
+    * [.calendar([options])](#HebrewCalendar.calendar) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+    * [.getBirthdayOrAnniversary(hyear, gdate)](#HebrewCalendar.getBirthdayOrAnniversary) ⇒ [<code>HDate</code>](#HDate)
+    * [.getYahrzeit(hyear, gdate)](#HebrewCalendar.getYahrzeit) ⇒ [<code>HDate</code>](#HDate)
+    * [.getHolidaysForYear(year)](#HebrewCalendar.getHolidaysForYear) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
+    * [.getHolidaysOnDate(date)](#HebrewCalendar.getHolidaysOnDate) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+    * [.reformatTimeStr(timeStr, suffix, options)](#HebrewCalendar.reformatTimeStr) ⇒ <code>string</code>
+    * [.Options](#HebrewCalendar.Options) : <code>Object</code>
+
+<a name="HebrewCalendar.calendar"></a>
+
+### HebrewCalendar.calendar([options]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+Calculates holidays and other Hebrew calendar events based on `options`.
+
+Each holiday is represented by an `Event` object which includes a date,
+a description, flags and optional attributes.
+If given no options, returns holidays for the Diaspora for the current Gregorian year.
+
+The date range returned by this function can be controlled by:
+* `options.year` - Gregorian (e.g. 1993) or Hebrew year (e.g. 5749)
+* `options.isHebrewYear` - to interpret `year` as Hebrew year
+* `options.numYears` - generate calendar for multiple years (default 1)
+* `options.month` - Gregorian or Hebrew month (to filter results to a single month)
+Alternatively, specify start and end days with `Date` or [HDate](#HDate) instances:
+* `options.start` - use specific start date (requires `end` date)
+* `options.end` - use specific end date (requires `start` date)
+
+Unless `options.noHolidays == true`, default holidays include:
+* Major holidays - Rosh Hashana, Yom Kippur, Pesach, Sukkot, etc.
+* Minor holidays - Purim, Chanukah, Tu BiShvat, Lag BaOmer, etc.
+* Minor fasts - Ta'anit Esther, Tzom Gedaliah, etc. (unless `options.noMinorFast`)
+* Special Shabbatot - Shabbat Shekalim, Zachor, etc. (unless `options.noSpecialShabbat`)
+* Modern Holidays - Yom HaShoah, Yom HaAtzma'ut, etc. (unless `options.noModern`)
+* Rosh Chodesh (unless `options.noRoshChodesh`)
+
+Holiday and Torah reading schedules differ between Israel and the Disapora.
+Set `options.il=true` to use the Israeli schedule.
+
+Additional non-default event types can be specified:
+* Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
+* Counting of the Omer (`options.omer`)
+* Daf Yomi (`options.dafyomi`)
+* Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
+* Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
+
+Candle-lighting and Havdalah times are approximated using latitude and longitude
+specified by the [Location](#Location) class. The `Location` class contains a small
+database of cities with their associated geographic information and time-zone information.
+If you ever have any doubts about Hebcal's times, consult your local halachic authority.
+If you enter geographic coordinates above the artic circle or antarctic circle,
+the times are guaranteed to be wrong.
+
+To add candle-lighting options, set `options.candlelighting=true` and set
+`options.location` to an instance of `Location`. By default, candle lighting
+time is 18 minutes before sundown (40 minutes for Jerusalem) and Havdalah is
+calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
+are observable in the night time sky with the naked eye).
+These defaults can be changed using these options:
+* `options.candleLightingMins` - minutes before sundown to light candles
+* `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
+   Havdalah times are supressed when `options.havdalahMins=0`.
+
+Two options also exist for generating an Event with the Hebrew date:
+* `options.addHebrewDates` - print the Hebrew date for the entire date range
+* `options.addHebrewDatesForEvents` - print the Hebrew date for dates with some events
+
+Lastly, translation and transliteration of event titles is controlled by
+`options.locale`. `@hebcal/core` supports three locales by default:
+* `en` - default, Sephardic transliterations (e.g. "Shabbat")
+* `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
+* `he` - Hebrew (e.g. "שַׁבָּת")
+Additional locales (such as `ru` or `fr`) are supported by the
+[@hebcal/locales](https://github.com/hebcal/hebcal-locales) package
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+
+| Param | Type | Default |
 | --- | --- | --- |
-| yy | <code>number</code> | Hebrew year |
-| mm | <code>number</code> | Hebrew month of year (1=NISAN, 7=TISHREI) |
-| dd | <code>number</code> | Day of month (1-30) |
+| [options] | [<code>Options</code>](#HebrewCalendar.Options) | <code>{}</code> | 
 
-<a name="HebcalOptions"></a>
+**Example**  
+```js
+import {HebrewCalendar, HDate, Location, Event} from '@hebcal/core';
+const options = {
+  year: 1981,
+  isHebrewYear: false,
+  candlelighting: true,
+  location: Location.lookup('San Francisco'),
+  sedrot: true,
+  omer: true,
+};
+const events = HebrewCalendar.calendar(options);
+for (const ev of events) {
+  const hd = ev.getDate();
+  const date = hd.greg();
+  console.log(date.toLocaleDateString(), ev.render(), hd.toString());
+}
+```
+<a name="HebrewCalendar.getBirthdayOrAnniversary"></a>
 
-## HebcalOptions : <code>Object</code>
+### HebrewCalendar.getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+Calculates a birthday or anniversary (non-yahrzeit).
+`hyear` must be after original `gdate` of anniversary.
+Returns `undefined` when requested year preceeds or is same as original year.
+
+Hebcal uses the algorithm defined in "Calendrical Calculations"
+by Edward M. Reingold and Nachum Dershowitz.
+
+The birthday of someone born in Adar of an ordinary year or Adar II of
+a leap year is also always in the last month of the year, be that Adar
+or Adar II. The birthday in an ordinary year of someone born during the
+first 29 days of Adar I in a leap year is on the corresponding day of Adar;
+in a leap year, the birthday occurs in Adar I, as expected.
+
+Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
+has his birthday postponed until the first of the following month in
+years where that day does not occur. [Calendrical Calculations p. 111]
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in `hyear`  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year |
+| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of event |
+
+**Example**  
+```js
+import {HebrewCalendar} from '@hebcal/core';
+const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+const hd = HebrewCalendar.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
+console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
+```
+<a name="HebrewCalendar.getYahrzeit"></a>
+
+### HebrewCalendar.getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+Calculates yahrzeit.
+`hyear` must be after original `gdate` of death.
+Returns `undefined` when requested year preceeds or is same as original year.
+
+Hebcal uses the algorithm defined in "Calendrical Calculations"
+by Edward M. Reingold and Nachum Dershowitz.
+
+The customary anniversary date of a death is more complicated and depends
+also on the character of the year in which the first anniversary occurs.
+There are several cases:
+
+* If the date of death is Marcheshvan 30, the anniversary in general depends
+  on the first anniversary; if that first anniversary was not Marcheshvan 30,
+  use the day before Kislev 1.
+* If the date of death is Kislev 30, the anniversary in general again depends
+  on the first anniversary — if that was not Kislev 30, use the day before
+  Tevet 1.
+* If the date of death is Adar II, the anniversary is the same day in the
+  last month of the Hebrew year (Adar or Adar II).
+* If the date of death is Adar I 30, the anniversary in a Hebrew year that
+  is not a leap year (in which Adar only has 29 days) is the last day in
+  Shevat.
+* In all other cases, use the normal (that is, same month number) anniversary
+  of the date of death. [Calendrical Calculations p. 113]
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in hyear  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year |
+| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
+
+**Example**  
+```js
+import {HebrewCalendar} from '@hebcal/core';
+const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+const hd = HebrewCalendar.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
+console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
+```
+<a name="HebrewCalendar.getHolidaysForYear"></a>
+
+### HebrewCalendar.getHolidaysForYear(year) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
+Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
+`HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
+or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="HebrewCalendar.getHolidaysOnDate"></a>
+
+### HebrewCalendar.getHolidaysOnDate(date) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+Returns an array of Events on this date (or undefined if no events)
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
+
+<a name="HebrewCalendar.reformatTimeStr"></a>
+
+### HebrewCalendar.reformatTimeStr(timeStr, suffix, options) ⇒ <code>string</code>
+Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
+keep as "20:13" for any other locale/country. Uses `HebrewCalendar.Options` to determine
+locale.
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| timeStr | <code>string</code> | original time like "20:30" |
+| suffix | <code>string</code> | "p" or "pm" or " P.M.". Add leading space if you want it |
+| options | [<code>Options</code>](#HebrewCalendar.Options) |  |
+
+<a name="HebrewCalendar.Options"></a>
+
+### HebrewCalendar.Options : <code>Object</code>
 Options to configure which events are returned
 
-**Kind**: global typedef  
+**Kind**: static typedef of [<code>HebrewCalendar</code>](#HebrewCalendar)  
 **Properties**
 
 | Name | Type | Description |

@@ -109,6 +109,7 @@ const monthNames = [
  * @property {number} yy Hebrew year
  * @property {number} mm Hebrew month of year (1=NISAN, 7=TISHREI)
  * @property {number} dd Day of month (1-30)
+ * @private
  */
 
 /** Represents a Hebrew date */
@@ -323,6 +324,7 @@ export class HDate {
 
   /**
    * Converts absolute Julian days to Hebrew date
+   * @private
    * @param {number} d absolute Julian days
    * @return {SimpleHebrewDate}
    */

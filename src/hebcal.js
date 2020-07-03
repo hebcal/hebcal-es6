@@ -63,12 +63,17 @@ const MINOR_FAST = flags.MINOR_FAST;
 const SPECIAL_SHABBAT = flags.SPECIAL_SHABBAT;
 const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
 const MAJOR_FAST = flags.MAJOR_FAST;
+const ROSH_CHODESH = flags.ROSH_CHODESH;
+const PARSHA_HASHAVUA = flags.PARSHA_HASHAVUA;
+const DAF_YOMI = flags.DAF_YOMI;
+const OMER_COUNT = flags.OMER_COUNT;
+const SHABBAT_MEVARCHIM = flags.SHABBAT_MEVARCHIM;
 
 const __cache = new Map();
 
 /**
  * @private
- * @param {HebcalOptions} options
+ * @param {HebrewCalendar.Options} options
  * @return {number}
  */
 function getCandleLightingMinutes(options) {
@@ -88,7 +93,7 @@ function getCandleLightingMinutes(options) {
 
 /**
  * Options to configure which events are returned
- * @typedef {Object} HebcalOptions
+ * @typedef {Object} HebrewCalendar.Options
  * @property {Location} location - latitude/longitude/tzid used for candle-lighting
  * @property {number} year - Gregorian or Hebrew year
  * @property {boolean} isHebrewYear - to interpret year as Hebrew year
@@ -138,7 +143,7 @@ function getAbs(d) {
 /**
  * Parse options object to determine start & end days
  * @private
- * @param {HebcalOptions} options
+ * @param {HebrewCalendar.Options} options
  * @return {number[]}
  */
 function getStartAndEnd(options) {
@@ -193,7 +198,7 @@ function getOmerStartAndEnd(hyear) {
 /**
  * Mask to filter Holiday array
  * @private
- * @param {HebcalOptions} options
+ * @param {HebrewCalendar.Options} options
  * @return {number}
  */
 function getMaskFromOptions(options) {
@@ -202,62 +207,43 @@ function getMaskFromOptions(options) {
 
   // default options
   if (!options.noHolidays) {
-    mask |= flags.ROSH_CHODESH |
-                flags.YOM_TOV_ENDS |
-                flags.MINOR_FAST |
-                flags.SPECIAL_SHABBAT |
-                flags.MODERN_HOLIDAY |
-                flags.MAJOR_FAST |
-                flags.LIGHT_CANDLES |
-                flags.LIGHT_CANDLES_TZEIS |
-                flags.CHANUKAH_CANDLES;
+    mask |= ROSH_CHODESH | YOM_TOV_ENDS | MINOR_FAST | SPECIAL_SHABBAT | MODERN_HOLIDAY | MAJOR_FAST |
+            LIGHT_CANDLES | LIGHT_CANDLES_TZEIS | CHANUKAH_CANDLES;
   }
-
   if (options.candlelighting) {
-    mask |= flags.LIGHT_CANDLES |
-                flags.LIGHT_CANDLES_TZEIS |
-                flags.CHANUKAH_CANDLES;
+    mask |= LIGHT_CANDLES | LIGHT_CANDLES_TZEIS | CHANUKAH_CANDLES;
   }
-
   // suppression of defaults
   if (options.noRoshChodesh) {
-    mask &= ~flags.ROSH_CHODESH;
+    mask &= ~ROSH_CHODESH;
   }
-
   if (options.noModern) {
-    mask &= ~flags.MODERN_HOLIDAY;
+    mask &= ~MODERN_HOLIDAY;
   }
-
   if (options.noMinorFast) {
-    mask &= ~flags.MINOR_FAST;
+    mask &= ~MINOR_FAST;
   }
-
   if (options.noSpecialShabbat) {
-    mask &= ~flags.SPECIAL_SHABBAT;
-    mask &= ~flags.SHABBAT_MEVARCHIM;
+    mask &= ~SPECIAL_SHABBAT;
+    mask &= ~SHABBAT_MEVARCHIM;
   }
-
   if (il) {
-    mask |= flags.IL_ONLY;
+    mask |= IL_ONLY;
   } else {
-    mask |= flags.CHUL_ONLY;
+    mask |= CHUL_ONLY;
   }
-
   // non-default options
   if (options.sedrot) {
-    mask |= flags.PARSHA_HASHAVUA;
+    mask |= PARSHA_HASHAVUA;
   }
-
   if (options.dafyomi) {
-    mask |= flags.DAF_YOMI;
+    mask |= DAF_YOMI;
   }
-
   if (options.omer) {
-    mask |= flags.OMER_COUNT;
+    mask |= OMER_COUNT;
   }
-
   if (options.shabbatMevarchim) {
-    mask |= flags.SHABBAT_MEVARCHIM;
+    mask |= SHABBAT_MEVARCHIM;
   }
 
   return mask;
@@ -265,25 +251,94 @@ function getMaskFromOptions(options) {
 
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
- * This class is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
+ * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
  * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
  * Event names can be rendered in several languges using the `locale` option.
  */
-export class HebrewCalendar {
+export const HebrewCalendar = {
   /**
-   * Generates a list of holidays and other hebrew date events based on `options`.
-   * @param {HebcalOptions} [options={}]
-   */
-  constructor(options={}) {
-    this.evts = HebrewCalendar.calculate(options);
-  }
-
-  /**
-   * @private
-   * @param {HebcalOptions} options
+   * Calculates holidays and other Hebrew calendar events based on `options`.
+   *
+   * Each holiday is represented by an `Event` object which includes a date,
+   * a description, flags and optional attributes.
+   * If given no options, returns holidays for the Diaspora for the current Gregorian year.
+   *
+   * The date range returned by this function can be controlled by:
+   * * `options.year` - Gregorian (e.g. 1993) or Hebrew year (e.g. 5749)
+   * * `options.isHebrewYear` - to interpret `year` as Hebrew year
+   * * `options.numYears` - generate calendar for multiple years (default 1)
+   * * `options.month` - Gregorian or Hebrew month (to filter results to a single month)
+   * Alternatively, specify start and end days with `Date` or {@link HDate} instances:
+   * * `options.start` - use specific start date (requires `end` date)
+   * * `options.end` - use specific end date (requires `start` date)
+   *
+   * Unless `options.noHolidays == true`, default holidays include:
+   * * Major holidays - Rosh Hashana, Yom Kippur, Pesach, Sukkot, etc.
+   * * Minor holidays - Purim, Chanukah, Tu BiShvat, Lag BaOmer, etc.
+   * * Minor fasts - Ta'anit Esther, Tzom Gedaliah, etc. (unless `options.noMinorFast`)
+   * * Special Shabbatot - Shabbat Shekalim, Zachor, etc. (unless `options.noSpecialShabbat`)
+   * * Modern Holidays - Yom HaShoah, Yom HaAtzma'ut, etc. (unless `options.noModern`)
+   * * Rosh Chodesh (unless `options.noRoshChodesh`)
+   *
+   * Holiday and Torah reading schedules differ between Israel and the Disapora.
+   * Set `options.il=true` to use the Israeli schedule.
+   *
+   * Additional non-default event types can be specified:
+   * * Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
+   * * Counting of the Omer (`options.omer`)
+   * * Daf Yomi (`options.dafyomi`)
+   * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
+   * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
+   *
+   * Candle-lighting and Havdalah times are approximated using latitude and longitude
+   * specified by the {@link Location} class. The `Location` class contains a small
+   * database of cities with their associated geographic information and time-zone information.
+   * If you ever have any doubts about Hebcal's times, consult your local halachic authority.
+   * If you enter geographic coordinates above the artic circle or antarctic circle,
+   * the times are guaranteed to be wrong.
+   *
+   * To add candle-lighting options, set `options.candlelighting=true` and set
+   * `options.location` to an instance of `Location`. By default, candle lighting
+   * time is 18 minutes before sundown (40 minutes for Jerusalem) and Havdalah is
+   * calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
+   * are observable in the night time sky with the naked eye).
+   * These defaults can be changed using these options:
+   * * `options.candleLightingMins` - minutes before sundown to light candles
+   * * `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
+   *    Havdalah times are supressed when `options.havdalahMins=0`.
+   *
+   * Two options also exist for generating an Event with the Hebrew date:
+   * * `options.addHebrewDates` - print the Hebrew date for the entire date range
+   * * `options.addHebrewDatesForEvents` - print the Hebrew date for dates with some events
+   *
+   * Lastly, translation and transliteration of event titles is controlled by
+   * `options.locale`. `@hebcal/core` supports three locales by default:
+   * * `en` - default, Sephardic transliterations (e.g. "Shabbat")
+   * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
+   * * `he` - Hebrew (e.g. "שַׁבָּת")
+   * Additional locales (such as `ru` or `fr`) are supported by the
+   * {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
+   *
+   * @example
+   * import {HebrewCalendar, HDate, Location, Event} from '@hebcal/core';
+   * const options = {
+   *   year: 1981,
+   *   isHebrewYear: false,
+   *   candlelighting: true,
+   *   location: Location.lookup('San Francisco'),
+   *   sedrot: true,
+   *   omer: true,
+   * };
+   * const events = HebrewCalendar.calendar(options);
+   * for (const ev of events) {
+   *   const hd = ev.getDate();
+   *   const date = hd.greg();
+   *   console.log(date.toLocaleDateString(), ev.render(), hd.toString());
+   * }
+   * @param {HebrewCalendar.Options} [options={}]
    * @return {Event[]}
    */
-  static calculate(options) {
+  calendar: function(options={}) {
     if (options.candlelighting && (typeof options.location === 'undefined' || !options.location instanceof Location)) {
       throw new TypeError('options.candlelighting requires valid options.location');
     }
@@ -299,10 +354,10 @@ export class HebrewCalendar {
     const havdalahMinutes = options.havdalahMins; // if undefined, use tzeit
     const mask = getMaskFromOptions(options);
     const MASK_LIGHT_CANDLES =
-          flags.LIGHT_CANDLES |
-          flags.LIGHT_CANDLES_TZEIS |
-          flags.CHANUKAH_CANDLES |
-          flags.YOM_TOV_ENDS;
+          LIGHT_CANDLES |
+          LIGHT_CANDLES_TZEIS |
+          CHANUKAH_CANDLES |
+          YOM_TOV_ENDS;
     if (options.ashkenazi || options.locale) {
       if (options.locale && typeof options.locale !== 'string') {
         throw new TypeError(`Invalid options.locale: ${options.locale}`);
@@ -390,14 +445,7 @@ export class HebrewCalendar {
       }
     }
     return evts;
-  }
-
-  /**
-   * @return {Event[]}
-   */
-  events() {
-    return this.evts;
-  }
+  },
 
   /**
    * Calculates a birthday or anniversary (non-yahrzeit).
@@ -425,7 +473,7 @@ export class HebrewCalendar {
    * @param {Date|HDate} gdate Gregorian or Hebrew date of event
    * @return {HDate} anniversary occurring in `hyear`
    */
-  static getBirthdayOrAnniversary(hyear, gdate) {
+  getBirthdayOrAnniversary: function(hyear, gdate) {
     const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
     const origYear = orig.getFullYear();
     if (hyear <= origYear) {
@@ -450,7 +498,7 @@ export class HebrewCalendar {
     }
 
     return new HDate(day, month, hyear);
-  }
+  },
 
   /**
    * Calculates yahrzeit.
@@ -486,7 +534,7 @@ export class HebrewCalendar {
    * @param {Date|HDate} gdate Gregorian or Hebrew date of death
    * @return {HDate} anniversary occurring in hyear
    */
-  static getYahrzeit(hyear, gdate) {
+  getYahrzeit: function(hyear, gdate) {
     const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
     let hDeath = {
       yy: orig.getFullYear(),
@@ -527,7 +575,7 @@ export class HebrewCalendar {
     }
 
     return new HDate(hDeath.dd, hDeath.mm, hyear);
-  }
+  },
 
   /**
    * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
@@ -536,7 +584,7 @@ export class HebrewCalendar {
    * @param {number} year Hebrew year
    * @return {Map<string,Event[]>}
    */
-  static getHolidaysForYear(year) {
+  getHolidaysForYear: function(year) {
     const cached = __cache.get(year);
     if (cached) {
       return cached;
@@ -781,29 +829,29 @@ export class HebrewCalendar {
 
     __cache.set(year, h);
     return h;
-  }
+  },
 
   /**
    * Returns an array of Events on this date (or undefined if no events)
    * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute Julian date
    * @return {Event[]}
    */
-  static getHolidaysOnDate(date) {
+  getHolidaysOnDate: function(date) {
     const hd = date instanceof HDate ? date : new HDate(date);
     const yearMap = HebrewCalendar.getHolidaysForYear(hd.getFullYear());
     return yearMap.get(hd.toString());
-  }
+  },
 
   /**
    * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-   * keep as "20:13" for any other locale/country. Uses `HebcalOptions` to determine
+   * keep as "20:13" for any other locale/country. Uses `HebrewCalendar.Options` to determine
    * locale.
    * @param {string} timeStr - original time like "20:30"
    * @param {string} suffix - "p" or "pm" or " P.M.". Add leading space if you want it
-   * @param {HebcalOptions} options
+   * @param {HebrewCalendar.Options} options
    * @return {string}
    */
-  static reformatTimeStr(timeStr, suffix, options) {
+  reformatTimeStr: function(timeStr, suffix, options) {
     const cc = (options.location && options.location.cc) || (options.il ? 'IL' : 'US');
     if ((options.locale && options.locale.length == 2) || cc != 'US') {
       return timeStr;
@@ -814,5 +862,5 @@ export class HebrewCalendar {
       hour = hour % 12;
     }
     return `${hour}:${minute}${suffix}`;
-  }
-}
+  },
+};

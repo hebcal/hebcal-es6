@@ -354,69 +354,6 @@ declare module '@hebcal/core' {
     }
 
     /**
-     * Options to configure which events are returned
-     * @property location - latitude/longitude/tzid used for candle-lighting
-     * @property year - Gregorian or Hebrew year
-     * @property isHebrewYear - to interpret year as Hebrew year
-     * @property month - Gregorian or Hebrew month (to filter results to a single month)
-     * @property numYears - generate calendar for multiple years (default 1)
-     * @property start - use specific start date (requires end date)
-     * @property end - use specific end date (requires start date)
-     * @property candlelighting - calculate candle-lighting and havdalah times
-     * @property candleLightingMins - minutes before sundown to light candles (default 18)
-     * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
-     * @property havdalahTzeit - calculate Havdalah according to Tzeit Hakochavim -
-     *      Nightfall (the point when 3 small stars are observable in the night time sky with
-     *      the naked eye). Defaults to `true` unless havdalahMins is specified
-     * @property sedrot - calculate parashah hashavua on Saturdays
-     * @property il - Israeli holiday and sedra schedule
-     * @property noMinorFast - suppress minor fasts
-     * @property noModern - suppress modern holidays
-     * @property noRoshChodesh - suppress Rosh Chodesh & Shabbat Mevarchim
-     * @property noSpecialShabbat - suppress Special Shabbat
-     * @property noHolidays - suppress regular holidays
-     * @property dafyomi - include Daf Yomi
-     * @property omer - include Days of the Omer
-     * @property molad - include event announcing the molad
-     * @property ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
-     * @property locale - translate event titles according to a locale
-     *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
-     *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
-     * @property hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
-     * @property addHebrewDates - print the Hebrew date for the entire date range
-     * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
-     */
-    export type HebcalOptions = {
-        location?: Location;
-        year?: number;
-        isHebrewYear?: boolean;
-        month?: number;
-        numYears?: number;
-        start?: Date | HDate | number;
-        end?: Date | HDate | number;
-        candlelighting?: boolean;
-        candleLightingMins?: number;
-        havdalahMins?: number;
-        havdalahTzeit?: boolean;
-        sedrot?: boolean;
-        il?: boolean;
-        noMinorFast?: boolean;
-        noModern?: boolean;
-        noRoshChodesh?: boolean;
-        shabbatMevarchim?: boolean;
-        noSpecialShabbat?: boolean;
-        noHolidays?: boolean;
-        dafyomi?: boolean;
-        omer?: boolean;
-        molad?: boolean;
-        ashkenazi?: boolean;
-        locale?: string;
-        hour12?: boolean;
-        addHebrewDates?: boolean;
-        addHebrewDatesForEvents?: boolean;
-    };
-
-    /**
      * A simple Hebrew date
      * @property yy - Hebrew year
      * @property mm - Hebrew month of year (1=NISAN, 7=TISHREI)
@@ -434,26 +371,90 @@ declare module '@hebcal/core' {
      * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
      * Event names can be rendered in several languges using the `locale` option.
      */
-    export class HebrewCalendar {
+    export namespace HebrewCalendar {
+        /**
+         * Options to configure which events are returned
+         * @property location - latitude/longitude/tzid used for candle-lighting
+         * @property year - Gregorian or Hebrew year
+         * @property isHebrewYear - to interpret year as Hebrew year
+         * @property month - Gregorian or Hebrew month (to filter results to a single month)
+         * @property numYears - generate calendar for multiple years (default 1)
+         * @property start - use specific start date (requires end date)
+         * @property end - use specific end date (requires start date)
+         * @property candlelighting - calculate candle-lighting and havdalah times
+         * @property candleLightingMins - minutes before sundown to light candles (default 18)
+         * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
+         * @property havdalahTzeit - calculate Havdalah according to Tzeit Hakochavim -
+         *      Nightfall (the point when 3 small stars are observable in the night time sky with
+         *      the naked eye). Defaults to `true` unless havdalahMins is specified
+         * @property sedrot - calculate parashah hashavua on Saturdays
+         * @property il - Israeli holiday and sedra schedule
+         * @property noMinorFast - suppress minor fasts
+         * @property noModern - suppress modern holidays
+         * @property noRoshChodesh - suppress Rosh Chodesh & Shabbat Mevarchim
+         * @property noSpecialShabbat - suppress Special Shabbat
+         * @property noHolidays - suppress regular holidays
+         * @property dafyomi - include Daf Yomi
+         * @property omer - include Days of the Omer
+         * @property molad - include event announcing the molad
+         * @property ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
+         * @property locale - translate event titles according to a locale
+         *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
+         *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
+         * @property hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
+         * @property addHebrewDates - print the Hebrew date for the entire date range
+         * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
+         */
+        export type Options = {
+            location?: Location;
+            year?: number;
+            isHebrewYear?: boolean;
+            month?: number;
+            numYears?: number;
+            start?: Date | HDate | number;
+            end?: Date | HDate | number;
+            candlelighting?: boolean;
+            candleLightingMins?: number;
+            havdalahMins?: number;
+            havdalahTzeit?: boolean;
+            sedrot?: boolean;
+            il?: boolean;
+            noMinorFast?: boolean;
+            noModern?: boolean;
+            noRoshChodesh?: boolean;
+            shabbatMevarchim?: boolean;
+            noSpecialShabbat?: boolean;
+            noHolidays?: boolean;
+            dafyomi?: boolean;
+            omer?: boolean;
+            molad?: boolean;
+            ashkenazi?: boolean;
+            locale?: string;
+            hour12?: boolean;
+            addHebrewDates?: boolean;
+            addHebrewDatesForEvents?: boolean;
+        };
+
         /**
          * Generates a list of holidays and other hebrew date events based on `options`.
+         * This is the main interface to the `@hebcal/core` library, and can be used to
+         * retrieve holidays, rosh chodesh, candle lighting & havdalah times,
+         * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
+         * Event names can be rendered in several languges using the `locale` option.
          */
-        constructor(options?: HebcalOptions);
-
-        /** Get list of events calculated by constructor */
-        events(): Event[];
+        function calculate(options: Options): Event[];
 
         /**
          * Returns a Map for the year indexed by HDate.toString()
          * @param year - Hebrew year
          */
-        static getHolidaysForYear(year: number): Map<string, Event[]>;
+        function getHolidaysForYear(year: number): Map<string, Event[]>;
 
         /**
          * Returns an array of Events on this date (or undefined if no events)
          * @param date - Hebrew Date, Gregorian date, or absolute Julian date
          */
-        static getHolidaysOnDate(date: HDate | Date | number): Event[];
+        function getHolidaysOnDate(date: HDate | Date | number): Event[];
 
         /**
          * Calculates a birthday or anniversary (non-yahrzeit).
@@ -476,7 +477,7 @@ declare module '@hebcal/core' {
          * @param gdate - Gregorian or Hebrew date of event
          * @returns anniversary occurring in hyear
          */
-        static getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate;
+        function getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate;
 
         /**
          * Calculates yahrzeit.
@@ -507,26 +508,17 @@ declare module '@hebcal/core' {
          * @param gdate - Gregorian or Hebrew date of death
          * @returns anniversary occurring in hyear
          */
-        static getYahrzeit(hyear: number, gdate: Date | HDate): HDate;
-
-        /**
-         * Generates a list of holidays and other hebrew date events based on `options`.
-         * This is the main interface to the `@hebcal/core` library, and can be used to
-         * retrieve holidays, rosh chodesh, candle lighting & havdalah times,
-         * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
-         * Event names can be rendered in several languges using the `locale` option.
-         */
-        static calculate(options: HebcalOptions): Event[];
+        function getYahrzeit(hyear: number, gdate: Date | HDate): HDate;
 
         /**
          * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-         * keep as "20:13" for any other locale/country. Uses `HebcalOptions` to determine
+         * keep as "20:13" for any other locale/country. Uses `HebrewCalendar.Options` to determine
          * locale.
          * @param timeStr - original time like "20:30"
          * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
          * @param options
          */
-        static reformatTimeStr(timeStr: string, suffix: string, options: HebcalOptions): string;
+        function reformatTimeStr(timeStr: string, suffix: string, options: Options): string;
     }
 
     /**
