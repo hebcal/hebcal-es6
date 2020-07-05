@@ -44,6 +44,30 @@ test('basename-and-url', (t) => {
   t.is(mvch.url(), undefined);
 });
 
+test('shushan-purim', (t) => {
+  const events = HebrewCalendar.calendar({year: 2015, numYears: 15});
+  const shushan = events.filter((ev) => ev.getDesc() == 'Shushan Purim');
+  const dates = shushan.map((ev) => ev.getDate().toString());
+  const expected = [
+    '15 Adar 5775',
+    '15 Adar II 5776',
+    '15 Adar 5777',
+    '15 Adar 5778',
+    '15 Adar II 5779',
+    '15 Adar 5780',
+    '16 Adar 5781',
+    '15 Adar II 5782',
+    '15 Adar 5783',
+    '15 Adar II 5784',
+    '16 Adar 5785',
+    '15 Adar 5786',
+    '15 Adar II 5787',
+    '15 Adar 5788',
+    '15 Adar 5789',
+  ];
+  t.deepEqual(dates, expected, '15 years of Shushan Purim differ');
+});
+
 /**
  * @param {Object} t
  * @param {number} hyear

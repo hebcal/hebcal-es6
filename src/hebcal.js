@@ -673,9 +673,9 @@ export const HebrewCalendar = {
     addEvents(year, [
       [13, months.ADAR_II, 'Erev Purim', 0],
       [14, months.ADAR_II, 'Purim', 0],
-      [15, months.ADAR_II, 'Shushan Purim', 0],
     ]);
     add(
+        new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == days.SUN ? 28 : 29)), 'Shushan Purim', 0),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 14) - 7), 'Shabbat Parah', SPECIAL_SHABBAT),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 14)), 'Shabbat HaChodesh', SPECIAL_SHABBAT),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 1)), 'Shabbat HaGadol', SPECIAL_SHABBAT),
