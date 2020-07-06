@@ -231,16 +231,24 @@ export class Location {
    */
   static legacyTzToTzid(tz, dst) {
     tz = +tz;
-    if (tz == 0 && dst == 'none') {
-      return 'UTC';
+    if (dst == 'none') {
+      if (tz == 0) {
+        return 'UTC';
+      } else {
+        const plus = tz > 0 ? '+' : '';
+        return `Etc/GMT${plus}${tz}`;
+      }
     } else if (tz == 2 && dst == 'israel') {
       return 'Asia/Jerusalem';
-    } else if (tz == 0 && dst == 'eu') {
-      return 'Europe/London';
-    } else if (tz == 1 && dst == 'eu') {
-      return 'Europe/Paris';
-    } else if (tz == 2 && dst == 'eu') {
-      return 'Europe/Athens';
+    } else if (dst == 'eu') {
+      switch (tz) {
+        case -2: return 'Atlantic/Cape_Verde';
+        case -1: return 'Atlantic/Azores';
+        case 0: return 'Europe/London';
+        case 1: return 'Europe/Paris';
+        case 2: return 'Europe/Athens';
+        default: break;
+      }
     } else if (dst == 'usa') {
       return ZIPCODES_TZ_MAP[String(tz * -1)];
     }

@@ -100,6 +100,9 @@ test('legacyTzToTzid', (t) => {
   t.is(Location.legacyTzToTzid(2, 'eu'), 'Europe/Athens');
   t.is(Location.legacyTzToTzid(2, 'israel'), 'Asia/Jerusalem');
   t.is(Location.legacyTzToTzid(0, 'none'), 'UTC');
+  t.is(Location.legacyTzToTzid(-1, 'eu'), 'Atlantic/Azores');
+  t.is(Location.legacyTzToTzid(-3, 'none'), 'Etc/GMT-3');
+  t.is(Location.legacyTzToTzid(3, 'none'), 'Etc/GMT+3');
 });
 
 test('geonameCityDescr', (t) => {
