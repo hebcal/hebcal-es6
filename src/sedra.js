@@ -104,13 +104,20 @@ export class Sedra {
   }
 
   /**
-   * Looks up parsha for the date, then returns a (translated) string
+   * Looks up parsha for the date, then returns a translated or transliterated string
    * @param {HDate|number} hDate Hebrew date or absolute days
+   * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
    * @return {string}
    */
-  getString(hDate) {
+  getString(hDate, locale) {
     const parsha = this.get(hDate);
-    return 'Parashat ' + parsha.join('-');
+    const locale0 = locale || Locale.getLocaleName();
+    let name = Locale.gettext(parsha[0], locale0);
+    if (parsha.length == 2) {
+      const hyphen = locale0 == 'he' ? '־' : '-';
+      name += hyphen + Locale.gettext(parsha[1], locale0);
+    }
+    return Locale.gettext('Parashat', locale0) + ' ' + name;
   }
 
   /**
@@ -439,10 +446,11 @@ export class ParshaEvent extends Event {
    * @return {string}
    */
   render(locale) {
+    const locale0 = locale || Locale.getLocaleName();
     const parsha = this.getAttrs().parsha;
     let name = Locale.gettext(parsha[0], locale);
     if (parsha.length == 2) {
-      const hyphen = locale == 'he' ? '־' : '-';
+      const hyphen = locale0 == 'he' ? '־' : '-';
       name += hyphen + Locale.gettext(parsha[1], locale);
     }
     return Locale.gettext('Parashat', locale) + ' ' + name;

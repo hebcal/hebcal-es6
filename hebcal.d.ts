@@ -648,8 +648,9 @@ declare module '@hebcal/core' {
         /**
          * Looks up parsha for the date, then returns a (translated) string
          * @param hDate Hebrew date or absolute days
+         * @param locale Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
          */
-        getString(hDate: HDate | number): string;
+        getString(hDate: HDate | number, locale?: string): string;
         /**
          * Translates object describing the parsha to a string
          * @param parsha

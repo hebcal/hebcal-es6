@@ -152,11 +152,17 @@ test('sedra-israel', (t) => {
   testFullYear(t, 2020, new Sedra(hyear, true), expected);
 });
 
-test('simple-he', (t) => {
+test('getString-locale', (t) => {
   Locale.useLocale('he');
-  const sedra = new Sedra(5780, true);
-  const hd = new HDate(new Date(2020, 6, 7));
+  let sedra = new Sedra(5780, true);
+  let hd = new HDate(new Date(2020, 6, 7));
   const parsha = sedra.get(hd);
   const ev = new ParshaEvent(hd, parsha);
   t.is(ev.render(), 'פרשת פִּינְחָס');
+
+  sedra = new Sedra(5781, false);
+  hd = new HDate(new Date(2021, 3, 24));
+  t.is(sedra.getString(hd), 'פרשת אַחֲרֵי מוֹת־קְדשִׁים');
+  t.is(sedra.getString(hd, 'en'), 'Parashat Achrei Mot-Kedoshim');
+  t.is(sedra.getString(hd, 'ashkenazi'), 'Parshas Achrei Mos-Kedoshim');
 });
