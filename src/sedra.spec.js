@@ -1,5 +1,6 @@
 import test from 'ava';
 import {HDate} from './hdate';
+import {Locale} from './locale';
 import {Sedra, ParshaEvent} from './sedra';
 import {greg as g} from './greg';
 
@@ -149,4 +150,13 @@ test('sedra-israel', (t) => {
 `.split('\n');
   const hyear = new HDate(new Date(Date.UTC(2020, 5, 2))).getFullYear();
   testFullYear(t, 2020, new Sedra(hyear, true), expected);
+});
+
+test('simple-he', (t) => {
+  Locale.useLocale('he');
+  const sedra = new Sedra(5780, true);
+  const hd = new HDate(new Date(2020, 6, 7));
+  const parsha = sedra.get(hd);
+  const ev = new ParshaEvent(hd, parsha);
+  t.is(ev.render(), 'פרשת פִּינְחָס');
 });
