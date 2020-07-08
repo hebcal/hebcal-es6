@@ -152,6 +152,9 @@ msgstr "Shmini Atzeres"
 msgid "Simchat Torah"
 msgstr "Simchas Torah"
 
+msgid "Sukkot"
+msgstr "Sukkos"
+
 msgid "Sukkot I"
 msgstr "Sukkos I"
 
