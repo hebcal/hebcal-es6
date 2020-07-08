@@ -112,6 +112,30 @@ test('candles-only-diaspora', (t) => {
   t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
 });
 
+test('candle-lighting-at-tzeit-motzei-shabbat', (t) => {
+  const options = {
+    start: new Date(2022, 5, 3),
+    end: new Date(2022, 5, 6),
+    noHolidays: true,
+    location: Location.lookup('Miami'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options).map((ev) => {
+    return {
+      desc: ev.getDesc(),
+      date: ev.getDate().greg().toISOString().substring(0, 10),
+      time: ev.getAttrs().eventTimeStr,
+    };
+  });
+  const expected = [
+    {desc: 'Candle lighting', date: '2022-06-03', time: '19:52'},
+    {desc: 'Candle lighting', date: '2022-06-04', time: '20:49'},
+    {desc: 'Candle lighting', date: '2022-06-05', time: '20:50'},
+    {desc: 'Havdalah', date: '2022-06-06', time: '20:50'},
+  ];
+  t.deepEqual(events, expected);
+});
+
 test('havdalah-mins', (t) => {
   const options = {
     year: 2020,
@@ -287,7 +311,7 @@ test('addHebrewDatesForEvents', (t) => {
   t.is(ev0.length, 0);
 
   const options1 = {year: 2017, month: 3};
-  const ev1 = HebrewCalendar.calendar(options1);;
+  const ev1 = HebrewCalendar.calendar(options1);
   t.is(ev1.length, 8);
 
   const options = {year: 2017, month: 3, addHebrewDatesForEvents: true};
@@ -297,7 +321,7 @@ test('addHebrewDatesForEvents', (t) => {
 
 test('addHebrewDates', (t) => {
   const options0 = {year: 2017, month: 3, noHolidays: true, addHebrewDates: true};
-  const events = HebrewCalendar.calendar(options0);;
+  const events = HebrewCalendar.calendar(options0);
   t.is(events.length, 31);
   t.is(events[0].getFlags(), flags.HEBREW_DATE);
   t.is(gregDtString(events[0]), '3/1/2017');

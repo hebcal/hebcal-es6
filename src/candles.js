@@ -77,7 +77,7 @@ function tzeitTime(hd, location, timeFormat) {
  */
 export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
   let havdalahTitle = false;
-  let useHavdalahOffset = false;
+  let useHavdalahOffset = dow == days.SAT;
   let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
   if (typeof e !== 'undefined') {
     // if linked event && dow == FRI, use Candle lighting time & title
@@ -91,7 +91,6 @@ export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset,
     }
   } else if (dow == days.SAT) {
     havdalahTitle = true;
-    useHavdalahOffset = true;
     mask = flags.LIGHT_CANDLES_TZEIS;
   }
   // if offset is 0 or undefined, we'll use tzeit time

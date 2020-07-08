@@ -852,8 +852,9 @@ export const HebrewCalendar = {
    * @return {string}
    */
   reformatTimeStr: function(timeStr, suffix, options) {
+    if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);
     const cc = (options.location && options.location.cc) || (options.il ? 'IL' : 'US');
-    if ((options.locale && options.locale.length == 2) || cc != 'US') {
+    if (cc != 'US' || (options.locale && options.locale.length == 2 && options.locale != 'en')) {
       return timeStr;
     }
     let [hour, minute] = timeStr.split(':');
