@@ -285,7 +285,7 @@ export class Location {
     if (countryName == 'United States') countryName = 'USA';
     if (countryName == 'United Kingdom') countryName = 'UK';
     let cityDescr = cityName;
-    if (admin1 && !admin1.startsWith(cityName) && countryName != 'Israel') {
+    if (countryName != 'Israel' && admin1 && admin1.indexOf(cityName) != 0) {
       cityDescr += ', ' + admin1;
     }
     if (countryName) {

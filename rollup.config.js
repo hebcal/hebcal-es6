@@ -30,7 +30,7 @@ export default [
   {
     input: 'src/index.js',
     output: [
-      {file: 'dist/bundle.js', format: 'umd', name: 'hebcal__core'},
+      {file: 'dist/bundle.js', format: 'umd', name: 'hebcal__core', indent: false},
       {file: 'dist/bundle.min.js', format: 'umd', name: 'hebcal__core', plugins: [terser()]},
     ],
     plugins: [
@@ -46,6 +46,7 @@ export default [
               chrome: '67',
               safari: '11.1',
             },
+            exclude: ['es.string.split', 'es.string.replace', 'es.regexp.to-string'],
             useBuiltIns: 'usage',
             corejs: 3,
           }],

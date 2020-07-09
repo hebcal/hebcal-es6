@@ -110,6 +110,13 @@ export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset,
     new CandleLightingEvent(hd, mask, attrs);
 }
 
+// Avoid core-js es.object.assign polyfill - eventually replace this with Object.assign()
+// eslint-disable-next-line require-jsdoc
+function shallowCopy(target, source) {
+  Object.keys(source).forEach((k) => target[k] = source[k]);
+  return target;
+}
+
 /** Havdalah after Shabbat or holiday */
 export class HavdalahEvent extends Event {
   /**
@@ -119,7 +126,7 @@ export class HavdalahEvent extends Event {
    * @param {number} [havdalahMins]
    */
   constructor(date, mask, attrs, havdalahMins) {
-    super(date, 'Havdalah', mask, Object.assign({havdalahMins}, attrs));
+    super(date, 'Havdalah', mask, shallowCopy({havdalahMins}, attrs));
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).

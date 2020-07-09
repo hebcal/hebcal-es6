@@ -97,7 +97,7 @@ export const Locale = {
    * @return {string}
    */
   ordinal: function(n) {
-    if (!activeName || activeName == 'en' || activeName.startsWith('ashkenazi')) {
+    if (!activeName || activeName == 'en' || 'ashkenazi' == activeName.substring(0, 9)) {
       return getEnOrdinal(n);
     } else if (activeName == 'fr') {
       return n == 1 ? (n + 'er') : (n + 'ème');
