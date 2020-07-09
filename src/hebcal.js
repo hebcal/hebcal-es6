@@ -883,8 +883,10 @@ export const HebrewCalendar = {
       return timeStr;
     }
     const hm = timeStr.split(':');
-    const hour = Number(hm[0]);
-    if (hour > 12) {
+    let hour = Number(hm[0]);
+    if (hour < 12 && suffix) {
+      suffix = suffix.replace('p', 'a').replace('P', 'A');
+    } else if (hour > 12) {
       hour = hour % 12;
     }
     return `${hour}:${hm[1]}${suffix}`;

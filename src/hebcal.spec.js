@@ -447,3 +447,27 @@ test('renderBrief', (t) => {
     t.is(events[i].renderBrief('he'), expected[i][1]);
   }
 });
+
+test('reformatTimeStr', (t) => {
+  t.is(HebrewCalendar.reformatTimeStr('20:30', 'pm', {}), '8:30pm');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', ' P.M.', {}), '8:30 P.M.');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', '', {}), '8:30');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', '', {locale: 'fr'}), '20:30');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', '', {locale: 'en'}), '8:30');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', '', {locale: 'ashkenazi'}), '8:30');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'FR'}}), '20:30');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'IL'}}), '20:30');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'US'}}), '8:30 PM');
+  t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'CA'}}), '20:30');
+
+  t.is(HebrewCalendar.reformatTimeStr('11:45', 'pm', {}), '11:45am');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', ' P.M.', {}), '11:45 A.M.');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', '', {}), '11:45');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', '', {locale: 'fr'}), '11:45');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', '', {locale: 'en'}), '11:45');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', '', {locale: 'ashkenazi'}), '11:45');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'FR'}}), '11:45');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'IL'}}), '11:45');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'US'}}), '11:45 AM');
+  t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'CA'}}), '11:45');
+});
