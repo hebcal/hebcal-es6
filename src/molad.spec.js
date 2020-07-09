@@ -19,10 +19,12 @@ test('molad', (t) => {
   for (const item of items) {
     const [month, dow, hour, minutes, chalakim] = item;
     const molad = new Molad(5769, month);
-    t.is(molad.dow, dow);
-    t.is(molad.hour, hour);
-    t.is(molad.minutes, minutes);
-    t.is(molad.chalakim, chalakim);
+    t.is(molad.getDow(), dow);
+    t.is(molad.getHour(), hour);
+    t.is(molad.getMinutes(), minutes);
+    t.is(molad.getChalakim(), chalakim);
+    t.is(molad.getYear(), 5769);
+    t.is(molad.getMonth(), month);
   }
 });
 
