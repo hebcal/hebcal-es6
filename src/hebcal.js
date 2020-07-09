@@ -281,7 +281,7 @@ function getMaskFromOptions(options) {
  */
 export const HebrewCalendar = {
   /**
-   * Calculates holidays and other Hebrew calendar events based on `options`.
+   * Calculates holidays and other Hebrew calendar events based on {@link HebrewCalendar.Options}.
    *
    * Each holiday is represented by an `Event` object which includes a date,
    * a description, flags and optional attributes.
@@ -292,6 +292,7 @@ export const HebrewCalendar = {
    * * `options.isHebrewYear` - to interpret `year` as Hebrew year
    * * `options.numYears` - generate calendar for multiple years (default 1)
    * * `options.month` - Gregorian or Hebrew month (to filter results to a single month)
+   *
    * Alternatively, specify start and end days with `Date` or {@link HDate} instances:
    * * `options.start` - use specific start date (requires `end` date)
    * * `options.end` - use specific end date (requires `start` date)

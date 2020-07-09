@@ -55,7 +55,7 @@ test('getMonthName', (t) => {
   t.is(HDate.getMonthName(months.TISHREI, 5763), 'Tishrei');
 });
 
-test('mdy', (t) => {
+test('ctor-mdy', (t) => {
   const CHESHVAN = months.CHESHVAN;
   let d = new HDate(29, CHESHVAN, 5769);
   let dt = d.greg(); // 2008-11-27
@@ -90,7 +90,7 @@ test('mdy', (t) => {
   t.is(dt.getFullYear(), -3262);
 });
 
-test('abs', (t) => {
+test('ctor-abs', (t) => {
   let d = new HDate(733359);
   t.is(d.getMonth(), months.CHESHVAN);
   t.is(d.getDate(), 15);
@@ -110,12 +110,50 @@ test('abs', (t) => {
   t.is(d.abs(), 1);
 });
 
-test('jsdate', (t) => {
+test('ctor-jsdate', (t) => {
   const d = new HDate(new Date(1751, 0, 1));
   t.is(d.getMonth(), months.TEVET);
   t.is(d.getDate(), 4);
   t.is(d.getFullYear(), 5511);
   t.is(d.abs(), 639175);
+});
+
+test('ctor-copy', (t) => {
+  const d1 = new HDate(new Date(1751, 0, 1));
+  const d2 = new HDate(d1);
+  t.is(d1.isSameDate(d2), true);
+  t.is(d1.abs(), d2.abs());
+
+  const d3 = new HDate(29, 'Cheshvan', 5769);
+  const d4 = new HDate(d3);
+  t.is(d3.isSameDate(d4), true);
+  t.is(d3.abs(), d4.abs());
+
+  const d5 = new HDate(733359);
+  const d6 = new HDate(d5);
+  t.is(d5.isSameDate(d6), true);
+  t.is(d5.abs(), d6.abs());
+});
+
+test('throws-ctor-string', (t) => {
+  const error = t.throws(() => {
+    new HDate('17 Cheshvan 5759');
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'HDate called with bad argument: 17 Cheshvan 5759');
+});
+
+test('throws-ctor-2', (t) => {
+  const error = t.throws(() => {
+    new HDate(17, 'Cheshvan');
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'HDate constructor requires 0, 1 or 3 arguments');
+});
+
+test('throws-ctor-4', (t) => {
+  const error = t.throws(() => {
+    new HDate(1, 2, 3, 4);
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'HDate constructor requires 0, 1 or 3 arguments');
 });
 
 test('toString', (t) => {
@@ -133,6 +171,13 @@ test('abs2hebrew', (t) => {
   t.is(h.yy, 5769);
   t.is(h.mm, months.CHESHVAN);
   t.is(h.dd, 15);
+});
+
+test('throws-abs2hebrew', (t) => {
+  const error = t.throws(() => {
+    HDate.abs2hebrew(12345678);
+  }, {instanceOf: RangeError});
+  t.is(error.message, 'parameter to abs2hebrew 12345678 out of range');
 });
 
 test('render', (t) => {

@@ -103,6 +103,11 @@ const monthNames = [
   ]),
 ];
 
+// eslint-disable-next-line require-jsdoc
+function throwTypeError(msg) {
+  throw new TypeError(msg);
+}
+
 /**
  * A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
  * @typedef {Object} SimpleHebrewDate
@@ -146,37 +151,28 @@ export class HDate {
    * @param {number} [year] - Hebrew year
    */
   constructor(day, month, year) {
-    if (!arguments.length) {
-      const d = HDate.abs2hebrew(g.greg2abs(new Date()));
+    if (arguments.length == 2 || arguments.length > 3) {
+      throw new TypeError('HDate constructor requires 0, 1 or 3 arguments');
+    }
+    if (arguments.length == 3) {
+      // Hebrew day, Hebrew month, Hebrew year
+      this.day = this.month = 1;
+      this.year = +year;
+      this.setMonth(month);
+      this.setDate(+day);
+    } else {
+      // 0 arguments
+      if (!arguments.length) {
+        day = new Date();
+      }
+      // 1 argument
+      const d = (day instanceof Date) ? HDate.abs2hebrew(g.greg2abs(day)) :
+        (typeof day == 'number') ? HDate.abs2hebrew(day) :
+        (day instanceof HDate) ? {dd: day.day, mm: day.month, yy: day.year} :
+        throwTypeError(`HDate called with bad argument: ${day}`);
       this.day = d.dd;
       this.month = d.mm;
       this.year = d.yy;
-    } else if (arguments.length == 1) {
-      if (day instanceof Date) {
-        const d = HDate.abs2hebrew(g.greg2abs(day));
-        this.day = d.dd;
-        this.month = d.mm;
-        this.year = d.yy;
-      } else if (typeof day == 'number') {
-        const d = HDate.abs2hebrew(day);
-        this.day = d.dd;
-        this.month = d.mm;
-        this.year = d.yy;
-      } else if (day instanceof HDate) {
-        this.day = day.day;
-        this.month = day.month;
-        this.year = day.year;
-      } else {
-        throw new TypeError(`HDate called with bad argument: ${day}`);
-      }
-    } else if (arguments.length == 3) {
-      // Hebrew day, Hebrew month, Hebrew year
-      this.day = this.month = 1;
-      this.year = Number(year);
-      this.setMonth(HDate.monthNum(month));
-      this.setDate(Number(day));
-    } else {
-      throw new TypeError('HDate constructor requires 0, 1 or 3 arguments');
     }
   }
 

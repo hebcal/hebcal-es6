@@ -12,7 +12,7 @@ Hebcal was created in 1994 by Danny Sadinoff as a Unix/Linux program written in 
 by similar functionality written in Emacs Lisp. This ECMAScript 2015 implementation targets
 browser-based JavaScript and server-side Node.js.
 
-Many users of this library will utilize the [HebrewCalendar](#HebrewCalendar)
+Many users of this library will utilize the [HebrewCalendar.calendar()](#HebrewCalendar.calendar)
 and [HDate](#HDate) interfaces.
 
 ## Installation
@@ -1899,7 +1899,7 @@ Event names can be rendered in several languges using the `locale` option.
 <a name="HebrewCalendar.calendar"></a>
 
 ### HebrewCalendar.calendar([options]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-Calculates holidays and other Hebrew calendar events based on `options`.
+Calculates holidays and other Hebrew calendar events based on [Options](#HebrewCalendar.Options).
 
 Each holiday is represented by an `Event` object which includes a date,
 a description, flags and optional attributes.
@@ -1910,6 +1910,7 @@ The date range returned by this function can be controlled by:
 * `options.isHebrewYear` - to interpret `year` as Hebrew year
 * `options.numYears` - generate calendar for multiple years (default 1)
 * `options.month` - Gregorian or Hebrew month (to filter results to a single month)
+
 Alternatively, specify start and end days with `Date` or [HDate](#HDate) instances:
 * `options.start` - use specific start date (requires `end` date)
 * `options.end` - use specific end date (requires `start` date)
