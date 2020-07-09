@@ -1399,7 +1399,7 @@ Represents Parashah HaShavua for an entire Hebrew year
 * [Sedra](#Sedra)
     * [new Sedra(hebYr, il)](#new_Sedra_new)
     * [.get(hDate)](#Sedra+get) ⇒ <code>Array.&lt;string&gt;</code>
-    * [.getString(hDate)](#Sedra+getString) ⇒ <code>string</code>
+    * [.getString(hDate, [locale])](#Sedra+getString) ⇒ <code>string</code>
     * [.lookup(hDate)](#Sedra+lookup) ⇒ <code>Object</code>
     * [.isParsha(hDate)](#Sedra+isParsha) ⇒ <code>boolean</code>
     * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;Object&gt;</code>
@@ -1429,14 +1429,15 @@ Returns the parsha (or parshiyot) read on Hebrew date
 
 <a name="Sedra+getString"></a>
 
-### sedra.getString(hDate) ⇒ <code>string</code>
-Looks up parsha for the date, then returns a (translated) string
+### sedra.getString(hDate, [locale]) ⇒ <code>string</code>
+Looks up parsha for the date, then returns a translated or transliterated string
 
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale |
 
 <a name="Sedra+lookup"></a>
 
