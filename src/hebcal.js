@@ -30,22 +30,27 @@ import {DafYomiEvent} from './dafyomi';
 import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent} from './candles';
 
-// for byte optimizations
-const days = {
-  SUN: 0,
-  MON: 1,
-  TUE: 2,
-  WED: 3,
-  THU: 4,
-  FRI: 5,
-  SAT: 6,
-};
-const FRI = days.FRI;
-const SAT = days.SAT;
+const SUN = 0;
+// const MON = 1;
+const TUE = 2;
+// const WED = 3;
+const THU = 4;
+const FRI = 5;
+const SAT = 6;
 
-const TISHREI = months.TISHREI;
-const KISLEV = months.KISLEV;
 const NISAN = months.NISAN;
+const IYYAR = months.IYYAR;
+const SIVAN = months.SIVAN;
+const TAMUZ = months.TAMUZ;
+const AV = months.AV;
+const ELUL = months.ELUL;
+const TISHREI = months.TISHREI;
+const CHESHVAN = months.CHESHVAN;
+const KISLEV = months.KISLEV;
+const TEVET = months.TEVET;
+const SHVAT = months.SHVAT;
+const ADAR_I = months.ADAR_I;
+const ADAR_II = months.ADAR_II;
 
 // eslint-disable-next-line require-jsdoc
 function chanukah(day) {
@@ -195,12 +200,12 @@ function getStartAndEnd(options) {
     }
   }
   if (isHebrewYear) {
-    const startDate = new HDate(1, theMonth || months.TISHREI, theYear);
+    const startDate = new HDate(1, theMonth || TISHREI, theYear);
     const startAbs = startDate.abs();
     const numYears = Number(options.numYears) || 1;
     const endAbs = options.month ?
         startAbs + startDate.daysInMonth() :
-        new HDate(1, months.TISHREI, theYear + numYears).abs() - 1;
+        new HDate(1, TISHREI, theYear + numYears).abs() - 1;
     return [startAbs, endAbs];
   } else {
     const gregMonth = options.month ? theMonth - 1 : 0;
@@ -212,18 +217,6 @@ function getStartAndEnd(options) {
         g.greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
     return [startAbs, endAbs];
   }
-}
-
-/**
- * @private
- * @param {number} hyear
- * @return {number[]}
- */
-function getOmerStartAndEnd(hyear) {
-  return [
-    HDate.hebrew2abs(hyear, months.NISAN, 16),
-    HDate.hebrew2abs(hyear, months.SIVAN, 5),
-  ];
 }
 
 /**
@@ -418,9 +411,8 @@ export const HebrewCalendar = {
           sedra = new Sedra(currentYear, il);
         }
         if (options.omer) {
-          const omerAbs = getOmerStartAndEnd(currentYear);
-          beginOmer = omerAbs[0];
-          endOmer = omerAbs[1];
+          beginOmer = HDate.hebrew2abs(currentYear, NISAN, 16);
+          endOmer = HDate.hebrew2abs(currentYear, SIVAN, 5);
         }
       }
       const prevEventsLength = evts.length;
@@ -454,8 +446,8 @@ export const HebrewCalendar = {
         evts.push(new OmerEvent(hd, omer));
       }
       const hmonth = hd.getMonth();
-      if (options.molad && dow == SAT && hmonth != months.ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
-        const monNext = (hmonth == HDate.monthsInYear(hyear) ? months.NISAN : hmonth + 1);
+      if (options.molad && dow == SAT && hmonth != ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
+        const monNext = (hmonth == HDate.monthsInYear(hyear) ? NISAN : hmonth + 1);
         evts.push(new MoladEvent(hd, hyear, monNext));
       }
       if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
@@ -518,16 +510,16 @@ export const HebrewCalendar = {
     let month = orig.getMonth();
     let day = orig.getDate();
 
-    if ((month == months.ADAR_I && !isOrigLeap) || (month == months.ADAR_II && isOrigLeap)) {
+    if ((month == ADAR_I && !isOrigLeap) || (month == ADAR_II && isOrigLeap)) {
       month = HDate.monthsInYear(hyear);
-    } else if (month == months.CHESHVAN && day == 30 && !HDate.longCheshvan(hyear)) {
-      month = months.KISLEV;
+    } else if (month == CHESHVAN && day == 30 && !HDate.longCheshvan(hyear)) {
+      month = KISLEV;
       day = 1;
-    } else if (month == months.KISLEV && day == 30 && HDate.shortKislev(hyear)) {
-      month = months.TEVET;
+    } else if (month == KISLEV && day == 30 && HDate.shortKislev(hyear)) {
+      month = TEVET;
       day = 1;
-    } else if (month == months.ADAR_I && day == 30 && isOrigLeap && !HDate.isLeapYear(hyear)) {
-      month = months.NISAN;
+    } else if (month == ADAR_I && day == 30 && isOrigLeap && !HDate.isLeapYear(hyear)) {
+      month = NISAN;
       day = 1;
     }
 
@@ -580,31 +572,31 @@ export const HebrewCalendar = {
       return undefined;
     }
 
-    if (hDeath.mm == months.CHESHVAN && hDeath.dd == 30 && !HDate.longCheshvan(hDeath.yy + 1)) {
+    if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !HDate.longCheshvan(hDeath.yy + 1)) {
       // If it's Heshvan 30 it depends on the first anniversary;
       // if that was not Heshvan 30, use the day before Kislev 1.
-      hDeath = HDate.abs2hebrew(HDate.hebrew2abs(hyear, months.KISLEV, 1) - 1);
-    } else if (hDeath.mm == months.KISLEV && hDeath.dd == 30 && HDate.shortKislev(hDeath.yy + 1)) {
+      hDeath = HDate.abs2hebrew(HDate.hebrew2abs(hyear, KISLEV, 1) - 1);
+    } else if (hDeath.mm == KISLEV && hDeath.dd == 30 && HDate.shortKislev(hDeath.yy + 1)) {
       // If it's Kislev 30 it depends on the first anniversary;
       // if that was not Kislev 30, use the day before Teveth 1.
-      hDeath = HDate.abs2hebrew(HDate.hebrew2abs(hyear, months.TEVET, 1) - 1);
-    } else if (hDeath.mm == months.ADAR_II) {
+      hDeath = HDate.abs2hebrew(HDate.hebrew2abs(hyear, TEVET, 1) - 1);
+    } else if (hDeath.mm == ADAR_II) {
       // If it's Adar II, use the same day in last month of year (Adar or Adar II).
       hDeath.mm = HDate.monthsInYear(hyear);
-    } else if (hDeath.mm == months.ADAR_I && hDeath.dd == 30 && !HDate.isLeapYear(hyear)) {
+    } else if (hDeath.mm == ADAR_I && hDeath.dd == 30 && !HDate.isLeapYear(hyear)) {
       // If it's the 30th in Adar I and year is not a leap year
       // (so Adar has only 29 days), use the last day in Shevat.
       hDeath.dd = 30;
-      hDeath.mm = months.SHVAT;
+      hDeath.mm = SHVAT;
     }
     // In all other cases, use the normal anniversary of the date of death.
 
     // advance day to rosh chodesh if needed
-    if (hDeath.mm == months.CHESHVAN && hDeath.dd == 30 && !HDate.longCheshvan(hyear)) {
-      hDeath.mm = months.KISLEV;
+    if (hDeath.mm == CHESHVAN && hDeath.dd == 30 && !HDate.longCheshvan(hyear)) {
+      hDeath.mm = KISLEV;
       hDeath.dd = 1;
-    } else if (hDeath.mm == months.KISLEV && hDeath.dd == 30 && HDate.shortKislev(hyear)) {
-      hDeath.mm = months.TEVET;
+    } else if (hDeath.mm == KISLEV && hDeath.dd == 30 && HDate.shortKislev(hyear)) {
+      hDeath.mm = TEVET;
       hDeath.dd = 1;
     }
 
@@ -656,7 +648,7 @@ export const HebrewCalendar = {
     add(new HolidayEvent(RH, `Rosh Hashana ${year}`, CHAG | LIGHT_CANDLES_TZEIS));
     addEvents(year, [
       [2, TISHREI, 'Rosh Hashana II', CHAG | YOM_TOV_ENDS],
-      [3 + (RH.getDay() == days.THU),
+      [3 + (RH.getDay() == THU),
         TISHREI, 'Tzom Gedaliah', MINOR_FAST], // push off to SUN if RH is THU
       [9, TISHREI, 'Erev Yom Kippur', LIGHT_CANDLES],
     ]);
@@ -694,28 +686,28 @@ export const HebrewCalendar = {
       [30, KISLEV, chanukah(7), CHANUKAH_CANDLES, {chanukahDay: 6}], // yes, i know these are wrong
       [31, KISLEV, chanukah(8), CHANUKAH_CANDLES, {chanukahDay: 7}], // HDate() corrects the month automatically
       [32, KISLEV, 'Chanukah: 8th Day', 0, {chanukahDay: 8}],
-      [15, months.SHVAT, 'Tu BiShvat', 0],
+      [15, SHVAT, 'Tu BiShvat', 0],
     ]);
     const pesachAbs = pesach.abs();
     add(
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 43)), 'Shabbat Shekalim', SPECIAL_SHABBAT),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 30)), 'Shabbat Zachor', SPECIAL_SHABBAT),
-        new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == days.TUE ? 33 : 31)),
+        new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == TUE ? 33 : 31)),
             'Ta\'anit Esther', MINOR_FAST),
     );
     addEvents(year, [
-      [13, months.ADAR_II, 'Erev Purim', 0],
-      [14, months.ADAR_II, 'Purim', 0],
+      [13, ADAR_II, 'Erev Purim', 0],
+      [14, ADAR_II, 'Purim', 0],
     ]);
     add(
-        new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == days.SUN ? 28 : 29)), 'Shushan Purim', 0),
+        new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == SUN ? 28 : 29)), 'Shushan Purim', 0),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 14) - 7), 'Shabbat Parah', SPECIAL_SHABBAT),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 14)), 'Shabbat HaChodesh', SPECIAL_SHABBAT),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 1)), 'Shabbat HaGadol', SPECIAL_SHABBAT),
         new HolidayEvent(
       // if the fast falls on Shabbat, move to Thursday
       pesach.prev().getDay() == SAT ?
-        pesach.onOrBefore(days.THU) :
+        pesach.onOrBefore(THU) :
         new HDate(14, NISAN, year),
       'Ta\'anit Bechorot',
       MINOR_FAST,
@@ -741,19 +733,19 @@ export const HebrewCalendar = {
       [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | CHUL_ONLY, {cholHaMoedDay: 4}],
       [21, NISAN, 'Pesach VII', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
       [22, NISAN, 'Pesach VIII', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-      [14, months.IYYAR, 'Pesach Sheni', 0],
-      [18, months.IYYAR, 'Lag BaOmer', 0],
-      [5, months.SIVAN, 'Erev Shavuot', LIGHT_CANDLES],
-      [6, months.SIVAN, 'Shavuot', CHAG | YOM_TOV_ENDS | IL_ONLY],
-      [6, months.SIVAN, 'Shavuot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-      [7, months.SIVAN, 'Shavuot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-      [15, months.AV, 'Tu B\'Av', 0],
+      [14, IYYAR, 'Pesach Sheni', 0],
+      [18, IYYAR, 'Lag BaOmer', 0],
+      [5, SIVAN, 'Erev Shavuot', LIGHT_CANDLES],
+      [6, SIVAN, 'Shavuot', CHAG | YOM_TOV_ENDS | IL_ONLY],
+      [6, SIVAN, 'Shavuot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
+      [7, SIVAN, 'Shavuot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
+      [15, AV, 'Tu B\'Av', 0],
     ]);
     add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
         'Leil Selichot', 0));
-    add(new HolidayEvent(new HDate(29, months.ELUL, year), 'Erev Rosh Hashana', LIGHT_CANDLES));
+    add(new HolidayEvent(new HDate(29, ELUL, year), 'Erev Rosh Hashana', LIGHT_CANDLES));
 
-    let tevet10dt = new HDate(10, months.TEVET, year);
+    let tevet10dt = new HDate(10, TEVET, year);
     let tevet10attrs;
     if (tevet10dt.getDay() == SAT) {
       tevet10dt = tevet10dt.next();
@@ -762,7 +754,7 @@ export const HebrewCalendar = {
     add(new HolidayEvent(tevet10dt, 'Asara B\'Tevet', MINOR_FAST, tevet10attrs));
 
     if (HDate.isLeapYear(year)) {
-      add(new HolidayEvent(new HDate(14, months.ADAR_I, year), 'Purim Katan', 0));
+      add(new HolidayEvent(new HDate(14, ADAR_I, year), 'Purim Katan', 0));
     }
 
     if (year >= 5711) {
@@ -774,9 +766,9 @@ export const HebrewCalendar = {
        * on the following Monday.
        * http://www.ushmm.org/remembrance/dor/calendar/
        */
-      if (nisan27dt.getDay() == days.FRI) {
+      if (nisan27dt.getDay() == FRI) {
         nisan27dt = nisan27dt.prev();
-      } else if (nisan27dt.getDay() == days.SUN) {
+      } else if (nisan27dt.getDay() == SUN) {
         nisan27dt = nisan27dt.next();
       }
       add(new HolidayEvent(nisan27dt, 'Yom HaShoah', MODERN_HOLIDAY));
@@ -784,15 +776,15 @@ export const HebrewCalendar = {
 
     if (year >= 5708) {
       // Yom HaAtzma'ut only celebrated after 1948
-      const tmpDate = new HDate(1, months.IYYAR, year);
+      const tmpDate = new HDate(1, IYYAR, year);
       const pesach = new HDate(15, NISAN, year);
-      if (pesach.getDay() == days.SUN) {
+      if (pesach.getDay() == SUN) {
         tmpDate.setDate(2);
       } else if (pesach.getDay() == SAT) {
         tmpDate.setDate(3);
       } else if (year < 5764) {
         tmpDate.setDate(4);
-      } else if (pesach.getDay() == days.TUE) {
+      } else if (pesach.getDay() == TUE) {
         tmpDate.setDate(5);
       } else {
         tmpDate.setDate(4);
@@ -805,18 +797,18 @@ export const HebrewCalendar = {
 
     if (year >= 5727) {
       // Yom Yerushalayim only celebrated after 1967
-      add(new HolidayEvent(new HDate(28, months.IYYAR, year), 'Yom Yerushalayim', MODERN_HOLIDAY));
+      add(new HolidayEvent(new HDate(28, IYYAR, year), 'Yom Yerushalayim', MODERN_HOLIDAY));
     }
 
     if (year >= 5769) {
-      add(new HolidayEvent(new HDate(29, months.CHESHVAN, year), 'Sigd', MODERN_HOLIDAY));
+      add(new HolidayEvent(new HDate(29, CHESHVAN, year), 'Sigd', MODERN_HOLIDAY));
     }
 
     if (year >= 5777) {
-      add(new HolidayEvent(new HDate(7, months.CHESHVAN, year), 'Yom HaAliyah', MODERN_HOLIDAY));
+      add(new HolidayEvent(new HDate(7, CHESHVAN, year), 'Yom HaAliyah', MODERN_HOLIDAY));
     }
 
-    let tamuz17 = new HDate(17, months.TAMUZ, year);
+    let tamuz17 = new HDate(17, TAMUZ, year);
     let tamuz17attrs;
     if (tamuz17.getDay() == SAT) {
       tamuz17 = tamuz17.next();
@@ -824,7 +816,7 @@ export const HebrewCalendar = {
     }
     add(new HolidayEvent(tamuz17, 'Tzom Tammuz', MINOR_FAST, tamuz17attrs));
 
-    let av9dt = new HDate(9, months.AV, year);
+    let av9dt = new HDate(9, AV, year);
     let av9attrs;
     if (av9dt.getDay() == SAT) {
       av9dt = av9dt.next();
@@ -851,7 +843,7 @@ export const HebrewCalendar = {
         add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
       }
 
-      if (month == months.ELUL) {
+      if (month == ELUL) {
         continue;
       }
 

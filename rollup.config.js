@@ -8,20 +8,48 @@ import {terser} from 'rollup-plugin-terser';
 export default [
   {
     input: 'src/index.js',
+    output: {file: pkg.main, format: 'cjs', name: pkg.name},
+    plugins: [
+      json({compact: true}),
+      babel({
+        babelHelpers: 'bundled',
+        presets: [
+          ['@babel/env', {
+            modules: false,
+            targets: {
+              node: '10.21.0',
+            },
+          }],
+        ],
+        exclude: ['node_modules/**'],
+      }),
+      resolve(),
+      commonjs(),
+    ],
+  },
+  {
+    input: 'src/index.js',
     output: [
-      {file: pkg.main, format: 'cjs', name: pkg.name},
       {file: 'dist/bundle.js', format: 'umd', name: 'hebcal__core'},
-      {
-        file: 'dist/bundle.min.js',
-        format: 'umd',
-        name: 'hebcal__core',
-        plugins: [terser()],
-      },
+      {file: 'dist/bundle.min.js', format: 'umd', name: 'hebcal__core', plugins: [terser()]},
     ],
     plugins: [
       json({compact: true}),
       babel({
         babelHelpers: 'bundled',
+        presets: [
+          ['@babel/env', {
+            modules: false,
+            targets: {
+              edge: '17',
+              firefox: '60',
+              chrome: '67',
+              safari: '11.1',
+            },
+            useBuiltIns: 'usage',
+            corejs: 3,
+          }],
+        ],
         exclude: ['node_modules/**'],
       }),
       resolve(),
