@@ -88,7 +88,7 @@ const classicCities0 = [
   ['Washington DC', 'US', 38.89511, -77.03637, 'America/New_York'],
   ['Worcester', 'US', 42.26259, -71.80229, 'America/New_York'],
 ];
-const classicCities = new Map();
+const classicCities = {};
 
 // Zip-Codes.com TimeZone IDs
 const ZIPCODES_TZ_MAP = {
@@ -199,7 +199,7 @@ export class Location {
    * @return {Location}
    */
   static lookup(name) {
-    return classicCities.get(name.toLowerCase());
+    return classicCities[name.toLowerCase()];
   }
 
   /**
@@ -304,15 +304,15 @@ export class Location {
    */
   static addLocation(cityName, location) {
     const name = cityName.toLowerCase();
-    if (classicCities.has(name)) {
+    if (classicCities[name]) {
       return false;
     }
-    classicCities.set(name, location);
+    classicCities[name] = location;
     return true;
   }
 }
 
-for (const city of classicCities0) {
+classicCities0.forEach((city) => {
   const location = new Location(city[2], city[3], city[1] == 'IL', city[4], city[0], city[1]);
   Location.addLocation(location.getName(), location);
-}
+});

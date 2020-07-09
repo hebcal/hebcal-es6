@@ -1,7 +1,7 @@
 import poHe from './he.po.json';
 import poAshkenazi from './ashkenazi.po.json';
 
-const locales = new Map();
+const locales = {};
 const noopLocale = {
   headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
   contexts: {'': {}},
@@ -32,7 +32,7 @@ export const Locale = {
    * @return {string}
    */
   lookupTranslation: function(id, locale) {
-    const loc = typeof locale == 'string' && locales.has(locale) ? locales.get(locale) : activeLocale;
+    const loc = (typeof locale == 'string' && locales[locale]) || activeLocale;
     const array = loc[id];
     if (array && array.length && array[0].length) {
       return array[0];
@@ -63,7 +63,7 @@ export const Locale = {
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
       throw new Error(`Locale '${locale}' invalid compact format`);
     }
-    locales.set(locale.toLowerCase(), data.contexts['']);
+    locales[locale.toLowerCase()] = data.contexts[''];
   },
 
   /**
@@ -75,7 +75,7 @@ export const Locale = {
    */
   useLocale: function(locale) {
     const locale0 = locale.toLowerCase();
-    const obj = locales.get(locale0);
+    const obj = locales[locale0];
     if (!obj) {
       throw new Error(`Locale '${locale}' not found`);
     }
