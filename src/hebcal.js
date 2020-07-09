@@ -69,7 +69,38 @@ const DAF_YOMI = flags.DAF_YOMI;
 const OMER_COUNT = flags.OMER_COUNT;
 const SHABBAT_MEVARCHIM = flags.SHABBAT_MEVARCHIM;
 
-const __cache = new Map();
+const __cache = {};
+
+/** @private */
+class SimpleMap {
+  /**
+   * @param {string} key
+   * @return {boolean}
+   */
+  has(key) {
+    return typeof this[key] !== 'undefined';
+  }
+  /**
+   * @param {string} key
+   * @return {any}
+   */
+  get(key) {
+    return this[key];
+  }
+  /**
+   * @param {string} key
+   * @param {any} val
+   */
+  set(key, val) {
+    this[key] = val;
+  }
+  /**
+   * @return {string[]}
+   */
+  keys() {
+    return Object.keys(this);
+  }
+}
 
 /**
  * @private
@@ -374,7 +405,9 @@ export const HebrewCalendar = {
     const evts = [];
     let sedra; let holidaysYear; let beginOmer; let endOmer;
     let currentYear = -1;
-    const [startAbs, endAbs] = getStartAndEnd(options);
+    const startAndEnd = getStartAndEnd(options);
+    const startAbs = startAndEnd[0];
+    const endAbs = startAndEnd[1];
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);
       const hyear = hd.getFullYear();
@@ -385,27 +418,28 @@ export const HebrewCalendar = {
           sedra = new Sedra(currentYear, il);
         }
         if (options.omer) {
-          [beginOmer, endOmer] = getOmerStartAndEnd(currentYear);
+          const omerAbs = getOmerStartAndEnd(currentYear);
+          beginOmer = omerAbs[0];
+          endOmer = omerAbs[1];
         }
       }
       const prevEventsLength = evts.length;
       const dow = abs % 7;
       let candlesEv = undefined;
-      const ev = holidaysYear.get(hd.toString());
-      if (typeof ev !== 'undefined') {
-        for (const e of ev) {
-          const eFlags = e.getFlags();
-          if ((!eFlags || (eFlags & mask)) &&
-            ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
-            if (!options.noHolidays) {
-              evts.push(e);
-            }
-            if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
-              candlesEv = makeCandleEvent(e, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
-            }
+      const ev = holidaysYear.get(hd.toString()) || [];
+      ev.forEach((e) => {
+        const eFlags = e.getFlags();
+        if ((!eFlags || (eFlags & mask)) &&
+          ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
+          if (!options.noHolidays) {
+            evts.push(e);
+          }
+          if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
+            candlesEv = makeCandleEvent(e, hd, dow, location, timeFormat,
+                candleLightingMinutes, havdalahMinutes);
           }
         }
-      }
+      });
       if (options.sedrot && dow == SAT) {
         const parsha0 = sedra.lookup(abs);
         if (!parsha0.chag) {
@@ -585,7 +619,7 @@ export const HebrewCalendar = {
    * @return {Map<string,Event[]>}
    */
   getHolidaysForYear: function(year) {
-    const cached = __cache.get(year);
+    const cached = __cache[year];
     if (cached) {
       return cached;
     }
@@ -593,17 +627,18 @@ export const HebrewCalendar = {
     const RH = new HDate(1, TISHREI, year);
     const pesach = new HDate(15, NISAN, year);
 
-    const h = new Map();
+    const h = new SimpleMap();
     // eslint-disable-next-line require-jsdoc
     function add(...events) {
-      for (const ev of events) {
+      // for (const ev of events) {
+      events.forEach((ev) => {
         const key = ev.date.toString();
         if (h.has(key)) {
           h.get(key).push(ev);
         } else {
           h.set(key, [ev]);
         }
-      }
+      });
     }
 
     /**
@@ -612,11 +647,9 @@ export const HebrewCalendar = {
      * @param {Object[]} arr
      */
     function addEvents(year, arr) {
-      for (const a of arr) {
-        const [day, month, desc, mask, attrs] = a;
-        //      console.debug(day, month, year, desc, mask);
-        add(new HolidayEvent(new HDate(day, month, year), desc, mask, attrs));
-      }
+      arr.forEach((a) => {
+        add(new HolidayEvent(new HDate(a[0], a[1], year), a[2], a[3], a[4]));
+      });
     }
 
     // standard holidays that don't shift based on year
@@ -827,7 +860,7 @@ export const HebrewCalendar = {
       add(new MevarchimChodeshEvent(new HDate(29, month, year).onOrBefore(SAT), nextMonthName));
     }
 
-    __cache.set(year, h);
+    __cache[year] = h;
     return h;
   },
 
@@ -857,11 +890,11 @@ export const HebrewCalendar = {
     if (cc != 'US' || (options.locale && options.locale.length == 2 && options.locale != 'en')) {
       return timeStr;
     }
-    let [hour, minute] = timeStr.split(':');
-    hour = Number(hour);
+    const hm = timeStr.split(':');
+    const hour = Number(hm[0]);
     if (hour > 12) {
       hour = hour % 12;
     }
-    return `${hour}:${minute}${suffix}`;
+    return `${hour}:${hm[1]}${suffix}`;
   },
 };

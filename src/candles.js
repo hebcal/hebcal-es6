@@ -95,13 +95,13 @@ export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset,
   }
   // if offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset ? havdalahOffset : candlesOffset;
-  const [eventTime, timeStr] = offset ?
+  const time = offset ?
     sunsetTime(hd, location, timeFormat, offset) :
     tzeitTime(hd, location, timeFormat);
-  if (!eventTime) {
+  if (!time[0]) {
     return null; // no sunset
   }
-  const attrs = {eventTime: eventTime, eventTimeStr: timeStr};
+  const attrs = {eventTime: time[0], eventTimeStr: time[1]};
   if (typeof e !== 'undefined') {
     attrs.linkedEvent = e;
   }
