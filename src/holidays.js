@@ -46,15 +46,6 @@ export class HolidayEvent extends Event {
         .replace(/^Erev /, '');
     return s;
   }
-  /**
-   * @param {string} locale
-   * @return {string}
-   */
-  renderFullOrBasename(locale) {
-    const str = Locale.lookupTranslation(this.getDesc(), locale);
-    if (typeof str == 'string') return str;
-    return Locale.lookupTranslation(this.basename(), locale);
-  }
   /** @return {string} */
   url() {
     return 'https://www.hebcal.com/holidays/' +

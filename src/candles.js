@@ -105,16 +105,14 @@ export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset,
   if (typeof e !== 'undefined') {
     attrs.linkedEvent = e;
   }
-  return havdalahTitle ?
-    new HavdalahEvent(hd, mask, attrs, havdalahOffset) :
-    new CandleLightingEvent(hd, mask, attrs);
-}
-
-// Avoid core-js es.object.assign polyfill - eventually replace this with Object.assign()
-// eslint-disable-next-line require-jsdoc
-function shallowCopy(target, source) {
-  Object.keys(source).forEach((k) => target[k] = source[k]);
-  return target;
+  if (havdalahTitle) {
+    if (havdalahOffset) {
+      attrs.havdalahMins = havdalahOffset;
+    }
+    return new HavdalahEvent(hd, mask, attrs);
+  } else {
+    return new CandleLightingEvent(hd, mask, attrs);
+  }
 }
 
 /** Havdalah after Shabbat or holiday */
@@ -123,10 +121,9 @@ export class HavdalahEvent extends Event {
    * @param {HDate} date
    * @param {number} mask
    * @param {Object} attrs
-   * @param {number} [havdalahMins]
    */
-  constructor(date, mask, attrs, havdalahMins) {
-    super(date, 'Havdalah', mask, shallowCopy({havdalahMins}, attrs));
+  constructor(date, mask, attrs) {
+    super(date, 'Havdalah', mask, attrs);
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).
