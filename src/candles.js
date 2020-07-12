@@ -39,6 +39,7 @@ function sunsetTime(hd, location, timeFormat, offset) {
   if (sunset.getSeconds() >= 30 && offset > 0) {
     offset++;
   }
+  sunset.setSeconds(0);
   const dt = new Date(sunset.getTime() + (offset * 60 * 1000));
   const time = formatTime(timeFormat, dt);
   return [dt, time];
@@ -58,7 +59,9 @@ function tzeitTime(hd, location, timeFormat) {
     return [undefined, undefined];
   }
   // Round up to next minute if needed
-  const dtRounded = (dt.getSeconds() >= 30) ? new Date(dt.getTime() + (60 * 1000)) : dt;
+  const sec = dt.getSeconds();
+  const secondsDelta = (sec >= 30) ? 60 - sec : -1 * sec;
+  const dtRounded = new Date(dt.getTime() + (secondsDelta * 1000));
   const time = formatTime(timeFormat, dtRounded);
   return [dt, time];
 }
