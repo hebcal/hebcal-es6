@@ -62,6 +62,11 @@ test('Location.addLocation', (t) => {
   const found = Location.lookup(cityName);
   t.is(found.getLatitude(), 32.1836);
   t.is(found.getGeoId(), 999888777666);
+
+  const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
+  t.is(Location.addLocation(cityName, loc), false);
+  t.is(Location.addLocation('Boston', loc), false);
+  t.is(Location.addLocation('(bogus)', loc), true);
 });
 
 test('classic-cities', (t) => {
@@ -89,6 +94,10 @@ test('classic-cities', (t) => {
 test('getUsaTzid', (t) => {
   t.is(Location.getUsaTzid('CA', 8, 'Y'), 'America/Los_Angeles');
   t.is(Location.getUsaTzid('IL', 6, 'Y'), 'America/Chicago');
+  t.is(Location.getUsaTzid('AZ', 7, 'Y'), 'America/Denver');
+  t.is(Location.getUsaTzid('AZ', 7, 'N'), 'America/Phoenix');
+  t.is(Location.getUsaTzid('AK', 10, 'N'), 'America/Adak');
+  t.is(Location.getUsaTzid('HI', 10, 'N'), 'Pacific/Honolulu');
 });
 
 test('legacyTzToTzid', (t) => {
@@ -103,6 +112,10 @@ test('legacyTzToTzid', (t) => {
   t.is(Location.legacyTzToTzid(-1, 'eu'), 'Atlantic/Azores');
   t.is(Location.legacyTzToTzid(-3, 'none'), 'Etc/GMT-3');
   t.is(Location.legacyTzToTzid(3, 'none'), 'Etc/GMT+3');
+  t.is(Location.legacyTzToTzid(9, 'usa'), undefined);
+  t.is(Location.legacyTzToTzid(9, 'eu'), undefined);
+  t.is(Location.legacyTzToTzid(9, 'israel'), undefined);
+  t.is(Location.legacyTzToTzid(9, 'bogus'), undefined);
 });
 
 test('geonameCityDescr', (t) => {
@@ -116,4 +129,22 @@ test('shortName', (t) => {
   const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
   t.is(loc.getName(), 'Foo Bar, Baaz, Quux');
   t.is(loc.getShortName(), 'Foo Bar');
+});
+
+test('toString', (t) => {
+  const loc = new Location(32.1836, 34.87386, true, 'Asia/Jerusalem', 'Ra\'anana', 'IL', 54321);
+  // eslint-disable-next-line max-len
+  t.is(loc.toString(), '{"latitude":32.1836,"longitude":34.87386,"il":true,"tzid":"Asia/Jerusalem","name":"Ra\'anana","cc":"IL","geoid":54321}');
+});
+
+test('throws', (t) => {
+  const error3 = t.throws(() => {
+    new Location(100, 123.0, false, 'UTC', 'Foo', 'XX');
+  }, {instanceOf: RangeError});
+  t.is(error3.message, 'Latitude 100 out of range [-90,90]');
+
+  const error4 = t.throws(() => {
+    new Location(37.0, -200, false, 'UTC', 'Foo', 'XX');
+  }, {instanceOf: RangeError});
+  t.is(error4.message, 'Longitude -200 out of range [-180,180]');
 });
