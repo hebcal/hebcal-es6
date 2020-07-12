@@ -139,8 +139,8 @@ function getCandleLightingMinutes(options) {
  * @property {Date|HDate|number} end - use specific end date (requires start date)
  * @property {boolean} candlelighting - calculate candle-lighting and havdalah times
  * @property {number} candleLightingMins - minutes before sundown to light candles (default 18)
- * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
- * @property {boolean} havdalahTzeit - calculate Havdalah according to Tzeit Hakochavim -
+ * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
+ *      If unspecified, calculate Havdalah according to Tzeit Hakochavim -
  *      Nightfall (the point when 3 small stars are observable in the night time sky with
  *      the naked eye). Defaults to `true` unless havdalahMins is specified
  * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
@@ -158,7 +158,6 @@ function getCandleLightingMinutes(options) {
  * @property {string} locale - translate event titles according to a locale
  *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
  *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
- * @property {boolean} hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
  * @property {boolean} addHebrewDates - print the Hebrew date for the entire date range
  * @property {boolean} addHebrewDatesForEvents - print the Hebrew date for dates with some events
  */
@@ -371,7 +370,7 @@ export const HebrewCalendar = {
     const il = options.il || location.il || false;
     const timeFormat = new Intl.DateTimeFormat('en-US', {
       timeZone: location.tzid,
-      hour12: Boolean(options.hour12),
+      hour12: false,
       hour: 'numeric',
       minute: 'numeric',
     });

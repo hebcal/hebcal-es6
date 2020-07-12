@@ -384,7 +384,7 @@ declare module '@hebcal/core' {
          * @property candlelighting - calculate candle-lighting and havdalah times
          * @property candleLightingMins - minutes before sundown to light candles (default 18)
          * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
-         * @property havdalahTzeit - calculate Havdalah according to Tzeit Hakochavim -
+         *      If unspecified, calculate Havdalah according to Tzeit Hakochavim -
          *      Nightfall (the point when 3 small stars are observable in the night time sky with
          *      the naked eye). Defaults to `true` unless havdalahMins is specified
          * @property sedrot - calculate parashah hashavua on Saturdays
@@ -401,7 +401,6 @@ declare module '@hebcal/core' {
          * @property locale - translate event titles according to a locale
          *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
          *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
-         * @property hour12 - use 12-hour time (1-12) instead of default 24-hour time (0-23)
          * @property addHebrewDates - print the Hebrew date for the entire date range
          * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
          */
@@ -416,7 +415,6 @@ declare module '@hebcal/core' {
             candlelighting?: boolean;
             candleLightingMins?: number;
             havdalahMins?: number;
-            havdalahTzeit?: boolean;
             sedrot?: boolean;
             il?: boolean;
             noMinorFast?: boolean;
@@ -430,7 +428,6 @@ declare module '@hebcal/core' {
             molad?: boolean;
             ashkenazi?: boolean;
             locale?: string;
-            hour12?: boolean;
             addHebrewDates?: boolean;
             addHebrewDatesForEvents?: boolean;
         };

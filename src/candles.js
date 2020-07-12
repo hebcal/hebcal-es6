@@ -14,10 +14,9 @@ const days = {
  */
 function formatTime(timeFormat, dt) {
   const time = timeFormat.format(dt);
-  // Possibly convert from "5:45 PM" to "5:45"
-  const space = time.indexOf(' ');
-  if (space != -1) {
-    return time.substring(0, space);
+  const hm = time.split(':');
+  if (hm[0] === '24') {
+    return '00:' + hm[1];
   }
   return time;
 }
