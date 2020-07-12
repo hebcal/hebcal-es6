@@ -502,7 +502,9 @@ export class HDate {
    */
   isSameDate(other) {
     if (other instanceof HDate) {
-      return this.abs() == other.abs();
+      return this.year == other.year &&
+        this.month == other.month &&
+        this.day == other.day;
     }
     return false;
   }

@@ -118,11 +118,11 @@ function getCandleLightingMinutes(options) {
   }
   const location = options.location || {};
   let min = 18;
-  if (location.il && typeof location.name !== 'undefined' && location.name === 'Jerusalem') {
+  if (location.il && location.name === 'Jerusalem') {
     min = 40;
   }
-  if (typeof location.candleLightingMins === 'number') {
-    min = Math.abs(candleLightingMins);
+  if (typeof options.candleLightingMins === 'number') {
+    min = Math.abs(options.candleLightingMins);
   }
   return -1 * min;
 }
@@ -366,7 +366,7 @@ export const HebrewCalendar = {
     if (options.candlelighting && (typeof options.location === 'undefined' || !options.location instanceof Location)) {
       throw new TypeError('options.candlelighting requires valid options.location');
     }
-    const location = options.location || new Location(0, 0, false);
+    const location = options.location || new Location(0, 0, false, 'UTC');
     const il = options.il || location.il || false;
     const timeFormat = new Intl.DateTimeFormat('en-US', {
       timeZone: location.tzid,
@@ -686,6 +686,7 @@ export const HebrewCalendar = {
       [30, KISLEV, chanukah(7), CHANUKAH_CANDLES, {chanukahDay: 6}], // yes, i know these are wrong
       [31, KISLEV, chanukah(8), CHANUKAH_CANDLES, {chanukahDay: 7}], // HDate() corrects the month automatically
       [32, KISLEV, 'Chanukah: 8th Day', 0, {chanukahDay: 8}],
+      [10, TEVET, 'Asara B\'Tevet', MINOR_FAST],
       [15, SHVAT, 'Tu BiShvat', 0],
     ]);
     const pesachAbs = pesach.abs();
@@ -744,14 +745,6 @@ export const HebrewCalendar = {
     add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
         'Leil Selichot', 0));
     add(new HolidayEvent(new HDate(29, ELUL, year), 'Erev Rosh Hashana', LIGHT_CANDLES));
-
-    let tevet10dt = new HDate(10, TEVET, year);
-    let tevet10attrs;
-    if (tevet10dt.getDay() == SAT) {
-      tevet10dt = tevet10dt.next();
-      tevet10attrs = {observed: true};
-    }
-    add(new HolidayEvent(tevet10dt, 'Asara B\'Tevet', MINOR_FAST, tevet10attrs));
 
     if (HDate.isLeapYear(year)) {
       add(new HolidayEvent(new HDate(14, ADAR_I, year), 'Purim Katan', 0));

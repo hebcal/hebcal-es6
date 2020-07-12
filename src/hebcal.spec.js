@@ -112,6 +112,15 @@ test('candles-only-diaspora', (t) => {
   t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
 });
 
+// eslint-disable-next-line require-jsdoc
+function eventTitleDateTime(ev) {
+  return {
+    desc: ev.getDesc(),
+    date: ev.getDate().greg().toISOString().substring(0, 10),
+    time: ev.getAttrs().eventTimeStr,
+  };
+}
+
 test('candle-lighting-at-tzeit-motzei-shabbat', (t) => {
   const options = {
     start: new Date(2022, 5, 3),
@@ -120,13 +129,7 @@ test('candle-lighting-at-tzeit-motzei-shabbat', (t) => {
     location: Location.lookup('Miami'),
     candlelighting: true,
   };
-  const events = HebrewCalendar.calendar(options).map((ev) => {
-    return {
-      desc: ev.getDesc(),
-      date: ev.getDate().greg().toISOString().substring(0, 10),
-      time: ev.getAttrs().eventTimeStr,
-    };
-  });
+  const events = HebrewCalendar.calendar(options).map(eventTitleDateTime);
   const expected = [
     {desc: 'Candle lighting', date: '2022-06-03', time: '19:52'},
     {desc: 'Candle lighting', date: '2022-06-04', time: '20:49'},
@@ -470,4 +473,85 @@ test('reformatTimeStr', (t) => {
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'IL'}}), '11:45');
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'US'}}), '11:45 AM');
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'CA'}}), '11:45');
+});
+
+test('no-rosh-chodesh', (t) => {
+  const events = HebrewCalendar.calendar({year: 2020, noRoshChodesh: true});
+  const ev = events.find((ev) => ev.getDesc() == 'Rosh Chodesh Sivan');
+  t.is(ev, undefined);
+});
+
+test('no-minor-fast', (t) => {
+  const events = HebrewCalendar.calendar({year: 2020, noMinorFast: true});
+  const ev = events.find((ev) => ev.getDesc() == 'Tzom Gedaliah');
+  t.is(ev, undefined);
+});
+
+test('no-modern', (t) => {
+  const events = HebrewCalendar.calendar({year: 2020, noModern: true});
+  const ev = events.find((ev) => ev.getDesc() == 'Yom HaZikaron');
+  t.is(ev, undefined);
+});
+
+test('shabbat-mevarchim', (t) => {
+  const events = HebrewCalendar.calendar({year: 2020, shabbatMevarchim: true});
+  const ev = events.find((ev) => ev.getDesc() == 'Shabbat Mevarchim Chodesh Sivan');
+  t.is(ev.getDate().toString(), '29 Iyyar 5780');
+});
+
+test('molad', (t) => {
+  const events = HebrewCalendar.calendar({year: 5769, isHebrewYear: true, molad: true});
+  const ev = events.find((ev) => ev.getDesc() == 'Molad Tevet 5769');
+  t.is(ev.getDate().toString(), '23 Kislev 5769');
+});
+
+test('candleLightingMins', (t) => {
+  const options = {
+    year: 2020,
+    month: 1,
+    noHolidays: true,
+    location: Location.lookup('Tel Aviv'),
+    candlelighting: true,
+    candleLightingMins: 30,
+    havdalahMins: 0,
+  };
+  const events30 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const expected30 = [
+    {desc: 'Candle lighting', date: '2020-01-03', time: '16:19'},
+    {desc: 'Candle lighting', date: '2020-01-10', time: '16:24'},
+    {desc: 'Candle lighting', date: '2020-01-17', time: '16:30'},
+    {desc: 'Candle lighting', date: '2020-01-24', time: '16:37'},
+    {desc: 'Candle lighting', date: '2020-01-31', time: '16:43'},
+  ];
+  t.deepEqual(events30, expected30);
+  delete options.candleLightingMins;
+  const events18 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const expected18 = [
+    {desc: 'Candle lighting', date: '2020-01-03', time: '16:31'},
+    {desc: 'Candle lighting', date: '2020-01-10', time: '16:36'},
+    {desc: 'Candle lighting', date: '2020-01-17', time: '16:42'},
+    {desc: 'Candle lighting', date: '2020-01-24', time: '16:49'},
+    {desc: 'Candle lighting', date: '2020-01-31', time: '16:55'},
+  ];
+  t.deepEqual(events18, expected18);
+});
+
+test('jerusalem40', (t) => {
+  const options = {
+    year: 2020,
+    month: 1,
+    noHolidays: true,
+    location: Location.lookup('Jerusalem'),
+    candlelighting: true,
+    havdalahMins: 0,
+  };
+  const events = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const expected = [
+    {desc: 'Candle lighting', date: '2020-01-03', time: '16:08'},
+    {desc: 'Candle lighting', date: '2020-01-10', time: '16:13'},
+    {desc: 'Candle lighting', date: '2020-01-17', time: '16:19'},
+    {desc: 'Candle lighting', date: '2020-01-24', time: '16:26'},
+    {desc: 'Candle lighting', date: '2020-01-31', time: '16:32'},
+  ];
+  t.deepEqual(events, expected);
 });
