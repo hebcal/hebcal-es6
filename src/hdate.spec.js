@@ -122,12 +122,19 @@ test('ctor-copy', (t) => {
   const d1 = new HDate(new Date(1751, 0, 1));
   const d2 = new HDate(d1);
   t.is(d1.isSameDate(d2), true);
+  t.is(d1.isSameDate(new Date(1751, 0, 1)), false);
   t.is(d1.abs(), d2.abs());
 
   const d3 = new HDate(29, 'Cheshvan', 5769);
   const d4 = new HDate(d3);
   t.is(d3.isSameDate(d4), true);
   t.is(d3.abs(), d4.abs());
+
+  t.is(d3.isSameDate(d1), false);
+  t.is(d3.isSameDate({}), false);
+  t.is(d3.isSameDate([]), false);
+  t.is(d3.isSameDate('bogus'), false);
+  t.is(d3.isSameDate(3.14159), false);
 
   const d5 = new HDate(733359);
   const d6 = new HDate(d5);
@@ -181,8 +188,10 @@ test('throws-abs2hebrew', (t) => {
 });
 
 test('render', (t) => {
-  const hd1 = new HebrewDateEvent(new HDate(29, 'Elul', 5779));
-  const hd2 = new HebrewDateEvent(new HDate(1, 'Tishrei', 5780));
+  const elul29 = new HDate(29, 'Elul', 5779);
+  const hd1 = new HebrewDateEvent(elul29);
+  const tishrei1 = new HDate(1, 'Tishrei', 5780);
+  const hd2 = new HebrewDateEvent(tishrei1);
   t.is(hd1.render(), '29th of Elul, 5779');
   t.is(hd1.render('en'), '29th of Elul, 5779');
   t.is(hd1.render(''), '29th of Elul, 5779');
@@ -193,11 +202,22 @@ test('render', (t) => {
   t.is(hd2.render('en'), '1st of Tishrei, 5780');
   t.is(hd2.render('ashkenazi'), '1st of Tishrei, 5780');
   t.is(hd2.render('he'), 'א׳ תִשְׁרֵי תש״פ');
+  t.is(elul29.render(), '29th of Elul, 5779');
+  t.is(elul29.render('en'), '29th of Elul, 5779');
+  t.is(elul29.render(''), '29th of Elul, 5779');
+  t.is(elul29.render('ashkenazi'), '29th of Elul, 5779');
+  t.is(elul29.render('he'), '29. אֱלוּל, 5779');
+  t.is(tishrei1.render(), '1st of Tishrei, 5780');
+  t.is(tishrei1.render(''), '1st of Tishrei, 5780');
+  t.is(tishrei1.render('en'), '1st of Tishrei, 5780');
+  t.is(tishrei1.render('ashkenazi'), '1st of Tishrei, 5780');
+  t.is(tishrei1.render('he'), '1. תִשְׁרֵי, 5780');
 });
 
 test('renderGematriya', (t) => {
   t.is(new HDate(17, 'Tamuz', 5748).renderGematriya(), 'י״ז תַּמּוּז תשמ״ח');
   t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִשְׁרֵי תש״פ');
+  t.is(HebrewDateEvent.renderHebrew(20, 'xyz', 5780), 'כ׳ xyz תש״פ');
 });
 
 test('monthFromName', (t) => {
@@ -225,4 +245,77 @@ test('monthFromName', (t) => {
       t.is(HDate.monthFromName(input), monthNum, `${input} => ${monthNum}`);
     }
   }
+
+  t.is(HDate.monthFromName(7), 7);
+
+  const bad = 'Xyz Ace November Tommy suds January תת אא'.split(' ');
+  for (const sample of bad) {
+    const error = t.throws(() => {
+      HDate.monthFromName(sample);
+    }, {instanceOf: RangeError});
+    t.is(error.message, `Unable to parse month name: ${sample}`);
+  }
+});
+
+test('getMonthName-throws', (t) => {
+  const error = t.throws(() => {
+    HDate.getMonthName(0, 5780);
+  }, {instanceOf: TypeError});
+  t.is(error.message, `bad month argument 0`);
+});
+
+test('month14-rollover', (t) => {
+  t.is(new HDate(17, 14, 5779).toString(), '17 Nisan 5780');
+  t.is(new HDate(17, 14, 5780).toString(), '17 Iyyar 5781');
+});
+
+test('month-rollunder', (t) => {
+  t.is(new HDate(17, 0, 5779).toString(), '17 Adar 5778');
+  t.is(new HDate(17, 0, 5780).toString(), '17 Adar I 5779');
+
+  t.is(new HDate(17, -3, 5779).toString(), '17 Tevet 5778');
+  t.is(new HDate(17, -3, 5780).toString(), '17 Kislev 5779');
+});
+
+test('day-rollover-rollunder', (t) => {
+  t.is(new HDate(33, months.ELUL, 5779).toString(), '4 Tishrei 5780');
+  t.is(new HDate(-3, months.TISHREI, 5779).toString(), '27 Elul 5778');
+});
+
+test('adar2-nonleap', (t) => {
+  const hd = new HDate(17, months.ADAR_II, 5780);
+  t.is(hd.getMonth(), months.ADAR_I);
+});
+
+// eslint-disable-next-line require-jsdoc
+function hd2iso(hd) {
+  return hd.greg().toISOString().substring(0, 10);
+}
+
+test('before', (t) => {
+  const hd = new HDate(new Date('Wednesday February 19, 2014'));
+  t.is(hd2iso(hd.before(6)), '2014-02-15');
+});
+
+test('onOrBefore', (t) => {
+  t.is(hd2iso(new HDate(new Date('Wednesday February 19, 2014')).onOrBefore(6)), '2014-02-15');
+  t.is(hd2iso(new HDate(new Date('Saturday February 22, 2014')).onOrBefore(6)), '2014-02-22');
+  t.is(hd2iso(new HDate(new Date('Sunday February 23, 2014')).onOrBefore(6)), '2014-02-22');
+});
+
+test('nearest', (t) => {
+  t.is(hd2iso(new HDate(new Date('Wednesday February 19, 2014')).nearest(6)), '2014-02-22');
+  t.is(hd2iso(new HDate(new Date('Tuesday February 18, 2014')).nearest(6)), '2014-02-15');
+});
+
+test('onOrAfter', (t) => {
+  t.is(hd2iso(new HDate(new Date('Wednesday February 19, 2014')).onOrAfter(6)), '2014-02-22');
+  t.is(hd2iso(new HDate(new Date('Saturday February 22, 2014')).onOrAfter(6)), '2014-02-22');
+  t.is(hd2iso(new HDate(new Date('Sunday February 23, 2014')).onOrAfter(6)), '2014-03-01');
+});
+
+test('after', (t) => {
+  t.is(hd2iso(new HDate(new Date('Wednesday February 19, 2014')).after(6)), '2014-02-22');
+  t.is(hd2iso(new HDate(new Date('Saturday February 22, 2014')).after(6)), '2014-03-01');
+  t.is(hd2iso(new HDate(new Date('Sunday February 23, 2014')).after(6)), '2014-03-01');
 });

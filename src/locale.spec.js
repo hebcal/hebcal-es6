@@ -33,4 +33,6 @@ test('useLocale-ordinal', (t) => {
   }
   Locale.useLocale('');
   t.is(Locale.ordinal(3), '3rd');
+
+  t.is(Locale.ordinal(3, 'fr'), '3ème');
 });

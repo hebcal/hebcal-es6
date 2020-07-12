@@ -384,7 +384,7 @@ export class HDate {
     const day = this.getDate();
     const fullYear = this.getFullYear();
     const monthName = Locale.gettext(this.getMonthName(), locale);
-    const nth = Locale.ordinal(day);
+    const nth = Locale.ordinal(day, locale0);
     let dayOf = '';
     if (locale0 == 'en' || 'ashkenazi' == locale0.substring(0, 9)) {
       dayOf = ' of';
@@ -502,9 +502,6 @@ export class HDate {
    */
   isSameDate(other) {
     if (other instanceof HDate) {
-      if (other.getFullYear() == -1) {
-        other = new HDate(other).setFullYear(this.getFullYear());
-      }
       return this.abs() == other.abs();
     }
     return false;
@@ -674,9 +671,10 @@ export class HDate {
     switch (c[0]) {
       case 'n':
       case 'נ':
-        return c[1] == 'o' ? /* this catches "november" */
-        0 :
-        NISAN;
+        if (c[1] == 'o') {
+          break; /* this catches "november" */
+        }
+        return NISAN;
       case 'i':
         return IYYAR;
       case 'e':
@@ -694,7 +692,7 @@ export class HDate {
           case 'h':
             return SHVAT;
           default:
-            return 0;
+            break;
         }
       case 't':
         switch (c[1]) {
@@ -747,7 +745,7 @@ export class HDate {
         }
         break;
     }
-    return 0;
+    throw new RangeError(`Unable to parse month name: ${monthName}`);
   }
 
   /**

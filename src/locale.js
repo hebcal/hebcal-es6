@@ -94,12 +94,14 @@ export const Locale = {
 
   /**
    * @param {number} n
+   * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
    * @return {string}
    */
-  ordinal: function(n) {
-    if (!activeName || activeName == 'en' || 'ashkenazi' == activeName.substring(0, 9)) {
+  ordinal: function(n, locale) {
+    const locale0 = locale || activeName;
+    if (!locale0 || locale0 == 'en' || 'ashkenazi' == locale0.substring(0, 9)) {
       return getEnOrdinal(n);
-    } else if (activeName == 'fr') {
+    } else if (locale0 == 'fr') {
       return n == 1 ? (n + 'er') : (n + 'ème');
     } else {
       return n + '.';

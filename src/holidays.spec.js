@@ -3,7 +3,7 @@ import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays'
 import {HebrewCalendar} from './hebcal';
 import {greg as g} from './greg';
 import {HDate, months} from './hdate';
-import {flags} from './event';
+import {flags, Event} from './event';
 
 test('basename-and-url', (t) => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
@@ -66,6 +66,30 @@ test('shushan-purim', (t) => {
     '15 Adar 5789',
   ];
   t.deepEqual(dates, expected, '15 years of Shushan Purim differ');
+});
+
+test('getHolidaysOnDate', (t) => {
+  const hyear = 5771;
+  const expected = [
+    new HDate(1, 'Tishrei', hyear).abs() - 1, ['Erev Rosh Hashana'],
+    new HDate(1, 'Tishrei', hyear), ['Rosh Hashana 5771'],
+    new HDate(10, 'Tishrei', hyear), ['Yom Kippur'],
+    new HDate(3, 'Cheshvan', hyear), undefined,
+    new Date(2010, 11, 7), ['Chanukah: 7 Candles', 'Rosh Chodesh Tevet'],
+  ];
+  for (let i = 0; i < expected.length; i += 2) {
+    const dt = expected[i];
+    const desc = expected[i + 1];
+    const ev = HebrewCalendar.getHolidaysOnDate(dt);
+    if (typeof desc === 'undefined') {
+      t.is(ev, undefined, dt.toString());
+    } else {
+      t.is(Array.isArray(ev), true);
+      t.is(ev[0] instanceof Event, true);
+      const d = ev.map((e) => e.getDesc());
+      t.deepEqual(d, desc, dt.toString());
+    }
+  }
 });
 
 /**
