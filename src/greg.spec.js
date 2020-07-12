@@ -40,3 +40,20 @@ test('monthNames', (t) => {
   t.is(greg.monthNames[1], 'January');
   t.is(greg.monthNames[12], 'December');
 });
+
+test('throws-not-a-date', (t) => {
+  const error = t.throws(() => {
+    console.log(greg.dayOfYear('bogus'));
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'Argument to greg.dayOfYear not a Date');
+
+  const error2 = t.throws(() => {
+    console.log(greg.greg2abs('bogus'));
+  }, {instanceOf: TypeError});
+  t.is(error2.message, 'Argument to greg.greg2abs not a Date');
+
+  const error3 = t.throws(() => {
+    console.log(greg.abs2greg('bogus'));
+  }, {instanceOf: TypeError});
+  t.is(error3.message, 'Argument to greg.abs2greg not a Number');
+});

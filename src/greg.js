@@ -75,7 +75,7 @@ export const greg = {
    * @return {number}
    */
   dayOfYear: function(date) {
-    if (!date instanceof Date) {
+    if (typeof date !== 'object' || !date instanceof Date) {
       throw new TypeError('Argument to greg.dayOfYear not a Date');
     }
     let doy = date.getDate() + 31 * date.getMonth();
@@ -95,7 +95,7 @@ export const greg = {
    * @return {number}
    */
   greg2abs: function(date) {
-    if (!date instanceof Date) {
+    if (typeof date !== 'object' || !date instanceof Date) {
       throw new TypeError('Argument to greg.greg2abs not a Date');
     }
     const year = date.getFullYear() - 1;

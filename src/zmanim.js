@@ -7,8 +7,8 @@ suncalc.addTime(-10.2, 'misheyakirMachmir', 0);
 suncalc.addTime(-8.5, 0, 'tzeit');
 
 // eslint-disable-next-line require-jsdoc
-function throwError(error) {
-  throw new Error(error);
+function throwTypeError(error) {
+  throw new TypeError(error);
 }
 
 /** Class representing halachic times */
@@ -31,7 +31,7 @@ export class Zmanim {
     }
     const dt = date instanceof Date ? date :
         date instanceof HDate ? date.greg() :
-        throwError(`invalid date: ${date}`);
+        throwTypeError(`invalid date: ${date}`);
     // reset the date to midday before calling suncalc api
     // https://github.com/mourner/suncalc/issues/11
     this.date = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12, 0, 0, 0, 0);

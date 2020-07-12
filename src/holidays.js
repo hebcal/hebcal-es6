@@ -35,16 +35,13 @@ export class HolidayEvent extends Event {
   }
   /** @return {string} */
   basename() {
-    let s = this.getDesc().replace(/ \d{4}$/, '')
+    return this.getDesc().replace(/ \d{4}$/, '')
         .replace(/ \(CH''M\)$/, '')
-        .replace(/ \(Hoshana Raba\)$/, '');
-    if (s != 'Rosh Chodesh Adar II') {
-      s = s.replace(/ [IV]+$/, '');
-    }
-    s = s.replace(/: \d Candles?$/, '')
+        .replace(/ \(Hoshana Raba\)$/, '')
+        .replace(/ [IV]+$/, '')
+        .replace(/: \d Candles?$/, '')
         .replace(/: 8th Day$/, '')
         .replace(/^Erev /, '');
-    return s;
   }
   /** @return {string} */
   url() {
