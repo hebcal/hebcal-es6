@@ -140,9 +140,9 @@ function getCandleLightingMinutes(options) {
  * @property {boolean} candlelighting - calculate candle-lighting and havdalah times
  * @property {number} candleLightingMins - minutes before sundown to light candles (default 18)
  * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
- *      If unspecified, calculate Havdalah according to Tzeit Hakochavim -
+ *      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
  *      Nightfall (the point when 3 small stars are observable in the night time sky with
- *      the naked eye). Defaults to `true` unless havdalahMins is specified
+ *      the naked eye). If `0`, Havdalah times are supressed.
  * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
  * @property {boolean} il - Israeli holiday and sedra schedule
  * @property {boolean} noMinorFast - suppress minor fasts

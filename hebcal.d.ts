@@ -383,10 +383,10 @@ declare module '@hebcal/core' {
          * @property end - use specific end date (requires start date)
          * @property candlelighting - calculate candle-lighting and havdalah times
          * @property candleLightingMins - minutes before sundown to light candles (default 18)
-         * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72)
-         *      If unspecified, calculate Havdalah according to Tzeit Hakochavim -
+         * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
+         *      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
          *      Nightfall (the point when 3 small stars are observable in the night time sky with
-         *      the naked eye). Defaults to `true` unless havdalahMins is specified
+         *      the naked eye). If `0`, Havdalah times are supressed.
          * @property sedrot - calculate parashah hashavua on Saturdays
          * @property il - Israeli holiday and sedra schedule
          * @property noMinorFast - suppress minor fasts

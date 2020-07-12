@@ -247,10 +247,6 @@ Represents a Hebrew date
         * [.daysInMonth()](#HDate+daysInMonth) ⇒ <code>number</code>
         * [.getDate()](#HDate+getDate) ⇒ <code>number</code>
         * [.getDay()](#HDate+getDay) ⇒ <code>number</code>
-        * [.setFullYear(year)](#HDate+setFullYear) ⇒ [<code>HDate</code>](#HDate)
-        * [.setMonth(month)](#HDate+setMonth) ⇒ [<code>HDate</code>](#HDate)
-        * [.setTishreiMonth(month)](#HDate+setTishreiMonth) ⇒ [<code>HDate</code>](#HDate)
-        * [.setDate(date)](#HDate+setDate) ⇒ [<code>HDate</code>](#HDate)
         * [.greg()](#HDate+greg) ⇒ <code>Date</code>
         * [.abs()](#HDate+abs) ⇒ <code>number</code>
         * [.getMonthName()](#HDate+getMonthName) ⇒ <code>string</code>
@@ -276,7 +272,7 @@ Represents a Hebrew date
         * [.daysInYear(year)](#HDate.daysInYear) ⇒ <code>number</code>
         * [.longCheshvan(year)](#HDate.longCheshvan) ⇒ <code>boolean</code>
         * [.shortKislev(year)](#HDate.shortKislev) ⇒ <code>boolean</code>
-        * [.monthFromName(c)](#HDate.monthFromName) ⇒ <code>number</code>
+        * [.monthFromName(monthName)](#HDate.monthFromName) ⇒ <code>number</code>
         * [.dayOnOrBefore(dayOfWeek, absdate)](#HDate.dayOnOrBefore) ⇒ <code>number</code>
 
 <a name="new_HDate_new"></a>
@@ -357,48 +353,6 @@ Gets the day within the month (1-30)
 Gets the day of the week, using local time. 0=Sunday, 6=Saturday
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
-<a name="HDate+setFullYear"></a>
-
-### hDate.setFullYear(year) ⇒ [<code>HDate</code>](#HDate)
-Sets the year of the date. Returns the object it was called upon.
-
-**Kind**: instance method of [<code>HDate</code>](#HDate)  
-
-| Param | Type |
-| --- | --- |
-| year | <code>number</code> | 
-
-<a name="HDate+setMonth"></a>
-
-### hDate.setMonth(month) ⇒ [<code>HDate</code>](#HDate)
-Sets the day of the month of the date. Returns the object it was called upon
-
-**Kind**: instance method of [<code>HDate</code>](#HDate)  
-
-| Param | Type |
-| --- | --- |
-| month | <code>number</code> | 
-
-<a name="HDate+setTishreiMonth"></a>
-
-### hDate.setTishreiMonth(month) ⇒ [<code>HDate</code>](#HDate)
-Sets the Tishrei-based month of the date. Returns the object it was called upon
-
-**Kind**: instance method of [<code>HDate</code>](#HDate)  
-
-| Param | Type |
-| --- | --- |
-| month | <code>number</code> | 
-
-<a name="HDate+setDate"></a>
-
-### hDate.setDate(date) ⇒ [<code>HDate</code>](#HDate)
-**Kind**: instance method of [<code>HDate</code>](#HDate)  
-
-| Param | Type |
-| --- | --- |
-| date | <code>number</code> | 
-
 <a name="HDate+greg"></a>
 
 ### hDate.greg() ⇒ <code>Date</code>
@@ -683,14 +637,14 @@ true if Kislev is short in Hebrew year
 
 <a name="HDate.monthFromName"></a>
 
-### HDate.monthFromName(c) ⇒ <code>number</code>
+### HDate.monthFromName(monthName) ⇒ <code>number</code>
 Converts Hebrew month string name to numeric
 
 **Kind**: static method of [<code>HDate</code>](#HDate)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| c | <code>string</code> | monthName |
+| monthName | <code>string</code> | monthName |
 
 <a name="HDate.dayOnOrBefore"></a>
 
@@ -1086,20 +1040,19 @@ Havdalah after Shabbat or holiday
 **Kind**: global class  
 
 * [HavdalahEvent](#HavdalahEvent)
-    * [new HavdalahEvent(date, mask, attrs, [havdalahMins])](#new_HavdalahEvent_new)
+    * [new HavdalahEvent(date, mask, attrs)](#new_HavdalahEvent_new)
     * [.render([locale])](#HavdalahEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#HavdalahEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_HavdalahEvent_new"></a>
 
-### new HavdalahEvent(date, mask, attrs, [havdalahMins])
+### new HavdalahEvent(date, mask, attrs)
 
 | Param | Type |
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | mask | <code>number</code> | 
 | attrs | <code>Object</code> | 
-| [havdalahMins] | <code>number</code> | 
 
 <a name="HavdalahEvent+render"></a>
 
@@ -1519,7 +1472,6 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
 * [HolidayEvent](#HolidayEvent)
     * [new HolidayEvent(date, desc, [mask], [attrs])](#new_HolidayEvent_new)
     * [.basename()](#HolidayEvent+basename) ⇒ <code>string</code>
-    * [.renderFullOrBasename(locale)](#HolidayEvent+renderFullOrBasename) ⇒ <code>string</code>
     * [.url()](#HolidayEvent+url) ⇒ <code>string</code>
 
 <a name="new_HolidayEvent_new"></a>
@@ -1539,15 +1491,6 @@ Constructs Holiday event
 
 ### holidayEvent.basename() ⇒ <code>string</code>
 **Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
-<a name="HolidayEvent+renderFullOrBasename"></a>
-
-### holidayEvent.renderFullOrBasename(locale) ⇒ <code>string</code>
-**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
-
-| Param | Type |
-| --- | --- |
-| locale | <code>string</code> | 
-
 <a name="HolidayEvent+url"></a>
 
 ### holidayEvent.url() ⇒ <code>string</code>
@@ -1734,7 +1677,7 @@ holidays. `@hebcal/core` supports three locales by default
     * [.addLocale(locale, data)](#Locale.addLocale)
     * [.useLocale(locale)](#Locale.useLocale) ⇒ <code>LocaleData</code>
     * [.getLocaleName()](#Locale.getLocaleName) ⇒ <code>string</code>
-    * [.ordinal(n)](#Locale.ordinal) ⇒ <code>string</code>
+    * [.ordinal(n, [locale])](#Locale.ordinal) ⇒ <code>string</code>
     * [.hebrewStripNikkud(str)](#Locale.hebrewStripNikkud) ⇒ <code>string</code>
 
 <a name="Locale.lookupTranslation"></a>
@@ -1795,12 +1738,13 @@ Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
 **Kind**: static method of [<code>Locale</code>](#Locale)  
 <a name="Locale.ordinal"></a>
 
-### Locale.ordinal(n) ⇒ <code>string</code>
+### Locale.ordinal(n, [locale]) ⇒ <code>string</code>
 **Kind**: static method of [<code>Locale</code>](#Locale)  
 
-| Param | Type |
-| --- | --- |
-| n | <code>number</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| n | <code>number</code> |  |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
 
 <a name="Locale.hebrewStripNikkud"></a>
 
@@ -2122,8 +2066,7 @@ Options to configure which events are returned
 | end | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific end date (requires start date) |
 | candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
 | candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
-| havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72) |
-| havdalahTzeit | <code>boolean</code> | calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). Defaults to `true` unless havdalahMins is specified |
+| havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are supressed. |
 | sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
 | il | <code>boolean</code> | Israeli holiday and sedra schedule |
 | noMinorFast | <code>boolean</code> | suppress minor fasts |
@@ -2137,6 +2080,5 @@ Options to configure which events are returned
 | molad | <code>boolean</code> | include event announcing the molad |
 | ashkenazi | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
 | locale | <code>string</code> | translate event titles according to a locale      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`) |
-| hour12 | <code>boolean</code> | use 12-hour time (1-12) instead of default 24-hour time (0-23) |
 | addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
 | addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
