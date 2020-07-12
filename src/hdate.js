@@ -235,6 +235,7 @@ export class HDate {
 
   /**
    * Sets the year of the date. Returns the object it was called upon.
+   * @private
    * @param {number} year
    * @return {HDate}
    */
@@ -246,6 +247,7 @@ export class HDate {
 
   /**
    * Sets the day of the month of the date. Returns the object it was called upon
+   * @private
    * @param {number} month
    * @return {HDate}
    */
@@ -256,15 +258,7 @@ export class HDate {
   }
 
   /**
-   * Sets the Tishrei-based month of the date. Returns the object it was called upon
-   * @param {number} month
-   * @return {HDate}
-   */
-  setTishreiMonth(month) {
-    return this.setMonth((month + 6) % HDate.monthsInYear(this.getFullYear()) || 13);
-  }
-
-  /**
+   * @private
    * @param {number} date
    * @return {HDate}
    */
@@ -649,10 +643,12 @@ export class HDate {
 
   /**
    * Converts Hebrew month string name to numeric
-   * @param {string} c monthName
+   * @param {string} monthName monthName
    * @return {number}
    */
-  static monthFromName(c) {
+  static monthFromName(monthName) {
+    if (typeof monthName === 'number') return monthName;
+    const c = monthName.toLowerCase();
     /*
     the Hebrew months are unique to their second letter
     N         Nisan  (November?)
@@ -675,10 +671,10 @@ export class HDate {
     ש            שבט
     תמ תש        תמוז תשרי
     */
-    switch (c.toLowerCase()[0]) {
+    switch (c[0]) {
       case 'n':
       case 'נ':
-        return c.toLowerCase()[1] == 'o' ? /* this catches "november" */
+        return c[1] == 'o' ? /* this catches "november" */
         0 :
         NISAN;
       case 'i':
@@ -692,7 +688,7 @@ export class HDate {
       case 'כ':
         return KISLEV;
       case 's':
-        switch (c.toLowerCase()[1]) {
+        switch (c[1]) {
           case 'i':
             return SIVAN;
           case 'h':
@@ -701,7 +697,7 @@ export class HDate {
             return 0;
         }
       case 't':
-        switch (c.toLowerCase()[1]) {
+        switch (c[1]) {
           case 'a':
             return TAMUZ;
           case 'i':
@@ -711,11 +707,11 @@ export class HDate {
         }
         break;
       case 'a':
-        switch (c.toLowerCase()[1]) {
+        switch (c[1]) {
           case 'v':
             return AV;
           case 'd':
-            if (/(1|[^i]i|a|א)$/i.test(c)) {
+            if (/(1|[^i]i|a|א)$/i.test(monthName)) {
               return ADAR_I;
             }
             return ADAR_II; // else assume sheini
@@ -728,11 +724,11 @@ export class HDate {
       case 'ש':
         return SHVAT;
       case 'א':
-        switch (c.toLowerCase()[1]) {
+        switch (c[1]) {
           case 'ב':
             return AV;
           case 'ד':
-            if (/(1|[^i]i|a|א)$/i.test(c)) {
+            if (/(1|[^i]i|a|א)$/i.test(monthName)) {
               return ADAR_I;
             }
             return ADAR_II; // else assume sheini
@@ -743,7 +739,7 @@ export class HDate {
         }
         break;
       case 'ת':
-        switch (c.toLowerCase()[1]) {
+        switch (c[1]) {
           case 'מ':
             return TAMUZ;
           case 'ש':

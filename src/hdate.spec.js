@@ -199,3 +199,30 @@ test('renderGematriya', (t) => {
   t.is(new HDate(17, 'Tamuz', 5748).renderGematriya(), 'י״ז תַּמּוּז תשמ״ח');
   t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִשְׁרֵי תש״פ');
 });
+
+test('monthFromName', (t) => {
+  const toTest = [
+    months.NISAN, 'Nisan_nisan_n_N_Nissan_ניסן',
+    months.IYYAR, 'Iyyar_Iyar_iyyar_iy_אייר',
+    months.ELUL, 'Elul_elul_אלול',
+    months.CHESHVAN, 'Cheshvan_cheshvan_חשון',
+    months.KISLEV, 'Kislev_kislev_כסלו',
+    months.SIVAN, 'Sivan_sivan_סייון_סיון',
+    months.SHVAT, 'Shvat_Sh\'vat_Shevat_שבט',
+    months.TAMUZ, 'Tamuz_Tammuz_תמוז',
+    months.TISHREI, 'Tishrei_תשרי',
+    months.TEVET, 'Tevet_טבת',
+    months.AV, 'Av_אב',
+    months.ADAR_I, ['Adar I', 'Adar 1', 'AdarI', 'Adar1', 'אדר א', 'אדר 1'],
+    months.ADAR_II, ['Adar II', 'Adar 2', 'AdarII', 'Adar2', 'אדר', 'אדר ב', 'אדר 2'],
+  ];
+
+  for (let i = 0; i < toTest.length; i += 2) {
+    const monthNum = toTest[i];
+    const samples = toTest[i + 1];
+    const arr = typeof samples == 'string' ? samples.split('_') : samples;
+    for (const input of arr) {
+      t.is(HDate.monthFromName(input), monthNum, `${input} => ${monthNum}`);
+    }
+  }
+});
