@@ -613,6 +613,11 @@ export const HebrewCalendar = {
    * @return {Map<string,Event[]>}
    */
   getHolidaysForYear: function(year) {
+    if (typeof year !== 'number') {
+      throw new TypeError(`bad Hebrew year: ${year}`);
+    } else if (year < 1 || year > 32658) {
+      throw new RangeError(`Hebrew year ${year} out of range 1-32658`);
+    }
     const cached = __cache[year];
     if (cached) {
       return cached;
