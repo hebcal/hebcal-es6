@@ -72,8 +72,8 @@ export class Event {
    * Constructs Event
    * @param {HDate} date Hebrew date event occurs
    * @param {string} desc Description (not translated)
-   * @param {number} [mask=0] optional holiday flags
-   * @param {Object} [attrs={}]
+   * @param {number} [mask=0] optional bitmask of holiday flags (see {@link flags})
+   * @param {Object} [attrs={}] optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
    */
   constructor(date, desc, mask, attrs) {
     this.date = date;
@@ -82,33 +82,33 @@ export class Event {
     this.attrs = attrs || Object.create(null);
   }
   /**
+   * Hebrew date of this event
+   * @return {HDate}
+   */
+  getDate() {
+    return this.date;
+  }
+  /**
+   * Untranslated description of this event
+   * @return {string}
+   */
+  getDesc() {
+    return this.desc;
+  }
+  /**
+   * Bitmask of optional event flags. See {@link flags}
    * @return {number}
    */
   getFlags() {
     return this.mask;
   }
   /**
-   * @return {Object}
-   */
-  getAttrs() {
-    return this.attrs;
-  }
-  /**
-   * Is this event observed in Israel?
-   * @return {boolean}
-   */
-  observedInIsrael() {
-    return !(this.mask & CHUL_ONLY);
-  }
-  /**
-   * Is this event observed in the Diaspora?
-   * @return {boolean}
-   */
-  observedInDiaspora() {
-    return !(this.mask & IL_ONLY);
-  }
-  /**
    * Returns (translated) description of this event
+   * @example
+   * const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
+   * ev.render(); // 'Shavuot'
+   * ev.render('he'); // 'שָׁבוּעוֹת'
+   * ev.render('ashkenazi'); // 'Shavuos'
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
@@ -126,14 +126,8 @@ export class Event {
     return this.render(locale);
   }
   /**
-   * Returns untranslated description of this event
-   * @return {string}
-   */
-  getDesc() {
-    return this.desc;
-  }
-  /**
    * Returns a simplified (untranslated) description for this event. For example,
+   * the {@link HolidayEvent} class supports
    * "Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
    * For many holidays the basename and the event description are the same.
    * @return {string}
@@ -142,14 +136,42 @@ export class Event {
     return this.getDesc();
   }
   /**
-   * Returns Hebrew date of this event
-   * @return {HDate}
+   * Returns a URL to hebcal.com or sefaria.org for more detail on the event.
+   * Returns `undefined` for events with no detail page.
+   * @return {string}
    */
-  getDate() {
-    return this.date;
-  }
-  /** @return {string} */
   url() {
     return undefined;
+  }
+  /**
+   * Is this event observed in Israel?
+   * @example
+   * const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
+   * ev1.observedInIsrael(); // false
+   * const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
+   * ev2.observedInIsrael(); // true
+   * @return {boolean}
+   */
+  observedInIsrael() {
+    return !(this.mask & CHUL_ONLY);
+  }
+  /**
+   * Is this event observed in the Diaspora?
+   * @example
+   * const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
+   * ev1.observedInDiaspora(); // true
+   * const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
+   * ev2.observedInDiaspora(); // true
+   * @return {boolean}
+   */
+  observedInDiaspora() {
+    return !(this.mask & IL_ONLY);
+  }
+  /**
+   * Optional additional event attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
+   * @return {Object}
+   */
+  getAttrs() {
+    return this.attrs;
   }
 }

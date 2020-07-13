@@ -138,16 +138,16 @@ Represents an Event with a title, date, and flags
 
 * [Event](#Event)
     * [new Event(date, desc, [mask], [attrs])](#new_Event_new)
+    * [.getDate()](#Event+getDate) ⇒ [<code>HDate</code>](#HDate)
+    * [.getDesc()](#Event+getDesc) ⇒ <code>string</code>
     * [.getFlags()](#Event+getFlags) ⇒ <code>number</code>
-    * [.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>
-    * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
-    * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
     * [.render([locale])](#Event+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#Event+renderBrief) ⇒ <code>string</code>
-    * [.getDesc()](#Event+getDesc) ⇒ <code>string</code>
     * [.basename()](#Event+basename) ⇒ <code>string</code>
-    * [.getDate()](#Event+getDate) ⇒ [<code>HDate</code>](#HDate)
     * [.url()](#Event+url) ⇒ <code>string</code>
+    * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
+    * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
+    * [.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>
 
 <a name="new_Event_new"></a>
 
@@ -159,27 +159,25 @@ Constructs Event
 | --- | --- | --- | --- |
 | date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
 | desc | <code>string</code> |  | Description (not translated) |
-| [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
-| [attrs] | <code>Object</code> | <code>{}</code> |  |
+| [mask] | <code>number</code> | <code>0</code> | optional bitmask of holiday flags (see [flags](#flags)) |
+| [attrs] | <code>Object</code> | <code>{}</code> | optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`) |
 
+<a name="Event+getDate"></a>
+
+### event.getDate() ⇒ [<code>HDate</code>](#HDate)
+Hebrew date of this event
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+getDesc"></a>
+
+### event.getDesc() ⇒ <code>string</code>
+Untranslated description of this event
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="Event+getFlags"></a>
 
 ### event.getFlags() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+getAttrs"></a>
-
-### event.getAttrs() ⇒ <code>Object</code>
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+observedInIsrael"></a>
-
-### event.observedInIsrael() ⇒ <code>boolean</code>
-Is this event observed in Israel?
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+observedInDiaspora"></a>
-
-### event.observedInDiaspora() ⇒ <code>boolean</code>
-Is this event observed in the Diaspora?
+Bitmask of optional event flags. See [flags](#flags)
 
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="Event+render"></a>
@@ -193,6 +191,13 @@ Returns (translated) description of this event
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+**Example**  
+```js
+const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
+ev.render(); // 'Shavuot'
+ev.render('he'); // 'שָׁבוּעוֹת'
+ev.render('ashkenazi'); // 'Shavuos'
+```
 <a name="Event+renderBrief"></a>
 
 ### event.renderBrief([locale]) ⇒ <code>string</code>
@@ -206,29 +211,53 @@ a shorter text (e.g. without a time or added description).
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
-<a name="Event+getDesc"></a>
-
-### event.getDesc() ⇒ <code>string</code>
-Returns untranslated description of this event
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="Event+basename"></a>
 
 ### event.basename() ⇒ <code>string</code>
 Returns a simplified (untranslated) description for this event. For example,
+the [HolidayEvent](#HolidayEvent) class supports
 "Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
 For many holidays the basename and the event description are the same.
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+getDate"></a>
-
-### event.getDate() ⇒ [<code>HDate</code>](#HDate)
-Returns Hebrew date of this event
 
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="Event+url"></a>
 
 ### event.url() ⇒ <code>string</code>
+Returns a URL to hebcal.com or sefaria.org for more detail on the event.
+Returns `undefined` for events with no detail page.
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+observedInIsrael"></a>
+
+### event.observedInIsrael() ⇒ <code>boolean</code>
+Is this event observed in Israel?
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+**Example**  
+```js
+const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
+ev1.observedInIsrael(); // false
+const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
+ev2.observedInIsrael(); // true
+```
+<a name="Event+observedInDiaspora"></a>
+
+### event.observedInDiaspora() ⇒ <code>boolean</code>
+Is this event observed in the Diaspora?
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+**Example**  
+```js
+const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
+ev1.observedInDiaspora(); // true
+const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
+ev2.observedInDiaspora(); // true
+```
+<a name="Event+getAttrs"></a>
+
+### event.getAttrs() ⇒ <code>Object</code>
+Optional additional event attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
+
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="HDate"></a>
 
@@ -1845,7 +1874,7 @@ Event names can be rendered in several languges using the `locale` option.
 ### HebrewCalendar.calendar([options]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
 Calculates holidays and other Hebrew calendar events based on [Options](#HebrewCalendar.Options).
 
-Each holiday is represented by an `Event` object which includes a date,
+Each holiday is represented by an [Event](#Event) object which includes a date,
 a description, flags and optional attributes.
 If given no options, returns holidays for the Diaspora for the current Gregorian year.
 
@@ -1899,10 +1928,12 @@ Two options also exist for generating an Event with the Hebrew date:
 * `options.addHebrewDatesForEvents` - print the Hebrew date for dates with some events
 
 Lastly, translation and transliteration of event titles is controlled by
-`options.locale`. `@hebcal/core` supports three locales by default:
+`options.locale` and the [Locale](#Locale) API.
+`@hebcal/core` supports three locales by default:
 * `en` - default, Sephardic transliterations (e.g. "Shabbat")
 * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
 * `he` - Hebrew (e.g. "שַׁבָּת")
+
 Additional locales (such as `ru` or `fr`) are supported by the
 [@hebcal/locales](https://github.com/hebcal/hebcal-locales) package
 

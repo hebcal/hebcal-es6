@@ -282,7 +282,7 @@ export const HebrewCalendar = {
   /**
    * Calculates holidays and other Hebrew calendar events based on {@link HebrewCalendar.Options}.
    *
-   * Each holiday is represented by an `Event` object which includes a date,
+   * Each holiday is represented by an {@link Event} object which includes a date,
    * a description, flags and optional attributes.
    * If given no options, returns holidays for the Diaspora for the current Gregorian year.
    *
@@ -336,10 +336,12 @@ export const HebrewCalendar = {
    * * `options.addHebrewDatesForEvents` - print the Hebrew date for dates with some events
    *
    * Lastly, translation and transliteration of event titles is controlled by
-   * `options.locale`. `@hebcal/core` supports three locales by default:
+   * `options.locale` and the {@link Locale} API.
+   * `@hebcal/core` supports three locales by default:
    * * `en` - default, Sephardic transliterations (e.g. "Shabbat")
    * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
    * * `he` - Hebrew (e.g. "שַׁבָּת")
+   *
    * Additional locales (such as `ru` or `fr`) are supported by the
    * {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
    *
