@@ -1,7 +1,7 @@
 import poHe from './he.po.json';
 import poAshkenazi from './ashkenazi.po.json';
 
-const locales = {};
+const locales = Object.create(null);
 const noopLocale = {
   headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
   contexts: {'': {}},

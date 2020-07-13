@@ -79,7 +79,7 @@ export class Event {
     this.date = date;
     this.desc = desc;
     this.mask = +mask;
-    this.attrs = attrs || {};
+    this.attrs = attrs || Object.create(null);
   }
   /**
    * @return {number}

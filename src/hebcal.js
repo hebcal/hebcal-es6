@@ -74,7 +74,7 @@ const DAF_YOMI = flags.DAF_YOMI;
 const OMER_COUNT = flags.OMER_COUNT;
 const SHABBAT_MEVARCHIM = flags.SHABBAT_MEVARCHIM;
 
-const __cache = {};
+const __cache = Object.create(null);
 
 /** @private */
 class SimpleMap {

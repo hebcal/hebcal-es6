@@ -88,7 +88,7 @@ const classicCities0 = [
   ['Washington DC', 'US', 38.89511, -77.03637, 'America/New_York'],
   ['Worcester', 'US', 42.26259, -71.80229, 'America/New_York'],
 ];
-const classicCities = {};
+const classicCities = Object.create(null);
 
 // Zip-Codes.com TimeZone IDs
 const ZIPCODES_TZ_MAP = {
