@@ -168,7 +168,7 @@ export class HDate {
       }
     } else {
       // 0 arguments
-      if (!arguments.length) {
+      if (typeof day === 'undefined') {
         day = new Date();
       }
       // 1 argument
