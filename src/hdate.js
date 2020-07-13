@@ -158,8 +158,14 @@ export class HDate {
       // Hebrew day, Hebrew month, Hebrew year
       this.day = this.month = 1;
       this.year = +year;
-      this.setMonth(month);
+      if (isNaN(this.year)) {
+        throw new TypeError(`HDate called with bad year argument: ${year}`);
+      }
+      this.setMonth(month); // will throw if we can't parse
       this.setDate(+day);
+      if (isNaN(this.day)) {
+        throw new TypeError(`HDate called with bad day argument: ${day}`);
+      }
     } else {
       // 0 arguments
       if (!arguments.length) {
@@ -319,7 +325,9 @@ export class HDate {
    * @return {SimpleHebrewDate}
    */
   static abs2hebrew(d) {
-    if (d >= 10555144) {
+    if (typeof d !== 'number' || isNaN(d)) {
+      throw new TypeError(`invalid parameter to abs2hebrew ${d}`);
+    } else if (d >= 10555144) {
       throw new RangeError(`parameter to abs2hebrew ${d} out of range`);
     }
 
