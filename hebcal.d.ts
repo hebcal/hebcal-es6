@@ -99,9 +99,15 @@ declare module '@hebcal/core' {
          */
         getMonthName(): string;
         /**
-         * Returns translated/transliterated Hebrew date
+         * Renders this Hebrew date as a translated or transliterated string,
+         * including ordinal e.g. `'15th of Cheshvan, 5769'`.
+         * @param [locale] Optional locale name (defaults to active locale).
          */
-        render(): number;
+        render(locale?: string): number;
+        /**
+         * Renders this Hebrew date in Hebrew gematriya, regardless of locale.
+         */
+        renderGematriya(): string;
 
         before(day: number): HDate;
         onOrBefore(day: number): HDate;
