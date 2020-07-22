@@ -1,5 +1,5 @@
 import test from 'ava';
-import {HDate} from './hdate';
+import {HDate, months} from './hdate';
 import {Locale} from './locale';
 import {Sedra, ParshaEvent} from './sedra';
 import {greg as g} from './greg';
@@ -33,6 +33,19 @@ function testFullYear(t, gregYear, sedra, expected) {
     }
   }
 }
+
+test('3762', (t) => {
+  const sedra = new Sedra(3762, false);
+  const startAbs = HDate.hebrew2abs(3762, months.TISHREI, 1);
+  const endAbs = HDate.hebrew2abs(3763, months.TISHREI, 1) - 1;
+  for (let abs = startAbs; abs <= endAbs; abs++) {
+    const dow = abs % 7;
+    if (dow == 6) { // Saturday
+      const p = sedra.lookup(abs);
+      t.is(typeof p.chag, 'boolean');
+    }
+  }
+});
 
 test('sedra-diaspora', (t) => {
   const expected =

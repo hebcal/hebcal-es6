@@ -409,7 +409,7 @@ export const HebrewCalendar = {
       if (hyear != currentYear) {
         currentYear = hyear;
         holidaysYear = HebrewCalendar.getHolidaysForYear(currentYear);
-        if (options.sedrot) {
+        if (options.sedrot && currentYear >= 3762) {
           sedra = new Sedra(currentYear, il);
         }
         if (options.omer) {
@@ -434,7 +434,7 @@ export const HebrewCalendar = {
           }
         }
       });
-      if (options.sedrot && dow == SAT) {
+      if (options.sedrot && dow == SAT && hyear >= 3762) {
         const parsha0 = sedra.lookup(abs);
         if (!parsha0.chag) {
           evts.push(new ParshaEvent(hd, parsha0.parsha));
