@@ -61,15 +61,17 @@ test('heb-year', (t) => {
     isHebrewYear: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 82);
-  t.is(events[0].getDesc(), 'Rosh Hashana 5749');
-  t.is(gregDtString(events[0]), '9/12/1988');
-  t.is(events[1].getDesc(), 'Rosh Hashana II');
-  t.is(gregDtString(events[1]), '9/13/1988');
-  t.is(events[4].getDesc(), 'Erev Yom Kippur');
-  t.is(gregDtString(events[4]), '9/20/1988');
-  t.is(events[81].getDesc(), 'Erev Rosh Hashana');
-  t.is(gregDtString(events[81]), '9/29/1989');
+  t.is(events.length, 83);
+  t.is(events[0].getDesc(), 'Erev Rosh Hashana');
+  t.is(gregDtString(events[0]), '9/11/1988');
+  t.is(events[1].getDesc(), 'Rosh Hashana 5749');
+  t.is(gregDtString(events[1]), '9/12/1988');
+  t.is(events[2].getDesc(), 'Rosh Hashana II');
+  t.is(gregDtString(events[2]), '9/13/1988');
+  t.is(events[5].getDesc(), 'Erev Yom Kippur');
+  t.is(gregDtString(events[5]), '9/20/1988');
+  t.is(events[82].getDesc(), 'Erev Rosh Hashana');
+  t.is(gregDtString(events[82]), '9/29/1989');
 });
 
 test('no-options', (t) => {
@@ -349,7 +351,7 @@ test('addHebrewDates', (t) => {
     year: 2020,
     havdalahMins: 50,
     candleLightingMins: 18,
-    isHebrewDate: false,
+    isHebrewYear: false,
     month: 4,
     locale: 's',
     location: Location.lookup('Providence'),

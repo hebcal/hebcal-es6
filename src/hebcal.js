@@ -200,11 +200,17 @@ function getStartAndEnd(options) {
   }
   if (isHebrewYear) {
     const startDate = new HDate(1, theMonth || TISHREI, theYear);
-    const startAbs = startDate.abs();
+    let startAbs = startDate.abs();
     const numYears = Number(options.numYears) || 1;
     const endAbs = options.month ?
         startAbs + startDate.daysInMonth() :
         new HDate(1, TISHREI, theYear + numYears).abs() - 1;
+    // for full Hebrew year, start on Erev Rosh Hashana which
+    // is technically in the previous Hebrew year
+    // (but conveniently lets us get candle-lighting time for Erev)
+    if (!theMonth) {
+      startAbs--;
+    }
     return [startAbs, endAbs];
   } else {
     const gregMonth = options.month ? theMonth - 1 : 0;
