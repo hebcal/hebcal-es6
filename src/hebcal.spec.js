@@ -55,6 +55,14 @@ test('greg-year', (t) => {
   t.is(gregDtString(events[81]), '12/24/1993');
 });
 
+test('greg-2digit-year', (t) => {
+  const options = {
+    year: 50,
+  };
+  const events = HebrewCalendar.calendar(options);
+  t.is(events[0].getDate().greg().getFullYear(), 50);
+});
+
 test('heb-year', (t) => {
   const options = {
     year: 5749,

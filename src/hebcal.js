@@ -188,8 +188,15 @@ function getStartAndEnd(options) {
     return [getAbs(options.start), getAbs(options.end)];
   }
   const isHebrewYear = Boolean(options.isHebrewYear);
-  const theYear = options.year ? Number(options.year) :
+  const theYear = typeof options.year !== 'undefined' ? Number(options.year) :
     isHebrewYear ? new HDate().getFullYear() : new Date().getFullYear();
+  if (isNaN(theYear)) {
+    throw new RangeError(`Invalid year ${options.year}`);
+  } else if (isHebrewYear && theYear < 3760) {
+    throw new RangeError(`Invalid Hebrew year ${theYear}`);
+  } else if (theYear < 1) {
+    throw new RangeError(`Invalid Gregorian year ${theYear}`);
+  }
   let theMonth = NaN;
   if (options.month) {
     if (isHebrewYear) {
@@ -215,11 +222,22 @@ function getStartAndEnd(options) {
   } else {
     const gregMonth = options.month ? theMonth - 1 : 0;
     const startGreg = new Date(theYear, gregMonth, 1);
+    if (theYear < 100) {
+      startGreg.setFullYear(theYear);
+    }
     const startAbs = g.greg2abs(startGreg);
     const numYears = Number(options.numYears) || 1;
-    const endAbs = options.month ?
-        startAbs + g.daysInMonth(theMonth, theYear) - 1 :
-        g.greg2abs(new Date(theYear + numYears, 0, 1)) - 1;
+    let endAbs;
+    if (options.month) {
+      endAbs = startAbs + g.daysInMonth(theMonth, theYear) - 1;
+    } else {
+      const endYear = theYear + numYears;
+      const endGreg = new Date(endYear, 0, 1);
+      if (endYear < 100) {
+        endGreg.setFullYear(endYear);
+      }
+      endAbs = g.greg2abs(endGreg) - 1;
+    }
     return [startAbs, endAbs];
   }
 }
