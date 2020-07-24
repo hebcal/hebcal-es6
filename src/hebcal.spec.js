@@ -1,5 +1,5 @@
 import test from 'ava';
-import {HebrewCalendar} from './hebcal';
+import {HebrewCalendar, getStartAndEnd} from './hebcal';
 import {HDate} from './hdate';
 import {flags} from './event';
 import {Location} from './location';
@@ -55,12 +55,27 @@ test('greg-year', (t) => {
   t.is(gregDtString(events[81]), '12/24/1993');
 });
 
+test('getStartAndEnd-2digit', (t) => {
+  const [start, end] = getStartAndEnd({year: 88});
+  t.is(start, 31777);
+  t.is(end, 32142);
+});
+
 test('greg-2digit-year', (t) => {
   const options = {
     year: 50,
   };
   const events = HebrewCalendar.calendar(options);
   t.is(events[0].getDate().greg().getFullYear(), 50);
+  t.is(events[events.length - 1].getDate().greg().getFullYear(), 50);
+
+  const opts2 = {
+    addHebrewDates: true,
+    year: 88,
+  };
+  const events2 = HebrewCalendar.calendar(opts2);
+  t.is(events2[0].getDate().greg().getFullYear(), 88);
+  t.is(events2[events2.length - 1].getDate().greg().getFullYear(), 88);
 });
 
 test('heb-year', (t) => {

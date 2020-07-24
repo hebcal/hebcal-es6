@@ -135,9 +135,17 @@ export const greg = {
     let year = 400 * n400 + 100 * n100 + 4 * n4 + n1;
 
     if (4 == n100 || 4 == n1) {
-      return new Date(year, 11, 31);
+      const dt = new Date(year, 11, 31);
+      if (year < 100) {
+        dt.setFullYear(year);
+      }
+      return dt;
     }
 
-    return new Date(new Date(++year, 0, day).setFullYear(year)); // new Date() is very smart
+    const dt = new Date(++year, 0, day);
+    if (year < 100) {
+      dt.setFullYear(year);
+    }
+    return dt;
   },
 };

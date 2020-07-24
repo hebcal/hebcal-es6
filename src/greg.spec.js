@@ -18,6 +18,23 @@ test('abs2greg', (t) => {
   t.is(dt.getDate(), 8);
 });
 
+test('abs2greg-88ce', (t) => {
+  const dt = greg.abs2greg(32141); // 0088-12-30
+  t.is(dt.getFullYear(), 88);
+  t.is(dt.getMonth(), 11);
+  t.is(dt.getDate(), 30);
+
+  const dt2 = greg.abs2greg(32142);
+  t.is(dt2.getFullYear(), 88);
+  t.is(dt2.getMonth(), 11);
+  t.is(dt2.getDate(), 31);
+
+  const dt3 = greg.abs2greg(32143);
+  t.is(dt3.getFullYear(), 89);
+  t.is(dt3.getMonth(), 0);
+  t.is(dt3.getDate(), 1);
+});
+
 test('daysInMonth', (t) => {
   t.is(greg.daysInMonth(2, 2020), 29);
   t.is(greg.daysInMonth(2, 2019), 28);

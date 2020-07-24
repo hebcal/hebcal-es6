@@ -180,6 +180,18 @@ test('abs2hebrew', (t) => {
   t.is(h.dd, 15);
 });
 
+test('abs2hebrew-88ce', (t) => {
+  const h2 = HDate.abs2hebrew(32141);
+  t.is(h2.yy, 3849);
+  t.is(h2.mm, months.SHVAT);
+  t.is(h2.dd, 1);
+
+  const h3 = HDate.abs2hebrew(32142);
+  t.is(h3.yy, 3849);
+  t.is(h3.mm, months.SHVAT);
+  t.is(h3.dd, 2);
+});
+
 test('throws-abs2hebrew', (t) => {
   const error = t.throws(() => {
     HDate.abs2hebrew(12345678);

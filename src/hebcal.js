@@ -181,7 +181,7 @@ function getAbs(d) {
  * @param {HebrewCalendar.Options} options
  * @return {number[]}
  */
-function getStartAndEnd(options) {
+export function getStartAndEnd(options) {
   if ((options.start && !options.end) || (options.end && !options.start)) {
     throw new TypeError('Both options.start and options.end are required');
   } else if (options.start && options.end) {
