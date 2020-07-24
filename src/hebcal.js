@@ -192,7 +192,7 @@ export function getStartAndEnd(options) {
     isHebrewYear ? new HDate().getFullYear() : new Date().getFullYear();
   if (isNaN(theYear)) {
     throw new RangeError(`Invalid year ${options.year}`);
-  } else if (isHebrewYear && theYear < 3760) {
+  } else if (isHebrewYear && theYear < 3762) {
     throw new RangeError(`Invalid Hebrew year ${theYear}`);
   } else if (theYear < 1) {
     throw new RangeError(`Invalid Gregorian year ${theYear}`);
