@@ -42,7 +42,8 @@
     "readme": "npx jsdoc2md dist/index.js",
     "pretest": "npm run build",
     "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
-    "test": "nyc ava"
+    "coverage": "nyc ava",
+    "test": "ava"
   },
   "license": "GPL-2.0",
   "ava": {

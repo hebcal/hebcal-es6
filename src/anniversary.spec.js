@@ -28,13 +28,12 @@ test('yahrzeit', (t) => {
       '11/19/2017 11/8/2018 11/28/2019 11/17/2020 11/5/2021 11/24/2022 11/14/2023 12/1/2024 11/21/2025 11/10/2026 11/30/2027 11/19/2028 11/8/2029 11/26/2030 11/16/2031 11/4/2032 11/22/2033 11/12/2034 12/2/2035 11/20/2036 11/8/2037 11/28/2038 11/17/2039 11/6/2040 11/24/2041',
     ],
   ];
-  const today = new HDate(new Date(2018, 0, 1, 12, 34));
   for (const item of items) {
     const gd = new Date(item[0], item[1] - 1, item[2]);
     const name = item[3];
     const expected = item[4].split(' ');
     for (let i = 0; i < 25; i++) {
-      const hyear = i + today.getFullYear();
+      const hyear = i + 5778;
       const yahrzeit = HebrewCalendar.getYahrzeit(hyear, gd);
       const greg = yahrzeit.greg();
       const dateStr = greg.toLocaleDateString('en-US');
@@ -64,13 +63,12 @@ test('birthday', (t) => {
       '11/26/1992 11/14/1993 11/4/1994 11/23/1995 11/12/1996 11/30/1997 11/19/1998 11/9/1999 11/28/2000 11/16/2001 11/5/2002 11/25/2003 11/14/2004 12/2/2005 11/21/2006 11/11/2007 11/28/2008 11/17/2009 11/7/2010 11/27/2011 11/15/2012',
     ],
   ];
-  const today = new HDate(new Date(1993, 0, 1, 12, 34));
   for (const item of items) {
     const gd = new Date(item[0], item[1] - 1, item[2]);
     const name = item[3];
     const expected = item[4].split(' ');
     for (let i = 0; i < 21; i++) {
-      const hyear = i + today.getFullYear();
+      const hyear = i + 5753;
       const birthday = HebrewCalendar.getBirthdayOrAnniversary(hyear, gd);
       const greg = birthday.greg();
       const dateStr = greg.toLocaleDateString('en-US');
