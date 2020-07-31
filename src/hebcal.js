@@ -116,13 +116,13 @@ function getCandleLightingMinutes(options) {
   if (!options.candlelighting) {
     return undefined;
   }
-  const location = options.location || {};
   let min = 18;
-  if (location.il && location.name === 'Jerusalem') {
-    min = 40;
-  }
   if (typeof options.candleLightingMins === 'number') {
     min = Math.abs(options.candleLightingMins);
+  }
+  if (options.location && options.location.getIsrael() &&
+      options.location.getShortName() === 'Jerusalem') {
+    min = 40;
   }
   return -1 * min;
 }

@@ -566,7 +566,7 @@ test('jerusalem40', (t) => {
     year: 2020,
     month: 1,
     noHolidays: true,
-    location: Location.lookup('Jerusalem'),
+    location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
     candlelighting: true,
     havdalahMins: 0,
   };
