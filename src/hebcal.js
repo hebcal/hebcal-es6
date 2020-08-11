@@ -188,7 +188,7 @@ export function getStartAndEnd(options) {
     return [getAbs(options.start), getAbs(options.end)];
   }
   const isHebrewYear = Boolean(options.isHebrewYear);
-  const theYear = typeof options.year !== 'undefined' ? Number(options.year) :
+  const theYear = typeof options.year !== 'undefined' ? parseInt(options.year, 10) :
     isHebrewYear ? new HDate().getFullYear() : new Date().getFullYear();
   if (isNaN(theYear)) {
     throw new RangeError(`Invalid year ${options.year}`);
@@ -205,10 +205,10 @@ export function getStartAndEnd(options) {
       theMonth = options.month;
     }
   }
+  const numYears = parseInt(options.numYears, 10) || 1;
   if (isHebrewYear) {
     const startDate = new HDate(1, theMonth || TISHREI, theYear);
     let startAbs = startDate.abs();
-    const numYears = Number(options.numYears) || 1;
     const endAbs = options.month ?
         startAbs + startDate.daysInMonth() :
         new HDate(1, TISHREI, theYear + numYears).abs() - 1;
@@ -226,7 +226,6 @@ export function getStartAndEnd(options) {
       startGreg.setFullYear(theYear);
     }
     const startAbs = g.greg2abs(startGreg);
-    const numYears = Number(options.numYears) || 1;
     let endAbs;
     if (options.month) {
       endAbs = startAbs + g.daysInMonth(theMonth, theYear) - 1;
@@ -907,7 +906,7 @@ export const HebrewCalendar = {
       return timeStr;
     }
     const hm = timeStr.split(':');
-    let hour = Number(hm[0]);
+    let hour = parseInt(hm[0], 10);
     if (hour < 12 && suffix) {
       suffix = suffix.replace('p', 'a').replace('P', 'A');
     } else if (hour > 12) {
