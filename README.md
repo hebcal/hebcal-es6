@@ -129,6 +129,13 @@ Event names can be rendered in several languges using the <code>locale</code> op
 </dd>
 </dl>
 
+## Typedefs
+
+<dl>
+<dt><a href="#ZmanimTimesResult">ZmanimTimesResult</a> : <code>Object</code></dt>
+<dd></dd>
+</dl>
+
 <a name="Event"></a>
 
 ## Event
@@ -752,7 +759,7 @@ Class representing halachic times
 
 * [Zmanim](#Zmanim)
     * [new Zmanim(date, latitude, longitude)](#new_Zmanim_new)
-    * [.suntime()](#Zmanim+suntime) ⇒ <code>suncalc.GetTimesResult</code>
+    * [.suntime()](#Zmanim+suntime) ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)
     * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
     * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
     * [.hour()](#Zmanim+hour) ⇒ <code>number</code>
@@ -789,7 +796,7 @@ Initialize a Zmanim instance.
 
 <a name="Zmanim+suntime"></a>
 
-### zmanim.suntime() ⇒ <code>suncalc.GetTimesResult</code>
+### zmanim.suntime() ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunrise"></a>
 
@@ -2113,3 +2120,29 @@ Options to configure which events are returned
 | locale | <code>string</code> | translate event titles according to a locale      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`) |
 | addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
 | addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
+
+<a name="ZmanimTimesResult"></a>
+
+## ZmanimTimesResult : <code>Object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type |
+| --- | --- |
+| dawn | <code>Date</code> | 
+| dusk | <code>Date</code> | 
+| goldenHour | <code>Date</code> | 
+| goldenHourEnd | <code>Date</code> | 
+| nauticalDawn | <code>Date</code> | 
+| nauticalDusk | <code>Date</code> | 
+| night | <code>Date</code> | 
+| nightEnd | <code>Date</code> | 
+| solarNoon | <code>Date</code> | 
+| sunrise | <code>Date</code> | 
+| sunriseEnd | <code>Date</code> | 
+| sunset | <code>Date</code> | 
+| sunsetStart | <code>Date</code> | 
+| alotHaShachar | <code>Date</code> | 
+| misheyakir | <code>Date</code> | 
+| misheyakirMachmir | <code>Date</code> | 
+| tzeit | <code>Date</code> | 

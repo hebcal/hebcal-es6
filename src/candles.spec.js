@@ -2,6 +2,19 @@ import test from 'ava';
 import {Location} from './location';
 import {makeCandleEvent} from './candles';
 import {HDate} from './hdate';
+import {flags} from './event';
+import {HebrewCalendar} from './hebcal';
+
+// eslint-disable-next-line require-jsdoc
+function eventDateDesc(ev) {
+  if (ev === null) {
+    return null;
+  }
+  return {
+    date: ev.getDate().greg().toISOString().substring(0, 10),
+    desc: ev.render(),
+  };
+}
 
 test('makeCandleEvent-nosunset', (t) => {
   const location = Location.lookup('Helsinki');
@@ -13,25 +26,240 @@ test('makeCandleEvent-nosunset', (t) => {
     minute: 'numeric',
   });
 
-  const expected = [
-    [new Date(2020, 4, 15), 'Candle lighting', '22:12'],
-    [new Date(2020, 4, 16), 'Havdalah', '23:46'],
-    [new Date(2020, 4, 22), 'Candle lighting', '22:28'],
-    [new Date(2020, 4, 23), 'Havdalah', '00:27'],
-    [new Date(2020, 4, 29), 'Candle lighting', '22:43'],
-    [new Date(2020, 4, 30), null, undefined],
-    [new Date(2020, 5, 5), 'Candle lighting', '22:55'],
-    [new Date(2020, 5, 6), null, undefined],
+  const dates = [
+    [2020, 4, 15],
+    [2020, 4, 16],
+    [2020, 4, 22],
+    [2020, 4, 23],
+    [2020, 4, 29],
+    [2020, 4, 30],
+    [2020, 5, 5],
+    [2020, 5, 6],
   ];
-  for (let i = 0; i < expected.length; i++) {
-    const arr = expected[i];
-    const hd = new HDate(arr[0]);
+  const events = [];
+  for (const dt of dates) {
+    const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
     const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, timeFormat, 18);
-    if (arr[1] == null) {
-      t.is(ev, null);
-    } else {
-      t.is(ev.getDesc(), arr[1]);
-      t.is(ev.getAttrs().eventTimeStr, arr[2]);
-    }
+    events.push(ev);
   }
+  const result = events.map(eventDateDesc);
+  const expected = [
+    {date: '2020-05-15', desc: 'Candle lighting: 22:12'},
+    {date: '2020-05-16', desc: 'Havdalah: 23:49'},
+    {date: '2020-05-22', desc: 'Candle lighting: 22:28'},
+    {date: '2020-05-23', desc: 'Havdalah: 00:31'},
+    {date: '2020-05-29', desc: 'Candle lighting: 22:43'},
+    null, // no tzeit
+    {date: '2020-06-05', desc: 'Candle lighting: 22:55'},
+    null, // no tzeit
+  ];
+  t.deepEqual(result, expected);
+
+  const events2 = [];
+  for (const dt of dates) {
+    const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
+    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, timeFormat, 18, 72);
+    events2.push(ev);
+  }
+  const result2 = events2.map(eventDateDesc);
+  const expected2 = [
+    {date: '2020-05-15', desc: 'Candle lighting: 22:12'},
+    {date: '2020-05-16', desc: 'Havdalah (72 min): 23:09'},
+    {date: '2020-05-22', desc: 'Candle lighting: 22:28'},
+    {date: '2020-05-23', desc: 'Havdalah (72 min): 23:25'},
+    {date: '2020-05-29', desc: 'Candle lighting: 22:43'},
+    {date: '2020-05-30', desc: 'Havdalah (72 min): 23:39'},
+    {date: '2020-06-05', desc: 'Candle lighting: 22:55'},
+    {date: '2020-06-06', desc: 'Havdalah (72 min): 23:50'},
+  ];
+  t.deepEqual(result2, expected2);
+});
+
+
+test('candles-only-diaspora', (t) => {
+  const options = {
+    year: 1993,
+    noHolidays: true,
+    location: Location.lookup('Chicago'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options);
+  t.is(events.length, 126);
+  t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
+  t.is(events[0].render(), 'Candle lighting: 16:10');
+  t.is(events[0].getDesc(), 'Candle lighting');
+  t.is(events[0].getAttrs().eventTimeStr, '16:10');
+  t.is(events[1].getFlags(), flags.LIGHT_CANDLES_TZEIS);
+  t.is(events[1].render(), 'Havdalah: 17:16');
+  t.is(events[1].getDesc(), 'Havdalah');
+  t.is(events[1].getAttrs().eventTimeStr, '17:16');
+  t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
+});
+
+// eslint-disable-next-line require-jsdoc
+function eventTitleDateTime(ev) {
+  return {
+    date: ev.getDate().greg().toISOString().substring(0, 10),
+    time: ev.getAttrs().eventTimeStr,
+    desc: ev.getDesc(),
+  };
+}
+
+test('candle-lighting-at-tzeit-motzei-shabbat', (t) => {
+  const options = {
+    start: new Date(2022, 5, 3),
+    end: new Date(2022, 5, 6),
+    noHolidays: true,
+    location: Location.lookup('Miami'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const expected = [
+    {desc: 'Candle lighting', date: '2022-06-03', time: '19:51'},
+    {desc: 'Candle lighting', date: '2022-06-04', time: '20:48'},
+    {desc: 'Candle lighting', date: '2022-06-05', time: '20:49'},
+    {desc: 'Havdalah', date: '2022-06-06', time: '20:49'},
+  ];
+  t.deepEqual(events, expected);
+});
+
+test('havdalah-mins', (t) => {
+  const options = {
+    year: 2020,
+    month: 4,
+    noSpecialShabbat: true,
+    havdalahMins: 47,
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options)
+      .filter((ev) => ev.getDesc().startsWith('Havdalah'));
+  const ev = events[0];
+  t.is(ev.getFlags(), flags.LIGHT_CANDLES_TZEIS);
+  t.is(ev.render(), 'Havdalah (47 min): 20:02');
+  t.is(ev.getDesc(), 'Havdalah');
+  t.is(ev.getAttrs().eventTimeStr, '20:02');
+  const actual = events.slice(1, 5).map(eventTitleDateTime);
+  const expected = [
+    {date: '2020-04-11', time: '20:10', desc: 'Havdalah'},
+    {date: '2020-04-16', time: '20:15', desc: 'Havdalah'},
+    {date: '2020-04-18', time: '20:17', desc: 'Havdalah'},
+    {date: '2020-04-25', time: '20:25', desc: 'Havdalah'},
+  ];
+  t.deepEqual(actual, expected, 'havadalah-47');
+});
+
+test('havdalah-zero-suppressed', (t) => {
+  const options = {
+    year: 2020,
+    month: 4,
+    noHolidays: true,
+    candlelighting: true,
+    havdalahMins: 0,
+    location: Location.lookup('Providence'),
+  };
+  const events = HebrewCalendar.calendar(options);
+  t.is(events.length, 8);
+  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  t.is(candlelighting.length, 8);
+  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  t.is(havdalah.length, 0);
+});
+
+test('havdalah-fixed-st-petersburg', (t) => {
+  const options = {
+    year: 2020,
+    month: 6,
+    noHolidays: true,
+    candlelighting: true,
+    havdalahMins: 42,
+    location: Location.lookup('Saint Petersburg'),
+  };
+  const events = HebrewCalendar.calendar(options);
+  t.is(events.length, 8);
+  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  t.is(candlelighting.length, 4);
+  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  t.is(havdalah.length, 4);
+});
+
+test('havdalah-no-tzeit-st-petersburg', (t) => {
+  const options = {
+    year: 2020,
+    month: 6,
+    noHolidays: true,
+    candlelighting: true,
+    location: Location.lookup('Saint Petersburg'),
+  };
+  const events = HebrewCalendar.calendar(options);
+  t.is(events.length, 4);
+  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  t.is(candlelighting.length, 4);
+  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  t.is(havdalah.length, 0);
+});
+
+test('candles-only-israel', (t) => {
+  const options = {
+    year: 1993,
+    noHolidays: true,
+    location: new Location(32.1836, 34.87386, true, 'Asia/Jerusalem'), // Ra'anana
+    il: true,
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options);
+  t.is(events.length, 123);
+  t.is(events[0].getFlags(), flags.LIGHT_CANDLES, 'Candle lighting 0');
+  t.is(events[33].getFlags(), flags.CHAG | flags.YOM_TOV_ENDS | flags.IL_ONLY, 'Havdalah in Israel on Pesach VII');
+});
+
+test('candleLightingMins', (t) => {
+  const options = {
+    year: 2020,
+    month: 1,
+    noHolidays: true,
+    location: Location.lookup('Tel Aviv'),
+    candlelighting: true,
+    candleLightingMins: 30,
+    havdalahMins: 0,
+  };
+  const events30 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const expected30 = [
+    {date: '2020-01-03', time: '16:17', desc: 'Candle lighting'},
+    {date: '2020-01-10', time: '16:23', desc: 'Candle lighting'},
+    {date: '2020-01-17', time: '16:29', desc: 'Candle lighting'},
+    {date: '2020-01-24', time: '16:35', desc: 'Candle lighting'},
+    {date: '2020-01-31', time: '16:42', desc: 'Candle lighting'},
+  ];
+  t.deepEqual(events30, expected30);
+  delete options.candleLightingMins;
+  const events18 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const expected18 = [
+    {date: '2020-01-03', time: '16:29', desc: 'Candle lighting'},
+    {date: '2020-01-10', time: '16:35', desc: 'Candle lighting'},
+    {date: '2020-01-17', time: '16:41', desc: 'Candle lighting'},
+    {date: '2020-01-24', time: '16:47', desc: 'Candle lighting'},
+    {date: '2020-01-31', time: '16:54', desc: 'Candle lighting'},
+  ];
+  t.deepEqual(events18, expected18);
+});
+
+test('jerusalem40', (t) => {
+  const options = {
+    year: 2020,
+    month: 1,
+    noHolidays: true,
+    location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
+    candlelighting: true,
+    havdalahMins: 0,
+  };
+  const events = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const expected = [
+    {date: '2020-01-03', time: '16:06', desc: 'Candle lighting'},
+    {date: '2020-01-10', time: '16:12', desc: 'Candle lighting'},
+    {date: '2020-01-17', time: '16:18', desc: 'Candle lighting'},
+    {date: '2020-01-24', time: '16:24', desc: 'Candle lighting'},
+    {date: '2020-01-31', time: '16:30', desc: 'Candle lighting'},
+  ];
+  t.deepEqual(events, expected);
 });

@@ -1,15 +1,31 @@
-import suncalc from 'suncalc';
 import {HDate} from './hdate';
-
-suncalc.addTime(-16.1, 'alotHaShachar', 0);
-suncalc.addTime(-11.5, 'misheyakir', 0);
-suncalc.addTime(-10.2, 'misheyakirMachmir', 0);
-suncalc.addTime(-8.5, 0, 'tzeit');
+import Sun from '@hebcal/solar-calc/lib/sun';
 
 // eslint-disable-next-line require-jsdoc
 function throwTypeError(error) {
   throw new TypeError(error);
 }
+
+/**
+ * @typedef {Object} ZmanimTimesResult
+ * @property {Date} dawn
+ * @property {Date} dusk
+ * @property {Date} goldenHour
+ * @property {Date} goldenHourEnd
+ * @property {Date} nauticalDawn
+ * @property {Date} nauticalDusk
+ * @property {Date} night
+ * @property {Date} nightEnd
+ * @property {Date} solarNoon
+ * @property {Date} sunrise
+ * @property {Date} sunriseEnd
+ * @property {Date} sunset
+ * @property {Date} sunsetStart
+ * @property {Date} alotHaShachar
+ * @property {Date} misheyakir
+ * @property {Date} misheyakirMachmir
+ * @property {Date} tzeit
+*/
 
 /** Class representing halachic times */
 export class Zmanim {
@@ -32,28 +48,45 @@ export class Zmanim {
     const dt = date instanceof Date ? date :
         date instanceof HDate ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
-    // reset the date to midday before calling suncalc api
-    // https://github.com/mourner/suncalc/issues/11
+    // reset the date to midday before calling solar-calc api
     this.date = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12, 0, 0, 0, 0);
-    this.times = suncalc.getTimes(this.date, latitude, longitude);
+    this.sun = new Sun(this.date, latitude, longitude);
     this.latitude = latitude;
     this.longitude = longitude;
   }
-  /** @return {suncalc.GetTimesResult} */
+  /** @return {ZmanimTimesResult} */
   suntime() {
-    return this.times;
+    return {
+      solarNoon: this.sun.solarNoon,
+      sunrise: this.sunrise(),
+      sunset: this.sunset(),
+      sunriseEnd: this.sun.timeAtAngle(0.3, true),
+      sunsetStart: this.sun.timeAtAngle(0.3, false),
+      dawn: this.sun.timeAtAngle(6, true),
+      dusk: this.sun.timeAtAngle(6, false),
+      nauticalDawn: this.sun.timeAtAngle(12, true),
+      nauticalDusk: this.sun.timeAtAngle(12, false),
+      nightEnd: this.sun.timeAtAngle(18, true),
+      night: this.sun.timeAtAngle(18, false),
+      goldenHourEnd: this.sun.timeAtAngle(-6, true),
+      goldenHour: this.sun.timeAtAngle(-6, false),
+      alotHaShachar: this.alotHaShachar(),
+      misheyakir: this.misheyakir(),
+      misheyakirMachmir: this.misheyakirMachmir(),
+      tzeit: this.tzeit(),
+    };
   }
   /** @return {Date} */
   sunrise() {
-    return this.times.sunrise;
+    return this.sun.timeAtAngle(0.833333, true);
   }
   /** @return {Date} */
   sunset() {
-    return this.times.sunset;
+    return this.sun.timeAtAngle(0.833333, false);
   }
   /** @return {number} */
   hour() {
-    return (this.times.sunset - this.times.sunrise) / 12; // ms in hour
+    return (this.sunset() - this.sunrise()) / 12; // ms in hour
   }
   /** @return {number} */
   hourMins() {
@@ -92,15 +125,15 @@ export class Zmanim {
   }
   /** @return {Date} */
   alotHaShachar() {
-    return this.times.alotHaShachar;
+    return this.sun.timeAtAngle(16.1, true);
   }
   /** @return {Date} */
   misheyakir() {
-    return this.times.misheyakir;
+    return this.sun.timeAtAngle(11.5, true);
   }
   /** @return {Date} */
   misheyakirMachmir() {
-    return this.times.misheyakirMachmir;
+    return this.sun.timeAtAngle(10.2, true);
   }
   /** @return {Date} */
   sofZmanShma() { // Gra
@@ -124,7 +157,7 @@ export class Zmanim {
   }
   /** @return {Date} */
   tzeit() {
-    return this.times.tzeit;
+    return this.sun.timeAtAngle(8.5, false);
   }
   /** @return {Date} */
   neitzHaChama() {

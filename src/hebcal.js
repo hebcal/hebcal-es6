@@ -890,6 +890,10 @@ export const HebrewCalendar = {
     return yearMap.get(hd.toString());
   },
 
+  hour12cc: {
+    US: 1, CA: 1, BR: 1, AU: 1, NZ: 1, DO: 1, PR: 1, GR: 1, IN: 1, KR: 1, NP: 1, ZA: 1,
+  },
+
   /**
    * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
    * keep as "20:13" for any other locale/country. Uses `HebrewCalendar.Options` to determine
@@ -902,7 +906,7 @@ export const HebrewCalendar = {
   reformatTimeStr: function(timeStr, suffix, options) {
     if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);
     const cc = (options.location && options.location.cc) || (options.il ? 'IL' : 'US');
-    if (cc != 'US' || (options.locale && options.locale.length == 2 && options.locale != 'en')) {
+    if (typeof this.hour12cc[cc] === 'undefined') {
       return timeStr;
     }
     const hm = timeStr.split(':');

@@ -1,7 +1,5 @@
 /// <reference types="node"/>
 
-import suncalc from 'suncalc';
-
 declare module '@hebcal/core' {
     /**
      * Represents an Event with a title, date, and flags
@@ -268,6 +266,26 @@ declare module '@hebcal/core' {
         static addLocation(cityName: string, location: Location): boolean;
     }
 
+    export interface ZmanimTimesResult {
+        dawn: Date;
+        dusk: Date;
+        goldenHour: Date;
+        goldenHourEnd: Date;
+        nauticalDawn: Date;
+        nauticalDusk: Date;
+        night: Date;
+        nightEnd: Date;
+        solarNoon: Date;
+        sunrise: Date;
+        sunriseEnd: Date;
+        sunset: Date;
+        sunsetStart: Date;
+        alotHaShachar: Date;
+        misheyakir: Date;
+        misheyakirMachmir: Date;
+        tzeit: Date;
+    }
+
     /**
      * Class representing halachic times
      */
@@ -279,7 +297,7 @@ declare module '@hebcal/core' {
          * @param longitude
          */
         constructor(date: Date | HDate, latitude: number, longitude: number);
-        suntime(): suncalc.GetTimesResult;
+        suntime(): ZmanimTimesResult;
         sunrise(): Date;
         sunset(): Date;
         hour(): number;

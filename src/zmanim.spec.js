@@ -20,43 +20,57 @@ test('zmanim', (t) => {
     minute: 'numeric',
   });
 
-  t.is(f.format(zman.sunrise()), '5:17 AM');
-  t.is(f.format(zman.sunset()), '8:23 PM');
-  t.is(f.format(zman.chatzot()), '12:50 PM');
-  t.is(f.format(zman.chatzotNight()), '12:50 AM');
-  t.is(f.format(zman.alotHaShachar()), '3:26 AM');
-  t.is(f.format(zman.misheyakir()), '4:04 AM');
-  t.is(f.format(zman.misheyakirMachmir()), '4:14 AM');
-  t.is(f.format(zman.sofZmanShma()), '9:04 AM');
-  t.is(f.format(zman.sofZmanTfilla()), '10:19 AM');
-  t.is(f.format(zman.minchaGedola()), '1:28 PM');
-  t.is(f.format(zman.minchaKetana()), '5:14 PM');
-  t.is(f.format(zman.plagHaMincha()), '6:49 PM');
-  t.is(f.format(zman.tzeit()), '9:14 PM');
-  t.is(f.format(zman.neitzHaChama()), '5:17 AM');
-  t.is(f.format(zman.shkiah()), '8:23 PM');
-  t.is(zman.hour(), 4528776.166666667);
-  t.is(zman.hourMins(), 75.47960277777779);
-  t.is(zman.nightHour(), 2674586.4166666665);
-  t.is(zman.nightHourMins(), 44.57644027777778);
+  t.is(f.format(zman.sunrise()), '5:16 AM');
+  t.is(f.format(zman.sunset()), '8:22 PM');
+  t.is(f.format(zman.chatzot()), '12:49 PM');
+  t.is(f.format(zman.chatzotNight()), '12:49 AM');
+  t.is(f.format(zman.alotHaShachar()), '3:25 AM');
+  t.is(f.format(zman.misheyakir()), '4:03 AM');
+  t.is(f.format(zman.misheyakirMachmir()), '4:12 AM');
+  t.is(f.format(zman.sofZmanShma()), '9:02 AM');
+  t.is(f.format(zman.sofZmanTfilla()), '10:18 AM');
+  t.is(f.format(zman.minchaGedola()), '1:27 PM');
+  t.is(f.format(zman.minchaKetana()), '5:13 PM');
+  t.is(f.format(zman.plagHaMincha()), '6:48 PM');
+  t.is(f.format(zman.tzeit()), '9:13 PM');
+  t.is(f.format(zman.neitzHaChama()), '5:16 AM');
+  t.is(f.format(zman.shkiah()), '8:22 PM');
+  t.is(Math.round(zman.hourMins()), 76);
+  t.is(Math.round(zman.nightHourMins()), 45);
 });
 
 test('suntime', (t) => {
   const zman = makeZman();
   const times = zman.suntime();
-  const expectedKeys = [
-    '0', 'solarNoon',
-    'nadir', 'sunrise',
-    'sunset', 'sunriseEnd',
-    'sunsetStart', 'dawn',
-    'dusk', 'nauticalDawn',
-    'nauticalDusk', 'nightEnd',
-    'night', 'goldenHourEnd',
-    'goldenHour', 'alotHaShachar',
-    'misheyakir', 'misheyakirMachmir',
-    'tzeit',
-  ];
-  t.deepEqual(Object.keys(times), expectedKeys);
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Chicago',
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+  const result = {};
+  for (const [key, val] of Object.entries(times)) {
+    result[key] = f.format(val);
+  }
+  const expected = {
+    solarNoon: '12:49 PM',
+    sunrise: '5:16 AM',
+    sunset: '8:22 PM',
+    sunriseEnd: '5:19 AM',
+    sunsetStart: '8:19 PM',
+    dawn: '4:42 AM',
+    dusk: '8:56 PM',
+    nauticalDawn: '3:59 AM',
+    nauticalDusk: '9:39 PM',
+    nightEnd: '3:07 AM',
+    night: '10:31 PM',
+    goldenHourEnd: '5:58 AM',
+    goldenHour: '7:40 PM',
+    alotHaShachar: '3:25 AM',
+    misheyakir: '4:03 AM',
+    misheyakirMachmir: '4:12 AM',
+    tzeit: '9:13 PM',
+  };
+  t.deepEqual(result, expected);
 });
 
 test('throws', (t) => {
