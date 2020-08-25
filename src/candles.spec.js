@@ -263,3 +263,31 @@ test('jerusalem40', (t) => {
   ];
   t.deepEqual(events, expected);
 });
+
+test('chanukah-candles', (t) => {
+  const options = {
+    start: new Date(2020, 11, 9),
+    end: new Date(2020, 11, 19),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options);
+  const actual = events.map(eventTitleDateTime);
+  const expected = [
+    {date: '2020-12-10', time: '17:01', desc: 'Chanukah: 1 Candle'},
+    {date: '2020-12-11', time: '15:56', desc: 'Chanukah: 2 Candles'},
+    {date: '2020-12-11', time: '15:56', desc: 'Candle lighting'},
+    {date: '2020-12-12', time: '17:01', desc: 'Chanukah: 3 Candles'},
+    {date: '2020-12-12', time: '17:01', desc: 'Havdalah'},
+    {date: '2020-12-13', time: '17:02', desc: 'Chanukah: 4 Candles'},
+    {date: '2020-12-14', time: '17:02', desc: 'Chanukah: 5 Candles'},
+    {date: '2020-12-15', time: '17:02', desc: 'Chanukah: 6 Candles'},
+    {date: '2020-12-16', time: '17:02', desc: 'Chanukah: 7 Candles'},
+    {date: '2020-12-16', time: undefined, desc: 'Rosh Chodesh Tevet'},
+    {date: '2020-12-17', time: '17:03', desc: 'Chanukah: 8 Candles'},
+    {date: '2020-12-18', time: undefined, desc: 'Chanukah: 8th Day'},
+    {date: '2020-12-18', time: '15:58', desc: 'Candle lighting'},
+    {date: '2020-12-19', time: '17:04', desc: 'Havdalah'},
+  ];
+  t.deepEqual(actual, expected, 'chanukah-candles');
+});

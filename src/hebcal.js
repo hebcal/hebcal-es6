@@ -448,12 +448,26 @@ export const HebrewCalendar = {
         const eFlags = e.getFlags();
         if ((!eFlags || (eFlags & mask)) &&
           ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
-          if (!options.noHolidays) {
-            evts.push(e);
-          }
           if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
             candlesEv = makeCandleEvent(e, hd, dow, location, timeFormat,
                 candleLightingMinutes, havdalahMinutes);
+            if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
+              const attrs = {
+                eventTime: candlesEv.attrs.eventTime,
+                eventTimeStr: candlesEv.attrs.eventTimeStr,
+              };
+              const chanukahDay = e.getAttrs().chanukahDay;
+              if (chanukahDay) {
+                attrs.chanukahDay = chanukahDay;
+              }
+              // Replace Chanukah event with a clone that includes candle lighting time.
+              // For clarity, allow a "duplicate" candle lighting event to remain for Shabbat
+              e = new HolidayEvent(e.getDate(), e.getDesc(), eFlags, attrs);
+              candlesEv = undefined;
+            }
+          }
+          if (!options.noHolidays) {
+            evts.push(e);
           }
         }
       });
