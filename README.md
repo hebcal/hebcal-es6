@@ -154,7 +154,7 @@ Represents an Event with a title, date, and flags
     * [.url()](#Event+url) ⇒ <code>string</code>
     * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
     * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
-    * [.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>
+    * ~~[.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>~~
 
 <a name="new_Event_new"></a>
 
@@ -262,8 +262,8 @@ ev2.observedInDiaspora(); // true
 ```
 <a name="Event+getAttrs"></a>
 
-### event.getAttrs() ⇒ <code>Object</code>
-Optional additional event attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
+### ~~event.getAttrs() ⇒ <code>Object</code>~~
+***Deprecated***
 
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="HDate"></a>
