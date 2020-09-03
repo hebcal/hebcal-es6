@@ -104,7 +104,7 @@ export class MoladEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const m = this.getAttrs().molad;
+    const m = this.molad;
     const monthName = m.getMonthName();
     const dow = shortDayNames[m.getDow()];
     const minutes = m.getMinutes();

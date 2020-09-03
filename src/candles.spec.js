@@ -88,11 +88,11 @@ test('candles-only-diaspora', (t) => {
   t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
   t.is(events[0].render(), 'Candle lighting: 16:10');
   t.is(events[0].getDesc(), 'Candle lighting');
-  t.is(events[0].getAttrs().eventTimeStr, '16:10');
+  t.is(events[0].eventTimeStr, '16:10');
   t.is(events[1].getFlags(), flags.LIGHT_CANDLES_TZEIS);
   t.is(events[1].render(), 'Havdalah: 17:16');
   t.is(events[1].getDesc(), 'Havdalah');
-  t.is(events[1].getAttrs().eventTimeStr, '17:16');
+  t.is(events[1].eventTimeStr, '17:16');
   t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
 });
 
@@ -100,7 +100,7 @@ test('candles-only-diaspora', (t) => {
 function eventTitleDateTime(ev) {
   return {
     date: ev.getDate().greg().toISOString().substring(0, 10),
-    time: ev.getAttrs().eventTimeStr,
+    time: ev.eventTimeStr,
     desc: ev.getDesc(),
   };
 }
@@ -138,7 +138,7 @@ test('havdalah-mins', (t) => {
   t.is(ev.getFlags(), flags.LIGHT_CANDLES_TZEIS);
   t.is(ev.render(), 'Havdalah (47 min): 20:02');
   t.is(ev.getDesc(), 'Havdalah');
-  t.is(ev.getAttrs().eventTimeStr, '20:02');
+  t.is(ev.eventTimeStr, '20:02');
   const actual = events.slice(1, 5).map(eventTitleDateTime);
   const expected = [
     {date: '2020-04-11', time: '20:10', desc: 'Havdalah'},

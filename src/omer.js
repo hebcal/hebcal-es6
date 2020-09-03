@@ -17,7 +17,7 @@ export class OmerEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const omer = this.getAttrs().omer;
+    const omer = this.omer;
     const nth = (locale == 'he') ? gematriya(omer) : Locale.ordinal(omer);
     return nth + ' ' + Locale.gettext('day of the Omer', locale);
   }
@@ -27,6 +27,6 @@ export class OmerEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    return Locale.gettext('Omer', locale) + ' ' + this.getAttrs().omer;
+    return Locale.gettext('Omer', locale) + ' ' + this.omer;
   }
 }

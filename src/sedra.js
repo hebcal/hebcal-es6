@@ -447,7 +447,7 @@ export class ParshaEvent extends Event {
    */
   render(locale) {
     const locale0 = locale || Locale.getLocaleName();
-    const parsha = this.getAttrs().parsha;
+    const parsha = this.parsha;
     let name = Locale.gettext(parsha[0], locale);
     if (parsha.length == 2) {
       const hyphen = locale0 == 'he' ? '־' : '-';
@@ -457,7 +457,7 @@ export class ParshaEvent extends Event {
   }
   /** @return {string} */
   basename() {
-    return this.getAttrs().parsha.join('-');
+    return this.parsha.join('-');
   }
   /** @return {string} */
   url() {

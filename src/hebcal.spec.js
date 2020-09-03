@@ -151,11 +151,11 @@ test('omer-only', (t) => {
   t.is(events.length, 30);
   t.is(gregDtString(events[0]), '4/29/1968');
   t.is(events[0].getFlags(), flags.OMER_COUNT);
-  t.is(events[0].getAttrs().omer, 16);
+  t.is(events[0].omer, 16);
   t.is(events[0].render(), '16th day of the Omer');
   t.is(gregDtString(events[25]), '5/24/1968');
   t.is(events[25].getFlags(), flags.OMER_COUNT);
-  t.is(events[25].getAttrs().omer, 41);
+  t.is(events[25].omer, 41);
   t.is(events[25].render(), '41st day of the Omer');
 });
 

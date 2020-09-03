@@ -14,6 +14,7 @@ declare module '@hebcal/core' {
          */
         constructor(date: HDate, desc: string, mask?: number, attrs?: any);
         getFlags(): number;
+        /** @deprecated */
         getAttrs(): any;
         getDesc(): string;
         basename(): string;
@@ -672,11 +673,6 @@ declare module '@hebcal/core' {
          * @param locale Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
          */
         getString(hDate: HDate | number, locale?: string): string;
-        /**
-         * Translates object describing the parsha to a string
-         * @param parsha
-         */
-        static parshaToString(parsha: string[]): string;
         /**
          * Returns an object describing the parsha on the first Saturday on or after absdate
          * @param hDate Hebrew date or absolute days

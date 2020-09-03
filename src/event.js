@@ -76,10 +76,12 @@ export class Event {
    * @param {Object} [attrs={}] optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
    */
   constructor(date, desc, mask, attrs) {
+    if (typeof attrs === 'object') {
+      Object.keys(attrs).forEach((k) => this[k] = attrs[k]);
+    }
     this.date = date;
     this.desc = desc;
     this.mask = +mask;
-    this.attrs = attrs || Object.create(null);
   }
   /**
    * Hebrew date of this event
@@ -168,10 +170,11 @@ export class Event {
     return !(this.mask & IL_ONLY);
   }
   /**
+   * @deprecated
    * Optional additional event attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
    * @return {Object}
    */
   getAttrs() {
-    return this.attrs;
+    return this;
   }
 }

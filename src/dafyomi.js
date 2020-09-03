@@ -193,8 +193,7 @@ export class DafYomiEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const daf = this.getAttrs().daf;
-    return Locale.gettext('Daf Yomi', locale) + ': ' + daf.render(locale);
+    return Locale.gettext('Daf Yomi', locale) + ': ' + this.daf.render(locale);
   }
   /**
    * Returns Daf Yomi name without the 'Daf Yomi: ' prefix (e.g. "Pesachim 107").
@@ -202,15 +201,14 @@ export class DafYomiEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    const daf = this.getAttrs().daf;
-    return daf.render(locale);
+    return this.daf.render(locale);
   }
   /**
    * Returns a link to sefaria.org or dafyomi.org
    * @return {string}
    */
   url() {
-    const daf = this.getAttrs().daf;
+    const daf = this.daf;
     const tractate = daf.getName();
     const blatt = daf.getBlatt();
     if (tractate == 'Kinnim' || tractate == 'Midot') {

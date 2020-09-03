@@ -132,13 +132,12 @@ export class HavdalahEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const attrs = this.getAttrs();
     let str = Locale.gettext(this.getDesc(), locale);
-    if (attrs.havdalahMins) {
+    if (this.havdalahMins) {
       const min = Locale.gettext('min', locale);
-      str += ` (${attrs.havdalahMins} ${min})`;
+      str += ` (${this.havdalahMins} ${min})`;
     }
-    return str + ': ' + attrs.eventTimeStr;
+    return str + ': ' + this.eventTimeStr;
   }
   /**
    * Returns translation of "Havdalah" without the time.
@@ -165,7 +164,7 @@ export class CandleLightingEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    return Locale.gettext(this.getDesc(), locale) + ': ' + this.getAttrs().eventTimeStr;
+    return Locale.gettext(this.getDesc(), locale) + ': ' + this.eventTimeStr;
   }
   /**
    * Returns translation of "Candle lighting" without the time.

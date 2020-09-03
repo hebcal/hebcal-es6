@@ -453,10 +453,10 @@ export const HebrewCalendar = {
                 candleLightingMinutes, havdalahMinutes);
             if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
               const attrs = {
-                eventTime: candlesEv.attrs.eventTime,
-                eventTimeStr: candlesEv.attrs.eventTimeStr,
+                eventTime: candlesEv.eventTime,
+                eventTimeStr: candlesEv.eventTimeStr,
               };
-              const chanukahDay = e.getAttrs().chanukahDay;
+              const chanukahDay = e.chanukahDay;
               if (chanukahDay) {
                 attrs.chanukahDay = chanukahDay;
               }
