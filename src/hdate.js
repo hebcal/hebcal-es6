@@ -172,13 +172,16 @@ export class HDate {
         day = new Date();
       }
       // 1 argument
-      const d = (day instanceof Date) ? HDate.abs2hebrew(g.greg2abs(day)) :
-        (typeof day == 'number') ? HDate.abs2hebrew(day) :
+      const abs0 = (typeof day === 'number') ? day : (day instanceof Date) ? g.greg2abs(day) : 0;
+      const d = (abs0 > 0) ? HDate.abs2hebrew(abs0) :
         (day instanceof HDate) ? {dd: day.day, mm: day.month, yy: day.year} :
         throwTypeError(`HDate called with bad argument: ${day}`);
       this.day = d.dd;
       this.month = d.mm;
       this.year = d.yy;
+      if (abs0 > 0) {
+        this.abs0 = abs0;
+      }
     }
   }
 
@@ -242,6 +245,7 @@ export class HDate {
   /**
    * Sets the year of the date. Returns the object it was called upon.
    * @private
+   * @deprecated
    * @param {number} year
    * @return {HDate}
    */
@@ -279,7 +283,7 @@ export class HDate {
    * @return {Date}
    */
   greg() {
-    return g.abs2greg(HDate.hebrew2abs(this.year, this.month, this.day));
+    return g.abs2greg(this.abs());
   }
 
   /**
@@ -287,7 +291,10 @@ export class HDate {
    * @return {number}
    */
   abs() {
-    return HDate.hebrew2abs(this.year, this.month, this.day);
+    if (typeof this.abs0 !== 'number') {
+      this.abs0 = HDate.hebrew2abs(this.year, this.month, this.day);
+    }
+    return this.abs0;
   }
 
   /**
@@ -776,6 +783,7 @@ export class HDate {
 function fix(date) {
   fixMonth(date);
   fixDate(date);
+  delete date.abs0;
 }
 
 // eslint-disable-next-line require-jsdoc
