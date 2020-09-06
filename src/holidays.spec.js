@@ -12,7 +12,7 @@ test('basename-and-url', (t) => {
   t.is(ev.render(), 'Pesach IV (CH\'\'M)');
   t.is(ev.renderBrief(), 'Pesach IV (CH\'\'M)');
   t.is(ev.basename(), 'Pesach');
-  t.is(ev.url(), 'https://www.hebcal.com/holidays/pesach');
+  t.is(ev.url(), 'https://www.hebcal.com/holidays/pesach-5763');
 
   const ev2 = new HolidayEvent(new HDate(23, months.TISHREI, 5763),
       'Simchat Torah', flags.CHUL_ONLY);
@@ -20,7 +20,7 @@ test('basename-and-url', (t) => {
   t.is(ev2.render(), 'Simchat Torah');
   t.is(ev2.renderBrief(), 'Simchat Torah');
   t.is(ev2.basename(), 'Simchat Torah');
-  t.is(ev2.url(), 'https://www.hebcal.com/holidays/simchat-torah');
+  t.is(ev2.url(), 'https://www.hebcal.com/holidays/simchat-torah-5763');
 
   const ev3 = new HolidayEvent(new HDate(8, months.AV, 5783),
       'Erev Tish\'a B\'Av', flags.MAJOR_FAST);
@@ -28,14 +28,14 @@ test('basename-and-url', (t) => {
   t.is(ev3.render(), 'Erev Tish\'a B\'Av');
   t.is(ev3.renderBrief(), 'Erev Tish\'a B\'Av');
   t.is(ev3.basename(), 'Tish\'a B\'Av');
-  t.is(ev3.url(), 'https://www.hebcal.com/holidays/tisha-bav');
+  t.is(ev3.url(), 'https://www.hebcal.com/holidays/tisha-bav-5783');
 
   const rch = new RoshChodeshEvent(new HDate(30, months.ADAR_I, 5787), 'Adar II');
   t.is(rch.getDesc(), 'Rosh Chodesh Adar II');
   t.is(rch.render(), 'Rosh Chodesh Adar II');
   t.is(rch.renderBrief(), 'Rosh Chodesh Adar II');
   t.is(rch.basename(), 'Rosh Chodesh Adar II');
-  t.is(rch.url(), 'https://www.hebcal.com/holidays/rosh-chodesh-adar-ii');
+  t.is(rch.url(), 'https://www.hebcal.com/holidays/rosh-chodesh-adar-ii-5787');
 
   const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
   t.is(mvch.getDesc(), 'Shabbat Mevarchim Chodesh Tevet');

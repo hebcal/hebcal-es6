@@ -461,7 +461,8 @@ export class ParshaEvent extends Event {
   }
   /** @return {string} */
   url() {
+    const dt = this.getDate().greg().toISOString().substring(0, 10).replace(/-/g, '');
     return 'https://www.hebcal.com/sedrot/' +
-      this.basename().toLowerCase().replace(/[\-\' ]/g, '');
+      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' + dt;
   }
 }

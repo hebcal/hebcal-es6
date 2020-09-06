@@ -4,15 +4,15 @@ import {Locale} from './locale';
 import {Sedra, ParshaEvent} from './sedra';
 import {greg as g} from './greg';
 
-test('ParshaEvent', (t) => {
+test('ParshaEvent-url', (t) => {
   const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai']);
-  t.is(ev1.url(), 'https://www.hebcal.com/sedrot/beharbechukotai');
+  t.is(ev1.url(), 'https://www.hebcal.com/sedrot/behar-bechukotai-20200516');
   const ev2 = new ParshaEvent(new HDate(new Date(2020, 5, 6)), ['Nasso']);
-  t.is(ev2.url(), 'https://www.hebcal.com/sedrot/nasso');
+  t.is(ev2.url(), 'https://www.hebcal.com/sedrot/nasso-20200606');
   const ev3 = new ParshaEvent(new HDate(new Date(2020, 5, 13)), ['Beha\'alotcha']);
-  t.is(ev3.url(), 'https://www.hebcal.com/sedrot/behaalotcha');
+  t.is(ev3.url(), 'https://www.hebcal.com/sedrot/behaalotcha-20200613');
   const ev4 = new ParshaEvent(new HDate(new Date(2022, 3, 30)), ['Achrei Mot']);
-  t.is(ev4.url(), 'https://www.hebcal.com/sedrot/achreimot');
+  t.is(ev4.url(), 'https://www.hebcal.com/sedrot/achrei-mot-20220430');
 });
 
 // eslint-disable-next-line require-jsdoc
