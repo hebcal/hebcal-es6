@@ -47,7 +47,7 @@ export class HolidayEvent extends Event {
   url() {
     return 'https://www.hebcal.com/holidays/' +
       this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' +
-      this.getDate().getFullYear();
+      this.getDate().greg().getFullYear();
   }
 }
 
