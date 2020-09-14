@@ -689,7 +689,7 @@ export const HebrewCalendar = {
     }
 
     // standard holidays that don't shift based on year
-    add(new HolidayEvent(RH, `Rosh Hashana ${year}`, CHAG | LIGHT_CANDLES_TZEIS));
+    add(new RoshHashanaEvent(RH, year, CHAG | LIGHT_CANDLES_TZEIS));
     addEvents(year, [
       [2, TISHREI, 'Rosh Hashana II', CHAG | YOM_TOV_ENDS],
       [3 + (RH.getDay() == THU),
@@ -933,3 +933,27 @@ export const HebrewCalendar = {
     return `${hour}:${hm[1]}${suffix}`;
   },
 };
+
+/**
+ * @private
+ */
+class RoshHashanaEvent extends HolidayEvent {
+  /**
+   * @private
+   * @param {HDate} date Hebrew date event occurs
+   * @param {number} hyear Hebrew year
+   * @param {number} mask optional holiday flags
+   */
+  constructor(date, hyear, mask) {
+    super(date, `Rosh Hashana ${hyear}`, mask);
+    this.hyear = hyear;
+  }
+  /**
+   * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
+  }
+}

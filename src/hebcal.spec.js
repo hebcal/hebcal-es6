@@ -1,6 +1,6 @@
 import test from 'ava';
 import {HebrewCalendar, getStartAndEnd} from './hebcal';
-import {HDate} from './hdate';
+import {HDate, months} from './hdate';
 import {flags} from './event';
 import {Location} from './location';
 
@@ -198,6 +198,14 @@ test('locale-he', (t) => {
   const options = {year: 2020, month: 4, locale: 'he'};
   const ev = HebrewCalendar.calendar(options)[0];
   t.is(ev.render(), 'שַׁבָּת הַגָּדוֹל');
+});
+
+test('locale-he-rosh-hashana', (t) => {
+  const RH = new HDate(1, months.TISHREI, 5749);
+  const options = {start: RH, end: RH};
+  const ev = HebrewCalendar.calendar(options)[0];
+  t.is(ev.render('en'), 'Rosh Hashana 5749');
+  t.is(ev.render('he'), 'רֹאשׁ הַשָּׁנָה 5749');
 });
 
 test('addHebrewDatesForEvents', (t) => {
