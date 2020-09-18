@@ -92,6 +92,28 @@ test('getHolidaysOnDate', (t) => {
   }
 });
 
+test('getHolidaysOnDate-il', (t) => {
+  const dtShavuot1 = new Date(2021, 4, 17);
+  const dtShavuot2 = new Date(2021, 4, 18);
+  const events0 = HebrewCalendar.getHolidaysOnDate(dtShavuot1);
+  t.is(events0.length, 2);
+
+  const events1il = HebrewCalendar.getHolidaysOnDate(dtShavuot1, true);
+  t.is(events1il.length, 1);
+  t.is(events1il[0].getDesc(), 'Shavuot');
+
+  const events1diaspora = HebrewCalendar.getHolidaysOnDate(dtShavuot1, false);
+  t.is(events1diaspora.length, 1);
+  t.is(events1diaspora[0].getDesc(), 'Shavuot I');
+
+  const events2d = HebrewCalendar.getHolidaysOnDate(dtShavuot2, false);
+  t.is(events2d.length, 1);
+  t.is(events2d[0].getDesc(), 'Shavuot II');
+
+  const events2il = HebrewCalendar.getHolidaysOnDate(dtShavuot2, true);
+  t.is(events2il.length, 0, 'expected no Shavuot II in Israel');
+});
+
 /**
  * @param {Object} t
  * @param {number} hyear

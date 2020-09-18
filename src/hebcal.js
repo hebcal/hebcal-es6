@@ -896,12 +896,17 @@ export const HebrewCalendar = {
   /**
    * Returns an array of Events on this date (or undefined if no events)
    * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute Julian date
+   * @param {boolean} [il] use the Israeli schedule for holidays
    * @return {Event[]}
    */
-  getHolidaysOnDate: function(date) {
+  getHolidaysOnDate: function(date, il) {
     const hd = date instanceof HDate ? date : new HDate(date);
     const yearMap = HebrewCalendar.getHolidaysForYear(hd.getFullYear());
-    return yearMap.get(hd.toString());
+    const events = yearMap.get(hd.toString());
+    if (typeof il === 'undefined' || typeof events === 'undefined') {
+      return events;
+    }
+    return events.filter((ev) => (il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora()));
   },
 
   hour12cc: {
