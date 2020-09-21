@@ -789,3 +789,6 @@ msgstr "רֹאשׁ חודש תָּמוּז"
 
 msgid "Rosh Chodesh Tevet"
 msgstr "רֹאשׁ חודש טֵבֵת"
+
+msgid "min"
+msgstr "דקות"
