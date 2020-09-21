@@ -359,7 +359,7 @@ declare module '@hebcal/core' {
          * @param locale - Locale name (i.e.: `'he'`, `'fr'`)
          * @param data - parsed data from a `.po` file.
          */
-        export function addLocale(locale: string, data: LocaleDate): void;
+        export function addLocale(locale: string, data: LocaleData): void;
         /**
          * Activates a locale. Throws an error if the locale has not been previously added.
          * After setting the locale to be used, all strings marked for translations
@@ -475,8 +475,9 @@ declare module '@hebcal/core' {
         /**
          * Returns an array of Events on this date (or undefined if no events)
          * @param date - Hebrew Date, Gregorian date, or absolute Julian date
+         * @param il - use the Israeli schedule for holidays
          */
-        function getHolidaysOnDate(date: HDate | Date | number): Event[];
+        function getHolidaysOnDate(date: HDate | Date | number, il?: boolean): Event[];
 
         /**
          * Calculates a birthday or anniversary (non-yahrzeit).
