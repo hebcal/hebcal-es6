@@ -408,3 +408,22 @@ test('molad', (t) => {
   const ev = events.find((ev) => ev.getDesc() == 'Molad Tevet 5769');
   t.is(ev.getDate().toString(), '23 Kislev 5769');
 });
+
+test('year2', (t) => {
+  const events = HebrewCalendar.calendar({year: 2});
+  t.is(events.length, 79);
+});
+
+test('year1', (t) => {
+  const error = t.throws(() => {
+    HebrewCalendar.calendar({year: 1});
+  }, {instanceOf: RangeError});
+  t.is(error.message, 'Hebrew year 3761 out of range 3762-32658');
+});
+
+test('getHolidaysForYear-throw', (t) => {
+  const error = t.throws(() => {
+    HebrewCalendar.getHolidaysForYear(3210);
+  }, {instanceOf: RangeError});
+  t.is(error.message, 'Hebrew year 3210 out of range 3762-32658');
+});

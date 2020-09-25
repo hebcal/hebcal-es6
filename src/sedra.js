@@ -93,7 +93,7 @@ export class Sedra {
 
   /**
    * Returns the parsha (or parshiyot) read on Hebrew date
-   * @param {HDate|number} hDate Hebrew date or absolute days
+   * @param {HDate|number} hDate Hebrew date or R.D. days
    * @return {string[]}
    */
   get(hDate) {
@@ -105,7 +105,7 @@ export class Sedra {
 
   /**
    * Looks up parsha for the date, then returns a translated or transliterated string
-   * @param {HDate|number} hDate Hebrew date or absolute days
+   * @param {HDate|number} hDate Hebrew date or R.D. days
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
    * @return {string}
    */
@@ -122,7 +122,7 @@ export class Sedra {
 
   /**
    * Returns an object describing the parsha on the first Saturday on or after absdate
-   * @param {HDate|number} hDate Hebrew date or absolute days
+   * @param {HDate|number} hDate Hebrew date or R.D. days
    * @return {Object}
    */
   lookup(hDate) {
@@ -135,7 +135,7 @@ export class Sedra {
   /**
    * Checks to see if this day would be a regular parasha HaShavua
    * Torah reading or special holiday reading
-   * @param {HDate|number} hDate Hebrew date or absolute days
+   * @param {HDate|number} hDate Hebrew date or R.D. days
    * @return {boolean}
    */
   isParsha(hDate) {

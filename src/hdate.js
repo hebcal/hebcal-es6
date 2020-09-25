@@ -127,9 +127,8 @@ export class HDate {
    *    * `Date` - represents the Hebrew date corresponding to the Gregorian date using
    *       local time. Hours, minutes, seconds and milliseconds are ignored.
    *    * `HDate` - clones a copy of the given Hebrew date
-   *    * `number` - Converts absolute Julian days to Hebrew date. The absolute Julian
-   *       date is the number of days elapsed since the (imaginary) Gregorian date
-   *       Sunday, December 31, 1 BC
+   *    * `number` - Converts absolute R.D. days to Hebrew date.
+   *       R.D. 1 == the imaginary date January 1, 1 (Gregorian)
    * 3. Three parameters: Hebrew day, Hebrew month, Hebrew year. Hebrew day should
    *    be a number between 1-30, Hebrew month can be a number or string, and
    *    Hebrew year is always a number.
@@ -172,6 +171,9 @@ export class HDate {
         day = new Date();
       }
       // 1 argument
+      if (typeof day === 'number' && day < 1) {
+        throw new RangeError(`HDate(absoluteDays) requires positive integer: ${day}`);
+      }
       const abs0 = (typeof day === 'number') ? day : (day instanceof Date) ? g.greg2abs(day) : 0;
       const d = (abs0 > 0) ? HDate.abs2hebrew(abs0) :
         (day instanceof HDate) ? {dd: day.day, mm: day.month, yy: day.year} :
@@ -287,7 +289,10 @@ export class HDate {
   }
 
   /**
-   * Returns Julian absolute days
+   * Returns R.D. (Rata Die) fixed days.
+   * R.D. 1 == Monday, January 1, 1 (Gregorian)
+   * Note also that R.D. = Julian Date − 1,721,424.5
+   * https://en.wikipedia.org/wiki/Rata_Die#Dershowitz_and_Reingold
    * @return {number}
    */
   abs() {
@@ -298,9 +303,9 @@ export class HDate {
   }
 
   /**
-   * Converts Hebrew date to absolute Julian days.
-   * The absolute date is the number of days elapsed since the (imaginary)
-   * Gregorian date Sunday, December 31, 1 BC.
+   * Converts Hebrew date to R.D. (Rata Die) fixed days.
+   * R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
+   * Calendar.
    * @param {number} year Hebrew year
    * @param {number} month Hebrew month
    * @param {number} day Hebrew date (1-30)
@@ -326,15 +331,15 @@ export class HDate {
   }
 
   /**
-   * Converts absolute Julian days to Hebrew date
+   * Converts absolute R.D. days to Hebrew date
    * @private
-   * @param {number} d absolute Julian days
+   * @param {number} d absolute R.D. days
    * @return {SimpleHebrewDate}
    */
   static abs2hebrew(d) {
     if (typeof d !== 'number' || isNaN(d)) {
       throw new TypeError(`invalid parameter to abs2hebrew ${d}`);
-    } else if (d >= 10555144) {
+    } else if (d <= 0 || d >= 10555144) {
       throw new RangeError(`parameter to abs2hebrew ${d} out of range`);
     }
 

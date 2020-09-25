@@ -197,6 +197,11 @@ test('throws-abs2hebrew', (t) => {
     HDate.abs2hebrew(12345678);
   }, {instanceOf: RangeError});
   t.is(error.message, 'parameter to abs2hebrew 12345678 out of range');
+
+  const error2 = t.throws(() => {
+    HDate.abs2hebrew(-123);
+  }, {instanceOf: RangeError});
+  t.is(error2.message, 'parameter to abs2hebrew -123 out of range');
 });
 
 test('render', (t) => {

@@ -321,9 +321,8 @@ Create a Hebrew date. There are 3 basic forms for the `HDate()` constructor.
    * `Date` - represents the Hebrew date corresponding to the Gregorian date using
       local time. Hours, minutes, seconds and milliseconds are ignored.
    * `HDate` - clones a copy of the given Hebrew date
-   * `number` - Converts absolute Julian days to Hebrew date. The absolute Julian
-      date is the number of days elapsed since the (imaginary) Gregorian date
-      Sunday, December 31, 1 BC
+   * `number` - Converts absolute R.D. days to Hebrew date.
+      R.D. 1 == the imaginary date January 1, 1 (Gregorian)
 3. Three parameters: Hebrew day, Hebrew month, Hebrew year. Hebrew day should
    be a number between 1-30, Hebrew month can be a number or string, and
    Hebrew year is always a number.
@@ -398,7 +397,10 @@ Converts to Gregorian date
 <a name="HDate+abs"></a>
 
 ### hDate.abs() ⇒ <code>number</code>
-Returns Julian absolute days
+Returns R.D. (Rata Die) fixed days.
+R.D. 1 == Monday, January 1, 1 (Gregorian)
+Note also that R.D. = Julian Date − 1,721,424.5
+https://en.wikipedia.org/wiki/Rata_Die#Dershowitz_and_Reingold
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+getMonthName"></a>
@@ -556,9 +558,9 @@ Compares this date to another date, returning `true` if the dates match.
 <a name="HDate.hebrew2abs"></a>
 
 ### HDate.hebrew2abs(year, month, day) ⇒ <code>number</code>
-Converts Hebrew date to absolute Julian days.
-The absolute date is the number of days elapsed since the (imaginary)
-Gregorian date Sunday, December 31, 1 BC.
+Converts Hebrew date to R.D. (Rata Die) fixed days.
+R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
+Calendar.
 
 **Kind**: static method of [<code>HDate</code>](#HDate)  
 
@@ -1414,7 +1416,7 @@ Returns the parsha (or parshiyot) read on Hebrew date
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
+| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
 
 <a name="Sedra+getString"></a>
 
@@ -1425,7 +1427,7 @@ Looks up parsha for the date, then returns a translated or transliterated string
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
+| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
 | [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale |
 
 <a name="Sedra+lookup"></a>
@@ -1437,7 +1439,7 @@ Returns an object describing the parsha on the first Saturday on or after absdat
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
+| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
 
 <a name="Sedra+isParsha"></a>
 
@@ -1449,7 +1451,7 @@ Torah reading or special holiday reading
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or absolute days |
+| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
 
 <a name="Sedra+getSedraArray"></a>
 
@@ -1673,7 +1675,7 @@ Returns number of days since January 1 of that year
 <a name="greg.greg2abs"></a>
 
 ### greg.greg2abs(date) ⇒ <code>number</code>
-Converts Gregorian date to Julian Day Count
+Converts Gregorian date to absolute R.D. (Rata Die) days
 
 **Kind**: static method of [<code>greg</code>](#greg)  
 
@@ -1684,7 +1686,7 @@ Converts Gregorian date to Julian Day Count
 <a name="greg.abs2greg"></a>
 
 ### greg.abs2greg(theDate) ⇒ <code>Date</code>
-Converts from Julian Day Count to Gregorian date.
+Converts from Rata Die (R.D. number) to Gregorian date.
 See the footnote on page 384 of ``Calendrical Calculations, Part II:
 Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
 Clamen, Software--Practice and Experience, Volume 23, Number 4
@@ -1694,7 +1696,7 @@ Clamen, Software--Practice and Experience, Volume 23, Number 4
 
 | Param | Type | Description |
 | --- | --- | --- |
-| theDate | <code>number</code> | absolute Julian days |
+| theDate | <code>number</code> | R.D. number of days |
 
 <a name="Locale"></a>
 
@@ -1872,7 +1874,7 @@ Event names can be rendered in several languges using the `locale` option.
     * [.getBirthdayOrAnniversary(hyear, gdate)](#HebrewCalendar.getBirthdayOrAnniversary) ⇒ [<code>HDate</code>](#HDate)
     * [.getYahrzeit(hyear, gdate)](#HebrewCalendar.getYahrzeit) ⇒ [<code>HDate</code>](#HDate)
     * [.getHolidaysForYear(year)](#HebrewCalendar.getHolidaysForYear) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
-    * [.getHolidaysOnDate(date)](#HebrewCalendar.getHolidaysOnDate) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+    * [.getHolidaysOnDate(date, [il])](#HebrewCalendar.getHolidaysOnDate) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
     * [.reformatTimeStr(timeStr, suffix, options)](#HebrewCalendar.reformatTimeStr) ⇒ <code>string</code>
     * [.Options](#HebrewCalendar.Options) : <code>Object</code>
 
@@ -2061,14 +2063,15 @@ or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
 
 <a name="HebrewCalendar.getHolidaysOnDate"></a>
 
-### HebrewCalendar.getHolidaysOnDate(date) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+### HebrewCalendar.getHolidaysOnDate(date, [il]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
 Returns an array of Events on this date (or undefined if no events)
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute Julian date |
+| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute R.D. days |
+| [il] | <code>boolean</code> | use the Israeli schedule for holidays |
 
 <a name="HebrewCalendar.reformatTimeStr"></a>
 

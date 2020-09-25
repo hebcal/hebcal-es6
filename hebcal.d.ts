@@ -90,7 +90,10 @@ declare module '@hebcal/core' {
          */
         greg(): Date;
         /**
-         * Returns Julian absolute days
+         * Returns R.D. (Rata Die) fixed days.
+         * R.D. 1 == Monday, January 1, 1 (Gregorian)
+         * Note also that R.D. = Julian Date − 1,721,424.5
+         * https://en.wikipedia.org/wiki/Rata_Die#Dershowitz_and_Reingold
          */
         abs(): number;
         /**
@@ -118,9 +121,9 @@ declare module '@hebcal/core' {
         isSameDate(other: HDate): boolean;
 
         /**
-         * Converts Hebrew date to absolute Julian days.
-         * The absolute date is the number of days elapsed since the (imaginary)
-         * Gregorian date Sunday, December 31, 1 BC.
+         * Converts Hebrew date to R.D. (Rata Die) fixed days.
+         * R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
+         * Calendar.
          * @param year Hebrew year
          * @param month Hebrew month of year (1=NISAN, 7=TISHREI)
          * @param day Hebrew day of month (1-30)
@@ -474,7 +477,7 @@ declare module '@hebcal/core' {
 
         /**
          * Returns an array of Events on this date (or undefined if no events)
-         * @param date - Hebrew Date, Gregorian date, or absolute Julian date
+         * @param date - Hebrew Date, Gregorian date, or absolute R.D. day number
          * @param il - use the Israeli schedule for holidays
          */
         function getHolidaysOnDate(date: HDate | Date | number, il?: boolean): Event[];
@@ -616,17 +619,17 @@ declare module '@hebcal/core' {
          */
         export function dayOfYear(date: Date): number;
         /**
-         * Converts Gregorian date to Julian Day Count
+         * Converts Gregorian date to absolute R.D. (Rata Die) days
          * @param date - Gregorian date
          */
         export function greg2abs(date: Date): number;
         /**
-         * Converts from Julian Day Count to Gregorian date.
+         * Converts from Rata Die (R.D. number) to Gregorian date.
          * See the footnote on page 384 of ``Calendrical Calculations, Part II:
          * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
          * Clamen, Software--Practice and Experience, Volume 23, Number 4
          * (April, 1993), pages 383-404 for an explanation.
-         * @param theDate - absolute Julian days
+         * @param theDate - R.D. number of days
          */
         export function abs2greg(theDate: number): Date;
     }
@@ -665,24 +668,24 @@ declare module '@hebcal/core' {
         constructor(hebYr: number, il: boolean);
         /**
          * Returns the parsha (or parshiyot) read on Hebrew date
-         * @param hDate Hebrew date or absolute days
+         * @param hDate Hebrew date or R.D. days
          */
         get(hDate: HDate | number): string[];
         /**
          * Looks up parsha for the date, then returns a (translated) string
-         * @param hDate Hebrew date or absolute days
+         * @param hDate Hebrew date or R.D. days
          * @param locale Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
          */
         getString(hDate: HDate | number, locale?: string): string;
         /**
          * Returns an object describing the parsha on the first Saturday on or after absdate
-         * @param hDate Hebrew date or absolute days
+         * @param hDate Hebrew date or R.D. days
          */
         lookup(hDate: HDate | number): Object;
         /**
          * Checks to see if this day would be a regular parasha HaShavua
          * Torah reading or special holiday reading
-         * @param hDate Hebrew date or absolute days
+         * @param hDate Hebrew date or R.D. days
          */
         isParsha(hDate: HDate | number): boolean;
         getYear(): number;

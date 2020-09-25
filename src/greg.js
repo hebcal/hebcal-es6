@@ -90,7 +90,7 @@ export const greg = {
   },
 
   /**
-   * Converts Gregorian date to Julian Day Count
+   * Converts Gregorian date to absolute R.D. (Rata Die) days
    * @param {Date} date Gregorian date
    * @return {number}
    */
@@ -109,12 +109,12 @@ export const greg = {
   },
 
   /**
-   * Converts from Julian Day Count to Gregorian date.
+   * Converts from Rata Die (R.D. number) to Gregorian date.
    * See the footnote on page 384 of ``Calendrical Calculations, Part II:
    * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
    * Clamen, Software--Practice and Experience, Volume 23, Number 4
    * (April, 1993), pages 383-404 for an explanation.
-   * @param {number} theDate absolute Julian days
+   * @param {number} theDate - R.D. number of days
    * @return {Date}
    */
   abs2greg: function(theDate) {

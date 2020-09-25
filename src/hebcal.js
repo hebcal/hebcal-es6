@@ -163,7 +163,7 @@ function getCandleLightingMinutes(options) {
  */
 
 /**
- * Gets the Julian absolute days for a number, Date, or HDate
+ * Gets the R.D. days for a number, Date, or HDate
  * @private
  * @param {Date|HDate|number} d
  * @return {number}
@@ -652,8 +652,8 @@ export const HebrewCalendar = {
   getHolidaysForYear: function(year) {
     if (typeof year !== 'number') {
       throw new TypeError(`bad Hebrew year: ${year}`);
-    } else if (year < 1 || year > 32658) {
-      throw new RangeError(`Hebrew year ${year} out of range 1-32658`);
+    } else if (year < 3762 || year > 32658) {
+      throw new RangeError(`Hebrew year ${year} out of range 3762-32658`);
     }
     const cached = __cache[year];
     if (cached) {
@@ -895,7 +895,7 @@ export const HebrewCalendar = {
 
   /**
    * Returns an array of Events on this date (or undefined if no events)
-   * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute Julian date
+   * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute R.D. days
    * @param {boolean} [il] use the Israeli schedule for holidays
    * @return {Event[]}
    */
