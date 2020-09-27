@@ -59,6 +59,9 @@ for (const ev of events) {
 <dt><a href="#Location">Location</a></dt>
 <dd><p>Class representing Location</p>
 </dd>
+<dt><a href="#TimedEvent">TimedEvent</a></dt>
+<dd><p>An event that has an <code>eventTime</code> and <code>eventTimeStr</code></p>
+</dd>
 <dt><a href="#HavdalahEvent">HavdalahEvent</a></dt>
 <dd><p>Havdalah after Shabbat or holiday</p>
 </dd>
@@ -764,6 +767,7 @@ Class representing halachic times
     * [.suntime()](#Zmanim+suntime) ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)
     * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
     * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
+    * [.dawn()](#Zmanim+dawn) ⇒ <code>Date</code>
     * [.hour()](#Zmanim+hour) ⇒ <code>number</code>
     * [.hourMins()](#Zmanim+hourMins) ⇒ <code>number</code>
     * [.gregEve()](#Zmanim+gregEve) ⇒ <code>Date</code>
@@ -807,6 +811,10 @@ Initialize a Zmanim instance.
 <a name="Zmanim+sunset"></a>
 
 ### zmanim.sunset() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+dawn"></a>
+
+### zmanim.dawn() ⇒ <code>Date</code>
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+hour"></a>
 
@@ -1070,6 +1078,51 @@ and `true` if successfully added.
 | cityName | <code>string</code> | 
 | location | [<code>Location</code>](#Location) | 
 
+<a name="TimedEvent"></a>
+
+## TimedEvent
+An event that has an `eventTime` and `eventTimeStr`
+
+**Kind**: global class  
+
+* [TimedEvent](#TimedEvent)
+    * [new TimedEvent(date, desc, mask, eventTime, eventTimeStr, linkedEvent)](#new_TimedEvent_new)
+    * [.render([locale])](#TimedEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#TimedEvent+renderBrief) ⇒ <code>string</code>
+
+<a name="new_TimedEvent_new"></a>
+
+### new TimedEvent(date, desc, mask, eventTime, eventTimeStr, linkedEvent)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) |  |
+| desc | <code>string</code> | Description (not translated) |
+| mask | <code>number</code> |  |
+| eventTime | <code>Date</code> |  |
+| eventTimeStr | <code>string</code> |  |
+| linkedEvent | [<code>Event</code>](#Event) |  |
+
+<a name="TimedEvent+render"></a>
+
+### timedEvent.render([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>TimedEvent</code>](#TimedEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="TimedEvent+renderBrief"></a>
+
+### timedEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns translation of "Candle lighting" without the time.
+
+**Kind**: instance method of [<code>TimedEvent</code>](#TimedEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
 <a name="HavdalahEvent"></a>
 
 ## HavdalahEvent
@@ -1078,34 +1131,25 @@ Havdalah after Shabbat or holiday
 **Kind**: global class  
 
 * [HavdalahEvent](#HavdalahEvent)
-    * [new HavdalahEvent(date, mask, attrs)](#new_HavdalahEvent_new)
+    * [new HavdalahEvent(date, mask, eventTime, eventTimeStr, havdalahMins, linkedEvent)](#new_HavdalahEvent_new)
     * [.render([locale])](#HavdalahEvent+render) ⇒ <code>string</code>
-    * [.renderBrief([locale])](#HavdalahEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_HavdalahEvent_new"></a>
 
-### new HavdalahEvent(date, mask, attrs)
+### new HavdalahEvent(date, mask, eventTime, eventTimeStr, havdalahMins, linkedEvent)
 
 | Param | Type |
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | mask | <code>number</code> | 
-| attrs | <code>Object</code> | 
+| eventTime | <code>Date</code> | 
+| eventTimeStr | <code>string</code> | 
+| havdalahMins | <code>number</code> | 
+| linkedEvent | [<code>Event</code>](#Event) | 
 
 <a name="HavdalahEvent+render"></a>
 
 ### havdalahEvent.render([locale]) ⇒ <code>string</code>
-**Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
-
-<a name="HavdalahEvent+renderBrief"></a>
-
-### havdalahEvent.renderBrief([locale]) ⇒ <code>string</code>
-Returns translation of "Havdalah" without the time.
-
 **Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
 
 | Param | Type | Description |
@@ -1118,41 +1162,17 @@ Returns translation of "Havdalah" without the time.
 Candle lighting before Shabbat or holiday
 
 **Kind**: global class  
-
-* [CandleLightingEvent](#CandleLightingEvent)
-    * [new CandleLightingEvent(date, mask, attrs)](#new_CandleLightingEvent_new)
-    * [.render([locale])](#CandleLightingEvent+render) ⇒ <code>string</code>
-    * [.renderBrief([locale])](#CandleLightingEvent+renderBrief) ⇒ <code>string</code>
-
 <a name="new_CandleLightingEvent_new"></a>
 
-### new CandleLightingEvent(date, mask, attrs)
+### new CandleLightingEvent(date, mask, eventTime, eventTimeStr, linkedEvent)
 
 | Param | Type |
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | mask | <code>number</code> | 
-| attrs | <code>Object</code> | 
-
-<a name="CandleLightingEvent+render"></a>
-
-### candleLightingEvent.render([locale]) ⇒ <code>string</code>
-**Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
-
-<a name="CandleLightingEvent+renderBrief"></a>
-
-### candleLightingEvent.renderBrief([locale]) ⇒ <code>string</code>
-Returns translation of "Candle lighting" without the time.
-
-**Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+| eventTime | <code>Date</code> | 
+| eventTimeStr | <code>string</code> | 
+| linkedEvent | [<code>Event</code>](#Event) | 
 
 <a name="Molad"></a>
 
@@ -2070,7 +2090,7 @@ Returns an array of Events on this date (or undefined if no events)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute R.D. days |
+| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute R.D. day number |
 | [il] | <code>boolean</code> | use the Israeli schedule for holidays |
 
 <a name="HebrewCalendar.reformatTimeStr"></a>

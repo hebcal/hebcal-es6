@@ -304,6 +304,7 @@ declare module '@hebcal/core' {
         suntime(): ZmanimTimesResult;
         sunrise(): Date;
         sunset(): Date;
+        dawn(): Date;
         hour(): number;
         hourMins(): number;
         gregEve(): Date;
@@ -691,10 +692,13 @@ declare module '@hebcal/core' {
         getYear(): number;
     }
 
-    export class CandleLightingEvent extends Event {
-        constructor(date: HDate, mask: number, attrs: any);
+    export class TimedEvent extends Event {
+        constructor(date: HDate, desc: string, mask: number, eventTime: Date, eventTimeStr: string, linkedEvent?: Event);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+    }
+    export class CandleLightingEvent extends TimedEvent {
+        constructor(date: HDate, mask: number, eventTime: Date, eventTimeStr: string, linkedEvent?: Event);
     }
     export class DafYomiEvent extends Event {
         constructor(date: HDate);
@@ -702,10 +706,9 @@ declare module '@hebcal/core' {
         renderBrief(locale?: string): string;
         url(): string;
     }
-    export class HavdalahEvent extends Event {
-        constructor(date: HDate, mask: number, attrs: any, havdalahMins?: number);
+    export class HavdalahEvent extends TimedEvent {
+        constructor(date: HDate, mask: number, eventTime: Date, eventTimeStr: string, havdalahMins?: number, linkedEvent?: Event);
         render(locale?: string): string;
-        renderBrief(locale?: string): string;
     }
     export class HebrewDateEvent extends Event {
         constructor(date: HDate, locale?: string);

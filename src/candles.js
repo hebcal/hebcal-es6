@@ -1,5 +1,6 @@
 import {Locale} from './locale';
 import {flags, Event} from './event';
+import {Zmanim} from './zmanim';
 
 const days = {
   FRI: 5,
@@ -103,61 +104,30 @@ export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset,
   if (!time[0]) {
     return null; // no sunset
   }
-  const attrs = {eventTime: time[0], eventTimeStr: time[1]};
-  if (typeof e !== 'undefined') {
-    attrs.linkedEvent = e;
-  }
   if (havdalahTitle) {
-    if (havdalahOffset) {
-      attrs.havdalahMins = havdalahOffset;
-    }
-    return new HavdalahEvent(hd, mask, attrs);
+    return new HavdalahEvent(hd, mask, time[0], time[1], havdalahOffset, e);
   } else {
-    return new CandleLightingEvent(hd, mask, attrs);
+    return new CandleLightingEvent(hd, mask, time[0], time[1], e);
   }
 }
 
-/** Havdalah after Shabbat or holiday */
-export class HavdalahEvent extends Event {
+/** An event that has an `eventTime` and `eventTimeStr` */
+export class TimedEvent extends Event {
   /**
    * @param {HDate} date
+   * @param {string} desc Description (not translated)
    * @param {number} mask
-   * @param {Object} attrs
+   * @param {Date} eventTime
+   * @param {string} eventTimeStr
+   * @param {Event} linkedEvent
    */
-  constructor(date, mask, attrs) {
-    super(date, 'Havdalah', mask, attrs);
-  }
-  /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  render(locale) {
-    let str = Locale.gettext(this.getDesc(), locale);
-    if (this.havdalahMins) {
-      const min = Locale.gettext('min', locale);
-      str += ` (${this.havdalahMins} ${min})`;
+  constructor(date, desc, mask, eventTime, eventTimeStr, linkedEvent) {
+    super(date, desc, mask);
+    this.eventTime = eventTime;
+    this.eventTimeStr = eventTimeStr;
+    if (typeof linkedEvent !== 'undefined') {
+      this.linkedEvent = linkedEvent;
     }
-    return str + ': ' + this.eventTimeStr;
-  }
-  /**
-   * Returns translation of "Havdalah" without the time.
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  renderBrief(locale) {
-    return Locale.gettext(this.getDesc(), locale);
-  }
-}
-
-/** Candle lighting before Shabbat or holiday */
-export class CandleLightingEvent extends Event {
-  /**
-   * @param {HDate} date
-   * @param {number} mask
-   * @param {Object} attrs
-   */
-  constructor(date, mask, attrs) {
-    super(date, 'Candle lighting', mask, attrs);
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).
@@ -174,4 +144,68 @@ export class CandleLightingEvent extends Event {
   renderBrief(locale) {
     return Locale.gettext(this.getDesc(), locale);
   }
+}
+
+/** Havdalah after Shabbat or holiday */
+export class HavdalahEvent extends TimedEvent {
+  /**
+   * @param {HDate} date
+   * @param {number} mask
+   * @param {Date} eventTime
+   * @param {string} eventTimeStr
+   * @param {number} havdalahMins
+   * @param {Event} linkedEvent
+   */
+  constructor(date, mask, eventTime, eventTimeStr, havdalahMins, linkedEvent) {
+    super(date, 'Havdalah', mask, eventTime, eventTimeStr, linkedEvent);
+    if (havdalahMins) {
+      this.havdalahMins = havdalahMins;
+    }
+  }
+  /**
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    let str = Locale.gettext(this.getDesc(), locale);
+    if (this.havdalahMins) {
+      const min = Locale.gettext('min', locale);
+      str += ` (${this.havdalahMins} ${min})`;
+    }
+    return str + ': ' + this.eventTimeStr;
+  }
+}
+
+/** Candle lighting before Shabbat or holiday */
+export class CandleLightingEvent extends TimedEvent {
+  /**
+   * @param {HDate} date
+   * @param {number} mask
+   * @param {Date} eventTime
+   * @param {string} eventTimeStr
+   * @param {Event} linkedEvent
+   */
+  constructor(date, mask, eventTime, eventTimeStr, linkedEvent) {
+    super(date, 'Candle lighting', mask, eventTime, eventTimeStr, linkedEvent);
+  }
+}
+
+/**
+ * Makes a pair of events representing fast start and end times
+ * @private
+ * @param {Event} ev
+ * @param {HDate} hd
+ * @param {Location} location
+ * @param {Intl.DateTimeFormat} timeFormat
+ * @return {Event[]}
+ */
+export function makeFastStartEnd(ev, hd, location, timeFormat) {
+  const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude());
+  const dawn = zmanim.dawn();
+  const begin = new TimedEvent(hd, 'Fast begins', flags.MINOR_FAST,
+      dawn, formatTime(timeFormat, dawn), ev);
+  const tzeit = zmanim.tzeit();
+  const end = new TimedEvent(hd, 'Fast ends', flags.MINOR_FAST,
+      tzeit, formatTime(timeFormat, tzeit), ev);
+  return [begin, end];
 }

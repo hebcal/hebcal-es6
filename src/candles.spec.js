@@ -291,3 +291,20 @@ test('chanukah-candles', (t) => {
   ];
   t.deepEqual(actual, expected, 'chanukah-candles');
 });
+
+test('fastStartEnd', (t) => {
+  const options = {
+    start: new Date(2021, 5, 27),
+    end: new Date(2021, 5, 27),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options);
+  const actual = events.map(eventTitleDateTime);
+  const expected = [
+    {date: '2021-06-27', time: '04:38', desc: 'Fast begins'},
+    {date: '2021-06-27', time: undefined, desc: 'Tzom Tammuz'},
+    {date: '2021-06-27', time: '21:16', desc: 'Fast ends'},
+  ];
+  t.deepEqual(actual, expected);
+});

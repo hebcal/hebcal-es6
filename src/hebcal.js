@@ -28,7 +28,7 @@ import {Sedra, ParshaEvent} from './sedra';
 import {greg as g} from './greg';
 import {DafYomiEvent} from './dafyomi';
 import {Location} from './location';
-import {makeCandleEvent, HavdalahEvent} from './candles';
+import {makeCandleEvent, HavdalahEvent, makeFastStartEnd} from './candles';
 
 const SUN = 0;
 // const MON = 1;
@@ -467,7 +467,15 @@ export const HebrewCalendar = {
             }
           }
           if (!options.noHolidays) {
+            const fastStartEnd = (options.candlelighting && eFlags & MINOR_FAST) ?
+              makeFastStartEnd(e, hd, location, timeFormat) : null;
+            if (fastStartEnd) {
+              evts.push(fastStartEnd[0]);
+            }
             evts.push(e);
+            if (fastStartEnd) {
+              evts.push(fastStartEnd[1]);
+            }
           }
         }
       });
@@ -895,7 +903,7 @@ export const HebrewCalendar = {
 
   /**
    * Returns an array of Events on this date (or undefined if no events)
-   * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute R.D. days
+   * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute R.D. day number
    * @param {boolean} [il] use the Israeli schedule for holidays
    * @return {Event[]}
    */
