@@ -239,7 +239,11 @@ declare module '@hebcal/core' {
         getGeoId(): string;
         getTzid(): string;
         sunset(hdate: Date | HDate): Date;
-        tzeit(hdate: Date | HDate): Date;
+        /**
+         * @param [angle=8.5] optional time for solar depression.
+         *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+         */
+        tzeit(hdate: Date | HDate, angle?: number): Date;
         /**
          * Builds a city description from geonameid string components
          * @param cityName e.g. 'Tel Aviv' or 'Chicago'
@@ -321,7 +325,11 @@ declare module '@hebcal/core' {
         minchaGedola(): Date;
         minchaKetana(): Date;
         plagHaMincha(): Date;
-        tzeit(): Date;
+        /**
+         * @param [angle=8.5] optional time for solar depression.
+         *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+         */
+        tzeit(angle?: number): Date;
         neitzHaChama(): Date;
         shkiah(): Date;
     }

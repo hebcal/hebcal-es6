@@ -159,9 +159,13 @@ export class Zmanim {
   plagHaMincha() {
     return this.hourOffset(10.75);
   }
-  /** @return {Date} */
-  tzeit() {
-    return this.sun.timeAtAngle(8.5, false);
+  /**
+   * @param {number} [angle=8.5] optional time for solar depression.
+   *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+   * @return {Date}
+   */
+  tzeit(angle=8.5) {
+    return this.sun.timeAtAngle(angle, false);
   }
   /** @return {Date} */
   neitzHaChama() {

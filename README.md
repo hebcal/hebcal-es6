@@ -784,7 +784,7 @@ Class representing halachic times
     * [.minchaGedola()](#Zmanim+minchaGedola) ⇒ <code>Date</code>
     * [.minchaKetana()](#Zmanim+minchaKetana) ⇒ <code>Date</code>
     * [.plagHaMincha()](#Zmanim+plagHaMincha) ⇒ <code>Date</code>
-    * [.tzeit()](#Zmanim+tzeit) ⇒ <code>Date</code>
+    * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
     * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
     * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
 
@@ -887,8 +887,13 @@ Initialize a Zmanim instance.
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+tzeit"></a>
 
-### zmanim.tzeit() ⇒ <code>Date</code>
+### zmanim.tzeit([angle]) ⇒ <code>Date</code>
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [angle] | <code>number</code> | <code>8.5</code> | optional time for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars. |
+
 <a name="Zmanim+neitzHaChama"></a>
 
 ### zmanim.neitzHaChama() ⇒ <code>Date</code>
@@ -916,7 +921,7 @@ Class representing Location
         * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
         * [.getGeoId()](#Location+getGeoId) ⇒ <code>string</code>
         * [.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>
-        * [.tzeit(hdate)](#Location+tzeit) ⇒ <code>Date</code>
+        * [.tzeit(hdate, [angle])](#Location+tzeit) ⇒ <code>Date</code>
         * [.toString()](#Location+toString) ⇒ <code>string</code>
     * _static_
         * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
@@ -986,12 +991,13 @@ Returns the location name, up to the first comma
 
 <a name="Location+tzeit"></a>
 
-### location.tzeit(hdate) ⇒ <code>Date</code>
+### location.tzeit(hdate, [angle]) ⇒ <code>Date</code>
 **Kind**: instance method of [<code>Location</code>](#Location)  
 
 | Param | Type |
 | --- | --- |
 | hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
+| [angle] | <code>number</code> | 
 
 <a name="Location+toString"></a>
 

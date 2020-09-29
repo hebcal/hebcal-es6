@@ -201,10 +201,13 @@ export class CandleLightingEvent extends TimedEvent {
  */
 export function makeFastStartEnd(ev, hd, location, timeFormat) {
   const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude());
-  const dawn = zmanim.dawn();
+  const dawn = zmanim.alotHaShachar();
+  const tzeit = zmanim.tzeit(7.083);
+  if (isNaN(dawn.getTime()) || isNaN(tzeit.getTime())) {
+    return null;
+  }
   const begin = new TimedEvent(hd, 'Fast begins', flags.MINOR_FAST,
       dawn, formatTime(timeFormat, dawn), ev);
-  const tzeit = zmanim.tzeit();
   const end = new TimedEvent(hd, 'Fast ends', flags.MINOR_FAST,
       tzeit, formatTime(timeFormat, tzeit), ev);
   return [begin, end];

@@ -212,10 +212,11 @@ export class Location {
 
   /**
    * @param {Date|HDate} hdate
+   * @param {number} [angle]
    * @return {Date}
    */
-  tzeit(hdate) {
-    return new Zmanim(hdate, this.getLatitude(), this.getLongitude()).tzeit();
+  tzeit(hdate, angle) {
+    return new Zmanim(hdate, this.getLatitude(), this.getLongitude()).tzeit(angle);
   }
 
   /** @return {string} */

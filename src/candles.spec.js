@@ -302,9 +302,9 @@ test('fastStartEnd', (t) => {
   const events = HebrewCalendar.calendar(options);
   const actual = events.map(eventTitleDateTime);
   const expected = [
-    {date: '2021-06-27', time: '04:38', desc: 'Fast begins'},
+    {date: '2021-06-27', time: '03:19', desc: 'Fast begins'},
     {date: '2021-06-27', time: undefined, desc: 'Tzom Tammuz'},
-    {date: '2021-06-27', time: '21:16', desc: 'Fast ends'},
+    {date: '2021-06-27', time: '21:06', desc: 'Fast ends'},
   ];
   t.deepEqual(actual, expected);
 });
