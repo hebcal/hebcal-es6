@@ -1,6 +1,7 @@
 import {Locale} from './locale';
 import {flags, Event} from './event';
 import {Zmanim} from './zmanim';
+import {months} from './hdate';
 
 const days = {
   FRI: 5,
@@ -200,15 +201,41 @@ export class CandleLightingEvent extends TimedEvent {
  * @return {Event[]}
  */
 export function makeFastStartEnd(ev, hd, location, timeFormat) {
-  const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude());
-  const dawn = zmanim.alotHaShachar();
-  const tzeit = zmanim.tzeit(7.083);
-  if (isNaN(dawn.getTime()) || isNaN(tzeit.getTime())) {
+  const desc = ev.getDesc();
+  if (desc === 'Yom Kippur') {
     return null;
   }
-  const begin = new TimedEvent(hd, 'Fast begins', flags.MINOR_FAST,
-      dawn, formatTime(timeFormat, dawn), ev);
-  const end = new TimedEvent(hd, 'Fast ends', flags.MINOR_FAST,
-      tzeit, formatTime(timeFormat, tzeit), ev);
+  const dt = hd.greg();
+  const zmanim = new Zmanim(dt, location.getLatitude(), location.getLongitude());
+  if (desc === 'Erev Tish\'a B\'Av') {
+    const sunset = zmanim.sunset();
+    const begin = makeTimedEvent(hd, sunset, 'Fast begins', ev, timeFormat);
+    return [begin, null];
+  } else if (desc === 'Tish\'a B\'Av') {
+    const end = makeTimedEvent(hd, zmanim.tzeit(7.083), 'Fast ends', ev, timeFormat);
+    return [null, end];
+  }
+  const dawn = zmanim.alotHaShachar();
+  const begin = makeTimedEvent(hd, dawn, 'Fast begins', ev, timeFormat);
+  if (dt.getDay() === 5 || (hd.getDate() === 14 && hd.getMonth() === months.NISAN)) {
+    return [begin, null];
+  }
+  const end = makeTimedEvent(hd, zmanim.tzeit(7.083), 'Fast ends', ev, timeFormat);
   return [begin, end];
+}
+
+/**
+ * @private
+ * @param {HDate} hd
+ * @param {Date} time
+ * @param {string} desc
+ * @param {Event} ev
+ * @param {Intl.DateTimeFormat} timeFormat
+ * @return {TimedEvent}
+ */
+function makeTimedEvent(hd, time, desc, ev, timeFormat) {
+  if (isNaN(time.getTime())) {
+    return null;
+  }
+  return new TimedEvent(hd, desc, ev.getFlags(), time, formatTime(timeFormat, time), ev);
 }

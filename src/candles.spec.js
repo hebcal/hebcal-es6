@@ -293,18 +293,48 @@ test('chanukah-candles', (t) => {
 });
 
 test('fastStartEnd', (t) => {
-  const options = {
+  const events = HebrewCalendar.calendar({
     start: new Date(2021, 5, 27),
     end: new Date(2021, 5, 27),
     location: Location.lookup('Providence'),
     candlelighting: true,
-  };
-  const events = HebrewCalendar.calendar(options);
-  const actual = events.map(eventTitleDateTime);
+  });
   const expected = [
     {date: '2021-06-27', time: '03:19', desc: 'Fast begins'},
     {date: '2021-06-27', time: undefined, desc: 'Tzom Tammuz'},
     {date: '2021-06-27', time: '21:06', desc: 'Fast ends'},
   ];
-  t.deepEqual(actual, expected);
+  t.deepEqual(events.map(eventTitleDateTime), expected);
+});
+
+test('fastStartEnd-friday', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2022, 3, 15),
+    end: new Date(2022, 3, 15),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  });
+  const expected = [
+    {date: '2022-04-15', time: '04:37', desc: 'Fast begins'},
+    {date: '2022-04-15', time: undefined, desc: 'Ta\'anit Bechorot'},
+    {date: '2022-04-15', time: undefined, desc: 'Erev Pesach'},
+    {date: '2022-04-15', time: '19:08', desc: 'Candle lighting'},
+  ];
+  t.deepEqual(events.map(eventTitleDateTime), expected);
+});
+
+test('fastStartEnd-9av', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2023, 6, 26),
+    end: new Date(2023, 6, 27),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  });
+  const expected = [
+    {date: '2023-07-26', time: '20:10', desc: 'Fast begins'},
+    {date: '2023-07-26', time: undefined, desc: 'Erev Tish\'a B\'Av'},
+    {date: '2023-07-27', time: undefined, desc: 'Tish\'a B\'Av'},
+    {date: '2023-07-27', time: '20:48', desc: 'Fast ends'},
+  ];
+  t.deepEqual(events.map(eventTitleDateTime), expected);
 });

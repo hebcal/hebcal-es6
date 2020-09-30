@@ -467,13 +467,13 @@ export const HebrewCalendar = {
             }
           }
           if (!options.noHolidays) {
-            const fastStartEnd = (options.candlelighting && eFlags & MINOR_FAST) ?
+            const fastStartEnd = (options.candlelighting && eFlags & (MINOR_FAST|MAJOR_FAST)) ?
               makeFastStartEnd(e, hd, location, timeFormat) : null;
-            if (fastStartEnd) {
+            if (fastStartEnd && fastStartEnd[0]) {
               evts.push(fastStartEnd[0]);
             }
             evts.push(e);
-            if (fastStartEnd) {
+            if (fastStartEnd && fastStartEnd[1]) {
               evts.push(fastStartEnd[1]);
             }
           }
@@ -870,7 +870,7 @@ export const HebrewCalendar = {
 
     add(
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs())), 'Shabbat Chazon', SPECIAL_SHABBAT),
-        new HolidayEvent(av9dt.prev(), 'Erev Tish\'a B\'Av', 0, av9attrs),
+        new HolidayEvent(av9dt.prev(), 'Erev Tish\'a B\'Av', MAJOR_FAST, av9attrs),
         new HolidayEvent(av9dt, 'Tish\'a B\'Av', MAJOR_FAST, av9attrs),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs() + 7)), 'Shabbat Nachamu', SPECIAL_SHABBAT),
     );
