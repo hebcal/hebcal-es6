@@ -745,7 +745,7 @@ msgstr "סוּכּוֹת יוֹם ו׳ (חוֹל הַמוֹעד)"
 msgid "Sukkot Shabbat Chol ha-Moed"
 msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמוֹעד"
 
-msgid "Sukkot Chol ha-Moed Day 5 (Hoshana Raba)"
+msgid "Sukkot Final Day (Hoshana Raba)"
 msgstr "סוּכּוֹת יוֹם ז׳ (הוֹשַׁעְנָא רַבָּה)"
 
 msgid "Shabbat Machar Chodesh"
