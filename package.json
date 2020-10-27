@@ -70,7 +70,7 @@
     "@babel/register": "^7.12.1",
     "@hebcal/solar-calc": "^1.0.4",
     "@rollup/plugin-babel": "^5.2.1",
-    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "ava": "^3.13.0",
