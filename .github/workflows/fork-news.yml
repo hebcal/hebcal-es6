@@ -1,0 +1,12 @@
+name: Fork News
+on: push
+
+jobs:
+  fork-news:
+    runs-on: ubuntu-latest
+    name: Syncing with parent repository
+    steps:
+      - id: fork-news-sync
+        uses: vitornovictor/fork-news@main #FIXME
+        with:
+          access-token: ${{ secrets.FORK_NEWS_TOKEN }}
