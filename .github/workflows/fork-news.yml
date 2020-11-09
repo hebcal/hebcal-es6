@@ -7,7 +7,7 @@ jobs:
     name: Syncing with parent repository
     steps:
       - id: fork-news-sync
-        uses: vitornovictor/fork-news@main #FIXME
+        uses: vitornovictor/fork-news@v0.1.0
         with:
           from-branch: master
           to-branch: master
