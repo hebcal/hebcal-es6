@@ -1,5 +1,7 @@
 name: Fork News
-on: push
+on:
+  schedule:
+    - cron: '0 10 * * 2' # Every Monday at 10:00AM UTC
 
 jobs:
   fork-news:
