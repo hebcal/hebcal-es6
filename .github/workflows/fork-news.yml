@@ -9,4 +9,6 @@ jobs:
       - id: fork-news-sync
         uses: vitornovictor/fork-news@main #FIXME
         with:
+          from-branch: master
+          to-branch: master
           access-token: ${{ secrets.FORK_NEWS_TOKEN }}
