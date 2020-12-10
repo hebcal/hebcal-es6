@@ -10,6 +10,16 @@ const days = {
 
 /**
  * @private
+ * This method returns the tzais (nightfall) based on the opinion of the
+ * Geonim calculated as 30 minutes after sunset during the equinox
+ * (on March 16, about 4 days before the astronomical equinox, the day that
+ * a solar hour is 60 minutes) in Yerushalayim.
+ * @see {https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ComplexZmanimCalendar.html#getTzaisGeonim7Point083Degrees()}
+ */
+const TZEIT_3MEDIUM_STARS = 7.083;
+
+/**
+ * @private
  * @param {Intl.DateTimeFormat} timeFormat
  * @param {Date} dt
  * @return {string}
@@ -212,7 +222,7 @@ export function makeFastStartEnd(ev, hd, location, timeFormat) {
     const begin = makeTimedEvent(hd, sunset, 'Fast begins', ev, timeFormat);
     return [begin, null];
   } else if (desc === 'Tish\'a B\'Av') {
-    const end = makeTimedEvent(hd, zmanim.tzeit(7.083), 'Fast ends', ev, timeFormat);
+    const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, timeFormat);
     return [null, end];
   }
   const dawn = zmanim.alotHaShachar();
@@ -220,7 +230,7 @@ export function makeFastStartEnd(ev, hd, location, timeFormat) {
   if (dt.getDay() === 5 || (hd.getDate() === 14 && hd.getMonth() === months.NISAN)) {
     return [begin, null];
   }
-  const end = makeTimedEvent(hd, zmanim.tzeit(7.083), 'Fast ends', ev, timeFormat);
+  const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, timeFormat);
   return [begin, end];
 }
 
@@ -238,4 +248,21 @@ function makeTimedEvent(hd, time, desc, ev, timeFormat) {
     return null;
   }
   return new TimedEvent(hd, desc, ev.getFlags(), time, formatTime(timeFormat, time), ev);
+}
+
+
+/**
+ * Makes a candle-lighting event for Chankah (not on Friday/Saturday)
+ * @private
+ * @param {Event} ev
+ * @param {HDate} hd
+ * @param {Location} location
+ * @param {Intl.DateTimeFormat} timeFormat
+ * @return {TimedEvent}
+ */
+export function makeWeekdayChanukahCandleLighting(ev, hd, location, timeFormat) {
+  const zmanim = new Zmanim(hd.greg(), location.getLatitude(), location.getLongitude());
+  const candleLightingTime = zmanim.tzeit(TZEIT_3MEDIUM_STARS);
+  // const candleLightingTime = zmanim.sunset();
+  return makeTimedEvent(hd, candleLightingTime, ev.getDesc(), ev, timeFormat);
 }

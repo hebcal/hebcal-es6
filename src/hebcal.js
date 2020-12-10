@@ -257,7 +257,7 @@ function getMaskFromOptions(options) {
             LIGHT_CANDLES | LIGHT_CANDLES_TZEIS | CHANUKAH_CANDLES;
   }
   if (options.candlelighting) {
-    mask |= LIGHT_CANDLES | LIGHT_CANDLES_TZEIS | CHANUKAH_CANDLES;
+    mask |= LIGHT_CANDLES | LIGHT_CANDLES_TZEIS;
   }
   // suppression of defaults
   if (options.noRoshChodesh) {

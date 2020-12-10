@@ -84,7 +84,7 @@ test('candles-only-diaspora', (t) => {
     candlelighting: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 126);
+  t.is(events.length, 120);
   t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
   t.is(events[0].render(), 'Candle lighting: 16:10');
   t.is(events[0].getDesc(), 'Candle lighting');
@@ -208,7 +208,7 @@ test('candles-only-israel', (t) => {
     candlelighting: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 123);
+  t.is(events.length, 117);
   t.is(events[0].getFlags(), flags.LIGHT_CANDLES, 'Candle lighting 0');
   t.is(events[33].getFlags(), flags.CHAG | flags.YOM_TOV_ENDS | flags.IL_ONLY, 'Havdalah in Israel on Pesach VII');
 });
@@ -337,4 +337,23 @@ test('fastStartEnd-9av', (t) => {
     {date: '2023-07-27', time: '20:48', desc: 'Fast ends'},
   ];
   t.deepEqual(events.map(eventTitleDateTime), expected);
+});
+
+test('no-chanukah-candles-when-noHolidays', (t) => {
+  const options = {
+    candlelighting: true,
+    noHolidays: true,
+    start: new Date(2020, 11, 9),
+    end: new Date(2020, 11, 19),
+    location: Location.lookup('Seattle'),
+  };
+  const events = HebrewCalendar.calendar(options);
+  const expected = [
+    {date: '2020-12-11', time: '15:59', desc: 'Candle lighting'},
+    {date: '2020-12-12', time: '17:10', desc: 'Havdalah'},
+    {date: '2020-12-18', time: '16:01', desc: 'Candle lighting'},
+    {date: '2020-12-19', time: '17:12', desc: 'Havdalah'},
+  ];
+  const actual = events.map(eventTitleDateTime);
+  t.deepEqual(actual, expected);
 });
