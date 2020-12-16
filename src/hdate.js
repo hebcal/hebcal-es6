@@ -108,6 +108,8 @@ function throwTypeError(msg) {
   throw new TypeError(msg);
 }
 
+const edCache = Object.create(null);
+
 /**
  * A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
  * @typedef {Object} SimpleHebrewDate
@@ -610,6 +612,18 @@ export class HDate {
    * @return {number}
    */
   static elapsedDays(year) {
+    const elapsed = edCache[year] = edCache[year] || HDate.elapsedDays0(year);
+    return elapsed;
+  }
+
+  /**
+   * Days from sunday prior to start of Hebrew calendar to mean
+   * conjunction of Tishrei in Hebrew YEAR
+   * @private
+   * @param {number} year Hebrew year
+   * @return {number}
+   */
+  static elapsedDays0(year) {
     // borrowed from original JS
     const mElapsed = 235 * Math.floor((year - 1) / 19) +
       12 * ((year - 1) % 19) +
