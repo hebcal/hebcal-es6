@@ -792,3 +792,9 @@ msgstr "רֹאשׁ חודש טֵבֵת"
 
 msgid "min"
 msgstr "דקות"
+
+msgid "Fast begins"
+msgstr "כניסת הצום"
+
+msgid "Fast ends"
+msgstr "יציאת הצום"

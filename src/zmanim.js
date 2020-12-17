@@ -63,7 +63,7 @@ export class Zmanim {
       sunriseEnd: this.sun.timeAtAngle(0.3, true),
       sunsetStart: this.sun.timeAtAngle(0.3, false),
       dawn: this.dawn(),
-      dusk: this.sun.timeAtAngle(6, false),
+      dusk: this.dusk(),
       nauticalDawn: this.sun.timeAtAngle(12, true),
       nauticalDusk: this.sun.timeAtAngle(12, false),
       nightEnd: this.sun.timeAtAngle(18, true),
@@ -87,6 +87,10 @@ export class Zmanim {
   /** @return {Date} */
   dawn() {
     return this.sun.timeAtAngle(6, true);
+  }
+  /** @return {Date} */
+  dusk() {
+    return this.sun.timeAtAngle(6, false);
   }
   /** @return {number} */
   hour() {

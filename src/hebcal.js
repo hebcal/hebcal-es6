@@ -28,7 +28,8 @@ import {Sedra, ParshaEvent} from './sedra';
 import {greg as g} from './greg';
 import {DafYomiEvent} from './dafyomi';
 import {Location} from './location';
-import {makeCandleEvent, HavdalahEvent, makeFastStartEnd} from './candles';
+import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
+  makeWeekdayChanukahCandleLighting} from './candles';
 
 const SUN = 0;
 // const MON = 1;
@@ -348,11 +349,22 @@ export const HebrewCalendar = {
    * `options.location` to an instance of `Location`. By default, candle lighting
    * time is 18 minutes before sundown (40 minutes for Jerusalem) and Havdalah is
    * calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
-   * are observable in the night time sky with the naked eye).
+   * are observable in the night time sky with the naked eye). The default Havdalah
+   * option (Tzeit Hakochavim) is calculated when the sun is 8.5° below the horizon.
    * These defaults can be changed using these options:
    * * `options.candleLightingMins` - minutes before sundown to light candles
    * * `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
    *    Havdalah times are supressed when `options.havdalahMins=0`.
+   *
+   * If both `options.candlelighting=true` and `options.location` is specified,
+   * Chanukah candle-lighting times and minor fast start/end times will also be generated.
+   * Chanukah candle-lighting is at dusk (when the sun is 6.0° below the horizon in the evening)
+   * on weekdays, at regular candle-lighting time on Fridays, and at regular Havdalah time on
+   * Saturday night (see above).
+   *
+   * Minor fasts begin at Alot HaShachar (sun is 16.1° below the horizon in the morning) and
+   * end when 3 medium-sized stars are observable in the night sky (sun is 7.083° below the horizon
+   * in the evening).
    *
    * Two options also exist for generating an Event with the Hebrew date:
    * * `options.addHebrewDates` - print the Hebrew date for the entire date range
@@ -452,9 +464,11 @@ export const HebrewCalendar = {
             candlesEv = makeCandleEvent(e, hd, dow, location, timeFormat,
                 candleLightingMinutes, havdalahMinutes);
             if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
+              const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
+                makeWeekdayChanukahCandleLighting(e, hd, location, timeFormat);
               const attrs = {
-                eventTime: candlesEv.eventTime,
-                eventTimeStr: candlesEv.eventTimeStr,
+                eventTime: chanukahEv.eventTime,
+                eventTimeStr: chanukahEv.eventTimeStr,
               };
               const chanukahDay = e.chanukahDay;
               if (chanukahDay) {

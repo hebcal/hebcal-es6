@@ -262,7 +262,6 @@ function makeTimedEvent(hd, time, desc, ev, timeFormat) {
  */
 export function makeWeekdayChanukahCandleLighting(ev, hd, location, timeFormat) {
   const zmanim = new Zmanim(hd.greg(), location.getLatitude(), location.getLongitude());
-  const candleLightingTime = zmanim.tzeit(TZEIT_3MEDIUM_STARS);
-  // const candleLightingTime = zmanim.sunset();
+  const candleLightingTime = zmanim.dusk();
   return makeTimedEvent(hd, candleLightingTime, ev.getDesc(), ev, timeFormat);
 }

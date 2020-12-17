@@ -309,6 +309,7 @@ declare module '@hebcal/core' {
         sunrise(): Date;
         sunset(): Date;
         dawn(): Date;
+        dusk(): Date;
         hour(): number;
         hourMins(): number;
         gregEve(): Date;

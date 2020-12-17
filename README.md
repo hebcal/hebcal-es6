@@ -768,6 +768,7 @@ Class representing halachic times
     * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
     * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
     * [.dawn()](#Zmanim+dawn) ⇒ <code>Date</code>
+    * [.dusk()](#Zmanim+dusk) ⇒ <code>Date</code>
     * [.hour()](#Zmanim+hour) ⇒ <code>number</code>
     * [.hourMins()](#Zmanim+hourMins) ⇒ <code>number</code>
     * [.gregEve()](#Zmanim+gregEve) ⇒ <code>Date</code>
@@ -815,6 +816,10 @@ Initialize a Zmanim instance.
 <a name="Zmanim+dawn"></a>
 
 ### zmanim.dawn() ⇒ <code>Date</code>
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+dusk"></a>
+
+### zmanim.dusk() ⇒ <code>Date</code>
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+hour"></a>
 
@@ -1952,11 +1957,22 @@ To add candle-lighting options, set `options.candlelighting=true` and set
 `options.location` to an instance of `Location`. By default, candle lighting
 time is 18 minutes before sundown (40 minutes for Jerusalem) and Havdalah is
 calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
-are observable in the night time sky with the naked eye).
+are observable in the night time sky with the naked eye). The default Havdalah
+option (Tzeit Hakochavim) is calculated when the sun is 8.5° below the horizon.
 These defaults can be changed using these options:
 * `options.candleLightingMins` - minutes before sundown to light candles
 * `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
    Havdalah times are supressed when `options.havdalahMins=0`.
+
+If both `options.candlelighting=true` and `options.location` is specified,
+Chanukah candle-lighting times and minor fast start/end times will also be generated.
+Chanukah candle-lighting is at dusk (when the sun is 6.0° below the horizon in the evening)
+on weekdays, at regular candle-lighting time on Fridays, and at regular Havdalah time on
+Saturday night (see above).
+
+Minor fasts begin at Alot HaShachar (sun is 16.1° below the horizon in the morning) and
+end when 3 medium-sized stars are observable in the night sky (sun is 7.083° below the horizon
+in the evening).
 
 Two options also exist for generating an Event with the Hebrew date:
 * `options.addHebrewDates` - print the Hebrew date for the entire date range
