@@ -794,7 +794,13 @@ msgid "min"
 msgstr "דקות"
 
 msgid "Fast begins"
-msgstr "כניסת הצום"
+msgstr "תחילת הצום"
 
 msgid "Fast ends"
-msgstr "יציאת הצום"
+msgstr "סיום הצום"
+
+msgid "Rosh Hashanah LaBehemot"
+msgstr "ראש השנה למעשר בהמה"
+
+msgid "Tish'a B'Av (observed)"
+msgstr "תִּשְׁעָה בְּאָב נִדחֶה"

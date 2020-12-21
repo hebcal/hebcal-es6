@@ -322,3 +322,33 @@ function diaspora5771() {
 2011-09-24 Leil Selichot
 2011-09-28 Erev Rosh Hashana`.split('\n').sort();
 }
+
+// eslint-disable-next-line require-jsdoc
+function eventTitleDateHebrew(ev) {
+  return {
+    date: ev.getDate().greg().toISOString().substring(0, 10),
+    basename: ev.basename(),
+    desc: ev.getDesc(),
+  };
+}
+
+test('9av-observed', (t) => {
+  const events = HebrewCalendar.calendar({year: 2015, numYears: 10});
+  const av9 = events.filter((ev) => ev.getDesc().substring(0, 11) === 'Tish\'a B\'Av');
+  const actual = av9.map(eventTitleDateHebrew);
+  const expected = [
+    {date: '2015-07-26', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av (observed)'},
+    {date: '2016-08-14', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av (observed)'},
+    {date: '2017-08-01', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av'},
+    {date: '2018-07-22', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av (observed)'},
+    {date: '2019-08-11', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av (observed)'},
+    {date: '2020-07-30', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av'},
+    {date: '2021-07-18', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av'},
+    {date: '2022-08-07', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av (observed)'},
+    {date: '2023-07-27', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av'},
+    {date: '2024-08-13', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av'},
+  ];
+  t.deepEqual(actual, expected);
+  t.is(av9[0].render('he'), 'תִּשְׁעָה בְּאָב נִדחֶה');
+  t.is(av9[2].render('he'), 'תִּשְׁעָה בְּאָב');
+});

@@ -37,6 +37,7 @@ export class HolidayEvent extends Event {
   basename() {
     return this.getDesc().replace(/ \d{4}$/, '')
         .replace(/ \(CH''M\)$/, '')
+        .replace(/ \(observed\)$/, '')
         .replace(/ \(Hoshana Raba\)$/, '')
         .replace(/ [IV]+$/, '')
         .replace(/: \d Candles?$/, '')

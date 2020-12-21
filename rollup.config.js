@@ -14,7 +14,28 @@ export default [
       babel({
         babelHelpers: 'bundled',
         presets: [
-          ['@babel/env', {
+          ['@babel/preset-env', {
+            modules: false,
+            targets: {
+              node: '10.21.0',
+            },
+          }],
+        ],
+        exclude: ['node_modules/**'],
+      }),
+      nodeResolve(),
+      commonjs(),
+    ],
+  },
+  {
+    input: 'src/index.js',
+    output: {file: pkg.module, format: 'es', name: pkg.name},
+    plugins: [
+      json({compact: true}),
+      babel({
+        babelHelpers: 'bundled',
+        presets: [
+          ['@babel/preset-env', {
             modules: false,
             targets: {
               node: '10.21.0',
@@ -30,15 +51,15 @@ export default [
   {
     input: 'src/index.js',
     output: [
-      {file: 'dist/bundle.js', format: 'umd', name: 'hebcal__core', indent: false},
-      {file: 'dist/bundle.min.js', format: 'umd', name: 'hebcal__core', plugins: [terser()]},
+      {file: pkg.browser, format: 'iife', name: 'hebcal', indent: false},
+      {file: 'dist/bundle.min.js', format: 'iife', name: 'hebcal', plugins: [terser()]},
     ],
     plugins: [
       json({compact: true}),
       babel({
         babelHelpers: 'bundled',
         presets: [
-          ['@babel/env', {
+          ['@babel/preset-env', {
             modules: false,
             targets: {
               edge: '17',

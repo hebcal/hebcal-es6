@@ -876,16 +876,18 @@ export const HebrewCalendar = {
     add(new HolidayEvent(tamuz17, 'Tzom Tammuz', MINOR_FAST, tamuz17attrs));
 
     let av9dt = new HDate(9, AV, year);
+    let av9title = 'Tish\'a B\'Av';
     let av9attrs;
     if (av9dt.getDay() == SAT) {
       av9dt = av9dt.next();
       av9attrs = {observed: true};
+      av9title += ' (observed)';
     }
 
     add(
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs())), 'Shabbat Chazon', SPECIAL_SHABBAT),
         new HolidayEvent(av9dt.prev(), 'Erev Tish\'a B\'Av', MAJOR_FAST, av9attrs),
-        new HolidayEvent(av9dt, 'Tish\'a B\'Av', MAJOR_FAST, av9attrs),
+        new HolidayEvent(av9dt, av9title, MAJOR_FAST, av9attrs),
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs() + 7)), 'Shabbat Nachamu', SPECIAL_SHABBAT),
     );
 
