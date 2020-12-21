@@ -324,10 +324,11 @@ test('fastStartEnd-friday', (t) => {
 });
 
 test('fastStartEnd-9av', (t) => {
+  const location = Location.lookup('Providence');
   const events = HebrewCalendar.calendar({
     start: new Date(2023, 6, 26),
     end: new Date(2023, 6, 27),
-    location: Location.lookup('Providence'),
+    location,
     candlelighting: true,
   });
   const expected = [
@@ -337,6 +338,22 @@ test('fastStartEnd-9av', (t) => {
     {date: '2023-07-27', time: '20:48', desc: 'Fast ends'},
   ];
   t.deepEqual(events.map(eventTitleDateTime), expected);
+
+  const events2 = HebrewCalendar.calendar({
+    start: new Date(2022, 7, 6),
+    end: new Date(2022, 7, 7),
+    location,
+    candlelighting: true,
+  });
+  const expected2 = [
+    {date: '2022-08-06', time: undefined, desc: 'Shabbat Chazon'},
+    {date: '2022-08-06', time: '19:57', desc: 'Fast begins'},
+    {date: '2022-08-06', time: undefined, desc: 'Erev Tish\'a B\'Av'},
+    {date: '2022-08-06', time: '20:44', desc: 'Havdalah'},
+    {date: '2022-08-07', time: undefined, desc: 'Tish\'a B\'Av (observed)'},
+    {date: '2022-08-07', time: '20:33', desc: 'Fast ends'},
+  ];
+  t.deepEqual(events2.map(eventTitleDateTime), expected2);
 });
 
 test('no-chanukah-candles-when-noHolidays', (t) => {

@@ -221,7 +221,7 @@ export function makeFastStartEnd(ev, hd, location, timeFormat) {
     const sunset = zmanim.sunset();
     const begin = makeTimedEvent(hd, sunset, 'Fast begins', ev, timeFormat);
     return [begin, null];
-  } else if (desc === 'Tish\'a B\'Av') {
+  } else if (desc.substring(0, 11) === 'Tish\'a B\'Av') {
     const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, timeFormat);
     return [null, end];
   }
