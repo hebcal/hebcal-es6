@@ -21,7 +21,8 @@
 import {Locale} from './locale';
 import {HDate, months, HebrewDateEvent} from './hdate';
 import {MoladEvent} from './molad';
-import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
+import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent,
+  AsaraBTevetEvent} from './holidays';
 import {flags} from './event';
 import {OmerEvent} from './omer';
 import {Sedra, ParshaEvent} from './sedra';
@@ -485,10 +486,12 @@ export const HebrewCalendar = {
               makeFastStartEnd(e, hd, location, timeFormat) : null;
             if (fastStartEnd && fastStartEnd[0]) {
               evts.push(fastStartEnd[0]);
+              e.startEvent = fastStartEnd[0];
             }
             evts.push(e);
             if (fastStartEnd && fastStartEnd[1]) {
               evts.push(fastStartEnd[1]);
+              e.endEvent = fastStartEnd[1];
             }
           }
         }
@@ -752,9 +755,11 @@ export const HebrewCalendar = {
       [30, KISLEV, chanukah(7), CHANUKAH_CANDLES, {chanukahDay: 6}], // yes, i know these are wrong
       [31, KISLEV, chanukah(8), CHANUKAH_CANDLES, {chanukahDay: 7}], // HDate() corrects the month automatically
       [32, KISLEV, 'Chanukah: 8th Day', 0, {chanukahDay: 8}],
-      [10, TEVET, 'Asara B\'Tevet', MINOR_FAST],
-      [15, SHVAT, 'Tu BiShvat', 0],
     ]);
+    add(
+        new AsaraBTevetEvent(new HDate(10, TEVET, year), 'Asara B\'Tevet', MINOR_FAST),
+        new HolidayEvent(new HDate(15, SHVAT, year), 'Tu BiShvat', 0),
+    );
     const pesachAbs = pesach.abs();
     add(
         new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 43)), 'Shabbat Shekalim', SPECIAL_SHABBAT),

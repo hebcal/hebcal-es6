@@ -48,7 +48,11 @@ export class HolidayEvent extends Event {
   url() {
     return 'https://www.hebcal.com/holidays/' +
       this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' +
-      this.getDate().greg().getFullYear();
+      this.urlDateSuffix();
+  }
+  /** @return {string} */
+  urlDateSuffix() {
+    return this.getDate().greg().getFullYear();
   }
 }
 
@@ -76,6 +80,27 @@ export class RoshChodeshEvent extends HolidayEvent {
   /** @return {string} */
   basename() {
     return this.getDesc();
+  }
+}
+
+/**
+ * Because Asara B'Tevet often occurs twice in the same Gregorian year,
+ * we subclass HolidayEvent to override the `url()` method.
+ */
+export class AsaraBTevetEvent extends HolidayEvent {
+  /**
+   * Constructs AsaraBTevetEvent
+   * @param {HDate} date Hebrew date event occurs
+   * @param {string} desc Description (not translated)
+   * @param {number} [mask=0] optional holiday flags
+   * @param {Object} [attrs={}]
+   */
+  constructor(date, desc, mask, attrs) {
+    super(date, desc, mask, attrs);
+  }
+  /** @return {string} */
+  urlDateSuffix() {
+    return this.getDate().greg().toISOString().substring(0, 10).replace(/-/g, '');
   }
 }
 

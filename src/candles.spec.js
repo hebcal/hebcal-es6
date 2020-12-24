@@ -305,6 +305,8 @@ test('fastStartEnd', (t) => {
     {date: '2021-06-27', time: '21:06', desc: 'Fast ends'},
   ];
   t.deepEqual(events.map(eventTitleDateTime), expected);
+  t.deepEqual(events[1].startEvent, events[0], 'startEvent');
+  t.deepEqual(events[1].endEvent, events[2], 'endEvent');
 });
 
 test('fastStartEnd-friday', (t) => {

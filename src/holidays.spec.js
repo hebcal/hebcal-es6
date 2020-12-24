@@ -352,3 +352,14 @@ test('9av-observed', (t) => {
   t.is(av9[0].render('he'), 'תִּשְׁעָה בְּאָב נִדחֶה');
   t.is(av9[2].render('he'), 'תִּשְׁעָה בְּאָב');
 });
+
+test('asara-btevet-url', (t) => {
+  const urls = HebrewCalendar.calendar({year: 2020})
+      .filter((ev) => ev.getDesc() === 'Asara B\'Tevet')
+      .map((ev) => ev.url());
+  const expected = [
+    'https://www.hebcal.com/holidays/asara-btevet-20200107',
+    'https://www.hebcal.com/holidays/asara-btevet-20201225',
+  ];
+  t.deepEqual(urls, expected);
+});
