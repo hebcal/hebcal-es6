@@ -51,8 +51,22 @@ export default [
   {
     input: 'src/index.js',
     output: [
-      {file: pkg.browser, format: 'iife', name: 'hebcal', indent: false},
-      {file: 'dist/bundle.min.js', format: 'iife', name: 'hebcal', plugins: [terser()]},
+      {
+        file: pkg.browser,
+        format: 'iife',
+        name: 'hebcal',
+        indent: false,
+        banner: '/*! ' + pkg.name + ' v' + pkg.version + ' */',
+        footer: 'var hebcal__core = hebcal;',
+      },
+      {
+        file: 'dist/bundle.min.js',
+        format: 'iife',
+        name: 'hebcal',
+        plugins: [terser()],
+        banner: '/*! ' + pkg.name + ' v' + pkg.version + ' */',
+        footer: 'var hebcal__core = hebcal;',
+      },
     ],
     plugins: [
       json({compact: true}),
