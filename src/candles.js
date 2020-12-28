@@ -178,12 +178,20 @@ export class HavdalahEvent extends TimedEvent {
    * @return {string}
    */
   render(locale) {
+    return this.renderBrief(locale) + ': ' + this.eventTimeStr;
+  }
+  /**
+   * Returns translation of "Havdalah" without the time.
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  renderBrief(locale) {
     let str = Locale.gettext(this.getDesc(), locale);
     if (this.havdalahMins) {
       const min = Locale.gettext('min', locale);
       str += ` (${this.havdalahMins} ${min})`;
     }
-    return str + ': ' + this.eventTimeStr;
+    return str;
   }
 }
 

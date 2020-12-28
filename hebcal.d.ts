@@ -718,6 +718,7 @@ declare module '@hebcal/core' {
     export class HavdalahEvent extends TimedEvent {
         constructor(date: HDate, mask: number, eventTime: Date, eventTimeStr: string, havdalahMins?: number, linkedEvent?: Event);
         render(locale?: string): string;
+        renderBrief(locale?: string): string;
     }
     export class HebrewDateEvent extends Event {
         constructor(date: HDate, locale?: string);

@@ -1,6 +1,6 @@
 import test from 'ava';
 import {Location} from './location';
-import {makeCandleEvent} from './candles';
+import {makeCandleEvent, CandleLightingEvent, HavdalahEvent} from './candles';
 import {HDate} from './hdate';
 import {flags} from './event';
 import {HebrewCalendar} from './hebcal';
@@ -375,4 +375,29 @@ test('no-chanukah-candles-when-noHolidays', (t) => {
   ];
   const actual = events.map(eventTitleDateTime);
   t.deepEqual(actual, expected);
+});
+
+test('renderBrief', (t) => {
+  const dt = new Date('2020-12-28T20:12:44Z');
+  const hd = new HDate(dt);
+  const candleLighting = new CandleLightingEvent(hd, flags.LIGHT_CANDLES, dt, '20:12');
+  const havdalah = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, '20:12', 42);
+  const havdalahTzeit = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, '20:12');
+
+  t.is(candleLighting.getDesc(), 'Candle lighting');
+  t.is(candleLighting.render(), 'Candle lighting: 20:12');
+  t.is(candleLighting.renderBrief(), 'Candle lighting');
+  t.is(havdalah.getDesc(), 'Havdalah');
+  t.is(havdalah.render(), 'Havdalah (42 min): 20:12');
+  t.is(havdalah.renderBrief(), 'Havdalah (42 min)');
+  t.is(havdalahTzeit.getDesc(), 'Havdalah');
+  t.is(havdalahTzeit.render(), 'Havdalah: 20:12');
+  t.is(havdalahTzeit.renderBrief(), 'Havdalah');
+
+  t.is(candleLighting.render('he'), 'הדלקת נרות: 20:12');
+  t.is(candleLighting.renderBrief('he'), 'הדלקת נרות');
+  t.is(havdalah.render('he'), 'הַבדָלָה (42 דקות): 20:12');
+  t.is(havdalah.renderBrief('he'), 'הַבדָלָה (42 דקות)');
+  t.is(havdalahTzeit.render('he'), 'הַבדָלָה: 20:12');
+  t.is(havdalahTzeit.renderBrief('he'), 'הַבדָלָה');
 });
