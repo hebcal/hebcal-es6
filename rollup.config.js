@@ -53,15 +53,15 @@ export default [
     output: [
       {
         file: pkg.browser,
-        format: 'umd',
-        name: 'hebcal__core',
+        format: 'iife',
+        name: 'hebcal',
         indent: false,
         banner: '/*! ' + pkg.name + ' v' + pkg.version + ' */',
       },
       {
         file: 'dist/bundle.min.js',
-        format: 'umd',
-        name: 'hebcal__core',
+        format: 'iife',
+        name: 'hebcal',
         plugins: [terser()],
         banner: '/*! ' + pkg.name + ' v' + pkg.version + ' */',
       },
