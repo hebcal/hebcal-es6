@@ -5,31 +5,15 @@ import json from '@rollup/plugin-json';
 import pkg from './package.json';
 import {terser} from 'rollup-plugin-terser';
 
+const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
+
 export default [
   {
     input: 'src/index.js',
-    output: {file: pkg.main, format: 'cjs', name: pkg.name},
-    plugins: [
-      json({compact: true}),
-      babel({
-        babelHelpers: 'bundled',
-        presets: [
-          ['@babel/preset-env', {
-            modules: false,
-            targets: {
-              node: '10.21.0',
-            },
-          }],
-        ],
-        exclude: ['node_modules/**'],
-      }),
-      nodeResolve(),
-      commonjs(),
+    output: [
+      {file: pkg.main, format: 'cjs', name: pkg.name, banner},
+      {file: pkg.module, format: 'es', name: pkg.name, banner},
     ],
-  },
-  {
-    input: 'src/index.js',
-    output: {file: pkg.module, format: 'es', name: pkg.name},
     plugins: [
       json({compact: true}),
       babel({
@@ -56,14 +40,14 @@ export default [
         format: 'iife',
         name: 'hebcal',
         indent: false,
-        banner: '/*! ' + pkg.name + ' v' + pkg.version + ' */',
+        banner,
       },
       {
         file: 'dist/bundle.min.js',
         format: 'iife',
         name: 'hebcal',
         plugins: [terser()],
-        banner: '/*! ' + pkg.name + ' v' + pkg.version + ' */',
+        banner,
       },
     ],
     plugins: [
