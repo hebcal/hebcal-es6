@@ -488,22 +488,22 @@ msgid "Pesach II"
 msgstr "פֶּסַח יוֹם ב׳"
 
 msgid "Pesach II (CH''M)"
-msgstr "פֶּסַח יוֹם ב׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח יוֹם ב׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Pesach III (CH''M)"
-msgstr "פֶּסַח יוֹם ג׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח יוֹם ג׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Pesach IV (CH''M)"
-msgstr "פֶּסַח יוֹם ד׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח יוֹם ד׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Pesach Sheni"
 msgstr "פֶּסַח שני"
 
 msgid "Pesach V (CH''M)"
-msgstr "פֶּסַח יוֹם ה׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח יוֹם ה׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Pesach VI (CH''M)"
-msgstr "פֶּסַח יוֹם ו׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח יוֹם ו׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Pesach VII"
 msgstr "פֶּסַח יוֹם ז׳"
@@ -635,19 +635,19 @@ msgid "Sukkot II"
 msgstr "סוּכּוֹת יוֹם ב׳"
 
 msgid "Sukkot II (CH''M)"
-msgstr "סוּכּוֹת יוֹם ב׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ב׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot III (CH''M)"
-msgstr "סוּכּוֹת יוֹם ג׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ג׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot IV (CH''M)"
-msgstr "סוּכּוֹת יוֹם ד׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ד׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot V (CH''M)"
-msgstr "סוּכּוֹת יוֹם ה׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ה׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot VI (CH''M)"
-msgstr "סוּכּוֹת יוֹם ו׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ו׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot VII (Hoshana Raba)"
 msgstr "סוּכּוֹת יוֹם ז׳ (הוֹשַׁעְנָא רַבָּה)"
@@ -698,19 +698,22 @@ msgid "Pesach I (on Shabbat)"
 msgstr "פֶּסַח יוֹם א׳ (בְּשַׁבָּת)"
 
 msgid "Pesach Chol ha-Moed Day 1"
-msgstr "פֶּסַח יוֹם ג׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח חוֹל הַמוֹעֵד יוֹם א׳"
 
 msgid "Pesach Chol ha-Moed Day 2"
-msgstr "פֶּסַח יוֹם ד׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח חוֹל הַמוֹעֵד יוֹם ב׳"
 
 msgid "Pesach Chol ha-Moed Day 3"
-msgstr "פֶּסַח יוֹם ה׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח חוֹל הַמוֹעֵד יוֹם ג׳"
 
 msgid "Pesach Chol ha-Moed Day 4"
-msgstr "פֶּסַח יוֹם ו׳ (חוֹל הַמוֹעד)"
+msgstr "פֶּסַח חוֹל הַמוֹעֵד יוֹם ד׳"
+
+msgid "Pesach Chol ha-Moed Day 5"
+msgstr "פֶּסַח חוֹל הַמוֹעֵד יוֹם ה׳"
 
 msgid "Pesach Shabbat Chol ha-Moed"
-msgstr "פֶּסַח שַׁבָּת חוֹל הַמוֹעד"
+msgstr "פֶּסַח שַׁבָּת חוֹל הַמוֹעֵד"
 
 msgid "Shavuot II (on Shabbat)"
 msgstr "שָׁבוּעוֹת יוֹם ב׳ (בְּשַׁבָּת)"
@@ -731,19 +734,19 @@ msgid "Sukkot I (on Shabbat)"
 msgstr "סוּכּוֹת יוֹם א׳ (בְּשַׁבָּת)"
 
 msgid "Sukkot Chol ha-Moed Day 1"
-msgstr "סוּכּוֹת יוֹם ג׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ג׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot Chol ha-Moed Day 2"
-msgstr "סוּכּוֹת יוֹם ד׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ד׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot Chol ha-Moed Day 3"
-msgstr "סוּכּוֹת יוֹם ה׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ה׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot Chol ha-Moed Day 4"
-msgstr "סוּכּוֹת יוֹם ו׳ (חוֹל הַמוֹעד)"
+msgstr "סוּכּוֹת יוֹם ו׳ (חוֹל הַמוֹעֵד)"
 
 msgid "Sukkot Shabbat Chol ha-Moed"
-msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמוֹעד"
+msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמוֹעֵד"
 
 msgid "Sukkot Final Day (Hoshana Raba)"
 msgstr "סוּכּוֹת יוֹם ז׳ (הוֹשַׁעְנָא רַבָּה)"
