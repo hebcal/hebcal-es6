@@ -324,7 +324,7 @@ test('renderBrief', (t) => {
   };
   const events = HebrewCalendar.calendar(options);
   const expected = [
-    ['Candle lighting', 'הדלקת נרות'],
+    ['Candle lighting', 'הַדלָקָת נֵרוֹת'],
     ['Shabbat Zachor', 'שַׁבָּת זָכוֹר'],
     ['Parashat Tetzaveh', 'פרשת תְּצַוֶּה'],
     ['Havdalah', 'הַבדָלָה'],
@@ -334,16 +334,16 @@ test('renderBrief', (t) => {
     ['Erev Purim', 'עֶרֶב פּוּרִים'],
     ['Purim', 'פּוּרִים'],
     ['Shushan Purim', 'שׁוּשָׁן פּוּרִים'],
-    ['Candle lighting', 'הדלקת נרות'],
+    ['Candle lighting', 'הַדלָקָת נֵרוֹת'],
     ['Shabbat Parah', 'שַׁבָּת פּרה'],
     ['Parashat Ki Tisa', 'פרשת כִּי תִשָּׂא'],
     ['Havdalah', 'הַבדָלָה'],
-    ['Candle lighting', 'הדלקת נרות'],
+    ['Candle lighting', 'הַדלָקָת נֵרוֹת'],
     ['Shabbat HaChodesh', 'שַׁבָּת הַחֹדֶשׁ'],
     ['Parashat Vayakhel-Pekudei', 'פרשת וַיַּקְהֵל־פְקוּדֵי'],
     ['Havdalah', 'הַבדָלָה'],
-    ['Rosh Chodesh Nisan', 'רֹאשׁ חודש נִיסָן'],
-    ['Candle lighting', 'הדלקת נרות'],
+    ['Rosh Chodesh Nisan', 'רֹאשׁ חוֹדֶשׁ נִיסָן'],
+    ['Candle lighting', 'הַדלָקָת נֵרוֹת'],
     ['Parashat Vayikra', 'פרשת וַיִּקְרָא'],
     ['Havdalah', 'הַבדָלָה'],
   ];

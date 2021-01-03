@@ -31,7 +31,7 @@ test('dafyomi-render', (t) => {
   const ev = new DafYomiEvent(new HDate(new Date(2020, 5, 18)));
   t.is(ev.render(), 'Daf Yomi: Shabbat 104');
   t.is(ev.render('a'), 'Daf Yomi: Shabbos 104');
-  t.is(ev.render('he'), 'דף יומי: שבת 104');
+  t.is(ev.render('he'), 'דף יומי: שַׁבָּת 104');
   t.is(ev.url(), 'https://www.sefaria.org/Shabbat.104a?lang=bi');
 });
 

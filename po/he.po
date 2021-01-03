@@ -404,7 +404,7 @@ msgid "Asara B'Tevet"
 msgstr "עֲשָׂרָה בְּטֵבֵת"
 
 msgid "Candle lighting"
-msgstr "הדלקת נרות"
+msgstr "הַדלָקָת נֵרוֹת"
 
 msgid "Chanukah"
 msgstr "חֲנוּכָּה"

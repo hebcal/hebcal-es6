@@ -394,8 +394,8 @@ test('renderBrief', (t) => {
   t.is(havdalahTzeit.render(), 'Havdalah: 20:12');
   t.is(havdalahTzeit.renderBrief(), 'Havdalah');
 
-  t.is(candleLighting.render('he'), 'הדלקת נרות: 20:12');
-  t.is(candleLighting.renderBrief('he'), 'הדלקת נרות');
+  t.is(candleLighting.render('he'), 'הַדלָקָת נֵרוֹת: 20:12');
+  t.is(candleLighting.renderBrief('he'), 'הַדלָקָת נֵרוֹת');
   t.is(havdalah.render('he'), 'הַבדָלָה (42 דקות): 20:12');
   t.is(havdalah.renderBrief('he'), 'הַבדָלָה (42 דקות)');
   t.is(havdalahTzeit.render('he'), 'הַבדָלָה: 20:12');
