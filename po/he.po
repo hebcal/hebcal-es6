@@ -24,7 +24,7 @@ msgstr "ברכות"
 
 #: ../dafyomi.c:27
 msgid "Shabbat"
-msgstr "שבת"
+msgstr "שַׁבָּת"
 
 #: ../dafyomi.c:28
 msgid "Eruvin"
@@ -518,10 +518,10 @@ msgid "Purim Katan"
 msgstr "פּוּרִים קָטָן"
 
 msgid "Rosh Chodesh %s"
-msgstr "רֹאשׁ חודש %s"
+msgstr "רֹאשׁ חוֹדֶשׁ %s"
 
 msgid "Rosh Chodesh"
-msgstr "רֹאשׁ חודש"
+msgstr "רֹאשׁ חוֹדֶשׁ"
 
 msgid "Adar"
 msgstr "אַדָר"
@@ -584,7 +584,7 @@ msgid "Shabbat HaGadol"
 msgstr "שַׁבָּת הַגָּדוֹל"
 
 msgid "Shabbat Machar Chodesh"
-msgstr "שבת מחר חודש"
+msgstr "שַׁבָּת מָחָר חוֹדֶשׁ"
 
 msgid "Shabbat Nachamu"
 msgstr "שַׁבָּת נַחֲמוּ"
@@ -593,7 +593,7 @@ msgid "Shabbat Parah"
 msgstr "שַׁבָּת פּרה"
 
 msgid "Shabbat Rosh Chodesh"
-msgstr "שבת ראש חודש"
+msgstr "שַׁבָּת רֹאשׁ חוֹדֶשׁ"
 
 msgid "Shabbat Shekalim"
 msgstr "שַׁבָּת שְׁקָלִים"
@@ -751,47 +751,44 @@ msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמוֹעֵד"
 msgid "Sukkot Final Day (Hoshana Raba)"
 msgstr "סוּכּוֹת יוֹם ז׳ (הוֹשַׁעְנָא רַבָּה)"
 
-msgid "Shabbat Machar Chodesh"
-msgstr "שבת מחר חודש"
-
 msgid "Rosh Chodesh Adar"
-msgstr "רֹאשׁ חודש אַדָר"
+msgstr "רֹאשׁ חוֹדֶשׁ אַדָר"
 
 msgid "Rosh Chodesh Adar I"
-msgstr "רֹאשׁ חודש אַדָר א׳"
+msgstr "רֹאשׁ חוֹדֶשׁ אַדָר א׳"
 
 msgid "Rosh Chodesh Adar II"
-msgstr "רֹאשׁ חודש אַדָר ב׳"
+msgstr "רֹאשׁ חוֹדֶשׁ אַדָר ב׳"
 
 msgid "Rosh Chodesh Av"
-msgstr "רֹאשׁ חודש אָב"
+msgstr "רֹאשׁ חוֹדֶשׁ אָב"
 
 msgid "Rosh Chodesh Cheshvan"
-msgstr "רֹאשׁ חודש חֶשְׁוָן"
+msgstr "רֹאשׁ חוֹדֶשׁ חֶשְׁוָן"
 
 msgid "Rosh Chodesh Elul"
-msgstr "רֹאשׁ חודש אֱלוּל"
+msgstr "רֹאשׁ חוֹדֶשׁ אֱלוּל"
 
 msgid "Rosh Chodesh Iyyar"
-msgstr "רֹאשׁ חודש אִיָיר"
+msgstr "רֹאשׁ חוֹדֶשׁ אִיָיר"
 
 msgid "Rosh Chodesh Kislev"
-msgstr "רֹאשׁ חודש כִּסְלֵו"
+msgstr "רֹאשׁ חוֹדֶשׁ כִּסְלֵו"
 
 msgid "Rosh Chodesh Nisan"
-msgstr "רֹאשׁ חודש נִיסָן"
+msgstr "רֹאשׁ חוֹדֶשׁ נִיסָן"
 
 msgid "Rosh Chodesh Sh'vat"
-msgstr "רֹאשׁ חודש שְׁבָט"
+msgstr "רֹאשׁ חוֹדֶשׁ שְׁבָט"
 
 msgid "Rosh Chodesh Sivan"
-msgstr "רֹאשׁ חודש סִיוָן"
+msgstr "רֹאשׁ חוֹדֶשׁ סִיוָן"
 
 msgid "Rosh Chodesh Tamuz"
-msgstr "רֹאשׁ חודש תָּמוּז"
+msgstr "רֹאשׁ חוֹדֶשׁ תָּמוּז"
 
 msgid "Rosh Chodesh Tevet"
-msgstr "רֹאשׁ חודש טֵבֵת"
+msgstr "רֹאשׁ חוֹדֶשׁ טֵבֵת"
 
 msgid "min"
 msgstr "דקות"
