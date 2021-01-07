@@ -199,3 +199,6 @@ msgstr "Parshas"
 
 msgid "Leil Selichot"
 msgstr "Leil Selichos"
+
+msgid "Shabbat Mevarchim Chodesh"
+msgstr "Shabbos Mevorchim Chodesh"

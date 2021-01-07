@@ -40,7 +40,7 @@ test('basename-and-url', (t) => {
   const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
   t.is(mvch.getDesc(), 'Shabbat Mevarchim Chodesh Tevet');
   t.is(mvch.render(), 'Shabbat Mevarchim Chodesh Tevet');
-  t.is(mvch.renderBrief(), 'Mevarchim Chodesh Tevet');
+  t.is(mvch.renderBrief(), 'Shabbat Mevarchim Chodesh Tevet');
   t.is(mvch.url(), undefined);
 });
 

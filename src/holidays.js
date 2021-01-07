@@ -115,6 +115,7 @@ export class MevarchimChodeshEvent extends Event {
    */
   constructor(date, monthName) {
     super(date, `${mevarchimChodeshStr} ${monthName}`, flags.SHABBAT_MEVARCHIM);
+    this.monthName = monthName;
   }
   /**
    * Returns (translated) description of this event
@@ -122,17 +123,6 @@ export class MevarchimChodeshEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const monthName = this.getDesc().substring(mevarchimChodeshStr.length + 1);
-    return Locale.gettext(mevarchimChodeshStr, locale) + ' ' + Locale.gettext(monthName, locale);
-  }
-  /**
-   * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  renderBrief(locale) {
-    const str = this.render(locale);
-    const space = str.indexOf(' ');
-    return str.substring(space + 1);
+    return Locale.gettext(mevarchimChodeshStr, locale) + ' ' + Locale.gettext(this.monthName, locale);
   }
 }

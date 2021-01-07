@@ -804,3 +804,6 @@ msgstr "ראש השנה למעשר בהמה"
 
 msgid "Tish'a B'Av (observed)"
 msgstr "תִּשְׁעָה בְּאָב נִדחֶה"
+
+msgid "Shabbat Mevarchim Chodesh"
+msgstr "שַׁבָּת מברכים חוֹדֶשׁ"
