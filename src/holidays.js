@@ -19,7 +19,9 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {Locale} from './locale';
+import {HDate, months} from './hdate';
 import {Event, flags} from './event';
+import {MoladEvent} from './molad';
 
 /** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
 export class HolidayEvent extends Event {
@@ -116,6 +118,11 @@ export class MevarchimChodeshEvent extends Event {
   constructor(date, monthName) {
     super(date, `${mevarchimChodeshStr} ${monthName}`, flags.SHABBAT_MEVARCHIM);
     this.monthName = monthName;
+    const hyear = date.getFullYear();
+    const hmonth = date.getMonth();
+    const monNext = (hmonth == HDate.monthsInYear(hyear) ? months.NISAN : hmonth + 1);
+    const molad = new MoladEvent(date, hyear, monNext);
+    this.memo = molad.render();
   }
   /**
    * Returns (translated) description of this event

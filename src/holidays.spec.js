@@ -44,6 +44,11 @@ test('basename-and-url', (t) => {
   t.is(mvch.url(), undefined);
 });
 
+test('MevarchimChodeshEvent', (t) => {
+  const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
+  t.is(mvch.memo, 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
+});
+
 test('shushan-purim', (t) => {
   const events = HebrewCalendar.calendar({year: 2015, numYears: 15});
   const shushan = events.filter((ev) => ev.getDesc() == 'Shushan Purim');
