@@ -98,7 +98,7 @@ export class Sedra {
    */
   get(hDate) {
     const abs0 = (typeof hDate == 'number') ?
-        hDate : ((hDate instanceof HDate) ?
+        hDate : (HDate.isHDate(hDate) ?
         hDate.abs() : throwError('Bad date argument'));
     return this.calculate(abs0).parsha;
   }
@@ -127,7 +127,7 @@ export class Sedra {
    */
   lookup(hDate) {
     const abs0 = (typeof hDate == 'number') ?
-        hDate : ((hDate instanceof HDate) ?
+        hDate : (HDate.isHDate(hDate) ?
         hDate.abs() : throwError('Bad date argument'));
     return this.calculate(abs0);
   }
@@ -140,7 +140,7 @@ export class Sedra {
    */
   isParsha(hDate) {
     const abs0 = (typeof hDate == 'number') ?
-        hDate : ((hDate instanceof HDate) ?
+        hDate : (HDate.isHDate(hDate) ?
         hDate.abs() : throwError('Bad date argument'));
     return !this.calculate(abs0).chag;
   }

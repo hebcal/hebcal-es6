@@ -46,7 +46,7 @@ export class Zmanim {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
     const dt = date instanceof Date ? date :
-        date instanceof HDate ? date.greg() :
+        HDate.isHDate(date) ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
     // reset the date to midday before calling solar-calc api
     this.date = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12, 0, 0, 0, 0);

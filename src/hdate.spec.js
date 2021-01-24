@@ -336,3 +336,13 @@ test('after', (t) => {
   t.is(hd2iso(new HDate(new Date('Saturday February 22, 2014')).after(6)), '2014-03-01');
   t.is(hd2iso(new HDate(new Date('Sunday February 23, 2014')).after(6)), '2014-03-01');
 });
+
+test('isHDate', (t) => {
+  t.is(HDate.isHDate('foo'), false);
+  t.is(HDate.isHDate(null), false);
+  t.is(HDate.isHDate(undefined), false);
+  t.is(HDate.isHDate({}), false);
+  t.is(HDate.isHDate(new HDate()), true);
+  t.is(HDate.isHDate(new Date()), false);
+  t.is(HDate.isHDate(new HDate(12345)), true);
+});

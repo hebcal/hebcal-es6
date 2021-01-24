@@ -121,6 +121,11 @@ declare module '@hebcal/core' {
         isSameDate(other: HDate): boolean;
 
         /**
+         * Tests if the object is an instance of `HDate`
+         */
+        isHDate(obj: any): boolean;
+
+        /**
          * Converts Hebrew date to R.D. (Rata Die) fixed days.
          * R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
          * Calendar.

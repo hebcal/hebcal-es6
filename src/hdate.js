@@ -178,7 +178,7 @@ export class HDate {
       }
       const abs0 = (typeof day === 'number') ? day : (day instanceof Date) ? g.greg2abs(day) : 0;
       const d = (abs0 > 0) ? HDate.abs2hebrew(abs0) :
-        (day instanceof HDate) ? {dd: day.day, mm: day.month, yy: day.year} :
+        HDate.isHDate(day) ? {dd: day.day, mm: day.month, yy: day.year} :
         throwTypeError(`HDate called with bad argument: ${day}`);
       this.day = d.dd;
       this.month = d.mm;
@@ -523,7 +523,7 @@ export class HDate {
    * @return {boolean}
    */
   isSameDate(other) {
-    if (other instanceof HDate) {
+    if (HDate.isHDate(other)) {
       return this.year == other.year &&
         this.month == other.month &&
         this.day == other.day;
@@ -795,6 +795,20 @@ export class HDate {
    */
   static dayOnOrBefore(dayOfWeek, absdate) {
     return absdate - ((absdate - dayOfWeek) % 7);
+  }
+
+  /**
+   * Tests if the object is an instance of `HDate`
+   * @param {any} obj
+   * @return {boolean}
+   */
+  static isHDate(obj) {
+    return obj !== null && typeof obj === 'object' &&
+      typeof obj.year === 'number' &&
+      typeof obj.month === 'number' &&
+      typeof obj.day === 'number' &&
+      typeof obj.greg === 'function' &&
+      typeof obj.abs === 'function';
   }
 }
 

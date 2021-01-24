@@ -173,7 +173,7 @@ function getCandleLightingMinutes(options) {
 function getAbs(d) {
   if (typeof d == 'number') return d;
   if (d instanceof Date) return g.greg2abs(d);
-  if (d instanceof HDate) return d.abs();
+  if (HDate.isHDate(d)) return d.abs();
   throw new TypeError(`Invalid date type: ${d}`);
 }
 
