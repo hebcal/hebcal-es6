@@ -564,7 +564,7 @@ export const HebrewCalendar = {
    * @return {HDate} anniversary occurring in `hyear`
    */
   getBirthdayOrAnniversary: function(hyear, gdate) {
-    const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
+    const orig = HDate.isHDate(gdate) ? gdate : new HDate(gdate);
     const origYear = orig.getFullYear();
     if (hyear <= origYear) {
       // `Hebrew year ${hyear} occurs on or before original date in ${origYear}`
@@ -625,7 +625,7 @@ export const HebrewCalendar = {
    * @return {HDate} anniversary occurring in hyear
    */
   getYahrzeit: function(hyear, gdate) {
-    const orig = gdate instanceof HDate ? gdate : new HDate(gdate);
+    const orig = HDate.isHDate(gdate) ? gdate : new HDate(gdate);
     let hDeath = {
       yy: orig.getFullYear(),
       mm: orig.getMonth(),
@@ -929,7 +929,7 @@ export const HebrewCalendar = {
    * @return {Event[]}
    */
   getHolidaysOnDate: function(date, il) {
-    const hd = date instanceof HDate ? date : new HDate(date);
+    const hd = HDate.isHDate(date) ? date : new HDate(date);
     const yearMap = HebrewCalendar.getHolidaysForYear(hd.getFullYear());
     const events = yearMap.get(hd.toString());
     if (typeof il === 'undefined' || typeof events === 'undefined') {
