@@ -36,7 +36,7 @@ export default [
     input: 'src/index.js',
     output: [
       {
-        file: pkg.browser,
+        file: 'dist/bundle.js',
         format: 'iife',
         name: 'hebcal',
         indent: false,

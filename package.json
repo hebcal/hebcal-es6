@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -21,9 +21,11 @@
   ],
   "description": "A perpetual Jewish Calendar API",
   "main": "./dist/index.js",
-  "browser": "./dist/bundle.js",
   "module": "./dist/index.mjs",
   "typings": "hebcal.d.ts",
+  "engines": {
+    "node": ">=10.21.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/hebcal/hebcal-es6.git"
