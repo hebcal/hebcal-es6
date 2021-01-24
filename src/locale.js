@@ -99,10 +99,10 @@ export const Locale = {
    */
   ordinal: function(n, locale) {
     const locale0 = locale || activeName;
-    if (!locale0 || locale0 == 'en' || 'ashkenazi' == locale0.substring(0, 9)) {
+    if (!locale0 || locale0 === 'en' || 'ashkenazi' === locale0.substring(0, 9)) {
       return getEnOrdinal(n);
-    } else if (locale0 == 'fr') {
-      return n == 1 ? (n + 'er') : (n + 'ème');
+    } else if (locale0 == 'es') {
+      return n + 'º';
     } else {
       return n + '.';
     }
