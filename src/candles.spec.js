@@ -18,14 +18,6 @@ function eventDateDesc(ev) {
 
 test('makeCandleEvent-nosunset', (t) => {
   const location = Location.lookup('Helsinki');
-
-  const timeFormat = new Intl.DateTimeFormat('en-US', {
-    timeZone: location.tzid,
-    hour12: false,
-    hour: 'numeric',
-    minute: 'numeric',
-  });
-
   const dates = [
     [2020, 4, 15],
     [2020, 4, 16],
@@ -39,7 +31,7 @@ test('makeCandleEvent-nosunset', (t) => {
   const events = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, timeFormat, 18);
+    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, 18);
     events.push(ev);
   }
   const result = events.map(eventDateDesc);
@@ -58,7 +50,7 @@ test('makeCandleEvent-nosunset', (t) => {
   const events2 = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, timeFormat, 18, 72);
+    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, 18, 72);
     events2.push(ev);
   }
   const result2 = events2.map(eventDateDesc);
@@ -279,10 +271,10 @@ test('chanukah-candles', (t) => {
     {date: '2020-12-11', time: '15:56', desc: 'Candle lighting'},
     {date: '2020-12-12', time: '17:01', desc: 'Chanukah: 3 Candles'},
     {date: '2020-12-12', time: '17:01', desc: 'Havdalah'},
-    {date: '2020-12-13', time: '16:46', desc: 'Chanukah: 4 Candles'},
+    {date: '2020-12-13', time: '16:47', desc: 'Chanukah: 4 Candles'},
     {date: '2020-12-14', time: '16:47', desc: 'Chanukah: 5 Candles'},
     {date: '2020-12-15', time: '16:47', desc: 'Chanukah: 6 Candles'},
-    {date: '2020-12-16', time: '16:47', desc: 'Chanukah: 7 Candles'},
+    {date: '2020-12-16', time: '16:48', desc: 'Chanukah: 7 Candles'},
     {date: '2020-12-16', time: undefined, desc: 'Rosh Chodesh Tevet'},
     {date: '2020-12-17', time: '16:48', desc: 'Chanukah: 8 Candles'},
     {date: '2020-12-18', time: undefined, desc: 'Chanukah: 8th Day'},
@@ -292,7 +284,7 @@ test('chanukah-candles', (t) => {
   t.deepEqual(actual, expected, 'chanukah-candles');
 });
 
-test('fastStartEnd', (t) => {
+test('fastStartEnd-TzomTammuz', (t) => {
   const events = HebrewCalendar.calendar({
     start: new Date(2021, 5, 27),
     end: new Date(2021, 5, 27),
@@ -300,9 +292,9 @@ test('fastStartEnd', (t) => {
     candlelighting: true,
   });
   const expected = [
-    {date: '2021-06-27', time: '03:19', desc: 'Fast begins'},
+    {date: '2021-06-27', time: '03:20', desc: 'Fast begins'},
     {date: '2021-06-27', time: undefined, desc: 'Tzom Tammuz'},
-    {date: '2021-06-27', time: '21:06', desc: 'Fast ends'},
+    {date: '2021-06-27', time: '21:07', desc: 'Fast ends'},
   ];
   t.deepEqual(events.map(eventTitleDateTime), expected);
   t.deepEqual(events[1].startEvent, events[0], 'startEvent');
@@ -349,11 +341,11 @@ test('fastStartEnd-9av', (t) => {
   });
   const expected2 = [
     {date: '2022-08-06', time: undefined, desc: 'Shabbat Chazon'},
-    {date: '2022-08-06', time: '19:57', desc: 'Fast begins'},
+    {date: '2022-08-06', time: '19:58', desc: 'Fast begins'},
     {date: '2022-08-06', time: undefined, desc: 'Erev Tish\'a B\'Av'},
     {date: '2022-08-06', time: '20:44', desc: 'Havdalah'},
     {date: '2022-08-07', time: undefined, desc: 'Tish\'a B\'Av (observed)'},
-    {date: '2022-08-07', time: '20:33', desc: 'Fast ends'},
+    {date: '2022-08-07', time: '20:34', desc: 'Fast ends'},
   ];
   t.deepEqual(events2.map(eventTitleDateTime), expected2);
 });

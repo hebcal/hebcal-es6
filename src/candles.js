@@ -20,76 +20,15 @@ const TZEIT_3MEDIUM_STARS = 7.083;
 
 /**
  * @private
- * @param {Intl.DateTimeFormat} timeFormat
- * @param {Date} dt
- * @return {string}
- */
-function formatTime(timeFormat, dt) {
-  const time = timeFormat.format(dt);
-  const hm = time.split(':');
-  if (hm[0] === '24') {
-    return '00:' + hm[1];
-  }
-  return time;
-}
-
-/**
- * @private
- * @param {HDate} hd
- * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
- * @param {number} offset
- * @return {Object[]}
- */
-function sunsetTime(hd, location, timeFormat, offset) {
-  const sunset = location.sunset(hd);
-  if (isNaN(sunset.getTime())) {
-    // `No sunset for ${location} on ${hd}`
-    return [undefined, undefined];
-  }
-  // For Havdalah only, round up to next minute if needed
-  if (sunset.getSeconds() >= 30 && offset > 0) {
-    offset++;
-  }
-  sunset.setSeconds(0);
-  const dt = new Date(sunset.getTime() + (offset * 60 * 1000));
-  const time = formatTime(timeFormat, dt);
-  return [dt, time];
-}
-
-/**
- * @private
- * @param {HDate} hd
- * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
- * @return {Object[]}
- */
-function tzeitTime(hd, location, timeFormat) {
-  const dt = location.tzeit(hd);
-  if (isNaN(dt.getTime())) {
-    // `No tzeit time for ${location} on ${hd}`
-    return [undefined, undefined];
-  }
-  // Round up to next minute if needed
-  const sec = dt.getSeconds();
-  const secondsDelta = (sec >= 30) ? 60 - sec : -1 * sec;
-  const dtRounded = new Date(dt.getTime() + (secondsDelta * 1000));
-  const time = formatTime(timeFormat, dtRounded);
-  return [dt, time];
-}
-
-/**
- * @private
  * @param {Event} e
  * @param {HDate} hd
  * @param {number} dow
  * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
  * @param {number} candlesOffset
  * @param {number} [havdalahOffset]
  * @return {Event}
  */
-export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
+export function makeCandleEvent(e, hd, dow, location, candlesOffset, havdalahOffset) {
   let havdalahTitle = false;
   let useHavdalahOffset = dow == days.SAT;
   let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
@@ -109,9 +48,8 @@ export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset,
   }
   // if offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset ? havdalahOffset : candlesOffset;
-  const time = offset ?
-    sunsetTime(hd, location, timeFormat, offset) :
-    tzeitTime(hd, location, timeFormat);
+  const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude(), location.getTzid());
+  const time = offset ? zmanim.sunsetOffsetTime(offset) : zmanim.tzeitTime();
   if (!time[0]) {
     return null; // no sunset
   }
@@ -255,7 +193,8 @@ function makeTimedEvent(hd, time, desc, ev, timeFormat) {
   if (isNaN(time.getTime())) {
     return null;
   }
-  return new TimedEvent(hd, desc, ev.getFlags(), time, formatTime(timeFormat, time), ev);
+  const eventTimeStr = Zmanim.roundAndFormatTime(time, timeFormat);
+  return new TimedEvent(hd, desc, ev.getFlags(), time, eventTimeStr, ev);
 }
 
 

@@ -35,8 +35,9 @@ export class Zmanim {
      *    hours, minutes, seconds and milliseconds are ignored.
      * @param {number} latitude
      * @param {number} longitude
+     * @param {string} [tzid]
      */
-  constructor(date, latitude, longitude) {
+  constructor(date, latitude, longitude, tzid) {
     if (typeof latitude !== 'number') throw new TypeError('Invalid latitude');
     if (typeof longitude !== 'number') throw new TypeError('Invalid longitude');
     if (latitude < -90 || latitude > 90) {
@@ -53,6 +54,14 @@ export class Zmanim {
     this.sun = new Sun(this.date, latitude, longitude);
     this.latitude = latitude;
     this.longitude = longitude;
+    if (tzid) {
+      this.timeFormat = new Intl.DateTimeFormat('en-US', {
+        timeZone: tzid,
+        hour12: false,
+        hour: 'numeric',
+        minute: 'numeric',
+      });
+    }
   }
   /** @return {ZmanimTimesResult} */
   suntime() {
@@ -178,5 +187,73 @@ export class Zmanim {
   /** @return {Date} */
   shkiah() {
     return this.sunset();
+  }
+
+  /**
+   * @param {Date} dt
+   * @param {Intl.DateTimeFormat} timeFormat
+   * @return {string}
+   */
+  static formatTime(dt, timeFormat) {
+    const time = timeFormat.format(dt);
+    const hm = time.split(':');
+    if (hm[0] === '24') {
+      return '00:' + hm[1];
+    }
+    return time;
+  }
+
+  /**
+   * Discards seconds, rounding to nearest minute. Returns 24-hour formatted time.
+   * @param {Date} dt
+   * @param {Intl.DateTimeFormat} timeFormat
+   * @return {string}
+   */
+  static roundAndFormatTime(dt, timeFormat) {
+    const millis = dt.getTime();
+    if (isNaN(millis)) {
+      return null;
+    }
+    // Round up to next minute if needed
+    const sec = dt.getSeconds();
+    const secondsDelta = (sec >= 30) ? 60 - sec : -1 * sec;
+    const dtRounded = new Date(millis + (secondsDelta * 1000));
+    return Zmanim.formatTime(dtRounded, timeFormat);
+  }
+
+  /**
+   * Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
+   * @param {number} offset
+   * @return {Object[]}
+   */
+  sunsetOffsetTime(offset) {
+    const sunset = this.sunset();
+    if (isNaN(sunset.getTime())) {
+      // `No sunset for ${location} on ${hd}`
+      return [undefined, undefined];
+    }
+    // For Havdalah only, round up to next minute if needed
+    if (offset > 0 && sunset.getSeconds() >= 30) {
+      offset++;
+    }
+    sunset.setSeconds(0);
+    const dt = new Date(sunset.getTime() + (offset * 60 * 1000));
+    const time = Zmanim.formatTime(dt, this.timeFormat);
+    return [dt, time];
+  }
+
+  /**
+   * Returns an array with tzeit Date object and a 24-hour string formatted time.
+   * @param {number} [angle=8.5] optional time for solar depression.
+   *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+   * @return {Object[]}
+   */
+  tzeitTime(angle=8.5) {
+    const dt = this.tzeit(angle);
+    const time = Zmanim.roundAndFormatTime(dt, this.timeFormat);
+    if (time === null) {
+      return [undefined, undefined];
+    }
+    return [dt, time];
   }
 }
