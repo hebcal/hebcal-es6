@@ -24,11 +24,12 @@ const TZEIT_3MEDIUM_STARS = 7.083;
  * @param {HDate} hd
  * @param {number} dow
  * @param {Location} location
+ * @param {Intl.DateTimeFormat} timeFormat
  * @param {number} candlesOffset
  * @param {number} [havdalahOffset]
  * @return {Event}
  */
-export function makeCandleEvent(e, hd, dow, location, candlesOffset, havdalahOffset) {
+export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
   let havdalahTitle = false;
   let useHavdalahOffset = dow == days.SAT;
   let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
@@ -48,8 +49,8 @@ export function makeCandleEvent(e, hd, dow, location, candlesOffset, havdalahOff
   }
   // if offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset ? havdalahOffset : candlesOffset;
-  const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude(), location.getTzid());
-  const time = offset ? zmanim.sunsetOffsetTime(offset) : zmanim.tzeitTime();
+  const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude());
+  const time = offset ? zmanim.sunsetOffsetTime(offset, timeFormat) : zmanim.tzeitTime(8.5, timeFormat);
   if (!time[0]) {
     return null; // no sunset
   }

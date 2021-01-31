@@ -1,12 +1,11 @@
 import test from 'ava';
 import {Zmanim} from './zmanim';
-import {HDate} from './hdate';
 
 // eslint-disable-next-line require-jsdoc
 function makeZman() {
   const latitude = 41.85003;
   const longitude = -87.65005;
-  const dt = new HDate(new Date(Date.UTC(2020, 5, 5, 12))); // Friday June 5 2020
+  const dt = new Date(2020, 5, 5, 12); // Friday June 5 2020
   const zman = new Zmanim(dt, latitude, longitude);
   return zman;
 }
@@ -20,21 +19,33 @@ test('zmanim', (t) => {
     minute: 'numeric',
   });
 
-  t.is(f.format(zman.sunrise()), '5:16 AM');
-  t.is(f.format(zman.sunset()), '8:22 PM');
-  t.is(f.format(zman.chatzot()), '12:49 PM');
-  t.is(f.format(zman.chatzotNight()), '12:49 AM');
-  t.is(f.format(zman.alotHaShachar()), '3:25 AM');
-  t.is(f.format(zman.misheyakir()), '4:03 AM');
-  t.is(f.format(zman.misheyakirMachmir()), '4:12 AM');
-  t.is(f.format(zman.sofZmanShma()), '9:02 AM');
-  t.is(f.format(zman.sofZmanTfilla()), '10:18 AM');
-  t.is(f.format(zman.minchaGedola()), '1:27 PM');
-  t.is(f.format(zman.minchaKetana()), '5:13 PM');
-  t.is(f.format(zman.plagHaMincha()), '6:48 PM');
-  t.is(f.format(zman.tzeit()), '9:13 PM');
-  t.is(f.format(zman.neitzHaChama()), '5:16 AM');
-  t.is(f.format(zman.shkiah()), '8:22 PM');
+  const expected = {
+    chatzotNight: '12:49 AM',
+    alotHaShachar: '3:25 AM',
+    misheyakir: '4:03 AM',
+    misheyakirMachmir: '4:12 AM',
+    dawn: '4:42 AM',
+    sunrise: '5:16 AM',
+    neitzHaChama: '5:16 AM',
+    sofZmanShma: '9:02 AM',
+    sofZmanTfilla: '10:18 AM',
+    chatzot: '12:49 PM',
+    minchaGedola: '1:27 PM',
+    minchaKetana: '5:13 PM',
+    plagHaMincha: '6:48 PM',
+    sunset: '8:22 PM',
+    shkiah: '8:22 PM',
+    dusk: '8:56 PM',
+    tzeit: '9:13 PM',
+  };
+
+  const actual = {};
+  for (const func of Object.keys(expected)) {
+    const dt = zman[func]();
+    actual[func] = f.format(dt);
+  }
+  t.deepEqual(actual, expected);
+
   t.is(Math.round(zman.hourMins()), 76);
   t.is(Math.round(zman.nightHourMins()), 45);
 });

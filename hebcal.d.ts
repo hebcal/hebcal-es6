@@ -308,9 +308,8 @@ declare module '@hebcal/core' {
          * @param date Regular or Hebrew Date
          * @param latitude
          * @param longitude
-         * @param [timeFormat]
          */
-        constructor(date: Date | HDate, latitude: number, longitude: number, timeFormat?: Intl.DateTimeFormat);
+        constructor(date: Date | HDate, latitude: number, longitude: number);
 
         /**
          * Uses timeFormat to return a date like '20:34'
@@ -352,15 +351,19 @@ declare module '@hebcal/core' {
         /** Alias for sunset */
         shkiah(): Date;
         /**
+         * Returns sunset + offset (either positive or negative).
+         */
+        sunsetOffset(offset: number): Date;
+        /**
          * Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
          */
-        sunsetOffsetTime(offset: number): any[];
+        sunsetOffsetTime(offset: number, timeFormat: Intl.DateTimeFormat): any[];
         /**
          * Returns an array with tzeit Date object and a 24-hour string formatted time.
-         * @param [angle=8.5] optional time for solar depression.
+         * @param angle optional time for solar depression.
          *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
          */
-        tzeitTime(angle?: number): any[];
+        tzeitTime(angle: number, timeFormat: Intl.DateTimeFormat): any[];
     }
 
     /**

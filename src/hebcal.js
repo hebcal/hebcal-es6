@@ -462,7 +462,7 @@ export const HebrewCalendar = {
         if ((!eFlags || (eFlags & mask)) &&
           ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
           if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
-            candlesEv = makeCandleEvent(e, hd, dow, location,
+            candlesEv = makeCandleEvent(e, hd, dow, location, timeFormat,
                 candleLightingMinutes, havdalahMinutes);
             if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
               const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
@@ -515,7 +515,7 @@ export const HebrewCalendar = {
         evts.push(new MoladEvent(hd, hyear, monNext));
       }
       if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
-        candlesEv = makeCandleEvent(undefined, hd, dow, location, candleLightingMinutes, havdalahMinutes);
+        candlesEv = makeCandleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
       }
       // suppress Havdalah when options.havdalahMins=0
       if (candlesEv instanceof HavdalahEvent && typeof options.havdalahMins == 'number' && havdalahMinutes === 0) {
