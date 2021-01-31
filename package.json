@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.7.1",
+  "version": "3.8.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -46,6 +46,7 @@
     "readme": "npx jsdoc2md dist/index.js",
     "pretest": "npm run build",
     "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
+    "lint": "eslint src",
     "coverage": "nyc ava",
     "test": "ava"
   },

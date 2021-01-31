@@ -314,6 +314,10 @@ declare module '@hebcal/core' {
         constructor(date: Date | HDate, latitude: number, longitude: number);
 
         /**
+         * Returns a string like "2022-04-01T13:06:00-11:00"
+         */
+        static formatISOWithTimeZone(tzid: string, date: Date): string;
+        /**
          * Uses timeFormat to return a date like '20:34'
          */
         static formatTime(dt: Date, timeFormat: Intl.DateTimeFormat): string;
@@ -325,7 +329,12 @@ declare module '@hebcal/core' {
          * Discards seconds, rounding to nearest minute. Returns 24-hour formatted time.
          */
         static roundAndFormatTime(dt: Date, timeFormat: Intl.DateTimeFormat): string;
+        /**
+         * Get offset string (like "+05:00" or "-08:00") from tzid (like "Europe/Moscow")
+         */
+        static timeZoneOffset(tzid: string, date: Date): string;
 
+        /** @deprecated */
         suntime(): ZmanimTimesResult;
         sunrise(): Date;
         sunset(): Date;

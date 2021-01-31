@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {Locale} from './locale';
 import {flags, Event} from './event';
 import {Zmanim} from './zmanim';

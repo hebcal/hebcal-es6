@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import test from 'ava';
-import {HDate} from './hdate';
 import {HebrewCalendar} from './hebcal';
 
 test('yahrzeit', (t) => {

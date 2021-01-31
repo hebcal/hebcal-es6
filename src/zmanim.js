@@ -1,9 +1,22 @@
 import {HDate} from './hdate';
 import Sun from '@hebcal/solar-calc/lib/sun';
+import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
 
 // eslint-disable-next-line require-jsdoc
 function throwTypeError(error) {
   throw new TypeError(error);
+}
+
+/**
+ * @private
+ * @param {number} number
+ * @return {string}
+ */
+function pad2(number) {
+  if (number < 10) {
+    return '0' + number;
+  }
+  return String(number);
 }
 
 /**
@@ -53,7 +66,10 @@ export class Zmanim {
     this.latitude = latitude;
     this.longitude = longitude;
   }
-  /** @return {ZmanimTimesResult} */
+  /**
+   * @deprecated
+   * @return {ZmanimTimesResult}
+   */
   suntime() {
     return {
       solarNoon: this.sun.solarNoon,
@@ -226,6 +242,30 @@ export class Zmanim {
     }
     const dtRounded = Zmanim.roundTime(dt);
     return Zmanim.formatTime(dtRounded, timeFormat);
+  }
+
+  /**
+   * Get offset string (like "+05:00" or "-08:00") from tzid (like "Europe/Moscow")
+   * @param {string} tzid
+   * @param {Date} date
+   * @return {string}
+   */
+  static timeZoneOffset(tzid, date) {
+    const offset = getTimezoneOffset(tzid, date);
+    const offsetAbs = Math.abs(offset);
+    const hours = Math.floor(offsetAbs / 60);
+    const minutes = offsetAbs % 60;
+    return (offset < 0 ? '+' : '-') + pad2(hours) + ':' + pad2(minutes);
+  }
+
+  /**
+   * Returns a string like "2022-04-01T13:06:00-11:00"
+   * @param {string} tzid
+   * @param {Date} date
+   * @return {string}
+   */
+  static formatISOWithTimeZone(tzid, date) {
+    return getPseudoISO(tzid, date).substring(0, 19) + Zmanim.timeZoneOffset(tzid, date);
   }
 
   /**

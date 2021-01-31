@@ -95,6 +95,10 @@ for (const ev of events) {
 <dt><a href="#RoshChodeshEvent">RoshChodeshEvent</a></dt>
 <dd><p>Represents Rosh Chodesh, the beginning of a new month</p>
 </dd>
+<dt><a href="#AsaraBTevetEvent">AsaraBTevetEvent</a></dt>
+<dd><p>Because Asara B&#39;Tevet often occurs twice in the same Gregorian year,
+we subclass HolidayEvent to override the <code>url()</code> method.</p>
+</dd>
 <dt><a href="#MevarchimChodeshEvent">MevarchimChodeshEvent</a></dt>
 <dd><p>Represents Mevarchim haChodesh, the announcement of the new month</p>
 </dd>
@@ -313,6 +317,7 @@ Represents a Hebrew date
         * [.shortKislev(year)](#HDate.shortKislev) ⇒ <code>boolean</code>
         * [.monthFromName(monthName)](#HDate.monthFromName) ⇒ <code>number</code>
         * [.dayOnOrBefore(dayOfWeek, absdate)](#HDate.dayOnOrBefore) ⇒ <code>number</code>
+        * [.isHDate(obj)](#HDate.isHDate) ⇒ <code>boolean</code>
 
 <a name="new_HDate_new"></a>
 
@@ -702,6 +707,17 @@ date d, and applying it to d+7 gives the DAYNAME following absolute date d.
 | dayOfWeek | <code>number</code> | 
 | absdate | <code>number</code> | 
 
+<a name="HDate.isHDate"></a>
+
+### HDate.isHDate(obj) ⇒ <code>boolean</code>
+Tests if the object is an instance of `HDate`
+
+**Kind**: static method of [<code>HDate</code>](#HDate)  
+
+| Param | Type |
+| --- | --- |
+| obj | <code>any</code> | 
+
 <a name="HebrewDateEvent"></a>
 
 ## HebrewDateEvent
@@ -764,30 +780,40 @@ Class representing halachic times
 
 * [Zmanim](#Zmanim)
     * [new Zmanim(date, latitude, longitude)](#new_Zmanim_new)
-    * [.suntime()](#Zmanim+suntime) ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)
-    * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
-    * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
-    * [.dawn()](#Zmanim+dawn) ⇒ <code>Date</code>
-    * [.dusk()](#Zmanim+dusk) ⇒ <code>Date</code>
-    * [.hour()](#Zmanim+hour) ⇒ <code>number</code>
-    * [.hourMins()](#Zmanim+hourMins) ⇒ <code>number</code>
-    * [.gregEve()](#Zmanim+gregEve) ⇒ <code>Date</code>
-    * [.nightHour()](#Zmanim+nightHour) ⇒ <code>number</code>
-    * [.nightHourMins()](#Zmanim+nightHourMins) ⇒ <code>number</code>
-    * [.hourOffset(hours)](#Zmanim+hourOffset) ⇒ <code>Date</code>
-    * [.chatzot()](#Zmanim+chatzot) ⇒ <code>Date</code>
-    * [.chatzotNight()](#Zmanim+chatzotNight) ⇒ <code>Date</code>
-    * [.alotHaShachar()](#Zmanim+alotHaShachar) ⇒ <code>Date</code>
-    * [.misheyakir()](#Zmanim+misheyakir) ⇒ <code>Date</code>
-    * [.misheyakirMachmir()](#Zmanim+misheyakirMachmir) ⇒ <code>Date</code>
-    * [.sofZmanShma()](#Zmanim+sofZmanShma) ⇒ <code>Date</code>
-    * [.sofZmanTfilla()](#Zmanim+sofZmanTfilla) ⇒ <code>Date</code>
-    * [.minchaGedola()](#Zmanim+minchaGedola) ⇒ <code>Date</code>
-    * [.minchaKetana()](#Zmanim+minchaKetana) ⇒ <code>Date</code>
-    * [.plagHaMincha()](#Zmanim+plagHaMincha) ⇒ <code>Date</code>
-    * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
-    * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
-    * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
+    * _instance_
+        * ~~[.suntime()](#Zmanim+suntime) ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)~~
+        * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
+        * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
+        * [.dawn()](#Zmanim+dawn) ⇒ <code>Date</code>
+        * [.dusk()](#Zmanim+dusk) ⇒ <code>Date</code>
+        * [.hour()](#Zmanim+hour) ⇒ <code>number</code>
+        * [.hourMins()](#Zmanim+hourMins) ⇒ <code>number</code>
+        * [.gregEve()](#Zmanim+gregEve) ⇒ <code>Date</code>
+        * [.nightHour()](#Zmanim+nightHour) ⇒ <code>number</code>
+        * [.nightHourMins()](#Zmanim+nightHourMins) ⇒ <code>number</code>
+        * [.hourOffset(hours)](#Zmanim+hourOffset) ⇒ <code>Date</code>
+        * [.chatzot()](#Zmanim+chatzot) ⇒ <code>Date</code>
+        * [.chatzotNight()](#Zmanim+chatzotNight) ⇒ <code>Date</code>
+        * [.alotHaShachar()](#Zmanim+alotHaShachar) ⇒ <code>Date</code>
+        * [.misheyakir()](#Zmanim+misheyakir) ⇒ <code>Date</code>
+        * [.misheyakirMachmir()](#Zmanim+misheyakirMachmir) ⇒ <code>Date</code>
+        * [.sofZmanShma()](#Zmanim+sofZmanShma) ⇒ <code>Date</code>
+        * [.sofZmanTfilla()](#Zmanim+sofZmanTfilla) ⇒ <code>Date</code>
+        * [.minchaGedola()](#Zmanim+minchaGedola) ⇒ <code>Date</code>
+        * [.minchaKetana()](#Zmanim+minchaKetana) ⇒ <code>Date</code>
+        * [.plagHaMincha()](#Zmanim+plagHaMincha) ⇒ <code>Date</code>
+        * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
+        * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
+        * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
+        * [.sunsetOffset(offset)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
+        * [.sunsetOffsetTime(offset, timeFormat)](#Zmanim+sunsetOffsetTime) ⇒ <code>Array.&lt;Object&gt;</code>
+        * [.tzeitTime(angle, timeFormat)](#Zmanim+tzeitTime) ⇒ <code>Array.&lt;Object&gt;</code>
+    * _static_
+        * [.formatTime(dt, timeFormat)](#Zmanim.formatTime) ⇒ <code>string</code>
+        * [.roundTime(dt)](#Zmanim.roundTime) ⇒ <code>Date</code>
+        * [.roundAndFormatTime(dt, timeFormat)](#Zmanim.roundAndFormatTime) ⇒ <code>string</code>
+        * [.timeZoneOffset(tzid, date)](#Zmanim.timeZoneOffset) ⇒ <code>string</code>
+        * [.formatISOWithTimeZone(tzid, date)](#Zmanim.formatISOWithTimeZone) ⇒ <code>string</code>
 
 <a name="new_Zmanim_new"></a>
 
@@ -803,7 +829,9 @@ Initialize a Zmanim instance.
 
 <a name="Zmanim+suntime"></a>
 
-### zmanim.suntime() ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)
+### ~~zmanim.suntime() ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)~~
+***Deprecated***
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunrise"></a>
 
@@ -907,6 +935,100 @@ Initialize a Zmanim instance.
 
 ### zmanim.shkiah() ⇒ <code>Date</code>
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sunsetOffset"></a>
+
+### zmanim.sunsetOffset(offset) ⇒ <code>Date</code>
+Returns sunset + offset (either positive or negative).
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| offset | <code>number</code> | 
+
+<a name="Zmanim+sunsetOffsetTime"></a>
+
+### zmanim.sunsetOffsetTime(offset, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>
+Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| offset | <code>number</code> | 
+| timeFormat | <code>Intl.DateTimeFormat</code> | 
+
+<a name="Zmanim+tzeitTime"></a>
+
+### zmanim.tzeitTime(angle, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>
+Returns an array with tzeit Date object and a 24-hour string formatted time.
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| angle | <code>number</code> | time for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars. |
+| timeFormat | <code>Intl.DateTimeFormat</code> |  |
+
+<a name="Zmanim.formatTime"></a>
+
+### Zmanim.formatTime(dt, timeFormat) ⇒ <code>string</code>
+Uses timeFormat to return a date like '20:34'
+
+**Kind**: static method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| dt | <code>Date</code> | 
+| timeFormat | <code>Intl.DateTimeFormat</code> | 
+
+<a name="Zmanim.roundTime"></a>
+
+### Zmanim.roundTime(dt) ⇒ <code>Date</code>
+Discards seconds, rounding to nearest minute.
+
+**Kind**: static method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| dt | <code>Date</code> | 
+
+<a name="Zmanim.roundAndFormatTime"></a>
+
+### Zmanim.roundAndFormatTime(dt, timeFormat) ⇒ <code>string</code>
+Discards seconds, rounding to nearest minute. Returns 24-hour formatted time.
+
+**Kind**: static method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| dt | <code>Date</code> | 
+| timeFormat | <code>Intl.DateTimeFormat</code> | 
+
+<a name="Zmanim.timeZoneOffset"></a>
+
+### Zmanim.timeZoneOffset(tzid, date) ⇒ <code>string</code>
+Get offset string (like "+05:00" or "-08:00") from tzid (like "Europe/Moscow")
+
+**Kind**: static method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| tzid | <code>string</code> | 
+| date | <code>Date</code> | 
+
+<a name="Zmanim.formatISOWithTimeZone"></a>
+
+### Zmanim.formatISOWithTimeZone(tzid, date) ⇒ <code>string</code>
+Returns a string like "2022-04-01T13:06:00-11:00"
+
+**Kind**: static method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| tzid | <code>string</code> | 
+| date | <code>Date</code> | 
+
 <a name="Location"></a>
 
 ## Location
@@ -925,8 +1047,8 @@ Class representing Location
         * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
         * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
         * [.getGeoId()](#Location+getGeoId) ⇒ <code>string</code>
-        * [.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>
-        * [.tzeit(hdate, [angle])](#Location+tzeit) ⇒ <code>Date</code>
+        * ~~[.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>~~
+        * ~~[.tzeit(hdate, [angle])](#Location+tzeit) ⇒ <code>Date</code>~~
         * [.toString()](#Location+toString) ⇒ <code>string</code>
     * _static_
         * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
@@ -987,7 +1109,9 @@ Returns the location name, up to the first comma
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+sunset"></a>
 
-### location.sunset(hdate) ⇒ <code>Date</code>
+### ~~location.sunset(hdate) ⇒ <code>Date</code>~~
+***Deprecated***
+
 **Kind**: instance method of [<code>Location</code>](#Location)  
 
 | Param | Type |
@@ -996,7 +1120,9 @@ Returns the location name, up to the first comma
 
 <a name="Location+tzeit"></a>
 
-### location.tzeit(hdate, [angle]) ⇒ <code>Date</code>
+### ~~location.tzeit(hdate, [angle]) ⇒ <code>Date</code>~~
+***Deprecated***
+
 **Kind**: instance method of [<code>Location</code>](#Location)  
 
 | Param | Type |
@@ -1144,6 +1270,7 @@ Havdalah after Shabbat or holiday
 * [HavdalahEvent](#HavdalahEvent)
     * [new HavdalahEvent(date, mask, eventTime, eventTimeStr, havdalahMins, linkedEvent)](#new_HavdalahEvent_new)
     * [.render([locale])](#HavdalahEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#HavdalahEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_HavdalahEvent_new"></a>
 
@@ -1161,6 +1288,17 @@ Havdalah after Shabbat or holiday
 <a name="HavdalahEvent+render"></a>
 
 ### havdalahEvent.render([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="HavdalahEvent+renderBrief"></a>
+
+### havdalahEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns translation of "Havdalah" without the time.
+
 **Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
 
 | Param | Type | Description |
@@ -1542,6 +1680,7 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
     * [new HolidayEvent(date, desc, [mask], [attrs])](#new_HolidayEvent_new)
     * [.basename()](#HolidayEvent+basename) ⇒ <code>string</code>
     * [.url()](#HolidayEvent+url) ⇒ <code>string</code>
+    * [.urlDateSuffix()](#HolidayEvent+urlDateSuffix) ⇒ <code>string</code>
 
 <a name="new_HolidayEvent_new"></a>
 
@@ -1563,6 +1702,10 @@ Constructs Holiday event
 <a name="HolidayEvent+url"></a>
 
 ### holidayEvent.url() ⇒ <code>string</code>
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+<a name="HolidayEvent+urlDateSuffix"></a>
+
+### holidayEvent.urlDateSuffix() ⇒ <code>string</code>
 **Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
 <a name="RoshChodeshEvent"></a>
 
@@ -1602,6 +1745,35 @@ Returns (translated) description of this event
 
 ### roshChodeshEvent.basename() ⇒ <code>string</code>
 **Kind**: instance method of [<code>RoshChodeshEvent</code>](#RoshChodeshEvent)  
+<a name="AsaraBTevetEvent"></a>
+
+## AsaraBTevetEvent
+Because Asara B'Tevet often occurs twice in the same Gregorian year,
+we subclass HolidayEvent to override the `url()` method.
+
+**Kind**: global class  
+
+* [AsaraBTevetEvent](#AsaraBTevetEvent)
+    * [new AsaraBTevetEvent(date, desc, [mask], [attrs])](#new_AsaraBTevetEvent_new)
+    * [.urlDateSuffix()](#AsaraBTevetEvent+urlDateSuffix) ⇒ <code>string</code>
+
+<a name="new_AsaraBTevetEvent_new"></a>
+
+### new AsaraBTevetEvent(date, desc, [mask], [attrs])
+Constructs AsaraBTevetEvent
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
+| desc | <code>string</code> |  | Description (not translated) |
+| [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
+| [attrs] | <code>Object</code> | <code>{}</code> |  |
+
+<a name="AsaraBTevetEvent+urlDateSuffix"></a>
+
+### asaraBTevetEvent.urlDateSuffix() ⇒ <code>string</code>
+**Kind**: instance method of [<code>AsaraBTevetEvent</code>](#AsaraBTevetEvent)  
 <a name="MevarchimChodeshEvent"></a>
 
 ## MevarchimChodeshEvent
@@ -1612,7 +1784,6 @@ Represents Mevarchim haChodesh, the announcement of the new month
 * [MevarchimChodeshEvent](#MevarchimChodeshEvent)
     * [new MevarchimChodeshEvent(date, monthName)](#new_MevarchimChodeshEvent_new)
     * [.render([locale])](#MevarchimChodeshEvent+render) ⇒ <code>string</code>
-    * [.renderBrief([locale])](#MevarchimChodeshEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_MevarchimChodeshEvent_new"></a>
 
@@ -1628,17 +1799,6 @@ Constructs Mevarchim haChodesh event
 <a name="MevarchimChodeshEvent+render"></a>
 
 ### mevarchimChodeshEvent.render([locale]) ⇒ <code>string</code>
-Returns (translated) description of this event
-
-**Kind**: instance method of [<code>MevarchimChodeshEvent</code>](#MevarchimChodeshEvent)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
-
-<a name="MevarchimChodeshEvent+renderBrief"></a>
-
-### mevarchimChodeshEvent.renderBrief([locale]) ⇒ <code>string</code>
 Returns (translated) description of this event
 
 **Kind**: instance method of [<code>MevarchimChodeshEvent</code>](#MevarchimChodeshEvent)  
