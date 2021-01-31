@@ -50,6 +50,50 @@ test('zmanim', (t) => {
   t.is(Math.round(zman.nightHourMins()), 45);
 });
 
+test('zmanim-tlv', (t) => {
+  const dt = new Date(2021, 2, 6, 12); // March 6 2021
+  const zman = new Zmanim(dt, 32.08088, 34.78057);
+  const tzid = 'Asia/Jerusalem';
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: tzid,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+
+  const expected = {
+    chatzotNight: '03/05/2021, 23:51:56',
+    alotHaShachar: '03/06/2021, 04:50:09',
+    misheyakir: '03/06/2021, 05:11:52',
+    misheyakirMachmir: '03/06/2021, 05:18:00',
+    dawn: '03/06/2021, 05:37:49',
+    sunrise: '03/06/2021, 06:02:16',
+    neitzHaChama: '03/06/2021, 06:02:16',
+    sofZmanShma: '03/06/2021, 08:57:17',
+    sofZmanTfilla: '03/06/2021, 09:55:37',
+    chatzot: '03/06/2021, 11:52:18',
+    minchaGedola: '03/06/2021, 12:21:28',
+    minchaKetana: '03/06/2021, 15:16:29',
+    plagHaMincha: '03/06/2021, 16:29:25',
+    sunset: '03/06/2021, 17:42:21',
+    shkiah: '03/06/2021, 17:42:21',
+    dusk: '03/06/2021, 18:06:50',
+    tzeit: '03/06/2021, 18:18:39',
+  };
+
+  const actual = {};
+  for (const func of Object.keys(expected)) {
+    const dt = zman[func]();
+    actual[func] = f.format(dt);
+  }
+  t.deepEqual(actual, expected);
+});
+
+
 test('suntime', (t) => {
   const zman = makeZman();
   const times = zman.suntime();
