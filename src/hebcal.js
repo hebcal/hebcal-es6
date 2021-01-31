@@ -297,6 +297,26 @@ function getMaskFromOptions(options) {
   return mask;
 }
 
+const timeFormatCache = Object.create(null);
+
+/**
+ * @private
+ * @param {string} tzid
+ * @return {Intl.DateTimeFormat}
+ */
+function getTimeFormatter(tzid) {
+  const fmt = timeFormatCache[tzid];
+  if (fmt) return fmt;
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: tzid,
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+  });
+  timeFormatCache[tzid] = f;
+  return f;
+}
+
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
  * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
@@ -406,12 +426,7 @@ export const HebrewCalendar = {
     }
     const location = options.location || new Location(0, 0, false, 'UTC');
     const il = options.il || location.il || false;
-    const timeFormat = new Intl.DateTimeFormat('en-US', {
-      timeZone: location.tzid,
-      hour12: false,
-      hour: 'numeric',
-      minute: 'numeric',
-    });
+    const timeFormat = getTimeFormatter(location.tzid);
     const candleLightingMinutes = getCandleLightingMinutes(options);
     const havdalahMinutes = options.havdalahMins; // if undefined, use tzeit
     const mask = getMaskFromOptions(options);

@@ -243,8 +243,10 @@ declare module '@hebcal/core' {
         getCountryCode(): string;
         getGeoId(): string;
         getTzid(): string;
+        /** @deprecated */
         sunset(hdate: Date | HDate): Date;
         /**
+         * @deprecated
          * @param [angle=8.5] optional time for solar depression.
          *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
          */

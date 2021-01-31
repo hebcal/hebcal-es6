@@ -203,6 +203,7 @@ export class Location {
   }
 
   /**
+   * @deprecated
    * @param {Date|HDate} hdate
    * @return {Date}
    */
@@ -211,6 +212,7 @@ export class Location {
   }
 
   /**
+   * @deprecated
    * @param {Date|HDate} hdate
    * @param {number} [angle]
    * @return {Date}

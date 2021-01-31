@@ -48,8 +48,7 @@ export class Zmanim {
     const dt = date instanceof Date ? date :
         HDate.isHDate(date) ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
-    // reset the date to midday before calling solar-calc api
-    this.date = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12, 0, 0, 0, 0);
+    this.date = dt;
     this.sun = new Sun(this.date, latitude, longitude);
     this.latitude = latitude;
     this.longitude = longitude;
