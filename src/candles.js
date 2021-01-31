@@ -195,8 +195,9 @@ function makeTimedEvent(hd, time, desc, ev, timeFormat) {
   if (isNaN(time.getTime())) {
     return null;
   }
-  const eventTimeStr = Zmanim.roundAndFormatTime(time, timeFormat);
-  return new TimedEvent(hd, desc, ev.getFlags(), time, eventTimeStr, ev);
+  const dt = Zmanim.roundTime(time);
+  const eventTimeStr = Zmanim.formatTime(dt, timeFormat);
+  return new TimedEvent(hd, desc, ev.getFlags(), dt, eventTimeStr, ev);
 }
 
 

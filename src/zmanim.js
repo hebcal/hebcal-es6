@@ -230,21 +230,6 @@ export class Zmanim {
   }
 
   /**
-   * Discards seconds, rounding to nearest minute. Returns 24-hour formatted time.
-   * @param {Date} dt
-   * @param {Intl.DateTimeFormat} timeFormat
-   * @return {string}
-   */
-  static roundAndFormatTime(dt, timeFormat) {
-    const millis = dt.getTime();
-    if (isNaN(millis)) {
-      return null;
-    }
-    const dtRounded = Zmanim.roundTime(dt);
-    return Zmanim.formatTime(dtRounded, timeFormat);
-  }
-
-  /**
    * Get offset string (like "+05:00" or "-08:00") from tzid (like "Europe/Moscow")
    * @param {string} tzid
    * @param {Date} date
@@ -311,10 +296,11 @@ export class Zmanim {
    */
   tzeitTime(angle, timeFormat) {
     const dt = this.tzeit(angle);
-    const time = Zmanim.roundAndFormatTime(dt, timeFormat);
-    if (time === null) {
+    if (isNaN(dt.getTime())) {
       return [undefined, undefined];
     }
-    return [dt, time];
+    const time = Zmanim.roundTime(dt);
+    const timeStr = Zmanim.formatTime(time, timeFormat);
+    return [time, timeStr];
   }
 }

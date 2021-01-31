@@ -811,7 +811,6 @@ Class representing halachic times
     * _static_
         * [.formatTime(dt, timeFormat)](#Zmanim.formatTime) ⇒ <code>string</code>
         * [.roundTime(dt)](#Zmanim.roundTime) ⇒ <code>Date</code>
-        * [.roundAndFormatTime(dt, timeFormat)](#Zmanim.roundAndFormatTime) ⇒ <code>string</code>
         * [.timeZoneOffset(tzid, date)](#Zmanim.timeZoneOffset) ⇒ <code>string</code>
         * [.formatISOWithTimeZone(tzid, date)](#Zmanim.formatISOWithTimeZone) ⇒ <code>string</code>
 
@@ -992,18 +991,6 @@ Discards seconds, rounding to nearest minute.
 | Param | Type |
 | --- | --- |
 | dt | <code>Date</code> | 
-
-<a name="Zmanim.roundAndFormatTime"></a>
-
-### Zmanim.roundAndFormatTime(dt, timeFormat) ⇒ <code>string</code>
-Discards seconds, rounding to nearest minute. Returns 24-hour formatted time.
-
-**Kind**: static method of [<code>Zmanim</code>](#Zmanim)  
-
-| Param | Type |
-| --- | --- |
-| dt | <code>Date</code> | 
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
 
 <a name="Zmanim.timeZoneOffset"></a>
 

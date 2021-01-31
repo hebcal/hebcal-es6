@@ -326,10 +326,6 @@ declare module '@hebcal/core' {
          */
         static roundTime(dt: Date): Date;
         /**
-         * Discards seconds, rounding to nearest minute. Returns 24-hour formatted time.
-         */
-        static roundAndFormatTime(dt: Date, timeFormat: Intl.DateTimeFormat): string;
-        /**
          * Get offset string (like "+05:00" or "-08:00") from tzid (like "Europe/Moscow")
          */
         static timeZoneOffset(tzid: string, date: Date): string;
