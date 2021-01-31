@@ -66,6 +66,7 @@ test('zmanim-tlv', (t) => {
   });
 
   const expected = {
+    gregEve: '03/05/2021, 17:41:37',
     chatzotNight: '03/05/2021, 23:51:56',
     alotHaShachar: '03/06/2021, 04:50:09',
     misheyakir: '03/06/2021, 05:11:52',
@@ -277,4 +278,21 @@ test('formatISOWithTimeZone', (t) => {
     actual[tzid] = [winterISO, summerISO];
   }
   t.deepEqual(actual, expected);
+});
+
+test.skip('nightHourMins-dst', (t) => {
+  const [latitude, longitude, tzid] = [42.35843, -71.05977, 'America/New_York']; // Boston
+
+  const dt0 = new Date(2022, 2, 12); // March 12, 2022 - before DST
+  const zman0 = new Zmanim(dt0, latitude, longitude);
+  t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve()), '2022-03-11T17:46:04-05:00');
+  t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset()), '2022-03-12T17:47:15-05:00');
+  t.is(Math.round(zman0.nightHourMins()), 61);
+
+  const dt1 = new Date(2022, 2, 14); // March 14, 2022
+  const zman1 = new Zmanim(dt1, latitude, longitude);
+  t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.gregEve()), '2022-03-12T17:47:15-05:00');
+  t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset()), '2022-03-14T18:49:35-04:00');
+
+  t.is(Math.round(zman1.nightHourMins()), 181); // this should be about 61
 });
