@@ -316,6 +316,10 @@ declare module '@hebcal/core' {
          */
         static formatTime(dt: Date, timeFormat: Intl.DateTimeFormat): string;
         /**
+         * Discards seconds, rounding to nearest minute.
+         */
+        static roundTime(dt: Date): Date;
+        /**
          * Discards seconds, rounding to nearest minute. Returns 24-hour formatted time.
          */
         static roundAndFormatTime(dt: Date, timeFormat: Intl.DateTimeFormat): string;

@@ -196,6 +196,25 @@ export class Zmanim {
   }
 
   /**
+   * Discards seconds, rounding to nearest minute.
+   * @param {Date} dt
+   * @return {Date}
+   */
+  static roundTime(dt) {
+    const millis = dt.getTime();
+    if (isNaN(millis)) {
+      return dt;
+    }
+    // Round up to next minute if needed
+    const seconds = dt.getSeconds();
+    if (seconds === 0) {
+      return dt;
+    }
+    const delta = (seconds >= 30) ? 60 - seconds : -1 * seconds;
+    return new Date(millis + (delta * 1000));
+  }
+
+  /**
    * Discards seconds, rounding to nearest minute. Returns 24-hour formatted time.
    * @param {Date} dt
    * @param {Intl.DateTimeFormat} timeFormat
@@ -206,10 +225,7 @@ export class Zmanim {
     if (isNaN(millis)) {
       return null;
     }
-    // Round up to next minute if needed
-    const sec = dt.getSeconds();
-    const secondsDelta = (sec >= 30) ? 60 - sec : -1 * sec;
-    const dtRounded = new Date(millis + (secondsDelta * 1000));
+    const dtRounded = Zmanim.roundTime(dt);
     return Zmanim.formatTime(dtRounded, timeFormat);
   }
 

@@ -153,3 +153,25 @@ test('throws', (t) => {
   }, {instanceOf: RangeError});
   t.is(error4.message, 'Longitude -200 out of range [-180,180]');
 });
+
+test('roundTime', (t) => {
+  const dt50 = new Date(2021, 0, 31, 7, 30, 50, 551); // 2021-01-31T07:30:50.551Z
+  const rounded50 = Zmanim.roundTime(dt50);
+  t.is(rounded50.getSeconds(), 0);
+  t.is(rounded50.getMinutes(), 31);
+
+  const dt30 = new Date(2021, 0, 31, 7, 30, 30, 551); // 2021-01-31T07:30:30.551Z
+  const rounded30 = Zmanim.roundTime(dt30);
+  t.is(rounded30.getSeconds(), 0);
+  t.is(rounded30.getMinutes(), 31);
+
+  const dt17 = new Date(2021, 0, 31, 7, 30, 17, 551); // 2021-01-31T07:30:17.551Z
+  const rounded17 = Zmanim.roundTime(dt17);
+  t.is(rounded17.getSeconds(), 0);
+  t.is(rounded17.getMinutes(), 30);
+
+  const dt0 = new Date(2021, 0, 31, 7, 30, 0, 123); // 2021-01-31T07:30:00.123Z
+  const rounded0 = Zmanim.roundTime(dt0);
+  t.is(rounded0.getSeconds(), 0);
+  t.is(rounded0.getMinutes(), 30);
+});
