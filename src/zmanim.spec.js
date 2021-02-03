@@ -280,7 +280,7 @@ test('formatISOWithTimeZone', (t) => {
   t.deepEqual(actual, expected);
 });
 
-test.skip('nightHourMins-dst', (t) => {
+test('nightHourMins-dst', (t) => {
   const [latitude, longitude, tzid] = [42.35843, -71.05977, 'America/New_York']; // Boston
 
   const dt0 = new Date(2022, 2, 12); // March 12, 2022 - before DST
@@ -289,10 +289,15 @@ test.skip('nightHourMins-dst', (t) => {
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset()), '2022-03-12T17:47:15-05:00');
   t.is(Math.round(zman0.nightHourMins()), 61);
 
-  const dt1 = new Date(2022, 2, 14); // March 14, 2022
+  const dt1 = new Date(2022, 2, 13); // March 14, 2022
   const zman1 = new Zmanim(dt1, latitude, longitude);
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.gregEve()), '2022-03-12T17:47:15-05:00');
-  t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset()), '2022-03-14T18:49:35-04:00');
+  t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset()), '2022-03-13T18:48:25-04:00');
+  t.is(Math.round(zman1.nightHourMins()), 61); // not 181
 
-  t.is(Math.round(zman1.nightHourMins()), 181); // this should be about 61
+  const dt2 = new Date(2022, 2, 14); // March 14, 2022
+  const zman2 = new Zmanim(dt2, latitude, longitude);
+  t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.gregEve()), '2022-03-13T18:48:25-04:00');
+  t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.sunset()), '2022-03-14T18:49:35-04:00');
+  t.is(Math.round(zman2.nightHourMins()), 61);
 });

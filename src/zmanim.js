@@ -118,7 +118,8 @@ export class Zmanim {
   }
   /** @return {Date} */
   gregEve() {
-    const prev = new Date(this.date.getTime() - 24 * 60 * 60 * 1000);
+    const prev = new Date(this.date);
+    prev.setDate(prev.getDate() - 1);
     const zman = new Zmanim(prev, this.latitude, this.longitude);
     return zman.sunset();
   }
