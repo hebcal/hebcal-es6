@@ -31,6 +31,7 @@ import {DafYomiEvent} from './dafyomi';
 import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
   makeWeekdayChanukahCandleLighting} from './candles';
+import {version as pkgVersion} from '../package.json';
 
 const SUN = 0;
 // const MON = 1;
@@ -980,6 +981,11 @@ export const HebrewCalendar = {
       hour = hour % 12;
     }
     return `${hour}:${hm[1]}${suffix}`;
+  },
+
+  /** @return {string} */
+  version: function() {
+    return pkgVersion;
   },
 };
 

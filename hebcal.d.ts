@@ -1,6 +1,8 @@
 /// <reference types="node"/>
 
 declare module '@hebcal/core' {
+    export const version: string;
+
     /**
      * Represents an Event with a title, date, and flags
      */
@@ -597,6 +599,8 @@ declare module '@hebcal/core' {
          * @param options
          */
         function reformatTimeStr(timeStr: string, suffix: string, options: Options): string;
+
+        function version(): string;
     }
 
     /**

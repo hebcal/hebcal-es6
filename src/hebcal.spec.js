@@ -429,3 +429,8 @@ test('getHolidaysForYear-throw', (t) => {
   }, {instanceOf: RangeError});
   t.is(error.message, 'Hebrew year 3210 out of range 3762-32658');
 });
+
+test('version', (t) => {
+  const version = HebrewCalendar.version();
+  t.is(version.substring(0, version.indexOf('.')), '3');
+});

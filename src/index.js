@@ -11,3 +11,4 @@ export {greg} from './greg';
 export {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
 export {Locale} from './locale';
 export {HebrewCalendar} from './hebcal';
+export {version} from '../package.json';
