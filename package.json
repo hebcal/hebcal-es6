@@ -84,7 +84,7 @@
     "eslint-config-google": "^0.14.0",
     "gematriya": "^2.0.0",
     "jsdoc": "^3.6.6",
-    "jsdoc-to-markdown": "^6.0.1",
+    "jsdoc-to-markdown": "^7.0.0",
     "nyc": "^15.1.0",
     "rollup": "^2.39.0",
     "rollup-plugin-terser": "^7.0.2",
