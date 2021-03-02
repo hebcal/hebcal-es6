@@ -104,6 +104,7 @@ const ZIPCODES_TZ_MAP = {
   '13': 'Pacific/Funafuti', //   Marshall Islands (GMT +12:00)
   '14': 'Pacific/Guam', //       Guam     (GMT +10:00)
   '15': 'Pacific/Palau', //      Palau    (GMT +9:00)
+  '16': 'Pacific/Chuuk', //      Micronesia (GMT +11:00)
 };
 
 /** Class representing Location */

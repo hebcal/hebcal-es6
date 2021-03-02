@@ -86,13 +86,13 @@ test('candles-only-diaspora', (t) => {
   const events = HebrewCalendar.calendar(options);
   t.is(events.length, 120);
   t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
-  t.is(events[0].render(), 'Candle lighting: 16:10');
+  t.is(events[0].render(), 'Candle lighting: 16:12');
   t.is(events[0].getDesc(), 'Candle lighting');
-  t.is(events[0].eventTimeStr, '16:10');
+  t.is(events[0].eventTimeStr, '16:12');
   t.is(events[1].getFlags(), flags.LIGHT_CANDLES_TZEIS);
-  t.is(events[1].render(), 'Havdalah: 17:16');
+  t.is(events[1].render(), 'Havdalah: 17:18');
   t.is(events[1].getDesc(), 'Havdalah');
-  t.is(events[1].eventTimeStr, '17:16');
+  t.is(events[1].eventTimeStr, '17:18');
   t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
 });
 
@@ -216,7 +216,7 @@ test('candles-only-israel', (t) => {
 test('candleLightingMins', (t) => {
   const options = {
     year: 2020,
-    month: 1,
+    month: 5,
     noHolidays: true,
     location: Location.lookup('Tel Aviv'),
     candlelighting: true,
@@ -225,29 +225,31 @@ test('candleLightingMins', (t) => {
   };
   const events30 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
   const expected30 = [
-    {date: '2020-01-03', time: '16:17', desc: 'Candle lighting'},
-    {date: '2020-01-10', time: '16:23', desc: 'Candle lighting'},
-    {date: '2020-01-17', time: '16:29', desc: 'Candle lighting'},
-    {date: '2020-01-24', time: '16:35', desc: 'Candle lighting'},
-    {date: '2020-01-31', time: '16:42', desc: 'Candle lighting'},
+    {date: '2020-05-01', time: '18:51', desc: 'Candle lighting'},
+    {date: '2020-05-08', time: '18:56', desc: 'Candle lighting'},
+    {date: '2020-05-15', time: '19:01', desc: 'Candle lighting'},
+    {date: '2020-05-22', time: '19:06', desc: 'Candle lighting'},
+    {date: '2020-05-28', time: '19:10', desc: 'Candle lighting'},
+    {date: '2020-05-29', time: '19:10', desc: 'Candle lighting'},
   ];
   t.deepEqual(events30, expected30);
   delete options.candleLightingMins;
   const events18 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
   const expected18 = [
-    {date: '2020-01-03', time: '16:29', desc: 'Candle lighting'},
-    {date: '2020-01-10', time: '16:35', desc: 'Candle lighting'},
-    {date: '2020-01-17', time: '16:41', desc: 'Candle lighting'},
-    {date: '2020-01-24', time: '16:47', desc: 'Candle lighting'},
-    {date: '2020-01-31', time: '16:54', desc: 'Candle lighting'},
+    {date: '2020-05-01', time: '19:03', desc: 'Candle lighting'},
+    {date: '2020-05-08', time: '19:08', desc: 'Candle lighting'},
+    {date: '2020-05-15', time: '19:13', desc: 'Candle lighting'},
+    {date: '2020-05-22', time: '19:18', desc: 'Candle lighting'},
+    {date: '2020-05-28', time: '19:22', desc: 'Candle lighting'},
+    {date: '2020-05-29', time: '19:22', desc: 'Candle lighting'},
   ];
   t.deepEqual(events18, expected18);
 });
 
 test('jerusalem40', (t) => {
   const options = {
-    year: 2020,
-    month: 1,
+    start: new Date(2020, 0, 1),
+    end: new Date(2020, 2, 31),
     noHolidays: true,
     location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
     candlelighting: true,
@@ -255,11 +257,19 @@ test('jerusalem40', (t) => {
   };
   const events = HebrewCalendar.calendar(options).map(eventTitleDateTime);
   const expected = [
-    {date: '2020-01-03', time: '16:06', desc: 'Candle lighting'},
+    {date: '2020-01-03', time: '16:07', desc: 'Candle lighting'},
     {date: '2020-01-10', time: '16:12', desc: 'Candle lighting'},
-    {date: '2020-01-17', time: '16:18', desc: 'Candle lighting'},
-    {date: '2020-01-24', time: '16:24', desc: 'Candle lighting'},
-    {date: '2020-01-31', time: '16:30', desc: 'Candle lighting'},
+    {date: '2020-01-17', time: '16:19', desc: 'Candle lighting'},
+    {date: '2020-01-24', time: '16:25', desc: 'Candle lighting'},
+    {date: '2020-01-31', time: '16:31', desc: 'Candle lighting'},
+    {date: '2020-02-07', time: '16:38', desc: 'Candle lighting'},
+    {date: '2020-02-14', time: '16:44', desc: 'Candle lighting'},
+    {date: '2020-02-21', time: '16:50', desc: 'Candle lighting'},
+    {date: '2020-02-28', time: '16:55', desc: 'Candle lighting'},
+    {date: '2020-03-06', time: '17:00', desc: 'Candle lighting'},
+    {date: '2020-03-13', time: '17:05', desc: 'Candle lighting'},
+    {date: '2020-03-20', time: '17:10', desc: 'Candle lighting'},
+    {date: '2020-03-27', time: '18:15', desc: 'Candle lighting'},
   ];
   t.deepEqual(events, expected);
 });
