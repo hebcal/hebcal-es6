@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.9.1",
+  "version": "3.10.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -70,8 +70,8 @@
   },
   "devDependencies": {
     "@ava/babel": "^1.0.1",
-    "@babel/core": "^7.12.16",
-    "@babel/preset-env": "^7.12.16",
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
     "@babel/register": "^7.12.13",
     "@hebcal/solar-calc": "^1.0.6",
     "@rollup/plugin-babel": "^5.3.0",
@@ -80,13 +80,13 @@
     "@rollup/plugin-node-resolve": "^11.2.0",
     "ava": "^3.15.0",
     "core-js": "^3.8.3",
-    "eslint": "^7.20.0",
+    "eslint": "^7.22.0",
     "eslint-config-google": "^0.14.0",
     "gematriya": "^2.0.0",
     "jsdoc": "^3.6.6",
     "jsdoc-to-markdown": "^7.0.0",
     "nyc": "^15.1.0",
-    "rollup": "^2.39.0",
+    "rollup": "^2.41.2",
     "rollup-plugin-terser": "^7.0.2",
     "tsd-jsdoc": "^2.5.0",
     "ttag-cli": "^1.9.1"

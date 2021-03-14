@@ -251,6 +251,9 @@ export class Zmanim {
    * @return {string}
    */
   static formatISOWithTimeZone(tzid, date) {
+    if (isNaN(date.getTime())) {
+      return null;
+    }
     return getPseudoISO(tzid, date).substring(0, 19) + Zmanim.timeZoneOffset(tzid, date);
   }
 

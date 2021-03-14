@@ -79,7 +79,7 @@ export class Event {
     this.date = date;
     this.desc = desc;
     this.mask = +mask;
-    if (typeof attrs === 'object') {
+    if (typeof attrs === 'object' && attrs !== null) {
       Object.keys(attrs).forEach((k) => this[k] = attrs[k]);
     }
   }

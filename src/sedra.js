@@ -150,6 +150,14 @@ export class Sedra {
     return this.theSedraArray;
   }
 
+  /**
+   * the first Saturday on or after Rosh Hashana
+   * @return {number}
+   */
+  getFirstSaturday() {
+    return this.firstSaturday;
+  }
+
   /** @return {number} */
   getYear() {
     return this.year;
@@ -271,27 +279,11 @@ const SHAVUOT = 'Shavuot'; // 33
  * Returns an array from start to end
  * @private
  * @param {number} start beginning number, inclusive
- * @param {number} end ending number, inclusive
- * @param {number} [step=1]
+ * @param {number} stop ending number, inclusive
  * @return {number[]}
  */
-function range(start, end, step = 1) {
-  if (step < 0) {
-    step = 0 - step;
-  }
-
-  const arr = [];
-  let i = start;
-  if (start < end) {
-    for (; i <= end; i += step) {
-      arr.push(i);
-    }
-  } else {
-    for (; i >= end; i -= step) {
-      arr.push(i);
-    }
-  }
-  return arr;
+function range(start, stop) {
+  return Array.from({length: stop - start + 1}, (v, k) => k + start);
 }
 
 // The ordinary year types (keviot)

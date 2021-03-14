@@ -934,8 +934,35 @@ export const HebrewCalendar = {
       add(new MevarchimChodeshEvent(new HDate(29, month, year).onOrBefore(SAT), nextMonthName));
     }
 
+    const sedra = new Sedra(year, false);
+    const beshalachIdx = sedra.getSedraArray().indexOf(15);
+    const beshalachHd = new HDate(sedra.getFirstSaturday() + (beshalachIdx * 7));
+    add(new HolidayEvent(beshalachHd, 'Shabbat Shirah', SPECIAL_SHABBAT));
+
     __cache[year] = h;
     return h;
+  },
+
+  /**
+   * Returns an array of holidays for the year
+   * @param {number} year Hebrew year
+   * @param {boolean} il use the Israeli schedule for holidays
+   * @return {Event[]}
+   */
+  getHolidaysForYearArray: function(year, il) {
+    const yearMap = HebrewCalendar.getHolidaysForYear(year);
+    const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
+    const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
+    const events = [];
+    for (let absDt = startAbs; absDt <= endAbs; absDt++) {
+      const hd = new HDate(absDt);
+      const holidays = yearMap.get(hd.toString());
+      if (holidays) {
+        const filtered = holidays.filter((ev) => (il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora()));
+        filtered.forEach((ev) => events.push(ev));
+      }
+    }
+    return events;
   },
 
   /**

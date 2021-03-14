@@ -807,3 +807,6 @@ msgstr "תִּשְׁעָה בְּאָב נִדחֶה"
 
 msgid "Shabbat Mevarchim Chodesh"
 msgstr "שַׁבָּת מברכים חוֹדֶשׁ"
+
+msgid "Shabbat Shirah"
+msgstr "שַׁבָּת שִׁירָה"

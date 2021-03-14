@@ -97,7 +97,8 @@ export class MoladEvent extends Event {
   constructor(date, hyear, hmonth) {
     const m = new Molad(hyear, hmonth);
     const monthName = m.getMonthName();
-    super(date, `Molad ${monthName} ${hyear}`, flags.MOLAD, {molad: m});
+    super(date, `Molad ${monthName} ${hyear}`, flags.MOLAD);
+    this.molad = m;
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).

@@ -524,10 +524,19 @@ declare module '@hebcal/core' {
         function calendar(options: Options): Event[];
 
         /**
-         * Returns a Map for the year indexed by HDate.toString()
+         * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
+         * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
+         * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme
          * @param year - Hebrew year
          */
         function getHolidaysForYear(year: number): Map<string, Event[]>;
+
+        /**
+         * Returns an array of holidays for the year
+         * @param year - Hebrew year
+         * @param il - use the Israeli schedule for holidays
+         */
+        function getHolidaysForYearArray(year: number, il: boolean): Event[];
 
         /**
          * Returns an array of Events on this date (or undefined if no events)

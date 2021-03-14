@@ -46,13 +46,13 @@ test('greg-year', (t) => {
     year: 1993,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 82);
+  t.is(events.length, 83);
   t.is(events[0].getDesc(), 'Asara B\'Tevet');
   t.is(gregDtString(events[0]), '1/3/1993');
-  t.is(events[70].getDesc(), 'Chanukah: 1 Candle');
-  t.is(gregDtString(events[70]), '12/8/1993');
-  t.is(events[81].getDesc(), 'Asara B\'Tevet');
-  t.is(gregDtString(events[81]), '12/24/1993');
+  t.is(events[71].getDesc(), 'Chanukah: 1 Candle');
+  t.is(gregDtString(events[71]), '12/8/1993');
+  t.is(events[events.length - 1].getDesc(), 'Asara B\'Tevet');
+  t.is(gregDtString(events[events.length - 1]), '12/24/1993');
 });
 
 test('getStartAndEnd-2digit', (t) => {
@@ -84,7 +84,7 @@ test('heb-year', (t) => {
     isHebrewYear: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 83);
+  t.is(events.length, 84);
   t.is(events[0].getDesc(), 'Erev Rosh Hashana');
   t.is(gregDtString(events[0]), '9/11/1988');
   t.is(events[1].getDesc(), 'Rosh Hashana 5749');
@@ -93,8 +93,8 @@ test('heb-year', (t) => {
   t.is(gregDtString(events[2]), '9/13/1988');
   t.is(events[5].getDesc(), 'Erev Yom Kippur');
   t.is(gregDtString(events[5]), '9/20/1988');
-  t.is(events[82].getDesc(), 'Erev Rosh Hashana');
-  t.is(gregDtString(events[82]), '9/29/1989');
+  t.is(events[events.length - 1].getDesc(), 'Erev Rosh Hashana');
+  t.is(gregDtString(events[events.length - 1]), '9/29/1989');
 });
 
 test('no-options', (t) => {
@@ -413,7 +413,7 @@ test('molad', (t) => {
 
 test('year2', (t) => {
   const events = HebrewCalendar.calendar({year: 2});
-  t.is(events.length, 79);
+  t.is(events.length, 80);
 });
 
 test('year1', (t) => {

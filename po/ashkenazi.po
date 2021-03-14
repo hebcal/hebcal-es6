@@ -202,3 +202,6 @@ msgstr "Leil Selichos"
 
 msgid "Shabbat Mevarchim Chodesh"
 msgstr "Shabbos Mevorchim Chodesh"
+
+msgid "Shabbat Shirah"
+msgstr "Shabbos Shirah"
