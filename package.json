@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -86,7 +86,7 @@
     "jsdoc": "^3.6.6",
     "jsdoc-to-markdown": "^7.0.0",
     "nyc": "^15.1.0",
-    "rollup": "^2.41.2",
+    "rollup": "^2.41.4",
     "rollup-plugin-terser": "^7.0.2",
     "tsd-jsdoc": "^2.5.0",
     "ttag-cli": "^1.9.1"

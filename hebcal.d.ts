@@ -610,6 +610,9 @@ declare module '@hebcal/core' {
         function reformatTimeStr(timeStr: string, suffix: string, options: Options): string;
 
         function version(): string;
+
+        /** @private */
+        function getTimeFormatter(tzid: string): Intl.DateTimeFormat;
     }
 
     /**

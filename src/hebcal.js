@@ -77,8 +77,6 @@ const DAF_YOMI = flags.DAF_YOMI;
 const OMER_COUNT = flags.OMER_COUNT;
 const SHABBAT_MEVARCHIM = flags.SHABBAT_MEVARCHIM;
 
-const __cache = Object.create(null);
-
 /** @private */
 class SimpleMap {
   /**
@@ -298,26 +296,6 @@ function getMaskFromOptions(options) {
   return mask;
 }
 
-const timeFormatCache = Object.create(null);
-
-/**
- * @private
- * @param {string} tzid
- * @return {Intl.DateTimeFormat}
- */
-function getTimeFormatter(tzid) {
-  const fmt = timeFormatCache[tzid];
-  if (fmt) return fmt;
-  const f = new Intl.DateTimeFormat('en-US', {
-    timeZone: tzid,
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: false,
-  });
-  timeFormatCache[tzid] = f;
-  return f;
-}
-
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
  * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
@@ -427,7 +405,7 @@ export const HebrewCalendar = {
     }
     const location = options.location || new Location(0, 0, false, 'UTC');
     const il = options.il || location.il || false;
-    const timeFormat = getTimeFormatter(location.tzid);
+    const timeFormat = this.getTimeFormatter(location.tzid);
     const candleLightingMinutes = getCandleLightingMinutes(options);
     const havdalahMinutes = options.havdalahMins; // if undefined, use tzeit
     const mask = getMaskFromOptions(options);
@@ -551,6 +529,27 @@ export const HebrewCalendar = {
       }
     }
     return evts;
+  },
+
+  /** @private */
+  timeFormatCache: Object.create(null),
+
+  /**
+   * @private
+   * @param {string} tzid
+   * @return {Intl.DateTimeFormat}
+   */
+  getTimeFormatter: function(tzid) {
+    const fmt = this.timeFormatCache[tzid];
+    if (fmt) return fmt;
+    const f = new Intl.DateTimeFormat('en-US', {
+      timeZone: tzid,
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
+    });
+    this.timeFormatCache[tzid] = f;
+    return f;
   },
 
   /**
@@ -683,6 +682,9 @@ export const HebrewCalendar = {
     return new HDate(hDeath.dd, hDeath.mm, hyear);
   },
 
+  /** @private */
+  yearCache: Object.create(null),
+
   /**
    * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
    * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
@@ -696,7 +698,7 @@ export const HebrewCalendar = {
     } else if (year < 3762 || year > 32658) {
       throw new RangeError(`Hebrew year ${year} out of range 3762-32658`);
     }
-    const cached = __cache[year];
+    const cached = this.yearCache[year];
     if (cached) {
       return cached;
     }
@@ -939,7 +941,7 @@ export const HebrewCalendar = {
     const beshalachHd = new HDate(sedra.getFirstSaturday() + (beshalachIdx * 7));
     add(new HolidayEvent(beshalachHd, 'Shabbat Shirah', SPECIAL_SHABBAT));
 
-    __cache[year] = h;
+    this.yearCache[year] = h;
     return h;
   },
 
