@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.11.0",
+  "version": "3.12.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -43,7 +43,7 @@
     "build": "npm run po2json && npm run build:rollup",
     "prepublish": "npm run build",
     "po2json": "node ./po2json.js po/*.po",
-    "readme": "npx jsdoc2md dist/index.js",
+    "readme": "npx -p jsdoc-to-markdown jsdoc2md dist/index.js",
     "pretest": "npm run build",
     "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
     "lint": "eslint src",

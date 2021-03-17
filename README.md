@@ -1,4 +1,4 @@
-# hebcal-es6
+# @hebcal/core
 Hebcal is a perpetual Jewish Calendar. This library converts between Hebrew and Gregorian
 dates, and generates lists of Jewish holidays for any year (past, present or future).
 Shabbat and holiday candle lighting and havdalah times are approximated based on
@@ -1033,6 +1033,7 @@ Class representing Location
         * [.getShortName()](#Location+getShortName) ⇒ <code>string</code>
         * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
         * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
+        * [.getTimeFormatter()](#Location+getTimeFormatter) ⇒ <code>Intl.DateTimeFormat</code>
         * [.getGeoId()](#Location+getGeoId) ⇒ <code>string</code>
         * ~~[.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>~~
         * ~~[.tzeit(hdate, [angle])](#Location+tzeit) ⇒ <code>Date</code>~~
@@ -1089,6 +1090,12 @@ Returns the location name, up to the first comma
 <a name="Location+getTzid"></a>
 
 ### location.getTzid() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getTimeFormatter"></a>
+
+### location.getTimeFormatter() ⇒ <code>Intl.DateTimeFormat</code>
+Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
+
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+getGeoId"></a>
 
@@ -1550,6 +1557,7 @@ Represents Parashah HaShavua for an entire Hebrew year
     * [.lookup(hDate)](#Sedra+lookup) ⇒ <code>Object</code>
     * [.isParsha(hDate)](#Sedra+isParsha) ⇒ <code>boolean</code>
     * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;Object&gt;</code>
+    * [.getFirstSaturday()](#Sedra+getFirstSaturday) ⇒ <code>number</code>
     * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
 
 <a name="new_Sedra_new"></a>
@@ -1612,6 +1620,12 @@ Torah reading or special holiday reading
 <a name="Sedra+getSedraArray"></a>
 
 ### sedra.getSedraArray() ⇒ <code>Array.&lt;Object&gt;</code>
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+<a name="Sedra+getFirstSaturday"></a>
+
+### sedra.getFirstSaturday() ⇒ <code>number</code>
+the first Saturday on or after Rosh Hashana
+
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
 <a name="Sedra+getYear"></a>
 
@@ -1984,22 +1998,22 @@ Holiday flags for Event
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| CHAG | <code>number</code> | <code>CHAG</code> | Chag, yontiff, yom tov |
-| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES</code> | Light candles 18 minutes before sundown |
-| YOM_TOV_ENDS | <code>number</code> | <code>YOM_TOV_ENDS</code> | End of holiday (end of Yom Tov) |
-| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY</code> | Observed only in the Diaspora (chutz l'aretz) |
-| IL_ONLY | <code>number</code> | <code>IL_ONLY</code> | Observed only in Israel |
-| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS</code> | Light candles in the evening at Tzeit time (3 small stars) |
-| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES</code> | Candle-lighting for Chanukah |
-| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH</code> | Rosh Chodesh, beginning of a new Hebrew month |
-| MINOR_FAST | <code>number</code> | <code>MINOR_FAST</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
-| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT</code> | Shabbat Shekalim, Zachor, ... |
-| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA</code> | Weekly sedrot on Saturdays |
-| DAF_YOMI | <code>number</code> | <code>DAF_YOMI</code> | Daily page of Talmud |
-| OMER_COUNT | <code>number</code> | <code>OMER_COUNT</code> | Days of the Omer |
-| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
-| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST</code> | Yom Kippur and Tish'a B'Av |
-| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM</code> | On the Saturday before Rosh Chodesh |
+| CHAG | <code>number</code> | <code>CHAG$1</code> | Chag, yontiff, yom tov |
+| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES$1</code> | Light candles 18 minutes before sundown |
+| YOM_TOV_ENDS | <code>number</code> | <code>YOM_TOV_ENDS$1</code> | End of holiday (end of Yom Tov) |
+| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY$1</code> | Observed only in the Diaspora (chutz l'aretz) |
+| IL_ONLY | <code>number</code> | <code>IL_ONLY$1</code> | Observed only in Israel |
+| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS$1</code> | Light candles in the evening at Tzeit time (3 small stars) |
+| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES$1</code> | Candle-lighting for Chanukah |
+| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH$1</code> | Rosh Chodesh, beginning of a new Hebrew month |
+| MINOR_FAST | <code>number</code> | <code>MINOR_FAST$1</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
+| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT$1</code> | Shabbat Shekalim, Zachor, ... |
+| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA$1</code> | Weekly sedrot on Saturdays |
+| DAF_YOMI | <code>number</code> | <code>DAF_YOMI$1</code> | Daily page of Talmud |
+| OMER_COUNT | <code>number</code> | <code>OMER_COUNT$1</code> | Days of the Omer |
+| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY$1</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
+| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST$1</code> | Yom Kippur and Tish'a B'Av |
+| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM$1</code> | On the Saturday before Rosh Chodesh |
 | MOLAD | <code>number</code> | <code>MOLAD</code> | Molad |
 | USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
 | HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
@@ -2052,8 +2066,10 @@ Event names can be rendered in several languges using the `locale` option.
     * [.getBirthdayOrAnniversary(hyear, gdate)](#HebrewCalendar.getBirthdayOrAnniversary) ⇒ [<code>HDate</code>](#HDate)
     * [.getYahrzeit(hyear, gdate)](#HebrewCalendar.getYahrzeit) ⇒ [<code>HDate</code>](#HDate)
     * [.getHolidaysForYear(year)](#HebrewCalendar.getHolidaysForYear) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
+    * [.getHolidaysForYearArray(year, il)](#HebrewCalendar.getHolidaysForYearArray) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
     * [.getHolidaysOnDate(date, [il])](#HebrewCalendar.getHolidaysOnDate) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
     * [.reformatTimeStr(timeStr, suffix, options)](#HebrewCalendar.reformatTimeStr) ⇒ <code>string</code>
+    * [.version()](#HebrewCalendar.version) ⇒ <code>string</code>
     * [.Options](#HebrewCalendar.Options) : <code>Object</code>
 
 <a name="HebrewCalendar.calendar"></a>
@@ -2250,6 +2266,18 @@ or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
 | --- | --- | --- |
 | year | <code>number</code> | Hebrew year |
 
+<a name="HebrewCalendar.getHolidaysForYearArray"></a>
+
+### HebrewCalendar.getHolidaysForYearArray(year, il) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+Returns an array of holidays for the year
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+| il | <code>boolean</code> | use the Israeli schedule for holidays |
+
 <a name="HebrewCalendar.getHolidaysOnDate"></a>
 
 ### HebrewCalendar.getHolidaysOnDate(date, [il]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
@@ -2277,6 +2305,10 @@ locale.
 | suffix | <code>string</code> | "p" or "pm" or " P.M.". Add leading space if you want it |
 | options | [<code>Options</code>](#HebrewCalendar.Options) |  |
 
+<a name="HebrewCalendar.version"></a>
+
+### HebrewCalendar.version() ⇒ <code>string</code>
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
 <a name="HebrewCalendar.Options"></a>
 
 ### HebrewCalendar.Options : <code>Object</code>

@@ -107,6 +107,29 @@ const ZIPCODES_TZ_MAP = {
   '16': 'Pacific/Chuuk', //      Micronesia (GMT +11:00)
 };
 
+/** @private */
+const timeFormatCache = Object.create(null);
+
+/**
+ * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) from cache
+ * or makes a new one if needed
+ * @private
+ * @param {string} tzid
+ * @return {Intl.DateTimeFormat}
+ */
+function getFormatter(tzid) {
+  const fmt = timeFormatCache[tzid];
+  if (fmt) return fmt;
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: tzid,
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+  });
+  timeFormatCache[tzid] = f;
+  return f;
+}
+
 /** Class representing Location */
 export class Location {
   /**
@@ -173,6 +196,14 @@ export class Location {
   /** @return {string} */
   getTzid() {
     return this.tzid;
+  }
+
+  /**
+   * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
+   * @return {Intl.DateTimeFormat}
+   */
+  getTimeFormatter() {
+    return getFormatter(this.tzid);
   }
 
   /** @return {string} */

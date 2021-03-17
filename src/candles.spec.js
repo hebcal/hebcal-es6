@@ -19,13 +19,6 @@ function eventDateDesc(ev) {
 test('makeCandleEvent-nosunset', (t) => {
   const location = Location.lookup('Helsinki');
 
-  const timeFormat = new Intl.DateTimeFormat('en-US', {
-    timeZone: location.tzid,
-    hour12: false,
-    hour: 'numeric',
-    minute: 'numeric',
-  });
-
   const dates = [
     [2020, 4, 15],
     [2020, 4, 16],
@@ -39,7 +32,7 @@ test('makeCandleEvent-nosunset', (t) => {
   const events = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, timeFormat, 18);
+    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, 18);
     events.push(ev);
   }
   const result = events.map(eventDateDesc);
@@ -58,7 +51,7 @@ test('makeCandleEvent-nosunset', (t) => {
   const events2 = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, timeFormat, 18, 72);
+    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, 18, 72);
     events2.push(ev);
   }
   const result2 = events2.map(eventDateDesc);

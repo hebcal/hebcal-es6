@@ -405,7 +405,6 @@ export const HebrewCalendar = {
     }
     const location = options.location || new Location(0, 0, false, 'UTC');
     const il = options.il || location.il || false;
-    const timeFormat = this.getTimeFormatter(location.tzid);
     const candleLightingMinutes = getCandleLightingMinutes(options);
     const havdalahMinutes = options.havdalahMins; // if undefined, use tzeit
     const mask = getMaskFromOptions(options);
@@ -456,11 +455,11 @@ export const HebrewCalendar = {
         if ((!eFlags || (eFlags & mask)) &&
           ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
           if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
-            candlesEv = makeCandleEvent(e, hd, dow, location, timeFormat,
+            candlesEv = makeCandleEvent(e, hd, dow, location,
                 candleLightingMinutes, havdalahMinutes);
             if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
               const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
-                makeWeekdayChanukahCandleLighting(e, hd, location, timeFormat);
+                makeWeekdayChanukahCandleLighting(e, hd, location);
               const attrs = {
                 eventTime: chanukahEv.eventTime,
                 eventTimeStr: chanukahEv.eventTimeStr,
@@ -477,7 +476,7 @@ export const HebrewCalendar = {
           }
           if (!options.noHolidays) {
             const fastStartEnd = (options.candlelighting && eFlags & (MINOR_FAST|MAJOR_FAST)) ?
-              makeFastStartEnd(e, hd, location, timeFormat) : null;
+              makeFastStartEnd(e, hd, location) : null;
             if (fastStartEnd && fastStartEnd[0]) {
               evts.push(fastStartEnd[0]);
               e.startEvent = fastStartEnd[0];
@@ -509,7 +508,7 @@ export const HebrewCalendar = {
         evts.push(new MoladEvent(hd, hyear, monNext));
       }
       if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
-        candlesEv = makeCandleEvent(undefined, hd, dow, location, timeFormat, candleLightingMinutes, havdalahMinutes);
+        candlesEv = makeCandleEvent(undefined, hd, dow, location, candleLightingMinutes, havdalahMinutes);
       }
       // suppress Havdalah when options.havdalahMins=0
       if (candlesEv instanceof HavdalahEvent && typeof options.havdalahMins == 'number' && havdalahMinutes === 0) {
@@ -529,27 +528,6 @@ export const HebrewCalendar = {
       }
     }
     return evts;
-  },
-
-  /** @private */
-  timeFormatCache: Object.create(null),
-
-  /**
-   * @private
-   * @param {string} tzid
-   * @return {Intl.DateTimeFormat}
-   */
-  getTimeFormatter: function(tzid) {
-    const fmt = this.timeFormatCache[tzid];
-    if (fmt) return fmt;
-    const f = new Intl.DateTimeFormat('en-US', {
-      timeZone: tzid,
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false,
-    });
-    this.timeFormatCache[tzid] = f;
-    return f;
   },
 
   /**

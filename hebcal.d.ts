@@ -245,6 +245,10 @@ declare module '@hebcal/core' {
         getCountryCode(): string;
         getGeoId(): string;
         getTzid(): string;
+        /**
+         * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
+         */
+        getTimeFormatter(): Intl.DateTimeFormat;
         /** @deprecated */
         sunset(hdate: Date | HDate): Date;
         /**
@@ -610,9 +614,6 @@ declare module '@hebcal/core' {
         function reformatTimeStr(timeStr: string, suffix: string, options: Options): string;
 
         function version(): string;
-
-        /** @private */
-        function getTimeFormatter(tzid: string): Intl.DateTimeFormat;
     }
 
     /**

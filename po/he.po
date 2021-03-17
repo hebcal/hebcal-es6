@@ -810,3 +810,54 @@ msgstr "שַׁבָּת מברכים חוֹדֶשׁ"
 
 msgid "Shabbat Shirah"
 msgstr "שַׁבָּת שִׁירָה"
+
+# midnight
+msgid "chatzotNight"
+msgstr "חֲצוֹת הלילה"
+
+# Dawn
+msgid "alotHaShachar"
+msgstr "עֲלוֹת הַשַּׁחַר"
+
+# Earliest talis & tefillin
+msgid "misheyakirMachmir"
+msgstr "זמן ציצית ותפילין"
+
+# sunrise
+msgid "neitzHaChama"
+msgstr "הַנֵץ הַחַמָּה"
+
+# Latest shema Gra
+msgid "sofZmanShma"
+msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע גר״א"
+
+# Latest shachris Gra
+msgid "sofZmanTfilla"
+msgstr "סוֹף זְמַן תְּפִלָּה גר״א"
+
+# Midday
+msgid "chatzot"
+msgstr "חֲצוֹת הַיּוֹם"
+
+# Earliest mincha
+msgid "minchaGedola"
+msgstr "מִנְחָה גְּדוֹלָה"
+
+# Preferable earliest time to recite Minchah
+msgid "minchaKetana"
+msgstr "מִנְחָה קְטַנָּה"
+
+msgid "plagHaMincha"
+msgstr "פְּלַג הַמִּנְחָה"
+
+# sunset
+msgid "shkiah"
+msgstr "שְׁקִיעָה"
+
+# Nightfall - End of ordained fasts
+msgid ""
+msgstr "לילה - גמר תעניות דרבנן"
+
+# Nightfall - 3 stars emerge
+msgid "tzeit"
+msgstr "צאת כוכבים"

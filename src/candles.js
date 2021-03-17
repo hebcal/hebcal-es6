@@ -25,12 +25,11 @@ const TZEIT_3MEDIUM_STARS = 7.083;
  * @param {HDate} hd
  * @param {number} dow
  * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
  * @param {number} candlesOffset
  * @param {number} [havdalahOffset]
  * @return {Event}
  */
-export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset, havdalahOffset) {
+export function makeCandleEvent(e, hd, dow, location, candlesOffset, havdalahOffset) {
   let havdalahTitle = false;
   let useHavdalahOffset = dow == days.SAT;
   let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
@@ -51,6 +50,7 @@ export function makeCandleEvent(e, hd, dow, location, timeFormat, candlesOffset,
   // if offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset ? havdalahOffset : candlesOffset;
   const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude());
+  const timeFormat = location.getTimeFormatter();
   const time = offset ? zmanim.sunsetOffsetTime(offset, timeFormat) : zmanim.tzeitTime(8.5, timeFormat);
   if (!time[0]) {
     return null; // no sunset
@@ -155,16 +155,16 @@ export class CandleLightingEvent extends TimedEvent {
  * @param {Event} ev
  * @param {HDate} hd
  * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
  * @return {Event[]}
  */
-export function makeFastStartEnd(ev, hd, location, timeFormat) {
+export function makeFastStartEnd(ev, hd, location) {
   const desc = ev.getDesc();
   if (desc === 'Yom Kippur') {
     return null;
   }
   const dt = hd.greg();
   const zmanim = new Zmanim(dt, location.getLatitude(), location.getLongitude());
+  const timeFormat = location.getTimeFormatter();
   if (desc === 'Erev Tish\'a B\'Av') {
     const sunset = zmanim.sunset();
     const begin = makeTimedEvent(hd, sunset, 'Fast begins', ev, timeFormat);
@@ -207,11 +207,11 @@ function makeTimedEvent(hd, time, desc, ev, timeFormat) {
  * @param {Event} ev
  * @param {HDate} hd
  * @param {Location} location
- * @param {Intl.DateTimeFormat} timeFormat
  * @return {TimedEvent}
  */
-export function makeWeekdayChanukahCandleLighting(ev, hd, location, timeFormat) {
+export function makeWeekdayChanukahCandleLighting(ev, hd, location) {
   const zmanim = new Zmanim(hd.greg(), location.getLatitude(), location.getLongitude());
+  const timeFormat = location.getTimeFormatter();
   const candleLightingTime = zmanim.dusk();
   return makeTimedEvent(hd, candleLightingTime, ev.getDesc(), ev, timeFormat);
 }
