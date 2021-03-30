@@ -811,7 +811,7 @@ msgstr "שַׁבָּת מברכים חוֹדֶשׁ"
 msgid "Shabbat Shirah"
 msgstr "שַׁבָּת שִׁירָה"
 
-# midnight
+# midnight (sunset + six halachic hours)
 msgid "chatzotNight"
 msgstr "חֲצוֹת הלילה"
 
@@ -819,9 +819,13 @@ msgstr "חֲצוֹת הלילה"
 msgid "alotHaShachar"
 msgstr "עֲלוֹת הַשַּׁחַר"
 
-# Earliest talis & tefillin
+# Earliest talis & tefillin 11.5 degrees
+msgid "misheyakir"
+msgstr "משיכיר - זמן ציצית ותפילין"
+
+# Earliest talis & tefillin 10.2 degrees
 msgid "misheyakirMachmir"
-msgstr "זמן ציצית ותפילין"
+msgstr "משיכיר - זמן ציצית ותפילין"
 
 # sunrise
 msgid "neitzHaChama"
@@ -835,7 +839,7 @@ msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע גר״א"
 msgid "sofZmanTfilla"
 msgstr "סוֹף זְמַן תְּפִלָּה גר״א"
 
-# Midday
+# Midday (sunrise + six halachic hours)
 msgid "chatzot"
 msgstr "חֲצוֹת הַיּוֹם"
 

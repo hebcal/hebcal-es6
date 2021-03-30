@@ -25,11 +25,10 @@ const TZEIT_3MEDIUM_STARS = 7.083;
  * @param {HDate} hd
  * @param {number} dow
  * @param {Location} location
- * @param {number} candlesOffset
- * @param {number} [havdalahOffset]
+ * @param {HebrewCalendar.Options} options
  * @return {Event}
  */
-export function makeCandleEvent(e, hd, dow, location, candlesOffset, havdalahOffset) {
+export function makeCandleEvent(e, hd, dow, location, options) {
   let havdalahTitle = false;
   let useHavdalahOffset = dow == days.SAT;
   let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
@@ -48,17 +47,16 @@ export function makeCandleEvent(e, hd, dow, location, candlesOffset, havdalahOff
     mask = flags.LIGHT_CANDLES_TZEIS;
   }
   // if offset is 0 or undefined, we'll use tzeit time
-  const offset = useHavdalahOffset ? havdalahOffset : candlesOffset;
+  const offset = useHavdalahOffset ? options.havdalahMins : options.candleLightingMins;
   const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude());
-  const timeFormat = location.getTimeFormatter();
-  const time = offset ? zmanim.sunsetOffsetTime(offset, timeFormat) : zmanim.tzeitTime(8.5, timeFormat);
-  if (!time[0]) {
+  const time = offset ? zmanim.sunsetOffset(offset) : zmanim.tzeit(options.havdalahDeg);
+  if (isNaN(time.getTime())) {
     return null; // no sunset
   }
   if (havdalahTitle) {
-    return new HavdalahEvent(hd, mask, time[0], time[1], havdalahOffset, e);
+    return new HavdalahEvent(hd, mask, time, location, options.havdalahMins, e);
   } else {
-    return new CandleLightingEvent(hd, mask, time[0], time[1], e);
+    return new CandleLightingEvent(hd, mask, time, location, e);
   }
 }
 
@@ -69,13 +67,15 @@ export class TimedEvent extends Event {
    * @param {string} desc Description (not translated)
    * @param {number} mask
    * @param {Date} eventTime
-   * @param {string} eventTimeStr
+   * @param {Location} location
    * @param {Event} linkedEvent
    */
-  constructor(date, desc, mask, eventTime, eventTimeStr, linkedEvent) {
+  constructor(date, desc, mask, eventTime, location, linkedEvent) {
     super(date, desc, mask);
-    this.eventTime = eventTime;
-    this.eventTimeStr = eventTimeStr;
+    this.eventTime = Zmanim.roundTime(eventTime);
+    this.location = location;
+    const timeFormat = location.getTimeFormatter();
+    this.eventTimeStr = Zmanim.formatTime(this.eventTime, timeFormat);
     if (typeof linkedEvent !== 'undefined') {
       this.linkedEvent = linkedEvent;
     }
@@ -103,12 +103,12 @@ export class HavdalahEvent extends TimedEvent {
    * @param {HDate} date
    * @param {number} mask
    * @param {Date} eventTime
-   * @param {string} eventTimeStr
+   * @param {Location} location
    * @param {number} havdalahMins
    * @param {Event} linkedEvent
    */
-  constructor(date, mask, eventTime, eventTimeStr, havdalahMins, linkedEvent) {
-    super(date, 'Havdalah', mask, eventTime, eventTimeStr, linkedEvent);
+  constructor(date, mask, eventTime, location, havdalahMins, linkedEvent) {
+    super(date, 'Havdalah', mask, eventTime, location, linkedEvent);
     if (havdalahMins) {
       this.havdalahMins = havdalahMins;
     }
@@ -141,11 +141,11 @@ export class CandleLightingEvent extends TimedEvent {
    * @param {HDate} date
    * @param {number} mask
    * @param {Date} eventTime
-   * @param {string} eventTimeStr
+   * @param {Location} location
    * @param {Event} linkedEvent
    */
-  constructor(date, mask, eventTime, eventTimeStr, linkedEvent) {
-    super(date, 'Candle lighting', mask, eventTime, eventTimeStr, linkedEvent);
+  constructor(date, mask, eventTime, location, linkedEvent) {
+    super(date, 'Candle lighting', mask, eventTime, location, linkedEvent);
   }
 }
 
@@ -164,21 +164,20 @@ export function makeFastStartEnd(ev, hd, location) {
   }
   const dt = hd.greg();
   const zmanim = new Zmanim(dt, location.getLatitude(), location.getLongitude());
-  const timeFormat = location.getTimeFormatter();
   if (desc === 'Erev Tish\'a B\'Av') {
     const sunset = zmanim.sunset();
-    const begin = makeTimedEvent(hd, sunset, 'Fast begins', ev, timeFormat);
+    const begin = makeTimedEvent(hd, sunset, 'Fast begins', ev, location);
     return [begin, null];
   } else if (desc.substring(0, 11) === 'Tish\'a B\'Av') {
-    const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, timeFormat);
+    const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
     return [null, end];
   }
   const dawn = zmanim.alotHaShachar();
-  const begin = makeTimedEvent(hd, dawn, 'Fast begins', ev, timeFormat);
+  const begin = makeTimedEvent(hd, dawn, 'Fast begins', ev, location);
   if (dt.getDay() === 5 || (hd.getDate() === 14 && hd.getMonth() === months.NISAN)) {
     return [begin, null];
   }
-  const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, timeFormat);
+  const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
   return [begin, end];
 }
 
@@ -188,16 +187,14 @@ export function makeFastStartEnd(ev, hd, location) {
  * @param {Date} time
  * @param {string} desc
  * @param {Event} ev
- * @param {Intl.DateTimeFormat} timeFormat
+ * @param {Location} location
  * @return {TimedEvent}
  */
-function makeTimedEvent(hd, time, desc, ev, timeFormat) {
+function makeTimedEvent(hd, time, desc, ev, location) {
   if (isNaN(time.getTime())) {
     return null;
   }
-  const dt = Zmanim.roundTime(time);
-  const eventTimeStr = Zmanim.formatTime(dt, timeFormat);
-  return new TimedEvent(hd, desc, ev.getFlags(), dt, eventTimeStr, ev);
+  return new TimedEvent(hd, desc, ev.getFlags(), time, location, ev);
 }
 
 
@@ -211,7 +208,6 @@ function makeTimedEvent(hd, time, desc, ev, timeFormat) {
  */
 export function makeWeekdayChanukahCandleLighting(ev, hd, location) {
   const zmanim = new Zmanim(hd.greg(), location.getLatitude(), location.getLongitude());
-  const timeFormat = location.getTimeFormatter();
   const candleLightingTime = zmanim.dusk();
-  return makeTimedEvent(hd, candleLightingTime, ev.getDesc(), ev, timeFormat);
+  return makeTimedEvent(hd, candleLightingTime, ev.getDesc(), ev, location);
 }

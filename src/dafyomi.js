@@ -174,6 +174,7 @@ const dafYomiSefaria = {
   'Bechorot': 'Bekhorot',
   'Arachin': 'Arakhin',
   'Midot': 'Middot',
+  'Shekalim': 'Jerusalem_Talmud_Shekalim',
 };
 
 /**

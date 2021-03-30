@@ -160,21 +160,31 @@ test('roundTime', (t) => {
   const rounded50 = Zmanim.roundTime(dt50);
   t.is(rounded50.getSeconds(), 0);
   t.is(rounded50.getMinutes(), 31);
+  t.is(rounded50.getMilliseconds(), 0);
 
   const dt30 = new Date(2021, 0, 31, 7, 30, 30, 551); // 2021-01-31T07:30:30.551Z
   const rounded30 = Zmanim.roundTime(dt30);
   t.is(rounded30.getSeconds(), 0);
   t.is(rounded30.getMinutes(), 31);
+  t.is(rounded30.getMilliseconds(), 0);
 
   const dt17 = new Date(2021, 0, 31, 7, 30, 17, 551); // 2021-01-31T07:30:17.551Z
   const rounded17 = Zmanim.roundTime(dt17);
   t.is(rounded17.getSeconds(), 0);
   t.is(rounded17.getMinutes(), 30);
+  t.is(rounded17.getMilliseconds(), 0);
 
   const dt0 = new Date(2021, 0, 31, 7, 30, 0, 123); // 2021-01-31T07:30:00.123Z
   const rounded0 = Zmanim.roundTime(dt0);
   t.is(rounded0.getSeconds(), 0);
   t.is(rounded0.getMinutes(), 30);
+  t.is(rounded0.getMilliseconds(), 0);
+
+  const dt299 = new Date(2021, 0, 31, 7, 45, 29, 997); // 2021-01-31T07:45:29.997Z
+  const rounded299 = Zmanim.roundTime(dt299);
+  t.is(rounded299.getSeconds(), 0);
+  t.is(rounded299.getMinutes(), 45);
+  t.is(rounded299.getMilliseconds(), 0);
 });
 
 test('timeZoneOffset', (t) => {

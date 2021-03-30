@@ -966,7 +966,7 @@ Returns an array with tzeit Date object and a 24-hour string formatted time.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| angle | <code>number</code> | time for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars. |
+| angle | <code>number</code> | degrees for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars. |
 | timeFormat | <code>Intl.DateTimeFormat</code> |  |
 
 <a name="Zmanim.formatTime"></a>
@@ -1217,13 +1217,13 @@ An event that has an `eventTime` and `eventTimeStr`
 **Kind**: global class  
 
 * [TimedEvent](#TimedEvent)
-    * [new TimedEvent(date, desc, mask, eventTime, eventTimeStr, linkedEvent)](#new_TimedEvent_new)
+    * [new TimedEvent(date, desc, mask, eventTime, location, linkedEvent)](#new_TimedEvent_new)
     * [.render([locale])](#TimedEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#TimedEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_TimedEvent_new"></a>
 
-### new TimedEvent(date, desc, mask, eventTime, eventTimeStr, linkedEvent)
+### new TimedEvent(date, desc, mask, eventTime, location, linkedEvent)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -1231,7 +1231,7 @@ An event that has an `eventTime` and `eventTimeStr`
 | desc | <code>string</code> | Description (not translated) |
 | mask | <code>number</code> |  |
 | eventTime | <code>Date</code> |  |
-| eventTimeStr | <code>string</code> |  |
+| location | [<code>Location</code>](#Location) |  |
 | linkedEvent | [<code>Event</code>](#Event) |  |
 
 <a name="TimedEvent+render"></a>
@@ -1262,20 +1262,20 @@ Havdalah after Shabbat or holiday
 **Kind**: global class  
 
 * [HavdalahEvent](#HavdalahEvent)
-    * [new HavdalahEvent(date, mask, eventTime, eventTimeStr, havdalahMins, linkedEvent)](#new_HavdalahEvent_new)
+    * [new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent)](#new_HavdalahEvent_new)
     * [.render([locale])](#HavdalahEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#HavdalahEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_HavdalahEvent_new"></a>
 
-### new HavdalahEvent(date, mask, eventTime, eventTimeStr, havdalahMins, linkedEvent)
+### new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent)
 
 | Param | Type |
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | mask | <code>number</code> | 
 | eventTime | <code>Date</code> | 
-| eventTimeStr | <code>string</code> | 
+| location | [<code>Location</code>](#Location) | 
 | havdalahMins | <code>number</code> | 
 | linkedEvent | [<code>Event</code>](#Event) | 
 
@@ -1307,14 +1307,14 @@ Candle lighting before Shabbat or holiday
 **Kind**: global class  
 <a name="new_CandleLightingEvent_new"></a>
 
-### new CandleLightingEvent(date, mask, eventTime, eventTimeStr, linkedEvent)
+### new CandleLightingEvent(date, mask, eventTime, location, linkedEvent)
 
 | Param | Type |
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | mask | <code>number</code> | 
 | eventTime | <code>Date</code> | 
-| eventTimeStr | <code>string</code> | 
+| location | [<code>Location</code>](#Location) | 
 | linkedEvent | [<code>Event</code>](#Event) | 
 
 <a name="Molad"></a>
@@ -2126,6 +2126,9 @@ These defaults can be changed using these options:
 * `options.candleLightingMins` - minutes before sundown to light candles
 * `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
    Havdalah times are supressed when `options.havdalahMins=0`.
+* `options.havdalahDeg` - degrees for solar depression for Havdalah.
+   Default is 8.5 degrees for 3 small stars. Use 7.083 degress for 3 medium-sized stars.
+   Havdalah times are supressed when `options.havdalahDeg=0`.
 
 If both `options.candlelighting=true` and `options.location` is specified,
 Chanukah candle-lighting times and minor fast start/end times will also be generated.
@@ -2329,6 +2332,7 @@ Options to configure which events are returned
 | candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
 | candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
 | havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are supressed. |
+| havdalahDeg | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degress for 3 medium-sized stars.      If `0`, Havdalah times are supressed. |
 | sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
 | il | <code>boolean</code> | Israeli holiday and sedra schedule |
 | noMinorFast | <code>boolean</code> | suppress minor fasts |

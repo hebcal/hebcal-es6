@@ -108,15 +108,78 @@ class SimpleMap {
   }
 }
 
+const unrecognizedAlreadyWarned = Object.create(null);
+const RECOGNIZED_OPTIONS = {
+  location: 1,
+  year: 1,
+  isHebrewYear: 1,
+  month: 1,
+  numYears: 1,
+  start: 1,
+  end: 1,
+  candlelighting: 1,
+  candleLightingMins: 1,
+  havdalahMins: 1,
+  havdalahDeg: 1,
+  sedrot: 1,
+  il: 1,
+  noMinorFast: 1,
+  noModern: 1,
+  shabbatMevarchim: 1,
+  noRoshChodesh: 1,
+  noSpecialShabbat: 1,
+  noHolidays: 1,
+  dafyomi: 1,
+  omer: 1,
+  molad: 1,
+  ashkenazi: 1,
+  locale: 1,
+  addHebrewDates: 1,
+  addHebrewDatesForEvents: 1,
+  appendHebrewToSubject: 1,
+};
+
 /**
  * @private
  * @param {HebrewCalendar.Options} options
- * @return {number}
  */
-function getCandleLightingMinutes(options) {
+function warnUnrecognizedOptions(options) {
+  Object.keys(options).forEach((k) => {
+    if (typeof RECOGNIZED_OPTIONS[k] === 'undefined' && !unrecognizedAlreadyWarned[k]) {
+      console.warn(`Ignoring unrecognized HebrewCalendar option: ${k}`);
+      unrecognizedAlreadyWarned[k] = true;
+    }
+  });
+}
+
+/**
+ * A bit like Object.assign(), but just a shallow copy
+ * @private
+ * @param {any} target
+ * @param {any} source
+ * @return {any}
+ */
+function shallowCopy(target, source) {
+  Object.keys(source).forEach((k) => target[k] = source[k]);
+  return target;
+}
+
+/**
+ * Modifies options in-place
+ * @private
+ * @param {HebrewCalendar.Options} options
+ */
+function checkCandleOptions(options) {
   if (!options.candlelighting) {
-    return undefined;
+    return;
   }
+  if (typeof options.location === 'undefined' || !options.location instanceof Location) {
+    throw new TypeError('options.candlelighting requires valid options.location');
+  }
+  if (typeof options.havdalahMins === 'number' && typeof options.havdalahDeg === 'number') {
+    throw new TypeError('options.havdalahMins and options.havdalahDeg are mutually exclusive');
+  }
+
   let min = 18;
   if (typeof options.candleLightingMins === 'number') {
     min = Math.abs(options.candleLightingMins);
@@ -125,7 +188,15 @@ function getCandleLightingMinutes(options) {
       options.location.getShortName() === 'Jerusalem') {
     min = 40;
   }
-  return -1 * min;
+  options.candleLightingMins = -1 * min;
+
+  if (typeof options.havdalahMins === 'number') {
+    options.havdalahMins = Math.abs(options.havdalahMins);
+  } else if (typeof options.havdalahDeg === 'number') {
+    options.havdalahDeg = Math.abs(options.havdalahDeg);
+  } else {
+    options.havdalahDeg = 8.5;
+  }
 }
 
 /**
@@ -144,6 +215,9 @@ function getCandleLightingMinutes(options) {
  *      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
  *      Nightfall (the point when 3 small stars are observable in the night time sky with
  *      the naked eye). If `0`, Havdalah times are supressed.
+ * @property {number} havdalahDeg - degrees for solar depression for Havdalah.
+ *      Default is 8.5 degrees for 3 small stars. use 7.083 degress for 3 medium-sized stars.
+ *      If `0`, Havdalah times are supressed.
  * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
  * @property {boolean} il - Israeli holiday and sedra schedule
  * @property {boolean} noMinorFast - suppress minor fasts
@@ -296,6 +370,12 @@ function getMaskFromOptions(options) {
   return mask;
 }
 
+const MASK_LIGHT_CANDLES =
+  LIGHT_CANDLES |
+  LIGHT_CANDLES_TZEIS |
+  CHANUKAH_CANDLES |
+  YOM_TOV_ENDS;
+
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
  * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
@@ -303,6 +383,9 @@ function getMaskFromOptions(options) {
  * Event names can be rendered in several languges using the `locale` option.
  */
 export const HebrewCalendar = {
+  /** @private */
+  defaultLocation: new Location(0, 0, false, 'UTC'),
+
   /**
    * Calculates holidays and other Hebrew calendar events based on {@link HebrewCalendar.Options}.
    *
@@ -355,6 +438,9 @@ export const HebrewCalendar = {
    * * `options.candleLightingMins` - minutes before sundown to light candles
    * * `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
    *    Havdalah times are supressed when `options.havdalahMins=0`.
+   * * `options.havdalahDeg` - degrees for solar depression for Havdalah.
+   *    Default is 8.5 degrees for 3 small stars. Use 7.083 degress for 3 medium-sized stars.
+   *    Havdalah times are supressed when `options.havdalahDeg=0`.
    *
    * If both `options.candlelighting=true` and `options.location` is specified,
    * Chanukah candle-lighting times and minor fast start/end times will also be generated.
@@ -400,19 +486,11 @@ export const HebrewCalendar = {
    * @return {Event[]}
    */
   calendar: function(options={}) {
-    if (options.candlelighting && (typeof options.location === 'undefined' || !options.location instanceof Location)) {
-      throw new TypeError('options.candlelighting requires valid options.location');
-    }
-    const location = options.location || new Location(0, 0, false, 'UTC');
+    options = shallowCopy({}, options); // so we can modify freely
+    checkCandleOptions(options);
+    const location = options.location || this.defaultLocation;
     const il = options.il || location.il || false;
-    const candleLightingMinutes = getCandleLightingMinutes(options);
-    const havdalahMinutes = options.havdalahMins; // if undefined, use tzeit
     const mask = getMaskFromOptions(options);
-    const MASK_LIGHT_CANDLES =
-          LIGHT_CANDLES |
-          LIGHT_CANDLES_TZEIS |
-          CHANUKAH_CANDLES |
-          YOM_TOV_ENDS;
     if (options.ashkenazi || options.locale) {
       if (options.locale && typeof options.locale !== 'string') {
         throw new TypeError(`Invalid options.locale: ${options.locale}`);
@@ -430,6 +508,7 @@ export const HebrewCalendar = {
     let sedra; let holidaysYear; let beginOmer; let endOmer;
     let currentYear = -1;
     const startAndEnd = getStartAndEnd(options);
+    warnUnrecognizedOptions(options);
     const startAbs = startAndEnd[0];
     const endAbs = startAndEnd[1];
     for (let abs = startAbs; abs <= endAbs; abs++) {
@@ -455,8 +534,7 @@ export const HebrewCalendar = {
         if ((!eFlags || (eFlags & mask)) &&
           ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
           if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
-            candlesEv = makeCandleEvent(e, hd, dow, location,
-                candleLightingMinutes, havdalahMinutes);
+            candlesEv = makeCandleEvent(e, hd, dow, location, options);
             if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
               const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
                 makeWeekdayChanukahCandleLighting(e, hd, location);
@@ -508,10 +586,10 @@ export const HebrewCalendar = {
         evts.push(new MoladEvent(hd, hyear, monNext));
       }
       if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
-        candlesEv = makeCandleEvent(undefined, hd, dow, location, candleLightingMinutes, havdalahMinutes);
+        candlesEv = makeCandleEvent(undefined, hd, dow, location, options);
       }
-      // suppress Havdalah when options.havdalahMins=0
-      if (candlesEv instanceof HavdalahEvent && typeof options.havdalahMins == 'number' && havdalahMinutes === 0) {
+      // suppress Havdalah when options.havdalahMins=0 or options.havdalahDeg=0
+      if (candlesEv instanceof HavdalahEvent && (options.havdalahMins === 0 || options.havdalahDeg === 0)) {
         candlesEv = null;
       }
       if (candlesEv) {

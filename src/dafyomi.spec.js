@@ -35,6 +35,12 @@ test('dafyomi-render', (t) => {
   t.is(ev.url(), 'https://www.sefaria.org/Shabbat.104a?lang=bi');
 });
 
+test('dafyomi-shekalim', (t) => {
+  const ev = new DafYomiEvent(new HDate(new Date(2021, 2, 23)));
+  t.is(ev.render(), 'Daf Yomi: Shekalim 2');
+  t.is(ev.url(), 'https://www.sefaria.org/Jerusalem_Talmud_Shekalim.2a?lang=bi');
+});
+
 // hebcal --daf-yomi -h -x -H 5780
 function getDafYomi5780() {
   return `9/29/2019 Daf Yomi: Meilah 12

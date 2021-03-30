@@ -434,3 +434,45 @@ test('version', (t) => {
   const version = HebrewCalendar.version();
   t.is(version.substring(0, version.indexOf('.')), '3');
 });
+
+test('candlelighting-no-location-throw', (t) => {
+  const error = t.throws(() => {
+    HebrewCalendar.calendar({candlelighting: true});
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'options.candlelighting requires valid options.location');
+});
+
+test('havdalahDeg-havdalahMin-throw', (t) => {
+  const location = new Location(0, 0, false, 'UTC');
+  const error = t.throws(() => {
+    HebrewCalendar.calendar({candlelighting: true, location, havdalahDeg: 8.5, havdalahMins: 50});
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'options.havdalahMins and options.havdalahDeg are mutually exclusive');
+});
+
+test('getStartAndEnd-throw', (t) => {
+  const error = t.throws(() => {
+    getStartAndEnd({start: new Date(2020, 3, 3)});
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'Both options.start and options.end are required');
+
+  const error2 = t.throws(() => {
+    getStartAndEnd({end: new Date(2020, 3, 3)});
+  }, {instanceOf: TypeError});
+  t.is(error2.message, 'Both options.start and options.end are required');
+
+  const error3 = t.throws(() => {
+    getStartAndEnd({year: 'abcd'});
+  }, {instanceOf: RangeError});
+  t.is(error3.message, 'Invalid year abcd');
+
+  const error4 = t.throws(() => {
+    getStartAndEnd({year: -55});
+  }, {instanceOf: RangeError});
+  t.is(error4.message, 'Invalid Gregorian year -55');
+
+  const error5 = t.throws(() => {
+    getStartAndEnd({year: 1234, isHebrewYear: true});
+  }, {instanceOf: RangeError});
+  t.is(error5.message, 'Invalid Hebrew year 1234');
+});

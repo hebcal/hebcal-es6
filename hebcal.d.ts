@@ -202,7 +202,7 @@ declare module '@hebcal/core' {
     }
 
     /**
-     * Class representing Location
+     * A Hebcal location is used for Zmanim and a latitude, longitude, timezone, and more
      */
     export class Location {
         /**
@@ -501,6 +501,7 @@ declare module '@hebcal/core' {
             candlelighting?: boolean;
             candleLightingMins?: number;
             havdalahMins?: number;
+            havdalahDeg?: number;
             sedrot?: boolean;
             il?: boolean;
             noMinorFast?: boolean;
@@ -761,12 +762,12 @@ declare module '@hebcal/core' {
     }
 
     export class TimedEvent extends Event {
-        constructor(date: HDate, desc: string, mask: number, eventTime: Date, eventTimeStr: string, linkedEvent?: Event);
+        constructor(date: HDate, desc: string, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
     }
     export class CandleLightingEvent extends TimedEvent {
-        constructor(date: HDate, mask: number, eventTime: Date, eventTimeStr: string, linkedEvent?: Event);
+        constructor(date: HDate, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
     }
     export class DafYomiEvent extends Event {
         constructor(date: HDate);
@@ -775,7 +776,7 @@ declare module '@hebcal/core' {
         url(): string;
     }
     export class HavdalahEvent extends TimedEvent {
-        constructor(date: HDate, mask: number, eventTime: Date, eventTimeStr: string, havdalahMins?: number, linkedEvent?: Event);
+        constructor(date: HDate, mask: number, eventTime: Date, location: Location, havdalahMins?: number, linkedEvent?: Event);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
     }

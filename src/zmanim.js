@@ -222,12 +222,14 @@ export class Zmanim {
       return dt;
     }
     // Round up to next minute if needed
+    const millisOnly = dt.getMilliseconds();
     const seconds = dt.getSeconds();
-    if (seconds === 0) {
+    if (seconds === 0 && millisOnly === 0) {
       return dt;
     }
-    const delta = (seconds >= 30) ? 60 - seconds : -1 * seconds;
-    return new Date(millis + (delta * 1000));
+    const secAndMillis = (seconds * 1000) + millisOnly;
+    const delta = (secAndMillis >= 30000) ? 60000 - secAndMillis : -1 * secAndMillis;
+    return new Date(millis + delta);
   }
 
   /**
@@ -293,7 +295,7 @@ export class Zmanim {
 
   /**
    * Returns an array with tzeit Date object and a 24-hour string formatted time.
-   * @param {number} angle time for solar depression.
+   * @param {number} angle degrees for solar depression.
    *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
    * @param {Intl.DateTimeFormat} timeFormat
    * @return {Object[]}

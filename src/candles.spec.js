@@ -1,6 +1,6 @@
 import test from 'ava';
 import {Location} from './location';
-import {makeCandleEvent, CandleLightingEvent, HavdalahEvent} from './candles';
+import {makeCandleEvent, CandleLightingEvent, HavdalahEvent, TimedEvent} from './candles';
 import {HDate} from './hdate';
 import {flags} from './event';
 import {HebrewCalendar} from './hebcal';
@@ -32,18 +32,18 @@ test('makeCandleEvent-nosunset', (t) => {
   const events = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, 18);
+    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, {candleLightingMins: -18});
     events.push(ev);
   }
   const result = events.map(eventDateDesc);
   const expected = [
-    {date: '2020-05-15', desc: 'Candle lighting: 22:12'},
+    {date: '2020-05-15', desc: 'Candle lighting: 21:36'},
     {date: '2020-05-16', desc: 'Havdalah: 23:49'},
-    {date: '2020-05-22', desc: 'Candle lighting: 22:28'},
+    {date: '2020-05-22', desc: 'Candle lighting: 21:52'},
     {date: '2020-05-23', desc: 'Havdalah: 00:31'},
-    {date: '2020-05-29', desc: 'Candle lighting: 22:43'},
+    {date: '2020-05-29', desc: 'Candle lighting: 22:06'},
     null, // no tzeit
-    {date: '2020-06-05', desc: 'Candle lighting: 22:55'},
+    {date: '2020-06-05', desc: 'Candle lighting: 22:18'},
     null, // no tzeit
   ];
   t.deepEqual(result, expected);
@@ -51,18 +51,21 @@ test('makeCandleEvent-nosunset', (t) => {
   const events2 = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, 18, 72);
+    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, {
+      candleLightingMins: -18,
+      havdalahMins: 72,
+    });
     events2.push(ev);
   }
   const result2 = events2.map(eventDateDesc);
   const expected2 = [
-    {date: '2020-05-15', desc: 'Candle lighting: 22:12'},
+    {date: '2020-05-15', desc: 'Candle lighting: 21:36'},
     {date: '2020-05-16', desc: 'Havdalah (72 min): 23:09'},
-    {date: '2020-05-22', desc: 'Candle lighting: 22:28'},
+    {date: '2020-05-22', desc: 'Candle lighting: 21:52'},
     {date: '2020-05-23', desc: 'Havdalah (72 min): 23:25'},
-    {date: '2020-05-29', desc: 'Candle lighting: 22:43'},
+    {date: '2020-05-29', desc: 'Candle lighting: 22:06'},
     {date: '2020-05-30', desc: 'Havdalah (72 min): 23:39'},
-    {date: '2020-06-05', desc: 'Candle lighting: 22:55'},
+    {date: '2020-06-05', desc: 'Candle lighting: 22:18'},
     {date: '2020-06-06', desc: 'Havdalah (72 min): 23:50'},
   ];
   t.deepEqual(result2, expected2);
@@ -381,12 +384,17 @@ test('no-chanukah-candles-when-noHolidays', (t) => {
 });
 
 test('renderBrief', (t) => {
-  const dt = new Date('2020-12-28T20:12:44Z');
+  const dt = new Date('2020-12-28T20:12:14.987Z');
   const hd = new HDate(dt);
-  const candleLighting = new CandleLightingEvent(hd, flags.LIGHT_CANDLES, dt, '20:12');
-  const havdalah = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, '20:12', 42);
-  const havdalahTzeit = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, '20:12');
+  const location = new Location(0, 0, false, 'UTC');
+  const timed = new TimedEvent(hd, 'Foo Bar', 0, dt, location);
+  const candleLighting = new CandleLightingEvent(hd, flags.LIGHT_CANDLES, dt, location);
+  const havdalah = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location, 42);
+  const havdalahTzeit = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location);
 
+  t.is(timed.getDesc(), 'Foo Bar');
+  t.is(timed.render(), 'Foo Bar: 20:12');
+  t.is(timed.renderBrief(), 'Foo Bar');
   t.is(candleLighting.getDesc(), 'Candle lighting');
   t.is(candleLighting.render(), 'Candle lighting: 20:12');
   t.is(candleLighting.renderBrief(), 'Candle lighting');
@@ -403,4 +411,32 @@ test('renderBrief', (t) => {
   t.is(havdalah.renderBrief('he'), 'הַבדָלָה (42 דקות)');
   t.is(havdalahTzeit.render('he'), 'הַבדָלָה: 20:12');
   t.is(havdalahTzeit.renderBrief('he'), 'הַבדָלָה');
+});
+
+test('havdalahDeg', (t) => {
+  const hd = new HDate(new Date(2020, 4, 16));
+  const dow = hd.getDay();
+  const location = new Location(0, 0, false, 'UTC');
+  const events = [
+    makeCandleEvent(undefined, hd, dow, location, {}),
+    makeCandleEvent(undefined, hd, dow, location, {havdalahDeg: 6.5}),
+    makeCandleEvent(undefined, hd, dow, location, {havdalahDeg: 7.0833}),
+    makeCandleEvent(undefined, hd, dow, location, {havdalahDeg: 7.5}),
+    makeCandleEvent(undefined, hd, dow, location, {havdalahDeg: 8.5}),
+    makeCandleEvent(undefined, hd, dow, location, {havdalahMins: 42}),
+    makeCandleEvent(undefined, hd, dow, location, {havdalahMins: 50}),
+    makeCandleEvent(undefined, hd, dow, location, {havdalahMins: 72}),
+  ];
+  const results = events.map(eventDateDesc);
+  const expected = [
+    {date: '2020-05-16', desc: 'Havdalah: 18:32'},
+    {date: '2020-05-16', desc: 'Havdalah: 18:24'},
+    {date: '2020-05-16', desc: 'Havdalah: 18:26'},
+    {date: '2020-05-16', desc: 'Havdalah: 18:28'},
+    {date: '2020-05-16', desc: 'Havdalah: 18:32'},
+    {date: '2020-05-16', desc: 'Havdalah (42 min): 18:42'},
+    {date: '2020-05-16', desc: 'Havdalah (50 min): 18:50'},
+    {date: '2020-05-16', desc: 'Havdalah (72 min): 19:12'},
+  ];
+  t.deepEqual(results, expected);
 });
