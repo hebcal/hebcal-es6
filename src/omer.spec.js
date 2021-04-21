@@ -21,4 +21,7 @@ test('render', (t) => {
   t.is(o42.renderBrief(), 'Omer 42');
   t.is(o42.render('he'), 'מ״ב בָּעוֹמֶר');
   t.is(o42.renderBrief('he'), 'עוֹמֶר 42');
+  t.is(o42.render('es'), '42º day of the Omer');
+  t.is(o42.render('de'), '42. day of the Omer');
+  t.is(o42.render('fr'), '42. day of the Omer');
 });
