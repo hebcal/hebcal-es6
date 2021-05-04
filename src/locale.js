@@ -1,13 +1,10 @@
 import poHe from './he.po.json';
 import poAshkenazi from './ashkenazi.po.json';
 
-const locales = Object.create(null);
 const noopLocale = {
   headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
   contexts: {'': {}},
 };
-let activeLocale = null;
-let activeName = null;
 const alias = {
   'h': 'he',
   'a': 'ashkenazi',
@@ -24,6 +21,13 @@ const alias = {
  * @namespace
  */
 export const Locale = {
+  /** @private */
+  locales: Object.create(null),
+  /** @private */
+  activeLocale: null,
+  /** @private */
+  activeName: null,
+
   /**
    * Returns translation only if `locale` offers a non-empty translation for `id`.
    * Otherwise, returns `undefined`.
@@ -32,7 +36,7 @@ export const Locale = {
    * @return {string}
    */
   lookupTranslation: function(id, locale) {
-    const loc = (typeof locale == 'string' && locales[locale]) || activeLocale;
+    const loc = (typeof locale == 'string' && this.locales[locale]) || this.activeLocale;
     const array = loc[id];
     if (array && array.length && array[0].length) {
       return array[0];
@@ -63,7 +67,7 @@ export const Locale = {
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
       throw new Error(`Locale '${locale}' invalid compact format`);
     }
-    locales[locale.toLowerCase()] = data.contexts[''];
+    this.locales[locale.toLowerCase()] = data.contexts[''];
   },
 
   /**
@@ -75,13 +79,13 @@ export const Locale = {
    */
   useLocale: function(locale) {
     const locale0 = locale.toLowerCase();
-    const obj = locales[locale0];
+    const obj = this.locales[locale0];
     if (!obj) {
       throw new Error(`Locale '${locale}' not found`);
     }
-    activeName = alias[locale0] || locale0;
-    activeLocale = obj;
-    return activeLocale;
+    this.activeName = alias[locale0] || locale0;
+    this.activeLocale = obj;
+    return this.activeLocale;
   },
 
   /**
@@ -89,7 +93,7 @@ export const Locale = {
    * @return {string}
    */
   getLocaleName: function() {
-    return activeName;
+    return this.activeName;
   },
 
   /**
@@ -98,14 +102,25 @@ export const Locale = {
    * @return {string}
    */
   ordinal: function(n, locale) {
-    const locale0 = locale || activeName;
+    const locale0 = locale || this.activeName;
     if (!locale0 || locale0 === 'en' || 'ashkenazi' === locale0.substring(0, 9)) {
-      return getEnOrdinal(n);
+      return this.getEnOrdinal(n);
     } else if (locale0 == 'es') {
       return n + 'º';
     } else {
       return n + '.';
     }
+  },
+
+  /**
+   * @private
+   * @param {number} n
+   * @return {string}
+   */
+  getEnOrdinal: function(n) {
+    const s = ['th', 'st', 'nd', 'rd'];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
   },
 
   /**
@@ -117,13 +132,6 @@ export const Locale = {
     return str.replace(/[\u0590-\u05bd]/g, '').replace(/[\u05bf-\u05c7]/g, '');
   },
 };
-
-// eslint-disable-next-line require-jsdoc
-function getEnOrdinal(n) {
-  const s = ['th', 'st', 'nd', 'rd'];
-  const v = n % 100;
-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
-}
 
 Locale.addLocale('he', poHe);
 Locale.addLocale('h', poHe);
