@@ -489,6 +489,7 @@ declare module '@hebcal/core' {
          *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
          * @property addHebrewDates - print the Hebrew date for the entire date range
          * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
+         * @property mask - use bitmask from `flags` to filter events
          */
         export type Options = {
             location?: Location;
@@ -517,6 +518,7 @@ declare module '@hebcal/core' {
             locale?: string;
             addHebrewDates?: boolean;
             addHebrewDatesForEvents?: boolean;
+            mask?: number;
         };
 
         /**

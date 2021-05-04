@@ -235,6 +235,7 @@ function checkCandleOptions(options) {
  *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
  * @property {boolean} addHebrewDates - print the Hebrew date for the entire date range
  * @property {boolean} addHebrewDatesForEvents - print the Hebrew date for dates with some events
+ * @property {number} mask - use bitmask from `flags` to filter events
  */
 
 /**
@@ -323,6 +324,18 @@ export function getStartAndEnd(options) {
  * @return {number}
  */
 function getMaskFromOptions(options) {
+  if (typeof options.mask === 'number') {
+    const m = options.mask;
+    if (m & ROSH_CHODESH) delete options.noRoshChodesh;
+    if (m & MODERN_HOLIDAY) delete options.noModern;
+    if (m & MINOR_FAST) delete options.noMinorFast;
+    if (m & SPECIAL_SHABBAT) delete options.noSpecialShabbat;
+    if (m & PARSHA_HASHAVUA) options.sedrot = true;
+    if (m & DAF_YOMI) options.dafyomi = true;
+    if (m & OMER_COUNT) options.omer = true;
+    if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
+    return m;
+  }
   const il = options.il || (options.location && options.location.il) || false;
   let mask = 0;
 
@@ -488,8 +501,8 @@ export const HebrewCalendar = {
   calendar: function(options={}) {
     options = shallowCopy({}, options); // so we can modify freely
     checkCandleOptions(options);
-    const location = options.location || this.defaultLocation;
-    const il = options.il || location.il || false;
+    const location = options.location = options.location || this.defaultLocation;
+    const il = options.il = options.il || location.il || false;
     const mask = getMaskFromOptions(options);
     if (options.ashkenazi || options.locale) {
       if (options.locale && typeof options.locale !== 'string') {
@@ -530,42 +543,7 @@ export const HebrewCalendar = {
       let candlesEv = undefined;
       const ev = holidaysYear.get(hd.toString()) || [];
       ev.forEach((e) => {
-        const eFlags = e.getFlags();
-        if ((!eFlags || (eFlags & mask)) &&
-          ((il && e.observedInIsrael()) || (!il && e.observedInDiaspora()))) {
-          if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
-            candlesEv = makeCandleEvent(e, hd, dow, location, options);
-            if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
-              const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
-                makeWeekdayChanukahCandleLighting(e, hd, location);
-              const attrs = {
-                eventTime: chanukahEv.eventTime,
-                eventTimeStr: chanukahEv.eventTimeStr,
-              };
-              const chanukahDay = e.chanukahDay;
-              if (chanukahDay) {
-                attrs.chanukahDay = chanukahDay;
-              }
-              // Replace Chanukah event with a clone that includes candle lighting time.
-              // For clarity, allow a "duplicate" candle lighting event to remain for Shabbat
-              e = new HolidayEvent(e.getDate(), e.getDesc(), eFlags, attrs);
-              candlesEv = undefined;
-            }
-          }
-          if (!options.noHolidays) {
-            const fastStartEnd = (options.candlelighting && eFlags & (MINOR_FAST|MAJOR_FAST)) ?
-              makeFastStartEnd(e, hd, location) : null;
-            if (fastStartEnd && fastStartEnd[0]) {
-              evts.push(fastStartEnd[0]);
-              e.startEvent = fastStartEnd[0];
-            }
-            evts.push(e);
-            if (fastStartEnd && fastStartEnd[1]) {
-              evts.push(fastStartEnd[1]);
-              e.endEvent = fastStartEnd[1];
-            }
-          }
-        }
+        candlesEv = appendHolidayAndRelated(evts, e, mask, options, candlesEv, dow);
       });
       if (options.sedrot && dow == SAT && hyear >= 3762) {
         const parsha0 = sedra.lookup(abs);
@@ -1096,4 +1074,58 @@ class RoshHashanaEvent extends HolidayEvent {
   render(locale) {
     return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
   }
+}
+
+/**
+ * Appends the Event `ev` to the `events` array. Also may add related
+ * timed events like candle-lighting or fast start/end
+ * @private
+ * @param {Event[]} events
+ * @param {Event} ev
+ * @param {number} mask
+ * @param {HebrewCalendar.Options} options
+ * @param {Event} candlesEv
+ * @param {number} dow
+ * @return {Event}
+ */
+function appendHolidayAndRelated(events, ev, mask, options, candlesEv, dow) {
+  const eFlags = ev.getFlags();
+  const hd = ev.getDate();
+  const il = options.il;
+  const location = options.location;
+  if ((!eFlags || (eFlags & mask)) &&
+    ((il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora()))) {
+    if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
+      candlesEv = makeCandleEvent(ev, hd, dow, location, options);
+      if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
+        const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
+          makeWeekdayChanukahCandleLighting(ev, hd, location);
+        const attrs = {
+          eventTime: chanukahEv.eventTime,
+          eventTimeStr: chanukahEv.eventTimeStr,
+        };
+        const chanukahDay = ev.chanukahDay;
+        if (chanukahDay) {
+          attrs.chanukahDay = chanukahDay;
+        }
+        // Replace Chanukah event with a clone that includes candle lighting time.
+        // For clarity, allow a "duplicate" candle lighting event to remain for Shabbat
+        ev = new HolidayEvent(ev.getDate(), ev.getDesc(), eFlags, attrs);
+        candlesEv = undefined;
+      }
+    }
+    if (!options.noHolidays) {
+      if (options.candlelighting && eFlags & (MINOR_FAST | MAJOR_FAST)) {
+        makeFastStartEnd(ev, location); // modifies ev
+      }
+      if (ev.startEvent) {
+        events.push(ev.startEvent);
+      }
+      events.push(ev); // the original event itself
+      if (ev.endEvent) {
+        events.push(ev.endEvent);
+      }
+    }
+  }
+  return candlesEv;
 }

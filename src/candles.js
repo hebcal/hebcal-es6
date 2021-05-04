@@ -153,32 +153,28 @@ export class CandleLightingEvent extends TimedEvent {
  * Makes a pair of events representing fast start and end times
  * @private
  * @param {Event} ev
- * @param {HDate} hd
  * @param {Location} location
- * @return {Event[]}
  */
-export function makeFastStartEnd(ev, hd, location) {
+export function makeFastStartEnd(ev, location) {
   const desc = ev.getDesc();
   if (desc === 'Yom Kippur') {
-    return null;
+    return;
   }
+  const hd = ev.getDate();
   const dt = hd.greg();
   const zmanim = new Zmanim(dt, location.getLatitude(), location.getLongitude());
   if (desc === 'Erev Tish\'a B\'Av') {
     const sunset = zmanim.sunset();
-    const begin = makeTimedEvent(hd, sunset, 'Fast begins', ev, location);
-    return [begin, null];
+    ev.startEvent = makeTimedEvent(hd, sunset, 'Fast begins', ev, location);
   } else if (desc.substring(0, 11) === 'Tish\'a B\'Av') {
-    const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
-    return [null, end];
+    ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
+  } else {
+    const dawn = zmanim.alotHaShachar();
+    ev.startEvent = makeTimedEvent(hd, dawn, 'Fast begins', ev, location);
+    if (dt.getDay() !== 5 && !(hd.getDate() === 14 && hd.getMonth() === months.NISAN)) {
+      ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
+    }
   }
-  const dawn = zmanim.alotHaShachar();
-  const begin = makeTimedEvent(hd, dawn, 'Fast begins', ev, location);
-  if (dt.getDay() === 5 || (hd.getDate() === 14 && hd.getMonth() === months.NISAN)) {
-    return [begin, null];
-  }
-  const end = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
-  return [begin, end];
 }
 
 /**
