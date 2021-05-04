@@ -425,7 +425,7 @@ export const HebrewCalendar = {
    * specified by the {@link Location} class. The `Location` class contains a small
    * database of cities with their associated geographic information and time-zone information.
    * If you ever have any doubts about Hebcal's times, consult your local halachic authority.
-   * If you enter geographic coordinates above the artic circle or antarctic circle,
+   * If you enter geographic coordinates above the arctic circle or antarctic circle,
    * the times are guaranteed to be wrong.
    *
    * To add candle-lighting options, set `options.candlelighting=true` and set
