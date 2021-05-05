@@ -177,4 +177,17 @@ export class Event {
   getAttrs() {
     return this;
   }
+  /**
+   * Makes a clone of this Event object
+   * @return {Event}
+   */
+  clone() {
+    const ev = new this.constructor();
+    for (const property in this) {
+      if (this.hasOwnProperty(property)) {
+        ev[property] = this[property];
+      }
+    }
+    return ev;
+  }
 }

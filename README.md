@@ -162,6 +162,7 @@ Represents an Event with a title, date, and flags
     * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
     * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
     * ~~[.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>~~
+    * [.clone()](#Event+clone) ⇒ [<code>Event</code>](#Event)
 
 <a name="new_Event_new"></a>
 
@@ -272,6 +273,10 @@ ev2.observedInDiaspora(); // true
 ### ~~event.getAttrs() ⇒ <code>Object</code>~~
 ***Deprecated***
 
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+clone"></a>
+
+### event.clone() ⇒ [<code>Event</code>](#Event)
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="HDate"></a>
 
@@ -2113,7 +2118,7 @@ Candle-lighting and Havdalah times are approximated using latitude and longitude
 specified by the [Location](#Location) class. The `Location` class contains a small
 database of cities with their associated geographic information and time-zone information.
 If you ever have any doubts about Hebcal's times, consult your local halachic authority.
-If you enter geographic coordinates above the artic circle or antarctic circle,
+If you enter geographic coordinates above the arctic circle or antarctic circle,
 the times are guaranteed to be wrong.
 
 To add candle-lighting options, set `options.candlelighting=true` and set
@@ -2348,6 +2353,7 @@ Options to configure which events are returned
 | locale | <code>string</code> | translate event titles according to a locale      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`) |
 | addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
 | addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
+| mask | <code>number</code> | use bitmask from `flags` to filter events |
 
 <a name="ZmanimTimesResult"></a>
 

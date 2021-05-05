@@ -154,12 +154,14 @@ export class CandleLightingEvent extends TimedEvent {
  * @private
  * @param {Event} ev
  * @param {Location} location
+ * @return {Event}
  */
 export function makeFastStartEnd(ev, location) {
   const desc = ev.getDesc();
   if (desc === 'Yom Kippur') {
-    return;
+    return ev;
   }
+  ev = ev.clone();
   const hd = ev.getDate();
   const dt = hd.greg();
   const zmanim = new Zmanim(dt, location.getLatitude(), location.getLongitude());
@@ -175,6 +177,7 @@ export function makeFastStartEnd(ev, location) {
       ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
     }
   }
+  return ev;
 }
 
 /**

@@ -26,6 +26,7 @@ declare module '@hebcal/core' {
         renderBrief(locale?: string): string;
         observedInIsrael(): boolean;
         observedInDiaspora(): boolean;
+        clone(): Event;
     }
 
     /**

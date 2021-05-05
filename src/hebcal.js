@@ -137,6 +137,8 @@ const RECOGNIZED_OPTIONS = {
   addHebrewDates: 1,
   addHebrewDatesForEvents: 1,
   appendHebrewToSubject: 1,
+  mask: 1,
+  userMask: 1,
 };
 
 /**
@@ -334,6 +336,7 @@ function getMaskFromOptions(options) {
     if (m & DAF_YOMI) options.dafyomi = true;
     if (m & OMER_COUNT) options.omer = true;
     if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
+    options.userMask = true;
     return m;
   }
   const il = options.il || (options.location && options.location.il) || false;
@@ -503,7 +506,7 @@ export const HebrewCalendar = {
     checkCandleOptions(options);
     const location = options.location = options.location || this.defaultLocation;
     const il = options.il = options.il || location.il || false;
-    const mask = getMaskFromOptions(options);
+    options.mask = getMaskFromOptions(options);
     if (options.ashkenazi || options.locale) {
       if (options.locale && typeof options.locale !== 'string') {
         throw new TypeError(`Invalid options.locale: ${options.locale}`);
@@ -543,7 +546,7 @@ export const HebrewCalendar = {
       let candlesEv = undefined;
       const ev = holidaysYear.get(hd.toString()) || [];
       ev.forEach((e) => {
-        candlesEv = appendHolidayAndRelated(evts, e, mask, options, candlesEv, dow);
+        candlesEv = appendHolidayAndRelated(evts, e, options, candlesEv, dow);
       });
       if (options.sedrot && dow == SAT && hyear >= 3762) {
         const parsha0 = sedra.lookup(abs);
@@ -1082,20 +1085,20 @@ class RoshHashanaEvent extends HolidayEvent {
  * @private
  * @param {Event[]} events
  * @param {Event} ev
- * @param {number} mask
  * @param {HebrewCalendar.Options} options
  * @param {Event} candlesEv
  * @param {number} dow
  * @return {Event}
  */
-function appendHolidayAndRelated(events, ev, mask, options, candlesEv, dow) {
+function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
   const eFlags = ev.getFlags();
-  const hd = ev.getDate();
   const il = options.il;
-  const location = options.location;
-  if ((!eFlags || (eFlags & mask)) &&
-    ((il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora()))) {
+  const observed = (il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora());
+  const mask = options.mask;
+  if (observed && ((eFlags & mask) || (!eFlags && !options.userMask))) {
+    const location = options.location;
     if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
+      const hd = ev.getDate();
       candlesEv = makeCandleEvent(ev, hd, dow, location, options);
       if (eFlags === CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
         const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
@@ -1116,7 +1119,7 @@ function appendHolidayAndRelated(events, ev, mask, options, candlesEv, dow) {
     }
     if (!options.noHolidays) {
       if (options.candlelighting && eFlags & (MINOR_FAST | MAJOR_FAST)) {
-        makeFastStartEnd(ev, location); // modifies ev
+        ev = makeFastStartEnd(ev, location);
       }
       if (ev.startEvent) {
         events.push(ev.startEvent);

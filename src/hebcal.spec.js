@@ -387,6 +387,56 @@ test('no-rosh-chodesh', (t) => {
   t.is(ev, undefined);
 });
 
+// eslint-disable-next-line require-jsdoc
+function eventDateDesc(ev) {
+  return {date: gregDtString(ev), desc: ev.getDesc()};
+}
+
+test('rosh-chodesh-only', (t) => {
+  const events = HebrewCalendar.calendar({year: 2020, mask: flags.ROSH_CHODESH});
+  const actual = events.map(eventDateDesc);
+  const expected = [
+    {date: '1/27/2020', desc: 'Rosh Chodesh Sh\'vat'},
+    {date: '2/25/2020', desc: 'Rosh Chodesh Adar'},
+    {date: '2/26/2020', desc: 'Rosh Chodesh Adar'},
+    {date: '3/26/2020', desc: 'Rosh Chodesh Nisan'},
+    {date: '4/24/2020', desc: 'Rosh Chodesh Iyyar'},
+    {date: '4/25/2020', desc: 'Rosh Chodesh Iyyar'},
+    {date: '5/24/2020', desc: 'Rosh Chodesh Sivan'},
+    {date: '6/22/2020', desc: 'Rosh Chodesh Tamuz'},
+    {date: '6/23/2020', desc: 'Rosh Chodesh Tamuz'},
+    {date: '7/22/2020', desc: 'Rosh Chodesh Av'},
+    {date: '8/20/2020', desc: 'Rosh Chodesh Elul'},
+    {date: '8/21/2020', desc: 'Rosh Chodesh Elul'},
+    {date: '10/18/2020', desc: 'Rosh Chodesh Cheshvan'},
+    {date: '10/19/2020', desc: 'Rosh Chodesh Cheshvan'},
+    {date: '11/17/2020', desc: 'Rosh Chodesh Kislev'},
+    {date: '12/16/2020', desc: 'Rosh Chodesh Tevet'},
+  ];
+  t.deepEqual(actual, expected);
+});
+
+test('fasts-only', (t) => {
+  const events = HebrewCalendar.calendar({
+    year: 2020,
+    mask: flags.MINOR_FAST | flags.MAJOR_FAST,
+  });
+  const actual = events.map(eventDateDesc);
+  const expected = [
+    {date: '1/7/2020', desc: 'Asara B\'Tevet'},
+    {date: '3/9/2020', desc: 'Ta\'anit Esther'},
+    {date: '4/8/2020', desc: 'Ta\'anit Bechorot'},
+    {date: '7/9/2020', desc: 'Tzom Tammuz'},
+    {date: '7/29/2020', desc: 'Erev Tish\'a B\'Av'},
+    {date: '7/30/2020', desc: 'Tish\'a B\'Av'},
+    {date: '9/21/2020', desc: 'Tzom Gedaliah'},
+    {date: '9/28/2020', desc: 'Yom Kippur'},
+    {date: '12/25/2020', desc: 'Asara B\'Tevet'},
+  ];
+  t.deepEqual(actual, expected);
+});
+
+
 test('no-minor-fast', (t) => {
   const events = HebrewCalendar.calendar({year: 2020, noMinorFast: true});
   const ev = events.find((ev) => ev.getDesc() == 'Tzom Gedaliah');
