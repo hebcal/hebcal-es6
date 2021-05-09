@@ -1,24 +1,27 @@
 import {Locale} from './locale';
 
-const CHAG = 1;
-const LIGHT_CANDLES = 2;
-const YOM_TOV_ENDS = 4;
-const CHUL_ONLY = 8; // chutz l'aretz (Diaspora)
-const IL_ONLY = 16; // b'aretz (Israel)
-const LIGHT_CANDLES_TZEIS = 32;
-const CHANUKAH_CANDLES = 64;
-const ROSH_CHODESH = 128;
-const MINOR_FAST = 256;
-const SPECIAL_SHABBAT = 512;
-const PARSHA_HASHAVUA = 1024;
-const DAF_YOMI = 2048;
-const OMER_COUNT = 4096;
-const MODERN_HOLIDAY = 8192;
-const MAJOR_FAST = 16384;
-const SHABBAT_MEVARCHIM = 32768;
-const MOLAD = 65536;
-const USER_EVENT = 131072;
-const HEBREW_DATE = 262144;
+const CHAG = 0x000001;
+const LIGHT_CANDLES = 0x000002;
+const YOM_TOV_ENDS = 0x000004;
+const CHUL_ONLY = 0x000008; // chutz l'aretz (Diaspora)
+const IL_ONLY = 0x000010; // b'aretz (Israel)
+const LIGHT_CANDLES_TZEIS = 0x000020;
+const CHANUKAH_CANDLES = 0x000040;
+const ROSH_CHODESH = 0x000080;
+const MINOR_FAST = 0x000100;
+const SPECIAL_SHABBAT = 0x000200;
+const PARSHA_HASHAVUA = 0x000400;
+const DAF_YOMI = 0x000800;
+const OMER_COUNT = 0x001000;
+const MODERN_HOLIDAY = 0x002000;
+const MAJOR_FAST = 0x004000;
+const SHABBAT_MEVARCHIM = 0x008000;
+const MOLAD = 0x010000;
+const USER_EVENT = 0x020000;
+const HEBREW_DATE = 0x040000;
+const MINOR_HOLIDAY = 0x080000;
+const EREV = 0x100000;
+const CHOL_HAMOED = 0x200000;
 
 /**
  * Holiday flags for Event
@@ -64,6 +67,12 @@ export const flags = {
   USER_EVENT,
   /** Daily Hebrew date ("11th of Sivan, 5780") */
   HEBREW_DATE,
+  /** A holiday that's not major, modern, rosh chodesh, or a fast day */
+  MINOR_HOLIDAY,
+  /** Evening before a major or minor holiday */
+  EREV,
+  /** Chol haMoed, intermediate days of Pesach or Sukkot */
+  CHOL_HAMOED,
 };
 
 /** Represents an Event with a title, date, and flags */

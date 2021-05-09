@@ -81,15 +81,15 @@ test('candles-only-diaspora', (t) => {
   };
   const events = HebrewCalendar.calendar(options);
   t.is(events.length, 120);
-  t.is(events[0].getFlags(), flags.LIGHT_CANDLES);
+  t.is(Boolean(events[0].getFlags() & flags.LIGHT_CANDLES), true);
   t.is(events[0].render(), 'Candle lighting: 16:12');
   t.is(events[0].getDesc(), 'Candle lighting');
   t.is(events[0].eventTimeStr, '16:12');
-  t.is(events[1].getFlags(), flags.LIGHT_CANDLES_TZEIS);
+  t.is(Boolean(events[1].getFlags() & flags.LIGHT_CANDLES_TZEIS), true);
   t.is(events[1].render(), 'Havdalah: 17:18');
   t.is(events[1].getDesc(), 'Havdalah');
   t.is(events[1].eventTimeStr, '17:18');
-  t.is(events[48].getFlags(), flags.LIGHT_CANDLES);
+  t.is(Boolean(events[48].getFlags() & flags.LIGHT_CANDLES), true);
 });
 
 // eslint-disable-next-line require-jsdoc

@@ -277,6 +277,8 @@ ev2.observedInDiaspora(); // true
 <a name="Event+clone"></a>
 
 ### event.clone() ⇒ [<code>Event</code>](#Event)
+Makes a clone of this Event object
+
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="HDate"></a>
 
@@ -2022,6 +2024,9 @@ Holiday flags for Event
 | MOLAD | <code>number</code> | <code>MOLAD</code> | Molad |
 | USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
 | HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
+| MINOR_HOLIDAY | <code>number</code> | <code>MINOR_HOLIDAY$1</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
+| EREV | <code>number</code> | <code>EREV$1</code> | Evening before a major or minor holiday |
+| CHOL_HAMOED | <code>number</code> | <code>CHOL_HAMOED$1</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
 
 <a name="months"></a>
 

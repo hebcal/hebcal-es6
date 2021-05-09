@@ -51,7 +51,10 @@ declare module '@hebcal/core' {
         SHABBAT_MEVARCHIM,
         MOLAD,
         USER_EVENT,
-        HEBREW_DATE
+        HEBREW_DATE,
+        MINOR_HOLIDAY,
+        EREV,
+        CHOL_HAMOED,
     }
 
     /** Class representing a Hebrew date */
