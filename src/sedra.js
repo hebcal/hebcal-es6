@@ -41,7 +41,7 @@ const COMPLETE = 2;
 
 // eslint-disable-next-line require-jsdoc
 function throwError(errorMessage) {
-  throw new Error(errorMessage);
+  throw new TypeError(errorMessage);
 }
 
 /**
@@ -54,40 +54,32 @@ export class Sedra {
    * @param {boolean} il - Use Israel sedra schedule (false for Diaspora)
    */
   constructor(hebYr, il) { // the Hebrew year
-    il = !!il;
     const longC = HDate.longCheshvan(hebYr);
     const shortK = HDate.shortKislev(hebYr);
-    let type;
+    const type = this.type = (longC && !shortK) ? COMPLETE :
+      (!longC && shortK) ? INCOMPLETE :
+      REGULAR;
     this.year = hebYr;
-    if (longC && !shortK) {
-      type = COMPLETE;
-    } else if (!longC && shortK) {
-      type = INCOMPLETE;
-    } else {
-      type = REGULAR;
-    }
 
-    const rh = new HDate(1, months.TISHREI, hebYr).abs();
-    const rhDay = (rh % 7) + 1;
+    const rh = HDate.hebrew2abs(hebYr, months.TISHREI, 1);
+    const rhDay = this.roshHashanaDay = (rh % 7) + 1;
 
     // find the first Saturday on or after Rosh Hashana
     this.firstSaturday = HDate.dayOnOrBefore(6, rh + 6);
-    const leap = +HDate.isLeapYear(hebYr);
-    this.type = type;
-    this.roshHashanaDay = rhDay;
-    this.leap = leap;
-    this.il = il;
+    const leap = this.leap = +HDate.isLeapYear(hebYr);
+    this.il = Boolean(il);
 
-    const core = `${leap}${rhDay}${type}`;
-    if (types[core]) {
-      this.theSedraArray = types[core];
+    const key = `${leap}${rhDay}${type}`;
+    if (types[key]) {
+      this.key = key;
+      this.theSedraArray = types[key];
     } else {
-      this.theSedraArray = types[core + (+il)]; // cast to num, then concat
+      const key2 = this.key = key + (+this.il); // cast to num, then concat
+      this.theSedraArray = types[key2];
     }
 
     if (!this.theSedraArray) {
-      console.log(this);
-      throw new TypeError('improper sedra year type calculated.');
+      throw new Error(`improper sedra year type ${this.key} calculated for ${hebYr}`);
     }
   }
 
@@ -97,10 +89,7 @@ export class Sedra {
    * @return {string[]}
    */
   get(hDate) {
-    const abs0 = (typeof hDate == 'number') ?
-        hDate : (HDate.isHDate(hDate) ?
-        hDate.abs() : throwError('Bad date argument'));
-    return this.calculate(abs0).parsha;
+    return this.lookup(hDate).parsha;
   }
 
   /**
@@ -121,28 +110,61 @@ export class Sedra {
   }
 
   /**
-   * Returns an object describing the parsha on the first Saturday on or after absdate
-   * @param {HDate|number} hDate Hebrew date or R.D. days
-   * @return {Object}
-   */
-  lookup(hDate) {
-    const abs0 = (typeof hDate == 'number') ?
-        hDate : (HDate.isHDate(hDate) ?
-        hDate.abs() : throwError('Bad date argument'));
-    return this.calculate(abs0);
-  }
-
-  /**
    * Checks to see if this day would be a regular parasha HaShavua
    * Torah reading or special holiday reading
    * @param {HDate|number} hDate Hebrew date or R.D. days
    * @return {boolean}
    */
   isParsha(hDate) {
-    const abs0 = (typeof hDate == 'number') ?
-        hDate : (HDate.isHDate(hDate) ?
-        hDate.abs() : throwError('Bad date argument'));
-    return !this.calculate(abs0).chag;
+    return !this.lookup(hDate).chag;
+  }
+
+  /**
+   * Returns the date that a parsha occurs
+   * @param {number|string|string[]} parsha
+   * @return {HDate}
+   */
+  find(parsha) {
+    if (typeof parsha === 'number') {
+      if (parsha > 53 || (parsha < 0 && !isValidDouble(parsha))) {
+        throw new RangeError(`Invalid parsha number: ${parsha}`);
+      }
+      const idx = this.theSedraArray.indexOf(parsha);
+      if (idx === -1) {
+        return null; // doesn't occur this year
+      }
+      return new HDate(this.firstSaturday + (idx * 7));
+    } else if (typeof parsha === 'string') {
+      const num = parsha2id[parsha];
+      if (typeof num === 'number') {
+        return this.find(num);
+      } else if (parsha.indexOf('-') !== -1) {
+        return this.find(parsha.split('-'));
+      } else {
+        // try to find Saturday holiday like 'Yom Kippur'
+        const idx = this.theSedraArray.indexOf(parsha);
+        if (idx === -1) {
+          return null; // doesn't occur this year
+        }
+        return new HDate(this.firstSaturday + (idx * 7));
+      }
+    } else if (Array.isArray(parsha) && parsha.length === 1 &&
+               typeof parsha[0] === 'string') {
+      return this.find(parsha[0]);
+    } else if (Array.isArray(parsha) && parsha.length === 2 &&
+               typeof parsha[0] === 'string' && typeof parsha[1] === 'string') {
+      const p1 = parsha[0];
+      const p2 = parsha[1];
+      const num1 = parsha2id[p1];
+      const num2 = parsha2id[p2];
+      if (num2 === num1 + 1) {
+        return this.find(-num1);
+      } else {
+        throw new RangeError(`Unrecognized parsha name: ${p1}-${p2}`);
+      }
+    } else {
+      throw new TypeError(`Invalid parsha argument: ${parsha}`);
+    }
   }
 
   /** @return {Object[]} */
@@ -165,20 +187,23 @@ export class Sedra {
 
   /**
    * Returns an object describing the parsha on the first Saturday on or after absdate
-   * @private
-   * @param {number} absDate
+   * @param {HDate|number} hDate Hebrew date or R.D. days
    * @return {Object}
    */
-  calculate(absDate) {
+  lookup(hDate) {
+    const absDate = (typeof hDate === 'number') ? hDate :
+      HDate.isHDate(hDate) ? hDate.abs() :
+      throwError(`Bad date argument: ${hDate}`);
+
     // find the first saturday on or after today's date
-    absDate = HDate.dayOnOrBefore(6, absDate + 6);
+    const saturday = HDate.dayOnOrBefore(6, absDate + 6);
 
-    const weekNum = (absDate - this.firstSaturday) / 7;
-    let index = this.theSedraArray[weekNum];
+    const weekNum = (saturday - this.firstSaturday) / 7;
+    const index = this.theSedraArray[weekNum];
 
-    if (undefined === index) {
+    if (typeof index === 'undefined') {
       const sedra = new Sedra(this.year + 1, this.il);
-      return sedra.calculate(absDate); // must be next year
+      return sedra.lookup(saturday); // must be next year
     }
     if (typeof index === 'string') {
     // Shabbat has a chag. Return a description
@@ -188,8 +213,8 @@ export class Sedra {
       return {parsha: [parshiot[index]], chag: false};
     }
 
-    index = D(index); // undouble the parsha
-    return {parsha: [parshiot[index], parshiot[index + 1]], chag: false};
+    const p1 = D(index); // undouble the parsha
+    return {parsha: [parshiot[p1], parshiot[p1 + 1]], chag: false};
   }
 }
 
@@ -255,7 +280,36 @@ export const parshiot = [
   'Ha\'Azinu',
 ];
 
-// eslint-disable-next-line require-jsdoc
+const parsha2id = {};
+for (let id = 0; id < parshiot.length; id++) {
+  const name = parshiot[id];
+  parsha2id[name] = id;
+}
+
+/**
+ * @private
+ * @param {number} id
+ * @return {boolean}
+ */
+function isValidDouble(id) {
+  switch (id) {
+    case -21: // Vayakhel-Pekudei
+    case -26: // Tazria-Metzora
+    case -28: // Achrei Mot-Kedoshim
+    case -31: // Behar-Bechukotai
+    case -38: // Chukat-Balak
+    case -41: // Matot-Masei
+    case -50: // Nitzavim-Vayeilech
+      return true;
+  }
+  return false;
+}
+
+/**
+ * @private
+ * @param {number} p
+ * @return {number}
+ */
 function D(p) {
   // parsha doubler/undoubler
   return -p;
@@ -267,12 +321,13 @@ const YK = 'Yom Kippur'; // 1
 const SUKKOT = 'Sukkot'; // 0
 const CHMSUKOT = 'Sukkot Shabbat Chol ha-Moed'; // 0
 const SHMINI = 'Shmini Atzeret'; // 0
-const EOY = 'End-of-Year: Simchat-Torah, Sukkot'; // 0
+const EOY = CHMSUKOT; // always Sukkot day 3, 5 or 6
 
 const PESACH = 'Pesach'; // 25
+const PESACH1 = 'Pesach I';
 const CHMPESACH = 'Pesach Shabbat Chol ha-Moed'; // 25
 const PESACH7 = 'Pesach VII'; // 25
-
+const PESACH8 = 'Pesach VIII';
 const SHAVUOT = 'Shavuot'; // 33
 
 /**
@@ -286,10 +341,13 @@ function range(start, stop) {
   return Array.from({length: stop - start + 1}, (v, k) => k + start);
 }
 
-// The ordinary year types (keviot)
-
-// names are leap/nonleap - day - incomplete/regular/complete - diaspora/Israel
-
+/**
+ * The ordinary year types (keviot)
+ * names are leap/nonleap - day - incomplete/regular/complete - diaspora/Israel
+ * @private
+ * @readonly
+ * @type {Object.<string, Object[]>}
+ */
 const types = {
 
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
@@ -309,7 +367,7 @@ const types = {
   /* Hebrew year that starts on Thursday, is `regular' (Heshvan has 29
      * days and Kislev has 30 days), and has Passover start on Saturday. */
   // e.g. 5701
-  '0510': [52].concat(YK, EOY, range(0, 20), D(21), 23, 24, PESACH, PESACH,
+  '0510': [52].concat(YK, EOY, range(0, 20), D(21), 23, 24, PESACH1, PESACH8,
       25, D(26), D(28), 30, D(31), range(33, 40), D(41), range(43, 50),
   ),
 
@@ -361,8 +419,8 @@ const types = {
   /* Hebrew year that starts on Monday, is `complete' (Heshvan and
      * Kislev each have 30 days), and has Passover start on Saturday. */
   // e.g.5752
-  '1220': [51, 52].concat(CHMSUKOT, range(0, 27), PESACH,
-      PESACH, range(28, 40), D(41), range(43, 50),
+  '1220': [51, 52].concat(CHMSUKOT, range(0, 27), PESACH1,
+      PESACH8, range(28, 40), D(41), range(43, 50),
   ),
 
   /* Hebrew year that starts on Monday, is `complete' (Heshvan and
@@ -425,13 +483,16 @@ export class ParshaEvent extends Event {
    * @param {HDate} date
    * @param {string[]} parsha - untranslated name of single or double parsha,
    *   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim']
+   * @param {boolean} il
    */
-  constructor(date, parsha) {
-    if (!Array.isArray(parsha) || parsha.length == 0) {
+  constructor(date, parsha, il) {
+    if (!Array.isArray(parsha) || parsha.length === 0 || parsha.length > 2) {
       throw new TypeError('Bad parsha argument');
     }
     const desc = 'Parashat ' + parsha.join('-');
-    super(date, desc, flags.PARSHA_HASHAVUA, {parsha});
+    super(date, desc, flags.PARSHA_HASHAVUA);
+    this.parsha = parsha;
+    this.il = Boolean(il);
   }
   /**
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
@@ -454,7 +515,8 @@ export class ParshaEvent extends Event {
   /** @return {string} */
   url() {
     const dt = this.getDate().greg().toISOString().substring(0, 10).replace(/-/g, '');
-    return 'https://www.hebcal.com/sedrot/' +
+    const url = 'https://www.hebcal.com/sedrot/' +
       this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' + dt;
+    return this.il ? url + '?i=on' : url;
   }
 }

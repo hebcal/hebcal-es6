@@ -2,8 +2,14 @@ import test from 'ava';
 import {HDate, months, HebrewDateEvent} from './hdate';
 
 test('elapsedDays', (t) => {
-  const elapsed = HDate.elapsedDays(5780);
-  t.is(elapsed, 2110760);
+  t.is(HDate.elapsedDays(5780), 2110760);
+  t.is(HDate.elapsedDays(5708), 2084447);
+  t.is(HDate.elapsedDays(3762), 1373677);
+  t.is(HDate.elapsedDays(3671), 1340455);
+  t.is(HDate.elapsedDays(1234), 450344);
+  t.is(HDate.elapsedDays(123), 44563);
+  t.is(HDate.elapsedDays(2), 356);
+  t.is(HDate.elapsedDays(1), 1);
 });
 
 test('isLeapYear', (t) => {
@@ -33,11 +39,21 @@ test('daysInYear', (t) => {
   t.is(HDate.daysInYear(5787), 385);
   t.is(HDate.daysInYear(5788), 355);
   t.is(HDate.daysInYear(5789), 354);
+  t.is(HDate.daysInYear(3762), 383);
+  t.is(HDate.daysInYear(3671), 354);
+  t.is(HDate.daysInYear(1234), 353);
+  t.is(HDate.daysInYear(123), 355);
+  t.is(HDate.daysInYear(2), 355);
+  t.is(HDate.daysInYear(1), 355);
 });
 
 test('daysInMonth', (t) => {
-  t.is(HDate.daysInMonth(months.IYYAR), 29);
-  t.is(HDate.daysInMonth(months.SIVAN), 30);
+  t.is(HDate.daysInMonth(months.IYYAR, 5780), 29);
+  t.is(HDate.daysInMonth(months.SIVAN, 5780), 30);
+  t.is(HDate.daysInMonth(months.CHESHVAN, 5782), 29);
+  t.is(HDate.daysInMonth(months.CHESHVAN, 5783), 30);
+  t.is(HDate.daysInMonth(months.KISLEV, 5783), 30);
+  t.is(HDate.daysInMonth(months.KISLEV, 5784), 29);
 });
 
 test('getMonthName', (t) => {
@@ -169,8 +185,9 @@ test('toString', (t) => {
 });
 
 test('hebrew2abs', (t) => {
-  const abs = HDate.hebrew2abs(5769, months.CHESHVAN, 15);
-  t.is(abs, 733359);
+  t.is(HDate.hebrew2abs(5769, months.CHESHVAN, 15), 733359);
+  t.is(HDate.hebrew2abs(5708, months.IYYAR, 6), 711262);
+  t.is(HDate.hebrew2abs(3762, months.TISHREI, 1), 249);
 });
 
 test('abs2hebrew', (t) => {

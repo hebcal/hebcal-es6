@@ -377,10 +377,12 @@ declare module '@hebcal/core' {
         sunsetOffset(offset: number): Date;
         /**
          * Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
+         * @deprecated
          */
         sunsetOffsetTime(offset: number, timeFormat: Intl.DateTimeFormat): any[];
         /**
          * Returns an array with tzeit Date object and a 24-hour string formatted time.
+         * @deprecated
          * @param angle optional time for solar depression.
          *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
          */
@@ -764,6 +766,10 @@ declare module '@hebcal/core' {
          * @param hDate Hebrew date or R.D. days
          */
         isParsha(hDate: HDate | number): boolean;
+        /**
+         * Returns the date that a parsha occurs
+         */
+        find(parsha: number | string | string[]): HDate;
         getYear(): number;
     }
 
@@ -819,7 +825,7 @@ declare module '@hebcal/core' {
         renderBrief(locale?: string): string;
     }
     export class ParshaEvent extends Event {
-        constructor(date: HDate, parsha: string[]);
+        constructor(date: HDate, parsha: string[], il: boolean);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         url(): string;

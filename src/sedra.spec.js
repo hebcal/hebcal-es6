@@ -2,7 +2,6 @@ import test from 'ava';
 import {HDate, months} from './hdate';
 import {Locale} from './locale';
 import {Sedra, ParshaEvent} from './sedra';
-import {greg as g} from './greg';
 
 test('ParshaEvent-url', (t) => {
   const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai']);
@@ -13,25 +12,17 @@ test('ParshaEvent-url', (t) => {
   t.is(ev3.url(), 'https://www.hebcal.com/sedrot/behaalotcha-20200613');
   const ev4 = new ParshaEvent(new HDate(new Date(2022, 3, 30)), ['Achrei Mot']);
   t.is(ev4.url(), 'https://www.hebcal.com/sedrot/achrei-mot-20220430');
+  const ev5 = new ParshaEvent(new HDate(new Date(2022, 3, 30)), ['Kedoshim'], true);
+  t.is(ev5.url(), 'https://www.hebcal.com/sedrot/kedoshim-20220430?i=on');
 });
 
-// eslint-disable-next-line require-jsdoc
-function testFullYear(t, gregYear, sedra, expected) {
-  const startAbs = g.greg2abs(new Date(Date.UTC(gregYear, 0, 1)));
-  const endAbs = g.greg2abs(new Date(Date.UTC(gregYear, 11, 31)));
-  let i = 0;
-  for (let abs = startAbs; abs <= endAbs; abs++) {
-    const dow = abs % 7;
-    if (dow == 6) { // Saturday
-      const todayHeb = new HDate(abs);
-      const parshaStr = sedra.getString(todayHeb);
-      const todayGreg = g.abs2greg(abs);
-      const date = todayGreg.toLocaleDateString('en-US');
-      const str = date + ' ' + parshaStr;
-      t.is(str, expected[i]);
-      i++;
-    }
-  }
+/**
+ * @private
+ * @param {HDate} hd
+ * @return {string}
+ */
+function dt(hd) {
+  return hd.greg().toISOString().substring(0, 10);
 }
 
 test('3762', (t) => {
@@ -47,124 +38,6 @@ test('3762', (t) => {
   }
 });
 
-test('sedra-diaspora', (t) => {
-  const expected =
-`1/4/2020 Parashat Vayigash
-1/11/2020 Parashat Vayechi
-1/18/2020 Parashat Shemot
-1/25/2020 Parashat Vaera
-2/1/2020 Parashat Bo
-2/8/2020 Parashat Beshalach
-2/15/2020 Parashat Yitro
-2/22/2020 Parashat Mishpatim
-2/29/2020 Parashat Terumah
-3/7/2020 Parashat Tetzaveh
-3/14/2020 Parashat Ki Tisa
-3/21/2020 Parashat Vayakhel-Pekudei
-3/28/2020 Parashat Vayikra
-4/4/2020 Parashat Tzav
-4/11/2020 Parashat Pesach
-4/18/2020 Parashat Shmini
-4/25/2020 Parashat Tazria-Metzora
-5/2/2020 Parashat Achrei Mot-Kedoshim
-5/9/2020 Parashat Emor
-5/16/2020 Parashat Behar-Bechukotai
-5/23/2020 Parashat Bamidbar
-5/30/2020 Parashat Shavuot
-6/6/2020 Parashat Nasso
-6/13/2020 Parashat Beha'alotcha
-6/20/2020 Parashat Sh'lach
-6/27/2020 Parashat Korach
-7/4/2020 Parashat Chukat-Balak
-7/11/2020 Parashat Pinchas
-7/18/2020 Parashat Matot-Masei
-7/25/2020 Parashat Devarim
-8/1/2020 Parashat Vaetchanan
-8/8/2020 Parashat Eikev
-8/15/2020 Parashat Re'eh
-8/22/2020 Parashat Shoftim
-8/29/2020 Parashat Ki Teitzei
-9/5/2020 Parashat Ki Tavo
-9/12/2020 Parashat Nitzavim-Vayeilech
-9/19/2020 Parashat Rosh Hashana
-9/26/2020 Parashat Ha'Azinu
-10/3/2020 Parashat Sukkot
-10/10/2020 Parashat Shmini Atzeret
-10/17/2020 Parashat Bereshit
-10/24/2020 Parashat Noach
-10/31/2020 Parashat Lech-Lecha
-11/7/2020 Parashat Vayera
-11/14/2020 Parashat Chayei Sara
-11/21/2020 Parashat Toldot
-11/28/2020 Parashat Vayetzei
-12/5/2020 Parashat Vayishlach
-12/12/2020 Parashat Vayeshev
-12/19/2020 Parashat Miketz
-12/26/2020 Parashat Vayigash
-`.split('\n');
-  const hyear = new HDate(new Date(Date.UTC(2020, 5, 2))).getFullYear();
-  testFullYear(t, 2020, new Sedra(hyear, false), expected);
-});
-
-test('sedra-israel', (t) => {
-  const expected =
-`1/4/2020 Parashat Vayigash
-1/11/2020 Parashat Vayechi
-1/18/2020 Parashat Shemot
-1/25/2020 Parashat Vaera
-2/1/2020 Parashat Bo
-2/8/2020 Parashat Beshalach
-2/15/2020 Parashat Yitro
-2/22/2020 Parashat Mishpatim
-2/29/2020 Parashat Terumah
-3/7/2020 Parashat Tetzaveh
-3/14/2020 Parashat Ki Tisa
-3/21/2020 Parashat Vayakhel-Pekudei
-3/28/2020 Parashat Vayikra
-4/4/2020 Parashat Tzav
-4/11/2020 Parashat Pesach
-4/18/2020 Parashat Shmini
-4/25/2020 Parashat Tazria-Metzora
-5/2/2020 Parashat Achrei Mot-Kedoshim
-5/9/2020 Parashat Emor
-5/16/2020 Parashat Behar-Bechukotai
-5/23/2020 Parashat Bamidbar
-5/30/2020 Parashat Nasso
-6/6/2020 Parashat Beha'alotcha
-6/13/2020 Parashat Sh'lach
-6/20/2020 Parashat Korach
-6/27/2020 Parashat Chukat
-7/4/2020 Parashat Balak
-7/11/2020 Parashat Pinchas
-7/18/2020 Parashat Matot-Masei
-7/25/2020 Parashat Devarim
-8/1/2020 Parashat Vaetchanan
-8/8/2020 Parashat Eikev
-8/15/2020 Parashat Re'eh
-8/22/2020 Parashat Shoftim
-8/29/2020 Parashat Ki Teitzei
-9/5/2020 Parashat Ki Tavo
-9/12/2020 Parashat Nitzavim-Vayeilech
-9/19/2020 Parashat Rosh Hashana
-9/26/2020 Parashat Ha'Azinu
-10/3/2020 Parashat Sukkot
-10/10/2020 Parashat Shmini Atzeret
-10/17/2020 Parashat Bereshit
-10/24/2020 Parashat Noach
-10/31/2020 Parashat Lech-Lecha
-11/7/2020 Parashat Vayera
-11/14/2020 Parashat Chayei Sara
-11/21/2020 Parashat Toldot
-11/28/2020 Parashat Vayetzei
-12/5/2020 Parashat Vayishlach
-12/12/2020 Parashat Vayeshev
-12/19/2020 Parashat Miketz
-12/26/2020 Parashat Vayigash
-`.split('\n');
-  const hyear = new HDate(new Date(Date.UTC(2020, 5, 2))).getFullYear();
-  testFullYear(t, 2020, new Sedra(hyear, true), expected);
-});
-
 test('getString-locale', (t) => {
   Locale.useLocale('he');
   let sedra = new Sedra(5780, true);
@@ -173,9 +46,89 @@ test('getString-locale', (t) => {
   const ev = new ParshaEvent(hd, parsha);
   t.is(ev.render(), 'פרשת פִּינְחָס');
 
+  hd = new HDate(new Date(2020, 2, 21));
+  const parsha2 = sedra.get(hd);
+  const ev2 = new ParshaEvent(hd, parsha2);
+  t.is(ev2.render(), 'פרשת וַיַּקְהֵל־פְקוּדֵי');
+
   sedra = new Sedra(5781, false);
   hd = new HDate(new Date(2021, 3, 24));
   t.is(sedra.getString(hd), 'פרשת אַחֲרֵי מוֹת־קְדשִׁים');
   t.is(sedra.getString(hd, 'en'), 'Parashat Achrei Mot-Kedoshim');
   t.is(sedra.getString(hd, 'ashkenazi'), 'Parshas Achrei Mos-Kedoshim');
+});
+
+const oct1 = new HDate(new Date(1988, 9, 1));
+const nov5 = new HDate(new Date(1988, 10, 5));
+const jul15 = new HDate(new Date(1989, 6, 15));
+
+test('get', (t) => {
+  const sedra = new Sedra(5749, false);
+  t.deepEqual(sedra.get(oct1), ['Sukkot Shabbat Chol ha-Moed']);
+  t.deepEqual(sedra.get(nov5), ['Chayei Sara']);
+  t.deepEqual(sedra.get(jul15), ['Chukat', 'Balak']);
+});
+
+test('getString', (t) => {
+  const sedra = new Sedra(5749, false);
+  t.is(sedra.getString(oct1, 'en'), 'Parashat Sukkot Shabbat Chol ha-Moed');
+  t.is(sedra.getString(nov5, 'en'), 'Parashat Chayei Sara');
+  t.is(sedra.getString(jul15, 'en'), 'Parashat Chukat-Balak');
+});
+
+test('lookup', (t) => {
+  const sedra = new Sedra(5749, false);
+  t.deepEqual(sedra.lookup(oct1), {parsha: ['Sukkot Shabbat Chol ha-Moed'], chag: true});
+  t.deepEqual(sedra.lookup(nov5), {parsha: ['Chayei Sara'], chag: false});
+  t.deepEqual(sedra.lookup(jul15), {parsha: ['Chukat', 'Balak'], chag: false});
+});
+
+test('isParsha', (t) => {
+  const sedra = new Sedra(5749, false);
+  t.is(sedra.isParsha(oct1), false);
+  t.is(sedra.isParsha(nov5), true);
+  t.is(sedra.isParsha(jul15), true);
+});
+
+test('getYear', (t) => {
+  const sedra = new Sedra(5749, false);
+  t.is(sedra.getYear(), 5749);
+});
+
+test('find', (t) => {
+  const sedra = new Sedra(5781, false);
+  t.is(dt(sedra.find('Bereshit')), '2020-10-17');
+  t.is(dt(sedra.find('Noach')), '2020-10-24');
+  t.is(dt(sedra.find('Lech-Lecha')), '2020-10-31');
+  t.is(dt(sedra.find('Bo')), '2021-01-23');
+  t.is(dt(sedra.find(['Tazria', 'Metzora'])), '2021-04-17');
+  t.is(dt(sedra.find('Tazria-Metzora')), '2021-04-17');
+  t.is(sedra.find('Tazria'), null);
+  t.is(sedra.find('Metzora'), null);
+  t.is(dt(sedra.find('Chukat')), '2021-06-19');
+  t.is(sedra.find(['Chukat', 'Balak']), null);
+});
+
+test('find-holiday', (t) => {
+  const sedra1 = new Sedra(5781, false);
+  t.is(sedra1.find('Yom Kippur'), null);
+  t.is(dt(sedra1.find('Pesach VII')), '2021-04-03');
+
+  const sedra2 = new Sedra(5754, true);
+  t.is(dt(sedra2.find('Yom Kippur')), '1993-09-25');
+  t.is(dt(sedra2.find('Pesach VII')), '1994-04-02');
+
+  const sedra3 = new Sedra(5752, false);
+  t.is(sedra3.find('Pesach VII'), null);
+  t.is(dt(sedra3.find('Pesach VIII')), '1992-04-25');
+});
+
+test('complete-incomplete-types', (t) => {
+  const years = [5701, 5715, 5716, 5745, 5746, 5752, 5753, 5754, 5756, 5757, 5761, 5768];
+  for (const year of years) {
+    const sedraDiaspora = new Sedra(year, false);
+    const sedraIL = new Sedra(year, true);
+    t.not(sedraDiaspora.find(0), null);
+    t.not(sedraIL.find(0), null);
+  }
 });

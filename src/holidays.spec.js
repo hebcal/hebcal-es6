@@ -44,6 +44,32 @@ test('basename-and-url', (t) => {
   t.is(mvch.url(), undefined);
 });
 
+test('observedInIsrael and url contains ?i=on', (t) => {
+  const erev = new HolidayEvent(new HDate(5, months.SIVAN, 5777),
+      'Erev Shavuot', flags.EREV | flags.LIGHT_CANDLES);
+  t.is(erev.observedInIsrael(), true);
+  t.is(erev.observedInDiaspora(), true);
+  t.is(erev.url(), 'https://www.hebcal.com/holidays/shavuot-2017');
+
+  const shavuot = new HolidayEvent(new HDate(6, months.SIVAN, 5777),
+      'Shavuot', flags.CHAG | flags.YOM_TOV_ENDS | flags.IL_ONLY);
+  t.is(shavuot.observedInIsrael(), true);
+  t.is(shavuot.observedInDiaspora(), false);
+  t.is(shavuot.url(), 'https://www.hebcal.com/holidays/shavuot-2017?i=on');
+
+  const shavuotI = new HolidayEvent(new HDate(6, months.SIVAN, 5777),
+      'Shavuot I', flags.CHAG | flags.LIGHT_CANDLES_TZEIS | flags.CHUL_ONLY);
+  t.is(shavuotI.observedInIsrael(), false);
+  t.is(shavuotI.observedInDiaspora(), true);
+  t.is(shavuotI.url(), 'https://www.hebcal.com/holidays/shavuot-2017');
+
+  const shavuotII = new HolidayEvent(new HDate(7, months.SIVAN, 5777),
+      'Shavuot II', flags.CHAG | flags.YOM_TOV_ENDS | flags.CHUL_ONLY);
+  t.is(shavuotII.observedInIsrael(), false);
+  t.is(shavuotII.observedInDiaspora(), true);
+  t.is(shavuotII.url(), 'https://www.hebcal.com/holidays/shavuot-2017');
+});
+
 test('MevarchimChodeshEvent', (t) => {
   const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
   t.is(mvch.memo, 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');

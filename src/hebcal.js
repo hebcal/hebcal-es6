@@ -555,7 +555,7 @@ export const HebrewCalendar = {
       if (options.sedrot && dow == SAT && hyear >= 3762) {
         const parsha0 = sedra.lookup(abs);
         if (!parsha0.chag) {
-          evts.push(new ParshaEvent(hd, parsha0.parsha));
+          evts.push(new ParshaEvent(hd, parsha0.parsha, il));
         }
       }
       if (options.dafyomi && hyear >= 5684) {
@@ -980,8 +980,7 @@ export const HebrewCalendar = {
     }
 
     const sedra = new Sedra(year, false);
-    const beshalachIdx = sedra.getSedraArray().indexOf(15);
-    const beshalachHd = new HDate(sedra.getFirstSaturday() + (beshalachIdx * 7));
+    const beshalachHd = sedra.find(15);
     add(new HolidayEvent(beshalachHd, 'Shabbat Shirah', SPECIAL_SHABBAT));
 
     this.yearCache[year] = h;

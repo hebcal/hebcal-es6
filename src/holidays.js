@@ -48,9 +48,10 @@ export class HolidayEvent extends Event {
   }
   /** @return {string} */
   url() {
-    return 'https://www.hebcal.com/holidays/' +
+    const url = 'https://www.hebcal.com/holidays/' +
       this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' +
       this.urlDateSuffix();
+    return (this.getFlags() & flags.IL_ONLY) ? url + '?i=on' : url;
   }
   /** @return {string} */
   urlDateSuffix() {

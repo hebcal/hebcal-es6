@@ -1646,19 +1646,20 @@ Represents one of 54 weekly Torah portions, always on a Saturday
 **Kind**: global class  
 
 * [ParshaEvent](#ParshaEvent)
-    * [new ParshaEvent(date, parsha)](#new_ParshaEvent_new)
+    * [new ParshaEvent(date, parsha, il)](#new_ParshaEvent_new)
     * [.render([locale])](#ParshaEvent+render) ⇒ <code>string</code>
     * [.basename()](#ParshaEvent+basename) ⇒ <code>string</code>
     * [.url()](#ParshaEvent+url) ⇒ <code>string</code>
 
 <a name="new_ParshaEvent_new"></a>
 
-### new ParshaEvent(date, parsha)
+### new ParshaEvent(date, parsha, il)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | date | [<code>HDate</code>](#HDate) |  |
 | parsha | <code>Array.&lt;string&gt;</code> | untranslated name of single or double parsha,   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim'] |
+| il | <code>boolean</code> |  |
 
 <a name="ParshaEvent+render"></a>
 
