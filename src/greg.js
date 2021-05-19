@@ -184,7 +184,7 @@ export const greg = {
     const month = quotient((12 * (priorDays + correction) + 373), 367);
     const day = theDate - this.toFixed(year, month, 1) + 1;
     const dt = new Date(year, month - 1, day);
-    if (year < 100 && year > 0) {
+    if (year < 100 && year >= 0) {
       dt.setFullYear(year);
     }
     return dt;

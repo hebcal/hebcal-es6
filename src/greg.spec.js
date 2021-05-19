@@ -74,6 +74,16 @@ test('abs2greg-negative', (t) => {
   t.is(dt2.getFullYear(), -100);
   t.is(dt2.getMonth(), 11);
   t.is(dt2.getDate(), 20);
+
+  const dt3 = greg.abs2greg(0);
+  t.is(dt3.getFullYear(), 0);
+  t.is(dt3.getMonth(), 11);
+  t.is(dt3.getDate(), 31);
+
+  const dt4 = greg.abs2greg(-1);
+  t.is(dt4.getFullYear(), 0);
+  t.is(dt4.getMonth(), 11);
+  t.is(dt4.getDate(), 30);
 });
 
 test('daysInMonth', (t) => {

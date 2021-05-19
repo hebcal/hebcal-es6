@@ -196,6 +196,8 @@ test('abs2hebrew', (t) => {
   t.deepEqual(HDate.abs2hebrew(711262), {yy: 5708, mm: months.IYYAR, dd: 6});
   t.deepEqual(HDate.abs2hebrew(249), {yy: 3762, mm: months.TISHREI, dd: 1});
   t.deepEqual(HDate.abs2hebrew(1), {yy: 3761, mm: months.TEVET, dd: 18});
+  t.deepEqual(HDate.abs2hebrew(0), {yy: 3761, mm: months.TEVET, dd: 17});
+  t.deepEqual(HDate.abs2hebrew(-16), {yy: 3761, mm: months.TEVET, dd: 1});
 });
 
 test('abs2hebrew-88ce', (t) => {
@@ -208,18 +210,6 @@ test('abs2hebrew-88ce', (t) => {
   t.is(h3.yy, 3849);
   t.is(h3.mm, months.SHVAT);
   t.is(h3.dd, 2);
-});
-
-test('throws-abs2hebrew', (t) => {
-  const error = t.throws(() => {
-    HDate.abs2hebrew(12345678);
-  }, {instanceOf: RangeError});
-  t.is(error.message, 'parameter to abs2hebrew 12345678 out of range');
-
-  const error2 = t.throws(() => {
-    HDate.abs2hebrew(-123);
-  }, {instanceOf: RangeError});
-  t.is(error2.message, 'parameter to abs2hebrew -123 out of range');
 });
 
 test('render', (t) => {

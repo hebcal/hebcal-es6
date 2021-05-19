@@ -110,6 +110,8 @@ function throwTypeError(msg) {
 
 const edCache = Object.create(null);
 
+const EPOCH = -1373428;
+
 /**
  * A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
  * @typedef {Object} SimpleHebrewDate
@@ -332,51 +334,56 @@ export class HDate {
   }
 
   /**
+   * @private
+   * @param {number} year
+   * @return {number}
+   */
+  static newYear(year) {
+    return EPOCH + HDate.elapsedDays(year) + HDate.newYearDelay(year);
+  }
+
+  /**
+   * @private
+   * @param {number} year
+   * @return {number}
+   */
+  static newYearDelay(year) {
+    const ny1 = HDate.elapsedDays(year);
+    const ny2 = HDate.elapsedDays(year + 1);
+    if (ny2 - ny1 === 356) {
+      return 2;
+    } else {
+      const ny0 = HDate.elapsedDays(year - 1);
+      return ny1 - ny0 === 382 ? 1 : 0;
+    }
+  }
+
+  /**
    * Converts absolute R.D. days to Hebrew date
    * @private
-   * @param {number} d absolute R.D. days
+   * @param {number} abs absolute R.D. days
    * @return {SimpleHebrewDate}
    */
-  static abs2hebrew(d) {
-    if (typeof d !== 'number' || isNaN(d)) {
-      throw new TypeError(`invalid parameter to abs2hebrew ${d}`);
-    } else if (d <= 0 || d >= 10555144) {
-      throw new RangeError(`parameter to abs2hebrew ${d} out of range`);
+  static abs2hebrew(abs) {
+    if (typeof abs !== 'number' || isNaN(abs)) {
+      throw new TypeError(`invalid parameter to abs2hebrew ${abs}`);
     }
 
-    const gregdate = g.abs2greg(d);
-    let year = 3760 + gregdate.getFullYear();
-    const hebdate = {
-      dd: 1,
-      mm: TISHREI,
-    };
+    const approx = 1 + Math.floor((abs - EPOCH) / 365.24682220597794);
 
-    while (hebdate.yy = year + 1, d >= HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {
-      year++;
+    let year = approx - 1;
+    while (HDate.newYear(year) <= abs) {
+      ++year;
+    }
+    --year;
+
+    let month = abs < HDate.hebrew2abs(year, 1, 1) ? 7 : 1;
+    while (abs > HDate.hebrew2abs(year, month, HDate.daysInMonth(month, year))) {
+      ++month;
     }
 
-    const mmap = [9, 10, 11, 12, 1, 2, 3, 4, 7, 7, 7, 8];
-    let month;
-    if (year > 4634 && year < 10666) {
-      // optimize search
-      month = mmap[gregdate.getMonth()];
-    } else {
-      // we're outside the usual range, so assume nothing about Hebrew/Gregorian calendar drift...
-      month = TISHREI;
-    }
-
-    while (hebdate.mm = month,
-    hebdate.dd = HDate.daysInMonth(month, year),
-    hebdate.yy = year,
-    d > HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {
-      month = (month % HDate.monthsInYear(year)) + 1;
-    }
-
-    hebdate.dd = 1;
-    const day = d - HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd) + 1;
-    hebdate.dd = day;
-
-    return hebdate;
+    const day = Math.floor(1 + abs - HDate.hebrew2abs(year, month, 1));
+    return {yy: year, mm: month, dd: day};
   }
 
   /**
