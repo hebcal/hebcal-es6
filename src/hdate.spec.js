@@ -354,3 +354,22 @@ test('isHDate', (t) => {
   t.is(HDate.isHDate(new Date()), false);
   t.is(HDate.isHDate(new HDate(12345)), true);
 });
+
+test('getDay', (t) => {
+  t.is(new HDate(15, months.CHESHVAN, 5769).getDay(), 4);
+  t.is(new HDate(6, months.IYYAR, 5708).getDay(), 6);
+  t.is(new HDate(7, months.IYYAR, 5708).getDay(), 0);
+  t.is(new HDate(1, months.TISHREI, 3762).getDay(), 4);
+  t.is(new HDate(1, months.NISAN, 3761).getDay(), 2);
+  t.is(new HDate(18, months.TEVET, 3761).getDay(), 1);
+  t.is(new HDate(17, months.TEVET, 3761).getDay(), 0);
+  t.is(new HDate(16, months.TEVET, 3761).getDay(), 6);
+  t.is(new HDate(1, months.TEVET, 3761).getDay(), 5);
+  t.is(new HDate(29, months.SIVAN, 3333).getDay(), 2);
+  t.is(new HDate(28, months.SIVAN, 3333).getDay(), 1);
+  t.is(new HDate(27, months.SIVAN, 3333).getDay(), 0);
+  t.is(new HDate(26, months.SIVAN, 3333).getDay(), 6);
+  t.is(new HDate(25, months.SIVAN, 3333).getDay(), 5);
+  t.is(new HDate(24, months.SIVAN, 3333).getDay(), 4);
+  t.is(new HDate(23, months.SIVAN, 3333).getDay(), 3);
+});

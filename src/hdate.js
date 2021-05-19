@@ -240,11 +240,11 @@ export class HDate {
   }
 
   /**
-   * Gets the day of the week, using local time. 0=Sunday, 6=Saturday
+   * Gets the day of the week. 0=Sunday, 6=Saturday
    * @return {number}
    */
   getDay() {
-    return this.greg().getDay();
+    return mod(this.abs(), 7);
   }
 
   /**
@@ -629,10 +629,10 @@ export class HDate {
    * @return {number}
    */
   static elapsedDays0(year) {
-    // borrowed from original JS
-    const mElapsed = 235 * Math.floor((year - 1) / 19) +
-      12 * ((year - 1) % 19) +
-      Math.floor((((year - 1) % 19) * 7 + 1) / 19);
+    const prevYear = year - 1;
+    const mElapsed = 235 * Math.floor(prevYear / 19) + // Months in complete 19 year lunar (Metonic) cycles so far
+      12 * (prevYear % 19) + // Regular months in this cycle
+      Math.floor(((prevYear % 19) * 7 + 1) / 19); // Leap months this cycle
 
     const pElapsed = 204 + 793 * (mElapsed % 1080);
 
@@ -647,7 +647,7 @@ export class HDate {
     const altDay = day +
       (parts >= 19440 ||
         (2 == day % 7 && parts >= 9924 && !HDate.isLeapYear(year)) ||
-        (1 == day % 7 && parts >= 16789 && HDate.isLeapYear(year - 1)));
+        (1 == day % 7 && parts >= 16789 && HDate.isLeapYear(prevYear)));
 
     return altDay + (altDay % 7 === 0 || altDay % 7 == 3 || altDay % 7 == 5);
   }
@@ -815,6 +815,16 @@ export class HDate {
       typeof obj.greg === 'function' &&
       typeof obj.abs === 'function';
   }
+}
+
+/**
+ * @private
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+function mod(x, y) {
+  return x - y * Math.floor(x / y);
 }
 
 // eslint-disable-next-line require-jsdoc

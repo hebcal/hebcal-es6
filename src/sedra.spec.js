@@ -30,8 +30,8 @@ test('3762', (t) => {
   const startAbs = HDate.hebrew2abs(3762, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(3763, months.TISHREI, 1) - 1;
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    const dow = abs % 7;
-    if (dow == 6) { // Saturday
+    const hd = new HDate(abs);
+    if (hd.getDay() === 6) { // Saturday
       const p = sedra.lookup(abs);
       t.is(typeof p.chag, 'boolean');
     }

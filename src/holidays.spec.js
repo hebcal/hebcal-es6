@@ -1,7 +1,6 @@
 import test from 'ava';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
 import {HebrewCalendar} from './hebcal';
-import {greg as g} from './greg';
 import {HDate, months} from './hdate';
 import {flags, Event} from './event';
 
@@ -348,8 +347,10 @@ test('getHolidaysForYearArray-5720-il', (t) => {
 
 // eslint-disable-next-line require-jsdoc
 function eventDateBasenameDesc(ev) {
+  const isoDateString = ev.getDate().greg().toISOString();
+  const date = isoDateString.substring(0, isoDateString.indexOf('T'));
   return {
-    date: ev.getDate().greg().toISOString().substring(0, 10),
+    date,
     basename: ev.basename(),
     desc: ev.getDesc(),
   };
@@ -357,10 +358,9 @@ function eventDateBasenameDesc(ev) {
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {
-  return {
-    date: ev.getDate().greg().toISOString().substring(0, 10),
-    desc: ev.getDesc(),
-  };
+  const isoDateString = ev.getDate().greg().toISOString();
+  const date = isoDateString.substring(0, isoDateString.indexOf('T'));
+  return {date, desc: ev.getDesc()};
 }
 
 test('9av-observed', (t) => {
@@ -393,4 +393,43 @@ test('asara-btevet-url', (t) => {
     'https://www.hebcal.com/holidays/asara-btevet-20201225',
   ];
   t.deepEqual(urls, expected);
+});
+
+test('getHolidaysForYear-ce', (t) => {
+  const map = HebrewCalendar.getHolidaysForYear(5888);
+  const rh = map.get('1 Tishrei 5888').map(eventDateDesc)[0];
+  const pesach = map.get('15 Nisan 5888').map(eventDateDesc)[0];
+  t.deepEqual(rh, {date: '2127-09-08', desc: 'Rosh Hashana 5888'});
+  t.deepEqual(pesach, {date: '2128-04-15', desc: 'Pesach I'});
+});
+
+test('getHolidaysForYear-bce', (t) => {
+  const map = HebrewCalendar.getHolidaysForYear(3737);
+  const rh = map.get('1 Tishrei 3737').map(eventDateDesc)[0];
+  const pesach = map.get('15 Nisan 3737').map(eventDateDesc)[0];
+  t.deepEqual(rh, {date: '-000024-09-11', desc: 'Rosh Hashana 3737'});
+  t.deepEqual(pesach, {date: '-000023-03-22', desc: 'Pesach I'});
+});
+
+test('getHolidaysForYearArray-bce', (t) => {
+  const events = HebrewCalendar.getHolidaysForYearArray(3759, false).slice(0, 15);
+  const actual = events.map(eventDateDesc);
+  const expected = [
+    {date: '-000002-09-08', desc: 'Rosh Hashana 3759'},
+    {date: '-000002-09-09', desc: 'Rosh Hashana II'},
+    {date: '-000002-09-10', desc: 'Tzom Gedaliah'},
+    {date: '-000002-09-16', desc: 'Erev Yom Kippur'},
+    {date: '-000002-09-17', desc: 'Yom Kippur'},
+    {date: '-000002-09-19', desc: 'Shabbat Shuva'},
+    {date: '-000002-09-21', desc: 'Erev Sukkot'},
+    {date: '-000002-09-22', desc: 'Sukkot I'},
+    {date: '-000002-09-23', desc: 'Sukkot II'},
+    {date: '-000002-09-24', desc: 'Sukkot III (CH\'\'M)'},
+    {date: '-000002-09-25', desc: 'Sukkot IV (CH\'\'M)'},
+    {date: '-000002-09-26', desc: 'Sukkot V (CH\'\'M)'},
+    {date: '-000002-09-27', desc: 'Sukkot VI (CH\'\'M)'},
+    {date: '-000002-09-28', desc: 'Sukkot VII (Hoshana Raba)'},
+    {date: '-000002-09-29', desc: 'Shmini Atzeret'},
+  ];
+  t.deepEqual(actual, expected);
 });

@@ -273,9 +273,9 @@ export function getStartAndEnd(options) {
     isHebrewYear ? new HDate().getFullYear() : new Date().getFullYear();
   if (isNaN(theYear)) {
     throw new RangeError(`Invalid year ${options.year}`);
-  } else if (isHebrewYear && theYear < 3762) {
+  } else if (isHebrewYear && theYear < 1) {
     throw new RangeError(`Invalid Hebrew year ${theYear}`);
-  } else if (theYear < 1) {
+  } else if (theYear == 0) {
     throw new RangeError(`Invalid Gregorian year ${theYear}`);
   }
   let theMonth = NaN;
@@ -546,7 +546,7 @@ export const HebrewCalendar = {
         }
       }
       const prevEventsLength = evts.length;
-      const dow = abs % 7;
+      const dow = hd.getDay();
       let candlesEv = undefined;
       const ev = holidaysYear.get(hd.toString()) || [];
       ev.forEach((e) => {
@@ -736,8 +736,8 @@ export const HebrewCalendar = {
   getHolidaysForYear: function(year) {
     if (typeof year !== 'number') {
       throw new TypeError(`bad Hebrew year: ${year}`);
-    } else if (year < 3762 || year > 32658) {
-      throw new RangeError(`Hebrew year ${year} out of range 3762-32658`);
+    } else if (year < 1 || year > 32658) {
+      throw new RangeError(`Hebrew year ${year} out of range 1-32658`);
     }
     const cached = this.yearCache[year];
     if (cached) {

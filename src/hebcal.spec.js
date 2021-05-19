@@ -466,18 +466,18 @@ test('year2', (t) => {
   t.is(events.length, 80);
 });
 
-test('year1', (t) => {
+test('year0', (t) => {
   const error = t.throws(() => {
-    HebrewCalendar.calendar({year: 1});
+    HebrewCalendar.calendar({year: 0});
   }, {instanceOf: RangeError});
-  t.is(error.message, 'Hebrew year 3761 out of range 3762-32658');
+  t.is(error.message, 'Invalid Gregorian year 0');
 });
 
 test('getHolidaysForYear-throw', (t) => {
   const error = t.throws(() => {
-    HebrewCalendar.getHolidaysForYear(3210);
+    HebrewCalendar.getHolidaysForYear(-1);
   }, {instanceOf: RangeError});
-  t.is(error.message, 'Hebrew year 3210 out of range 3762-32658');
+  t.is(error.message, 'Hebrew year -1 out of range 1-32658');
 });
 
 test('version', (t) => {
@@ -517,12 +517,60 @@ test('getStartAndEnd-throw', (t) => {
   t.is(error3.message, 'Invalid year abcd');
 
   const error4 = t.throws(() => {
-    getStartAndEnd({year: -55});
+    getStartAndEnd({year: -55, isHebrewYear: true});
   }, {instanceOf: RangeError});
-  t.is(error4.message, 'Invalid Gregorian year -55');
+  t.is(error4.message, 'Invalid Hebrew year -55');
 
   const error5 = t.throws(() => {
-    getStartAndEnd({year: 1234, isHebrewYear: true});
+    getStartAndEnd({year: 0, isHebrewYear: true});
   }, {instanceOf: RangeError});
-  t.is(error5.message, 'Invalid Hebrew year 1234');
+  t.is(error5.message, 'Invalid Hebrew year 0');
+});
+
+/**
+ * @private
+ * @param {Event} ev
+ * @return {any}
+ */
+function eventISODateDesc(ev) {
+  const isoDateString = ev.getDate().greg().toISOString();
+  const date = isoDateString.substring(0, isoDateString.indexOf('T'));
+  return {date, desc: ev.getDesc()};
+}
+
+test('bce', (t) => {
+  const options = {
+    year: 2222,
+    isHebrewYear: true,
+  };
+  const events = HebrewCalendar.calendar(options).slice(0, 25);
+  const actual = events.map(eventISODateDesc);
+  const expected = [
+    {date: '-001539-09-07', desc: 'Erev Rosh Hashana'},
+    {date: '-001539-09-08', desc: 'Rosh Hashana 2222'},
+    {date: '-001539-09-09', desc: 'Rosh Hashana II'},
+    {date: '-001539-09-11', desc: 'Tzom Gedaliah'},
+    {date: '-001539-09-16', desc: 'Erev Yom Kippur'},
+    {date: '-001539-09-17', desc: 'Shabbat Shuva'},
+    {date: '-001539-09-17', desc: 'Yom Kippur'},
+    {date: '-001539-09-21', desc: 'Erev Sukkot'},
+    {date: '-001539-09-22', desc: 'Sukkot I'},
+    {date: '-001539-09-23', desc: 'Sukkot II'},
+    {date: '-001539-09-24', desc: 'Sukkot III (CH\'\'M)'},
+    {date: '-001539-09-25', desc: 'Sukkot IV (CH\'\'M)'},
+    {date: '-001539-09-26', desc: 'Sukkot V (CH\'\'M)'},
+    {date: '-001539-09-27', desc: 'Sukkot VI (CH\'\'M)'},
+    {date: '-001539-09-28', desc: 'Sukkot VII (Hoshana Raba)'},
+    {date: '-001539-09-29', desc: 'Shmini Atzeret'},
+    {date: '-001539-09-30', desc: 'Simchat Torah'},
+    {date: '-001539-10-07', desc: 'Rosh Chodesh Cheshvan'},
+    {date: '-001539-10-08', desc: 'Rosh Chodesh Cheshvan'},
+    {date: '-001539-11-06', desc: 'Rosh Chodesh Kislev'},
+    {date: '-001539-11-07', desc: 'Rosh Chodesh Kislev'},
+    {date: '-001539-11-30', desc: 'Chanukah: 1 Candle'},
+    {date: '-001539-12-01', desc: 'Chanukah: 2 Candles'},
+    {date: '-001539-12-02', desc: 'Chanukah: 3 Candles'},
+    {date: '-001539-12-03', desc: 'Chanukah: 4 Candles'},
+  ];
+  t.deepEqual(actual, expected);
 });

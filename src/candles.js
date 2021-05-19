@@ -208,5 +208,6 @@ function makeTimedEvent(hd, time, desc, ev, location) {
 export function makeWeekdayChanukahCandleLighting(ev, hd, location) {
   const zmanim = new Zmanim(hd.greg(), location.getLatitude(), location.getLongitude());
   const candleLightingTime = zmanim.dusk();
+  // const candleLightingTime = zmanim.tzeit(4.6667);
   return makeTimedEvent(hd, candleLightingTime, ev.getDesc(), ev, location);
 }

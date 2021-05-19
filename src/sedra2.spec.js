@@ -19,8 +19,9 @@ test('diaspora-5701', (t) => {
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
   const result = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    if (abs % 7 === 6) { // Saturday
-      result[dt(new HDate(abs))] = sedra.get(abs);
+    const hd = new HDate(abs);
+    if (hd.getDay() === 6) { // Saturday
+      result[dt(hd)] = sedra.get(abs);
     }
   }
   const expected = {
@@ -86,8 +87,9 @@ test('diaspora-5779', (t) => {
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
   const result = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    if (abs % 7 === 6) { // Saturday
-      result[dt(new HDate(abs))] = sedra.get(abs);
+    const hd = new HDate(abs);
+    if (hd.getDay() === 6) { // Saturday
+      result[dt(hd)] = sedra.get(abs);
     }
   }
   const expected = {
@@ -157,8 +159,9 @@ test('israel-5745', (t) => {
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
   const result = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    if (abs % 7 === 6) { // Saturday
-      result[dt(new HDate(abs))] = sedra.get(abs);
+    const hd = new HDate(abs);
+    if (hd.getDay() === 6) { // Saturday
+      result[dt(hd)] = sedra.get(abs);
     }
   }
   const expected = {
@@ -224,8 +227,9 @@ test('israel-5779', (t) => {
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
   const result = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    if (abs % 7 === 6) { // Saturday
-      result[dt(new HDate(abs))] = sedra.get(abs);
+    const hd = new HDate(abs);
+    if (hd.getDay() === 6) { // Saturday
+      result[dt(hd)] = sedra.get(abs);
     }
   }
   const expected = {
@@ -295,66 +299,67 @@ test('diaspora-bce', (t) => {
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
   const result = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    if (Math.abs(abs % 7) === 6) { // Saturday
-      result[dt(new HDate(abs))] = sedra.get(abs);
+    const hd = new HDate(abs);
+    if (hd.getDay() === 6) { // Saturday
+      result[dt(hd)] = sedra.get(abs);
     }
   }
   const expected = {
-    '-000428-09-04': ['Vayeilech'],
-    '-000428-09-11': ['Ha\'Azinu'],
-    '-000428-09-18': ['Sukkot Shabbat Chol ha-Moed'],
-    '-000428-09-25': ['Bereshit'],
-    '-000428-10-02': ['Noach'],
-    '-000428-10-09': ['Lech-Lecha'],
-    '-000428-10-16': ['Vayera'],
-    '-000428-10-23': ['Chayei Sara'],
-    '-000428-10-30': ['Toldot'],
-    '-000428-11-06': ['Vayetzei'],
-    '-000428-11-13': ['Vayishlach'],
-    '-000428-11-20': ['Vayeshev'],
-    '-000428-11-27': ['Miketz'],
-    '-000428-12-04': ['Vayigash'],
-    '-000428-12-11': ['Vayechi'],
-    '-000428-12-18': ['Shemot'],
-    '-000428-12-25': ['Vaera'],
-    '-000427-01-01': ['Bo'],
-    '-000427-01-08': ['Beshalach'],
-    '-000427-01-15': ['Yitro'],
-    '-000427-01-22': ['Mishpatim'],
-    '-000427-01-29': ['Terumah'],
-    '-000427-02-05': ['Tetzaveh'],
-    '-000427-02-12': ['Ki Tisa'],
-    '-000427-02-19': ['Vayakhel'],
-    '-000427-02-26': ['Pekudei'],
-    '-000427-03-05': ['Vayikra'],
-    '-000427-03-12': ['Tzav'],
-    '-000427-03-19': ['Shmini'],
-    '-000427-03-26': ['Tazria'],
-    '-000427-04-02': ['Metzora'],
-    '-000427-04-09': ['Pesach I'],
-    '-000427-04-16': ['Pesach VIII'],
-    '-000427-04-23': ['Achrei Mot'],
-    '-000427-04-30': ['Kedoshim'],
-    '-000427-05-07': ['Emor'],
-    '-000427-05-14': ['Behar'],
-    '-000427-05-21': ['Bechukotai'],
-    '-000427-05-28': ['Bamidbar'],
-    '-000427-06-04': ['Nasso'],
-    '-000427-06-11': ['Beha\'alotcha'],
-    '-000427-06-18': ['Sh\'lach'],
-    '-000427-06-25': ['Korach'],
-    '-000427-07-02': ['Chukat'],
-    '-000427-07-09': ['Balak'],
-    '-000427-07-16': ['Pinchas'],
-    '-000427-07-23': ['Matot', 'Masei'],
-    '-000427-07-30': ['Devarim'],
-    '-000427-08-06': ['Vaetchanan'],
-    '-000427-08-13': ['Eikev'],
-    '-000427-08-20': ['Re\'eh'],
-    '-000427-08-27': ['Shoftim'],
-    '-000427-09-03': ['Ki Teitzei'],
-    '-000427-09-10': ['Ki Tavo'],
-    '-000427-09-17': ['Nitzavim'],
+    '-000428-09-09': ['Vayeilech'],
+    '-000428-09-16': ['Ha\'Azinu'],
+    '-000428-09-23': ['Sukkot Shabbat Chol ha-Moed'],
+    '-000428-09-30': ['Bereshit'],
+    '-000428-10-07': ['Noach'],
+    '-000428-10-14': ['Lech-Lecha'],
+    '-000428-10-21': ['Vayera'],
+    '-000428-10-28': ['Chayei Sara'],
+    '-000428-11-04': ['Toldot'],
+    '-000428-11-11': ['Vayetzei'],
+    '-000428-11-18': ['Vayishlach'],
+    '-000428-11-25': ['Vayeshev'],
+    '-000428-12-02': ['Miketz'],
+    '-000428-12-09': ['Vayigash'],
+    '-000428-12-16': ['Vayechi'],
+    '-000428-12-23': ['Shemot'],
+    '-000428-12-30': ['Vaera'],
+    '-000427-01-06': ['Bo'],
+    '-000427-01-13': ['Beshalach'],
+    '-000427-01-20': ['Yitro'],
+    '-000427-01-27': ['Mishpatim'],
+    '-000427-02-03': ['Terumah'],
+    '-000427-02-10': ['Tetzaveh'],
+    '-000427-02-17': ['Ki Tisa'],
+    '-000427-02-24': ['Vayakhel'],
+    '-000427-03-03': ['Pekudei'],
+    '-000427-03-10': ['Vayikra'],
+    '-000427-03-17': ['Tzav'],
+    '-000427-03-24': ['Shmini'],
+    '-000427-03-31': ['Tazria'],
+    '-000427-04-07': ['Metzora'],
+    '-000427-04-14': ['Pesach I'],
+    '-000427-04-21': ['Pesach VIII'],
+    '-000427-04-28': ['Achrei Mot'],
+    '-000427-05-05': ['Kedoshim'],
+    '-000427-05-12': ['Emor'],
+    '-000427-05-19': ['Behar'],
+    '-000427-05-26': ['Bechukotai'],
+    '-000427-06-02': ['Bamidbar'],
+    '-000427-06-09': ['Nasso'],
+    '-000427-06-16': ['Beha\'alotcha'],
+    '-000427-06-23': ['Sh\'lach'],
+    '-000427-06-30': ['Korach'],
+    '-000427-07-07': ['Chukat'],
+    '-000427-07-14': ['Balak'],
+    '-000427-07-21': ['Pinchas'],
+    '-000427-07-28': ['Matot', 'Masei'],
+    '-000427-08-04': ['Devarim'],
+    '-000427-08-11': ['Vaetchanan'],
+    '-000427-08-18': ['Eikev'],
+    '-000427-08-25': ['Re\'eh'],
+    '-000427-09-01': ['Shoftim'],
+    '-000427-09-08': ['Ki Teitzei'],
+    '-000427-09-15': ['Ki Tavo'],
+    '-000427-09-22': ['Nitzavim'],
   };
   t.deepEqual(result, expected);
 });
@@ -366,66 +371,67 @@ test('israel-bce', (t) => {
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
   const result = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    if (Math.abs(abs % 7) === 6) { // Saturday
-      result[dt(new HDate(abs))] = sedra.get(abs);
+    const hd = new HDate(abs);
+    if (hd.getDay() === 6) { // Saturday
+      result[dt(hd)] = sedra.get(abs);
     }
   }
   const expected = {
-    '-000428-09-04': ['Vayeilech'],
-    '-000428-09-11': ['Ha\'Azinu'],
-    '-000428-09-18': ['Sukkot Shabbat Chol ha-Moed'],
-    '-000428-09-25': ['Bereshit'],
-    '-000428-10-02': ['Noach'],
-    '-000428-10-09': ['Lech-Lecha'],
-    '-000428-10-16': ['Vayera'],
-    '-000428-10-23': ['Chayei Sara'],
-    '-000428-10-30': ['Toldot'],
-    '-000428-11-06': ['Vayetzei'],
-    '-000428-11-13': ['Vayishlach'],
-    '-000428-11-20': ['Vayeshev'],
-    '-000428-11-27': ['Miketz'],
-    '-000428-12-04': ['Vayigash'],
-    '-000428-12-11': ['Vayechi'],
-    '-000428-12-18': ['Shemot'],
-    '-000428-12-25': ['Vaera'],
-    '-000427-01-01': ['Bo'],
-    '-000427-01-08': ['Beshalach'],
-    '-000427-01-15': ['Yitro'],
-    '-000427-01-22': ['Mishpatim'],
-    '-000427-01-29': ['Terumah'],
-    '-000427-02-05': ['Tetzaveh'],
-    '-000427-02-12': ['Ki Tisa'],
-    '-000427-02-19': ['Vayakhel'],
-    '-000427-02-26': ['Pekudei'],
-    '-000427-03-05': ['Vayikra'],
-    '-000427-03-12': ['Tzav'],
-    '-000427-03-19': ['Shmini'],
-    '-000427-03-26': ['Tazria'],
-    '-000427-04-02': ['Metzora'],
-    '-000427-04-09': ['Pesach'],
-    '-000427-04-16': ['Achrei Mot'],
-    '-000427-04-23': ['Kedoshim'],
-    '-000427-04-30': ['Emor'],
-    '-000427-05-07': ['Behar'],
-    '-000427-05-14': ['Bechukotai'],
-    '-000427-05-21': ['Bamidbar'],
-    '-000427-05-28': ['Nasso'],
-    '-000427-06-04': ['Beha\'alotcha'],
-    '-000427-06-11': ['Sh\'lach'],
-    '-000427-06-18': ['Korach'],
-    '-000427-06-25': ['Chukat'],
-    '-000427-07-02': ['Balak'],
-    '-000427-07-09': ['Pinchas'],
-    '-000427-07-16': ['Matot'],
-    '-000427-07-23': ['Masei'],
-    '-000427-07-30': ['Devarim'],
-    '-000427-08-06': ['Vaetchanan'],
-    '-000427-08-13': ['Eikev'],
-    '-000427-08-20': ['Re\'eh'],
-    '-000427-08-27': ['Shoftim'],
-    '-000427-09-03': ['Ki Teitzei'],
-    '-000427-09-10': ['Ki Tavo'],
-    '-000427-09-17': ['Nitzavim'],
+    '-000428-09-09': ['Vayeilech'],
+    '-000428-09-16': ['Ha\'Azinu'],
+    '-000428-09-23': ['Sukkot Shabbat Chol ha-Moed'],
+    '-000428-09-30': ['Bereshit'],
+    '-000428-10-07': ['Noach'],
+    '-000428-10-14': ['Lech-Lecha'],
+    '-000428-10-21': ['Vayera'],
+    '-000428-10-28': ['Chayei Sara'],
+    '-000428-11-04': ['Toldot'],
+    '-000428-11-11': ['Vayetzei'],
+    '-000428-11-18': ['Vayishlach'],
+    '-000428-11-25': ['Vayeshev'],
+    '-000428-12-02': ['Miketz'],
+    '-000428-12-09': ['Vayigash'],
+    '-000428-12-16': ['Vayechi'],
+    '-000428-12-23': ['Shemot'],
+    '-000428-12-30': ['Vaera'],
+    '-000427-01-06': ['Bo'],
+    '-000427-01-13': ['Beshalach'],
+    '-000427-01-20': ['Yitro'],
+    '-000427-01-27': ['Mishpatim'],
+    '-000427-02-03': ['Terumah'],
+    '-000427-02-10': ['Tetzaveh'],
+    '-000427-02-17': ['Ki Tisa'],
+    '-000427-02-24': ['Vayakhel'],
+    '-000427-03-03': ['Pekudei'],
+    '-000427-03-10': ['Vayikra'],
+    '-000427-03-17': ['Tzav'],
+    '-000427-03-24': ['Shmini'],
+    '-000427-03-31': ['Tazria'],
+    '-000427-04-07': ['Metzora'],
+    '-000427-04-14': ['Pesach'],
+    '-000427-04-21': ['Achrei Mot'],
+    '-000427-04-28': ['Kedoshim'],
+    '-000427-05-05': ['Emor'],
+    '-000427-05-12': ['Behar'],
+    '-000427-05-19': ['Bechukotai'],
+    '-000427-05-26': ['Bamidbar'],
+    '-000427-06-02': ['Nasso'],
+    '-000427-06-09': ['Beha\'alotcha'],
+    '-000427-06-16': ['Sh\'lach'],
+    '-000427-06-23': ['Korach'],
+    '-000427-06-30': ['Chukat'],
+    '-000427-07-07': ['Balak'],
+    '-000427-07-14': ['Pinchas'],
+    '-000427-07-21': ['Matot'],
+    '-000427-07-28': ['Masei'],
+    '-000427-08-04': ['Devarim'],
+    '-000427-08-11': ['Vaetchanan'],
+    '-000427-08-18': ['Eikev'],
+    '-000427-08-25': ['Re\'eh'],
+    '-000427-09-01': ['Shoftim'],
+    '-000427-09-08': ['Ki Teitzei'],
+    '-000427-09-15': ['Ki Tavo'],
+    '-000427-09-22': ['Nitzavim'],
   };
   t.deepEqual(result, expected);
 });

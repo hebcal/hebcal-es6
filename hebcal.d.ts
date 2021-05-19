@@ -88,7 +88,7 @@ declare module '@hebcal/core' {
          */
         getDate(): number;
         /**
-         * Gets the day of the week, using local time.
+         * Gets the day of the week. 0=Sunday, 6=Saturday
          */
         getDay(): number;
         /**
