@@ -45,6 +45,16 @@ function throwError(errorMessage) {
 }
 
 /**
+ * @private
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+function mod(x, y) {
+  return x - y * Math.floor(x / y);
+}
+
+/**
  * Represents Parashah HaShavua for an entire Hebrew year
  */
 export class Sedra {
@@ -62,7 +72,7 @@ export class Sedra {
     this.year = hebYr;
 
     const rh = HDate.hebrew2abs(hebYr, months.TISHREI, 1);
-    const rhDay = this.roshHashanaDay = Math.abs(rh % 7) + 1;
+    const rhDay = this.roshHashanaDay = mod(rh, 7) + 1;
 
     // find the first Saturday on or after Rosh Hashana
     this.firstSaturday = HDate.dayOnOrBefore(6, rh + 6);
