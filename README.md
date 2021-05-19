@@ -813,8 +813,8 @@ Class representing halachic times
         * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
         * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
         * [.sunsetOffset(offset)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
-        * [.sunsetOffsetTime(offset, timeFormat)](#Zmanim+sunsetOffsetTime) ⇒ <code>Array.&lt;Object&gt;</code>
-        * [.tzeitTime(angle, timeFormat)](#Zmanim+tzeitTime) ⇒ <code>Array.&lt;Object&gt;</code>
+        * ~~[.sunsetOffsetTime(offset, timeFormat)](#Zmanim+sunsetOffsetTime) ⇒ <code>Array.&lt;Object&gt;</code>~~
+        * ~~[.tzeitTime(angle, timeFormat)](#Zmanim+tzeitTime) ⇒ <code>Array.&lt;Object&gt;</code>~~
     * _static_
         * [.formatTime(dt, timeFormat)](#Zmanim.formatTime) ⇒ <code>string</code>
         * [.roundTime(dt)](#Zmanim.roundTime) ⇒ <code>Date</code>
@@ -954,7 +954,9 @@ Returns sunset + offset (either positive or negative).
 
 <a name="Zmanim+sunsetOffsetTime"></a>
 
-### zmanim.sunsetOffsetTime(offset, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>
+### ~~zmanim.sunsetOffsetTime(offset, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>~~
+***Deprecated***
+
 Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -966,7 +968,9 @@ Returns an array with sunset + offset Date object, and a 24-hour string formatte
 
 <a name="Zmanim+tzeitTime"></a>
 
-### zmanim.tzeitTime(angle, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>
+### ~~zmanim.tzeitTime(angle, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>~~
+***Deprecated***
+
 Returns an array with tzeit Date object and a 24-hour string formatted time.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -1561,11 +1565,12 @@ Represents Parashah HaShavua for an entire Hebrew year
     * [new Sedra(hebYr, il)](#new_Sedra_new)
     * [.get(hDate)](#Sedra+get) ⇒ <code>Array.&lt;string&gt;</code>
     * [.getString(hDate, [locale])](#Sedra+getString) ⇒ <code>string</code>
-    * [.lookup(hDate)](#Sedra+lookup) ⇒ <code>Object</code>
     * [.isParsha(hDate)](#Sedra+isParsha) ⇒ <code>boolean</code>
+    * [.find(parsha)](#Sedra+find) ⇒ [<code>HDate</code>](#HDate)
     * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;Object&gt;</code>
     * [.getFirstSaturday()](#Sedra+getFirstSaturday) ⇒ <code>number</code>
     * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
+    * [.lookup(hDate)](#Sedra+lookup) ⇒ <code>Object</code>
 
 <a name="new_Sedra_new"></a>
 
@@ -1601,17 +1606,6 @@ Looks up parsha for the date, then returns a translated or transliterated string
 | hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
 | [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale |
 
-<a name="Sedra+lookup"></a>
-
-### sedra.lookup(hDate) ⇒ <code>Object</code>
-Returns an object describing the parsha on the first Saturday on or after absdate
-
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
-
 <a name="Sedra+isParsha"></a>
 
 ### sedra.isParsha(hDate) ⇒ <code>boolean</code>
@@ -1623,6 +1617,17 @@ Torah reading or special holiday reading
 | Param | Type | Description |
 | --- | --- | --- |
 | hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+
+<a name="Sedra+find"></a>
+
+### sedra.find(parsha) ⇒ [<code>HDate</code>](#HDate)
+Returns the date that a parsha occurs
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+
+| Param | Type |
+| --- | --- |
+| parsha | <code>number</code> \| <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 
 <a name="Sedra+getSedraArray"></a>
 
@@ -1638,6 +1643,17 @@ the first Saturday on or after Rosh Hashana
 
 ### sedra.getYear() ⇒ <code>number</code>
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+<a name="Sedra+lookup"></a>
+
+### sedra.lookup(hDate) ⇒ <code>Object</code>
+Returns an object describing the parsha on the first Saturday on or after absdate
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+
 <a name="ParshaEvent"></a>
 
 ## ParshaEvent
