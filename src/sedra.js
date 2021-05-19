@@ -62,7 +62,7 @@ export class Sedra {
     this.year = hebYr;
 
     const rh = HDate.hebrew2abs(hebYr, months.TISHREI, 1);
-    const rhDay = this.roshHashanaDay = (rh % 7) + 1;
+    const rhDay = this.roshHashanaDay = Math.abs(rh % 7) + 1;
 
     // find the first Saturday on or after Rosh Hashana
     this.firstSaturday = HDate.dayOnOrBefore(6, rh + 6);

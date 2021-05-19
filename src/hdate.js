@@ -173,17 +173,16 @@ export class HDate {
         day = new Date();
       }
       // 1 argument
-      if (typeof day === 'number' && day < 1) {
-        throw new RangeError(`HDate(absoluteDays) requires positive integer: ${day}`);
-      }
-      const abs0 = (typeof day === 'number') ? day : (day instanceof Date) ? g.greg2abs(day) : 0;
-      const d = (abs0 > 0) ? HDate.abs2hebrew(abs0) :
+      const abs0 = (typeof day === 'number') ? day :
+        (day instanceof Date) ? g.greg2abs(day) :
         HDate.isHDate(day) ? {dd: day.day, mm: day.month, yy: day.year} :
         throwTypeError(`HDate called with bad argument: ${day}`);
+      const isNumber = typeof abs0 === 'number';
+      const d = isNumber ? HDate.abs2hebrew(abs0) : abs0;
       this.day = d.dd;
       this.month = d.mm;
       this.year = d.yy;
-      if (abs0 > 0) {
+      if (isNumber) {
         this.abs0 = abs0;
       }
     }
@@ -350,7 +349,6 @@ export class HDate {
     const hebdate = {
       dd: 1,
       mm: TISHREI,
-      yy: -1,
     };
 
     while (hebdate.yy = year + 1, d >= HDate.hebrew2abs(hebdate.yy, hebdate.mm, hebdate.dd)) {

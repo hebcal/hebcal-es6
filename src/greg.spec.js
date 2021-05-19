@@ -4,6 +4,23 @@ import {greg} from './greg';
 test('greg2abs', (t) => {
   const dt = new Date(1995, 11, 17);
   t.is(greg.greg2abs(dt), 728644);
+  t.is(greg.greg2abs(new Date(1888, 11, 31)), 689578);
+});
+
+test('greg2abs-early-ce', (t) => {
+  const dt = new Date(88, 11, 30);
+  dt.setFullYear(88);
+  t.is(greg.greg2abs(dt), 32141);
+
+  const dt2 = new Date(1, 0, 1);
+  dt2.setFullYear(1);
+  t.is(greg.greg2abs(dt2), 1);
+});
+
+test('greg2abs-negative', (t) => {
+  t.is(greg.greg2abs(new Date(-1, 0, 1)), -730);
+  t.is(greg.greg2abs(new Date(-100, 11, 20)), -36536);
+  t.is(greg.greg2abs(new Date(-1000, 5, 15)), -365442);
 });
 
 test('dayOfYear', (t) => {
@@ -16,6 +33,11 @@ test('abs2greg', (t) => {
   t.is(dt.getFullYear(), 2020);
   t.is(dt.getMonth(), 4); // 4=May (January=0)
   t.is(dt.getDate(), 8);
+
+  const dt2 = greg.abs2greg(689578);
+  t.is(dt2.getFullYear(), 1888);
+  t.is(dt2.getMonth(), 11);
+  t.is(dt2.getDate(), 31);
 });
 
 test('abs2greg-88ce', (t) => {
@@ -33,6 +55,25 @@ test('abs2greg-88ce', (t) => {
   t.is(dt3.getFullYear(), 89);
   t.is(dt3.getMonth(), 0);
   t.is(dt3.getDate(), 1);
+});
+
+test('abs2greg-1ce', (t) => {
+  const dt = greg.abs2greg(1);
+  t.is(dt.getFullYear(), 1);
+  t.is(dt.getMonth(), 0);
+  t.is(dt.getDate(), 1);
+});
+
+test('abs2greg-negative', (t) => {
+  const dt = greg.abs2greg(-730);
+  t.is(dt.getFullYear(), -1);
+  t.is(dt.getMonth(), 0);
+  t.is(dt.getDate(), 1);
+
+  const dt2 = greg.abs2greg(-36536);
+  t.is(dt2.getFullYear(), -100);
+  t.is(dt2.getMonth(), 11);
+  t.is(dt2.getDate(), 20);
 });
 
 test('daysInMonth', (t) => {

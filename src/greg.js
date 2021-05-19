@@ -24,6 +24,26 @@ const monthLengths = [
 ];
 
 /**
+ * @private
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+function mod(x, y) {
+  return x - y * Math.floor(x / y);
+}
+
+/**
+ * @private
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+function quotient(x, y) {
+  return Math.floor(x / y);
+}
+
+/**
  * Gregorian date helper functions.
  * @namespace
  */
@@ -109,6 +129,43 @@ export const greg = {
   },
 
   /**
+   * @private
+   * @param {number} theDate - R.D. number of days
+   * @return {number}
+   */
+  yearFromFixed: function(theDate) {
+    const l0 = theDate - 1;
+    const n400 = quotient(l0, 146097);
+    const d1 = mod(l0, 146097);
+    const n100 = quotient(d1, 36524);
+    const d2 = mod(d1, 36524);
+    const n4 = quotient(d2, 1461);
+    const d3 = mod(d2, 1461);
+    const n1 = quotient(d3, 365);
+    const year = 400 * n400 + 100 * n100 + 4 * n4 + n1;
+    return n100 != 4 && n1 != 4 ? year + 1 : year;
+  },
+
+  /**
+   * @private
+   * @param {number} year
+   * @param {number} month
+   * @param {number} day
+   * @return {number}
+   */
+  toFixed: function(year, month, day) {
+    const py = year - 1;
+    return 0 +
+      365 * py +
+      quotient(py, 4) -
+      quotient(py, 100) +
+      quotient(py, 400) +
+      quotient((367 * month - 362), 12) +
+      Math.floor(month <= 2 ? 0 : (this.isLeapYear(year) ? -1 : -2)) +
+      day;
+  },
+
+  /**
    * Converts from Rata Die (R.D. number) to Gregorian date.
    * See the footnote on page 384 of ``Calendrical Calculations, Part II:
    * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
@@ -121,29 +178,13 @@ export const greg = {
     if (typeof theDate !== 'number') {
       throw new TypeError('Argument to greg.abs2greg not a Number');
     }
-    // calculations copied from original JS code
-    const d0 = theDate - 1;
-    const n400 = Math.floor(d0 / 146097);
-    const d1 = Math.floor(d0 % 146097);
-    const n100 = Math.floor(d1 / 36524);
-    const d2 = d1 % 36524;
-    const n4 = Math.floor(d2 / 1461);
-    const d3 = d2 % 1461;
-    const n1 = Math.floor(d3 / 365);
-
-    const day = (d3 % 365) + 1;
-    let year = 400 * n400 + 100 * n100 + 4 * n4 + n1;
-
-    if (4 == n100 || 4 == n1) {
-      const dt = new Date(year, 11, 31);
-      if (year < 100) {
-        dt.setFullYear(year);
-      }
-      return dt;
-    }
-
-    const dt = new Date(++year, 0, day);
-    if (year < 100) {
+    const year = this.yearFromFixed(theDate);
+    const priorDays = theDate - this.toFixed(year, 1, 1);
+    const correction = theDate < this.toFixed(year, 3, 1) ? 0 : (this.isLeapYear(year) ? 1 : 2);
+    const month = quotient((12 * (priorDays + correction) + 373), 367);
+    const day = theDate - this.toFixed(year, month, 1) + 1;
+    const dt = new Date(year, month - 1, day);
+    if (year < 100 && year > 0) {
       dt.setFullYear(year);
     }
     return dt;

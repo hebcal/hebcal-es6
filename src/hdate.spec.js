@@ -96,14 +96,10 @@ test('ctor-mdy', (t) => {
   t.is(dt.getFullYear(), 1776);
 
   d = new HDate(3, months.TISHREI, 1003);
-  dt = d.greg(); // -003262-09-09
   t.is(d.getMonth(), months.TISHREI);
   t.is(d.getDate(), 3);
   t.is(d.getFullYear(), 1003);
   t.is(d.abs(), -1007451);
-  t.is(dt.getMonth(), 8);
-  t.is(dt.getDate(), 9);
-  t.is(dt.getFullYear(), -3262);
 });
 
 test('ctor-abs', (t) => {
@@ -188,13 +184,18 @@ test('hebrew2abs', (t) => {
   t.is(HDate.hebrew2abs(5769, months.CHESHVAN, 15), 733359);
   t.is(HDate.hebrew2abs(5708, months.IYYAR, 6), 711262);
   t.is(HDate.hebrew2abs(3762, months.TISHREI, 1), 249);
+  t.is(HDate.hebrew2abs(3761, months.NISAN, 1), 72);
+  t.is(HDate.hebrew2abs(3761, months.TEVET, 18), 1);
+  t.is(HDate.hebrew2abs(3761, months.TEVET, 17), 0);
+  t.is(HDate.hebrew2abs(3761, months.TEVET, 16), -1);
+  t.is(HDate.hebrew2abs(3761, months.TEVET, 1), -16);
 });
 
 test('abs2hebrew', (t) => {
-  const h = HDate.abs2hebrew(733359);
-  t.is(h.yy, 5769);
-  t.is(h.mm, months.CHESHVAN);
-  t.is(h.dd, 15);
+  t.deepEqual(HDate.abs2hebrew(733359), {yy: 5769, mm: months.CHESHVAN, dd: 15});
+  t.deepEqual(HDate.abs2hebrew(711262), {yy: 5708, mm: months.IYYAR, dd: 6});
+  t.deepEqual(HDate.abs2hebrew(249), {yy: 3762, mm: months.TISHREI, dd: 1});
+  t.deepEqual(HDate.abs2hebrew(1), {yy: 3761, mm: months.TEVET, dd: 18});
 });
 
 test('abs2hebrew-88ce', (t) => {
