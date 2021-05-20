@@ -515,9 +515,17 @@ export class ParshaEvent extends Event {
   }
   /** @return {string} */
   url() {
-    const dt = this.getDate().greg().toISOString().substring(0, 10).replace(/-/g, '');
+    const dt = this.urlDateSuffix();
     const url = 'https://www.hebcal.com/sedrot/' +
       this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' + dt;
     return this.il ? url + '?i=on' : url;
+  }
+
+  /** @return {string} */
+  urlDateSuffix() {
+    const isoDateTime = this.getDate().greg().toISOString();
+    const isoDate = isoDateTime.substring(0, isoDateTime.indexOf('T'));
+    const suffix = isoDate[0] === '-' ? 'bce' : '';
+    return isoDate.replace(/-/g, '') + suffix;
   }
 }

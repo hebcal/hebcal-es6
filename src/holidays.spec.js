@@ -395,6 +395,17 @@ test('asara-btevet-url', (t) => {
   t.deepEqual(urls, expected);
 });
 
+test('bce-url', (t) => {
+  const urls = HebrewCalendar.calendar({year: -776})
+      .filter((ev) => ev.getDesc() === 'Asara B\'Tevet' || ev.getDesc() === 'Yom Kippur')
+      .map((ev) => ev.url());
+  const expected = [
+    'https://www.hebcal.com/holidays/yom-kippur-776bce',
+    'https://www.hebcal.com/holidays/asara-btevet-0007761217bce',
+  ];
+  t.deepEqual(urls, expected);
+});
+
 test('getHolidaysForYear-ce', (t) => {
   const map = HebrewCalendar.getHolidaysForYear(5888);
   const rh = map.get('1 Tishrei 5888').map(eventDateDesc)[0];

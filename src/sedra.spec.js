@@ -132,3 +132,8 @@ test('complete-incomplete-types', (t) => {
     t.not(sedraIL.find(0), null);
   }
 });
+
+test('bce-url', (t) => {
+  const ev = new ParshaEvent(new HDate(new Date(-428, 8, 30)), ['Bereshit']);
+  t.is(ev.url(), 'https://www.hebcal.com/sedrot/bereshit-0004280930bce');
+});

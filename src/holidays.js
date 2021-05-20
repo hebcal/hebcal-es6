@@ -55,7 +55,8 @@ export class HolidayEvent extends Event {
   }
   /** @return {string} */
   urlDateSuffix() {
-    return this.getDate().greg().getFullYear();
+    const year = this.getDate().greg().getFullYear();
+    return year < 0 ? -year + 'bce' : year;
   }
 }
 
@@ -103,7 +104,10 @@ export class AsaraBTevetEvent extends HolidayEvent {
   }
   /** @return {string} */
   urlDateSuffix() {
-    return this.getDate().greg().toISOString().substring(0, 10).replace(/-/g, '');
+    const isoDateTime = this.getDate().greg().toISOString();
+    const isoDate = isoDateTime.substring(0, isoDateTime.indexOf('T'));
+    const suffix = isoDate[0] === '-' ? 'bce' : '';
+    return isoDate.replace(/-/g, '') + suffix;
   }
 }
 
