@@ -311,3 +311,12 @@ test('nightHourMins-dst', (t) => {
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.sunset()), '2022-03-14T18:49:35-04:00');
   t.is(Math.round(zman2.nightHourMins()), 61);
 });
+
+test('bce', (t) => {
+  const latitude = 41.85003;
+  const longitude = -87.65005;
+  const dt = new Date(-1234, 5, 5, 12, 0, 0);
+  const zman = new Zmanim(dt, latitude, longitude);
+  t.deepEqual(zman.sunrise(), new Date('-001234-06-05 10:08:09 UTC'));
+  t.deepEqual(zman.sunset(), new Date('-001234-06-06 01:14:12 UTC'));
+});

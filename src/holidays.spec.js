@@ -395,13 +395,22 @@ test('asara-btevet-url', (t) => {
   t.deepEqual(urls, expected);
 });
 
+test('early-ce-url', (t) => {
+  const ev = new HolidayEvent(new HDate(new Date(100, 8, 30)), 'Yom Kippur');
+  t.is(ev.url(), 'https://www.hebcal.com/holidays/yom-kippur-100');
+  const dt = new Date(99, 8, 12);
+  dt.setFullYear(99);
+  const ev2 = new HolidayEvent(new HDate(dt), 'Yom Kippur');
+  t.is(ev2.url(), undefined);
+});
+
 test('bce-url', (t) => {
   const urls = HebrewCalendar.calendar({year: -776})
       .filter((ev) => ev.getDesc() === 'Asara B\'Tevet' || ev.getDesc() === 'Yom Kippur')
       .map((ev) => ev.url());
   const expected = [
-    'https://www.hebcal.com/holidays/yom-kippur-776bce',
-    'https://www.hebcal.com/holidays/asara-btevet-0007761217bce',
+    undefined,
+    undefined,
   ];
   t.deepEqual(urls, expected);
 });

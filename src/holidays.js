@@ -48,6 +48,10 @@ export class HolidayEvent extends Event {
   }
   /** @return {string} */
   url() {
+    const year = this.getDate().greg().getFullYear();
+    if (year < 100) {
+      return undefined;
+    }
     const url = 'https://www.hebcal.com/holidays/' +
       this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' +
       this.urlDateSuffix();
@@ -56,7 +60,7 @@ export class HolidayEvent extends Event {
   /** @return {string} */
   urlDateSuffix() {
     const year = this.getDate().greg().getFullYear();
-    return year < 0 ? -year + 'bce' : year;
+    return year;
   }
 }
 
@@ -106,8 +110,7 @@ export class AsaraBTevetEvent extends HolidayEvent {
   urlDateSuffix() {
     const isoDateTime = this.getDate().greg().toISOString();
     const isoDate = isoDateTime.substring(0, isoDateTime.indexOf('T'));
-    const suffix = isoDate[0] === '-' ? 'bce' : '';
-    return isoDate.replace(/-/g, '') + suffix;
+    return isoDate.replace(/-/g, '');
   }
 }
 

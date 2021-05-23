@@ -515,6 +515,10 @@ export class ParshaEvent extends Event {
   }
   /** @return {string} */
   url() {
+    const year = this.getDate().greg().getFullYear();
+    if (year < 100) {
+      return undefined;
+    }
     const dt = this.urlDateSuffix();
     const url = 'https://www.hebcal.com/sedrot/' +
       this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' + dt;
@@ -525,7 +529,6 @@ export class ParshaEvent extends Event {
   urlDateSuffix() {
     const isoDateTime = this.getDate().greg().toISOString();
     const isoDate = isoDateTime.substring(0, isoDateTime.indexOf('T'));
-    const suffix = isoDate[0] === '-' ? 'bce' : '';
-    return isoDate.replace(/-/g, '') + suffix;
+    return isoDate.replace(/-/g, '');
   }
 }

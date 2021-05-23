@@ -133,7 +133,16 @@ test('complete-incomplete-types', (t) => {
   }
 });
 
+test('early-ce-url', (t) => {
+  const ev = new ParshaEvent(new HDate(new Date(100, 9, 16)), ['Bereshit']);
+  t.is(ev.url(), 'https://www.hebcal.com/sedrot/bereshit-01001016');
+  const dt = new Date(99, 11, 12);
+  dt.setFullYear(99);
+  const ev2 = new ParshaEvent(new HDate(dt), ['Vayechi']);
+  t.is(ev2.url(), undefined);
+});
+
 test('bce-url', (t) => {
   const ev = new ParshaEvent(new HDate(new Date(-428, 8, 30)), ['Bereshit']);
-  t.is(ev.url(), 'https://www.hebcal.com/sedrot/bereshit-0004280930bce');
+  t.is(ev.url(), undefined);
 });
