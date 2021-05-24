@@ -464,6 +464,14 @@ test('molad', (t) => {
 test('year2', (t) => {
   const events = HebrewCalendar.calendar({year: 2});
   t.is(events.length, 80);
+  const events2 = events.slice(0, 3);
+  const actual = events2.map(eventISODateDesc);
+  const expected = [
+    {date: '0002-01-01', desc: 'Rosh Chodesh Sh\'vat'},
+    {date: '0002-01-12', desc: 'Shabbat Shirah'},
+    {date: '0002-01-15', desc: 'Tu BiShvat'},
+  ];
+  t.deepEqual(actual, expected);
 });
 
 test('year0', (t) => {

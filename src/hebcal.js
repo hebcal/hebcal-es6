@@ -531,6 +531,10 @@ export const HebrewCalendar = {
     warnUnrecognizedOptions(options);
     const startAbs = startAndEnd[0];
     const endAbs = startAndEnd[1];
+    const startGreg = g.abs2greg(startAbs);
+    if (startGreg.getFullYear() < 100) {
+      options.candlelighting = false;
+    }
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);
       const hyear = hd.getFullYear();

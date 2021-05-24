@@ -440,3 +440,33 @@ test('havdalahDeg', (t) => {
   ];
   t.deepEqual(results, expected);
 });
+
+test('candles-year101', (t) => {
+  const options = {
+    year: 101,
+    noHolidays: true,
+    location: Location.lookup('Boston'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options);
+  const actual = events.slice(0, 4).map(eventTitleDateTime);
+  const expected = [
+    {date: '0101-01-01', time: '17:16', desc: 'Havdalah'},
+    {date: '0101-01-07', time: '16:16', desc: 'Candle lighting'},
+    {date: '0101-01-08', time: '17:22', desc: 'Havdalah'},
+    {date: '0101-01-14', time: '16:24', desc: 'Candle lighting'},
+  ];
+  t.deepEqual(actual, expected);
+});
+
+test('candles-year99-empty', (t) => {
+  const options = {
+    year: 99,
+    noHolidays: true,
+    location: Location.lookup('Boston'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options);
+  const expected = [];
+  t.deepEqual(events, expected);
+});
