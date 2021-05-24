@@ -320,3 +320,17 @@ test('bce', (t) => {
   t.deepEqual(zman.sunrise(), new Date('-001234-06-05 10:08:09 UTC'));
   t.deepEqual(zman.sunset(), new Date('-001234-06-06 01:14:12 UTC'));
 });
+
+test('Zmanim.formatISOWithTimeZone-2021', (t) => {
+  const dt = new Date(Date.UTC(2021, 0, 31, 7, 30, 50, 551));
+  t.is(Zmanim.formatISOWithTimeZone('UTC', dt), '2021-01-31T07:30:50-00:00');
+  t.is(Zmanim.formatISOWithTimeZone('America/New_York', dt), '2021-01-31T02:30:50-05:00');
+  t.is(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt), '2021-01-30T23:30:50-08:00');
+});
+
+test('Zmanim.formatISOWithTimeZone-1948', (t) => {
+  const dt = new Date(Date.UTC(1948, 0, 31, 7, 30, 50, 551));
+  t.is(Zmanim.formatISOWithTimeZone('UTC', dt), '1948-01-31T07:30:50-00:00');
+  t.is(Zmanim.formatISOWithTimeZone('America/New_York', dt), '1948-01-31T02:30:50-05:00');
+  t.is(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt), '1948-01-30T23:30:50-08:00');
+});

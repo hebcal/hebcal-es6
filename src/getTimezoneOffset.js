@@ -35,6 +35,7 @@ export function getPseudoISO(tzid, date) {
   const m = dateFormatRegex.exec(str);
   let hour = m[4];
   if (hour == '24') hour = '00';
+  m[3] = pad4(m[3]);
   return `${m[3]}-${m[1]}-${m[2]}T${hour}:${m[5]}:${m[6]}Z`;
 }
 
@@ -49,4 +50,22 @@ export function getTimezoneOffset(tzid, date) {
   const localStr = getPseudoISO(tzid, date);
   const diffMs = new Date(utcStr).getTime() - new Date(localStr).getTime();
   return Math.ceil(diffMs / 1000 / 60);
+}
+
+/**
+ * @private
+ * @param {number} number
+ * @return {string}
+ */
+function pad4(number) {
+  if (number < 0) {
+    return '-00' + pad4(-number);
+  } else if (number < 10) {
+    return '000' + number;
+  } else if (number < 100) {
+    return '00' + number;
+  } else if (number < 1000) {
+    return '0' + number;
+  }
+  return String(number);
 }
