@@ -1,4 +1,5 @@
-export {HDate, months, HebrewDateEvent} from './hdate';
+export {HDate, months} from './hdate';
+export {HebrewDateEvent} from './HebrewDateEvent';
 export {Event, flags} from './event';
 export {Location} from './location';
 export {Zmanim} from './zmanim';

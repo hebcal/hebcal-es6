@@ -19,7 +19,8 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {Locale} from './locale';
-import {HDate, months, HebrewDateEvent} from './hdate';
+import {HDate, months} from './hdate';
+import {HebrewDateEvent} from './HebrewDateEvent';
 import {MoladEvent} from './molad';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent,
   AsaraBTevetEvent} from './holidays';
