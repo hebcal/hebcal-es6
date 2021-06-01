@@ -330,7 +330,7 @@ export class HDate {
       }
     }
 
-    return HDate.elapsedDays(year) - 1373429 + tempabs;
+    return EPOCH + HDate.elapsedDays(year) + tempabs - 1;
   }
 
   /**
