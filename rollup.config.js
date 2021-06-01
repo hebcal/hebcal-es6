@@ -74,4 +74,28 @@ export default [
       commonjs(),
     ],
   },
+  {
+    input: 'src/hdate-index.js',
+    output: [
+      {file: 'dist/hdate.js', format: 'cjs', banner},
+      {file: 'dist/hdate.mjs', format: 'es', banner},
+    ],
+    plugins: [
+      json({compact: true}),
+      babel({
+        babelHelpers: 'bundled',
+        presets: [
+          ['@babel/preset-env', {
+            modules: false,
+            targets: {
+              node: '10.21.0',
+            },
+          }],
+        ],
+        exclude: ['node_modules/**'],
+      }),
+      nodeResolve(),
+      commonjs(),
+    ],
+  },
 ];
