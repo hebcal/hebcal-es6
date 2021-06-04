@@ -158,7 +158,9 @@ export class HDate {
     }
     if (arguments.length == 3) {
       // Hebrew day, Hebrew month, Hebrew year
+      /** @type {number} */
       this.day = this.month = 1;
+      /** @type {number} */
       this.year = +year;
       if (isNaN(this.year)) {
         throw new TypeError(`HDate called with bad year argument: ${year}`);
@@ -174,16 +176,20 @@ export class HDate {
         day = new Date();
       }
       // 1 argument
-      const abs0 = (typeof day === 'number') ? day :
+      const abs0 = (typeof day === 'number' && !isNaN(day)) ? day :
         (day instanceof Date) ? g.greg2abs(day) :
         HDate.isHDate(day) ? {dd: day.day, mm: day.month, yy: day.year} :
         throwTypeError(`HDate called with bad argument: ${day}`);
       const isNumber = typeof abs0 === 'number';
       const d = isNumber ? HDate.abs2hebrew(abs0) : abs0;
+      /** @type {number} */
       this.day = d.dd;
+      /** @type {number} */
       this.month = d.mm;
+      /** @type {number} */
       this.year = d.yy;
       if (isNumber) {
+        /** @type {number} */
         this.abs0 = abs0;
       }
     }
@@ -826,14 +832,20 @@ function mod(x, y) {
   return x - y * Math.floor(x / y);
 }
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * @private
+ * @param {HDate} date
+ */
 function fix(date) {
   fixMonth(date);
   fixDate(date);
   delete date.abs0;
 }
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * @private
+ * @param {HDate} date
+ */
 function fixDate(date) {
   if (date.day < 1) {
     if (date.month == TISHREI) {
@@ -854,7 +866,10 @@ function fixDate(date) {
   fixMonth(date);
 }
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * @private
+ * @param {HDate} date
+ */
 function fixMonth(date) {
   if (date.month == ADAR_II && !date.isLeapYear()) {
     date.month -= 1; // to Adar I
@@ -870,8 +885,13 @@ function fixMonth(date) {
   }
 }
 
-// eslint-disable-next-line require-jsdoc
+/**
+ * @private
+ * @param {number} day
+ * @param {HDate} t
+ * @param {number} offset
+ * @return {HDate}
+ */
 function onOrBefore(day, t, offset) {
   return new HDate(HDate.dayOnOrBefore(day, t.abs() + offset));
 }
-
