@@ -470,3 +470,16 @@ test('candles-year99-empty', (t) => {
   const expected = [];
   t.deepEqual(events, expected);
 });
+
+test('sedra-memo', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2022, 4, 27),
+    end: new Date(2022, 4, 27),
+    noHolidays: true,
+    location: Location.lookup('Miami'),
+    candlelighting: true,
+    sedrot: true,
+    ashkenazi: true,
+  });
+  t.is(events[0].memo, 'Parshas Bechukosai');
+});

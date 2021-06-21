@@ -577,6 +577,9 @@ export const HebrewCalendar = {
       }
       if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
         candlesEv = makeCandleEvent(undefined, hd, dow, location, options);
+        if (dow == FRI && sedra) {
+          candlesEv.memo = sedra.getString(abs);
+        }
       }
       // suppress Havdalah when options.havdalahMins=0 or options.havdalahDeg=0
       if (candlesEv instanceof HavdalahEvent && (options.havdalahMins === 0 || options.havdalahDeg === 0)) {
