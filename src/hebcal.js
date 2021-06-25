@@ -22,8 +22,7 @@ import {Locale} from './locale';
 import {HDate, months} from './hdate';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {MoladEvent} from './molad';
-import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent,
-  AsaraBTevetEvent} from './holidays';
+import {HolidayEvent, getHolidaysForYear} from './holidays';
 import {flags} from './event';
 import {OmerEvent} from './omer';
 import {Sedra, ParshaEvent} from './sedra';
@@ -34,19 +33,14 @@ import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
   makeWeekdayChanukahCandleLighting} from './candles';
 import {version as pkgVersion} from '../package.json';
 
-const SUN = 0;
-// const MON = 1;
-const TUE = 2;
-// const WED = 3;
-const THU = 4;
 const FRI = 5;
 const SAT = 6;
 
 const NISAN = months.NISAN;
-const IYYAR = months.IYYAR;
+// const IYYAR = months.IYYAR;
 const SIVAN = months.SIVAN;
-const TAMUZ = months.TAMUZ;
-const AV = months.AV;
+// const TAMUZ = months.TAMUZ;
+// const AV = months.AV;
 const ELUL = months.ELUL;
 const TISHREI = months.TISHREI;
 const CHESHVAN = months.CHESHVAN;
@@ -56,12 +50,6 @@ const SHVAT = months.SHVAT;
 const ADAR_I = months.ADAR_I;
 const ADAR_II = months.ADAR_II;
 
-// eslint-disable-next-line require-jsdoc
-function chanukah(day) {
-  return `Chanukah: ${day} Candles`;
-}
-
-const CHAG = flags.CHAG;
 const LIGHT_CANDLES = flags.LIGHT_CANDLES;
 const YOM_TOV_ENDS = flags.YOM_TOV_ENDS;
 const CHUL_ONLY = flags.CHUL_ONLY;
@@ -80,37 +68,6 @@ const SHABBAT_MEVARCHIM = flags.SHABBAT_MEVARCHIM;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
 const CHOL_HAMOED = flags.CHOL_HAMOED;
-
-/** @private */
-class SimpleMap {
-  /**
-   * @param {string} key
-   * @return {boolean}
-   */
-  has(key) {
-    return typeof this[key] !== 'undefined';
-  }
-  /**
-   * @param {string} key
-   * @return {any}
-   */
-  get(key) {
-    return this[key];
-  }
-  /**
-   * @param {string} key
-   * @param {any} val
-   */
-  set(key, val) {
-    this[key] = val;
-  }
-  /**
-   * @return {string[]}
-   */
-  keys() {
-    return Object.keys(this);
-  }
-}
 
 const unrecognizedAlreadyWarned = Object.create(null);
 const RECOGNIZED_OPTIONS = {
@@ -731,269 +688,15 @@ export const HebrewCalendar = {
     return new HDate(hDeath.dd, hDeath.mm, hyear);
   },
 
-  /** @private */
-  yearCache: Object.create(null),
-
   /**
    * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
    * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
    * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
+   * @function
    * @param {number} year Hebrew year
    * @return {Map<string,Event[]>}
    */
-  getHolidaysForYear: function(year) {
-    if (typeof year !== 'number') {
-      throw new TypeError(`bad Hebrew year: ${year}`);
-    } else if (year < 1 || year > 32658) {
-      throw new RangeError(`Hebrew year ${year} out of range 1-32658`);
-    }
-    const cached = this.yearCache[year];
-    if (cached) {
-      return cached;
-    }
-
-    const RH = new HDate(1, TISHREI, year);
-    const pesach = new HDate(15, NISAN, year);
-
-    const h = new SimpleMap();
-    // eslint-disable-next-line require-jsdoc
-    function add(...events) {
-      // for (const ev of events) {
-      events.forEach((ev) => {
-        const key = ev.date.toString();
-        if (h.has(key)) {
-          h.get(key).push(ev);
-        } else {
-          h.set(key, [ev]);
-        }
-      });
-    }
-
-    /**
-     * @private
-     * @param {number} year
-     * @param {Object[]} arr
-     */
-    function addEvents(year, arr) {
-      arr.forEach((a) => {
-        add(new HolidayEvent(new HDate(a[0], a[1], year), a[2], a[3], a[4]));
-      });
-    }
-
-    // standard holidays that don't shift based on year
-    add(new RoshHashanaEvent(RH, year, CHAG | LIGHT_CANDLES_TZEIS));
-    addEvents(year, [
-      [2, TISHREI, 'Rosh Hashana II', CHAG | YOM_TOV_ENDS],
-      [3 + (RH.getDay() == THU),
-        TISHREI, 'Tzom Gedaliah', MINOR_FAST], // push off to SUN if RH is THU
-      [9, TISHREI, 'Erev Yom Kippur', EREV | LIGHT_CANDLES],
-    ]);
-    // first SAT after RH
-    add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', SPECIAL_SHABBAT));
-    addEvents(year, [
-      [10, TISHREI, 'Yom Kippur', CHAG | YOM_TOV_ENDS | MAJOR_FAST],
-      [14, TISHREI, 'Erev Sukkot', EREV | LIGHT_CANDLES],
-
-      // Attributes for Israel and Diaspora are different
-      [15, TISHREI, 'Sukkot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-      [16, TISHREI, 'Sukkot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-      [17, TISHREI, 'Sukkot III (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1}],
-      [18, TISHREI, 'Sukkot IV (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2}],
-      [19, TISHREI, 'Sukkot V (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3}],
-      [20, TISHREI, 'Sukkot VI (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4}],
-
-      [15, TISHREI, 'Sukkot I', CHAG | YOM_TOV_ENDS | IL_ONLY],
-      [16, TISHREI, 'Sukkot II (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1}],
-      [17, TISHREI, 'Sukkot III (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2}],
-      [18, TISHREI, 'Sukkot IV (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3}],
-      [19, TISHREI, 'Sukkot V (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4}],
-      [20, TISHREI, 'Sukkot VI (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 5}],
-      [21, TISHREI, 'Sukkot VII (Hoshana Raba)', LIGHT_CANDLES|CHOL_HAMOED, {cholHaMoedDay: -1}],
-      [22, TISHREI, 'Shmini Atzeret', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-      //    [22,  TISHREI,    "Shmini Atzeret / Simchat Torah", YOM_TOV_ENDS | IL_ONLY],
-      [22, TISHREI, 'Shmini Atzeret', CHAG | YOM_TOV_ENDS | IL_ONLY],
-      [23, TISHREI, 'Simchat Torah', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-      [24, KISLEV, 'Chanukah: 1 Candle', EREV | MINOR_HOLIDAY | CHANUKAH_CANDLES],
-      [25, KISLEV, chanukah(2), MINOR_HOLIDAY | CHANUKAH_CANDLES, {chanukahDay: 1}],
-      [26, KISLEV, chanukah(3), MINOR_HOLIDAY | CHANUKAH_CANDLES, {chanukahDay: 2}],
-      [27, KISLEV, chanukah(4), MINOR_HOLIDAY | CHANUKAH_CANDLES, {chanukahDay: 3}],
-      [28, KISLEV, chanukah(5), MINOR_HOLIDAY | CHANUKAH_CANDLES, {chanukahDay: 4}],
-      [29, KISLEV, chanukah(6), MINOR_HOLIDAY | CHANUKAH_CANDLES, {chanukahDay: 5}],
-      // yes, i know these are wrong
-      [30, KISLEV, chanukah(7), MINOR_HOLIDAY | CHANUKAH_CANDLES, {chanukahDay: 6}],
-      // HDate() corrects the month automatically
-      [31, KISLEV, chanukah(8), MINOR_HOLIDAY | CHANUKAH_CANDLES, {chanukahDay: 7}],
-      [32, KISLEV, 'Chanukah: 8th Day', MINOR_HOLIDAY, {chanukahDay: 8}],
-    ]);
-    add(
-        new AsaraBTevetEvent(new HDate(10, TEVET, year), 'Asara B\'Tevet', MINOR_FAST),
-        new HolidayEvent(new HDate(15, SHVAT, year), 'Tu BiShvat', MINOR_HOLIDAY),
-    );
-    const pesachAbs = pesach.abs();
-    add(
-        new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 43)), 'Shabbat Shekalim', SPECIAL_SHABBAT),
-        new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 30)), 'Shabbat Zachor', SPECIAL_SHABBAT),
-        new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == TUE ? 33 : 31)),
-            'Ta\'anit Esther', MINOR_FAST),
-    );
-    addEvents(year, [
-      [13, ADAR_II, 'Erev Purim', EREV | MINOR_HOLIDAY],
-      [14, ADAR_II, 'Purim', MINOR_HOLIDAY],
-    ]);
-    add(
-        new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == SUN ? 28 : 29)), 'Shushan Purim', MINOR_HOLIDAY),
-        new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 14) - 7), 'Shabbat Parah', SPECIAL_SHABBAT),
-        new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 14)), 'Shabbat HaChodesh', SPECIAL_SHABBAT),
-        new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 1)), 'Shabbat HaGadol', SPECIAL_SHABBAT),
-        new HolidayEvent(
-      // if the fast falls on Shabbat, move to Thursday
-      pesach.prev().getDay() == SAT ?
-        pesach.onOrBefore(THU) :
-        new HDate(14, NISAN, year),
-      'Ta\'anit Bechorot',
-      MINOR_FAST,
-        ),
-    );
-    addEvents(year, [
-      [14, NISAN, 'Erev Pesach', EREV | LIGHT_CANDLES],
-
-      // Attributes for Israel and Diaspora are different
-      [15, NISAN, 'Pesach I', CHAG | YOM_TOV_ENDS | IL_ONLY],
-      [16, NISAN, 'Pesach II (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1}],
-      [17, NISAN, 'Pesach III (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2}],
-      [18, NISAN, 'Pesach IV (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3}],
-      [19, NISAN, 'Pesach V (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4}],
-      [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 5}],
-      [21, NISAN, 'Pesach VII', CHAG | YOM_TOV_ENDS | IL_ONLY],
-
-      [15, NISAN, 'Pesach I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-      [16, NISAN, 'Pesach II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-      [17, NISAN, 'Pesach III (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1}],
-      [18, NISAN, 'Pesach IV (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2}],
-      [19, NISAN, 'Pesach V (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3}],
-      [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4}],
-      [21, NISAN, 'Pesach VII', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-      [22, NISAN, 'Pesach VIII', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-      [14, IYYAR, 'Pesach Sheni', MINOR_HOLIDAY],
-      [18, IYYAR, 'Lag BaOmer', MINOR_HOLIDAY],
-      [5, SIVAN, 'Erev Shavuot', EREV | LIGHT_CANDLES],
-      [6, SIVAN, 'Shavuot', CHAG | YOM_TOV_ENDS | IL_ONLY],
-      [6, SIVAN, 'Shavuot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-      [7, SIVAN, 'Shavuot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-      [15, AV, 'Tu B\'Av', MINOR_HOLIDAY],
-    ]);
-    add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
-        'Leil Selichot', MINOR_HOLIDAY));
-    add(new HolidayEvent(new HDate(29, ELUL, year), 'Erev Rosh Hashana', EREV | LIGHT_CANDLES));
-
-    if (HDate.isLeapYear(year)) {
-      add(new HolidayEvent(new HDate(14, ADAR_I, year), 'Purim Katan', MINOR_HOLIDAY));
-    }
-
-    if (year >= 5711) {
-      // Yom HaShoah first observed in 1951
-      let nisan27dt = new HDate(27, NISAN, year);
-      /* When the actual date of Yom Hashoah falls on a Friday, the
-       * state of Israel observes Yom Hashoah on the preceding
-       * Thursday. When it falls on a Sunday, Yom Hashoah is observed
-       * on the following Monday.
-       * http://www.ushmm.org/remembrance/dor/calendar/
-       */
-      if (nisan27dt.getDay() == FRI) {
-        nisan27dt = nisan27dt.prev();
-      } else if (nisan27dt.getDay() == SUN) {
-        nisan27dt = nisan27dt.next();
-      }
-      add(new HolidayEvent(nisan27dt, 'Yom HaShoah', MODERN_HOLIDAY));
-    }
-
-    if (year >= 5708) {
-      // Yom HaAtzma'ut only celebrated after 1948
-      const tmpDate = new HDate(1, IYYAR, year);
-      const pesach = new HDate(15, NISAN, year);
-      if (pesach.getDay() == SUN) {
-        tmpDate.setDate(2);
-      } else if (pesach.getDay() == SAT) {
-        tmpDate.setDate(3);
-      } else if (year < 5764) {
-        tmpDate.setDate(4);
-      } else if (pesach.getDay() == TUE) {
-        tmpDate.setDate(5);
-      } else {
-        tmpDate.setDate(4);
-      }
-      add(
-          new HolidayEvent(tmpDate, 'Yom HaZikaron', MODERN_HOLIDAY),
-          new HolidayEvent(tmpDate.next(), 'Yom HaAtzma\'ut', MODERN_HOLIDAY),
-      );
-    }
-
-    if (year >= 5727) {
-      // Yom Yerushalayim only celebrated after 1967
-      add(new HolidayEvent(new HDate(28, IYYAR, year), 'Yom Yerushalayim', MODERN_HOLIDAY));
-    }
-
-    if (year >= 5769) {
-      add(new HolidayEvent(new HDate(29, CHESHVAN, year), 'Sigd', MODERN_HOLIDAY));
-    }
-
-    if (year >= 5777) {
-      add(new HolidayEvent(new HDate(7, CHESHVAN, year), 'Yom HaAliyah', MODERN_HOLIDAY));
-    }
-
-    let tamuz17 = new HDate(17, TAMUZ, year);
-    let tamuz17attrs;
-    if (tamuz17.getDay() == SAT) {
-      tamuz17 = tamuz17.next();
-      tamuz17attrs = {observed: true};
-    }
-    add(new HolidayEvent(tamuz17, 'Tzom Tammuz', MINOR_FAST, tamuz17attrs));
-
-    let av9dt = new HDate(9, AV, year);
-    let av9title = 'Tish\'a B\'Av';
-    let av9attrs;
-    if (av9dt.getDay() == SAT) {
-      av9dt = av9dt.next();
-      av9attrs = {observed: true};
-      av9title += ' (observed)';
-    }
-
-    add(
-        new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs())), 'Shabbat Chazon', SPECIAL_SHABBAT),
-        new HolidayEvent(av9dt.prev(), 'Erev Tish\'a B\'Av', EREV | MAJOR_FAST, av9attrs),
-        new HolidayEvent(av9dt, av9title, MAJOR_FAST, av9attrs),
-        new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs() + 7)), 'Shabbat Nachamu', SPECIAL_SHABBAT),
-    );
-
-    for (let month = 1; month <= HDate.monthsInYear(year); month++) {
-      const monthName = HDate.getMonthName(month, year);
-      if (
-        (month == NISAN ?
-        HDate.daysInMonth(HDate.monthsInYear(year - 1), year - 1) :
-        HDate.daysInMonth(month - 1, year)) == 30
-      ) {
-        add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
-        add(new RoshChodeshEvent(new HDate(30, month - 1, year), monthName));
-      } else if (month !== TISHREI) {
-        add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
-      }
-
-      if (month == ELUL) {
-        continue;
-      }
-
-      // Don't worry about month overrun; will get "Nisan" for month=14
-      const nextMonthName = HDate.getMonthName(month + 1, year);
-      add(new MevarchimChodeshEvent(new HDate(29, month, year).onOrBefore(SAT), nextMonthName));
-    }
-
-    const sedra = new Sedra(year, false);
-    const beshalachHd = sedra.find(15);
-    add(new HolidayEvent(beshalachHd, 'Shabbat Shirah', SPECIAL_SHABBAT));
-
-    this.yearCache[year] = h;
-    return h;
-  },
+  getHolidaysForYear: getHolidaysForYear,
 
   /**
    * Returns an array of holidays for the year
@@ -1067,30 +770,6 @@ export const HebrewCalendar = {
     return pkgVersion;
   },
 };
-
-/**
- * @private
- */
-class RoshHashanaEvent extends HolidayEvent {
-  /**
-   * @private
-   * @param {HDate} date Hebrew date event occurs
-   * @param {number} hyear Hebrew year
-   * @param {number} mask optional holiday flags
-   */
-  constructor(date, hyear, mask) {
-    super(date, `Rosh Hashana ${hyear}`, mask);
-    this.hyear = hyear;
-  }
-  /**
-   * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  render(locale) {
-    return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
-  }
-}
 
 /**
  * Appends the Event `ev` to the `events` array. Also may add related
