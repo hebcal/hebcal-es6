@@ -242,6 +242,7 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2011-08-15', desc: 'Tu B\'Av'},
     {date: '2011-08-27', desc: 'Shabbat Mevarchim Chodesh Elul'},
     {date: '2011-08-30', desc: 'Rosh Chodesh Elul'},
+    {date: '2011-08-31', desc: 'Rosh Hashana LaBehemot'},
     {date: '2011-08-31', desc: 'Rosh Chodesh Elul'},
     {date: '2011-09-24', desc: 'Leil Selichot'},
     {date: '2011-09-28', desc: 'Erev Rosh Hashana'},
@@ -338,6 +339,7 @@ test('getHolidaysForYearArray-5720-il', (t) => {
     {date: '1960-08-08', desc: 'Tu B\'Av'},
     {date: '1960-08-20', desc: 'Shabbat Mevarchim Chodesh Elul'},
     {date: '1960-08-23', desc: 'Rosh Chodesh Elul'},
+    {date: '1960-08-24', desc: 'Rosh Hashana LaBehemot'},
     {date: '1960-08-24', desc: 'Rosh Chodesh Elul'},
     {date: '1960-09-17', desc: 'Leil Selichot'},
     {date: '1960-09-21', desc: 'Erev Rosh Hashana'},
@@ -452,4 +454,13 @@ test('getHolidaysForYearArray-bce', (t) => {
     {date: '-000002-09-29', desc: 'Shmini Atzeret'},
   ];
   t.deepEqual(actual, expected);
+});
+
+test('Rosh Hashana L\'Ma\'sar Behemah', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2011, 7, 31),
+    end: new Date(2011, 7, 31),
+    locale: 'he',
+  });
+  t.is(events[0].render(), 'רֹאשׁ הַשָּׁנָה לְמַעְשַׂר בְּהֵמָה');
 });

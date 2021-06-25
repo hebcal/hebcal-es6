@@ -46,11 +46,11 @@ test('greg-year', (t) => {
     year: 1993,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 83);
+  t.is(events.length, 84);
   t.is(events[0].getDesc(), 'Asara B\'Tevet');
   t.is(gregDtString(events[0]), '1/3/1993');
-  t.is(events[71].getDesc(), 'Chanukah: 1 Candle');
-  t.is(gregDtString(events[71]), '12/8/1993');
+  t.is(events[72].getDesc(), 'Chanukah: 1 Candle');
+  t.is(gregDtString(events[72]), '12/8/1993');
   t.is(events[events.length - 1].getDesc(), 'Asara B\'Tevet');
   t.is(gregDtString(events[events.length - 1]), '12/24/1993');
 });
@@ -84,7 +84,7 @@ test('heb-year', (t) => {
     isHebrewYear: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 84);
+  t.is(events.length, 85);
   t.is(events[0].getDesc(), 'Erev Rosh Hashana');
   t.is(gregDtString(events[0]), '9/11/1988');
   t.is(events[1].getDesc(), 'Rosh Hashana 5749');
@@ -328,9 +328,9 @@ test('renderBrief', (t) => {
     ['Shabbat Zachor', 'שַׁבָּת זָכוֹר'],
     ['Parashat Tetzaveh', 'פרשת תְּצַוֶּה'],
     ['Havdalah', 'הַבדָלָה'],
-    ['Fast begins', 'תחילת הצום'],
+    ['Fast begins', 'תחילת הַצוֹם'],
     ['Ta\'anit Esther', 'תַּעֲנִית אֶסְתֵּר'],
-    ['Fast ends', 'סיום הצום'],
+    ['Fast ends', 'סִיּוּם הַצוֹם'],
     ['Erev Purim', 'עֶרֶב פּוּרִים'],
     ['Purim', 'פּוּרִים'],
     ['Shushan Purim', 'שׁוּשָׁן פּוּרִים'],
@@ -463,7 +463,7 @@ test('molad', (t) => {
 
 test('year2', (t) => {
   const events = HebrewCalendar.calendar({year: 2});
-  t.is(events.length, 80);
+  t.is(events.length, 81);
   const events2 = events.slice(0, 3);
   const actual = events2.map(eventISODateDesc);
   const expected = [

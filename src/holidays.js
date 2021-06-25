@@ -250,6 +250,7 @@ const yearCache = Object.create(null);
  * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
  * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
  * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
+ * @private
  * @param {number} year Hebrew year
  * @return {Map<string,Event[]>}
  */
@@ -393,6 +394,7 @@ export function getHolidaysForYear(year) {
     [6, SIVAN, 'Shavuot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
     [7, SIVAN, 'Shavuot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
     [15, AV, 'Tu B\'Av', MINOR_HOLIDAY],
+    [1, ELUL, 'Rosh Hashana LaBehemot', MINOR_HOLIDAY],
   ]);
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
       'Leil Selichot', MINOR_HOLIDAY));

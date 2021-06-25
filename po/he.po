@@ -741,13 +741,13 @@ msgid "min"
 msgstr "דקות"
 
 msgid "Fast begins"
-msgstr "תחילת הצום"
+msgstr "תחילת הַצוֹם"
 
 msgid "Fast ends"
-msgstr "סיום הצום"
+msgstr "סִיּוּם הַצוֹם"
 
-msgid "Rosh Hashanah LaBehemot"
-msgstr "ראש השנה למעשר בהמה"
+msgid "Rosh Hashana LaBehemot"
+msgstr "רֹאשׁ הַשָּׁנָה לְמַעְשַׂר בְּהֵמָה"
 
 msgid "Tish'a B'Av (observed)"
 msgstr "תִּשְׁעָה בְּאָב נִדחֶה"
@@ -760,7 +760,7 @@ msgstr "שַׁבָּת שִׁירָה"
 
 # midnight (sunset + six halachic hours)
 msgid "chatzotNight"
-msgstr "חֲצוֹת הלילה"
+msgstr "חֲצוֹת הַלַיְלָה"
 
 # Dawn
 msgid "alotHaShachar"
@@ -807,8 +807,8 @@ msgstr "שְׁקִיעָה"
 
 # Nightfall - End of ordained fasts
 msgid ""
-msgstr "לילה - גמר תעניות דרבנן"
+msgstr "לַיְלָה - גמר תעניות דרבנן"
 
 # Nightfall - 3 stars emerge
 msgid "tzeit"
-msgstr "צאת כוכבים"
+msgstr "צֵאת כוכבים"
