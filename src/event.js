@@ -137,6 +137,13 @@ export class Event {
     return this.render(locale);
   }
   /**
+   * Optional holiday-specific Emoji or `null`.
+   * @return {string}
+   */
+  getEmoji() {
+    return this.emoji || null;
+  }
+  /**
    * Returns a simplified (untranslated) description for this event. For example,
    * the {@link HolidayEvent} class supports
    * "Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
@@ -200,3 +207,8 @@ export class Event {
     return ev;
   }
 }
+
+export const KEYCAP_DIGITS = [
+  '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣',
+  '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣',
+];

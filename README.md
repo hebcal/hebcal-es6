@@ -44,11 +44,11 @@ for (const ev of events) {
 ## Classes
 
 <dl>
-<dt><a href="#Event">Event</a></dt>
-<dd><p>Represents an Event with a title, date, and flags</p>
-</dd>
 <dt><a href="#HDate">HDate</a></dt>
 <dd><p>Represents a Hebrew date</p>
+</dd>
+<dt><a href="#Event">Event</a></dt>
+<dd><p>Represents an Event with a title, date, and flags</p>
 </dd>
 <dt><a href="#HebrewDateEvent">HebrewDateEvent</a></dt>
 <dd><p>Daily Hebrew date (&quot;11th of Sivan, 5780&quot;)</p>
@@ -143,143 +143,6 @@ Event names can be rendered in several languges using the <code>locale</code> op
 <dd></dd>
 </dl>
 
-<a name="Event"></a>
-
-## Event
-Represents an Event with a title, date, and flags
-
-**Kind**: global class  
-
-* [Event](#Event)
-    * [new Event(date, desc, [mask], [attrs])](#new_Event_new)
-    * [.getDate()](#Event+getDate) ⇒ [<code>HDate</code>](#HDate)
-    * [.getDesc()](#Event+getDesc) ⇒ <code>string</code>
-    * [.getFlags()](#Event+getFlags) ⇒ <code>number</code>
-    * [.render([locale])](#Event+render) ⇒ <code>string</code>
-    * [.renderBrief([locale])](#Event+renderBrief) ⇒ <code>string</code>
-    * [.basename()](#Event+basename) ⇒ <code>string</code>
-    * [.url()](#Event+url) ⇒ <code>string</code>
-    * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
-    * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
-    * ~~[.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>~~
-    * [.clone()](#Event+clone) ⇒ [<code>Event</code>](#Event)
-
-<a name="new_Event_new"></a>
-
-### new Event(date, desc, [mask], [attrs])
-Constructs Event
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
-| desc | <code>string</code> |  | Description (not translated) |
-| [mask] | <code>number</code> | <code>0</code> | optional bitmask of holiday flags (see [flags](#flags)) |
-| [attrs] | <code>Object</code> | <code>{}</code> | optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`) |
-
-<a name="Event+getDate"></a>
-
-### event.getDate() ⇒ [<code>HDate</code>](#HDate)
-Hebrew date of this event
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+getDesc"></a>
-
-### event.getDesc() ⇒ <code>string</code>
-Untranslated description of this event
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+getFlags"></a>
-
-### event.getFlags() ⇒ <code>number</code>
-Bitmask of optional event flags. See [flags](#flags)
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+render"></a>
-
-### event.render([locale]) ⇒ <code>string</code>
-Returns (translated) description of this event
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
-
-**Example**  
-```js
-const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
-ev.render(); // 'Shavuot'
-ev.render('he'); // 'שָׁבוּעוֹת'
-ev.render('ashkenazi'); // 'Shavuos'
-```
-<a name="Event+renderBrief"></a>
-
-### event.renderBrief([locale]) ⇒ <code>string</code>
-Returns a brief (translated) description of this event.
-For most events, this is the same as render(). For some events, it procudes
-a shorter text (e.g. without a time or added description).
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
-
-<a name="Event+basename"></a>
-
-### event.basename() ⇒ <code>string</code>
-Returns a simplified (untranslated) description for this event. For example,
-the [HolidayEvent](#HolidayEvent) class supports
-"Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
-For many holidays the basename and the event description are the same.
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+url"></a>
-
-### event.url() ⇒ <code>string</code>
-Returns a URL to hebcal.com or sefaria.org for more detail on the event.
-Returns `undefined` for events with no detail page.
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+observedInIsrael"></a>
-
-### event.observedInIsrael() ⇒ <code>boolean</code>
-Is this event observed in Israel?
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-**Example**  
-```js
-const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
-ev1.observedInIsrael(); // false
-const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
-ev2.observedInIsrael(); // true
-```
-<a name="Event+observedInDiaspora"></a>
-
-### event.observedInDiaspora() ⇒ <code>boolean</code>
-Is this event observed in the Diaspora?
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-**Example**  
-```js
-const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
-ev1.observedInDiaspora(); // true
-const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
-ev2.observedInDiaspora(); // true
-```
-<a name="Event+getAttrs"></a>
-
-### ~~event.getAttrs() ⇒ <code>Object</code>~~
-***Deprecated***
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
-<a name="Event+clone"></a>
-
-### event.clone() ⇒ [<code>Event</code>](#Event)
-Makes a clone of this Event object
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="HDate"></a>
 
 ## HDate
@@ -290,6 +153,12 @@ Represents a Hebrew date
 * [HDate](#HDate)
     * [new HDate([day], [month], [year])](#new_HDate_new)
     * _instance_
+        * [.day](#HDate+day) : <code>number</code>
+        * [.year](#HDate+year) : <code>number</code>
+        * [.day](#HDate+day) : <code>number</code>
+        * [.month](#HDate+month) : <code>number</code>
+        * [.year](#HDate+year) : <code>number</code>
+        * [.abs0](#HDate+abs0) : <code>number</code>
         * [.getFullYear()](#HDate+getFullYear) ⇒ <code>number</code>
         * [.isLeapYear()](#HDate+isLeapYear) ⇒ <code>boolean</code>
         * [.getMonth()](#HDate+getMonth) ⇒ <code>number</code>
@@ -361,6 +230,30 @@ const hd5 = new HDate(733359); // ==> 15 Cheshvan 5769
 const monthName = 'אייר';
 const hd6 = new HDate(5, monthName, 5773);
 ```
+<a name="HDate+day"></a>
+
+### hDate.day : <code>number</code>
+**Kind**: instance property of [<code>HDate</code>](#HDate)  
+<a name="HDate+year"></a>
+
+### hDate.year : <code>number</code>
+**Kind**: instance property of [<code>HDate</code>](#HDate)  
+<a name="HDate+day"></a>
+
+### hDate.day : <code>number</code>
+**Kind**: instance property of [<code>HDate</code>](#HDate)  
+<a name="HDate+month"></a>
+
+### hDate.month : <code>number</code>
+**Kind**: instance property of [<code>HDate</code>](#HDate)  
+<a name="HDate+year"></a>
+
+### hDate.year : <code>number</code>
+**Kind**: instance property of [<code>HDate</code>](#HDate)  
+<a name="HDate+abs0"></a>
+
+### hDate.abs0 : <code>number</code>
+**Kind**: instance property of [<code>HDate</code>](#HDate)  
 <a name="HDate+getFullYear"></a>
 
 ### hDate.getFullYear() ⇒ <code>number</code>
@@ -400,7 +293,7 @@ Gets the day within the month (1-30)
 <a name="HDate+getDay"></a>
 
 ### hDate.getDay() ⇒ <code>number</code>
-Gets the day of the week, using local time. 0=Sunday, 6=Saturday
+Gets the day of the week. 0=Sunday, 6=Saturday
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+greg"></a>
@@ -725,6 +618,150 @@ Tests if the object is an instance of `HDate`
 | --- | --- |
 | obj | <code>any</code> | 
 
+<a name="Event"></a>
+
+## Event
+Represents an Event with a title, date, and flags
+
+**Kind**: global class  
+
+* [Event](#Event)
+    * [new Event(date, desc, [mask], [attrs])](#new_Event_new)
+    * [.getDate()](#Event+getDate) ⇒ [<code>HDate</code>](#HDate)
+    * [.getDesc()](#Event+getDesc) ⇒ <code>string</code>
+    * [.getFlags()](#Event+getFlags) ⇒ <code>number</code>
+    * [.render([locale])](#Event+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#Event+renderBrief) ⇒ <code>string</code>
+    * [.getEmoji()](#Event+getEmoji) ⇒ <code>string</code>
+    * [.basename()](#Event+basename) ⇒ <code>string</code>
+    * [.url()](#Event+url) ⇒ <code>string</code>
+    * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
+    * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
+    * ~~[.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>~~
+    * [.clone()](#Event+clone) ⇒ [<code>Event</code>](#Event)
+
+<a name="new_Event_new"></a>
+
+### new Event(date, desc, [mask], [attrs])
+Constructs Event
+
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
+| desc | <code>string</code> |  | Description (not translated) |
+| [mask] | <code>number</code> | <code>0</code> | optional bitmask of holiday flags (see [flags](#flags)) |
+| [attrs] | <code>Object</code> | <code>{}</code> | optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`) |
+
+<a name="Event+getDate"></a>
+
+### event.getDate() ⇒ [<code>HDate</code>](#HDate)
+Hebrew date of this event
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+getDesc"></a>
+
+### event.getDesc() ⇒ <code>string</code>
+Untranslated description of this event
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+getFlags"></a>
+
+### event.getFlags() ⇒ <code>number</code>
+Bitmask of optional event flags. See [flags](#flags)
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+render"></a>
+
+### event.render([locale]) ⇒ <code>string</code>
+Returns (translated) description of this event
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+**Example**  
+```js
+const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
+ev.render(); // 'Shavuot'
+ev.render('he'); // 'שָׁבוּעוֹת'
+ev.render('ashkenazi'); // 'Shavuos'
+```
+<a name="Event+renderBrief"></a>
+
+### event.renderBrief([locale]) ⇒ <code>string</code>
+Returns a brief (translated) description of this event.
+For most events, this is the same as render(). For some events, it procudes
+a shorter text (e.g. without a time or added description).
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="Event+getEmoji"></a>
+
+### event.getEmoji() ⇒ <code>string</code>
+Optional holiday-specific Emoji or `null`.
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+basename"></a>
+
+### event.basename() ⇒ <code>string</code>
+Returns a simplified (untranslated) description for this event. For example,
+the [HolidayEvent](#HolidayEvent) class supports
+"Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
+For many holidays the basename and the event description are the same.
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+url"></a>
+
+### event.url() ⇒ <code>string</code>
+Returns a URL to hebcal.com or sefaria.org for more detail on the event.
+Returns `undefined` for events with no detail page.
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+observedInIsrael"></a>
+
+### event.observedInIsrael() ⇒ <code>boolean</code>
+Is this event observed in Israel?
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+**Example**  
+```js
+const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
+ev1.observedInIsrael(); // false
+const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
+ev2.observedInIsrael(); // true
+```
+<a name="Event+observedInDiaspora"></a>
+
+### event.observedInDiaspora() ⇒ <code>boolean</code>
+Is this event observed in the Diaspora?
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+**Example**  
+```js
+const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
+ev1.observedInDiaspora(); // true
+const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
+ev2.observedInDiaspora(); // true
+```
+<a name="Event+getAttrs"></a>
+
+### ~~event.getAttrs() ⇒ <code>Object</code>~~
+***Deprecated***
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+clone"></a>
+
+### event.clone() ⇒ [<code>Event</code>](#Event)
+Makes a clone of this Event object
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="HebrewDateEvent"></a>
 
 ## HebrewDateEvent
@@ -1429,6 +1466,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
     * [new OmerEvent(date, omerDay)](#new_OmerEvent_new)
     * [.render([locale])](#OmerEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#OmerEvent+renderBrief) ⇒ <code>string</code>
+    * [.getEmoji()](#OmerEvent+getEmoji) ⇒ <code>string</code>
 
 <a name="new_OmerEvent_new"></a>
 
@@ -1463,6 +1501,10 @@ Returns translation of "Omer 22" without ordinal numbers.
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+<a name="OmerEvent+getEmoji"></a>
+
+### omerEvent.getEmoji() ⇒ <code>string</code>
+**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
 <a name="DafYomi"></a>
 
 ## DafYomi
@@ -1666,6 +1708,7 @@ Represents one of 54 weekly Torah portions, always on a Saturday
     * [.render([locale])](#ParshaEvent+render) ⇒ <code>string</code>
     * [.basename()](#ParshaEvent+basename) ⇒ <code>string</code>
     * [.url()](#ParshaEvent+url) ⇒ <code>string</code>
+    * [.urlDateSuffix()](#ParshaEvent+urlDateSuffix) ⇒ <code>string</code>
 
 <a name="new_ParshaEvent_new"></a>
 
@@ -1694,6 +1737,10 @@ Represents one of 54 weekly Torah portions, always on a Saturday
 
 ### parshaEvent.url() ⇒ <code>string</code>
 **Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
+<a name="ParshaEvent+urlDateSuffix"></a>
+
+### parshaEvent.urlDateSuffix() ⇒ <code>string</code>
+**Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
 <a name="HolidayEvent"></a>
 
 ## HolidayEvent
@@ -1706,6 +1753,7 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
     * [.basename()](#HolidayEvent+basename) ⇒ <code>string</code>
     * [.url()](#HolidayEvent+url) ⇒ <code>string</code>
     * [.urlDateSuffix()](#HolidayEvent+urlDateSuffix) ⇒ <code>string</code>
+    * [.getEmoji()](#HolidayEvent+getEmoji) ⇒ <code>string</code>
 
 <a name="new_HolidayEvent_new"></a>
 
@@ -1732,6 +1780,10 @@ Constructs Holiday event
 
 ### holidayEvent.urlDateSuffix() ⇒ <code>string</code>
 **Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+<a name="HolidayEvent+getEmoji"></a>
+
+### holidayEvent.getEmoji() ⇒ <code>string</code>
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
 <a name="RoshChodeshEvent"></a>
 
 ## RoshChodeshEvent
@@ -1743,6 +1795,7 @@ Represents Rosh Chodesh, the beginning of a new month
     * [new RoshChodeshEvent(date, monthName)](#new_RoshChodeshEvent_new)
     * [.render([locale])](#RoshChodeshEvent+render) ⇒ <code>string</code>
     * [.basename()](#RoshChodeshEvent+basename) ⇒ <code>string</code>
+    * [.getEmoji()](#RoshChodeshEvent+getEmoji) ⇒ <code>string</code>
 
 <a name="new_RoshChodeshEvent_new"></a>
 
@@ -1769,6 +1822,10 @@ Returns (translated) description of this event
 <a name="RoshChodeshEvent+basename"></a>
 
 ### roshChodeshEvent.basename() ⇒ <code>string</code>
+**Kind**: instance method of [<code>RoshChodeshEvent</code>](#RoshChodeshEvent)  
+<a name="RoshChodeshEvent+getEmoji"></a>
+
+### roshChodeshEvent.getEmoji() ⇒ <code>string</code>
 **Kind**: instance method of [<code>RoshChodeshEvent</code>](#RoshChodeshEvent)  
 <a name="AsaraBTevetEvent"></a>
 
@@ -2011,40 +2068,6 @@ Removes nekudot from Hebrew string
 | --- | --- |
 | str | <code>string</code> | 
 
-<a name="flags"></a>
-
-## flags : <code>enum</code>
-Holiday flags for Event
-
-**Kind**: global enum  
-**Read only**: true  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| CHAG | <code>number</code> | <code>CHAG$1</code> | Chag, yontiff, yom tov |
-| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES$1</code> | Light candles 18 minutes before sundown |
-| YOM_TOV_ENDS | <code>number</code> | <code>YOM_TOV_ENDS$1</code> | End of holiday (end of Yom Tov) |
-| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY$1</code> | Observed only in the Diaspora (chutz l'aretz) |
-| IL_ONLY | <code>number</code> | <code>IL_ONLY$1</code> | Observed only in Israel |
-| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS$1</code> | Light candles in the evening at Tzeit time (3 small stars) |
-| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES$1</code> | Candle-lighting for Chanukah |
-| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH$1</code> | Rosh Chodesh, beginning of a new Hebrew month |
-| MINOR_FAST | <code>number</code> | <code>MINOR_FAST$1</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
-| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT$1</code> | Shabbat Shekalim, Zachor, ... |
-| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA$1</code> | Weekly sedrot on Saturdays |
-| DAF_YOMI | <code>number</code> | <code>DAF_YOMI$1</code> | Daily page of Talmud |
-| OMER_COUNT | <code>number</code> | <code>OMER_COUNT$1</code> | Days of the Omer |
-| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY$1</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
-| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST$1</code> | Yom Kippur and Tish'a B'Av |
-| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM$1</code> | On the Saturday before Rosh Chodesh |
-| MOLAD | <code>number</code> | <code>MOLAD</code> | Molad |
-| USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
-| HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
-| MINOR_HOLIDAY | <code>number</code> | <code>MINOR_HOLIDAY$1</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
-| EREV | <code>number</code> | <code>EREV$1</code> | Evening before a major or minor holiday |
-| CHOL_HAMOED | <code>number</code> | <code>CHOL_HAMOED$1</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
-
 <a name="months"></a>
 
 ## months : <code>enum</code>
@@ -2069,6 +2092,40 @@ Hebrew months of the year (NISAN=1, TISHREI=7)
 | SHVAT | <code>number</code> | <code>11</code> | Sh'vat / שבט |
 | ADAR_I | <code>number</code> | <code>12</code> | Adar or Adar Rishon / אדר |
 | ADAR_II | <code>number</code> | <code>13</code> | Adar Sheini (only on leap years) / אדר ב׳ |
+
+<a name="flags"></a>
+
+## flags : <code>enum</code>
+Holiday flags for Event
+
+**Kind**: global enum  
+**Read only**: true  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| CHAG | <code>number</code> | <code>CHAG$1</code> | Chag, yontiff, yom tov |
+| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES$2</code> | Light candles 18 minutes before sundown |
+| YOM_TOV_ENDS | <code>number</code> | <code>YOM_TOV_ENDS$2</code> | End of holiday (end of Yom Tov) |
+| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY$2</code> | Observed only in the Diaspora (chutz l'aretz) |
+| IL_ONLY | <code>number</code> | <code>IL_ONLY$2</code> | Observed only in Israel |
+| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS$2</code> | Light candles in the evening at Tzeit time (3 small stars) |
+| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES$2</code> | Candle-lighting for Chanukah |
+| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH$1</code> | Rosh Chodesh, beginning of a new Hebrew month |
+| MINOR_FAST | <code>number</code> | <code>MINOR_FAST$2</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
+| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT$2</code> | Shabbat Shekalim, Zachor, ... |
+| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA$1</code> | Weekly sedrot on Saturdays |
+| DAF_YOMI | <code>number</code> | <code>DAF_YOMI$1</code> | Daily page of Talmud |
+| OMER_COUNT | <code>number</code> | <code>OMER_COUNT$1</code> | Days of the Omer |
+| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY$2</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
+| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST$2</code> | Yom Kippur and Tish'a B'Av |
+| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM$1</code> | On the Saturday before Rosh Chodesh |
+| MOLAD | <code>number</code> | <code>MOLAD</code> | Molad |
+| USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
+| HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
+| MINOR_HOLIDAY | <code>number</code> | <code>MINOR_HOLIDAY$2</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
+| EREV | <code>number</code> | <code>EREV$2</code> | Evening before a major or minor holiday |
+| CHOL_HAMOED | <code>number</code> | <code>CHOL_HAMOED$2</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
 
 <a name="parshiot"></a>
 

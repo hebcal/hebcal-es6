@@ -24,6 +24,7 @@ declare module '@hebcal/core' {
         getDate(): HDate;
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+        getEmoji(): string;
         observedInIsrael(): boolean;
         observedInDiaspora(): boolean;
         clone(): Event;

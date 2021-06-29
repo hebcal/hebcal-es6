@@ -464,3 +464,77 @@ test('Rosh Hashana L\'Ma\'sar Behemah', (t) => {
   });
   t.is(events[0].render(), 'רֹאשׁ הַשָּׁנָה לְמַעְשַׂר בְּהֵמָה');
 });
+
+test('emoji', (t) => {
+  const expected = {
+    '38th day of the Omer': '3️⃣8️⃣',
+    'Asara B\'Tevet': '✡️',
+    'Chanukah: 1 Candle': '🕎1️⃣',
+    'Chanukah: 3 Candles': '🕎3️⃣',
+    'Chanukah: 8 Candles': '🕎8️⃣',
+    'Chanukah: 8th Day': '🕎',
+    'Days of the Omer': '🔥',
+    'Lag BaOmer': '🔥',
+    'Leil Selichot': '🕍',
+    'Pesach Sheni': '✡️',
+    'Pesach': '✡️',
+    'Purim Katan': '🎭️',
+    'Purim': '🎭️📜',
+    'Rosh Chodesh Nisan': '🌑',
+    'Rosh Chodesh Iyyar': '🌑',
+    'Rosh Chodesh Sivan': '🌑',
+    'Rosh Chodesh Tamuz': '🌑',
+    'Rosh Chodesh Av': '🌑',
+    'Rosh Chodesh Elul': '🌑',
+    'Rosh Chodesh Cheshvan': '🌑',
+    'Rosh Chodesh Kislev': '🌑',
+    'Rosh Chodesh Tevet': '🌑',
+    'Rosh Chodesh Sh\'vat': '🌑',
+    'Rosh Chodesh Adar': '🌑',
+    'Rosh Chodesh Adar I': '🌑',
+    'Rosh Chodesh Adar II': '🌑',
+    'Rosh Hashana': '🍏🍯',
+    'Rosh Hashana LaBehemot': '🐑',
+    'Shabbat Chazon': '🕍',
+    'Shabbat HaChodesh': '🕍',
+    'Shabbat HaGadol': '🕍',
+    'Shabbat Machar Chodesh': '🕍',
+    'Shabbat Nachamu': '🕍',
+    'Shabbat Parah': '🕍',
+    'Shabbat Rosh Chodesh': '🕍',
+    'Shabbat Shekalim': '🕍',
+    'Shabbat Shirah': '🕍',
+    'Shabbat Shuva': '🕍',
+    'Shabbat Zachor': '🕍',
+    'Shavuot': '⛰️🌸',
+    'Shmini Atzeret': '✡️',
+    'Shushan Purim': '🎭️📜',
+    'Sigd': '✡️',
+    'Simchat Torah': '✡️',
+    'Sukkot': '✡️',
+    'Ta\'anit Bechorot': '✡️',
+    'Ta\'anit Esther': '✡️',
+    'Tish\'a B\'Av': '✡️',
+    'Tu B\'Av': '❤️',
+    'Tu BiShvat': '🌳',
+    'Tzom Gedaliah': '✡️',
+    'Tzom Tammuz': '✡️',
+    'Yom HaAliyah': '✡️',
+    'Yom HaAtzma\'ut': '✡️',
+    'Yom HaShoah': '✡️',
+    'Yom HaZikaron': '✡️',
+    'Yom Kippur': '📖✍️',
+    'Yom Yerushalayim': '✡️',
+  };
+  const events = HebrewCalendar.calendar({year: 2021, omer: true});
+  for (const ev of events) {
+    const base = ev.basename();
+    const desc = ev.getDesc();
+    const emoji = ev.getEmoji();
+    if (expected[base]) {
+      t.is(emoji, expected[base], desc);
+    } else if (expected[desc]) {
+      t.is(emoji, expected[desc], desc);
+    }
+  }
+});

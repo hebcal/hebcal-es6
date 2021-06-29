@@ -1,4 +1,4 @@
-import {flags, Event} from './event';
+import {flags, Event, KEYCAP_DIGITS} from './event';
 import {Locale} from './locale';
 import gematriya from 'gematriya';
 
@@ -28,5 +28,13 @@ export class OmerEvent extends Event {
    */
   renderBrief(locale) {
     return Locale.gettext('Omer', locale) + ' ' + this.omer;
+  }
+  /** @return {string} */
+  getEmoji() {
+    if (this.emoji) return this.emoji;
+    const number = this.omer;
+    const ones = number % 10;
+    const tens = Math.floor(number / 10);
+    return KEYCAP_DIGITS[tens] + KEYCAP_DIGITS[ones];
   }
 }
