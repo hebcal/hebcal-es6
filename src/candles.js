@@ -133,6 +133,10 @@ export class HavdalahEvent extends TimedEvent {
     }
     return str;
   }
+  /** @return {string} */
+  getEmoji() {
+    return '🌃';
+  }
 }
 
 /** Candle lighting before Shabbat or holiday */
@@ -146,6 +150,10 @@ export class CandleLightingEvent extends TimedEvent {
    */
   constructor(date, mask, eventTime, location, linkedEvent) {
     super(date, 'Candle lighting', mask, eventTime, location, linkedEvent);
+  }
+  /** @return {string} */
+  getEmoji() {
+    return '🕯️';
   }
 }
 
