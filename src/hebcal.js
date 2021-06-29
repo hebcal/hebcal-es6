@@ -800,10 +800,8 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
           eventTimeStr: chanukahEv.eventTimeStr,
           location,
         };
-        const chanukahDay = ev.chanukahDay;
-        if (chanukahDay) {
-          attrs.chanukahDay = chanukahDay;
-        }
+        if (ev.chanukahDay) attrs.chanukahDay = ev.chanukahDay;
+        if (ev.emoji) attrs.emoji = ev.emoji;
         // Replace Chanukah event with a clone that includes candle lighting time.
         // For clarity, allow a "duplicate" candle lighting event to remain for Shabbat
         ev = new HolidayEvent(ev.getDate(), ev.getDesc(), eFlags, attrs);

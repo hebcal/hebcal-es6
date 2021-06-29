@@ -249,15 +249,7 @@ class SimpleMap {
   }
 }
 
-/**
- * @private
- * @param {number} day
- * @return {string}
- */
-function chanukah(day) {
-  return `Chanukah: ${day} Candles`;
-}
-
+const chanukahEmoji = '🕎';
 const yearCache = Object.create(null);
 
 /**
@@ -341,7 +333,6 @@ export function getHolidaysForYear(year) {
     [22, TISHREI, 'Shmini Atzeret', CHAG | YOM_TOV_ENDS | IL_ONLY],
     [23, TISHREI, 'Simchat Torah', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
   ]);
-  const chanukahEmoji = '🕎';
   add(new HolidayEvent(new HDate(24, KISLEV, year),
       'Chanukah: 1 Candle', EREV | MINOR_HOLIDAY | CHANUKAH_CANDLES,
       {emoji: chanukahEmoji + KEYCAP_DIGITS[1]}));
