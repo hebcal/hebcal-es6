@@ -102,7 +102,7 @@ export class RoshChodeshEvent extends HolidayEvent {
   }
   /** @return {string} */
   getEmoji() {
-    return this.emoji || '🌑';
+    return this.emoji || '🌒';
   }
 }
 
