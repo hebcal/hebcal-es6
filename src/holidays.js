@@ -447,14 +447,14 @@ export function getHolidaysForYear(year) {
       tmpDate.setDate(4);
     }
     add(
-        new HolidayEvent(tmpDate, 'Yom HaZikaron', MODERN_HOLIDAY),
-        new HolidayEvent(tmpDate.next(), 'Yom HaAtzma\'ut', MODERN_HOLIDAY),
+        new HolidayEvent(tmpDate, 'Yom HaZikaron', MODERN_HOLIDAY, {emoji: '🇮🇱'}),
+        new HolidayEvent(tmpDate.next(), 'Yom HaAtzma\'ut', MODERN_HOLIDAY, {emoji: '🇮🇱'}),
     );
   }
 
   if (year >= 5727) {
     // Yom Yerushalayim only celebrated after 1967
-    add(new HolidayEvent(new HDate(28, IYYAR, year), 'Yom Yerushalayim', MODERN_HOLIDAY));
+    add(new HolidayEvent(new HDate(28, IYYAR, year), 'Yom Yerushalayim', MODERN_HOLIDAY, {emoji: '🇮🇱'}));
   }
 
   if (year >= 5769) {
@@ -462,7 +462,7 @@ export function getHolidaysForYear(year) {
   }
 
   if (year >= 5777) {
-    add(new HolidayEvent(new HDate(7, CHESHVAN, year), 'Yom HaAliyah', MODERN_HOLIDAY));
+    add(new HolidayEvent(new HDate(7, CHESHVAN, year), 'Yom HaAliyah', MODERN_HOLIDAY, {emoji: '🇮🇱'}));
   }
 
   let tamuz17 = new HDate(17, TAMUZ, year);

@@ -519,12 +519,12 @@ test('emoji', (t) => {
     'Tu BiShvat': '🌳',
     'Tzom Gedaliah': '✡️',
     'Tzom Tammuz': '✡️',
-    'Yom HaAliyah': '✡️',
-    'Yom HaAtzma\'ut': '✡️',
+    'Yom HaAliyah': '🇮🇱',
+    'Yom HaAtzma\'ut': '🇮🇱',
     'Yom HaShoah': '✡️',
-    'Yom HaZikaron': '✡️',
+    'Yom HaZikaron': '🇮🇱',
     'Yom Kippur': '📖✍️',
-    'Yom Yerushalayim': '✡️',
+    'Yom Yerushalayim': '🇮🇱',
   };
   const events = HebrewCalendar.calendar({year: 2021, omer: true});
   for (const ev of events) {
