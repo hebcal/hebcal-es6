@@ -812,3 +812,31 @@ msgstr "לַיְלָה - גמר תעניות דרבנן"
 # Nightfall - 3 stars emerge
 msgid "tzeit"
 msgstr "צֵאת כוכבים"
+
+# Chesed
+msgid "Lovingkindness"
+msgstr "חֶֽסֶד"
+
+# Gevurah
+msgid "Might"
+msgstr "גְבוּרָה"
+
+# Tiferet
+msgid "Beauty"
+msgstr "תִּפאֶרֶת"
+
+# Netzach
+msgid "Eternity"
+msgstr "נֶּֽצַח"
+
+# Hod
+msgid "Splendor"
+msgstr "הוֹד"
+
+# Yesod
+msgid "Foundation"
+msgstr "יְּסוֹד"
+
+# Malkhut
+msgid "Majesty"
+msgstr "מַּלְכוּת"

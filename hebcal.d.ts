@@ -781,6 +781,7 @@ declare module '@hebcal/core' {
     }
     export class CandleLightingEvent extends TimedEvent {
         constructor(date: HDate, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
+        getEmoji(): string;
     }
     export class DafYomiEvent extends Event {
         constructor(date: HDate);
@@ -792,6 +793,7 @@ declare module '@hebcal/core' {
         constructor(date: HDate, mask: number, eventTime: Date, location: Location, havdalahMins?: number, linkedEvent?: Event);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+        getEmoji(): string;
     }
     export class HebrewDateEvent extends Event {
         constructor(date: HDate, locale?: string);
@@ -805,6 +807,7 @@ declare module '@hebcal/core' {
         basename(): string;
         url(): string;
         urlDateSuffix(): string;
+        getEmoji(): string;
     }
     export class AsaraBTevetEvent extends HolidayEvent {
         constructor(date: HDate, desc: string, mask?: number, attrs?: any);
@@ -824,6 +827,10 @@ declare module '@hebcal/core' {
         constructor(date: HDate, omerDay: number);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+        getEmoji(): string;
+        getWeeks(): number;
+        getDaysWithinWeeks(): number;
+        getTodayIs(locale?: string): string;
     }
     export class ParshaEvent extends Event {
         constructor(date: HDate, parsha: string[], il: boolean);
@@ -836,5 +843,10 @@ declare module '@hebcal/core' {
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         basename(): string;
+        getEmoji(): string;
+    }
+    export class RoshHashanaEvent extends HolidayEvent {
+        constructor(date: HDate, hyear: number, mask: number);
+        render(locale?: string): string;
     }
 }

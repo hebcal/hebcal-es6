@@ -1313,6 +1313,7 @@ Havdalah after Shabbat or holiday
     * [new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent)](#new_HavdalahEvent_new)
     * [.render([locale])](#HavdalahEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#HavdalahEvent+renderBrief) ⇒ <code>string</code>
+    * [.getEmoji()](#HavdalahEvent+getEmoji) ⇒ <code>string</code>
 
 <a name="new_HavdalahEvent_new"></a>
 
@@ -1347,12 +1348,21 @@ Returns translation of "Havdalah" without the time.
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+<a name="HavdalahEvent+getEmoji"></a>
+
+### havdalahEvent.getEmoji() ⇒ <code>string</code>
+**Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
 <a name="CandleLightingEvent"></a>
 
 ## CandleLightingEvent
 Candle lighting before Shabbat or holiday
 
 **Kind**: global class  
+
+* [CandleLightingEvent](#CandleLightingEvent)
+    * [new CandleLightingEvent(date, mask, eventTime, location, linkedEvent)](#new_CandleLightingEvent_new)
+    * [.getEmoji()](#CandleLightingEvent+getEmoji) ⇒ <code>string</code>
+
 <a name="new_CandleLightingEvent_new"></a>
 
 ### new CandleLightingEvent(date, mask, eventTime, location, linkedEvent)
@@ -1365,6 +1375,10 @@ Candle lighting before Shabbat or holiday
 | location | [<code>Location</code>](#Location) | 
 | linkedEvent | [<code>Event</code>](#Event) | 
 
+<a name="CandleLightingEvent+getEmoji"></a>
+
+### candleLightingEvent.getEmoji() ⇒ <code>string</code>
+**Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
 <a name="Molad"></a>
 
 ## Molad
@@ -1467,6 +1481,9 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
     * [.render([locale])](#OmerEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#OmerEvent+renderBrief) ⇒ <code>string</code>
     * [.getEmoji()](#OmerEvent+getEmoji) ⇒ <code>string</code>
+    * [.getWeeks()](#OmerEvent+getWeeks) ⇒ <code>number</code>
+    * [.getDaysWithinWeeks()](#OmerEvent+getDaysWithinWeeks) ⇒ <code>number</code>
+    * [.getTodayIs(locale)](#OmerEvent+getTodayIs) ⇒ <code>string</code>
 
 <a name="new_OmerEvent_new"></a>
 
@@ -1505,6 +1522,23 @@ Returns translation of "Omer 22" without ordinal numbers.
 
 ### omerEvent.getEmoji() ⇒ <code>string</code>
 **Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
+<a name="OmerEvent+url"></a>
+
+### omerEvent.getWeeks() ⇒ <code>number</code>
+**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
+<a name="OmerEvent+getDaysWithinWeeks"></a>
+
+### omerEvent.getDaysWithinWeeks() ⇒ <code>number</code>
+**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
+<a name="OmerEvent+getTodayIs"></a>
+
+### omerEvent.getTodayIs(locale) ⇒ <code>string</code>
+**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
+
+| Param | Type |
+| --- | --- |
+| locale | <code>string</code> | 
+
 <a name="DafYomi"></a>
 
 ## DafYomi
