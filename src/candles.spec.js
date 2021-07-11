@@ -483,3 +483,13 @@ test('sedra-memo', (t) => {
   });
   t.is(events[0].memo, 'Parshas Bechukosai');
 });
+
+test('emoji', (t) => {
+  const dt = new Date('2020-12-28T20:12:14.987Z');
+  const hd = new HDate(dt);
+  const location = new Location(0, 0, false, 'UTC');
+  const candleLighting = new CandleLightingEvent(hd, flags.LIGHT_CANDLES, dt, location);
+  const havdalah = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location);
+  t.is(candleLighting.getEmoji(), '🕯️');
+  t.is(havdalah.getEmoji(), '✨');
+});

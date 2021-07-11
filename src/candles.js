@@ -135,7 +135,7 @@ export class HavdalahEvent extends TimedEvent {
   }
   /** @return {string} */
   getEmoji() {
-    return '🌃';
+    return '✨';
   }
 }
 
