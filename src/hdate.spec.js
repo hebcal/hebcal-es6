@@ -386,6 +386,11 @@ test('add', (t) => {
   t.is(hd.getDate(), 26);
   t.is(hd.getFullYear(), 5769);
 
+  hd = cheshvan29.subtract(3, 'M');
+  t.is(hd.getMonth(), AV);
+  t.is(hd.getDate(), 30);
+  t.is(hd.getFullYear(), 5768);
+
   hd = cheshvan29.add(0, 'y');
   t.is(hd.getMonth(), CHESHVAN);
   t.is(hd.getDate(), 29);
@@ -446,4 +451,33 @@ test('add', (t) => {
   t.is(hd.getMonth(), IYYAR);
   t.is(hd.getDate(), 14);
   t.is(hd.getFullYear(), 5765);
+});
+
+test('deltaDays', (t) => {
+  const hd1 = new HDate(25, KISLEV, 5770);
+  const hd2 = new HDate(15, CHESHVAN, 5769);
+  t.is(hd1.deltaDays(hd2), 394);
+  t.is(hd2.deltaDays(hd1), -394);
+  t.is(hd1.deltaDays(hd1), 0);
+
+  const hd3 = new HDate(10, TISHREI, 5770);
+  const hd4 = new HDate(9, AV, 5769);
+  t.is(hd3.deltaDays(hd4), 60);
+  t.is(hd4.deltaDays(hd3), -60);
+});
+
+test('throws-invalid-units', (t) => {
+  const error = t.throws(() => {
+    const hd = new HDate(29, CHESHVAN, 5769);
+    hd.add(1, 'foobar');
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'Invalid units \'foobar\'');
+});
+
+test('throws-invalid-deltaDays', (t) => {
+  const error = t.throws(() => {
+    const hd = new HDate(29, CHESHVAN, 5769);
+    hd.deltaDays(1234);
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'Bad argument: 1234');
 });

@@ -174,6 +174,7 @@ Represents a Hebrew date
         * [.prev()](#HDate+prev) ⇒ [<code>HDate</code>](#HDate)
         * [.add(number, [units])](#HDate+add) ⇒ [<code>HDate</code>](#HDate)
         * [.subtract(number, [units])](#HDate+subtract) ⇒ [<code>HDate</code>](#HDate)
+        * [.deltaDays(other)](#HDate+deltaDays) ⇒ <code>number</code>
         * [.isSameDate(other)](#HDate+isSameDate) ⇒ <code>boolean</code>
         * [.toString()](#HDate+toString) ⇒ <code>string</code>
     * _static_
@@ -423,7 +424,17 @@ Returns the previous Hebrew date
 <a name="HDate+add"></a>
 
 ### hDate.add(number, [units]) ⇒ [<code>HDate</code>](#HDate)
-Returns a cloned HDate object with a specified amount of time added
+Returns a cloned `HDate` object with a specified amount of time added
+
+Units are case insensitive, and support plural and short forms.
+Note, short forms are case sensitive.
+
+| Unit | Shorthand | Description
+| --- | --- | --- |
+| `day` | `d` | days |
+| `week` | `w` | weeks |
+| `month` | `M` | months |
+| `year` | `y` | years |
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
@@ -435,7 +446,17 @@ Returns a cloned HDate object with a specified amount of time added
 <a name="HDate+subtract"></a>
 
 ### hDate.subtract(number, [units]) ⇒ [<code>HDate</code>](#HDate)
-Returns a cloned HDate object with a specified amount of time subracted
+Returns a cloned `HDate` object with a specified amount of time subracted
+
+Units are case insensitive, and support plural and short forms.
+Note, short forms are case sensitive.
+
+| Unit | Shorthand | Description
+| --- | --- | --- |
+| `day` | `d` | days |
+| `week` | `w` | weeks |
+| `month` | `M` | months |
+| `year` | `y` | years |
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
@@ -444,6 +465,39 @@ Returns a cloned HDate object with a specified amount of time subracted
 | number | <code>number</code> |  | 
 | [units] | <code>string</code> | <code>&quot;d&quot;</code> | 
 
+**Example**  
+```js
+import {HDate, months} from '@hebcal/core';
+
+const hd1 = new HDate(15, months.CHESHVAN, 5769);
+const hd2 = hd1.add(1, 'weeks'); // 7 Kislev 5769
+const hd3 = hd1.add(-3, 'M'); // 30 Av 5768
+```
+<a name="HDate+deltaDays"></a>
+
+### hDate.deltaDays(other) ⇒ <code>number</code>
+Returns the difference in days between the two given `HDate`s
+
+The result is positive if the two dates are in chronological order,
+i.e., if date #1 comes chronologically BEFORE date #2, and negative
+if the order of the two dates is reversed.
+
+The result is zero if the two dates are identical.
+
+**Kind**: instance method of [<code>HDate</code>](#HDate)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| other | [<code>HDate</code>](#HDate) | Hebrew date to compare |
+
+**Example**  
+```js
+import {HDate, months} from '@hebcal/core';
+
+const hd1 = new HDate(25, KISLEV, 5770);
+const hd2 = new HDate(15, CHESHVAN, 5769);
+hd1.deltaDays(hd2); // 394
+```
 <a name="HDate+isSameDate"></a>
 
 ### hDate.isSameDate(other) ⇒ <code>boolean</code>

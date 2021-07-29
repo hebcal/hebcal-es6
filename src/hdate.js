@@ -553,7 +553,17 @@ export class HDate {
   }
 
   /**
-   * Returns a cloned HDate object with a specified amount of time added
+   * Returns a cloned `HDate` object with a specified amount of time added
+   *
+   * Units are case insensitive, and support plural and short forms.
+   * Note, short forms are case sensitive.
+   *
+   * | Unit | Shorthand | Description
+   * | --- | --- | --- |
+   * | `day` | `d` | days |
+   * | `week` | `w` | weeks |
+   * | `month` | `M` | months |
+   * | `year` | `y` | years |
    * @param {number} number
    * @param {string} [units]
    * @return {HDate}
@@ -592,13 +602,53 @@ export class HDate {
   }
 
   /**
-   * Returns a cloned HDate object with a specified amount of time subracted
+   * Returns a cloned `HDate` object with a specified amount of time subracted
+   *
+   * Units are case insensitive, and support plural and short forms.
+   * Note, short forms are case sensitive.
+   *
+   * | Unit | Shorthand | Description
+   * | --- | --- | --- |
+   * | `day` | `d` | days |
+   * | `week` | `w` | weeks |
+   * | `month` | `M` | months |
+   * | `year` | `y` | years |
+   * @example
+   * import {HDate, months} from '@hebcal/core';
+   *
+   * const hd1 = new HDate(15, months.CHESHVAN, 5769);
+   * const hd2 = hd1.add(1, 'weeks'); // 7 Kislev 5769
+   * const hd3 = hd1.add(-3, 'M'); // 30 Av 5768
    * @param {number} number
    * @param {string} [units]
    * @return {HDate}
    */
   subtract(number, units='d') {
     return this.add(number * -1, units);
+  }
+
+  /**
+   * Returns the difference in days between the two given `HDate`s
+   *
+   * The result is positive if the two dates are in chronological order,
+   * i.e., if date #1 comes chronologically BEFORE date #2, and negative
+   * if the order of the two dates is reversed.
+   *
+   * The result is zero if the two dates are identical.
+   * @example
+   * import {HDate, months} from '@hebcal/core';
+   *
+   * const hd1 = new HDate(25, KISLEV, 5770);
+   * const hd2 = new HDate(15, CHESHVAN, 5769);
+   * hd1.deltaDays(hd2); // 394
+   * @param {HDate} other Hebrew date to compare
+   * @return {number}
+   */
+  deltaDays(other) {
+    if (!HDate.isHDate(other)) {
+      throw new TypeError(`Bad argument: ${other}`);
+    }
+    return this.abs() - other.abs();
   }
 
   /**
