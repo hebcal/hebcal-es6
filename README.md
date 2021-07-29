@@ -153,12 +153,6 @@ Represents a Hebrew date
 * [HDate](#HDate)
     * [new HDate([day], [month], [year])](#new_HDate_new)
     * _instance_
-        * [.day](#HDate+day) : <code>number</code>
-        * [.year](#HDate+year) : <code>number</code>
-        * [.day](#HDate+day) : <code>number</code>
-        * [.month](#HDate+month) : <code>number</code>
-        * [.year](#HDate+year) : <code>number</code>
-        * [.abs0](#HDate+abs0) : <code>number</code>
         * [.getFullYear()](#HDate+getFullYear) ⇒ <code>number</code>
         * [.isLeapYear()](#HDate+isLeapYear) ⇒ <code>boolean</code>
         * [.getMonth()](#HDate+getMonth) ⇒ <code>number</code>
@@ -232,30 +226,6 @@ const hd5 = new HDate(733359); // ==> 15 Cheshvan 5769
 const monthName = 'אייר';
 const hd6 = new HDate(5, monthName, 5773);
 ```
-<a name="HDate+day"></a>
-
-### hDate.day : <code>number</code>
-**Kind**: instance property of [<code>HDate</code>](#HDate)  
-<a name="HDate+year"></a>
-
-### hDate.year : <code>number</code>
-**Kind**: instance property of [<code>HDate</code>](#HDate)  
-<a name="HDate+day"></a>
-
-### hDate.day : <code>number</code>
-**Kind**: instance property of [<code>HDate</code>](#HDate)  
-<a name="HDate+month"></a>
-
-### hDate.month : <code>number</code>
-**Kind**: instance property of [<code>HDate</code>](#HDate)  
-<a name="HDate+year"></a>
-
-### hDate.year : <code>number</code>
-**Kind**: instance property of [<code>HDate</code>](#HDate)  
-<a name="HDate+abs0"></a>
-
-### hDate.abs0 : <code>number</code>
-**Kind**: instance property of [<code>HDate</code>](#HDate)  
 <a name="HDate+getFullYear"></a>
 
 ### hDate.getFullYear() ⇒ <code>number</code>

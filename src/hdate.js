@@ -165,9 +165,15 @@ export class HDate {
     }
     if (arguments.length == 3) {
       // Hebrew day, Hebrew month, Hebrew year
-      /** @type {number} */
+      /**
+       * @private
+       * @type {number}
+       */
       this.day = this.month = 1;
-      /** @type {number} */
+      /**
+       * @private
+       * @type {number}
+       */
       this.year = +year;
       if (isNaN(this.year)) {
         throw new TypeError(`HDate called with bad year argument: ${year}`);
@@ -189,14 +195,26 @@ export class HDate {
         throwTypeError(`HDate called with bad argument: ${day}`);
       const isNumber = typeof abs0 === 'number';
       const d = isNumber ? HDate.abs2hebrew(abs0) : abs0;
-      /** @type {number} */
+      /**
+       * @private
+       * @type {number}
+       */
       this.day = d.dd;
-      /** @type {number} */
+      /**
+       * @private
+       * @type {number}
+       */
       this.month = d.mm;
-      /** @type {number} */
+      /**
+       * @private
+       * @type {number}
+       */
       this.year = d.yy;
       if (isNumber) {
-        /** @type {number} */
+        /**
+         * @private
+         * @type {number}
+         */
         this.abs0 = abs0;
       }
     }
