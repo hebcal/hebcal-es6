@@ -141,10 +141,10 @@ declare module '@hebcal/core' {
          */
         subtract(number: number, units?: UnitType): HDate;
         /**
-         * Returns the difference in days between the two given `HDate`s
+         * Returns the difference in days between the two given HDates.
          *
-         * The result is positive if the two dates are in chronological order,
-         * i.e., if date #1 comes chronologically BEFORE date #2, and negative
+         * The result is positive if `this` date is comes chronologically
+         * after the `other` date, and negative
          * if the order of the two dates is reversed.
          *
          * The result is zero if the two dates are identical.

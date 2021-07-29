@@ -628,19 +628,19 @@ export class HDate {
   }
 
   /**
-   * Returns the difference in days between the two given `HDate`s
+   * Returns the difference in days between the two given HDates.
    *
-   * The result is positive if the two dates are in chronological order,
-   * i.e., if date #1 comes chronologically BEFORE date #2, and negative
+   * The result is positive if `this` date is comes chronologically
+   * after the `other` date, and negative
    * if the order of the two dates is reversed.
    *
    * The result is zero if the two dates are identical.
    * @example
    * import {HDate, months} from '@hebcal/core';
    *
-   * const hd1 = new HDate(25, KISLEV, 5770);
-   * const hd2 = new HDate(15, CHESHVAN, 5769);
-   * hd1.deltaDays(hd2); // 394
+   * const hd1 = new HDate(25, months.KISLEV, 5770);
+   * const hd2 = new HDate(15, months.CHESHVAN, 5769);
+   * const days = hd1.deltaDays(hd2); // 394
    * @param {HDate} other Hebrew date to compare
    * @return {number}
    */
