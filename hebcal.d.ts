@@ -58,6 +58,11 @@ declare module '@hebcal/core' {
         CHOL_HAMOED,
     }
 
+    export type UnitTypeShort = 'd' | 'w' | 'M' | 'y';
+    export type UnitTypeLong =  'day' | 'week' | 'month' | 'year';
+    export type UnitTypeLongPlural = 'days' | 'weeks' | 'months' | 'years';
+    export type UnitType = UnitTypeLong | UnitTypeLongPlural | UnitTypeShort;
+
     /** Class representing a Hebrew date */
     export class HDate {
         /**
@@ -125,6 +130,16 @@ declare module '@hebcal/core' {
         after(day: number): HDate;
         next(): HDate;
         prev(): HDate;
+        /**
+         * Returns a cloned HDate object with a specified amount of time added
+         * @param units Units are case insensitive, and support plural and short forms. Note, short forms are case sensitive
+         */
+        add(number: number, units?: UnitType): HDate;
+        /**
+         * Returns a cloned HDate object with a specified amount of time subtracted
+         * @param units Units are case insensitive, and support plural and short forms. Note, short forms are case sensitive
+         */
+        subtract(number: number, units?: UnitType): HDate;
         isSameDate(other: HDate): boolean;
 
         /**

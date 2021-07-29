@@ -111,6 +111,13 @@ const edCache = Object.create(null);
 
 const EPOCH = -1373428;
 
+const UNITS_DAY = 'day';
+const UNITS_WEEK = 'week';
+const UNITS_MONTH = 'month';
+const UNITS_YEAR = 'year';
+const UNITS_SINGLE = {d: UNITS_DAY, w: UNITS_WEEK, M: UNITS_MONTH, y: UNITS_YEAR};
+const UNITS_VALID = {day: UNITS_DAY, week: UNITS_WEEK, month: UNITS_MONTH, year: UNITS_YEAR};
+
 /**
  * A simple Hebrew date object with numeric fields `yy`, `mm`, and `dd`
  * @typedef {Object} SimpleHebrewDate
@@ -528,6 +535,55 @@ export class HDate {
   }
 
   /**
+   * Returns a cloned HDate object with a specified amount of time added
+   * @param {number} number
+   * @param {string} [units]
+   * @return {HDate}
+   */
+  add(number, units='d') {
+    number = parseInt(number, 10);
+    if (!number) {
+      return new HDate(this);
+    }
+    units = HDate.standardizeUnits(units);
+    if (units === UNITS_DAY) {
+      return new HDate(this.abs() + number);
+    } else if (units === UNITS_WEEK) {
+      return new HDate(this.abs() + (7 * number));
+    } else if (units === UNITS_YEAR) {
+      return new HDate(this.getDate(), this.getMonth(), this.getFullYear() + number);
+    } else if (units === UNITS_MONTH) {
+      let hd = new HDate(this);
+      const sign = number > 0 ? 1 : -1;
+      number = Math.abs(number);
+      for (let i = 0; i < number; i++) {
+        hd = new HDate(hd.abs() + (sign * hd.daysInMonth()));
+      }
+      return hd;
+    }
+  }
+
+  /**
+   * @private
+   * @param {string} units
+   * @return {string}
+   */
+  static standardizeUnits(units) {
+    const full = UNITS_SINGLE[units] || String(units || '').toLowerCase().replace(/s$/, '');
+    return UNITS_VALID[full] || throwTypeError(`Invalid units '${units}'`);
+  }
+
+  /**
+   * Returns a cloned HDate object with a specified amount of time subracted
+   * @param {number} number
+   * @param {string} [units]
+   * @return {HDate}
+   */
+  subtract(number, units='d') {
+    return this.add(number * -1, units);
+  }
+
+  /**
    * Compares this date to another date, returning `true` if the dates match.
    * @param {HDate} other Hebrew date to compare
    * @return {boolean}
@@ -839,7 +895,6 @@ function mod(x, y) {
 function fix(date) {
   fixMonth(date);
   fixDate(date);
-  delete date.abs0;
 }
 
 /**
@@ -883,6 +938,7 @@ function fixMonth(date) {
     date.year += 1;
     fix(date);
   }
+  delete date.abs0;
 }
 
 /**

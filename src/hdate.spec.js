@@ -358,3 +358,92 @@ test('getDay', (t) => {
   t.is(new HDate(24, SIVAN, 3333).getDay(), 4);
   t.is(new HDate(23, SIVAN, 3333).getDay(), 3);
 });
+
+test('add', (t) => {
+  const cheshvan29 = new HDate(29, CHESHVAN, 5769);
+  let hd = cheshvan29.add(1, 'd');
+  t.is(hd.getMonth(), KISLEV);
+  t.is(hd.getDate(), 1);
+  t.is(hd.getFullYear(), 5769);
+
+  hd = cheshvan29.add(10, 'days');
+  t.is(hd.getMonth(), KISLEV);
+  t.is(hd.getDate(), 10);
+  t.is(hd.getFullYear(), 5769);
+
+  hd = cheshvan29.add(1, 'weeks');
+  t.is(hd.getMonth(), KISLEV);
+  t.is(hd.getDate(), 7);
+  t.is(hd.getFullYear(), 5769);
+
+  hd = cheshvan29.add(-3, 'Days');
+  t.is(hd.getMonth(), CHESHVAN);
+  t.is(hd.getDate(), 26);
+  t.is(hd.getFullYear(), 5769);
+
+  hd = cheshvan29.add(-3, 'Day');
+  t.is(hd.getMonth(), CHESHVAN);
+  t.is(hd.getDate(), 26);
+  t.is(hd.getFullYear(), 5769);
+
+  hd = cheshvan29.add(0, 'y');
+  t.is(hd.getMonth(), CHESHVAN);
+  t.is(hd.getDate(), 29);
+  t.is(hd.getFullYear(), 5769);
+
+  const adarIIleap = new HDate(14, ADAR_II, 5763);
+  hd = adarIIleap.add(1, 'years');
+  t.is(hd.getMonth(), ADAR_I);
+  t.is(hd.getDate(), 14);
+  t.is(hd.getFullYear(), 5764);
+
+  hd = adarIIleap.add(2, 'year');
+  t.is(hd.getMonth(), ADAR_II);
+  t.is(hd.getDate(), 14);
+  t.is(hd.getFullYear(), 5765);
+
+  hd = adarIIleap.add(19, 'y');
+  t.is(hd.getMonth(), ADAR_II);
+  t.is(hd.getDate(), 14);
+  t.is(hd.getFullYear(), 5782);
+
+  hd = adarIIleap.add(52, 'WEEKS');
+  t.is(hd.getMonth(), ADAR_I);
+  t.is(hd.getDate(), 23);
+  t.is(hd.getFullYear(), 5764);
+
+  const adarNonLeap = new HDate(14, ADAR_I, 5764);
+  t.is(adarNonLeap.getMonth(), ADAR_I);
+  t.is(adarNonLeap.getDate(), 14);
+  t.is(adarNonLeap.getFullYear(), 5764);
+
+  hd = adarNonLeap.add(-3, 'months');
+  t.is(hd.getMonth(), KISLEV);
+  t.is(hd.getDate(), 15);
+  t.is(hd.getFullYear(), 5764);
+
+  hd = adarNonLeap.add(-1, 'months');
+  t.is(hd.getMonth(), SHVAT);
+  t.is(hd.getDate(), 15);
+  t.is(hd.getFullYear(), 5764);
+
+  hd = adarNonLeap.add(-6, 'months');
+  t.is(hd.getMonth(), ELUL);
+  t.is(hd.getDate(), 14);
+  t.is(hd.getFullYear(), 5763);
+
+  hd = adarNonLeap.add(1, 'months');
+  t.is(hd.getMonth(), NISAN);
+  t.is(hd.getDate(), 14);
+  t.is(hd.getFullYear(), 5764);
+
+  hd = adarNonLeap.add(2, 'month');
+  t.is(hd.getMonth(), IYYAR);
+  t.is(hd.getDate(), 14);
+  t.is(hd.getFullYear(), 5764);
+
+  hd = adarNonLeap.add(15, 'month');
+  t.is(hd.getMonth(), IYYAR);
+  t.is(hd.getDate(), 14);
+  t.is(hd.getFullYear(), 5765);
+});

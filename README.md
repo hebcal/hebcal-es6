@@ -178,6 +178,8 @@ Represents a Hebrew date
         * [.after(day)](#HDate+after) ⇒ [<code>HDate</code>](#HDate)
         * [.next()](#HDate+next) ⇒ [<code>HDate</code>](#HDate)
         * [.prev()](#HDate+prev) ⇒ [<code>HDate</code>](#HDate)
+        * [.add(number, [units])](#HDate+add) ⇒ [<code>HDate</code>](#HDate)
+        * [.subtract(number, [units])](#HDate+subtract) ⇒ [<code>HDate</code>](#HDate)
         * [.isSameDate(other)](#HDate+isSameDate) ⇒ <code>boolean</code>
         * [.toString()](#HDate+toString) ⇒ <code>string</code>
     * _static_
@@ -448,6 +450,30 @@ Returns the next Hebrew date
 Returns the previous Hebrew date
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
+<a name="HDate+add"></a>
+
+### hDate.add(number, [units]) ⇒ [<code>HDate</code>](#HDate)
+Returns a cloned HDate object with a specified amount of time added
+
+**Kind**: instance method of [<code>HDate</code>](#HDate)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| number | <code>number</code> |  | 
+| [units] | <code>string</code> | <code>&quot;d&quot;</code> | 
+
+<a name="HDate+subtract"></a>
+
+### hDate.subtract(number, [units]) ⇒ [<code>HDate</code>](#HDate)
+Returns a cloned HDate object with a specified amount of time subracted
+
+**Kind**: instance method of [<code>HDate</code>](#HDate)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| number | <code>number</code> |  | 
+| [units] | <code>string</code> | <code>&quot;d&quot;</code> | 
+
 <a name="HDate+isSameDate"></a>
 
 ### hDate.isSameDate(other) ⇒ <code>boolean</code>
@@ -1522,7 +1548,7 @@ Returns translation of "Omer 22" without ordinal numbers.
 
 ### omerEvent.getEmoji() ⇒ <code>string</code>
 **Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
-<a name="OmerEvent+url"></a>
+<a name="OmerEvent+getWeeks"></a>
 
 ### omerEvent.getWeeks() ⇒ <code>number</code>
 **Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
