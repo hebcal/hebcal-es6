@@ -538,3 +538,13 @@ test('emoji', (t) => {
     }
   }
 });
+
+test('Yom HaAliyah', (t) => {
+  const events = HebrewCalendar.calendar({year: 2038});
+  const aliyah = events.filter((ev) => ev.getDesc().startsWith('Yom HaAliyah'));
+  t.is(aliyah.length, 2);
+  t.is(aliyah[0].getDate().toString(), '10 Nisan 5798');
+  t.is(aliyah[0].getDesc(), 'Yom HaAliyah');
+  t.is(aliyah[1].getDate().toString(), '7 Cheshvan 5799');
+  t.is(aliyah[1].getDesc(), 'Yom HaAliyah School Observance');
+});

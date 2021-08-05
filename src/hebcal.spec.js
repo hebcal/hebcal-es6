@@ -255,7 +255,7 @@ test('addHebrewDates', (t) => {
     location: Location.lookup('Providence'),
   };
   const ev = HebrewCalendar.calendar(options);
-  t.is(ev.length, 84);
+  t.is(ev.length, 85);
   t.is(ev[0].getFlags(), flags.HEBREW_DATE);
   t.is(gregDtString(ev[0]), '4/1/2020');
   t.is(ev[0].getDesc(), '7 Nisan 5780');
