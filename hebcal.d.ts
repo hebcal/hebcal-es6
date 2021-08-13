@@ -518,8 +518,9 @@ declare module '@hebcal/core' {
          * @property molad - include event announcing the molad
          * @property ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
          * @property locale - translate event titles according to a locale
-         *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
-         *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
+         *      Default value is `en`, also built-in are `he` and `ashkenazi`.
+         *      Additional locales (such as `ru` or `fr`) are provided by the
+         *      {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
          * @property addHebrewDates - print the Hebrew date for the entire date range
          * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
          * @property mask - use bitmask from `flags` to filter events
@@ -798,6 +799,10 @@ declare module '@hebcal/core' {
          */
         find(parsha: number | string | string[]): HDate;
         getYear(): number;
+        /**
+         * R.D. date of the first Saturday on or after Rosh Hashana
+         */
+        getFirstSaturday(): number;
     }
 
     export class TimedEvent extends Event {

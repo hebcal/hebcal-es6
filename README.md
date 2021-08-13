@@ -126,7 +126,7 @@ holidays. <code>@hebcal/core</code> supports three locales by default</p>
 <dl>
 <dt><a href="#parshiot">parshiot</a> : <code>Array.&lt;string&gt;</code></dt>
 <dd><p>The 54 parshiyot of the Torah as transilterated strings
-parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &#39;Ha&#39;Azinu&#39;.</p>
+parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &quot;Ha&#39;Azinu&quot;.</p>
 </dd>
 <dt><a href="#HebrewCalendar">HebrewCalendar</a></dt>
 <dd><p>HebrewCalendar is the main interface to the <code>@hebcal/core</code> library.
@@ -141,6 +141,9 @@ Event names can be rendered in several languges using the <code>locale</code> op
 <dl>
 <dt><a href="#ZmanimTimesResult">ZmanimTimesResult</a> : <code>Object</code></dt>
 <dd></dd>
+<dt><a href="#SedraResult">SedraResult</a> : <code>Object</code></dt>
+<dd><p>Result of Sedra.lookup</p>
+</dd>
 </dl>
 
 <a name="HDate"></a>
@@ -476,11 +479,11 @@ const hd3 = hd1.add(-3, 'M'); // 30 Av 5768
 <a name="HDate+deltaDays"></a>
 
 ### hDate.deltaDays(other) ⇒ <code>number</code>
-Returns the difference in days between the two given `HDate`s
+Returns the difference in days between the two given HDates.
 
 The result is positive if `this` date is comes chronologically
-after the `other` date, and negative if the order of the two dates
-is reversed.
+after the `other` date, and negative
+if the order of the two dates is reversed.
 
 The result is zero if the two dates are identical.
 
@@ -494,9 +497,9 @@ The result is zero if the two dates are identical.
 ```js
 import {HDate, months} from '@hebcal/core';
 
-const hd1 = new HDate(25, KISLEV, 5770);
-const hd2 = new HDate(15, CHESHVAN, 5769);
-hd1.deltaDays(hd2); // 394
+const hd1 = new HDate(25, months.KISLEV, 5770);
+const hd2 = new HDate(15, months.CHESHVAN, 5769);
+const days = hd1.deltaDays(hd2); // 394
 ```
 <a name="HDate+isSameDate"></a>
 
@@ -1693,10 +1696,9 @@ Represents Parashah HaShavua for an entire Hebrew year
     * [.getString(hDate, [locale])](#Sedra+getString) ⇒ <code>string</code>
     * [.isParsha(hDate)](#Sedra+isParsha) ⇒ <code>boolean</code>
     * [.find(parsha)](#Sedra+find) ⇒ [<code>HDate</code>](#HDate)
-    * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;Object&gt;</code>
     * [.getFirstSaturday()](#Sedra+getFirstSaturday) ⇒ <code>number</code>
     * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
-    * [.lookup(hDate)](#Sedra+lookup) ⇒ <code>Object</code>
+    * [.lookup(hDate)](#Sedra+lookup) ⇒ [<code>SedraResult</code>](#SedraResult)
 
 <a name="new_Sedra_new"></a>
 
@@ -1755,14 +1757,10 @@ Returns the date that a parsha occurs
 | --- | --- |
 | parsha | <code>number</code> \| <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 
-<a name="Sedra+getSedraArray"></a>
-
-### sedra.getSedraArray() ⇒ <code>Array.&lt;Object&gt;</code>
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
 <a name="Sedra+getFirstSaturday"></a>
 
 ### sedra.getFirstSaturday() ⇒ <code>number</code>
-the first Saturday on or after Rosh Hashana
+R.D. date of the first Saturday on or after Rosh Hashana
 
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
 <a name="Sedra+getYear"></a>
@@ -1771,7 +1769,7 @@ the first Saturday on or after Rosh Hashana
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
 <a name="Sedra+lookup"></a>
 
-### sedra.lookup(hDate) ⇒ <code>Object</code>
+### sedra.lookup(hDate) ⇒ [<code>SedraResult</code>](#SedraResult)
 Returns an object describing the parsha on the first Saturday on or after absdate
 
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
@@ -2215,7 +2213,7 @@ Holiday flags for Event
 
 ## parshiot : <code>Array.&lt;string&gt;</code>
 The 54 parshiyot of the Torah as transilterated strings
-parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'Azinu'.
+parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'Azinu".
 
 **Kind**: global constant  
 **Read only**: true  
@@ -2513,7 +2511,7 @@ Options to configure which events are returned
 | omer | <code>boolean</code> | include Days of the Omer |
 | molad | <code>boolean</code> | include event announcing the molad |
 | ashkenazi | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
-| locale | <code>string</code> | translate event titles according to a locale      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`) |
+| locale | <code>string</code> | translate event titles according to a locale      Default value is `en`, also built-in are `he` and `ashkenazi`.      Additional locales (such as `ru` or `fr`) are provided by the      [@hebcal/locales](https://github.com/hebcal/hebcal-locales) package |
 | addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
 | addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
 | mask | <code>number</code> | use bitmask from `flags` to filter events |
@@ -2543,3 +2541,16 @@ Options to configure which events are returned
 | misheyakir | <code>Date</code> | 
 | misheyakirMachmir | <code>Date</code> | 
 | tzeit | <code>Date</code> | 
+
+<a name="SedraResult"></a>
+
+## SedraResult : <code>Object</code>
+Result of Sedra.lookup
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| parsha | <code>Array.&lt;string&gt;</code> | Name of the parsha (or parshiyot) read on     Hebrew date, e.g. `['Noach']` or `['Matot', 'Masei']` |
+| chag | <code>boolean</code> | True if this is a regular parasha HaShavua     Torah reading, false if it's a special holiday reading |

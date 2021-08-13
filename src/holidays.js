@@ -495,7 +495,8 @@ export function getHolidaysForYear(year) {
       new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs() + 7)), 'Shabbat Nachamu', SPECIAL_SHABBAT),
   );
 
-  for (let month = 1; month <= HDate.monthsInYear(year); month++) {
+  const monthsInYear = HDate.monthsInYear(year);
+  for (let month = 1; month <= monthsInYear; month++) {
     const monthName = HDate.getMonthName(month, year);
     if ((month == NISAN ?
         HDate.daysInMonth(HDate.monthsInYear(year - 1), year - 1) :

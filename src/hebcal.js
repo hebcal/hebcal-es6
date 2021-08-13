@@ -194,8 +194,9 @@ function checkCandleOptions(options) {
  * @property {boolean} molad - include event announcing the molad
  * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
  * @property {string} locale - translate event titles according to a locale
- *      (one of `fi`, `fr`, `he`, `hu`, `pl`, `ru`,
- *      `ashkenazi`, `ashkenazi_litvish`, `ashkenazi_poylish`, `ashkenazi_standard`)
+ *      Default value is `en`, also built-in are `he` and `ashkenazi`.
+ *      Additional locales (such as `ru` or `fr`) are provided by the
+ *      {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
  * @property {boolean} addHebrewDates - print the Hebrew date for the entire date range
  * @property {boolean} addHebrewDatesForEvents - print the Hebrew date for dates with some events
  * @property {number} mask - use bitmask from `flags` to filter events

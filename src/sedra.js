@@ -45,6 +45,15 @@ function throwError(errorMessage) {
 }
 
 /**
+ * Result of Sedra.lookup
+ * @typedef {Object} SedraResult
+ * @property {string[]} parsha Name of the parsha (or parshiyot) read on
+ *     Hebrew date, e.g. `['Noach']` or `['Matot', 'Masei']`
+ * @property {boolean} chag True if this is a regular parasha HaShavua
+ *     Torah reading, false if it's a special holiday reading
+ */
+
+/**
  * Represents Parashah HaShavua for an entire Hebrew year
  */
 export class Sedra {
@@ -168,13 +177,16 @@ export class Sedra {
     }
   }
 
-  /** @return {Object[]} */
+  /**
+   * @private
+   * @return {Object[]}
+   */
   getSedraArray() {
     return this.theSedraArray;
   }
 
   /**
-   * the first Saturday on or after Rosh Hashana
+   * R.D. date of the first Saturday on or after Rosh Hashana
    * @return {number}
    */
   getFirstSaturday() {
@@ -189,7 +201,7 @@ export class Sedra {
   /**
    * Returns an object describing the parsha on the first Saturday on or after absdate
    * @param {HDate|number} hDate Hebrew date or R.D. days
-   * @return {Object}
+   * @return {SedraResult}
    */
   lookup(hDate) {
     const absDate = (typeof hDate === 'number') ? hDate :
@@ -221,7 +233,7 @@ export class Sedra {
 
 /**
  * The 54 parshiyot of the Torah as transilterated strings
- * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'Azinu'.
+ * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'Azinu".
  * @readonly
  * @type {string[]}
  */
