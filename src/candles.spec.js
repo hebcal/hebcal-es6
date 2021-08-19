@@ -246,12 +246,13 @@ test('jerusalem40', (t) => {
   const options = {
     start: new Date(2020, 0, 1),
     end: new Date(2020, 2, 31),
-    noHolidays: true,
     location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
     candlelighting: true,
     havdalahMins: 0,
   };
-  const events = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const events = HebrewCalendar.calendar(options);
+  const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
+  const items = candleEvents.map(eventTitleDateTime);
   const expected = [
     {date: '2020-01-03', time: '16:07', desc: 'Candle lighting'},
     {date: '2020-01-10', time: '16:12', desc: 'Candle lighting'},
@@ -267,7 +268,47 @@ test('jerusalem40', (t) => {
     {date: '2020-03-20', time: '17:10', desc: 'Candle lighting'},
     {date: '2020-03-27', time: '18:15', desc: 'Candle lighting'},
   ];
-  t.deepEqual(events, expected);
+  t.deepEqual(items, expected);
+});
+
+test('jerusalem31', (t) => {
+  const options = {
+    start: new Date(2020, 2, 1),
+    end: new Date(2020, 2, 31),
+    location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
+    candlelighting: true,
+    candleLightingMins: 31,
+  };
+  const events = HebrewCalendar.calendar(options);
+  const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
+  const items = candleEvents.map(eventTitleDateTime);
+  const expected = [
+    {date: '2020-03-06', time: '17:09', desc: 'Candle lighting'},
+    {date: '2020-03-13', time: '17:14', desc: 'Candle lighting'},
+    {date: '2020-03-20', time: '17:19', desc: 'Candle lighting'},
+    {date: '2020-03-27', time: '18:24', desc: 'Candle lighting'},
+  ];
+  t.deepEqual(items, expected);
+});
+
+test('jerusalem18-forced-to-40', (t) => {
+  const options = {
+    start: new Date(2020, 2, 1),
+    end: new Date(2020, 2, 31),
+    location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
+    candlelighting: true,
+    candleLightingMins: 18,
+  };
+  const events = HebrewCalendar.calendar(options);
+  const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
+  const items = candleEvents.map(eventTitleDateTime);
+  const expected = [
+    {date: '2020-03-06', time: '17:00', desc: 'Candle lighting'},
+    {date: '2020-03-13', time: '17:05', desc: 'Candle lighting'},
+    {date: '2020-03-20', time: '17:10', desc: 'Candle lighting'},
+    {date: '2020-03-27', time: '18:15', desc: 'Candle lighting'},
+  ];
+  t.deepEqual(items, expected);
 });
 
 test('chanukah-candles', (t) => {

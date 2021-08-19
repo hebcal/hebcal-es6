@@ -143,15 +143,13 @@ function checkCandleOptions(options) {
     throw new TypeError('options.havdalahMins and options.havdalahDeg are mutually exclusive');
   }
 
-  let min = 18;
-  if (typeof options.candleLightingMins === 'number') {
-    min = Math.abs(options.candleLightingMins);
-  }
+  let min = parseInt(options.candleLightingMins, 10) || 18;
   if (options.location && options.location.getIsrael() &&
-      options.location.getShortName() === 'Jerusalem') {
+      options.location.getShortName() === 'Jerusalem' &&
+      Math.abs(min) === 18) {
     min = 40;
   }
-  options.candleLightingMins = -1 * min;
+  options.candleLightingMins = -1 * Math.abs(min);
 
   if (typeof options.havdalahMins === 'number') {
     options.havdalahMins = Math.abs(options.havdalahMins);
