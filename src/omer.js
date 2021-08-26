@@ -1,6 +1,6 @@
 import {flags, Event, KEYCAP_DIGITS} from './event';
 import {Locale} from './locale';
-import gematriya from 'gematriya';
+import {gematriya} from './gematriya';
 
 const sefirot = [
   null,

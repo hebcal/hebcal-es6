@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {greg as g} from './greg';
-import gematriya from 'gematriya';
+import {gematriya} from './gematriya';
 import {Locale} from './locale';
 
 const NISAN = 1;
@@ -466,7 +466,7 @@ export class HDate {
     const d = this.getDate();
     const m = Locale.gettext(this.getMonthName(), 'he');
     const y = this.getFullYear();
-    return gematriya(d) + ' ' + m + ' ' + gematriya(y, {limit: 3});
+    return gematriya(d) + ' ' + m + ' ' + gematriya(y);
   }
 
   /**

@@ -1,5 +1,5 @@
 import {Event, flags} from './event';
-import gematriya from 'gematriya';
+import {gematriya} from './gematriya';
 import {Locale} from './locale';
 
 /** Daily Hebrew date ("11th of Sivan, 5780") */
@@ -34,6 +34,6 @@ export class HebrewDateEvent extends Event {
    * @return {string}
    */
   static renderHebrew(day, monthName, fullYear) {
-    return gematriya(day) + ' ' + monthName + ' ' + gematriya(fullYear, {limit: 3});
+    return gematriya(day) + ' ' + monthName + ' ' + gematriya(fullYear);
   }
 }
