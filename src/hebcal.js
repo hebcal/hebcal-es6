@@ -32,6 +32,8 @@ import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
   makeWeekdayChanukahCandleLighting} from './candles';
 import {version as pkgVersion} from '../package.json';
+import './locale-ashkenazi';
+import './locale-he';
 
 const FRI = 5;
 const SAT = 6;

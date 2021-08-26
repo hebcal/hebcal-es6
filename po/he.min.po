@@ -1,0 +1,50 @@
+# Minimal po for HDate only
+msgid ""
+msgstr ""
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Adar"
+msgstr "אַדָר"
+
+msgid "Adar I"
+msgstr "אַדָר א׳"
+
+msgid "Adar II"
+msgstr "אַדָר ב׳"
+
+msgid "Av"
+msgstr "אָב"
+
+msgid "Cheshvan"
+msgstr "חֶשְׁוָן"
+
+msgid "Elul"
+msgstr "אֱלוּל"
+
+msgid "Iyyar"
+msgstr "אִיָיר"
+
+msgid "Kislev"
+msgstr "כִּסְלֵו"
+
+msgid "Nisan"
+msgstr "נִיסָן"
+
+msgid "Sh'vat"
+msgstr "שְׁבָט"
+
+msgid "Sivan"
+msgstr "סִיוָן"
+
+msgid "Tamuz"
+msgstr "תַּמּוּז"
+
+msgid "Tevet"
+msgstr "טֵבֵת"
+
+msgid "Tishrei"
+msgstr "תִשְׁרֵי"

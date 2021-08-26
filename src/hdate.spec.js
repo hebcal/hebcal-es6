@@ -1,5 +1,10 @@
 import test from 'ava';
 import {HDate, months} from './hdate';
+import {Locale} from './locale';
+import poHeMin from './he.min.po.json';
+
+Locale.addLocale('he', poHeMin);
+Locale.addLocale('h', poHeMin);
 
 const NISAN = months.NISAN;
 const IYYAR = months.IYYAR;

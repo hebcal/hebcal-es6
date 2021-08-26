@@ -3,6 +3,8 @@ import test from 'ava';
 import {DafYomi, DafYomiEvent} from './dafyomi';
 import {greg as g} from './greg';
 import {HDate, months} from './hdate';
+import './locale-ashkenazi';
+import './locale-he';
 
 test('dafyomi-single', (t) => {
   const dt = new Date(1995, 11, 17);

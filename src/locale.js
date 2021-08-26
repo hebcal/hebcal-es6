@@ -1,6 +1,3 @@
-import poHe from './he.po.json';
-import poAshkenazi from './ashkenazi.po.json';
-
 const noopLocale = {
   headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
   contexts: {'': {}},
@@ -133,10 +130,6 @@ export const Locale = {
   },
 };
 
-Locale.addLocale('he', poHe);
-Locale.addLocale('h', poHe);
-Locale.addLocale('ashkenazi', poAshkenazi);
-Locale.addLocale('a', poAshkenazi);
 Locale.addLocale('en', noopLocale);
 Locale.addLocale('s', noopLocale);
 Locale.addLocale('', noopLocale);

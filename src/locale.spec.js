@@ -1,5 +1,7 @@
 import test from 'ava';
 import {Locale} from './locale';
+import './locale-ashkenazi';
+import './locale-he';
 
 test('gettext-he', (t) => {
   t.is(Locale.gettext('Yom Kippur', 'he'), 'יוֹם כִּפּוּר');

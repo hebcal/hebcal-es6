@@ -2,6 +2,8 @@ import test from 'ava';
 import {HDate, months} from './hdate';
 import {Locale} from './locale';
 import {Sedra, ParshaEvent} from './sedra';
+import './locale-he';
+import './locale-ashkenazi';
 
 test('ParshaEvent-url', (t) => {
   const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai']);
