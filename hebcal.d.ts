@@ -709,6 +709,10 @@ declare module '@hebcal/core' {
          */
         export const monthNames: string[];
         /**
+         * Returns true if the object is a Javascript Date
+         */
+        export function isDate(obj: any): boolean;
+        /**
          * Returns true if the Gregorian year is a leap year
          * @param year - Gregorian year
          */

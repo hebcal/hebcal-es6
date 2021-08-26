@@ -90,12 +90,21 @@ export const greg = {
   },
 
   /**
+   * Returns true if the object is a Javascript Date
+   * @param {Object} obj
+   * @return {boolean}
+   */
+  isDate: function(obj) {
+    return typeof obj === 'object' && Date.prototype === obj.__proto__;
+  },
+
+  /**
    * Returns number of days since January 1 of that year
    * @param {Date} date Gregorian date
    * @return {number}
    */
   dayOfYear: function(date) {
-    if (typeof date !== 'object' || !date instanceof Date) {
+    if (!this.isDate(date)) {
       throw new TypeError('Argument to greg.dayOfYear not a Date');
     }
     let doy = date.getDate() + 31 * date.getMonth();
@@ -115,7 +124,7 @@ export const greg = {
    * @return {number}
    */
   greg2abs: function(date) {
-    if (typeof date !== 'object' || !date instanceof Date) {
+    if (!this.isDate(date)) {
       throw new TypeError('Argument to greg.greg2abs not a Date');
     }
     const year = date.getFullYear() - 1;

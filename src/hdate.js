@@ -190,7 +190,7 @@ export class HDate {
       }
       // 1 argument
       const abs0 = (typeof day === 'number' && !isNaN(day)) ? day :
-        (day instanceof Date) ? g.greg2abs(day) :
+        g.isDate(day) ? g.greg2abs(day) :
         HDate.isHDate(day) ? {dd: day.day, mm: day.month, yy: day.year} :
         throwTypeError(`HDate called with bad argument: ${day}`);
       const isNumber = typeof abs0 === 'number';

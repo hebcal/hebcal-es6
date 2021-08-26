@@ -124,7 +124,6 @@ export default [
         presets: [
           ['@babel/preset-env', {
             modules: false,
-            debug: true,
             targets: {
               edge: '17',
               firefox: '60',

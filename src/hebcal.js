@@ -210,7 +210,7 @@ function checkCandleOptions(options) {
  */
 function getAbs(d) {
   if (typeof d == 'number') return d;
-  if (d instanceof Date) return g.greg2abs(d);
+  if (g.isDate(d)) return g.greg2abs(d);
   if (HDate.isHDate(d)) return d.abs();
   throw new TypeError(`Invalid date type: ${d}`);
 }

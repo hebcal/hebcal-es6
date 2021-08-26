@@ -25,6 +25,7 @@ import {Event, flags} from './event';
 
 const osdate = new Date(1923, 8, 11);
 const osday = g.greg2abs(osdate);
+const nsday = g.greg2abs(new Date(1975, 5, 24));
 
 const shas = [
   ['Berachot',       64],
@@ -80,16 +81,15 @@ export class DafYomi {
    * @param {Date} gregdate Gregorian date
    */
   constructor(gregdate) {
-    if (!(gregdate instanceof Date)) {
-      throw new TypeError('non-date given to dafyomi');
-    }
-    const cday = g.greg2abs(gregdate);
+    const cday = (typeof gregdate === 'number' && !isNaN(gregdate)) ? gregdate :
+      g.isDate(gregdate) ? g.greg2abs(gregdate) :
+      HDate.isHDate(gregdate) ? gregdate.abs() :
+      throwTypeError(`non-date given to dafyomi: ${gregdate}`);
     if (cday < osday) {
       throw new RangeError(`Date ${gregdate} too early; Daf Yomi cycle began on ${osdate}`);
     }
     let cno;
     let dno;
-    const nsday = g.greg2abs(new Date(1975, 5, 24));
     if (cday >= nsday) { // "new" cycle
       cno = 8 + ( (cday - nsday) / 2711 );
       dno = (cday - nsday) % 2711;

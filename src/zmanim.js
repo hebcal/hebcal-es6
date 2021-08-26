@@ -1,6 +1,7 @@
 import {HDate} from './hdate';
 import Sun from '@hebcal/solar-calc/lib/sun';
 import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
+import {greg} from './greg';
 
 // eslint-disable-next-line require-jsdoc
 function throwTypeError(error) {
@@ -58,7 +59,7 @@ export class Zmanim {
     if (longitude < -180 || longitude > 180) {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
-    const dt = date instanceof Date ? date :
+    const dt = greg.isDate(date) ? date :
         HDate.isHDate(date) ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
     this.date = dt;
