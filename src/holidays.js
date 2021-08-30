@@ -434,19 +434,19 @@ export function getHolidaysForYear(year) {
 
   if (year >= 5708) {
     // Yom HaAtzma'ut only celebrated after 1948
-    const tmpDate = new HDate(1, IYYAR, year);
-    const pesach = new HDate(15, NISAN, year);
+    let day;
     if (pesach.getDay() == SUN) {
-      tmpDate.setDate(2);
+      day = 2;
     } else if (pesach.getDay() == SAT) {
-      tmpDate.setDate(3);
+      day = 3;
     } else if (year < 5764) {
-      tmpDate.setDate(4);
+      day = 4;
     } else if (pesach.getDay() == TUE) {
-      tmpDate.setDate(5);
+      day = 5;
     } else {
-      tmpDate.setDate(4);
+      day = 4;
     }
+    const tmpDate = new HDate(day, IYYAR, year);
     add(
         new HolidayEvent(tmpDate, 'Yom HaZikaron', MODERN_HOLIDAY, emojiIsraelFlag),
         new HolidayEvent(tmpDate.next(), 'Yom HaAtzma\'ut', MODERN_HOLIDAY, emojiIsraelFlag),
