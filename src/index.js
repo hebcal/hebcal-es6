@@ -13,4 +13,5 @@ export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays';
 export {Locale} from './locale';
 export {HebrewCalendar} from './hebcal';
+export {gematriya} from './gematriya';
 export {version} from '../package.json';
