@@ -399,9 +399,9 @@ export class HDate {
       throw new TypeError(`invalid parameter to abs2hebrew ${abs}`);
     }
 
-    const approx = 1 + Math.floor((abs - EPOCH) / 365.24682220597794);
+    const approx = Math.floor((abs - EPOCH) / 365.24682220597794);
 
-    let year = approx - 1;
+    let year = approx;
     while (HDate.newYear(year) <= abs) {
       ++year;
     }
