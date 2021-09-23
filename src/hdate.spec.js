@@ -232,7 +232,7 @@ test('abs2hebrew-88ce', (t) => {
 
 test('renderGematriya', (t) => {
   t.is(new HDate(17, 'Tamuz', 5748).renderGematriya(), 'י״ז תַּמּוּז תשמ״ח');
-  t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִשְׁרֵי תש״פ');
+  t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִשְׁרֵי תש״פ');
 });
 
 test('monthFromName', (t) => {

@@ -17,7 +17,7 @@ test('render', (t) => {
   t.is(hd2.render(''), '1st of Tishrei, 5780');
   t.is(hd2.render('en'), '1st of Tishrei, 5780');
   t.is(hd2.render('ashkenazi'), '1st of Tishrei, 5780');
-  t.is(hd2.render('he'), 'א׳ תִשְׁרֵי תש״פ');
+  t.is(hd2.render('he'), 'א׳ תִשְׁרֵי תש״פ');
   t.is(elul29.render(), '29th of Elul, 5779');
   t.is(elul29.render('en'), '29th of Elul, 5779');
   t.is(elul29.render(''), '29th of Elul, 5779');
@@ -27,7 +27,7 @@ test('render', (t) => {
   t.is(tishrei1.render(''), '1st of Tishrei, 5780');
   t.is(tishrei1.render('en'), '1st of Tishrei, 5780');
   t.is(tishrei1.render('ashkenazi'), '1st of Tishrei, 5780');
-  t.is(tishrei1.render('he'), '1. תִשְׁרֵי, 5780');
+  t.is(tishrei1.render('he'), '1. תִשְׁרֵי, 5780');
 });
 
 test('renderGematriya', (t) => {

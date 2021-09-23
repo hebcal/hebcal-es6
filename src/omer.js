@@ -40,7 +40,7 @@ export class OmerEvent extends Event {
     const heWeek = Locale.gettext(week, 'he');
     const heDayWithinWeek = Locale.gettext(dayWithinWeek, 'he');
     const hePrefix = 'שֶׁבַּ';
-    this.memo = `${dayWithinWeek} that is in ${week} / ${heDayWithinWeek} ${hePrefix}${heWeek}`;
+    this.memo = `${dayWithinWeek} that is in ${week} / ${heDayWithinWeek} ${hePrefix}${heWeek}`.normalize();
   }
   /**
    * @todo use gettext()

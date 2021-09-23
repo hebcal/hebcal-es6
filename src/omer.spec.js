@@ -29,30 +29,30 @@ test('render', (t) => {
 
 test('memo-and-days-weeks', (t) => {
   let omer = new OmerEvent(new HDate(16, 'Nisan', 5770), 1);
-  t.is(omer.memo, 'Lovingkindness that is in Lovingkindness / חֶֽסֶד שֶׁבַּחֶֽסֶד');
+  t.is(omer.memo, 'Lovingkindness that is in Lovingkindness / חֶֽסֶד שֶׁבַּחֶֽסֶד');
   t.is(omer.getTodayIs('en'), 'Today is 1 day of the Omer');
 
   omer = new OmerEvent(new HDate(17, 'Nisan', 5770), 2);
-  t.is(omer.memo, 'Might that is in Lovingkindness / גְבוּרָה שֶׁבַּחֶֽסֶד');
+  t.is(omer.memo, 'Might that is in Lovingkindness / גְבוּרָה שֶׁבַּחֶֽסֶד');
   t.is(omer.getTodayIs('en'), 'Today is 2 days of the Omer');
 
   omer = new OmerEvent(new HDate(22, 'Nisan', 5770), 7);
-  t.is(omer.memo, 'Majesty that is in Lovingkindness / מַּלְכוּת שֶׁבַּחֶֽסֶד');
+  t.is(omer.memo, 'Majesty that is in Lovingkindness / מַּלְכוּת שֶׁבַּחֶֽסֶד');
   t.is(omer.getTodayIs('en'), 'Today is 7 days, which is 1 week of the Omer');
 
   omer = new OmerEvent(new HDate(23, 'Nisan', 5770), 8);
-  t.is(omer.memo, 'Lovingkindness that is in Might / חֶֽסֶד שֶׁבַּגְבוּרָה');
+  t.is(omer.memo, 'Lovingkindness that is in Might / חֶֽסֶד שֶׁבַּגְבוּרָה');
   t.is(omer.getTodayIs('en'), 'Today is 8 days, which is 1 week and 1 day of the Omer');
 
   omer = new OmerEvent(new HDate(28, 'Nisan', 5770), 13);
-  t.is(omer.memo, 'Foundation that is in Might / יְּסוֹד שֶׁבַּגְבוּרָה');
+  t.is(omer.memo, 'Foundation that is in Might / יְּסוֹד שֶׁבַּגְבוּרָה');
   t.is(omer.getTodayIs('en'), 'Today is 13 days, which is 1 week and 6 days of the Omer');
 
   omer = new OmerEvent(new HDate(29, 'Nisan', 5770), 14);
-  t.is(omer.memo, 'Majesty that is in Might / מַּלְכוּת שֶׁבַּגְבוּרָה');
+  t.is(omer.memo, 'Majesty that is in Might / מַּלְכוּת שֶׁבַּגְבוּרָה');
   t.is(omer.getTodayIs('en'), 'Today is 14 days, which is 2 weeks of the Omer');
 
   omer = new OmerEvent(new HDate(2, 'Sivan', 5770), 46);
-  t.is(omer.memo, 'Eternity that is in Majesty / נֶּֽצַח שֶׁבַּמַּלְכוּת');
+  t.is(omer.memo, 'Eternity that is in Majesty / נֶּֽצַח שֶׁבַּמַּלְכוּת');
   t.is(omer.getTodayIs('en'), 'Today is 46 days, which is 6 weeks and 4 days of the Omer');
 });
