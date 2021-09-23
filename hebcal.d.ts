@@ -884,4 +884,11 @@ declare module '@hebcal/core' {
         constructor(date: HDate, hyear: number, mask: number);
         render(locale?: string): string;
     }
+
+    /**
+     * Converts a numerical value to a string of Hebrew letters
+     * @example
+     * gematriya(5774) // תשע״ד - cropped to 774
+     */
+    export function gematriya(number: number): string;
 }

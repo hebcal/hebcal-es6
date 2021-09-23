@@ -35,7 +35,9 @@ function num2heb(num) {
 }
 
 /**
- *
+ * Converts a numerical value to a string of Hebrew letters
+ * @example
+ * gematriya(5774) // תשע״ד - cropped to 774
  * @param {number} number
  * @return {string}
  */
