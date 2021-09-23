@@ -194,6 +194,9 @@ msgstr "Vaeschanan"
 msgid "Yitro"
 msgstr "Yisro"
 
+msgid "Vezot Haberakhah"
+msgstr "Vezos Haberakhah"
+
 msgid "Parashat"
 msgstr "Parshas"
 

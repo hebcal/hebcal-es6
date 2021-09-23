@@ -12,7 +12,7 @@ for (const arg of process.argv.slice(2)) {
 
 function writePoFile(inpath, outpath, nostrip) {
   const poData = parser.parse(
-      fs.readFileSync(inpath).toString(),
+      fs.readFileSync(inpath).toString().normalize(),
   );
   const messages = utils.iterateTranslations(poData.translations);
   if (!nostrip) {
