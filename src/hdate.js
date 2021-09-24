@@ -19,6 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {greg as g} from './greg';
+import {mod} from './greg';
 import {gematriya} from './gematriya';
 import {Locale} from './locale';
 
@@ -110,6 +111,8 @@ function throwTypeError(msg) {
 const edCache = Object.create(null);
 
 const EPOCH = -1373428;
+// Avg year length in the cycle (19 solar years with 235 lunar months)
+const AVG_HEBYEAR_DAYS = 365.24682220597794;
 
 const UNITS_DAY = 'day';
 const UNITS_WEEK = 'week';
@@ -398,10 +401,10 @@ export class HDate {
     if (typeof abs !== 'number' || isNaN(abs)) {
       throw new TypeError(`invalid parameter to abs2hebrew ${abs}`);
     }
+    abs = Math.trunc(abs);
 
-    const approx = Math.floor((abs - EPOCH) / 365.24682220597794);
-
-    let year = approx;
+    // first, quickly approximate year
+    let year = Math.floor((abs - EPOCH) / AVG_HEBYEAR_DAYS);
     while (HDate.newYear(year) <= abs) {
       ++year;
     }
@@ -412,7 +415,7 @@ export class HDate {
       ++month;
     }
 
-    const day = Math.floor(1 + abs - HDate.hebrew2abs(year, month, 1));
+    const day = 1 + abs - HDate.hebrew2abs(year, month, 1);
     return {yy: year, mm: month, dd: day};
   }
 
@@ -944,16 +947,6 @@ export class HDate {
       typeof obj.greg === 'function' &&
       typeof obj.abs === 'function';
   }
-}
-
-/**
- * @private
- * @param {number} x
- * @param {number} y
- * @return {number}
- */
-function mod(x, y) {
-  return x - y * Math.floor(x / y);
 }
 
 /**

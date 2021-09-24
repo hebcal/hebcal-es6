@@ -29,7 +29,7 @@ const monthLengths = [
  * @param {number} y
  * @return {number}
  */
-function mod(x, y) {
+export function mod(x, y) {
   return x - y * Math.floor(x / y);
 }
 
@@ -187,6 +187,7 @@ export const greg = {
     if (typeof theDate !== 'number') {
       throw new TypeError('Argument to greg.abs2greg not a Number');
     }
+    theDate = Math.trunc(theDate);
     const year = this.yearFromFixed(theDate);
     const priorDays = theDate - this.toFixed(year, 1, 1);
     const correction = theDate < this.toFixed(year, 3, 1) ? 0 : (this.isLeapYear(year) ? 1 : 2);
