@@ -474,13 +474,13 @@ declare module '@hebcal/core' {
 
     /**
      * A simple Hebrew date
-     * @property yy - Hebrew year
-     * @property mm - Hebrew month of year (1=NISAN, 7=TISHREI)
-     * @property dd - Day of month (1-30)
      */
     export type SimpleHebrewDate = {
+        /** Hebrew year */
         yy: number;
+        /** Hebrew month of year (1=NISAN, 7=TISHREI) */
         mm: number;
+        /** Day of month (1-30) */
         dd: number;
     };
 
@@ -493,65 +493,75 @@ declare module '@hebcal/core' {
     export namespace HebrewCalendar {
         /**
          * Options to configure which events are returned
-         * @property location - latitude/longitude/tzid used for candle-lighting
-         * @property year - Gregorian or Hebrew year
-         * @property isHebrewYear - to interpret year as Hebrew year
-         * @property month - Gregorian or Hebrew month (to filter results to a single month)
-         * @property numYears - generate calendar for multiple years (default 1)
-         * @property start - use specific start date (requires end date)
-         * @property end - use specific end date (requires start date)
-         * @property candlelighting - calculate candle-lighting and havdalah times
-         * @property candleLightingMins - minutes before sundown to light candles (default 18)
-         * @property havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
-         *      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
-         *      Nightfall (the point when 3 small stars are observable in the night time sky with
-         *      the naked eye). If `0`, Havdalah times are supressed.
-         * @property sedrot - calculate parashah hashavua on Saturdays
-         * @property il - Israeli holiday and sedra schedule
-         * @property noMinorFast - suppress minor fasts
-         * @property noModern - suppress modern holidays
-         * @property noRoshChodesh - suppress Rosh Chodesh & Shabbat Mevarchim
-         * @property noSpecialShabbat - suppress Special Shabbat
-         * @property noHolidays - suppress regular holidays
-         * @property dafyomi - include Daf Yomi
-         * @property omer - include Days of the Omer
-         * @property molad - include event announcing the molad
-         * @property ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
-         * @property locale - translate event titles according to a locale
-         *      Default value is `en`, also built-in are `he` and `ashkenazi`.
-         *      Additional locales (such as `ru` or `fr`) are provided by the
-         *      {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
-         * @property addHebrewDates - print the Hebrew date for the entire date range
-         * @property addHebrewDatesForEvents - print the Hebrew date for dates with some events
-         * @property mask - use bitmask from `flags` to filter events
          */
         export type Options = {
+            /** latitude/longitude/tzid used for candle-lighting */
             location?: Location;
+            /** Gregorian or Hebrew year */
             year?: number;
+            /** to interpret year as Hebrew year */
             isHebrewYear?: boolean;
+            /** Gregorian or Hebrew month (to filter results to a single month) */
             month?: number;
+            /** generate calendar for multiple years (default 1) */
             numYears?: number;
+            /** use specific start date (requires end date) */
             start?: Date | HDate | number;
+            /** use specific end date (requires start date) */
             end?: Date | HDate | number;
+            /** calculate candle-lighting and havdalah times */
             candlelighting?: boolean;
+            /** minutes before sundown to light candles (default 18) */
             candleLightingMins?: number;
+            /**
+             * minutes after sundown for Havdalah (typical values are 42, 50, or 72).
+             * If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
+             * Nightfall (the point when 3 small stars are observable in the night time sky with
+             * the naked eye). If `0`, Havdalah times are supressed.
+             */
             havdalahMins?: number;
+            /**
+             * degrees for solar depression for Havdalah.
+             * Default is 8.5 degrees for 3 small stars.
+             * Use 7.083 degress for 3 medium-sized stars.
+             * Havdalah times are supressed when `havdalahDeg=0`.
+             */
             havdalahDeg?: number;
+            /** calculate parashah hashavua on Saturdays */
             sedrot?: boolean;
+            /** Israeli holiday and sedra schedule */
             il?: boolean;
+            /** suppress minor fasts */
             noMinorFast?: boolean;
+            /** suppress modern holidays */
             noModern?: boolean;
+            /** suppress Rosh Chodesh & Shabbat Mevarchim */
             noRoshChodesh?: boolean;
             shabbatMevarchim?: boolean;
+            /** suppress Special Shabbat */
             noSpecialShabbat?: boolean;
+            /** suppress regular holidays */
             noHolidays?: boolean;
+            /** include Daf Yomi */
             dafyomi?: boolean;
+            /** include Days of the Omer */
             omer?: boolean;
+            /** include event announcing the molad */
             molad?: boolean;
+            /** use Ashkenazi transliterations for event titles (default Sephardi transliterations) */
             ashkenazi?: boolean;
+            /**
+             * translate event titles according to a locale
+             * Default value is `en`, also built-in are `he` and `ashkenazi`.
+             * Additional locales (such as `ru` or `fr`) are provided by the
+             * {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
+             */
             locale?: string;
+            /** print the Hebrew date for the entire date range */
             addHebrewDates?: boolean;
+            /** print the Hebrew date for dates with some events */
             addHebrewDatesForEvents?: boolean;
+            /** use bitmask from `flags` to filter events */
             mask?: number;
         };
 
@@ -769,6 +779,20 @@ declare module '@hebcal/core' {
      */
     export const parshiot: string[];
 
+    /** The result from `Sedra.lookup()` */
+    export type SedraResult = {
+        /**
+         * Name of the parsha (or parshiyot) read on
+         * Hebrew date, e.g. `['Noach']` or `['Matot', 'Masei']`
+         */
+        parsha: string[];
+        /**
+         * True if this is a regular parasha HaShavua
+         * Torah reading, false if it's a special holiday reading
+         */
+        chag: boolean;
+    }
+
     export class Sedra {
         /**
          * Caculates the Parashah HaShavua for an entire Hebrew year
@@ -791,7 +815,7 @@ declare module '@hebcal/core' {
          * Returns an object describing the parsha on the first Saturday on or after absdate
          * @param hDate Hebrew date or R.D. days
          */
-        lookup(hDate: HDate | number): Object;
+        lookup(hDate: HDate | number): SedraResult;
         /**
          * Checks to see if this day would be a regular parasha HaShavua
          * Torah reading or special holiday reading
