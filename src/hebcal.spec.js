@@ -326,7 +326,7 @@ test('renderBrief', (t) => {
   const expected = [
     ['Candle lighting', 'הַדלָקָת נֵרוֹת'],
     ['Shabbat Zachor', 'שַׁבָּת זָכוֹר'],
-    ['Parashat Tetzaveh', 'פרשת תְּצַוֶּה'],
+    ['Parashat Tetzaveh', 'פָּרָשַׁת תְּצַוֶּה'],
     ['Havdalah', 'הַבדָלָה'],
     ['Fast begins', 'תחילת הַצוֹם'],
     ['Ta\'anit Esther', 'תַּעֲנִית אֶסְתֵּר'],
@@ -336,15 +336,15 @@ test('renderBrief', (t) => {
     ['Shushan Purim', 'שׁוּשָׁן פּוּרִים'],
     ['Candle lighting', 'הַדלָקָת נֵרוֹת'],
     ['Shabbat Parah', 'שַׁבָּת פּרה'],
-    ['Parashat Ki Tisa', 'פרשת כִּי תִשָּׂא'],
+    ['Parashat Ki Tisa', 'פָּרָשַׁת כִּי תִשָּׂא'],
     ['Havdalah', 'הַבדָלָה'],
     ['Candle lighting', 'הַדלָקָת נֵרוֹת'],
     ['Shabbat HaChodesh', 'שַׁבָּת הַחֹדֶשׁ'],
-    ['Parashat Vayakhel-Pekudei', 'פרשת וַיַּקְהֵל־פְקוּדֵי'],
+    ['Parashat Vayakhel-Pekudei', 'פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי'],
     ['Havdalah', 'הַבדָלָה'],
     ['Rosh Chodesh Nisan', 'רֹאשׁ חוֹדֶשׁ נִיסָן'],
     ['Candle lighting', 'הַדלָקָת נֵרוֹת'],
-    ['Parashat Vayikra', 'פרשת וַיִּקְרָא'],
+    ['Parashat Vayikra', 'פָּרָשַׁת וַיִּקְרָא'],
     ['Havdalah', 'הַבדָלָה'],
   ];
   for (let i = 0; i < events.length; i++) {

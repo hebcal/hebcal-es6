@@ -46,16 +46,16 @@ test('getString-locale', (t) => {
   let hd = new HDate(new Date(2020, 6, 7));
   const parsha = sedra.get(hd);
   const ev = new ParshaEvent(hd, parsha);
-  t.is(ev.render(), 'פרשת פִּינְחָס');
+  t.is(ev.render(), 'פָּרָשַׁת פִּינְחָס');
 
   hd = new HDate(new Date(2020, 2, 21));
   const parsha2 = sedra.get(hd);
   const ev2 = new ParshaEvent(hd, parsha2);
-  t.is(ev2.render(), 'פרשת וַיַּקְהֵל־פְקוּדֵי');
+  t.is(ev2.render(), 'פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי');
 
   sedra = new Sedra(5781, false);
   hd = new HDate(new Date(2021, 3, 24));
-  t.is(sedra.getString(hd), 'פרשת אַחֲרֵי מוֹת־קְדשִׁים');
+  t.is(sedra.getString(hd), 'פָּרָשַׁת אַחֲרֵי מוֹת־קְדשִׁים');
   t.is(sedra.getString(hd, 'en'), 'Parashat Achrei Mot-Kedoshim');
   t.is(sedra.getString(hd, 'ashkenazi'), 'Parshas Achrei Mos-Kedoshim');
 });

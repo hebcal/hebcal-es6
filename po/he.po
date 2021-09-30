@@ -183,7 +183,7 @@ msgid "Daf Yomi"
 msgstr "דף יומי"
 
 msgid "Parashat"
-msgstr "פרשת"
+msgstr "פָּרָשַׁת"
 
 msgid "Achrei Mot"
 msgstr "אַחֲרֵי מוֹת"

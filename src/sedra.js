@@ -63,6 +63,7 @@ export class Sedra {
    * @param {boolean} il - Use Israel sedra schedule (false for Diaspora)
    */
   constructor(hebYr, il) { // the Hebrew year
+    hebYr = +hebYr;
     const longC = HDate.longCheshvan(hebYr);
     const shortK = HDate.shortKislev(hebYr);
     const type = this.type = (longC && !shortK) ? COMPLETE :
@@ -519,7 +520,8 @@ export class ParshaEvent extends Event {
       const hyphen = locale0 == 'he' ? '־' : '-';
       name += hyphen + Locale.gettext(parsha[1], locale);
     }
-    return Locale.gettext('Parashat', locale) + ' ' + name;
+    const str = Locale.gettext('Parashat', locale) + ' ' + name;
+    return str.normalize();
   }
   /** @return {string} */
   basename() {
