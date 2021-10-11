@@ -80,7 +80,7 @@
     "@rollup/plugin-node-resolve": "^13.0.5",
     "ava": "^3.15.0",
     "core-js": "^3.18.2",
-    "eslint": "^7.31.0",
+    "eslint": "^8.0.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.7",
     "jsdoc-to-markdown": "^7.0.1",
