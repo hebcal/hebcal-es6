@@ -26,8 +26,8 @@ test('useLocale-ordinal', (t) => {
     a: '3rd',
     ashkenazi: '3rd',
     en: '3rd',
-    he: '3.',
-    h: '3.',
+    he: '3',
+    h: '3',
   };
   for (const [loc, str] of Object.entries(expected)) {
     Locale.useLocale(loc);
@@ -38,4 +38,5 @@ test('useLocale-ordinal', (t) => {
 
   t.is(Locale.ordinal(3, 'fr'), '3.');
   t.is(Locale.ordinal(3, 'es'), '3º');
+  t.is(Locale.ordinal(3, 'he'), '3');
 });

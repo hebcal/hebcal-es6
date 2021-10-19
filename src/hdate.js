@@ -435,14 +435,14 @@ export class HDate {
    *
    * const hd = new HDate(15, months.CHESHVAN, 5769);
    * console.log(hd.render()); // '15th of Cheshvan, 5769'
-   * console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
+   * console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
    * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @param {boolean} [showYear=true] Display year (defaults to true).
    * @return {string}
    */
-  render(locale) {
+  render(locale=null, showYear=true) {
     const locale0 = locale || Locale.getLocaleName();
     const day = this.getDate();
-    const fullYear = this.getFullYear();
     const monthName = Locale.gettext(this.getMonthName(), locale);
     const nth = Locale.ordinal(day, locale0);
     let dayOf = '';
@@ -454,7 +454,13 @@ export class HDate {
         dayOf = ' ' + ofStr;
       }
     }
-    return `${nth}${dayOf} ${monthName}, ${fullYear}`;
+    const dateStr = `${nth}${dayOf} ${monthName}`;
+    if (showYear) {
+      const fullYear = this.getFullYear();
+      return `${dateStr}, ${fullYear}`;
+    } else {
+      return dateStr;
+    }
   }
 
   /**

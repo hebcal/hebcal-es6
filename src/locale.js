@@ -104,6 +104,8 @@ export const Locale = {
       return this.getEnOrdinal(n);
     } else if (locale0 == 'es') {
       return n + 'º';
+    } else if (locale0 == 'he') {
+      return String(n);
     } else {
       return n + '.';
     }

@@ -24,10 +24,32 @@ export class HebrewDateEvent extends Event {
   render(locale) {
     const locale0 = locale || Locale.getLocaleName();
     const hd = this.getDate();
-    return locale0 == 'he' ? hd.renderGematriya() : hd.render(locale0);
+    return locale0 === 'he' ? hd.renderGematriya() : hd.render(locale0, true);
+  }
+  /**
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @example
+   * import {HDate, HebrewDateEvent, months} from '@hebcal/core';
+   *
+   * const hd = new HDate(15, months.CHESHVAN, 5769);
+   * const ev = new HebrewDateEvent(hd);
+   * console.log(ev.renderBrief()); // '15th of Cheshvan'
+   * console.log(ev.renderBrief('he')); // 'ט״ו חֶשְׁוָן'
+   * @return {string}
+   */
+  renderBrief(locale) {
+    const locale0 = locale || Locale.getLocaleName();
+    const hd = this.getDate();
+    if (locale !== 'he') {
+      return hd.render(locale0, false);
+    }
+    const dd = hd.getDate();
+    const mm = Locale.gettext(hd.getMonthName(), 'he');
+    return gematriya(dd) + ' ' + mm;
   }
   /**
    * Helper function to render a Hebrew date
+   * @deprecated
    * @param {number} day
    * @param {string} monthName
    * @param {number} fullYear

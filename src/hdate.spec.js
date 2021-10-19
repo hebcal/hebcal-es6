@@ -235,6 +235,22 @@ test('renderGematriya', (t) => {
   t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִשְׁרֵי תש״פ');
 });
 
+test('render', (t) => {
+  const hd = new HDate(15, months.CHESHVAN, 5769);
+  t.is(hd.render(), '15th of Cheshvan, 5769');
+  t.is(hd.render('en'), '15th of Cheshvan, 5769');
+  t.is(hd.render('ashkenazi'), '15th of Cheshvan, 5769');
+  t.is(hd.render('he'), '15 חֶשְׁוָן, 5769');
+
+  t.is(hd.render('en', true), '15th of Cheshvan, 5769');
+  t.is(hd.render('ashkenazi', true), '15th of Cheshvan, 5769');
+  t.is(hd.render('he', true), '15 חֶשְׁוָן, 5769');
+
+  t.is(hd.render('en', false), '15th of Cheshvan');
+  t.is(hd.render('ashkenazi', false), '15th of Cheshvan');
+  t.is(hd.render('he', false), '15 חֶשְׁוָן');
+});
+
 test('monthFromName', (t) => {
   const toTest = [
     NISAN, 'Nisan_nisan_n_N_Nissan_ניסן',
