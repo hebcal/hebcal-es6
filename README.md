@@ -136,6 +136,14 @@ Event names can be rendered in several languges using the <code>locale</code> op
 </dd>
 </dl>
 
+## Functions
+
+<dl>
+<dt><a href="#gematriya">gematriya(number)</a> ⇒ <code>string</code></dt>
+<dd><p>Converts a numerical value to a string of Hebrew letters</p>
+</dd>
+</dl>
+
 ## Typedefs
 
 <dl>
@@ -166,17 +174,17 @@ Represents a Hebrew date
         * [.greg()](#HDate+greg) ⇒ <code>Date</code>
         * [.abs()](#HDate+abs) ⇒ <code>number</code>
         * [.getMonthName()](#HDate+getMonthName) ⇒ <code>string</code>
-        * [.render([locale])](#HDate+render) ⇒ <code>string</code>
+        * [.render([locale], [showYear])](#HDate+render) ⇒ <code>string</code>
         * [.renderGematriya()](#HDate+renderGematriya) ⇒ <code>string</code>
-        * [.before(day)](#HDate+before) ⇒ [<code>HDate</code>](#HDate)
-        * [.onOrBefore(dow)](#HDate+onOrBefore) ⇒ [<code>HDate</code>](#HDate)
-        * [.nearest(dow)](#HDate+nearest) ⇒ [<code>HDate</code>](#HDate)
-        * [.onOrAfter(dow)](#HDate+onOrAfter) ⇒ [<code>HDate</code>](#HDate)
-        * [.after(day)](#HDate+after) ⇒ [<code>HDate</code>](#HDate)
-        * [.next()](#HDate+next) ⇒ [<code>HDate</code>](#HDate)
-        * [.prev()](#HDate+prev) ⇒ [<code>HDate</code>](#HDate)
-        * [.add(number, [units])](#HDate+add) ⇒ [<code>HDate</code>](#HDate)
-        * [.subtract(number, [units])](#HDate+subtract) ⇒ [<code>HDate</code>](#HDate)
+        * [.before(day)](#HDate+before) ⇒ <code>HDate</code>
+        * [.onOrBefore(dow)](#HDate+onOrBefore) ⇒ <code>HDate</code>
+        * [.nearest(dow)](#HDate+nearest) ⇒ <code>HDate</code>
+        * [.onOrAfter(dow)](#HDate+onOrAfter) ⇒ <code>HDate</code>
+        * [.after(day)](#HDate+after) ⇒ <code>HDate</code>
+        * [.next()](#HDate+next) ⇒ <code>HDate</code>
+        * [.prev()](#HDate+prev) ⇒ <code>HDate</code>
+        * [.add(number, [units])](#HDate+add) ⇒ <code>HDate</code>
+        * [.subtract(number, [units])](#HDate+subtract) ⇒ <code>HDate</code>
         * [.deltaDays(other)](#HDate+deltaDays) ⇒ <code>number</code>
         * [.isSameDate(other)](#HDate+isSameDate) ⇒ <code>boolean</code>
         * [.toString()](#HDate+toString) ⇒ <code>string</code>
@@ -214,7 +222,7 @@ Create a Hebrew date. There are 3 basic forms for the `HDate()` constructor.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [day] | <code>number</code> \| <code>Date</code> \| [<code>HDate</code>](#HDate) | Day of month (1-30) if a `number`.   If a `Date` is specified, represents the Hebrew date corresponding to the   Gregorian date using local time.   If an `HDate` is specified, clones a copy of the given Hebrew date. |
+| [day] | <code>number</code> \| <code>Date</code> \| <code>HDate</code> | Day of month (1-30) if a `number`.   If a `Date` is specified, represents the Hebrew date corresponding to the   Gregorian date using local time.   If an `HDate` is specified, clones a copy of the given Hebrew date. |
 | [month] | <code>number</code> \| <code>string</code> | Hebrew month of year (1=NISAN, 7=TISHREI) |
 | [year] | <code>number</code> | Hebrew year |
 
@@ -295,15 +303,16 @@ Returns a transliterated Hebrew month name, e.g. `'Elul'` or `'Cheshvan'`.
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+render"></a>
 
-### hDate.render([locale]) ⇒ <code>string</code>
+### hDate.render([locale], [showYear]) ⇒ <code>string</code>
 Renders this Hebrew date as a translated or transliterated string,
 including ordinal e.g. `'15th of Cheshvan, 5769'`.
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [locale] | <code>string</code> | <code>null</code> | Optional locale name (defaults to active locale). |
+| [showYear] | <code>boolean</code> | <code>true</code> | Display year (defaults to true). |
 
 **Example**  
 ```js
@@ -311,7 +320,7 @@ import {HDate, months} from '@hebcal/core';
 
 const hd = new HDate(15, months.CHESHVAN, 5769);
 console.log(hd.render()); // '15th of Cheshvan, 5769'
-console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
+console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
 ```
 <a name="HDate+renderGematriya"></a>
 
@@ -327,7 +336,7 @@ console.log(ev.renderGematriya()); // 'ט״ו חֶשְׁוָן תשס״ט'
 ```
 <a name="HDate+before"></a>
 
-### hDate.before(day) ⇒ [<code>HDate</code>](#HDate)
+### hDate.before(day) ⇒ <code>HDate</code>
 Returns an `HDate` representing the a dayNumber before the current date.
 Sunday=0, Saturday=6
 
@@ -343,7 +352,7 @@ new HDate(new Date('Wednesday February 19, 2014')).before(6).greg() // Sat Feb 1
 ```
 <a name="HDate+onOrBefore"></a>
 
-### hDate.onOrBefore(dow) ⇒ [<code>HDate</code>](#HDate)
+### hDate.onOrBefore(dow) ⇒ <code>HDate</code>
 Returns an `HDate` representing the a dayNumber on or before the current date.
 Sunday=0, Saturday=6
 
@@ -361,7 +370,7 @@ new HDate(new Date('Sunday February 23, 2014')).onOrBefore(6).greg() // Sat Feb 
 ```
 <a name="HDate+nearest"></a>
 
-### hDate.nearest(dow) ⇒ [<code>HDate</code>](#HDate)
+### hDate.nearest(dow) ⇒ <code>HDate</code>
 Returns an `HDate` representing the nearest dayNumber to the current date
 Sunday=0, Saturday=6
 
@@ -378,7 +387,7 @@ new HDate(new Date('Tuesday February 18, 2014')).nearest(6).greg() // Sat Feb 15
 ```
 <a name="HDate+onOrAfter"></a>
 
-### hDate.onOrAfter(dow) ⇒ [<code>HDate</code>](#HDate)
+### hDate.onOrAfter(dow) ⇒ <code>HDate</code>
 Returns an `HDate` representing the a dayNumber on or after the current date.
 Sunday=0, Saturday=6
 
@@ -396,7 +405,7 @@ new HDate(new Date('Sunday February 23, 2014')).onOrAfter(6).greg() // Sat Mar 0
 ```
 <a name="HDate+after"></a>
 
-### hDate.after(day) ⇒ [<code>HDate</code>](#HDate)
+### hDate.after(day) ⇒ <code>HDate</code>
 Returns an `HDate` representing the a dayNumber after the current date.
 Sunday=0, Saturday=6
 
@@ -414,19 +423,19 @@ new HDate(new Date('Sunday February 23, 2014')).after(6).greg() // Sat Mar 01 20
 ```
 <a name="HDate+next"></a>
 
-### hDate.next() ⇒ [<code>HDate</code>](#HDate)
+### hDate.next() ⇒ <code>HDate</code>
 Returns the next Hebrew date
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+prev"></a>
 
-### hDate.prev() ⇒ [<code>HDate</code>](#HDate)
+### hDate.prev() ⇒ <code>HDate</code>
 Returns the previous Hebrew date
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
 <a name="HDate+add"></a>
 
-### hDate.add(number, [units]) ⇒ [<code>HDate</code>](#HDate)
+### hDate.add(number, [units]) ⇒ <code>HDate</code>
 Returns a cloned `HDate` object with a specified amount of time added
 
 Units are case insensitive, and support plural and short forms.
@@ -448,7 +457,7 @@ Note, short forms are case sensitive.
 
 <a name="HDate+subtract"></a>
 
-### hDate.subtract(number, [units]) ⇒ [<code>HDate</code>](#HDate)
+### hDate.subtract(number, [units]) ⇒ <code>HDate</code>
 Returns a cloned `HDate` object with a specified amount of time subracted
 
 Units are case insensitive, and support plural and short forms.
@@ -491,7 +500,7 @@ The result is zero if the two dates are identical.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| other | [<code>HDate</code>](#HDate) | Hebrew date to compare |
+| other | <code>HDate</code> | Hebrew date to compare |
 
 **Example**  
 ```js
@@ -510,7 +519,7 @@ Compares this date to another date, returning `true` if the dates match.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| other | [<code>HDate</code>](#HDate) | Hebrew date to compare |
+| other | <code>HDate</code> | Hebrew date to compare |
 
 <a name="HDate+toString"></a>
 
@@ -680,7 +689,7 @@ Represents an Event with a title, date, and flags
 
 * [Event](#Event)
     * [new Event(date, desc, [mask], [attrs])](#new_Event_new)
-    * [.getDate()](#Event+getDate) ⇒ [<code>HDate</code>](#HDate)
+    * [.getDate()](#Event+getDate) ⇒ <code>HDate</code>
     * [.getDesc()](#Event+getDesc) ⇒ <code>string</code>
     * [.getFlags()](#Event+getFlags) ⇒ <code>number</code>
     * [.render([locale])](#Event+render) ⇒ <code>string</code>
@@ -701,14 +710,14 @@ Constructs Event
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
+| date | <code>HDate</code> |  | Hebrew date event occurs |
 | desc | <code>string</code> |  | Description (not translated) |
 | [mask] | <code>number</code> | <code>0</code> | optional bitmask of holiday flags (see [flags](#flags)) |
 | [attrs] | <code>Object</code> | <code>{}</code> | optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`) |
 
 <a name="Event+getDate"></a>
 
-### event.getDate() ⇒ [<code>HDate</code>](#HDate)
+### event.getDate() ⇒ <code>HDate</code>
 Hebrew date of this event
 
 **Kind**: instance method of [<code>Event</code>](#Event)  
@@ -826,8 +835,9 @@ Daily Hebrew date ("11th of Sivan, 5780")
     * [new HebrewDateEvent(date)](#new_HebrewDateEvent_new)
     * _instance_
         * [.render([locale])](#HebrewDateEvent+render) ⇒ <code>string</code>
+        * [.renderBrief([locale])](#HebrewDateEvent+renderBrief) ⇒ <code>string</code>
     * _static_
-        * [.renderHebrew(day, monthName, fullYear)](#HebrewDateEvent.renderHebrew) ⇒ <code>string</code>
+        * ~~[.renderHebrew(day, monthName, fullYear)](#HebrewDateEvent.renderHebrew) ⇒ <code>string</code>~~
 
 <a name="new_HebrewDateEvent_new"></a>
 
@@ -835,7 +845,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 | Param | Type |
 | --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
+| date | <code>HDate</code> | 
 
 <a name="HebrewDateEvent+render"></a>
 
@@ -855,9 +865,29 @@ const ev = new HebrewDateEvent(hd);
 console.log(ev.render()); // '15th of Cheshvan, 5769'
 console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'
 ```
+<a name="HebrewDateEvent+renderBrief"></a>
+
+### hebrewDateEvent.renderBrief([locale]) ⇒ <code>string</code>
+**Kind**: instance method of [<code>HebrewDateEvent</code>](#HebrewDateEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+**Example**  
+```js
+import {HDate, HebrewDateEvent, months} from '@hebcal/core';
+
+const hd = new HDate(15, months.CHESHVAN, 5769);
+const ev = new HebrewDateEvent(hd);
+console.log(ev.renderBrief()); // '15th of Cheshvan'
+console.log(ev.renderBrief('he')); // 'ט״ו חֶשְׁוָן'
+```
 <a name="HebrewDateEvent.renderHebrew"></a>
 
-### HebrewDateEvent.renderHebrew(day, monthName, fullYear) ⇒ <code>string</code>
+### ~~HebrewDateEvent.renderHebrew(day, monthName, fullYear) ⇒ <code>string</code>~~
+***Deprecated***
+
 Helper function to render a Hebrew date
 
 **Kind**: static method of [<code>HebrewDateEvent</code>](#HebrewDateEvent)  
@@ -919,7 +949,7 @@ Initialize a Zmanim instance.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | <code>Date</code> \| [<code>HDate</code>](#HDate) | Regular or Hebrew Date. If `date` is a regular `Date`,    hours, minutes, seconds and milliseconds are ignored. |
+| date | <code>Date</code> \| <code>HDate</code> | Regular or Hebrew Date. If `date` is a regular `Date`,    hours, minutes, seconds and milliseconds are ignored. |
 | latitude | <code>number</code> |  |
 | longitude | <code>number</code> |  |
 
@@ -1211,7 +1241,7 @@ Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
 
 | Param | Type |
 | --- | --- |
-| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
+| hdate | <code>Date</code> \| <code>HDate</code> | 
 
 <a name="Location+tzeit"></a>
 
@@ -1222,7 +1252,7 @@ Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
 
 | Param | Type |
 | --- | --- |
-| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
+| hdate | <code>Date</code> \| <code>HDate</code> | 
 | [angle] | <code>number</code> | 
 
 <a name="Location+toString"></a>
@@ -1328,7 +1358,7 @@ An event that has an `eventTime` and `eventTimeStr`
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  |
+| date | <code>HDate</code> |  |
 | desc | <code>string</code> | Description (not translated) |
 | mask | <code>number</code> |  |
 | eventTime | <code>Date</code> |  |
@@ -1374,7 +1404,7 @@ Havdalah after Shabbat or holiday
 
 | Param | Type |
 | --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
+| date | <code>HDate</code> | 
 | mask | <code>number</code> | 
 | eventTime | <code>Date</code> | 
 | location | [<code>Location</code>](#Location) | 
@@ -1422,7 +1452,7 @@ Candle lighting before Shabbat or holiday
 
 | Param | Type |
 | --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
+| date | <code>HDate</code> | 
 | mask | <code>number</code> | 
 | eventTime | <code>Date</code> | 
 | location | [<code>Location</code>](#Location) | 
@@ -1509,7 +1539,7 @@ Represents a Molad announcement on Shabbat Mevarchim
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
+| date | <code>HDate</code> | Hebrew date event occurs |
 | hyear | <code>number</code> | molad year |
 | hmonth | <code>number</code> | molad month |
 
@@ -1544,7 +1574,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 | Param | Type |
 | --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
+| date | <code>HDate</code> | 
 | omerDay | <code>number</code> | 
 
 <a name="OmerEvent+render"></a>
@@ -1653,7 +1683,7 @@ Event wrapper around a DafYomi instance
 
 | Param | Type |
 | --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
+| date | <code>HDate</code> | 
 
 <a name="DafYomiEvent+render"></a>
 
@@ -1695,7 +1725,7 @@ Represents Parashah HaShavua for an entire Hebrew year
     * [.get(hDate)](#Sedra+get) ⇒ <code>Array.&lt;string&gt;</code>
     * [.getString(hDate, [locale])](#Sedra+getString) ⇒ <code>string</code>
     * [.isParsha(hDate)](#Sedra+isParsha) ⇒ <code>boolean</code>
-    * [.find(parsha)](#Sedra+find) ⇒ [<code>HDate</code>](#HDate)
+    * [.find(parsha)](#Sedra+find) ⇒ <code>HDate</code>
     * [.getFirstSaturday()](#Sedra+getFirstSaturday) ⇒ <code>number</code>
     * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
     * [.lookup(hDate)](#Sedra+lookup) ⇒ [<code>SedraResult</code>](#SedraResult)
@@ -1720,7 +1750,7 @@ Returns the parsha (or parshiyot) read on Hebrew date
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+| hDate | <code>HDate</code> \| <code>number</code> | Hebrew date or R.D. days |
 
 <a name="Sedra+getString"></a>
 
@@ -1731,7 +1761,7 @@ Looks up parsha for the date, then returns a translated or transliterated string
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+| hDate | <code>HDate</code> \| <code>number</code> | Hebrew date or R.D. days |
 | [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale |
 
 <a name="Sedra+isParsha"></a>
@@ -1744,11 +1774,11 @@ Torah reading or special holiday reading
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+| hDate | <code>HDate</code> \| <code>number</code> | Hebrew date or R.D. days |
 
 <a name="Sedra+find"></a>
 
-### sedra.find(parsha) ⇒ [<code>HDate</code>](#HDate)
+### sedra.find(parsha) ⇒ <code>HDate</code>
 Returns the date that a parsha occurs
 
 **Kind**: instance method of [<code>Sedra</code>](#Sedra)  
@@ -1776,7 +1806,7 @@ Returns an object describing the parsha on the first Saturday on or after absdat
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hDate | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+| hDate | <code>HDate</code> \| <code>number</code> | Hebrew date or R.D. days |
 
 <a name="ParshaEvent"></a>
 
@@ -1798,7 +1828,7 @@ Represents one of 54 weekly Torah portions, always on a Saturday
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  |
+| date | <code>HDate</code> |  |
 | parsha | <code>Array.&lt;string&gt;</code> | untranslated name of single or double parsha,   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim'] |
 | il | <code>boolean</code> |  |
 
@@ -1845,7 +1875,7 @@ Constructs Holiday event
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
+| date | <code>HDate</code> |  | Hebrew date event occurs |
 | desc | <code>string</code> |  | Description (not translated) |
 | [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
 | [attrs] | <code>Object</code> | <code>{}</code> |  |
@@ -1887,7 +1917,7 @@ Constructs Rosh Chodesh event
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
+| date | <code>HDate</code> | Hebrew date event occurs |
 | monthName | <code>string</code> | Hebrew month name (not translated) |
 
 <a name="RoshChodeshEvent+render"></a>
@@ -1929,7 +1959,7 @@ Constructs AsaraBTevetEvent
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
+| date | <code>HDate</code> |  | Hebrew date event occurs |
 | desc | <code>string</code> |  | Description (not translated) |
 | [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
 | [attrs] | <code>Object</code> | <code>{}</code> |  |
@@ -1957,7 +1987,7 @@ Constructs Mevarchim haChodesh event
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
+| date | <code>HDate</code> | Hebrew date event occurs |
 | monthName | <code>string</code> | Hebrew month name (not translated) |
 
 <a name="MevarchimChodeshEvent+render"></a>
@@ -1982,6 +2012,7 @@ Gregorian date helper functions.
     * [.monthNames](#greg.monthNames) : <code>Array.&lt;string&gt;</code>
     * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
     * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
+    * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
     * [.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>
     * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
     * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
@@ -2015,6 +2046,17 @@ Number of days in the Gregorian month for given year
 | --- | --- | --- |
 | month | <code>number</code> | Gregorian month (1=January, 12=December) |
 | year | <code>number</code> | Gregorian year |
+
+<a name="greg.isDate"></a>
+
+### greg.isDate(obj) ⇒ <code>boolean</code>
+Returns true if the object is a Javascript Date
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type |
+| --- | --- |
+| obj | <code>Object</code> | 
 
 <a name="greg.dayOfYear"></a>
 
@@ -2229,8 +2271,8 @@ Event names can be rendered in several languges using the `locale` option.
 
 * [HebrewCalendar](#HebrewCalendar)
     * [.calendar([options])](#HebrewCalendar.calendar) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-    * [.getBirthdayOrAnniversary(hyear, gdate)](#HebrewCalendar.getBirthdayOrAnniversary) ⇒ [<code>HDate</code>](#HDate)
-    * [.getYahrzeit(hyear, gdate)](#HebrewCalendar.getYahrzeit) ⇒ [<code>HDate</code>](#HDate)
+    * [.getBirthdayOrAnniversary(hyear, gdate)](#HebrewCalendar.getBirthdayOrAnniversary) ⇒ <code>HDate</code>
+    * [.getYahrzeit(hyear, gdate)](#HebrewCalendar.getYahrzeit) ⇒ <code>HDate</code>
     * [.getHolidaysForYear(year)](#HebrewCalendar.getHolidaysForYear) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
     * [.getHolidaysForYearArray(year, il)](#HebrewCalendar.getHolidaysForYearArray) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
     * [.getHolidaysOnDate(date, [il])](#HebrewCalendar.getHolidaysOnDate) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
@@ -2253,7 +2295,7 @@ The date range returned by this function can be controlled by:
 * `options.numYears` - generate calendar for multiple years (default 1)
 * `options.month` - Gregorian or Hebrew month (to filter results to a single month)
 
-Alternatively, specify start and end days with `Date` or [HDate](#HDate) instances:
+Alternatively, specify start and end days with `Date` or [HDate](HDate) instances:
 * `options.start` - use specific start date (requires `end` date)
 * `options.end` - use specific end date (requires `start` date)
 
@@ -2346,7 +2388,7 @@ for (const ev of events) {
 ```
 <a name="HebrewCalendar.getBirthdayOrAnniversary"></a>
 
-### HebrewCalendar.getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+### HebrewCalendar.getBirthdayOrAnniversary(hyear, gdate) ⇒ <code>HDate</code>
 Calculates a birthday or anniversary (non-yahrzeit).
 `hyear` must be after original `gdate` of anniversary.
 Returns `undefined` when requested year preceeds or is same as original year.
@@ -2365,12 +2407,12 @@ has his birthday postponed until the first of the following month in
 years where that day does not occur. [Calendrical Calculations p. 111]
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in `hyear`  
+**Returns**: <code>HDate</code> - anniversary occurring in `hyear`  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | hyear | <code>number</code> | Hebrew year |
-| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of event |
+| gdate | <code>Date</code> \| <code>HDate</code> | Gregorian or Hebrew date of event |
 
 **Example**  
 ```js
@@ -2381,7 +2423,7 @@ console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
 ```
 <a name="HebrewCalendar.getYahrzeit"></a>
 
-### HebrewCalendar.getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+### HebrewCalendar.getYahrzeit(hyear, gdate) ⇒ <code>HDate</code>
 Calculates yahrzeit.
 `hyear` must be after original `gdate` of death.
 Returns `undefined` when requested year preceeds or is same as original year.
@@ -2408,12 +2450,12 @@ There are several cases:
   of the date of death. [Calendrical Calculations p. 113]
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in hyear  
+**Returns**: <code>HDate</code> - anniversary occurring in hyear  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | hyear | <code>number</code> | Hebrew year |
-| gdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | Gregorian or Hebrew date of death |
+| gdate | <code>Date</code> \| <code>HDate</code> | Gregorian or Hebrew date of death |
 
 **Example**  
 ```js
@@ -2456,7 +2498,7 @@ Returns an array of Events on this date (or undefined if no events)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute R.D. day number |
+| date | <code>HDate</code> \| <code>Date</code> \| <code>number</code> | Hebrew Date, Gregorian date, or absolute R.D. day number |
 | [il] | <code>boolean</code> | use the Israeli schedule for holidays |
 
 <a name="HebrewCalendar.reformatTimeStr"></a>
@@ -2493,8 +2535,8 @@ Options to configure which events are returned
 | isHebrewYear | <code>boolean</code> | to interpret year as Hebrew year |
 | month | <code>number</code> | Gregorian or Hebrew month (to filter results to a single month) |
 | numYears | <code>number</code> | generate calendar for multiple years (default 1) |
-| start | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific start date (requires end date) |
-| end | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific end date (requires start date) |
+| start | <code>Date</code> \| <code>HDate</code> \| <code>number</code> | use specific start date (requires end date) |
+| end | <code>Date</code> \| <code>HDate</code> \| <code>number</code> | use specific end date (requires start date) |
 | candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
 | candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
 | havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are supressed. |
@@ -2516,6 +2558,21 @@ Options to configure which events are returned
 | addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
 | mask | <code>number</code> | use bitmask from `flags` to filter events |
 
+<a name="gematriya"></a>
+
+## gematriya(number) ⇒ <code>string</code>
+Converts a numerical value to a string of Hebrew letters
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| number | <code>number</code> | 
+
+**Example**  
+```js
+gematriya(5774) // תשע״ד - cropped to 774
+```
 <a name="ZmanimTimesResult"></a>
 
 ## ZmanimTimesResult : <code>Object</code>
