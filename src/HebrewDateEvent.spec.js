@@ -33,16 +33,22 @@ test('render', (t) => {
 
 test('renderBrief', (t) => {
   const elul29ev = new HebrewDateEvent(new HDate(29, 'Elul', 5779));
-  const tishrei1ev = new HebrewDateEvent(new HDate(1, 'Tishrei', 5780));
   t.is(elul29ev.renderBrief(), '29th of Elul');
   t.is(elul29ev.renderBrief('en'), '29th of Elul');
   t.is(elul29ev.renderBrief('s'), '29th of Elul');
   t.is(elul29ev.renderBrief(''), '29th of Elul');
   t.is(elul29ev.renderBrief('ashkenazi'), '29th of Elul');
   t.is(elul29ev.renderBrief('he'), 'כ״ט אֱלוּל');
-  t.is(tishrei1ev.renderBrief(), '1st of Tishrei');
-  t.is(tishrei1ev.renderBrief(''), '1st of Tishrei');
-  t.is(tishrei1ev.renderBrief('en'), '1st of Tishrei');
-  t.is(tishrei1ev.renderBrief('ashkenazi'), '1st of Tishrei');
-  t.is(tishrei1ev.renderBrief('he'), 'א׳ תִשְׁרֵי');
+  const tishrei1ev = new HebrewDateEvent(new HDate(1, 'Tishrei', 5780));
+  t.is(tishrei1ev.renderBrief(), '1st of Tishrei, 5780');
+  t.is(tishrei1ev.renderBrief(''), '1st of Tishrei, 5780');
+  t.is(tishrei1ev.renderBrief('en'), '1st of Tishrei, 5780');
+  t.is(tishrei1ev.renderBrief('ashkenazi'), '1st of Tishrei, 5780');
+  t.is(tishrei1ev.renderBrief('he'), 'א׳ תִשְׁרֵי תש״פ');
+  const tishrei2ev = new HebrewDateEvent(new HDate(2, 'Tishrei', 5780));
+  t.is(tishrei2ev.renderBrief(), '2nd of Tishrei');
+  t.is(tishrei2ev.renderBrief(''), '2nd of Tishrei');
+  t.is(tishrei2ev.renderBrief('en'), '2nd of Tishrei');
+  t.is(tishrei2ev.renderBrief('ashkenazi'), '2nd of Tishrei');
+  t.is(tishrei2ev.renderBrief('he'), 'ב׳ תִשְׁרֵי');
 });

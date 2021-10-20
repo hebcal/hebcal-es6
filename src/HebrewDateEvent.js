@@ -1,4 +1,5 @@
 import {Event, flags} from './event';
+import {months} from './hdate';
 import {gematriya} from './gematriya';
 import {Locale} from './locale';
 
@@ -40,6 +41,9 @@ export class HebrewDateEvent extends Event {
   renderBrief(locale) {
     const locale0 = locale || Locale.getLocaleName();
     const hd = this.getDate();
+    if (hd.getMonth() === months.TISHREI && hd.getDate() === 1) {
+      return this.render(locale0);
+    }
     if (locale !== 'he') {
       return hd.render(locale0, false);
     }
