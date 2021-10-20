@@ -24,6 +24,7 @@ test('useLocale-ordinal', (t) => {
   t.is(Locale.ordinal(3), '3rd');
   const expected = {
     a: '3rd',
+    s: '3rd',
     ashkenazi: '3rd',
     en: '3rd',
     he: '3',

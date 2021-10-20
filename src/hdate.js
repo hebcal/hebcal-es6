@@ -446,7 +446,7 @@ export class HDate {
     const monthName = Locale.gettext(this.getMonthName(), locale);
     const nth = Locale.ordinal(day, locale0);
     let dayOf = '';
-    if (locale0 == 'en' || 'ashkenazi' == locale0.substring(0, 9)) {
+    if (locale0 === 'en' || locale0 === 's' || 'ashkenazi' == locale0.substring(0, 9)) {
       dayOf = ' of';
     } else {
       const ofStr = Locale.lookupTranslation('of', locale0);

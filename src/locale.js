@@ -100,7 +100,7 @@ export const Locale = {
    */
   ordinal: function(n, locale) {
     const locale0 = locale || this.activeName;
-    if (!locale0 || locale0 === 'en' || 'ashkenazi' === locale0.substring(0, 9)) {
+    if (!locale0 || locale0 === 'en' || locale0 === 's' || 'ashkenazi' === locale0.substring(0, 9)) {
       return this.getEnOrdinal(n);
     } else if (locale0 == 'es') {
       return n + 'º';

@@ -239,6 +239,7 @@ test('render', (t) => {
   const hd = new HDate(15, months.CHESHVAN, 5769);
   t.is(hd.render(), '15th of Cheshvan, 5769');
   t.is(hd.render('en'), '15th of Cheshvan, 5769');
+  t.is(hd.render('s'), '15th of Cheshvan, 5769');
   t.is(hd.render('ashkenazi'), '15th of Cheshvan, 5769');
   t.is(hd.render('he'), '15 חֶשְׁוָן, 5769');
 

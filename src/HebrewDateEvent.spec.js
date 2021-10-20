@@ -11,6 +11,7 @@ test('render', (t) => {
   t.is(hd1.render(), '29th of Elul, 5779');
   t.is(hd1.render('en'), '29th of Elul, 5779');
   t.is(hd1.render(''), '29th of Elul, 5779');
+  t.is(hd1.render('s'), '29th of Elul, 5779');
   t.is(hd1.render('ashkenazi'), '29th of Elul, 5779');
   t.is(hd1.render('he'), 'כ״ט אֱלוּל תשע״ט');
   t.is(hd2.render(), '1st of Tishrei, 5780');
@@ -35,6 +36,7 @@ test('renderBrief', (t) => {
   const tishrei1ev = new HebrewDateEvent(new HDate(1, 'Tishrei', 5780));
   t.is(elul29ev.renderBrief(), '29th of Elul');
   t.is(elul29ev.renderBrief('en'), '29th of Elul');
+  t.is(elul29ev.renderBrief('s'), '29th of Elul');
   t.is(elul29ev.renderBrief(''), '29th of Elul');
   t.is(elul29ev.renderBrief('ashkenazi'), '29th of Elul');
   t.is(elul29ev.renderBrief('he'), 'כ״ט אֱלוּל');
