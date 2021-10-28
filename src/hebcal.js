@@ -22,10 +22,10 @@ import {Locale} from './locale';
 import {HDate, months} from './hdate';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {MoladEvent} from './molad';
-import {HolidayEvent, getHolidaysForYear} from './holidays';
+import {HolidayEvent, getHolidaysForYear, getSedra} from './holidays';
 import {flags} from './event';
 import {OmerEvent} from './omer';
-import {Sedra, ParshaEvent} from './sedra';
+import {ParshaEvent} from './ParshaEvent';
 import {greg as g} from './greg';
 import {DafYomiEvent} from './dafyomi';
 import {Location} from './location';
@@ -501,7 +501,7 @@ export const HebrewCalendar = {
         currentYear = hyear;
         holidaysYear = HebrewCalendar.getHolidaysForYear(currentYear);
         if (options.sedrot && currentYear >= 3762) {
-          sedra = new Sedra(currentYear, il);
+          sedra = getSedra(currentYear, il);
         }
         if (options.omer) {
           beginOmer = HDate.hebrew2abs(currentYear, NISAN, 16);
@@ -770,6 +770,16 @@ export const HebrewCalendar = {
   version: function() {
     return pkgVersion;
   },
+
+  /**
+   * Convenience function to create an instance of `Sedra` or reuse a previously
+   * created and cached instance.
+   * @function
+   * @param {number} hyear
+   * @param {boolean} il
+   * @return {Sedra}
+   */
+  getSedra: getSedra,
 };
 
 /**

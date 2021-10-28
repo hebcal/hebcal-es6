@@ -249,6 +249,24 @@ class SimpleMap {
   }
 }
 
+const sedraCache = new SimpleMap();
+
+/**
+ * @private
+ * @param {number} hyear
+ * @param {boolean} il
+ * @return {Sedra}
+ */
+export function getSedra(hyear, il) {
+  const cacheKey = `${hyear}-${il ? 1 : 0}`;
+  let sedra = sedraCache.get(cacheKey);
+  if (!sedra) {
+    sedra = new Sedra(hyear, il);
+    sedraCache.set(cacheKey, sedra);
+  }
+  return sedra;
+}
+
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';
 const yearCache = Object.create(null);
@@ -516,7 +534,7 @@ export function getHolidaysForYear(year) {
     add(new MevarchimChodeshEvent(new HDate(29, month, year).onOrBefore(SAT), nextMonthName));
   }
 
-  const sedra = new Sedra(year, false);
+  const sedra = getSedra(year, false);
   const beshalachHd = sedra.find(15);
   add(new HolidayEvent(beshalachHd, 'Shabbat Shirah', SPECIAL_SHABBAT));
 

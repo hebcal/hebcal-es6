@@ -661,6 +661,12 @@ declare module '@hebcal/core' {
         function reformatTimeStr(timeStr: string, suffix: string, options: Options): string;
 
         function version(): string;
+
+        /**
+         * Convenience function to create an instance of `Sedra` or reuse a previously
+         * created and cached instance.
+         */
+        function getSedra(hyear: number, il: boolean): Sedra;
     }
 
     /**

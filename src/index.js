@@ -10,7 +10,8 @@ export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './candles';
 export {Molad, MoladEvent} from './molad';
 export {OmerEvent} from './omer';
 export {DafYomi, DafYomiEvent} from './dafyomi';
-export {Sedra, parshiot, ParshaEvent} from './sedra';
+export {Sedra, parshiot} from './sedra';
+export {ParshaEvent} from './ParshaEvent';
 export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays';
 export {HebrewCalendar} from './hebcal';

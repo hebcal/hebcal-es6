@@ -1,22 +1,9 @@
 import test from 'ava';
 import {HDate, months} from './hdate';
 import {Locale} from './locale';
-import {Sedra, ParshaEvent} from './sedra';
+import {Sedra} from './sedra';
 import './locale-he';
 import './locale-ashkenazi';
-
-test('ParshaEvent-url', (t) => {
-  const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai']);
-  t.is(ev1.url(), 'https://www.hebcal.com/sedrot/behar-bechukotai-20200516');
-  const ev2 = new ParshaEvent(new HDate(new Date(2020, 5, 6)), ['Nasso']);
-  t.is(ev2.url(), 'https://www.hebcal.com/sedrot/nasso-20200606');
-  const ev3 = new ParshaEvent(new HDate(new Date(2020, 5, 13)), ['Beha\'alotcha']);
-  t.is(ev3.url(), 'https://www.hebcal.com/sedrot/behaalotcha-20200613');
-  const ev4 = new ParshaEvent(new HDate(new Date(2022, 3, 30)), ['Achrei Mot']);
-  t.is(ev4.url(), 'https://www.hebcal.com/sedrot/achrei-mot-20220430');
-  const ev5 = new ParshaEvent(new HDate(new Date(2022, 3, 30)), ['Kedoshim'], true);
-  t.is(ev5.url(), 'https://www.hebcal.com/sedrot/kedoshim-20220430?i=on');
-});
 
 /**
  * @private
@@ -42,19 +29,8 @@ test('3762', (t) => {
 
 test('getString-locale', (t) => {
   Locale.useLocale('he');
-  let sedra = new Sedra(5780, true);
-  let hd = new HDate(new Date(2020, 6, 7));
-  const parsha = sedra.get(hd);
-  const ev = new ParshaEvent(hd, parsha);
-  t.is(ev.render(), 'פָּרָשַׁת פִּינְחָס');
-
-  hd = new HDate(new Date(2020, 2, 21));
-  const parsha2 = sedra.get(hd);
-  const ev2 = new ParshaEvent(hd, parsha2);
-  t.is(ev2.render(), 'פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי');
-
-  sedra = new Sedra(5781, false);
-  hd = new HDate(new Date(2021, 3, 24));
+  const sedra = new Sedra(5781, false);
+  const hd = new HDate(new Date(2021, 3, 24));
   t.is(sedra.getString(hd), 'פָּרָשַׁת אַחֲרֵי מוֹת־קְדשִׁים');
   t.is(sedra.getString(hd, 'en'), 'Parashat Achrei Mot-Kedoshim');
   t.is(sedra.getString(hd, 'ashkenazi'), 'Parshas Achrei Mos-Kedoshim');
@@ -133,18 +109,4 @@ test('complete-incomplete-types', (t) => {
     t.not(sedraDiaspora.find(0), null);
     t.not(sedraIL.find(0), null);
   }
-});
-
-test('early-ce-url', (t) => {
-  const ev = new ParshaEvent(new HDate(new Date(100, 9, 16)), ['Bereshit']);
-  t.is(ev.url(), 'https://www.hebcal.com/sedrot/bereshit-01001016');
-  const dt = new Date(99, 11, 12);
-  dt.setFullYear(99);
-  const ev2 = new ParshaEvent(new HDate(dt), ['Vayechi']);
-  t.is(ev2.url(), undefined);
-});
-
-test('bce-url', (t) => {
-  const ev = new ParshaEvent(new HDate(new Date(-428, 8, 30)), ['Bereshit']);
-  t.is(ev.url(), undefined);
 });
