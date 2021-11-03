@@ -443,9 +443,9 @@ export function getHolidaysForYear(year) {
        * http://www.ushmm.org/remembrance/dor/calendar/
        */
     if (nisan27dt.getDay() == FRI) {
-      nisan27dt = nisan27dt.prev();
+      nisan27dt = new HDate(26, NISAN, year);
     } else if (nisan27dt.getDay() == SUN) {
-      nisan27dt = nisan27dt.next();
+      nisan27dt = new HDate(28, NISAN, year);
     }
     add(new HolidayEvent(nisan27dt, 'Yom HaShoah', MODERN_HOLIDAY));
   }
@@ -464,10 +464,9 @@ export function getHolidaysForYear(year) {
     } else {
       day = 4;
     }
-    const tmpDate = new HDate(day, IYYAR, year);
     add(
-        new HolidayEvent(tmpDate, 'Yom HaZikaron', MODERN_HOLIDAY, emojiIsraelFlag),
-        new HolidayEvent(tmpDate.next(), 'Yom HaAtzma\'ut', MODERN_HOLIDAY, emojiIsraelFlag),
+        new HolidayEvent(new HDate(day, IYYAR, year), 'Yom HaZikaron', MODERN_HOLIDAY, emojiIsraelFlag),
+        new HolidayEvent(new HDate(day + 1, IYYAR, year), 'Yom HaAtzma\'ut', MODERN_HOLIDAY, emojiIsraelFlag),
     );
   }
 
@@ -492,7 +491,7 @@ export function getHolidaysForYear(year) {
   let tamuz17 = new HDate(17, TAMUZ, year);
   let tamuz17attrs;
   if (tamuz17.getDay() == SAT) {
-    tamuz17 = tamuz17.next();
+    tamuz17 = new HDate(18, TAMUZ, year);
     tamuz17attrs = {observed: true};
   }
   add(new HolidayEvent(tamuz17, 'Tzom Tammuz', MINOR_FAST, tamuz17attrs));
@@ -505,12 +504,12 @@ export function getHolidaysForYear(year) {
     av9attrs = {observed: true};
     av9title += ' (observed)';
   }
-
+  const av9abs = av9dt.abs();
   add(
-      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs())), 'Shabbat Chazon', SPECIAL_SHABBAT),
+      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9abs)), 'Shabbat Chazon', SPECIAL_SHABBAT),
       new HolidayEvent(av9dt.prev(), 'Erev Tish\'a B\'Av', EREV | MAJOR_FAST, av9attrs),
       new HolidayEvent(av9dt, av9title, MAJOR_FAST, av9attrs),
-      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9dt.abs() + 7)), 'Shabbat Nachamu', SPECIAL_SHABBAT),
+      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9abs + 7)), 'Shabbat Nachamu', SPECIAL_SHABBAT),
   );
 
   const monthsInYear = HDate.monthsInYear(year);

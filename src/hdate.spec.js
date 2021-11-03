@@ -140,6 +140,15 @@ test('ctor-abs', (t) => {
   t.is(d.abs(), 1);
 });
 
+test('prev-next', (t) => {
+  const hd = new HDate(765432);
+  t.is(hd.prev().abs(), 765431);
+  t.is(hd.next().abs(), 765433);
+  const hd2 = new HDate(new Date(1751, 0, 1));
+  t.is(hd2.prev().abs(), 639174);
+  t.is(hd2.next().abs(), 639176);
+});
+
 test('ctor-jsdate', (t) => {
   const d = new HDate(new Date(1751, 0, 1));
   t.is(d.getMonth(), TEVET);
