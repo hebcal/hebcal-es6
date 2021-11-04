@@ -548,3 +548,14 @@ test('Yom HaAliyah', (t) => {
   t.is(aliyah[1].getDate().toString(), '7 Cheshvan 5799');
   t.is(aliyah[1].getDesc(), 'Yom HaAliyah School Observance');
 });
+
+test('RoshChodeshEvent', (t) => {
+  const hd = new HDate(1, 'Tevet', 5782);
+  const ev = new RoshChodeshEvent(hd, 'Tevet');
+  t.is(ev.basename(), 'Rosh Chodesh Tevet');
+  t.is(ev.render('en'), 'Rosh Chodesh Tevet');
+  t.is(ev.renderBrief('en'), 'Rosh Chodesh Tevet');
+  t.is(ev.render('ashkenazi'), 'Rosh Chodesh Teves');
+  t.is(ev.render('he'), 'רֹאשׁ חוֹדֶשׁ טֵבֵת');
+  t.is(ev.render('he-x-NoNikud'), 'ראש חודש טבת');
+});

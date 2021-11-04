@@ -49,6 +49,11 @@ test('lookupTranslation-he-x-NoNikud', (t) => {
   t.is(Locale.lookupTranslation('Foobar', 'he-x-NoNikud'), undefined);
 });
 
+test('gettext-ashkenazi', (t) => {
+  t.is(Locale.gettext('Sukkot', 'a'), 'Sukkos');
+  t.is(Locale.gettext('Asara B\'Tevet', 'a'), 'Asara B\'Teves');
+});
+
 test('getLocaleName', (t) => {
   Locale.useLocale('he');
   t.is(Locale.getLocaleName(), 'he');

@@ -208,3 +208,9 @@ msgstr "Shabbos Mevorchim Chodesh"
 
 msgid "Shabbat Shirah"
 msgstr "Shabbos Shirah"
+
+msgid "Tevet"
+msgstr "Teves"
+
+msgid "Asara B'Tevet"
+msgstr "Asara B'Teves"
