@@ -15,6 +15,7 @@ const alias = {
  * * `en` - default, Sephardic transliterations (e.g. "Shabbat")
  * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
  * * `he` - Hebrew (e.g. "שַׁבָּת")
+ * * `he-x-NoNikud` - Hebrew without nikud (e.g. "שבת")
  * @namespace
  */
 export const Locale = {
@@ -33,7 +34,8 @@ export const Locale = {
    * @return {string}
    */
   lookupTranslation: function(id, locale) {
-    const loc = (typeof locale == 'string' && this.locales[locale]) || this.activeLocale;
+    const locale0 = locale && locale.toLowerCase();
+    const loc = (typeof locale == 'string' && this.locales[locale0]) || this.activeLocale;
     const array = loc[id];
     if (array && array.length && array[0].length) {
       return array[0];
@@ -62,7 +64,7 @@ export const Locale = {
    */
   addLocale: function(locale, data) {
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
-      throw new Error(`Locale '${locale}' invalid compact format`);
+      throw new TypeError(`Locale '${locale}' invalid compact format`);
     }
     this.locales[locale.toLowerCase()] = data.contexts[''];
   },
@@ -78,7 +80,7 @@ export const Locale = {
     const locale0 = locale.toLowerCase();
     const obj = this.locales[locale0];
     if (!obj) {
-      throw new Error(`Locale '${locale}' not found`);
+      throw new RangeError(`Locale '${locale}' not found`);
     }
     this.activeName = alias[locale0] || locale0;
     this.activeLocale = obj;
@@ -99,15 +101,28 @@ export const Locale = {
    * @return {string}
    */
   ordinal: function(n, locale) {
-    const locale0 = locale || this.activeName;
-    if (!locale0 || locale0 === 'en' || locale0 === 's' || 'ashkenazi' === locale0.substring(0, 9)) {
+    const locale1 = locale && locale.toLowerCase();
+    const locale0 = locale1 || this.activeName;
+    if (!locale0) {
       return this.getEnOrdinal(n);
-    } else if (locale0 == 'es') {
-      return n + 'º';
-    } else if (locale0 == 'he') {
-      return String(n);
-    } else {
-      return n + '.';
+    }
+    switch (locale0) {
+      case 'en':
+      case 's':
+      case 'a':
+      case 'ashkenazi':
+      case 'ashkenazi_litvish':
+      case 'ashkenazi_poylish':
+      case 'ashkenazi_standard':
+        return this.getEnOrdinal(n);
+      case 'es':
+        return n + 'º';
+      case 'h':
+      case 'he':
+      case 'he-x-nonikud':
+        return String(n);
+      default:
+        return n + '.';
     }
   },
 

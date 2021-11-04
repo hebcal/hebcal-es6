@@ -21,6 +21,7 @@ test('hebrewStripNikkud', (t) => {
 });
 
 test('useLocale-ordinal', (t) => {
+  Locale.useLocale('en');
   t.is(Locale.ordinal(3), '3rd');
   const expected = {
     a: '3rd',
@@ -40,4 +41,26 @@ test('useLocale-ordinal', (t) => {
   t.is(Locale.ordinal(3, 'fr'), '3.');
   t.is(Locale.ordinal(3, 'es'), '3º');
   t.is(Locale.ordinal(3, 'he'), '3');
+});
+
+test('lookupTranslation-he-x-NoNikud', (t) => {
+  t.is(Locale.lookupTranslation('Yom Kippur', 'he-x-NoNikud'), 'יום כפור');
+  t.is(Locale.lookupTranslation('Lech-Lecha', 'he-x-NoNikud'), 'לך־לך');
+  t.is(Locale.lookupTranslation('Foobar', 'he-x-NoNikud'), undefined);
+});
+
+test('getLocaleName', (t) => {
+  Locale.useLocale('he');
+  t.is(Locale.getLocaleName(), 'he');
+  Locale.useLocale('s');
+  t.is(Locale.getLocaleName(), 'en');
+  Locale.useLocale('h');
+  t.is(Locale.getLocaleName(), 'he');
+});
+
+test('useLocale-throws', (t) => {
+  const error = t.throws(() => {
+    Locale.useLocale('bogus');
+  }, {instanceOf: RangeError});
+  t.is(error.message, 'Locale \'bogus\' not found');
 });
