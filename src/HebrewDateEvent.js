@@ -23,9 +23,20 @@ export class HebrewDateEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    const locale0 = locale || Locale.getLocaleName();
+    const locale1 = locale && locale.toLowerCase();
+    const locale0 = locale1 || Locale.getLocaleName();
     const hd = this.getDate();
-    return locale0 === 'he' ? hd.renderGematriya() : hd.render(locale0, true);
+    switch (locale0) {
+      case 'h':
+      case 'he':
+      case 'he-x-nonikud':
+        const dd = hd.getDate();
+        const mm = Locale.gettext(hd.getMonthName(), locale0);
+        const yy = hd.getFullYear();
+        return gematriya(dd) + ' ' + mm + ' ' + gematriya(yy);
+      default:
+        return hd.render(locale0, true);
+    }
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).
@@ -39,17 +50,22 @@ export class HebrewDateEvent extends Event {
    * @return {string}
    */
   renderBrief(locale) {
-    const locale0 = locale || Locale.getLocaleName();
+    const locale1 = locale && locale.toLowerCase();
+    const locale0 = locale1 || Locale.getLocaleName();
     const hd = this.getDate();
     if (hd.getMonth() === months.TISHREI && hd.getDate() === 1) {
       return this.render(locale0);
     }
-    if (locale !== 'he') {
-      return hd.render(locale0, false);
+    switch (locale0) {
+      case 'h':
+      case 'he':
+      case 'he-x-nonikud':
+        const dd = hd.getDate();
+        const mm = Locale.gettext(hd.getMonthName(), locale0);
+        return gematriya(dd) + ' ' + mm;
+      default:
+        return hd.render(locale0, false);
     }
-    const dd = hd.getDate();
-    const mm = Locale.gettext(hd.getMonthName(), 'he');
-    return gematriya(dd) + ' ' + mm;
   }
   /**
    * Helper function to render a Hebrew date

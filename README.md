@@ -114,7 +114,7 @@ we subclass HolidayEvent to override the <code>url()</code> method.</p>
 </dd>
 <dt><a href="#Locale">Locale</a> : <code>object</code></dt>
 <dd><p>A locale in Hebcal is used for translations/transliterations of
-holidays. <code>@hebcal/core</code> supports three locales by default</p>
+holidays. <code>@hebcal/core</code> supports four locales by default</p>
 <ul>
 <li><code>en</code> - default, Sephardic transliterations (e.g. &quot;Shabbat&quot;)</li>
 <li><code>ashkenazi</code> - Ashkenazi transliterations (e.g. &quot;Shabbos&quot;)</li>
