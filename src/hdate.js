@@ -443,17 +443,9 @@ export class HDate {
   render(locale=null, showYear=true) {
     const locale0 = locale || Locale.getLocaleName();
     const day = this.getDate();
-    const monthName = Locale.gettext(this.getMonthName(), locale);
+    const monthName = Locale.gettext(this.getMonthName(), locale0);
     const nth = Locale.ordinal(day, locale0);
-    let dayOf = '';
-    if (locale0 === 'en' || locale0 === 's' || 'ashkenazi' == locale0.substring(0, 9)) {
-      dayOf = ' of';
-    } else {
-      const ofStr = Locale.lookupTranslation('of', locale0);
-      if (ofStr) {
-        dayOf = ' ' + ofStr;
-      }
-    }
+    const dayOf = HDate.getDayOfTranslation(locale0);
     const dateStr = `${nth}${dayOf} ${monthName}`;
     if (showYear) {
       const fullYear = this.getFullYear();
@@ -461,6 +453,31 @@ export class HDate {
     } else {
       return dateStr;
     }
+  }
+
+  /**
+   * @private
+   * @param {string} locale
+   * @return {string}
+   */
+  static getDayOfTranslation(locale) {
+    switch (locale) {
+      case 'en':
+      case 's':
+      case 'a':
+      case 'ashkenazi':
+        return ' of';
+      default:
+        break;
+    }
+    const ofStr = Locale.lookupTranslation('of', locale);
+    if (ofStr) {
+      return ' ' + ofStr;
+    }
+    if ('ashkenazi' === locale.substring(0, 9)) {
+      return ' of';
+    }
+    return '';
   }
 
   /**

@@ -2,6 +2,7 @@ import test from 'ava';
 import {HDate, months} from './hdate';
 import {Locale} from './locale';
 import poHeMin from './he.min.po.json';
+import './locale-ashkenazi';
 
 Locale.addLocale('he', poHeMin);
 Locale.addLocale('h', poHeMin);
@@ -259,6 +260,14 @@ test('render', (t) => {
   t.is(hd.render('en', false), '15th of Cheshvan');
   t.is(hd.render('ashkenazi', false), '15th of Cheshvan');
   t.is(hd.render('he', false), '15 חֶשְׁוָן');
+});
+
+test('render-tevet-ashkenazi', (t) => {
+  const hd = new HDate(3, months.TEVET, 5769);
+  t.is(hd.render('en', false), '3rd of Tevet');
+  t.is(hd.render('s', false), '3rd of Tevet');
+  t.is(hd.render('ashkenazi', false), '3rd of Teves');
+  t.is(hd.render('a', false), '3rd of Teves');
 });
 
 test('monthFromName', (t) => {
