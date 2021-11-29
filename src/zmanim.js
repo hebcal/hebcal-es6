@@ -1,5 +1,5 @@
 import {HDate} from './hdate';
-import Sun from '@hebcal/solar-calc/lib/sun';
+import {Sun} from '@hebcal/solar-calc/lib/sun';
 import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
 import {greg} from './greg';
 

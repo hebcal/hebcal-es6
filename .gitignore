@@ -1,3 +1,4 @@
 # A package should not include its node_modules folder in the repo; applications should
 node_modules
 dist
+src/*.po.json

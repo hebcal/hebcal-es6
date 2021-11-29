@@ -52,6 +52,8 @@ export default [
     ],
     plugins: [
       json({compact: true}),
+      nodeResolve(),
+      commonjs(),
       babel({
         babelHelpers: 'bundled',
         presets: [
@@ -86,10 +88,8 @@ export default [
             corejs: 3,
           }],
         ],
-        exclude: ['node_modules/**'],
+        exclude: ['node_modules/core-js/**'],
       }),
-      nodeResolve(),
-      commonjs(),
     ],
   },
   {
