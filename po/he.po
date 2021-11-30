@@ -843,3 +843,6 @@ msgstr "יְּסוֹד"
 # Malkhut
 msgid "Majesty"
 msgstr "מַּלְכוּת"
+
+msgid "day"
+msgstr "יוֹם"
