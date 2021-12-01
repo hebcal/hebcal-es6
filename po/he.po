@@ -846,3 +846,27 @@ msgstr "מַּלְכוּת"
 
 msgid "day"
 msgstr "יוֹם"
+
+msgid "Chanukah Day 1"
+msgstr "חֲנוּכָּה יוֹם א׳"
+
+msgid "Chanukah Day 2"
+msgstr "חֲנוּכָּה יוֹם ב׳"
+
+msgid "Chanukah Day 3"
+msgstr "חֲנוּכָּה יוֹם ג׳"
+
+msgid "Chanukah Day 4"
+msgstr "חֲנוּכָּה יוֹם ד׳"
+
+msgid "Chanukah Day 5"
+msgstr "חֲנוּכָּה יוֹם ה׳"
+
+msgid "Chanukah Day 6"
+msgstr "חֲנוּכָּה יוֹם ו׳"
+
+msgid "Chanukah Day 7"
+msgstr "חֲנוּכָּה יוֹם ז׳"
+
+msgid "Chanukah Day 8"
+msgstr "חֲנוּכָּה יוֹם ח׳"
