@@ -639,10 +639,10 @@ msgid "Yom Yerushalayim"
 msgstr "יוֹם יְרוּשָׁלַיִם"
 
 msgid "Yom HaAliyah"
-msgstr "יוֹם העלייה"
+msgstr "יוֹם הַעֲלִיָּה"
 
 msgid "Yom HaAliyah School Observance"
-msgstr "שמירת בית הספר ליום העלייה"
+msgstr "שְׁמִירָת בֵּית הַסֵפֶר לְיוֹם הַעֲלִיָּה"
 
 msgid "Pesach I (on Shabbat)"
 msgstr "פֶּסַח יוֹם א׳ (בְּשַׁבָּת)"
