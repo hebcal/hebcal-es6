@@ -35,19 +35,12 @@ function num2heb(num) {
 }
 
 /**
- * Converts a numerical value to a string of Hebrew letters
- * @example
- * gematriya(5774) // תשע״ד - cropped to 774
- * @param {number} number
- * @return {string}
+ * @private
+ * @param {number} num
+ * @return {number[]}
  */
-export function gematriya(number) {
-  let num = parseInt(number, 10);
-  if (!num) {
-    throw new TypeError(`invalid parameter to gematriya ${number}`);
-  }
+function num2digits(num) {
   const digits = [];
-  num = num % 1000;
   while (num > 0) {
     if (num === 15 || num === 16) {
       digits.push(9);
@@ -64,10 +57,41 @@ export function gematriya(number) {
     digits.push(i);
     num -= i;
   }
+  return digits;
+}
+
+/**
+ * Converts a numerical value to a string of Hebrew letters.
+ *
+ * When specifying years of the Hebrew calendar in the present millennium,
+ * we omit the thousands (which is presently 5 [ה]).
+ * @example
+ * gematriya(5774) // 'תשע״ד' - cropped to 774
+ * gematriya(25) // 'כ״ה'
+ * gematriya(60) // 'ס׳'
+ * gematriya(3761) // 'ג׳תשס״א'
+ * gematriya(1123) // 'א׳קכ״ג'
+ * @param {number} number
+ * @return {string}
+ */
+export function gematriya(number) {
+  const num = parseInt(number, 10);
+  if (!num) {
+    throw new TypeError(`invalid parameter to gematriya ${number}`);
+  }
+  const digits = num2digits(num % 1000);
   if (digits.length == 1) {
     return num2heb(digits[0]) + GERESH;
   }
   let str = '';
+  const thousands = Math.floor(num / 1000);
+  if (thousands > 0 && thousands !== 5) {
+    const tdigits = num2digits(thousands);
+    for (let i = 0; i < tdigits.length; i++) {
+      str += num2heb(tdigits[i]);
+    }
+    str += GERESH;
+  }
   for (let i = 0; i < digits.length; i++) {
     if (i + 1 === digits.length) {
       str += GERSHAYIM;
