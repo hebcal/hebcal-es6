@@ -79,10 +79,6 @@ export function gematriya(number) {
   if (!num) {
     throw new TypeError(`invalid parameter to gematriya ${number}`);
   }
-  const digits = num2digits(num % 1000);
-  if (digits.length == 1) {
-    return num2heb(digits[0]) + GERESH;
-  }
   let str = '';
   const thousands = Math.floor(num / 1000);
   if (thousands > 0 && thousands !== 5) {
@@ -91,6 +87,10 @@ export function gematriya(number) {
       str += num2heb(tdigits[i]);
     }
     str += GERESH;
+  }
+  const digits = num2digits(num % 1000);
+  if (digits.length == 1) {
+    return str + num2heb(digits[0]) + GERESH;
   }
   for (let i = 0; i < digits.length; i++) {
     if (i + 1 === digits.length) {

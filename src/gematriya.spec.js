@@ -22,4 +22,6 @@ test('gematriya', (t) => {
   t.is(gematriya(22700), 'כב׳ת״ש');
   t.is(gematriya(16123), 'טז׳קכ״ג');
   t.is(gematriya(1123), 'א׳קכ״ג');
+  t.is(gematriya(6000), 'ו׳');
+  t.is(gematriya(7007), 'ז׳ז׳');
 });
