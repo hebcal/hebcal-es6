@@ -535,7 +535,7 @@ export const HebrewCalendar = {
       }
       if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
         candlesEv = makeCandleEvent(undefined, hd, dow, location, options);
-        if (dow == FRI && sedra) {
+        if (dow === FRI && candlesEv && sedra) {
           candlesEv.memo = sedra.getString(abs);
         }
       }
