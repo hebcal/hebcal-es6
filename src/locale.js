@@ -33,7 +33,7 @@ export const Locale = {
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
    * @return {string}
    */
-  lookupTranslation: function(id, locale) {
+  lookupTranslation: function lookupTranslation(id, locale) {
     const locale0 = locale && locale.toLowerCase();
     const loc = (typeof locale == 'string' && this.locales[locale0]) || this.activeLocale;
     const array = loc[id];
@@ -49,7 +49,7 @@ export const Locale = {
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
    * @return {string}
    */
-  gettext: function(id, locale) {
+  gettext: function gettext(id, locale) {
     const text = this.lookupTranslation(id, locale);
     if (typeof text == 'undefined') {
       return id;
@@ -62,7 +62,7 @@ export const Locale = {
    * @param {string} locale Locale name (i.e.: `'he'`, `'fr'`)
    * @param {LocaleDate} data parsed data from a `.po` file.
    */
-  addLocale: function(locale, data) {
+  addLocale: function addLocale(locale, data) {
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
       throw new TypeError(`Locale '${locale}' invalid compact format`);
     }
@@ -76,7 +76,7 @@ export const Locale = {
    * @param {string} locale Locale name (i.e: `'he'`, `'fr'`)
    * @return {LocaleData}
    */
-  useLocale: function(locale) {
+  useLocale: function useLocale(locale) {
     const locale0 = locale.toLowerCase();
     const obj = this.locales[locale0];
     if (!obj) {
@@ -91,8 +91,16 @@ export const Locale = {
    * Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
    * @return {string}
    */
-  getLocaleName: function() {
+  getLocaleName: function getLocaleName() {
     return this.activeName;
+  },
+
+  /**
+   * Returns the names of registered locales
+   * @return {string[]}
+   */
+  getLocaleNames: function getLocaleNames() {
+    return Object.keys(this.locales).sort();
   },
 
   /**
@@ -100,7 +108,7 @@ export const Locale = {
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
    * @return {string}
    */
-  ordinal: function(n, locale) {
+  ordinal: function ordinal(n, locale) {
     const locale1 = locale && locale.toLowerCase();
     const locale0 = locale1 || this.activeName;
     if (!locale0) {
@@ -131,7 +139,7 @@ export const Locale = {
    * @param {number} n
    * @return {string}
    */
-  getEnOrdinal: function(n) {
+  getEnOrdinal: function getEnOrdinal(n) {
     const s = ['th', 'st', 'nd', 'rd'];
     const v = n % 100;
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
@@ -142,7 +150,7 @@ export const Locale = {
    * @param {string} str
    * @return {string}
    */
-  hebrewStripNikkud: function(str) {
+  hebrewStripNikkud: function hebrewStripNikkud(str) {
     return str.replace(/[\u0590-\u05bd]/g, '').replace(/[\u05bf-\u05c7]/g, '');
   },
 };

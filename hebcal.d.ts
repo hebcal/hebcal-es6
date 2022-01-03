@@ -465,6 +465,7 @@ declare module '@hebcal/core' {
          * Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
          */
         export function getLocaleName(): string;
+        export function getLocaleNames(): string[];
         export function ordinal(n: number, locale?: string): string;
         /**
          * Removes nekudot from Hebrew string

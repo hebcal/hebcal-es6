@@ -3,6 +3,12 @@ import {Locale} from './locale';
 import './locale-ashkenazi';
 import './locale-he';
 
+test('getLocaleNames', (t) => {
+  const expected = ['', 'a', 'ashkenazi', 'en', 'h', 'he', 'he-x-nonikud', 's'];
+  const actual = Locale.getLocaleNames();
+  t.deepEqual(actual, expected);
+});
+
 test('gettext-he', (t) => {
   t.is(Locale.gettext('Yom Kippur', 'he'), 'יוֹם כִּפּוּר');
   t.is(Locale.gettext('Lech-Lecha', 'he'), 'לֶךְ־לְךָ');
