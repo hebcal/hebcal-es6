@@ -684,16 +684,16 @@ msgid "Sukkot I (on Shabbat)"
 msgstr "סוּכּוֹת יוֹם א׳ (בְּשַׁבָּת)"
 
 msgid "Sukkot Chol ha-Moed Day 1"
-msgstr "סוּכּוֹת יוֹם ג׳ (חוֹל הַמּוֹעֵד)"
+msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם א׳"
 
 msgid "Sukkot Chol ha-Moed Day 2"
-msgstr "סוּכּוֹת יוֹם ד׳ (חוֹל הַמּוֹעֵד)"
+msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ב׳"
 
 msgid "Sukkot Chol ha-Moed Day 3"
-msgstr "סוּכּוֹת יוֹם ה׳ (חוֹל הַמּוֹעֵד)"
+msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ג׳"
 
 msgid "Sukkot Chol ha-Moed Day 4"
-msgstr "סוּכּוֹת יוֹם ו׳ (חוֹל הַמּוֹעֵד)"
+msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ד׳"
 
 msgid "Sukkot Shabbat Chol ha-Moed"
 msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמּוֹעֵד"
@@ -867,6 +867,9 @@ msgstr "חֲנוּכָּה יוֹם ו׳"
 
 msgid "Chanukah Day 7"
 msgstr "חֲנוּכָּה יוֹם ז׳"
+
+msgid "Chanukah Day 7 (on Rosh Chodesh)"
+msgstr "חֲנוּכָּה יוֹם ז׳ (רֹאשׁ חוֹדֶשׁ)"
 
 msgid "Chanukah Day 8"
 msgstr "חֲנוּכָּה יוֹם ח׳"
