@@ -768,18 +768,57 @@ declare module '@hebcal/core' {
      * Hebrew months of the year (NISAN=1, TISHREI=7)
      */
     export const enum months {
+        /**
+         * Nissan / ניסן
+         */
         NISAN = 1,
+        /**
+         * Iyyar / אייר
+         */
         IYYAR = 2,
+        /**
+         * Sivan / סיון
+         */
         SIVAN = 3,
+        /**
+         * Tamuz (sometimes Tammuz) / תמוז
+         */
         TAMUZ = 4,
+        /**
+         * Av / אב
+         */
         AV = 5,
+        /**
+         * Elul / אלול
+         */
         ELUL = 6,
+        /**
+         * Tishrei / תִשְׁרֵי
+         */
         TISHREI = 7,
+        /**
+         * Cheshvan / חשון
+         */
         CHESHVAN = 8,
+        /**
+         * Kislev / כסלו
+         */
         KISLEV = 9,
+        /**
+         * Tevet / טבת
+         */
         TEVET = 10,
+        /**
+         * Sh'vat / שבט
+         */
         SHVAT = 11,
+        /**
+         * Adar or Adar Rishon / אדר
+         */
         ADAR_I = 12,
+        /**
+         * Adar Sheini (only on leap years) / אדר ב׳
+         */
         ADAR_II = 13
     }
 
