@@ -809,7 +809,7 @@ msgid "shkiah"
 msgstr "שְׁקִיעָה"
 
 # Nightfall - End of ordained fasts
-msgid ""
+msgid "Nightfall - End of ordained fasts"
 msgstr "לַיְלָה - גמר תעניות דרבנן"
 
 # Nightfall - 3 stars emerge
@@ -873,3 +873,193 @@ msgstr "חֲנוּכָּה יוֹם ז׳ (רֹאשׁ חוֹדֶשׁ)"
 
 msgid "Chanukah Day 8"
 msgstr "חֲנוּכָּה יוֹם ח׳"
+
+# Berachot
+msgid "Berakhot"
+msgstr "ברכות"
+
+# Mishna Peah
+msgid "Peah"
+msgstr "פאה"
+
+# Mishna Demai
+msgid "Demai"
+msgstr "דמאי"
+
+# Mishna Kilayim
+msgid "Kilayim"
+msgstr "כלאים"
+
+# Mishna Sheviit
+msgid "Sheviit"
+msgstr "שביעית"
+
+# Mishna Terumot
+msgid "Terumot"
+msgstr "תרומות"
+
+# Mishna Maasrot
+msgid "Maasrot"
+msgstr "מעשרות"
+
+# Mishna Maaser Sheni
+msgid "Maaser Sheni"
+msgstr "מעשר שני"
+
+# Mishna Challah
+msgid "Challah"
+msgstr "חלה"
+
+# Mishna Orlah
+msgid "Orlah"
+msgstr "ערלה"
+
+# Mishna Bikkurim
+msgid "Bikkurim"
+msgstr "ביכורים"
+
+# Mishna Shabbat
+
+# Mishna Eruvin
+
+# Mishna Pesachim
+
+# Mishna Shekalim
+
+# Mishna Yoma
+
+# Mishna Sukkah
+
+# Mishna Beitzah
+
+# Mishna Rosh Hashanah
+msgid "Rosh Hashanah"
+msgstr "ראש השנה"
+
+# Mishna Taanit
+
+# Mishna Megillah
+
+# Mishna Moed Katan
+
+# Mishna Chagigah
+
+# Mishna Yevamot
+
+# Mishna Ketubot
+
+# Mishna Nedarim
+
+# Mishna Nazir
+
+# Mishna Sotah
+
+# Mishna Gittin
+msgid "Gittin"
+msgstr "גיטין"
+
+# Mishna Kiddushin
+
+# Mishna Bava Kamma
+msgid "Bava Kamma"
+msgstr "בבא קמא"
+
+# Mishna Bava Metzia
+msgid "Bava Metzia"
+msgstr "בבא מציעא"
+
+# Mishna Bava Batra
+msgid "Bava Batra"
+msgstr "בבא בתרא"
+
+# Mishna Sanhedrin
+
+# Mishna Makkot
+
+# Mishna Shevuot
+
+# Mishna Eduyot
+msgid "Eduyot"
+msgstr "עדיות"
+
+# Mishna Avodah Zarah
+
+# Mishna Avot
+msgid "Avot"
+msgstr "אבות"
+
+# Mishna Horayot
+
+# Mishna Zevachim
+
+# Mishna Menachot
+
+# Mishna Chullin
+
+# Mishna Bekhorot
+msgid "Bekhorot"
+msgstr "בכורות"
+
+# Mishna Arakhin
+msgid "Arakhin"
+msgstr "ערכין"
+
+# Mishna Temurah
+
+# Mishna Keritot
+
+# Mishna Meilah
+
+# Mishna Tamid
+
+# Mishna Middot
+msgid "Middot"
+msgstr "מדות"
+
+# Mishna Kinnim
+
+# Mishna Kelim
+msgid "Kelim"
+msgstr "כלים"
+
+# Mishna Oholot
+msgid "Oholot"
+msgstr "אהלות"
+
+# Mishna Negaim
+msgid "Negaim"
+msgstr "נגעים"
+
+# Mishna Parah
+msgid "Parah"
+msgstr "פרה"
+
+# Mishna Tahorot
+msgid "Tahorot"
+msgstr "טהרות"
+
+# Mishna Mikvaot
+msgid "Mikvaot"
+msgstr "מקואות"
+
+# Mishna Niddah
+
+# Mishna Makhshirin
+msgid "Makhshirin"
+msgstr "מכשירין"
+
+# Mishna Zavim
+msgid "Zavim"
+msgstr "זבים"
+
+# Mishna Tevul Yom
+msgid "Tevul Yom"
+msgstr "טבול יום"
+
+# Mishna Yadayim
+msgid "Yadayim"
+msgstr "ידים"
+
+# Mishna Oktzin
+msgid "Oktzin"
+msgstr "עוקצים"
