@@ -65,4 +65,9 @@ test('2021-cycle', (t) => {
   t.deepEqual(day10, [{k: 'Berakhot', v: '3:6'}, {k: 'Berakhot', v: '4:1'}]);
   const day28 = index.lookup(new Date(2022, 0, 22));
   t.deepEqual(day28, [{k: 'Berakhot', v: '9:5'}, {k: 'Peah', v: '1:1'}]);
+  t.deepEqual(index.lookup(new Date(2022, 7, 1)), [{k: 'Terumot', v: '11:3'}, {k: 'Terumot', v: '11:4'}]);
+  t.deepEqual(index.lookup(new Date(2023, 2, 26)), [{k: 'Pesachim', v: '3:8'}, {k: 'Pesachim', v: '4:1'}]);
+  t.deepEqual(index.lookup(new Date(2024, 3, 5)), [{k: 'Nedarim', v: '11:12'}, {k: 'Nazir', v: '1:1'}]);
+  t.deepEqual(index.lookup(new Date(2024, 10, 5)), [{k: 'Bava Metzia', v: '10:5'}, {k: 'Bava Metzia', v: '10:6'}]);
+  t.deepEqual(index.lookup(new Date(2027, 8, 20)), [{k: 'Oktzin', v: '3:11'}, {k: 'Oktzin', v: '3:12'}]);
 });

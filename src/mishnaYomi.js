@@ -3,7 +3,7 @@ import {HDate} from './hdate';
 import mishnayot from './mishnayot.json';
 
 const cycleStartDate = new Date(1947, 4, 20);
-const cycleStartAbs = g.greg2abs(cycleStartDate);
+export const mishnaYomiStart = g.greg2abs(cycleStartDate);
 
 const numMishnayot = 4192;
 const numDays = numMishnayot / 2;
@@ -59,11 +59,11 @@ export class MinshnaYomiIndex {
       g.isDate(date) ? g.greg2abs(date) :
       HDate.isHDate(date) ? date.abs() :
       throwTypeError(`Invalid date: ${date}`);
-    if (abs < cycleStartAbs) {
+    if (abs < mishnaYomiStart) {
       const s = date.toISOString().substring(0, 10);
       throw new RangeError(`Date ${s} too early; Mishna Yomi cycle began on 1947-05-20`);
     }
-    const dayNum = (abs - cycleStartAbs) % numDays;
+    const dayNum = (abs - mishnaYomiStart) % numDays;
     return this.days[dayNum];
   }
 }

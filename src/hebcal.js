@@ -34,6 +34,8 @@ import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
 import {version as pkgVersion} from '../package.json';
 import './locale-ashkenazi';
 import './locale-he';
+import {MishnaYomiEvent} from './MishnaYomiEvent';
+import {MinshnaYomiIndex} from './mishnaYomi';
 
 const FRI = 5;
 const SAT = 6;
@@ -93,6 +95,7 @@ const RECOGNIZED_OPTIONS = {
   noSpecialShabbat: 1,
   noHolidays: 1,
   dafyomi: 1,
+  mishnaYomi: 1,
   omer: 1,
   molad: 1,
   ashkenazi: 1,
@@ -190,6 +193,7 @@ function checkCandleOptions(options) {
  * @property {boolean} noSpecialShabbat - suppress Special Shabbat
  * @property {boolean} noHolidays - suppress regular holidays
  * @property {boolean} dafyomi - include Daf Yomi
+ * @property {boolean} mishnaYomi - include Daf Yomi
  * @property {boolean} omer - include Days of the Omer
  * @property {boolean} molad - include event announcing the molad
  * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
@@ -298,6 +302,7 @@ function getMaskFromOptions(options) {
     if (m & DAF_YOMI) options.dafyomi = true;
     if (m & OMER_COUNT) options.omer = true;
     if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
+    if (m & flags.MISHNA_YOMI) options.mishnaYomi = true;
     options.userMask = true;
     return m;
   }
@@ -338,6 +343,9 @@ function getMaskFromOptions(options) {
   }
   if (options.dafyomi) {
     mask |= DAF_YOMI;
+  }
+  if (options.mishnaYomi) {
+    mask |= flags.MISHNA_YOMI;
   }
   if (options.omer) {
     mask |= OMER_COUNT;
@@ -397,6 +405,7 @@ export const HebrewCalendar = {
    * * Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
    * * Counting of the Omer (`options.omer`)
    * * Daf Yomi (`options.dafyomi`)
+   * * Mishna Yomi (`options.mishnaYomi`)
    * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
    * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
    *
@@ -494,6 +503,10 @@ export const HebrewCalendar = {
     if (startGreg.getFullYear() < 100) {
       options.candlelighting = false;
     }
+    let mishnaYomiIndex;
+    if (options.mishnaYomi) {
+      mishnaYomiIndex = new MinshnaYomiIndex();
+    }
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);
       const hyear = hd.getFullYear();
@@ -523,6 +536,10 @@ export const HebrewCalendar = {
       }
       if (options.dafyomi && hyear >= 5684) {
         evts.push(new DafYomiEvent(hd));
+      }
+      if (options.mishnaYomi && hyear > 5707) {
+        const mishnaYomi = mishnaYomiIndex.lookup(abs);
+        evts.push(new MishnaYomiEvent(hd, mishnaYomi));
       }
       if (options.omer && abs >= beginOmer && abs <= endOmer) {
         const omer = abs - beginOmer + 1;

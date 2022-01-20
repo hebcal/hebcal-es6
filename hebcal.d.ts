@@ -545,6 +545,8 @@ declare module '@hebcal/core' {
             noHolidays?: boolean;
             /** include Daf Yomi */
             dafyomi?: boolean;
+            /** include Mishna Yomi */
+            mishnaYomi?: boolean;
             /** include Days of the Omer */
             omer?: boolean;
             /** include event announcing the molad */

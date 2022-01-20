@@ -22,6 +22,7 @@ const HEBREW_DATE = 0x040000;
 const MINOR_HOLIDAY = 0x080000;
 const EREV = 0x100000;
 const CHOL_HAMOED = 0x200000;
+const MISHNA_YOMI = 0x400000;
 
 /**
  * Holiday flags for Event
@@ -73,6 +74,8 @@ export const flags = {
   EREV,
   /** Chol haMoed, intermediate days of Pesach or Sukkot */
   CHOL_HAMOED,
+  /** Mishna Yomi */
+  MISHNA_YOMI,
 };
 
 /** Represents an Event with a title, date, and flags */

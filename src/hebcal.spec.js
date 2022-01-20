@@ -582,3 +582,15 @@ test('bce', (t) => {
   ];
   t.deepEqual(actual, expected);
 });
+
+test('mishnaYomi-only', (t) => {
+  const events = HebrewCalendar.calendar({
+    year: 2022,
+    isHebrewYear: false,
+    noHolidays: true,
+    mishnaYomi: true,
+  });
+  t.is(events.length, 365);
+  t.is(events[0].getDesc(), 'Berakhot 3:2-3');
+  t.is(events[2].getDesc(), 'Berakhot 3:6-4:1');
+});
