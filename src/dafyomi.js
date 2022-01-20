@@ -84,7 +84,7 @@ function throwTypeError(msg) {
 export class DafYomi {
   /**
    * Initializes a daf yomi instance
-   * @param {Date} gregdate Gregorian date
+   * @param {Date|HDate|number} gregdate Gregorian date
    */
   constructor(gregdate) {
     const cday = (typeof gregdate === 'number' && !isNaN(gregdate)) ? gregdate :
