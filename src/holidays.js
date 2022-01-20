@@ -157,9 +157,7 @@ export class MevarchimChodeshEvent extends Event {
   }
 }
 
-/**
- * @private
- */
+/** Represents Rosh Hashana, the Jewish New Year */
 export class RoshHashanaEvent extends HolidayEvent {
   /**
    * @private
@@ -218,7 +216,10 @@ const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
 const CHOL_HAMOED = flags.CHOL_HAMOED;
 
-/** @private */
+/**
+ * Avoid dependency on ES6 Map object
+ * @private
+ */
 class SimpleMap {
   /**
    * @param {string} key

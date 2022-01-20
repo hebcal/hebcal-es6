@@ -56,6 +56,7 @@ declare module '@hebcal/core' {
         MINOR_HOLIDAY,
         EREV,
         CHOL_HAMOED,
+        MISHNA_YOMI,
     }
 
     export type UnitTypeShort = 'd' | 'w' | 'M' | 'y';
@@ -842,6 +843,10 @@ declare module '@hebcal/core' {
         getFirstSaturday(): number;
     }
 
+    /**
+     * An event that has an `eventTime` and `eventTimeStr`
+     * @param desc - Description (not translated)
+     */
     export class TimedEvent extends Event {
         constructor(date: HDate, desc: string, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
         render(locale?: string): string;
@@ -924,4 +929,39 @@ declare module '@hebcal/core' {
      * gematriya(5774) // תשע״ד - cropped to 774
      */
     export function gematriya(number: number): string;
+
+    /**
+     * Describes a mishna to be read
+     * @property k - tractate name in Sephardic transliteration (e.g. "Berakhot", "Moed Katan")
+     * @property v - verse (e.g. "2:1")
+     */
+    export type MishnaYomi = {
+        k: string;
+        v: string;
+    };
+    /**
+     * Initializes a Mishna Yomi instance
+     */
+    export class MishnaYomiIndex {
+        /**
+         * Looks up a Mishna Yomi
+         * @param date - Gregorian date
+         */
+        lookup(date: Date | HDate | number): MishnaYomi[];
+    }
+    /**
+     * Event wrapper around a Mishna Yomi instance
+     */
+    export class MishnaYomiEvent {
+        constructor(date: HDate, mishnaYomi: MishnaYomi[]);
+        /**
+         * Returns Mishna Yomi name (e.g. "Bava Metzia 10:5-6" or "Berakhot 9:5-Peah 1:1").
+         * @param [locale] - Optional locale name (defaults to active locale).
+         */
+        render(locale?: string): string;
+        /**
+         * Returns a link to sefaria.org
+         */
+        url(): string;
+    }
 }

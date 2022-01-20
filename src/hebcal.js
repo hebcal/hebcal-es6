@@ -35,7 +35,7 @@ import {version as pkgVersion} from '../package.json';
 import './locale-ashkenazi';
 import './locale-he';
 import {MishnaYomiEvent} from './MishnaYomiEvent';
-import {MinshnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
+import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
 
 const FRI = 5;
 const SAT = 6;
@@ -364,6 +364,7 @@ const MASK_LIGHT_CANDLES =
   YOM_TOV_ENDS;
 
 /**
+ * @namespace
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
  * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
  * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
@@ -505,7 +506,7 @@ export const HebrewCalendar = {
     }
     let mishnaYomiIndex;
     if (options.mishnaYomi) {
-      mishnaYomiIndex = new MinshnaYomiIndex();
+      mishnaYomiIndex = new MishnaYomiIndex();
     }
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);

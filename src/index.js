@@ -14,5 +14,7 @@ export {Sedra, parshiot} from './sedra';
 export {ParshaEvent} from './ParshaEvent';
 export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays';
+export {MishnaYomiIndex} from './mishnaYomi';
+export {MishnaYomiEvent} from './MishnaYomiEvent';
 export {HebrewCalendar} from './hebcal';
 export {version} from '../package.json';

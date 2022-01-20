@@ -9,7 +9,7 @@ const numMishnayot = 4192;
 const numDays = numMishnayot / 2;
 
 /**
- * Options to configure which events are returned
+ * Describes a mishna to be read
  * @typedef {Object} MishnaYomi
  * @property {string} k tractate name in Sephardic transliteration (e.g. "Berakhot", "Moed Katan")
  * @property {string} v verse (e.g. "2:1")
@@ -24,7 +24,7 @@ function throwTypeError(msg) {
  * A program of daily learning in which participants study two Mishnahs
  * each day in order to finish the entire Mishnah in ~6 years.
  */
-export class MinshnaYomiIndex {
+export class MishnaYomiIndex {
   /**
    * Initializes a Mishna Yomi instance
    */

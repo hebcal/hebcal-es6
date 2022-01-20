@@ -104,12 +104,12 @@ we subclass HolidayEvent to override the <code>url()</code> method.</p>
 <dt><a href="#MevarchimChodeshEvent">MevarchimChodeshEvent</a></dt>
 <dd><p>Represents Mevarchim haChodesh, the announcement of the new month</p>
 </dd>
-<dt><a href="#MishnaYomiEvent">MishnaYomiEvent</a></dt>
-<dd><p>Event wrapper around a Mishna Yomi instance</p>
-</dd>
-<dt><a href="#MinshnaYomiIndex">MinshnaYomiIndex</a></dt>
+<dt><a href="#MishnaYomiIndex">MishnaYomiIndex</a></dt>
 <dd><p>A program of daily learning in which participants study two Mishnahs
 each day in order to finish the entire Mishnah in ~6 years.</p>
+</dd>
+<dt><a href="#MishnaYomiEvent">MishnaYomiEvent</a></dt>
+<dd><p>Event wrapper around a Mishna Yomi instance</p>
 </dd>
 </dl>
 
@@ -2016,6 +2016,39 @@ Returns (translated) description of this event
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+<a name="MishnaYomiIndex"></a>
+
+## MishnaYomiIndex
+A program of daily learning in which participants study two Mishnahs
+each day in order to finish the entire Mishnah in ~6 years.
+
+**Kind**: global class  
+
+* [MishnaYomiIndex](#MishnaYomiIndex)
+    * [new MishnaYomiIndex()](#new_MishnaYomiIndex_new)
+    * [.days](#MishnaYomiIndex+days) : [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
+    * [.lookup(date)](#MishnaYomiIndex+lookup) ⇒ [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
+
+<a name="new_MishnaYomiIndex_new"></a>
+
+### new MishnaYomiIndex()
+Initializes a Mishna Yomi instance
+
+<a name="MishnaYomiIndex+days"></a>
+
+### mishnaYomiIndex.days : [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
+**Kind**: instance property of [<code>MishnaYomiIndex</code>](#MishnaYomiIndex)  
+<a name="MishnaYomiIndex+lookup"></a>
+
+### mishnaYomiIndex.lookup(date) ⇒ [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
+Looks up a Mishna Yomi
+
+**Kind**: instance method of [<code>MishnaYomiIndex</code>](#MishnaYomiIndex)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | Gregorian date |
+
 <a name="MishnaYomiEvent"></a>
 
 ## MishnaYomiEvent
@@ -2054,39 +2087,6 @@ Returns Mishna Yomi name (e.g. "Bava Metzia 10:5-6" or "Berakhot 9:5-Peah 1:1").
 Returns a link to sefaria.org
 
 **Kind**: instance method of [<code>MishnaYomiEvent</code>](#MishnaYomiEvent)  
-<a name="MinshnaYomiIndex"></a>
-
-## MinshnaYomiIndex
-A program of daily learning in which participants study two Mishnahs
-each day in order to finish the entire Mishnah in ~6 years.
-
-**Kind**: global class  
-
-* [MinshnaYomiIndex](#MinshnaYomiIndex)
-    * [new MinshnaYomiIndex()](#new_MinshnaYomiIndex_new)
-    * [.days](#MinshnaYomiIndex+days) : [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
-    * [.lookup(date)](#MinshnaYomiIndex+lookup) ⇒ [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
-
-<a name="new_MinshnaYomiIndex_new"></a>
-
-### new MinshnaYomiIndex()
-Initializes a Mishna Yomi instance
-
-<a name="MinshnaYomiIndex+days"></a>
-
-### minshnaYomiIndex.days : [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
-**Kind**: instance property of [<code>MinshnaYomiIndex</code>](#MinshnaYomiIndex)  
-<a name="MinshnaYomiIndex+lookup"></a>
-
-### minshnaYomiIndex.lookup(date) ⇒ [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
-Looks up a Mishna Yomi
-
-**Kind**: instance method of [<code>MinshnaYomiIndex</code>](#MinshnaYomiIndex)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | Gregorian date |
-
 <a name="greg"></a>
 
 ## greg : <code>object</code>

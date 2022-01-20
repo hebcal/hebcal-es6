@@ -1,8 +1,8 @@
 import test from 'ava';
-import {MinshnaYomiIndex} from './mishnaYomi';
+import {MishnaYomiIndex} from './mishnaYomi';
 
 test('year1', (t) => {
-  const index = new MinshnaYomiIndex();
+  const index = new MishnaYomiIndex();
   const day1 = index.lookup(new Date(1947, 4, 20));
   t.deepEqual(day1, [{k: 'Berakhot', v: '1:1'}, {k: 'Berakhot', v: '1:2'}]);
   const day7 = index.lookup(new Date(1947, 4, 26));
@@ -12,7 +12,7 @@ test('year1', (t) => {
 });
 
 test('start-dates', (t) => {
-  const index = new MinshnaYomiIndex();
+  const index = new MishnaYomiIndex();
   const dates = `1947-05-20
 1953-02-13
 1958-11-10
@@ -42,7 +42,7 @@ test('start-dates', (t) => {
 });
 
 test('throws-lookup-string', (t) => {
-  const index = new MinshnaYomiIndex();
+  const index = new MishnaYomiIndex();
   const error = t.throws(() => {
     index.lookup('17 Cheshvan 5759');
   }, {instanceOf: TypeError});
@@ -50,7 +50,7 @@ test('throws-lookup-string', (t) => {
 });
 
 test('throws-lookup-too-earch', (t) => {
-  const index = new MinshnaYomiIndex();
+  const index = new MishnaYomiIndex();
   const error = t.throws(() => {
     index.lookup(new Date(1923, 1, 1));
   }, {instanceOf: RangeError});
@@ -58,7 +58,7 @@ test('throws-lookup-too-earch', (t) => {
 });
 
 test('2021-cycle', (t) => {
-  const index = new MinshnaYomiIndex();
+  const index = new MishnaYomiIndex();
   const day1 = index.lookup(new Date(2021, 11, 25));
   t.deepEqual(day1, [{k: 'Berakhot', v: '1:1'}, {k: 'Berakhot', v: '1:2'}]);
   const day10 = index.lookup(new Date(2022, 0, 3));

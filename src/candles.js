@@ -11,6 +11,7 @@ const days = {
 
 /**
  * @private
+ * @constant
  * This method returns the tzais (nightfall) based on the opinion of the
  * Geonim calculated as 30 minutes after sunset during the equinox
  * (on March 16, about 4 days before the astronomical equinox, the day that
