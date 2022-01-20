@@ -35,7 +35,7 @@ import {version as pkgVersion} from '../package.json';
 import './locale-ashkenazi';
 import './locale-he';
 import {MishnaYomiEvent} from './MishnaYomiEvent';
-import {MinshnaYomiIndex} from './mishnaYomi';
+import {MinshnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
 
 const FRI = 5;
 const SAT = 6;
@@ -193,7 +193,7 @@ function checkCandleOptions(options) {
  * @property {boolean} noSpecialShabbat - suppress Special Shabbat
  * @property {boolean} noHolidays - suppress regular holidays
  * @property {boolean} dafyomi - include Daf Yomi
- * @property {boolean} mishnaYomi - include Daf Yomi
+ * @property {boolean} mishnaYomi - include Mishna Yomi
  * @property {boolean} omer - include Days of the Omer
  * @property {boolean} molad - include event announcing the molad
  * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
@@ -537,7 +537,7 @@ export const HebrewCalendar = {
       if (options.dafyomi && hyear >= 5684) {
         evts.push(new DafYomiEvent(hd));
       }
-      if (options.mishnaYomi && hyear > 5707) {
+      if (options.mishnaYomi && abs >= mishnaYomiStart) {
         const mishnaYomi = mishnaYomiIndex.lookup(abs);
         evts.push(new MishnaYomiEvent(hd, mishnaYomi));
       }

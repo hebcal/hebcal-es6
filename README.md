@@ -104,6 +104,13 @@ we subclass HolidayEvent to override the <code>url()</code> method.</p>
 <dt><a href="#MevarchimChodeshEvent">MevarchimChodeshEvent</a></dt>
 <dd><p>Represents Mevarchim haChodesh, the announcement of the new month</p>
 </dd>
+<dt><a href="#MishnaYomiEvent">MishnaYomiEvent</a></dt>
+<dd><p>Event wrapper around a Mishna Yomi instance</p>
+</dd>
+<dt><a href="#MinshnaYomiIndex">MinshnaYomiIndex</a></dt>
+<dd><p>A program of daily learning in which participants study two Mishnahs
+each day in order to finish the entire Mishnah in ~6 years.</p>
+</dd>
 </dl>
 
 ## Objects
@@ -143,7 +150,9 @@ Event names can be rendered in several languges using the <code>locale</code> op
 
 <dl>
 <dt><a href="#gematriya">gematriya(number)</a> ⇒ <code>string</code></dt>
-<dd><p>Converts a numerical value to a string of Hebrew letters</p>
+<dd><p>Converts a numerical value to a string of Hebrew letters.</p>
+<p>When specifying years of the Hebrew calendar in the present millennium,
+we omit the thousands (which is presently 5 [ה]).</p>
 </dd>
 </dl>
 
@@ -154,6 +163,9 @@ Event names can be rendered in several languges using the <code>locale</code> op
 <dd></dd>
 <dt><a href="#SedraResult">SedraResult</a> : <code>Object</code></dt>
 <dd><p>Result of Sedra.lookup</p>
+</dd>
+<dt><a href="#MishnaYomi">MishnaYomi</a> : <code>Object</code></dt>
+<dd><p>Options to configure which events are returned</p>
 </dd>
 </dl>
 
@@ -1646,7 +1658,7 @@ Initializes a daf yomi instance
 
 | Param | Type | Description |
 | --- | --- | --- |
-| gregdate | <code>Date</code> | Gregorian date |
+| gregdate | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | Gregorian date |
 
 <a name="DafYomi+getBlatt"></a>
 
@@ -2004,6 +2016,77 @@ Returns (translated) description of this event
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+<a name="MishnaYomiEvent"></a>
+
+## MishnaYomiEvent
+Event wrapper around a Mishna Yomi instance
+
+**Kind**: global class  
+
+* [MishnaYomiEvent](#MishnaYomiEvent)
+    * [new MishnaYomiEvent(date, mishnaYomi)](#new_MishnaYomiEvent_new)
+    * [.render([locale])](#MishnaYomiEvent+render) ⇒ <code>string</code>
+    * [.url()](#MishnaYomiEvent+url) ⇒ <code>string</code>
+
+<a name="new_MishnaYomiEvent_new"></a>
+
+### new MishnaYomiEvent(date, mishnaYomi)
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) | 
+| mishnaYomi | [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi) | 
+
+<a name="MishnaYomiEvent+render"></a>
+
+### mishnaYomiEvent.render([locale]) ⇒ <code>string</code>
+Returns Mishna Yomi name (e.g. "Bava Metzia 10:5-6" or "Berakhot 9:5-Peah 1:1").
+
+**Kind**: instance method of [<code>MishnaYomiEvent</code>](#MishnaYomiEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="MishnaYomiEvent+url"></a>
+
+### mishnaYomiEvent.url() ⇒ <code>string</code>
+Returns a link to sefaria.org
+
+**Kind**: instance method of [<code>MishnaYomiEvent</code>](#MishnaYomiEvent)  
+<a name="MinshnaYomiIndex"></a>
+
+## MinshnaYomiIndex
+A program of daily learning in which participants study two Mishnahs
+each day in order to finish the entire Mishnah in ~6 years.
+
+**Kind**: global class  
+
+* [MinshnaYomiIndex](#MinshnaYomiIndex)
+    * [new MinshnaYomiIndex()](#new_MinshnaYomiIndex_new)
+    * [.days](#MinshnaYomiIndex+days) : [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
+    * [.lookup(date)](#MinshnaYomiIndex+lookup) ⇒ [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
+
+<a name="new_MinshnaYomiIndex_new"></a>
+
+### new MinshnaYomiIndex()
+Initializes a Mishna Yomi instance
+
+<a name="MinshnaYomiIndex+days"></a>
+
+### minshnaYomiIndex.days : [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
+**Kind**: instance property of [<code>MinshnaYomiIndex</code>](#MinshnaYomiIndex)  
+<a name="MinshnaYomiIndex+lookup"></a>
+
+### minshnaYomiIndex.lookup(date) ⇒ [<code>Array.&lt;MishnaYomi&gt;</code>](#MishnaYomi)
+Looks up a Mishna Yomi
+
+**Kind**: instance method of [<code>MinshnaYomiIndex</code>](#MinshnaYomiIndex)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | Gregorian date |
+
 <a name="greg"></a>
 
 ## greg : <code>object</code>
@@ -2102,7 +2185,7 @@ Clamen, Software--Practice and Experience, Volume 23, Number 4
 
 ## Locale : <code>object</code>
 A locale in Hebcal is used for translations/transliterations of
-holidays. `@hebcal/core` supports three locales by default
+holidays. `@hebcal/core` supports four locales by default
 * `en` - default, Sephardic transliterations (e.g. "Shabbat")
 * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
 * `he` - Hebrew (e.g. "שַׁבָּת")
@@ -2116,6 +2199,7 @@ holidays. `@hebcal/core` supports three locales by default
     * [.addLocale(locale, data)](#Locale.addLocale)
     * [.useLocale(locale)](#Locale.useLocale) ⇒ <code>LocaleData</code>
     * [.getLocaleName()](#Locale.getLocaleName) ⇒ <code>string</code>
+    * [.getLocaleNames()](#Locale.getLocaleNames) ⇒ <code>Array.&lt;string&gt;</code>
     * [.ordinal(n, [locale])](#Locale.ordinal) ⇒ <code>string</code>
     * [.hebrewStripNikkud(str)](#Locale.hebrewStripNikkud) ⇒ <code>string</code>
 
@@ -2173,6 +2257,12 @@ will be represented by the corresponding translation in the specified locale.
 
 ### Locale.getLocaleName() ⇒ <code>string</code>
 Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+<a name="Locale.getLocaleNames"></a>
+
+### Locale.getLocaleNames() ⇒ <code>Array.&lt;string&gt;</code>
+Returns the names of registered locales
 
 **Kind**: static method of [<code>Locale</code>](#Locale)  
 <a name="Locale.ordinal"></a>
@@ -2254,6 +2344,7 @@ Holiday flags for Event
 | MINOR_HOLIDAY | <code>number</code> | <code>MINOR_HOLIDAY$2</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
 | EREV | <code>number</code> | <code>EREV$2</code> | Evening before a major or minor holiday |
 | CHOL_HAMOED | <code>number</code> | <code>CHOL_HAMOED$2</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
+| MISHNA_YOMI | <code>number</code> | <code>MISHNA_YOMI</code> | Mishna Yomi |
 
 <a name="parshiot"></a>
 
@@ -2319,6 +2410,7 @@ Additional non-default event types can be specified:
 * Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
 * Counting of the Omer (`options.omer`)
 * Daf Yomi (`options.dafyomi`)
+* Mishna Yomi (`options.mishnaYomi`)
 * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
 * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
 
@@ -2568,6 +2660,7 @@ Options to configure which events are returned
 | noSpecialShabbat | <code>boolean</code> | suppress Special Shabbat |
 | noHolidays | <code>boolean</code> | suppress regular holidays |
 | dafyomi | <code>boolean</code> | include Daf Yomi |
+| mishnaYomi | <code>boolean</code> | include Mishna Yomi |
 | omer | <code>boolean</code> | include Days of the Omer |
 | molad | <code>boolean</code> | include event announcing the molad |
 | ashkenazi | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
@@ -2579,7 +2672,10 @@ Options to configure which events are returned
 <a name="gematriya"></a>
 
 ## gematriya(number) ⇒ <code>string</code>
-Converts a numerical value to a string of Hebrew letters
+Converts a numerical value to a string of Hebrew letters.
+
+When specifying years of the Hebrew calendar in the present millennium,
+we omit the thousands (which is presently 5 [ה]).
 
 **Kind**: global function  
 
@@ -2589,7 +2685,11 @@ Converts a numerical value to a string of Hebrew letters
 
 **Example**  
 ```js
-gematriya(5774) // תשע״ד - cropped to 774
+gematriya(5774) // 'תשע״ד' - cropped to 774
+gematriya(25) // 'כ״ה'
+gematriya(60) // 'ס׳'
+gematriya(3761) // 'ג׳תשס״א'
+gematriya(1123) // 'א׳קכ״ג'
 ```
 <a name="ZmanimTimesResult"></a>
 
@@ -2629,3 +2729,16 @@ Result of Sedra.lookup
 | --- | --- | --- |
 | parsha | <code>Array.&lt;string&gt;</code> | Name of the parsha (or parshiyot) read on     Hebrew date, e.g. `['Noach']` or `['Matot', 'Masei']` |
 | chag | <code>boolean</code> | True if this is a regular parasha HaShavua     Torah reading, false if it's a special holiday reading |
+
+<a name="MishnaYomi"></a>
+
+## MishnaYomi : <code>Object</code>
+Options to configure which events are returned
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| k | <code>string</code> | tractate name in Sephardic transliteration (e.g. "Berakhot", "Moed Katan") |
+| v | <code>string</code> | verse (e.g. "2:1") |
