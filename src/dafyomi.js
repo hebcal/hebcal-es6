@@ -22,6 +22,7 @@
 import {greg as g} from './greg';
 import {Locale} from './locale';
 import {Event, flags} from './event';
+import {HDate} from './hdate';
 
 const osdate = new Date(1923, 8, 11);
 const osday = g.greg2abs(osdate);
@@ -71,6 +72,11 @@ const shas = [
 ].map((m) => {
   return {name: m[0], blatt: m[1]};
 });
+
+// eslint-disable-next-line require-jsdoc
+function throwTypeError(msg) {
+  throw new TypeError(msg);
+}
 
 /**
  * Returns the Daf Yomi for given date
