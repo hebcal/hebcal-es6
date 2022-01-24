@@ -55,7 +55,8 @@ export class MishnaYomiEvent extends Event {
     const prefix = `https://www.sefaria.org/${mishna}_${name}`;
     const cv1 = mishnaYomi[0].v;
     if (k1 !== mishnaYomi[1].k) {
-      return `${prefix}.${cv1}?lang=bi`;
+      const verse1 = cv1.replace(':', '.');
+      return `${prefix}.${verse1}?lang=bi`;
     }
     const cv2 = mishnaYomi[1].v;
     const p1 = cv1.split(':');
