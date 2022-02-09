@@ -14,7 +14,7 @@ by similar functionality written in Emacs Lisp. The initial JavaScript port was 
 by Michael J. Radwin. `@hebcal/core` targets both
 browser-based JavaScript and server-side Node.js.
 
-Many users of this library will utilize the [HebrewCalendar.calendar()](#HebrewCalendar.calendar)
+Many users of this library will utilize the [HebrewCalendar](#HebrewCalendar)
 and [HDate](#HDate) interfaces.
 
 ## Installation
