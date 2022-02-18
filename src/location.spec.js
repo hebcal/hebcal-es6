@@ -131,6 +131,18 @@ test('shortName', (t) => {
   t.is(loc.getShortName(), 'Foo Bar');
 });
 
+test('shortName-DC', (t) => {
+  const loc = new Location(38.908089, -76.976663, false, 'America/New_York', 'Washington, DC 20002', 'US', '20002');
+  t.is(loc.getName(), 'Washington, DC 20002');
+  t.is(loc.getShortName(), 'Washington, DC');
+
+  const loc2 = new Location(38.908089, -76.976663, false, 'America/New_York', 'Washington, D.C.', 'US', 4140963);
+  t.is(loc2.getShortName(), 'Washington, D.C.');
+
+  const loc3 = new Location(38.908089, -76.976663, false, 'America/New_York', 'Dover, DE 19901', 'US', '19901');
+  t.is(loc3.getShortName(), 'Dover');
+});
+
 test('toString', (t) => {
   const loc = new Location(32.1836, 34.87386, true, 'Asia/Jerusalem', 'Ra\'anana', 'IL', 54321);
   // eslint-disable-next-line max-len

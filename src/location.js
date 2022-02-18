@@ -183,9 +183,18 @@ export class Location {
    * @return {string}
    */
   getShortName() {
-    if (!this.name) return this.name;
-    const comma = this.name.indexOf(',');
-    return comma == -1 ? this.name : this.name.substring(0, comma);
+    const name = this.name;
+    if (!name) return name;
+    const comma = name.indexOf(', ');
+    if (comma === -1) return name;
+    if (this.cc === 'US' && name[comma + 2] === 'D') {
+      if (name[comma + 3] === 'C') {
+        return name.substring(0, comma + 4);
+      } else if (name[comma + 3] === '.' && name[comma + 4] === 'C') {
+        return name.substring(0, comma + 6);
+      }
+    }
+    return name.substring(0, comma);
   }
 
   /** @return {string} */
