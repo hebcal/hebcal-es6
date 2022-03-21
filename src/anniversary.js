@@ -9,11 +9,11 @@ const ADAR_I = months.ADAR_I;
 const ADAR_II = months.ADAR_II;
 
 /**
-* @private
-* @param {number} hyear Hebrew year
-* @param {Date|HDate} gdate Gregorian or Hebrew date of death
-* @return {HDate} anniversary occurring in hyear
-*/
+ * @private
+ * @param {number} hyear Hebrew year
+ * @param {Date|HDate} gdate Gregorian or Hebrew date of death
+ * @return {HDate} anniversary occurring in hyear
+ */
 export function getYahrzeit_(hyear, gdate) {
   const orig = HDate.isHDate(gdate) ? gdate : new HDate(gdate);
   let hDeath = {
