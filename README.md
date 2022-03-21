@@ -111,6 +111,12 @@ each day in order to finish the entire Mishnah in ~6 years.</p>
 <dt><a href="#MishnaYomiEvent">MishnaYomiEvent</a></dt>
 <dd><p>Event wrapper around a Mishna Yomi instance</p>
 </dd>
+<dt><a href="#HebrewCalendar">HebrewCalendar</a></dt>
+<dd><p>HebrewCalendar is the main interface to the <code>@hebcal/core</code> library.
+This namespace is used to calculate holidays, rosh chodesh, candle lighting &amp; havdalah times,
+Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
+Event names can be rendered in several languges using the <code>locale</code> option.</p>
+</dd>
 </dl>
 
 ## Objects
@@ -138,12 +144,6 @@ holidays. <code>@hebcal/core</code> supports four locales by default</p>
 <dd><p>The 54 parshiyot of the Torah as transilterated strings
 parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &quot;Ha&#39;Azinu&quot;.</p>
 </dd>
-<dt><a href="#HebrewCalendar">HebrewCalendar</a></dt>
-<dd><p>HebrewCalendar is the main interface to the <code>@hebcal/core</code> library.
-This namespace is used to calculate holidays, rosh chodesh, candle lighting &amp; havdalah times,
-Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
-Event names can be rendered in several languges using the <code>locale</code> option.</p>
-</dd>
 </dl>
 
 ## Functions
@@ -165,7 +165,7 @@ we omit the thousands (which is presently 5 [ה]).</p>
 <dd><p>Result of Sedra.lookup</p>
 </dd>
 <dt><a href="#MishnaYomi">MishnaYomi</a> : <code>Object</code></dt>
-<dd><p>Options to configure which events are returned</p>
+<dd><p>Describes a mishna to be read</p>
 </dd>
 </dl>
 
@@ -2087,273 +2087,6 @@ Returns Mishna Yomi name (e.g. "Bava Metzia 10:5-6" or "Berakhot 9:5-Peah 1:1").
 Returns a link to sefaria.org
 
 **Kind**: instance method of [<code>MishnaYomiEvent</code>](#MishnaYomiEvent)  
-<a name="greg"></a>
-
-## greg : <code>object</code>
-Gregorian date helper functions.
-
-**Kind**: global namespace  
-
-* [greg](#greg) : <code>object</code>
-    * [.monthNames](#greg.monthNames) : <code>Array.&lt;string&gt;</code>
-    * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
-    * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
-    * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
-    * [.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>
-    * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
-    * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
-
-<a name="greg.monthNames"></a>
-
-### greg.monthNames : <code>Array.&lt;string&gt;</code>
-Long names of the Gregorian months (1='January', 12='December')
-
-**Kind**: static property of [<code>greg</code>](#greg)  
-**Read only**: true  
-<a name="greg.isLeapYear"></a>
-
-### greg.isLeapYear(year) ⇒ <code>boolean</code>
-Returns true if the Gregorian year is a leap year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Gregorian year |
-
-<a name="greg.daysInMonth"></a>
-
-### greg.daysInMonth(month, year) ⇒ <code>number</code>
-Number of days in the Gregorian month for given year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| month | <code>number</code> | Gregorian month (1=January, 12=December) |
-| year | <code>number</code> | Gregorian year |
-
-<a name="greg.isDate"></a>
-
-### greg.isDate(obj) ⇒ <code>boolean</code>
-Returns true if the object is a Javascript Date
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type |
-| --- | --- |
-| obj | <code>Object</code> | 
-
-<a name="greg.dayOfYear"></a>
-
-### greg.dayOfYear(date) ⇒ <code>number</code>
-Returns number of days since January 1 of that year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg.greg2abs"></a>
-
-### greg.greg2abs(date) ⇒ <code>number</code>
-Converts Gregorian date to absolute R.D. (Rata Die) days
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg.abs2greg"></a>
-
-### greg.abs2greg(theDate) ⇒ <code>Date</code>
-Converts from Rata Die (R.D. number) to Gregorian date.
-See the footnote on page 384 of ``Calendrical Calculations, Part II:
-Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
-Clamen, Software--Practice and Experience, Volume 23, Number 4
-(April, 1993), pages 383-404 for an explanation.
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| theDate | <code>number</code> | R.D. number of days |
-
-<a name="Locale"></a>
-
-## Locale : <code>object</code>
-A locale in Hebcal is used for translations/transliterations of
-holidays. `@hebcal/core` supports four locales by default
-* `en` - default, Sephardic transliterations (e.g. "Shabbat")
-* `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
-* `he` - Hebrew (e.g. "שַׁבָּת")
-* `he-x-NoNikud` - Hebrew without nikud (e.g. "שבת")
-
-**Kind**: global namespace  
-
-* [Locale](#Locale) : <code>object</code>
-    * [.lookupTranslation(id, [locale])](#Locale.lookupTranslation) ⇒ <code>string</code>
-    * [.gettext(id, [locale])](#Locale.gettext) ⇒ <code>string</code>
-    * [.addLocale(locale, data)](#Locale.addLocale)
-    * [.useLocale(locale)](#Locale.useLocale) ⇒ <code>LocaleData</code>
-    * [.getLocaleName()](#Locale.getLocaleName) ⇒ <code>string</code>
-    * [.getLocaleNames()](#Locale.getLocaleNames) ⇒ <code>Array.&lt;string&gt;</code>
-    * [.ordinal(n, [locale])](#Locale.ordinal) ⇒ <code>string</code>
-    * [.hebrewStripNikkud(str)](#Locale.hebrewStripNikkud) ⇒ <code>string</code>
-
-<a name="Locale.lookupTranslation"></a>
-
-### Locale.lookupTranslation(id, [locale]) ⇒ <code>string</code>
-Returns translation only if `locale` offers a non-empty translation for `id`.
-Otherwise, returns `undefined`.
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | Message ID to translate |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
-
-<a name="Locale.gettext"></a>
-
-### Locale.gettext(id, [locale]) ⇒ <code>string</code>
-By default, if no translation was found, returns `id`.
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | Message ID to translate |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
-
-<a name="Locale.addLocale"></a>
-
-### Locale.addLocale(locale, data)
-Register locale translations.
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
-| data | <code>LocaleDate</code> | parsed data from a `.po` file. |
-
-<a name="Locale.useLocale"></a>
-
-### Locale.useLocale(locale) ⇒ <code>LocaleData</code>
-Activates a locale. Throws an error if the locale has not been previously added.
-After setting the locale to be used, all strings marked for translations
-will be represented by the corresponding translation in the specified locale.
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`) |
-
-<a name="Locale.getLocaleName"></a>
-
-### Locale.getLocaleName() ⇒ <code>string</code>
-Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-<a name="Locale.getLocaleNames"></a>
-
-### Locale.getLocaleNames() ⇒ <code>Array.&lt;string&gt;</code>
-Returns the names of registered locales
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-<a name="Locale.ordinal"></a>
-
-### Locale.ordinal(n, [locale]) ⇒ <code>string</code>
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| n | <code>number</code> |  |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
-
-<a name="Locale.hebrewStripNikkud"></a>
-
-### Locale.hebrewStripNikkud(str) ⇒ <code>string</code>
-Removes nekudot from Hebrew string
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type |
-| --- | --- |
-| str | <code>string</code> | 
-
-<a name="months"></a>
-
-## months : <code>enum</code>
-Hebrew months of the year (NISAN=1, TISHREI=7)
-
-**Kind**: global enum  
-**Read only**: true  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| NISAN | <code>number</code> | <code>1</code> | Nissan / ניסן |
-| IYYAR | <code>number</code> | <code>2</code> | Iyyar / אייר |
-| SIVAN | <code>number</code> | <code>3</code> | Sivan / סיון |
-| TAMUZ | <code>number</code> | <code>4</code> | Tamuz (sometimes Tammuz) / תמוז |
-| AV | <code>number</code> | <code>5</code> | Av / אב |
-| ELUL | <code>number</code> | <code>6</code> | Elul / אלול |
-| TISHREI | <code>number</code> | <code>7</code> | Tishrei / תִשְׁרֵי |
-| CHESHVAN | <code>number</code> | <code>8</code> | Cheshvan / חשון |
-| KISLEV | <code>number</code> | <code>9</code> | Kislev / כסלו |
-| TEVET | <code>number</code> | <code>10</code> | Tevet / טבת |
-| SHVAT | <code>number</code> | <code>11</code> | Sh'vat / שבט |
-| ADAR_I | <code>number</code> | <code>12</code> | Adar or Adar Rishon / אדר |
-| ADAR_II | <code>number</code> | <code>13</code> | Adar Sheini (only on leap years) / אדר ב׳ |
-
-<a name="flags"></a>
-
-## flags : <code>enum</code>
-Holiday flags for Event
-
-**Kind**: global enum  
-**Read only**: true  
-**Properties**
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| CHAG | <code>number</code> | <code>CHAG$1</code> | Chag, yontiff, yom tov |
-| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES$2</code> | Light candles 18 minutes before sundown |
-| YOM_TOV_ENDS | <code>number</code> | <code>YOM_TOV_ENDS$2</code> | End of holiday (end of Yom Tov) |
-| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY$2</code> | Observed only in the Diaspora (chutz l'aretz) |
-| IL_ONLY | <code>number</code> | <code>IL_ONLY$2</code> | Observed only in Israel |
-| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS$2</code> | Light candles in the evening at Tzeit time (3 small stars) |
-| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES$2</code> | Candle-lighting for Chanukah |
-| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH$1</code> | Rosh Chodesh, beginning of a new Hebrew month |
-| MINOR_FAST | <code>number</code> | <code>MINOR_FAST$2</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
-| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT$2</code> | Shabbat Shekalim, Zachor, ... |
-| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA$1</code> | Weekly sedrot on Saturdays |
-| DAF_YOMI | <code>number</code> | <code>DAF_YOMI$1</code> | Daily page of Talmud |
-| OMER_COUNT | <code>number</code> | <code>OMER_COUNT$1</code> | Days of the Omer |
-| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY$2</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
-| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST$2</code> | Yom Kippur and Tish'a B'Av |
-| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM$1</code> | On the Saturday before Rosh Chodesh |
-| MOLAD | <code>number</code> | <code>MOLAD</code> | Molad |
-| USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
-| HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
-| MINOR_HOLIDAY | <code>number</code> | <code>MINOR_HOLIDAY$2</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
-| EREV | <code>number</code> | <code>EREV$2</code> | Evening before a major or minor holiday |
-| CHOL_HAMOED | <code>number</code> | <code>CHOL_HAMOED$2</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
-| MISHNA_YOMI | <code>number</code> | <code>MISHNA_YOMI</code> | Mishna Yomi |
-
-<a name="parshiot"></a>
-
-## parshiot : <code>Array.&lt;string&gt;</code>
-The 54 parshiyot of the Torah as transilterated strings
-parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'Azinu".
-
-**Kind**: global constant  
-**Read only**: true  
 <a name="HebrewCalendar"></a>
 
 ## HebrewCalendar
@@ -2362,7 +2095,7 @@ This namespace is used to calculate holidays, rosh chodesh, candle lighting & ha
 Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
 Event names can be rendered in several languges using the `locale` option.
 
-**Kind**: global constant  
+**Kind**: global class  
 
 * [HebrewCalendar](#HebrewCalendar)
     * [.calendar([options])](#HebrewCalendar.calendar) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
@@ -2669,6 +2402,273 @@ Options to configure which events are returned
 | addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
 | mask | <code>number</code> | use bitmask from `flags` to filter events |
 
+<a name="greg"></a>
+
+## greg : <code>object</code>
+Gregorian date helper functions.
+
+**Kind**: global namespace  
+
+* [greg](#greg) : <code>object</code>
+    * [.monthNames](#greg.monthNames) : <code>Array.&lt;string&gt;</code>
+    * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
+    * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
+    * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
+    * [.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>
+    * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
+    * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
+
+<a name="greg.monthNames"></a>
+
+### greg.monthNames : <code>Array.&lt;string&gt;</code>
+Long names of the Gregorian months (1='January', 12='December')
+
+**Kind**: static property of [<code>greg</code>](#greg)  
+**Read only**: true  
+<a name="greg.isLeapYear"></a>
+
+### greg.isLeapYear(year) ⇒ <code>boolean</code>
+Returns true if the Gregorian year is a leap year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Gregorian year |
+
+<a name="greg.daysInMonth"></a>
+
+### greg.daysInMonth(month, year) ⇒ <code>number</code>
+Number of days in the Gregorian month for given year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> | Gregorian month (1=January, 12=December) |
+| year | <code>number</code> | Gregorian year |
+
+<a name="greg.isDate"></a>
+
+### greg.isDate(obj) ⇒ <code>boolean</code>
+Returns true if the object is a Javascript Date
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type |
+| --- | --- |
+| obj | <code>Object</code> | 
+
+<a name="greg.dayOfYear"></a>
+
+### greg.dayOfYear(date) ⇒ <code>number</code>
+Returns number of days since January 1 of that year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> | Gregorian date |
+
+<a name="greg.greg2abs"></a>
+
+### greg.greg2abs(date) ⇒ <code>number</code>
+Converts Gregorian date to absolute R.D. (Rata Die) days
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> | Gregorian date |
+
+<a name="greg.abs2greg"></a>
+
+### greg.abs2greg(theDate) ⇒ <code>Date</code>
+Converts from Rata Die (R.D. number) to Gregorian date.
+See the footnote on page 384 of ``Calendrical Calculations, Part II:
+Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
+Clamen, Software--Practice and Experience, Volume 23, Number 4
+(April, 1993), pages 383-404 for an explanation.
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| theDate | <code>number</code> | R.D. number of days |
+
+<a name="Locale"></a>
+
+## Locale : <code>object</code>
+A locale in Hebcal is used for translations/transliterations of
+holidays. `@hebcal/core` supports four locales by default
+* `en` - default, Sephardic transliterations (e.g. "Shabbat")
+* `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
+* `he` - Hebrew (e.g. "שַׁבָּת")
+* `he-x-NoNikud` - Hebrew without nikud (e.g. "שבת")
+
+**Kind**: global namespace  
+
+* [Locale](#Locale) : <code>object</code>
+    * [.lookupTranslation(id, [locale])](#Locale.lookupTranslation) ⇒ <code>string</code>
+    * [.gettext(id, [locale])](#Locale.gettext) ⇒ <code>string</code>
+    * [.addLocale(locale, data)](#Locale.addLocale)
+    * [.useLocale(locale)](#Locale.useLocale) ⇒ <code>LocaleData</code>
+    * [.getLocaleName()](#Locale.getLocaleName) ⇒ <code>string</code>
+    * [.getLocaleNames()](#Locale.getLocaleNames) ⇒ <code>Array.&lt;string&gt;</code>
+    * [.ordinal(n, [locale])](#Locale.ordinal) ⇒ <code>string</code>
+    * [.hebrewStripNikkud(str)](#Locale.hebrewStripNikkud) ⇒ <code>string</code>
+
+<a name="Locale.lookupTranslation"></a>
+
+### Locale.lookupTranslation(id, [locale]) ⇒ <code>string</code>
+Returns translation only if `locale` offers a non-empty translation for `id`.
+Otherwise, returns `undefined`.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID to translate |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="Locale.gettext"></a>
+
+### Locale.gettext(id, [locale]) ⇒ <code>string</code>
+By default, if no translation was found, returns `id`.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID to translate |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="Locale.addLocale"></a>
+
+### Locale.addLocale(locale, data)
+Register locale translations.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
+| data | <code>LocaleDate</code> | parsed data from a `.po` file. |
+
+<a name="Locale.useLocale"></a>
+
+### Locale.useLocale(locale) ⇒ <code>LocaleData</code>
+Activates a locale. Throws an error if the locale has not been previously added.
+After setting the locale to be used, all strings marked for translations
+will be represented by the corresponding translation in the specified locale.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`) |
+
+<a name="Locale.getLocaleName"></a>
+
+### Locale.getLocaleName() ⇒ <code>string</code>
+Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+<a name="Locale.getLocaleNames"></a>
+
+### Locale.getLocaleNames() ⇒ <code>Array.&lt;string&gt;</code>
+Returns the names of registered locales
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+<a name="Locale.ordinal"></a>
+
+### Locale.ordinal(n, [locale]) ⇒ <code>string</code>
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| n | <code>number</code> |  |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="Locale.hebrewStripNikkud"></a>
+
+### Locale.hebrewStripNikkud(str) ⇒ <code>string</code>
+Removes nekudot from Hebrew string
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
+
+<a name="months"></a>
+
+## months : <code>enum</code>
+Hebrew months of the year (NISAN=1, TISHREI=7)
+
+**Kind**: global enum  
+**Read only**: true  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| NISAN | <code>number</code> | <code>1</code> | Nissan / ניסן |
+| IYYAR | <code>number</code> | <code>2</code> | Iyyar / אייר |
+| SIVAN | <code>number</code> | <code>3</code> | Sivan / סיון |
+| TAMUZ | <code>number</code> | <code>4</code> | Tamuz (sometimes Tammuz) / תמוז |
+| AV | <code>number</code> | <code>5</code> | Av / אב |
+| ELUL | <code>number</code> | <code>6</code> | Elul / אלול |
+| TISHREI | <code>number</code> | <code>7</code> | Tishrei / תִשְׁרֵי |
+| CHESHVAN | <code>number</code> | <code>8</code> | Cheshvan / חשון |
+| KISLEV | <code>number</code> | <code>9</code> | Kislev / כסלו |
+| TEVET | <code>number</code> | <code>10</code> | Tevet / טבת |
+| SHVAT | <code>number</code> | <code>11</code> | Sh'vat / שבט |
+| ADAR_I | <code>number</code> | <code>12</code> | Adar or Adar Rishon / אדר |
+| ADAR_II | <code>number</code> | <code>13</code> | Adar Sheini (only on leap years) / אדר ב׳ |
+
+<a name="flags"></a>
+
+## flags : <code>enum</code>
+Holiday flags for Event
+
+**Kind**: global enum  
+**Read only**: true  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| CHAG | <code>number</code> | <code>CHAG$1</code> | Chag, yontiff, yom tov |
+| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES$2</code> | Light candles 18 minutes before sundown |
+| YOM_TOV_ENDS | <code>number</code> | <code>YOM_TOV_ENDS$2</code> | End of holiday (end of Yom Tov) |
+| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY$2</code> | Observed only in the Diaspora (chutz l'aretz) |
+| IL_ONLY | <code>number</code> | <code>IL_ONLY$2</code> | Observed only in Israel |
+| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS$2</code> | Light candles in the evening at Tzeit time (3 small stars) |
+| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES$2</code> | Candle-lighting for Chanukah |
+| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH$1</code> | Rosh Chodesh, beginning of a new Hebrew month |
+| MINOR_FAST | <code>number</code> | <code>MINOR_FAST$2</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
+| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT$2</code> | Shabbat Shekalim, Zachor, ... |
+| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA$1</code> | Weekly sedrot on Saturdays |
+| DAF_YOMI | <code>number</code> | <code>DAF_YOMI$1</code> | Daily page of Talmud |
+| OMER_COUNT | <code>number</code> | <code>OMER_COUNT$1</code> | Days of the Omer |
+| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY$2</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
+| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST$2</code> | Yom Kippur and Tish'a B'Av |
+| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM$1</code> | On the Saturday before Rosh Chodesh |
+| MOLAD | <code>number</code> | <code>MOLAD</code> | Molad |
+| USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
+| HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
+| MINOR_HOLIDAY | <code>number</code> | <code>MINOR_HOLIDAY$2</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
+| EREV | <code>number</code> | <code>EREV$2</code> | Evening before a major or minor holiday |
+| CHOL_HAMOED | <code>number</code> | <code>CHOL_HAMOED$2</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
+| MISHNA_YOMI | <code>number</code> | <code>MISHNA_YOMI</code> | Mishna Yomi |
+
+<a name="parshiot"></a>
+
+## parshiot : <code>Array.&lt;string&gt;</code>
+The 54 parshiyot of the Torah as transilterated strings
+parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'Azinu".
+
+**Kind**: global constant  
+**Read only**: true  
 <a name="gematriya"></a>
 
 ## gematriya(number) ⇒ <code>string</code>
@@ -2733,7 +2733,7 @@ Result of Sedra.lookup
 <a name="MishnaYomi"></a>
 
 ## MishnaYomi : <code>Object</code>
-Options to configure which events are returned
+Describes a mishna to be read
 
 **Kind**: global typedef  
 **Properties**

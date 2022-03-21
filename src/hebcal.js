@@ -22,7 +22,7 @@ import {Locale} from './locale';
 import {HDate, months} from './hdate';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {MoladEvent} from './molad';
-import {HolidayEvent, getHolidaysForYear, getSedra} from './holidays';
+import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays';
 import {flags} from './event';
 import {OmerEvent} from './omer';
 import {ParshaEvent} from './ParshaEvent';
@@ -363,17 +363,19 @@ const MASK_LIGHT_CANDLES =
   CHANUKAH_CANDLES |
   YOM_TOV_ENDS;
 
+const defaultLocation = new Location(0, 0, false, 'UTC');
+
+const hour12cc = {
+  US: 1, CA: 1, BR: 1, AU: 1, NZ: 1, DO: 1, PR: 1, GR: 1, IN: 1, KR: 1, NP: 1, ZA: 1,
+};
+
 /**
- * @namespace
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
  * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
  * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
  * Event names can be rendered in several languges using the `locale` option.
  */
-export const HebrewCalendar = {
-  /** @private */
-  defaultLocation: new Location(0, 0, false, 'UTC'),
-
+export class HebrewCalendar {
   /**
    * Calculates holidays and other Hebrew calendar events based on {@link HebrewCalendar.Options}.
    *
@@ -474,10 +476,10 @@ export const HebrewCalendar = {
    * @param {HebrewCalendar.Options} [options={}]
    * @return {Event[]}
    */
-  calendar: function(options={}) {
+  static calendar(options={}) {
     options = shallowCopy({}, options); // so we can modify freely
     checkCandleOptions(options);
-    const location = options.location = options.location || this.defaultLocation;
+    const location = options.location = options.location || defaultLocation;
     const il = options.il = options.il || location.il || false;
     options.mask = getMaskFromOptions(options);
     if (options.ashkenazi || options.locale) {
@@ -515,7 +517,7 @@ export const HebrewCalendar = {
         currentYear = hyear;
         holidaysYear = HebrewCalendar.getHolidaysForYear(currentYear);
         if (options.sedrot && currentYear >= 3762) {
-          sedra = getSedra(currentYear, il);
+          sedra = getSedra_(currentYear, il);
         }
         if (options.omer) {
           beginOmer = HDate.hebrew2abs(currentYear, NISAN, 16);
@@ -575,7 +577,7 @@ export const HebrewCalendar = {
       }
     }
     return evts;
-  },
+  }
 
   /**
    * Calculates a birthday or anniversary (non-yahrzeit).
@@ -603,7 +605,7 @@ export const HebrewCalendar = {
    * @param {Date|HDate} gdate Gregorian or Hebrew date of event
    * @return {HDate} anniversary occurring in `hyear`
    */
-  getBirthdayOrAnniversary: function(hyear, gdate) {
+  static getBirthdayOrAnniversary(hyear, gdate) {
     const orig = HDate.isHDate(gdate) ? gdate : new HDate(gdate);
     const origYear = orig.getFullYear();
     if (hyear <= origYear) {
@@ -628,7 +630,7 @@ export const HebrewCalendar = {
     }
 
     return new HDate(day, month, hyear);
-  },
+  }
 
   /**
    * Calculates yahrzeit.
@@ -664,7 +666,7 @@ export const HebrewCalendar = {
    * @param {Date|HDate} gdate Gregorian or Hebrew date of death
    * @return {HDate} anniversary occurring in hyear
    */
-  getYahrzeit: function(hyear, gdate) {
+  static getYahrzeit(hyear, gdate) {
     const orig = HDate.isHDate(gdate) ? gdate : new HDate(gdate);
     let hDeath = {
       yy: orig.getFullYear(),
@@ -705,7 +707,7 @@ export const HebrewCalendar = {
     }
 
     return new HDate(hDeath.dd, hDeath.mm, hyear);
-  },
+  }
 
   /**
    * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
@@ -715,7 +717,9 @@ export const HebrewCalendar = {
    * @param {number} year Hebrew year
    * @return {Map<string,Event[]>}
    */
-  getHolidaysForYear: getHolidaysForYear,
+  static getHolidaysForYear(year) {
+    return getHolidaysForYear_(year);
+  }
 
   /**
    * Returns an array of holidays for the year
@@ -723,8 +727,8 @@ export const HebrewCalendar = {
    * @param {boolean} il use the Israeli schedule for holidays
    * @return {Event[]}
    */
-  getHolidaysForYearArray: function(year, il) {
-    const yearMap = HebrewCalendar.getHolidaysForYear(year);
+  static getHolidaysForYearArray(year, il) {
+    const yearMap = getHolidaysForYear_(year);
     const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
     const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
     const events = [];
@@ -737,7 +741,7 @@ export const HebrewCalendar = {
       }
     }
     return events;
-  },
+  }
 
   /**
    * Returns an array of Events on this date (or undefined if no events)
@@ -745,19 +749,15 @@ export const HebrewCalendar = {
    * @param {boolean} [il] use the Israeli schedule for holidays
    * @return {Event[]}
    */
-  getHolidaysOnDate: function(date, il) {
+  static getHolidaysOnDate(date, il) {
     const hd = HDate.isHDate(date) ? date : new HDate(date);
-    const yearMap = HebrewCalendar.getHolidaysForYear(hd.getFullYear());
+    const yearMap = getHolidaysForYear_(hd.getFullYear());
     const events = yearMap.get(hd.toString());
     if (typeof il === 'undefined' || typeof events === 'undefined') {
       return events;
     }
     return events.filter((ev) => (il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora()));
-  },
-
-  hour12cc: {
-    US: 1, CA: 1, BR: 1, AU: 1, NZ: 1, DO: 1, PR: 1, GR: 1, IN: 1, KR: 1, NP: 1, ZA: 1,
-  },
+  }
 
   /**
    * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
@@ -768,10 +768,10 @@ export const HebrewCalendar = {
    * @param {HebrewCalendar.Options} options
    * @return {string}
    */
-  reformatTimeStr: function(timeStr, suffix, options) {
+  static reformatTimeStr(timeStr, suffix, options) {
     if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);
     const cc = (options.location && options.location.cc) || (options.il ? 'IL' : 'US');
-    if (typeof this.hour12cc[cc] === 'undefined') {
+    if (typeof hour12cc[cc] === 'undefined') {
       return timeStr;
     }
     const hm = timeStr.split(':');
@@ -782,12 +782,12 @@ export const HebrewCalendar = {
       hour = hour % 12;
     }
     return `${hour}:${hm[1]}${suffix}`;
-  },
+  }
 
   /** @return {string} */
-  version: function() {
+  static version() {
     return pkgVersion;
-  },
+  }
 
   /**
    * Convenience function to create an instance of `Sedra` or reuse a previously
@@ -797,8 +797,10 @@ export const HebrewCalendar = {
    * @param {boolean} il
    * @return {Sedra}
    */
-  getSedra: getSedra,
-};
+  static getSedra(hyear, il) {
+    return getSedra_(hyear, il);
+  }
+}
 
 /**
  * Appends the Event `ev` to the `events` array. Also may add related

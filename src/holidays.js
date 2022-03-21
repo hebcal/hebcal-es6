@@ -258,7 +258,7 @@ const sedraCache = new SimpleMap();
  * @param {boolean} il
  * @return {Sedra}
  */
-export function getSedra(hyear, il) {
+export function getSedra_(hyear, il) {
   const cacheKey = `${hyear}-${il ? 1 : 0}`;
   let sedra = sedraCache.get(cacheKey);
   if (!sedra) {
@@ -280,7 +280,7 @@ const yearCache = Object.create(null);
  * @param {number} year Hebrew year
  * @return {Map<string,Event[]>}
  */
-export function getHolidaysForYear(year) {
+export function getHolidaysForYear_(year) {
   if (typeof year !== 'number') {
     throw new TypeError(`bad Hebrew year: ${year}`);
   } else if (year < 1 || year > 32658) {
@@ -534,7 +534,7 @@ export function getHolidaysForYear(year) {
     add(new MevarchimChodeshEvent(new HDate(29, month, year).onOrBefore(SAT), nextMonthName));
   }
 
-  const sedra = getSedra(year, false);
+  const sedra = getSedra_(year, false);
   const beshalachHd = sedra.find(15);
   add(new HolidayEvent(beshalachHd, 'Shabbat Shirah', SPECIAL_SHABBAT));
 
