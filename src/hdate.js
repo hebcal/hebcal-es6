@@ -485,7 +485,7 @@ export class HDate {
    * @example
    * import {HDate, months} from '@hebcal/core';
    * const hd = new HDate(15, months.CHESHVAN, 5769);
-   * console.log(ev.renderGematriya()); // 'ט״ו חֶשְׁוָן תשס״ט'
+   * console.log(hd.renderGematriya()); // 'ט״ו חֶשְׁוָן תשס״ט'
    * @return {string}
    */
   renderGematriya() {
