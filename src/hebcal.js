@@ -365,6 +365,24 @@ const hour12cc = {
 };
 
 /**
+ * @private
+ * @param {Event} ev
+ * @return {boolean}
+ */
+function observedInIsrael(ev) {
+  return ev.observedInIsrael();
+}
+
+/**
+ * @private
+ * @param {Event} ev
+ * @return {boolean}
+ */
+function observedInDiaspora(ev) {
+  return ev.observedInDiaspora();
+}
+
+/**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
  * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
  * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
@@ -664,13 +682,14 @@ export class HebrewCalendar {
     const yearMap = getHolidaysForYear_(year);
     const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
     const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
-    const events = [];
+    let events = [];
+    const myFilter = il ? observedInIsrael : observedInDiaspora;
     for (let absDt = startAbs; absDt <= endAbs; absDt++) {
       const hd = new HDate(absDt);
       const holidays = yearMap.get(hd.toString());
       if (holidays) {
-        const filtered = holidays.filter((ev) => (il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora()));
-        filtered.forEach((ev) => events.push(ev));
+        const filtered = holidays.filter(myFilter);
+        events = events.concat(filtered);
       }
     }
     return events;
@@ -689,7 +708,8 @@ export class HebrewCalendar {
     if (typeof il === 'undefined' || typeof events === 'undefined') {
       return events;
     }
-    return events.filter((ev) => (il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora()));
+    const myFilter = il ? observedInIsrael : observedInDiaspora;
+    return events.filter(myFilter);
   }
 
   /**
