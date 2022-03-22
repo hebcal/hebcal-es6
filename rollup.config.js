@@ -37,7 +37,7 @@ export default [
       {file: pkg.module, format: 'es', name: pkg.name, banner},
     ],
     plugins: [
-      json({compact: true}),
+      json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
         presets: [
@@ -121,7 +121,7 @@ export default [
       {file: 'dist/hdate.mjs', format: 'es', banner},
     ],
     plugins: [
-      json({compact: true}),
+      json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
         presets: [
