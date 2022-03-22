@@ -46,6 +46,19 @@ for (const ev of events) {
 ## Classes
 
 <dl>
+<dt><a href="#greg">greg</a></dt>
+<dd><p>Gregorian date helper functions.</p>
+</dd>
+<dt><a href="#Locale">Locale</a></dt>
+<dd><p>A locale in Hebcal is used for translations/transliterations of
+holidays. <code>@hebcal/core</code> supports four locales by default</p>
+<ul>
+<li><code>en</code> - default, Sephardic transliterations (e.g. &quot;Shabbat&quot;)</li>
+<li><code>ashkenazi</code> - Ashkenazi transliterations (e.g. &quot;Shabbos&quot;)</li>
+<li><code>he</code> - Hebrew (e.g. &quot;שַׁבָּת&quot;)</li>
+<li><code>he-x-NoNikud</code> - Hebrew without nikud (e.g. &quot;שבת&quot;)</li>
+</ul>
+</dd>
 <dt><a href="#HDate">HDate</a></dt>
 <dd><p>Represents a Hebrew date</p>
 </dd>
@@ -119,24 +132,6 @@ Event names can be rendered in several languges using the <code>locale</code> op
 </dd>
 </dl>
 
-## Objects
-
-<dl>
-<dt><a href="#greg">greg</a> : <code>object</code></dt>
-<dd><p>Gregorian date helper functions.</p>
-</dd>
-<dt><a href="#Locale">Locale</a> : <code>object</code></dt>
-<dd><p>A locale in Hebcal is used for translations/transliterations of
-holidays. <code>@hebcal/core</code> supports four locales by default</p>
-<ul>
-<li><code>en</code> - default, Sephardic transliterations (e.g. &quot;Shabbat&quot;)</li>
-<li><code>ashkenazi</code> - Ashkenazi transliterations (e.g. &quot;Shabbos&quot;)</li>
-<li><code>he</code> - Hebrew (e.g. &quot;שַׁבָּת&quot;)</li>
-<li><code>he-x-NoNikud</code> - Hebrew without nikud (e.g. &quot;שבת&quot;)</li>
-</ul>
-</dd>
-</dl>
-
 ## Constants
 
 <dl>
@@ -167,7 +162,201 @@ we omit the thousands (which is presently 5 [ה]).</p>
 <dt><a href="#MishnaYomi">MishnaYomi</a> : <code>Object</code></dt>
 <dd><p>Describes a mishna to be read</p>
 </dd>
+<dt><a href="#CalOptions">CalOptions</a> : <code>Object</code></dt>
+<dd><p>Options to configure which events are returned</p>
+</dd>
 </dl>
+
+<a name="greg"></a>
+
+## greg
+Gregorian date helper functions.
+
+**Kind**: global class  
+
+* [greg](#greg)
+    * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
+    * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
+    * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
+    * [.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>
+    * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
+    * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
+
+<a name="greg.isLeapYear"></a>
+
+### greg.isLeapYear(year) ⇒ <code>boolean</code>
+Returns true if the Gregorian year is a leap year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Gregorian year |
+
+<a name="greg.daysInMonth"></a>
+
+### greg.daysInMonth(month, year) ⇒ <code>number</code>
+Number of days in the Gregorian month for given year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> | Gregorian month (1=January, 12=December) |
+| year | <code>number</code> | Gregorian year |
+
+<a name="greg.isDate"></a>
+
+### greg.isDate(obj) ⇒ <code>boolean</code>
+Returns true if the object is a Javascript Date
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type |
+| --- | --- |
+| obj | <code>Object</code> | 
+
+<a name="greg.dayOfYear"></a>
+
+### greg.dayOfYear(date) ⇒ <code>number</code>
+Returns number of days since January 1 of that year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> | Gregorian date |
+
+<a name="greg.greg2abs"></a>
+
+### greg.greg2abs(date) ⇒ <code>number</code>
+Converts Gregorian date to absolute R.D. (Rata Die) days
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> | Gregorian date |
+
+<a name="greg.abs2greg"></a>
+
+### greg.abs2greg(theDate) ⇒ <code>Date</code>
+Converts from Rata Die (R.D. number) to Gregorian date.
+See the footnote on page 384 of ``Calendrical Calculations, Part II:
+Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
+Clamen, Software--Practice and Experience, Volume 23, Number 4
+(April, 1993), pages 383-404 for an explanation.
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| theDate | <code>number</code> | R.D. number of days |
+
+<a name="Locale"></a>
+
+## Locale
+A locale in Hebcal is used for translations/transliterations of
+holidays. `@hebcal/core` supports four locales by default
+* `en` - default, Sephardic transliterations (e.g. "Shabbat")
+* `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
+* `he` - Hebrew (e.g. "שַׁבָּת")
+* `he-x-NoNikud` - Hebrew without nikud (e.g. "שבת")
+
+**Kind**: global class  
+
+* [Locale](#Locale)
+    * [.lookupTranslation(id, [locale])](#Locale.lookupTranslation) ⇒ <code>string</code>
+    * [.gettext(id, [locale])](#Locale.gettext) ⇒ <code>string</code>
+    * [.addLocale(locale, data)](#Locale.addLocale)
+    * [.useLocale(locale)](#Locale.useLocale) ⇒ <code>LocaleData</code>
+    * [.getLocaleName()](#Locale.getLocaleName) ⇒ <code>string</code>
+    * [.getLocaleNames()](#Locale.getLocaleNames) ⇒ <code>Array.&lt;string&gt;</code>
+    * [.ordinal(n, [locale])](#Locale.ordinal) ⇒ <code>string</code>
+    * [.hebrewStripNikkud(str)](#Locale.hebrewStripNikkud) ⇒ <code>string</code>
+
+<a name="Locale.lookupTranslation"></a>
+
+### Locale.lookupTranslation(id, [locale]) ⇒ <code>string</code>
+Returns translation only if `locale` offers a non-empty translation for `id`.
+Otherwise, returns `undefined`.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID to translate |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="Locale.gettext"></a>
+
+### Locale.gettext(id, [locale]) ⇒ <code>string</code>
+By default, if no translation was found, returns `id`.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | Message ID to translate |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="Locale.addLocale"></a>
+
+### Locale.addLocale(locale, data)
+Register locale translations.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
+| data | <code>LocaleDate</code> | parsed data from a `.po` file. |
+
+<a name="Locale.useLocale"></a>
+
+### Locale.useLocale(locale) ⇒ <code>LocaleData</code>
+Activates a locale. Throws an error if the locale has not been previously added.
+After setting the locale to be used, all strings marked for translations
+will be represented by the corresponding translation in the specified locale.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`) |
+
+<a name="Locale.getLocaleName"></a>
+
+### Locale.getLocaleName() ⇒ <code>string</code>
+Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+<a name="Locale.getLocaleNames"></a>
+
+### Locale.getLocaleNames() ⇒ <code>Array.&lt;string&gt;</code>
+Returns the names of registered locales
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+<a name="Locale.ordinal"></a>
+
+### Locale.ordinal(n, [locale]) ⇒ <code>string</code>
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| n | <code>number</code> |  |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
+
+<a name="Locale.hebrewStripNikkud"></a>
+
+### Locale.hebrewStripNikkud(str) ⇒ <code>string</code>
+Removes nekudot from Hebrew string
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
 
 <a name="HDate"></a>
 
@@ -2107,12 +2296,11 @@ Event names can be rendered in several languges using the `locale` option.
     * [.reformatTimeStr(timeStr, suffix, options)](#HebrewCalendar.reformatTimeStr) ⇒ <code>string</code>
     * [.version()](#HebrewCalendar.version) ⇒ <code>string</code>
     * [.getSedra(hyear, il)](#HebrewCalendar.getSedra) ⇒ [<code>Sedra</code>](#Sedra)
-    * [.Options](#HebrewCalendar.Options) : <code>Object</code>
 
 <a name="HebrewCalendar.calendar"></a>
 
 ### HebrewCalendar.calendar([options]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-Calculates holidays and other Hebrew calendar events based on [Options](#HebrewCalendar.Options).
+Calculates holidays and other Hebrew calendar events based on [CalOptions](#CalOptions).
 
 Each holiday is represented by an [Event](#Event) object which includes a date,
 a description, flags and optional attributes.
@@ -2196,7 +2384,7 @@ Additional locales (such as `ru` or `fr`) are supported by the
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [options] | [<code>Options</code>](#HebrewCalendar.Options) | <code>{}</code> | 
+| [options] | [<code>CalOptions</code>](#CalOptions) | <code>{}</code> | 
 
 **Example**  
 ```js
@@ -2335,7 +2523,7 @@ Returns an array of Events on this date (or undefined if no events)
 
 ### HebrewCalendar.reformatTimeStr(timeStr, suffix, options) ⇒ <code>string</code>
 Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-keep as "20:13" for any other locale/country. Uses `HebrewCalendar.Options` to determine
+keep as "20:13" for any other locale/country. Uses `CalOptions` to determine
 locale.
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
@@ -2344,7 +2532,7 @@ locale.
 | --- | --- | --- |
 | timeStr | <code>string</code> | original time like "20:30" |
 | suffix | <code>string</code> | "p" or "pm" or " P.M.". Add leading space if you want it |
-| options | [<code>Options</code>](#HebrewCalendar.Options) |  |
+| options | [<code>CalOptions</code>](#CalOptions) |  |
 
 <a name="HebrewCalendar.version"></a>
 
@@ -2362,244 +2550,6 @@ created and cached instance.
 | --- | --- |
 | hyear | <code>number</code> | 
 | il | <code>boolean</code> | 
-
-<a name="HebrewCalendar.Options"></a>
-
-### HebrewCalendar.Options : <code>Object</code>
-Options to configure which events are returned
-
-**Kind**: static typedef of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| location | [<code>Location</code>](#Location) | latitude/longitude/tzid used for candle-lighting |
-| year | <code>number</code> | Gregorian or Hebrew year |
-| isHebrewYear | <code>boolean</code> | to interpret year as Hebrew year |
-| month | <code>number</code> | Gregorian or Hebrew month (to filter results to a single month) |
-| numYears | <code>number</code> | generate calendar for multiple years (default 1) |
-| start | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific start date (requires end date) |
-| end | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific end date (requires start date) |
-| candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
-| candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
-| havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are supressed. |
-| havdalahDeg | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degress for 3 medium-sized stars.      If `0`, Havdalah times are supressed. |
-| sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
-| il | <code>boolean</code> | Israeli holiday and sedra schedule |
-| noMinorFast | <code>boolean</code> | suppress minor fasts |
-| noModern | <code>boolean</code> | suppress modern holidays |
-| noRoshChodesh | <code>boolean</code> | suppress Rosh Chodesh |
-| shabbatMevarchim | <code>boolean</code> | add Shabbat Mevarchim |
-| noSpecialShabbat | <code>boolean</code> | suppress Special Shabbat |
-| noHolidays | <code>boolean</code> | suppress regular holidays |
-| dafyomi | <code>boolean</code> | include Daf Yomi |
-| mishnaYomi | <code>boolean</code> | include Mishna Yomi |
-| omer | <code>boolean</code> | include Days of the Omer |
-| molad | <code>boolean</code> | include event announcing the molad |
-| ashkenazi | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
-| locale | <code>string</code> | translate event titles according to a locale      Default value is `en`, also built-in are `he` and `ashkenazi`.      Additional locales (such as `ru` or `fr`) are provided by the      [@hebcal/locales](https://github.com/hebcal/hebcal-locales) package |
-| addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
-| addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
-| mask | <code>number</code> | use bitmask from `flags` to filter events |
-
-<a name="greg"></a>
-
-## greg : <code>object</code>
-Gregorian date helper functions.
-
-**Kind**: global namespace  
-
-* [greg](#greg) : <code>object</code>
-    * [.monthNames](#greg.monthNames) : <code>Array.&lt;string&gt;</code>
-    * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
-    * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
-    * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
-    * [.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>
-    * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
-    * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
-
-<a name="greg.monthNames"></a>
-
-### greg.monthNames : <code>Array.&lt;string&gt;</code>
-Long names of the Gregorian months (1='January', 12='December')
-
-**Kind**: static property of [<code>greg</code>](#greg)  
-**Read only**: true  
-<a name="greg.isLeapYear"></a>
-
-### greg.isLeapYear(year) ⇒ <code>boolean</code>
-Returns true if the Gregorian year is a leap year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Gregorian year |
-
-<a name="greg.daysInMonth"></a>
-
-### greg.daysInMonth(month, year) ⇒ <code>number</code>
-Number of days in the Gregorian month for given year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| month | <code>number</code> | Gregorian month (1=January, 12=December) |
-| year | <code>number</code> | Gregorian year |
-
-<a name="greg.isDate"></a>
-
-### greg.isDate(obj) ⇒ <code>boolean</code>
-Returns true if the object is a Javascript Date
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type |
-| --- | --- |
-| obj | <code>Object</code> | 
-
-<a name="greg.dayOfYear"></a>
-
-### greg.dayOfYear(date) ⇒ <code>number</code>
-Returns number of days since January 1 of that year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg.greg2abs"></a>
-
-### greg.greg2abs(date) ⇒ <code>number</code>
-Converts Gregorian date to absolute R.D. (Rata Die) days
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg.abs2greg"></a>
-
-### greg.abs2greg(theDate) ⇒ <code>Date</code>
-Converts from Rata Die (R.D. number) to Gregorian date.
-See the footnote on page 384 of ``Calendrical Calculations, Part II:
-Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
-Clamen, Software--Practice and Experience, Volume 23, Number 4
-(April, 1993), pages 383-404 for an explanation.
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| theDate | <code>number</code> | R.D. number of days |
-
-<a name="Locale"></a>
-
-## Locale : <code>object</code>
-A locale in Hebcal is used for translations/transliterations of
-holidays. `@hebcal/core` supports four locales by default
-* `en` - default, Sephardic transliterations (e.g. "Shabbat")
-* `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
-* `he` - Hebrew (e.g. "שַׁבָּת")
-* `he-x-NoNikud` - Hebrew without nikud (e.g. "שבת")
-
-**Kind**: global namespace  
-
-* [Locale](#Locale) : <code>object</code>
-    * [.lookupTranslation(id, [locale])](#Locale.lookupTranslation) ⇒ <code>string</code>
-    * [.gettext(id, [locale])](#Locale.gettext) ⇒ <code>string</code>
-    * [.addLocale(locale, data)](#Locale.addLocale)
-    * [.useLocale(locale)](#Locale.useLocale) ⇒ <code>LocaleData</code>
-    * [.getLocaleName()](#Locale.getLocaleName) ⇒ <code>string</code>
-    * [.getLocaleNames()](#Locale.getLocaleNames) ⇒ <code>Array.&lt;string&gt;</code>
-    * [.ordinal(n, [locale])](#Locale.ordinal) ⇒ <code>string</code>
-    * [.hebrewStripNikkud(str)](#Locale.hebrewStripNikkud) ⇒ <code>string</code>
-
-<a name="Locale.lookupTranslation"></a>
-
-### Locale.lookupTranslation(id, [locale]) ⇒ <code>string</code>
-Returns translation only if `locale` offers a non-empty translation for `id`.
-Otherwise, returns `undefined`.
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | Message ID to translate |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
-
-<a name="Locale.gettext"></a>
-
-### Locale.gettext(id, [locale]) ⇒ <code>string</code>
-By default, if no translation was found, returns `id`.
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | Message ID to translate |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
-
-<a name="Locale.addLocale"></a>
-
-### Locale.addLocale(locale, data)
-Register locale translations.
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
-| data | <code>LocaleDate</code> | parsed data from a `.po` file. |
-
-<a name="Locale.useLocale"></a>
-
-### Locale.useLocale(locale) ⇒ <code>LocaleData</code>
-Activates a locale. Throws an error if the locale has not been previously added.
-After setting the locale to be used, all strings marked for translations
-will be represented by the corresponding translation in the specified locale.
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`) |
-
-<a name="Locale.getLocaleName"></a>
-
-### Locale.getLocaleName() ⇒ <code>string</code>
-Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-<a name="Locale.getLocaleNames"></a>
-
-### Locale.getLocaleNames() ⇒ <code>Array.&lt;string&gt;</code>
-Returns the names of registered locales
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-<a name="Locale.ordinal"></a>
-
-### Locale.ordinal(n, [locale]) ⇒ <code>string</code>
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| n | <code>number</code> |  |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale. |
-
-<a name="Locale.hebrewStripNikkud"></a>
-
-### Locale.hebrewStripNikkud(str) ⇒ <code>string</code>
-Removes nekudot from Hebrew string
-
-**Kind**: static method of [<code>Locale</code>](#Locale)  
-
-| Param | Type |
-| --- | --- |
-| str | <code>string</code> | 
 
 <a name="months"></a>
 
@@ -2742,3 +2692,42 @@ Describes a mishna to be read
 | --- | --- | --- |
 | k | <code>string</code> | tractate name in Sephardic transliteration (e.g. "Berakhot", "Moed Katan") |
 | v | <code>string</code> | verse (e.g. "2:1") |
+
+<a name="CalOptions"></a>
+
+## CalOptions : <code>Object</code>
+Options to configure which events are returned
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| location | [<code>Location</code>](#Location) | latitude/longitude/tzid used for candle-lighting |
+| year | <code>number</code> | Gregorian or Hebrew year |
+| isHebrewYear | <code>boolean</code> | to interpret year as Hebrew year |
+| month | <code>number</code> | Gregorian or Hebrew month (to filter results to a single month) |
+| numYears | <code>number</code> | generate calendar for multiple years (default 1) |
+| start | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific start date (requires end date) |
+| end | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific end date (requires start date) |
+| candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
+| candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
+| havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are supressed. |
+| havdalahDeg | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degress for 3 medium-sized stars.      If `0`, Havdalah times are supressed. |
+| sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
+| il | <code>boolean</code> | Israeli holiday and sedra schedule |
+| noMinorFast | <code>boolean</code> | suppress minor fasts |
+| noModern | <code>boolean</code> | suppress modern holidays |
+| noRoshChodesh | <code>boolean</code> | suppress Rosh Chodesh |
+| shabbatMevarchim | <code>boolean</code> | add Shabbat Mevarchim |
+| noSpecialShabbat | <code>boolean</code> | suppress Special Shabbat |
+| noHolidays | <code>boolean</code> | suppress regular holidays |
+| dafyomi | <code>boolean</code> | include Daf Yomi |
+| mishnaYomi | <code>boolean</code> | include Mishna Yomi |
+| omer | <code>boolean</code> | include Days of the Omer |
+| molad | <code>boolean</code> | include event announcing the molad |
+| ashkenazi | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
+| locale | <code>string</code> | translate event titles according to a locale      Default value is `en`, also built-in are `he` and `ashkenazi`.      Additional locales (such as `ru` or `fr`) are provided by the      [@hebcal/locales](https://github.com/hebcal/hebcal-locales) package |
+| addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
+| addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
+| mask | <code>number</code> | use bitmask from `flags` to filter events |

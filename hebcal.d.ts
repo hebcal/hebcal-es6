@@ -417,6 +417,18 @@ declare module '@hebcal/core' {
         tzeitTime(angle: number, timeFormat: Intl.DateTimeFormat): any[];
     }
 
+    export interface Headers {
+        'content-type'?: string;
+        'plural-forms'?: string;
+    }
+    export interface Translations {
+        [key: string]: any;
+    }
+    export interface LocaleData {
+        headers: Headers;
+        translations: Translations;
+    }
+
     /**
      * A locale in Hebcal is used for translations/transliterations of
      * holidays. @hebcal/core supports three locales by default
@@ -424,54 +436,43 @@ declare module '@hebcal/core' {
      * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
      * * `he` - Hebrew (e.g. "שַׁבָּת")
      */
-    export namespace Locale {
-        export interface Headers {
-            'content-type'?: string;
-            'plural-forms'?: string;
-        }
-        export interface Translations {
-            [key: string]: any;
-        }
-        export interface LocaleData {
-            headers: Headers;
-            translations: Translations;
-        }
+    export class Locale {
         /**
          * Returns translation only if `locale` offers a non-empty translation for `id`.
          * Otherwise, returns `undefined`.
          * @param id - Message ID to translate
          * @param [locale] - Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
          */
-        export function lookupTranslation(id: string, locale?: string): string;
+        static lookupTranslation(id: string, locale?: string): string;
         /**
          * By default, if no translation was found, returns `id`.
          * @param id - Message ID to translate
          * @param [locale] - Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
          */
-        export function gettext(id: string, locale?: string): string;
+        static gettext(id: string, locale?: string): string;
         /**
          * Register locale translations.
          * @param locale - Locale name (i.e.: `'he'`, `'fr'`)
          * @param data - parsed data from a `.po` file.
          */
-        export function addLocale(locale: string, data: LocaleData): void;
+        static addLocale(locale: string, data: LocaleData): void;
         /**
          * Activates a locale. Throws an error if the locale has not been previously added.
          * After setting the locale to be used, all strings marked for translations
          * will be represented by the corresponding translation in the specified locale.
          * @param locale - Locale name (i.e: `'he'`, `'fr'`)
          */
-        export function useLocale(locale: string): LocaleData;
+        static useLocale(locale: string): LocaleData;
         /**
          * Returns the name of the active locale (i.e. 'he', 'ashkenazi', 'fr')
          */
-        export function getLocaleName(): string;
-        export function getLocaleNames(): string[];
-        export function ordinal(n: number, locale?: string): string;
+        static getLocaleName(): string;
+        static getLocaleNames(): string[];
+        static ordinal(n: number, locale?: string): string;
         /**
          * Removes nekudot from Hebrew string
          */
-        export function hebrewStripNikkud(str: string): string;
+        static hebrewStripNikkud(str: string): string;
     }
 
     /**
@@ -487,88 +488,88 @@ declare module '@hebcal/core' {
     };
 
     /**
+     * Options to configure which events are returned
+     */
+    export type CalOptions = {
+        /** latitude/longitude/tzid used for candle-lighting */
+        location?: Location;
+        /** Gregorian or Hebrew year */
+        year?: number;
+        /** to interpret year as Hebrew year */
+        isHebrewYear?: boolean;
+        /** Gregorian or Hebrew month (to filter results to a single month) */
+        month?: number;
+        /** generate calendar for multiple years (default 1) */
+        numYears?: number;
+        /** use specific start date (requires end date) */
+        start?: Date | HDate | number;
+        /** use specific end date (requires start date) */
+        end?: Date | HDate | number;
+        /** calculate candle-lighting and havdalah times */
+        candlelighting?: boolean;
+        /** minutes before sundown to light candles (default 18) */
+        candleLightingMins?: number;
+        /**
+         * minutes after sundown for Havdalah (typical values are 42, 50, or 72).
+         * If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
+         * Nightfall (the point when 3 small stars are observable in the night time sky with
+         * the naked eye). If `0`, Havdalah times are supressed.
+         */
+        havdalahMins?: number;
+        /**
+         * degrees for solar depression for Havdalah.
+         * Default is 8.5 degrees for 3 small stars.
+         * Use 7.083 degress for 3 medium-sized stars.
+         * Havdalah times are supressed when `havdalahDeg=0`.
+         */
+        havdalahDeg?: number;
+        /** calculate parashah hashavua on Saturdays */
+        sedrot?: boolean;
+        /** Israeli holiday and sedra schedule */
+        il?: boolean;
+        /** suppress minor fasts */
+        noMinorFast?: boolean;
+        /** suppress modern holidays */
+        noModern?: boolean;
+        /** suppress Rosh Chodesh & Shabbat Mevarchim */
+        noRoshChodesh?: boolean;
+        shabbatMevarchim?: boolean;
+        /** suppress Special Shabbat */
+        noSpecialShabbat?: boolean;
+        /** suppress regular holidays */
+        noHolidays?: boolean;
+        /** include Daf Yomi */
+        dafyomi?: boolean;
+        /** include Mishna Yomi */
+        mishnaYomi?: boolean;
+        /** include Days of the Omer */
+        omer?: boolean;
+        /** include event announcing the molad */
+        molad?: boolean;
+        /** use Ashkenazi transliterations for event titles (default Sephardi transliterations) */
+        ashkenazi?: boolean;
+        /**
+         * translate event titles according to a locale
+         * Default value is `en`, also built-in are `he` and `ashkenazi`.
+         * Additional locales (such as `ru` or `fr`) are provided by the
+         * {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
+         */
+        locale?: string;
+        /** print the Hebrew date for the entire date range */
+        addHebrewDates?: boolean;
+        /** print the Hebrew date for dates with some events */
+        addHebrewDatesForEvents?: boolean;
+        /** use bitmask from `flags` to filter events */
+        mask?: number;
+    };
+
+    /**
      * HebrewCalendar is the main interface to the `@hebcal/core` library.
      * This class is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
      * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
      * Event names can be rendered in several languges using the `locale` option.
      */
-    export namespace HebrewCalendar {
-        /**
-         * Options to configure which events are returned
-         */
-        export type Options = {
-            /** latitude/longitude/tzid used for candle-lighting */
-            location?: Location;
-            /** Gregorian or Hebrew year */
-            year?: number;
-            /** to interpret year as Hebrew year */
-            isHebrewYear?: boolean;
-            /** Gregorian or Hebrew month (to filter results to a single month) */
-            month?: number;
-            /** generate calendar for multiple years (default 1) */
-            numYears?: number;
-            /** use specific start date (requires end date) */
-            start?: Date | HDate | number;
-            /** use specific end date (requires start date) */
-            end?: Date | HDate | number;
-            /** calculate candle-lighting and havdalah times */
-            candlelighting?: boolean;
-            /** minutes before sundown to light candles (default 18) */
-            candleLightingMins?: number;
-            /**
-             * minutes after sundown for Havdalah (typical values are 42, 50, or 72).
-             * If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
-             * Nightfall (the point when 3 small stars are observable in the night time sky with
-             * the naked eye). If `0`, Havdalah times are supressed.
-             */
-            havdalahMins?: number;
-            /**
-             * degrees for solar depression for Havdalah.
-             * Default is 8.5 degrees for 3 small stars.
-             * Use 7.083 degress for 3 medium-sized stars.
-             * Havdalah times are supressed when `havdalahDeg=0`.
-             */
-            havdalahDeg?: number;
-            /** calculate parashah hashavua on Saturdays */
-            sedrot?: boolean;
-            /** Israeli holiday and sedra schedule */
-            il?: boolean;
-            /** suppress minor fasts */
-            noMinorFast?: boolean;
-            /** suppress modern holidays */
-            noModern?: boolean;
-            /** suppress Rosh Chodesh & Shabbat Mevarchim */
-            noRoshChodesh?: boolean;
-            shabbatMevarchim?: boolean;
-            /** suppress Special Shabbat */
-            noSpecialShabbat?: boolean;
-            /** suppress regular holidays */
-            noHolidays?: boolean;
-            /** include Daf Yomi */
-            dafyomi?: boolean;
-            /** include Mishna Yomi */
-            mishnaYomi?: boolean;
-            /** include Days of the Omer */
-            omer?: boolean;
-            /** include event announcing the molad */
-            molad?: boolean;
-            /** use Ashkenazi transliterations for event titles (default Sephardi transliterations) */
-            ashkenazi?: boolean;
-            /**
-             * translate event titles according to a locale
-             * Default value is `en`, also built-in are `he` and `ashkenazi`.
-             * Additional locales (such as `ru` or `fr`) are provided by the
-             * {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
-             */
-            locale?: string;
-            /** print the Hebrew date for the entire date range */
-            addHebrewDates?: boolean;
-            /** print the Hebrew date for dates with some events */
-            addHebrewDatesForEvents?: boolean;
-            /** use bitmask from `flags` to filter events */
-            mask?: number;
-        };
-
+    export class HebrewCalendar {
         /**
          * Generates a list of holidays and other hebrew date events based on `options`.
          * This is the main interface to the `@hebcal/core` library, and can be used to
@@ -576,7 +577,7 @@ declare module '@hebcal/core' {
          * Parashat HaShavua, Daf Yomi, days of the omer, and the molad.
          * Event names can be rendered in several languges using the `locale` option.
          */
-        function calendar(options: Options): Event[];
+        static calendar(options: CalOptions): Event[];
 
         /**
          * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
@@ -584,21 +585,21 @@ declare module '@hebcal/core' {
          * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme
          * @param year - Hebrew year
          */
-        function getHolidaysForYear(year: number): Map<string, Event[]>;
+        static getHolidaysForYear(year: number): Map<string, Event[]>;
 
         /**
          * Returns an array of holidays for the year
          * @param year - Hebrew year
          * @param il - use the Israeli schedule for holidays
          */
-        function getHolidaysForYearArray(year: number, il: boolean): Event[];
+        static getHolidaysForYearArray(year: number, il: boolean): Event[];
 
         /**
          * Returns an array of Events on this date (or undefined if no events)
          * @param date - Hebrew Date, Gregorian date, or absolute R.D. day number
          * @param il - use the Israeli schedule for holidays
          */
-        function getHolidaysOnDate(date: HDate | Date | number, il?: boolean): Event[];
+        static getHolidaysOnDate(date: HDate | Date | number, il?: boolean): Event[];
 
         /**
          * Calculates a birthday or anniversary (non-yahrzeit).
@@ -621,7 +622,7 @@ declare module '@hebcal/core' {
          * @param gdate - Gregorian or Hebrew date of event
          * @returns anniversary occurring in hyear
          */
-        function getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate;
+        static getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate;
 
         /**
          * Calculates yahrzeit.
@@ -652,25 +653,25 @@ declare module '@hebcal/core' {
          * @param gdate - Gregorian or Hebrew date of death
          * @returns anniversary occurring in hyear
          */
-        function getYahrzeit(hyear: number, gdate: Date | HDate): HDate;
+        static getYahrzeit(hyear: number, gdate: Date | HDate): HDate;
 
         /**
          * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-         * keep as "20:13" for any other locale/country. Uses `HebrewCalendar.Options` to determine
+         * keep as "20:13" for any other locale/country. Uses `Options` to determine
          * locale.
          * @param timeStr - original time like "20:30"
          * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
          * @param options
          */
-        function reformatTimeStr(timeStr: string, suffix: string, options: Options): string;
+        static reformatTimeStr(timeStr: string, suffix: string, options: CalOptions): string;
 
-        function version(): string;
+        static version(): string;
 
         /**
          * Convenience function to create an instance of `Sedra` or reuse a previously
          * created and cached instance.
          */
-        function getSedra(hyear: number, il: boolean): Sedra;
+        static getSedra(hyear: number, il: boolean): Sedra;
     }
 
     /**
@@ -723,36 +724,36 @@ declare module '@hebcal/core' {
     /**
      * Gregorian date helper functions.
      */
-    export namespace greg {
+    export class greg {
         /**
          * Long names of the Gregorian months (1='January', 12='December')
          */
-        export const monthNames: string[];
+        static monthNames: string[];
         /**
          * Returns true if the object is a Javascript Date
          */
-        export function isDate(obj: any): boolean;
+        static isDate(obj: any): boolean;
         /**
          * Returns true if the Gregorian year is a leap year
          * @param year - Gregorian year
          */
-        export function isLeapYear(year: number): boolean;
+        static isLeapYear(year: number): boolean;
         /**
          * Number of days in the Gregorian month for given year
          * @param month - Gregorian month (1=January, 12=December)
          * @param year - Gregorian year
          */
-        export function daysInMonth(month: number, year: number): number;
+        static daysInMonth(month: number, year: number): number;
         /**
          * Returns number of days since January 1 of that year
          * @param date - Gregorian date
          */
-        export function dayOfYear(date: Date): number;
+        static dayOfYear(date: Date): number;
         /**
          * Converts Gregorian date to absolute R.D. (Rata Die) days
          * @param date - Gregorian date
          */
-        export function greg2abs(date: Date): number;
+        static greg2abs(date: Date): number;
         /**
          * Converts from Rata Die (R.D. number) to Gregorian date.
          * See the footnote on page 384 of ``Calendrical Calculations, Part II:
@@ -761,7 +762,7 @@ declare module '@hebcal/core' {
          * (April, 1993), pages 383-404 for an explanation.
          * @param theDate - R.D. number of days
          */
-        export function abs2greg(theDate: number): Date;
+        static abs2greg(theDate: number): Date;
     }
 
     /**

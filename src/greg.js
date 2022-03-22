@@ -45,15 +45,14 @@ function quotient(x, y) {
 
 /**
  * Gregorian date helper functions.
- * @namespace
  */
-export const greg = {
+export class greg {
   /**
    * Long names of the Gregorian months (1='January', 12='December')
    * @readonly
    * @type {string[]}
    */
-  monthNames: [
+  static monthNames = [
     '',
     'January',
     'February',
@@ -67,16 +66,16 @@ export const greg = {
     'October',
     'November',
     'December',
-  ],
+  ];
 
   /**
    * Returns true if the Gregorian year is a leap year
    * @param {number} year Gregorian year
    * @return {boolean}
    */
-  isLeapYear: function(year) {
+  static isLeapYear(year) {
     return !(year % 4) && (!!(year % 100) || !(year % 400));
-  },
+  }
 
   /**
    * Number of days in the Gregorian month for given year
@@ -84,26 +83,26 @@ export const greg = {
    * @param {number} year Gregorian year
    * @return {number}
    */
-  daysInMonth: function(month, year) {
+  static daysInMonth(month, year) {
     // 1 based months
     return monthLengths[+this.isLeapYear(year)][month];
-  },
+  }
 
   /**
    * Returns true if the object is a Javascript Date
    * @param {Object} obj
    * @return {boolean}
    */
-  isDate: function(obj) {
+  static isDate(obj) {
     return typeof obj === 'object' && Date.prototype === obj.__proto__;
-  },
+  }
 
   /**
    * Returns number of days since January 1 of that year
    * @param {Date} date Gregorian date
    * @return {number}
    */
-  dayOfYear: function(date) {
+  static dayOfYear(date) {
     if (!this.isDate(date)) {
       throw new TypeError('Argument to greg.dayOfYear not a Date');
     }
@@ -116,14 +115,14 @@ export const greg = {
       }
     }
     return doy;
-  },
+  }
 
   /**
    * Converts Gregorian date to absolute R.D. (Rata Die) days
    * @param {Date} date Gregorian date
    * @return {number}
    */
-  greg2abs: function(date) {
+  static greg2abs(date) {
     if (!this.isDate(date)) {
       throw new TypeError('Argument to greg.greg2abs not a Date');
     }
@@ -135,14 +134,14 @@ export const greg = {
       Math.floor(year / 100) + // - century years
       Math.floor(year / 400))
     ); // + Gregorian leap years
-  },
+  }
 
   /**
    * @private
    * @param {number} theDate - R.D. number of days
    * @return {number}
    */
-  yearFromFixed: function(theDate) {
+  static yearFromFixed(theDate) {
     const l0 = theDate - 1;
     const n400 = quotient(l0, 146097);
     const d1 = mod(l0, 146097);
@@ -153,7 +152,7 @@ export const greg = {
     const n1 = quotient(d3, 365);
     const year = 400 * n400 + 100 * n100 + 4 * n4 + n1;
     return n100 != 4 && n1 != 4 ? year + 1 : year;
-  },
+  }
 
   /**
    * @private
@@ -162,7 +161,7 @@ export const greg = {
    * @param {number} day
    * @return {number}
    */
-  toFixed: function(year, month, day) {
+  static toFixed(year, month, day) {
     const py = year - 1;
     return 0 +
       365 * py +
@@ -172,7 +171,7 @@ export const greg = {
       quotient((367 * month - 362), 12) +
       Math.floor(month <= 2 ? 0 : (this.isLeapYear(year) ? -1 : -2)) +
       day;
-  },
+  }
 
   /**
    * Converts from Rata Die (R.D. number) to Gregorian date.
@@ -183,7 +182,7 @@ export const greg = {
    * @param {number} theDate - R.D. number of days
    * @return {Date}
    */
-  abs2greg: function(theDate) {
+  static abs2greg(theDate) {
     if (typeof theDate !== 'number') {
       throw new TypeError('Argument to greg.abs2greg not a Number');
     }
@@ -198,5 +197,5 @@ export const greg = {
       dt.setFullYear(year);
     }
     return dt;
-  },
-};
+  }
+}

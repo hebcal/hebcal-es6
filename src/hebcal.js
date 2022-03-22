@@ -104,7 +104,7 @@ const RECOGNIZED_OPTIONS = {
 
 /**
  * @private
- * @param {HebrewCalendar.Options} options
+ * @param {CalOptions} options
  */
 function warnUnrecognizedOptions(options) {
   Object.keys(options).forEach((k) => {
@@ -130,7 +130,7 @@ function shallowCopy(target, source) {
 /**
  * Modifies options in-place
  * @private
- * @param {HebrewCalendar.Options} options
+ * @param {CalOptions} options
  */
 function checkCandleOptions(options) {
   if (!options.candlelighting) {
@@ -162,7 +162,7 @@ function checkCandleOptions(options) {
 
 /**
  * Options to configure which events are returned
- * @typedef {Object} HebrewCalendar.Options
+ * @typedef {Object} CalOptions
  * @property {Location} location - latitude/longitude/tzid used for candle-lighting
  * @property {number} year - Gregorian or Hebrew year
  * @property {boolean} isHebrewYear - to interpret year as Hebrew year
@@ -217,7 +217,7 @@ function getAbs(d) {
 /**
  * Parse options object to determine start & end days
  * @private
- * @param {HebrewCalendar.Options} options
+ * @param {CalOptions} options
  * @return {number[]}
  */
 export function getStartAndEnd(options) {
@@ -283,7 +283,7 @@ export function getStartAndEnd(options) {
 /**
  * Mask to filter Holiday array
  * @private
- * @param {HebrewCalendar.Options} options
+ * @param {CalOptions} options
  * @return {number}
  */
 function getMaskFromOptions(options) {
@@ -390,7 +390,7 @@ function observedInDiaspora(ev) {
  */
 export class HebrewCalendar {
   /**
-   * Calculates holidays and other Hebrew calendar events based on {@link HebrewCalendar.Options}.
+   * Calculates holidays and other Hebrew calendar events based on {@link CalOptions}.
    *
    * Each holiday is represented by an {@link Event} object which includes a date,
    * a description, flags and optional attributes.
@@ -486,7 +486,7 @@ export class HebrewCalendar {
    *   const date = hd.greg();
    *   console.log(date.toLocaleDateString(), ev.render(), hd.toString());
    * }
-   * @param {HebrewCalendar.Options} [options={}]
+   * @param {CalOptions} [options={}]
    * @return {Event[]}
    */
   static calendar(options={}) {
@@ -714,11 +714,11 @@ export class HebrewCalendar {
 
   /**
    * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-   * keep as "20:13" for any other locale/country. Uses `HebrewCalendar.Options` to determine
+   * keep as "20:13" for any other locale/country. Uses `CalOptions` to determine
    * locale.
    * @param {string} timeStr - original time like "20:30"
    * @param {string} suffix - "p" or "pm" or " P.M.". Add leading space if you want it
-   * @param {HebrewCalendar.Options} options
+   * @param {CalOptions} options
    * @return {string}
    */
   static reformatTimeStr(timeStr, suffix, options) {
@@ -761,7 +761,7 @@ export class HebrewCalendar {
  * @private
  * @param {Event[]} events
  * @param {Event} ev
- * @param {HebrewCalendar.Options} options
+ * @param {CalOptions} options
  * @param {Event} candlesEv
  * @param {number} dow
  * @return {Event}

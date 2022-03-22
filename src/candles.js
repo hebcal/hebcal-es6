@@ -26,7 +26,7 @@ const TZEIT_3MEDIUM_STARS = 7.083;
  * @param {HDate} hd
  * @param {number} dow
  * @param {Location} location
- * @param {HebrewCalendar.Options} options
+ * @param {CalOptions} options
  * @return {Event}
  */
 export function makeCandleEvent(e, hd, dow, location, options) {
