@@ -270,6 +270,9 @@ export function getSedra_(hyear, il) {
 
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';
+const emojiPesach = '🫓';
+const emojiShavuot = {emoji: '⛰️🌸'};
+const emojiSukkot = '🌿🍋';
 const yearCache = Object.create(null);
 
 /**
@@ -331,23 +334,23 @@ export function getHolidaysForYear_(year) {
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', SPECIAL_SHABBAT));
   addEvents(year, [
     [10, TISHREI, 'Yom Kippur', CHAG | YOM_TOV_ENDS | MAJOR_FAST, {emoji: '📖✍️'}],
-    [14, TISHREI, 'Erev Sukkot', EREV | LIGHT_CANDLES],
+    [14, TISHREI, 'Erev Sukkot', EREV | LIGHT_CANDLES, {emoji: emojiSukkot}],
 
     // Attributes for Israel and Diaspora are different
-    [15, TISHREI, 'Sukkot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-    [16, TISHREI, 'Sukkot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-    [17, TISHREI, 'Sukkot III (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1}],
-    [18, TISHREI, 'Sukkot IV (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2}],
-    [19, TISHREI, 'Sukkot V (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3}],
-    [20, TISHREI, 'Sukkot VI (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4}],
+    [15, TISHREI, 'Sukkot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, {emoji: emojiSukkot}],
+    [16, TISHREI, 'Sukkot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY, {emoji: emojiSukkot}],
+    [17, TISHREI, 'Sukkot III (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1, emoji: emojiSukkot}],
+    [18, TISHREI, 'Sukkot IV (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2, emoji: emojiSukkot}],
+    [19, TISHREI, 'Sukkot V (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3, emoji: emojiSukkot}],
+    [20, TISHREI, 'Sukkot VI (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4, emoji: emojiSukkot}],
 
-    [15, TISHREI, 'Sukkot I', CHAG | YOM_TOV_ENDS | IL_ONLY],
-    [16, TISHREI, 'Sukkot II (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1}],
-    [17, TISHREI, 'Sukkot III (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2}],
-    [18, TISHREI, 'Sukkot IV (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3}],
-    [19, TISHREI, 'Sukkot V (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4}],
-    [20, TISHREI, 'Sukkot VI (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 5}],
-    [21, TISHREI, 'Sukkot VII (Hoshana Raba)', LIGHT_CANDLES | CHOL_HAMOED, {cholHaMoedDay: -1}],
+    [15, TISHREI, 'Sukkot I', CHAG | YOM_TOV_ENDS | IL_ONLY, {emoji: emojiSukkot}],
+    [16, TISHREI, 'Sukkot II (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1, emoji: emojiSukkot}],
+    [17, TISHREI, 'Sukkot III (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2, emoji: emojiSukkot}],
+    [18, TISHREI, 'Sukkot IV (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3, emoji: emojiSukkot}],
+    [19, TISHREI, 'Sukkot V (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4, emoji: emojiSukkot}],
+    [20, TISHREI, 'Sukkot VI (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 5, emoji: emojiSukkot}],
+    [21, TISHREI, 'Sukkot VII (Hoshana Raba)', LIGHT_CANDLES | CHOL_HAMOED, {cholHaMoedDay: -1, emoji: emojiSukkot}],
     [22, TISHREI, 'Shmini Atzeret', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
     //    [22,  TISHREI,    "Shmini Atzeret / Simchat Torah", YOM_TOV_ENDS | IL_ONLY],
     [22, TISHREI, 'Shmini Atzeret', CHAG | YOM_TOV_ENDS | IL_ONLY],
@@ -398,31 +401,31 @@ export function getHolidaysForYear_(year) {
       ),
   );
   addEvents(year, [
-    [14, NISAN, 'Erev Pesach', EREV | LIGHT_CANDLES],
+    [14, NISAN, 'Erev Pesach', EREV | LIGHT_CANDLES, {emoji: '🫓🍷'}],
 
     // Attributes for Israel and Diaspora are different
-    [15, NISAN, 'Pesach I', CHAG | YOM_TOV_ENDS | IL_ONLY],
-    [16, NISAN, 'Pesach II (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1}],
-    [17, NISAN, 'Pesach III (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2}],
-    [18, NISAN, 'Pesach IV (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3}],
-    [19, NISAN, 'Pesach V (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4}],
-    [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 5}],
-    [21, NISAN, 'Pesach VII', CHAG | YOM_TOV_ENDS | IL_ONLY],
+    [15, NISAN, 'Pesach I', CHAG | YOM_TOV_ENDS | IL_ONLY, {emoji: emojiPesach}],
+    [16, NISAN, 'Pesach II (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1, emoji: emojiPesach}],
+    [17, NISAN, 'Pesach III (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2, emoji: emojiPesach}],
+    [18, NISAN, 'Pesach IV (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3, emoji: emojiPesach}],
+    [19, NISAN, 'Pesach V (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4, emoji: emojiPesach}],
+    [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 5, emoji: emojiPesach}],
+    [21, NISAN, 'Pesach VII', CHAG | YOM_TOV_ENDS | IL_ONLY, {emoji: emojiPesach}],
 
-    [15, NISAN, 'Pesach I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-    [16, NISAN, 'Pesach II', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-    [17, NISAN, 'Pesach III (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1}],
-    [18, NISAN, 'Pesach IV (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2}],
-    [19, NISAN, 'Pesach V (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3}],
-    [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4}],
-    [21, NISAN, 'Pesach VII', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-    [22, NISAN, 'Pesach VIII', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
+    [15, NISAN, 'Pesach I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, {emoji: '🫓🍷'}],
+    [16, NISAN, 'Pesach II', CHAG | YOM_TOV_ENDS | CHUL_ONLY, {emoji: emojiPesach}],
+    [17, NISAN, 'Pesach III (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1, emoji: emojiPesach}],
+    [18, NISAN, 'Pesach IV (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2, emoji: emojiPesach}],
+    [19, NISAN, 'Pesach V (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3, emoji: emojiPesach}],
+    [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4, emoji: emojiPesach}],
+    [21, NISAN, 'Pesach VII', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, {emoji: emojiPesach}],
+    [22, NISAN, 'Pesach VIII', CHAG | YOM_TOV_ENDS | CHUL_ONLY, {emoji: emojiPesach}],
     [14, IYYAR, 'Pesach Sheni', MINOR_HOLIDAY],
     [18, IYYAR, 'Lag BaOmer', MINOR_HOLIDAY, {emoji: '🔥'}],
-    [5, SIVAN, 'Erev Shavuot', EREV | LIGHT_CANDLES, {emoji: '⛰️🌸'}],
-    [6, SIVAN, 'Shavuot', CHAG | YOM_TOV_ENDS | IL_ONLY, {emoji: '⛰️🌸'}],
-    [6, SIVAN, 'Shavuot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, {emoji: '⛰️🌸'}],
-    [7, SIVAN, 'Shavuot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY, {emoji: '⛰️🌸'}],
+    [5, SIVAN, 'Erev Shavuot', EREV | LIGHT_CANDLES, emojiShavuot],
+    [6, SIVAN, 'Shavuot', CHAG | YOM_TOV_ENDS | IL_ONLY, emojiShavuot],
+    [6, SIVAN, 'Shavuot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, emojiShavuot],
+    [7, SIVAN, 'Shavuot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY, emojiShavuot],
     [15, AV, 'Tu B\'Av', MINOR_HOLIDAY, {emoji: '❤️'}],
     [1, ELUL, 'Rosh Hashana LaBehemot', MINOR_HOLIDAY, {emoji: '🐑'}],
   ]);

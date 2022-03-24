@@ -477,7 +477,9 @@ test('emoji', (t) => {
     'Lag BaOmer': '🔥',
     'Leil Selichot': '🕍',
     'Pesach Sheni': '✡️',
-    'Pesach': '✡️',
+    'Erev Pesach': '🫓🍷',
+    'Pesach I': '🫓🍷',
+    'Pesach': '🫓',
     'Purim Katan': '🎭️',
     'Purim': '🎭️📜',
     'Rosh Chodesh Nisan': '🌒',
@@ -511,7 +513,7 @@ test('emoji', (t) => {
     'Shushan Purim': '🎭️📜',
     'Sigd': '✡️',
     'Simchat Torah': '✡️',
-    'Sukkot': '✡️',
+    'Sukkot': '🌿🍋',
     'Ta\'anit Bechorot': '✡️',
     'Ta\'anit Esther': '✡️',
     'Tish\'a B\'Av': '✡️',
@@ -531,10 +533,10 @@ test('emoji', (t) => {
     const base = ev.basename();
     const desc = ev.getDesc();
     const emoji = ev.getEmoji();
-    if (expected[base]) {
-      t.is(emoji, expected[base], desc);
-    } else if (expected[desc]) {
+    if (expected[desc]) {
       t.is(emoji, expected[desc], desc);
+    } else if (expected[base]) {
+      t.is(emoji, expected[base], desc);
     }
   }
 });

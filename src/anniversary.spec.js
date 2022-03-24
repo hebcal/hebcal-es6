@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import test from 'ava';
+import {HDate} from './hdate';
 import {getYahrzeit_, getBirthdayOrAnniversary_} from './anniversary';
 
 test('yahrzeit', (t) => {
@@ -91,4 +92,14 @@ test('before-original', (t) => {
 
   hd = getBirthdayOrAnniversary_(5780, new Date(2018, 11, 13));
   t.is(hd.getFullYear(), 5780);
+});
+
+test('ctor-hdate', (t) => {
+  const niftar = new HDate(15, 'Cheshvan', 5769);
+  const yahrzeit = getYahrzeit_(5782, niftar);
+  t.is(yahrzeit.toString(), '15 Cheshvan 5782');
+
+  const birth = new HDate(23, 'Sivan', 5735);
+  const anniversary = getBirthdayOrAnniversary_(5782, birth);
+  t.is(anniversary.toString(), '23 Sivan 5782');
 });
