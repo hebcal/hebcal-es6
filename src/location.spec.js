@@ -159,4 +159,9 @@ test('throws', (t) => {
     new Location(37.0, -200, false, 'UTC', 'Foo', 'XX');
   }, {instanceOf: RangeError});
   t.is(error4.message, 'Longitude -200 out of range [-180,180]');
+
+  const err5 = t.throws(() => {
+    new Location('bogus', -200, false, 'UTC', 'Foo', 'XX');
+  }, {instanceOf: RangeError});
+  t.is(err5.message, 'Latitude bogus out of range [-90,90]');
 });

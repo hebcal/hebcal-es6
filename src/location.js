@@ -143,14 +143,16 @@ export class Location {
    * @param {string} geoid - optional string or numeric geographic ID
    */
   constructor(latitude, longitude, il, tzid, cityName, countryCode, geoid) {
-    this.latitude = +latitude;
-    if (this.latitude < -90 || this.latitude > 90) {
-      throw new RangeError(`Latitude ${this.latitude} out of range [-90,90]`);
+    const lat = typeof latitude === 'number' ? latitude : parseFloat(latitude);
+    if (isNaN(lat) || lat < -90 || lat > 90) {
+      throw new RangeError(`Latitude ${latitude} out of range [-90,90]`);
     }
-    this.longitude = +longitude;
-    if (this.longitude < -180 || this.longitude > 180) {
-      throw new RangeError(`Longitude ${this.longitude} out of range [-180,180]`);
+    const long = typeof longitude === 'number' ? longitude : parseFloat(longitude);
+    if (isNaN(long) || long < -180 || long > 180) {
+      throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
+    this.latitude = lat;
+    this.longitude = long;
     this.il = Boolean(il);
     this.tzid = tzid;
     this.name = cityName;
