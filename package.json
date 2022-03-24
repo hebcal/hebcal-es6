@@ -47,8 +47,8 @@
     "pretest": "npm run build",
     "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
     "lint": "eslint src",
-    "coverage": "nyc ava",
-    "test": "ava"
+    "coverage": "nyc ava --concurrency 3",
+    "test": "ava --concurrency 3"
   },
   "license": "GPL-2.0",
   "ava": {

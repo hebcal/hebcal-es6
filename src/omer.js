@@ -62,7 +62,7 @@ export class OmerEvent extends Event {
   }
   /** @return {string} */
   getEmoji() {
-    if (this.emoji) return this.emoji;
+    if (typeof this.emoji === 'string') return this.emoji;
     const number = this.omer;
     const ones = number % 10;
     const tens = Math.floor(number / 10);
@@ -70,7 +70,8 @@ export class OmerEvent extends Event {
   }
   /** @return {number} */
   getWeeks() {
-    return this.weekNumber;
+    const day7 = this.daysWithinWeeks === 7;
+    return day7 ? this.weekNumber : this.weekNumber - 1;
   }
   /** @return {number} */
   getDaysWithinWeeks() {

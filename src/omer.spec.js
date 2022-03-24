@@ -56,3 +56,31 @@ test('memo-and-days-weeks', (t) => {
   t.is(omer.memo, 'Eternity that is in Majesty / נֶּֽצַח שֶׁבַּמַּלְכוּת');
   t.is(omer.getTodayIs('en'), 'Today is 46 days, which is 6 weeks and 4 days of the Omer');
 });
+
+test('days-weeks', (t) => {
+  let ev = new OmerEvent(new HDate(2, 'Sivan', 5770), 46);
+  t.is(ev.omer, 46);
+  t.is(ev.getWeeks(), 6);
+  t.is(ev.getDaysWithinWeeks(), 4);
+
+  ev = new OmerEvent(new HDate(22, 'Nisan', 5770), 7);
+  t.is(ev.omer, 7);
+  t.is(ev.getWeeks(), 1);
+  t.is(ev.getDaysWithinWeeks(), 7);
+
+  ev = new OmerEvent(new HDate(23, 'Nisan', 5770), 8);
+  t.is(ev.omer, 8);
+  t.is(ev.getWeeks(), 1);
+  t.is(ev.getDaysWithinWeeks(), 1);
+});
+
+test('emoji', (t) => {
+  const ev = new OmerEvent(new HDate(28, 'Nisan', 5770), 13);
+  t.is(ev.getEmoji(), '1️⃣3️⃣');
+});
+
+test('emoji-blank', (t) => {
+  const ev = new OmerEvent(new HDate(28, 'Nisan', 5770), 13);
+  ev.emoji = '';
+  t.is(ev.getEmoji(), '');
+});
