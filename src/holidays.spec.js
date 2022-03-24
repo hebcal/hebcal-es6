@@ -525,7 +525,7 @@ test('emoji', (t) => {
     'Yom HaAtzma\'ut': '🇮🇱',
     'Yom HaShoah': '✡️',
     'Yom HaZikaron': '🇮🇱',
-    'Yom Kippur': '📖✍️',
+    'Yom Kippur': '✡️',
     'Yom Yerushalayim': '🇮🇱',
   };
   const events = HebrewCalendar.calendar({year: 2021, omer: true});

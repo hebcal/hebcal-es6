@@ -328,12 +328,12 @@ export function getHolidaysForYear_(year) {
     [2, TISHREI, 'Rosh Hashana II', CHAG | YOM_TOV_ENDS, {emoji: '🍏🍯'}],
     [3 + (RH.getDay() == THU),
       TISHREI, 'Tzom Gedaliah', MINOR_FAST],
-    [9, TISHREI, 'Erev Yom Kippur', EREV | LIGHT_CANDLES, {emoji: '📖✍️'}],
+    [9, TISHREI, 'Erev Yom Kippur', EREV | LIGHT_CANDLES],
   ]);
   // first SAT after RH
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', SPECIAL_SHABBAT));
   addEvents(year, [
-    [10, TISHREI, 'Yom Kippur', CHAG | YOM_TOV_ENDS | MAJOR_FAST, {emoji: '📖✍️'}],
+    [10, TISHREI, 'Yom Kippur', CHAG | YOM_TOV_ENDS | MAJOR_FAST],
     [14, TISHREI, 'Erev Sukkot', EREV | LIGHT_CANDLES, {emoji: emojiSukkot}],
 
     // Attributes for Israel and Diaspora are different
