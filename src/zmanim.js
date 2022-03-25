@@ -93,19 +93,31 @@ export class Zmanim {
       tzeit: this.tzeit(),
     };
   }
-  /** @return {Date} */
+  /**
+   * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
+   * @return {Date}
+   */
   sunrise() {
     return this.sun.timeAtAngle(0.833333, true);
   }
-  /** @return {Date} */
+  /**
+   * When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
+   * @return {Date}
+   */
   sunset() {
     return this.sun.timeAtAngle(0.833333, false);
   }
-  /** @return {Date} */
+  /**
+   * Civil dawn; Sun is 6° below the horizon in the morning
+   * @return {Date}
+   */
   dawn() {
     return this.solarCalc.dawn;
   }
-  /** @return {Date} */
+  /**
+   * Civil dusk; Sun is 6° below the horizon in the evening
+   * @return {Date}
+   */
   dusk() {
     return this.solarCalc.dusk;
   }
@@ -141,43 +153,93 @@ export class Zmanim {
   hourOffset(hours) {
     return new Date(this.sunrise().getTime() + (this.hour() * hours));
   }
-  /** @return {Date} */
+  /**
+   * Midday – Chatzot; Sunrise plus 6 halachic hours
+   * @return {Date}
+   */
   chatzot() {
     return this.hourOffset(6);
   }
-  /** @return {Date} */
+  /**
+   * Midnight – Chatzot; Sunset plus 6 halachic hours
+   * @return {Date}
+   */
   chatzotNight() {
     return new Date(this.sunrise().getTime() - (this.nightHour() * 6));
   }
-  /** @return {Date} */
+  /**
+   * Dawn – Alot haShachar; Sun is 16.1° below the horizon in the morning
+   * @return {Date}
+   */
   alotHaShachar() {
     return this.sun.timeAtAngle(16.1, true);
   }
-  /** @return {Date} */
+  /**
+   * Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning
+   * @return {Date}
+   */
   misheyakir() {
     return this.sun.timeAtAngle(11.5, true);
   }
-  /** @return {Date} */
+  /**
+   * Earliest talis & tefillin – Misheyakir Machmir; Sun is 10.2° below the horizon in the morning
+   * @return {Date}
+   */
   misheyakirMachmir() {
     return this.sun.timeAtAngle(10.2, true);
   }
-  /** @return {Date} */
+  /**
+   * Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra
+   * @return {Date}
+   */
   sofZmanShma() { // Gra
     return this.hourOffset(3);
   }
-  /** @return {Date} */
+  /**
+   * Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra
+   * @return {Date}
+   */
   sofZmanTfilla() { // Gra
     return this.hourOffset(4);
   }
-  /** @return {Date} */
+  /**
+   * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham
+   * @return {Date}
+   */
+  sofZmanShmaMGA() { // Magen Avraham
+    const alot72 = this.sunriseOffset(-72);
+    const tzeit72 = this.sunsetOffset(72);
+    const temporalHour = (tzeit72 - alot72) / 12; // ms in hour
+    return new Date(alot72.getTime() + (3 * temporalHour));
+  }
+  /**
+   * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham
+   * @return {Date}
+   */
+  sofZmanTfillaMGA() { // Magen Avraham
+    const alot72 = this.sunriseOffset(-72);
+    const tzeit72 = this.sunsetOffset(72);
+    const temporalHour = (tzeit72 - alot72) / 12; // ms in hour
+    return new Date(alot72.getTime() + (4 * temporalHour));
+  }
+  /**
+   * Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours
+   * @return {Date}
+   */
   minchaGedola() {
     return this.hourOffset(6.5);
   }
-  /** @return {Date} */
+  /**
+   * Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours
+   * @return {Date}
+   */
   minchaKetana() {
     return this.hourOffset(9.5);
   }
-  /** @return {Date} */
+  /**
+   * Plag haMincha; Sunrise plus 10.75 halachic hours
+   * @return {Date}
+   */
   plagHaMincha() {
     return this.hourOffset(10.75);
   }
@@ -189,11 +251,17 @@ export class Zmanim {
   tzeit(angle=8.5) {
     return this.sun.timeAtAngle(angle, false);
   }
-  /** @return {Date} */
+  /**
+   * Alias for sunrise
+   * @return {Date}
+   */
   neitzHaChama() {
     return this.sunrise();
   }
-  /** @return {Date} */
+  /**
+   * Alias for sunset
+   * @return {Date}
+   */
   shkiah() {
     return this.sunset();
   }
@@ -262,8 +330,26 @@ export class Zmanim {
   }
 
   /**
-   * Returns sunset + offset (either positive or negative).
-   * @param {number} offset
+   * Returns sunrise + `offset` minutes (either positive or negative).
+   * @param {number} offset minutes
+   * @return {Date}
+   */
+  sunriseOffset(offset) {
+    const sunrise = this.sunrise();
+    if (isNaN(sunrise.getTime())) {
+      return sunrise;
+    }
+    // For positive offsets only, round up to next minute if needed
+    if (offset > 0 && sunrise.getSeconds() >= 30) {
+      offset++;
+    }
+    sunrise.setSeconds(0);
+    return new Date(sunrise.getTime() + (offset * 60 * 1000));
+  }
+
+  /**
+   * Returns sunset + `offset` minutes (either positive or negative).
+   * @param {number} offset minutes
    * @return {Date}
    */
   sunsetOffset(offset) {

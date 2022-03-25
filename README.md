@@ -1130,12 +1130,15 @@ Class representing halachic times
         * [.misheyakirMachmir()](#Zmanim+misheyakirMachmir) ⇒ <code>Date</code>
         * [.sofZmanShma()](#Zmanim+sofZmanShma) ⇒ <code>Date</code>
         * [.sofZmanTfilla()](#Zmanim+sofZmanTfilla) ⇒ <code>Date</code>
+        * [.sofZmanShmaMGA()](#Zmanim+sofZmanShmaMGA) ⇒ <code>Date</code>
+        * [.sofZmanTfillaMGA()](#Zmanim+sofZmanTfillaMGA) ⇒ <code>Date</code>
         * [.minchaGedola()](#Zmanim+minchaGedola) ⇒ <code>Date</code>
         * [.minchaKetana()](#Zmanim+minchaKetana) ⇒ <code>Date</code>
         * [.plagHaMincha()](#Zmanim+plagHaMincha) ⇒ <code>Date</code>
         * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
         * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
         * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
+        * [.sunriseOffset(offset)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
         * [.sunsetOffset(offset)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
         * ~~[.sunsetOffsetTime(offset, timeFormat)](#Zmanim+sunsetOffsetTime) ⇒ <code>Array.&lt;Object&gt;</code>~~
         * ~~[.tzeitTime(angle, timeFormat)](#Zmanim+tzeitTime) ⇒ <code>Array.&lt;Object&gt;</code>~~
@@ -1166,18 +1169,26 @@ Initialize a Zmanim instance.
 <a name="Zmanim+sunrise"></a>
 
 ### zmanim.sunrise() ⇒ <code>Date</code>
+Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunset"></a>
 
 ### zmanim.sunset() ⇒ <code>Date</code>
+When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+dawn"></a>
 
 ### zmanim.dawn() ⇒ <code>Date</code>
+Civil dawn; Sun is 6° below the horizon in the morning
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+dusk"></a>
 
 ### zmanim.dusk() ⇒ <code>Date</code>
+Civil dusk; Sun is 6° below the horizon in the evening
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+hour"></a>
 
@@ -1211,42 +1222,74 @@ Initialize a Zmanim instance.
 <a name="Zmanim+chatzot"></a>
 
 ### zmanim.chatzot() ⇒ <code>Date</code>
+Midday – Chatzot; Sunrise plus 6 halachic hours
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+chatzotNight"></a>
 
 ### zmanim.chatzotNight() ⇒ <code>Date</code>
+Midnight – Chatzot; Sunset plus 6 halachic hours
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+alotHaShachar"></a>
 
 ### zmanim.alotHaShachar() ⇒ <code>Date</code>
+Dawn – Alot haShachar; Sun is 16.1° below the horizon in the morning
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+misheyakir"></a>
 
 ### zmanim.misheyakir() ⇒ <code>Date</code>
+Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+misheyakirMachmir"></a>
 
 ### zmanim.misheyakirMachmir() ⇒ <code>Date</code>
+Earliest talis & tefillin – Misheyakir Machmir; Sun is 10.2° below the horizon in the morning
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sofZmanShma"></a>
 
 ### zmanim.sofZmanShma() ⇒ <code>Date</code>
+Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sofZmanTfilla"></a>
 
 ### zmanim.sofZmanTfilla() ⇒ <code>Date</code>
+Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sofZmanShmaMGA"></a>
+
+### zmanim.sofZmanShmaMGA() ⇒ <code>Date</code>
+Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sofZmanTfillaMGA"></a>
+
+### zmanim.sofZmanTfillaMGA() ⇒ <code>Date</code>
+Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+minchaGedola"></a>
 
 ### zmanim.minchaGedola() ⇒ <code>Date</code>
+Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+minchaKetana"></a>
 
 ### zmanim.minchaKetana() ⇒ <code>Date</code>
+Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+plagHaMincha"></a>
 
 ### zmanim.plagHaMincha() ⇒ <code>Date</code>
+Plag haMincha; Sunrise plus 10.75 halachic hours
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+tzeit"></a>
 
@@ -1260,21 +1303,36 @@ Initialize a Zmanim instance.
 <a name="Zmanim+neitzHaChama"></a>
 
 ### zmanim.neitzHaChama() ⇒ <code>Date</code>
+Alias for sunrise
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+shkiah"></a>
 
 ### zmanim.shkiah() ⇒ <code>Date</code>
+Alias for sunset
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sunriseOffset"></a>
+
+### zmanim.sunriseOffset(offset) ⇒ <code>Date</code>
+Returns sunrise + `offset` minutes (either positive or negative).
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| offset | <code>number</code> | minutes |
+
 <a name="Zmanim+sunsetOffset"></a>
 
 ### zmanim.sunsetOffset(offset) ⇒ <code>Date</code>
-Returns sunset + offset (either positive or negative).
+Returns sunset + `offset` minutes (either positive or negative).
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 
-| Param | Type |
-| --- | --- |
-| offset | <code>number</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| offset | <code>number</code> | minutes |
 
 <a name="Zmanim+sunsetOffsetTime"></a>
 

@@ -370,9 +370,13 @@ declare module '@hebcal/core' {
 
         /** @deprecated */
         suntime(): ZmanimTimesResult;
+        /** Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon) */
         sunrise(): Date;
+        /** When the upper edge of the Sun disappears below the horizon (0.833° below horizon) */
         sunset(): Date;
+        /** Civil dawn; Sun is 6° below the horizon in the morning */
         dawn(): Date;
+        /** Civil dusk; Sun is 6° below the horizon in the evening */
         dusk(): Date;
         hour(): number;
         hourMins(): number;
@@ -380,15 +384,29 @@ declare module '@hebcal/core' {
         nightHour(): number;
         nightHourMins(): number;
         hourOffset(hours: number): Date;
+        /** Midday – Chatzot; Sunrise plus 6 halachic hours */
         chatzot(): Date;
+        /** Midnight – Chatzot; Sunset plus 6 halachic hours */
         chatzotNight(): Date;
+        /** Dawn – Alot haShachar; Sun is 16.1° below the horizon in the morning */
         alotHaShachar(): Date;
+        /** Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning */
         misheyakir(): Date;
+        /** Earliest talis & tefillin – Misheyakir Machmir; Sun is 10.2° below the horizon in the morning */
         misheyakirMachmir(): Date;
+        /** Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra */
         sofZmanShma(): Date;
+        /** Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra */
         sofZmanTfilla(): Date;
+        /** Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham */
+        sofZmanShmaMGA(): Date;
+        /** Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham */
+        sofZmanTfillaMGA(): Date;
+        /** Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours */
         minchaGedola(): Date;
+        /** Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours */
         minchaKetana(): Date;
+        /** Plag haMincha; Sunrise plus 10.75 halachic hours */
         plagHaMincha(): Date;
         /**
          * @param [angle=8.5] optional time for solar depression.
@@ -400,7 +418,13 @@ declare module '@hebcal/core' {
         /** Alias for sunset */
         shkiah(): Date;
         /**
-         * Returns sunset + offset (either positive or negative).
+         * Returns sunrise + `offset` minutes (either positive or negative).
+         * @param offset minutes
+         */
+        sunriseOffset(offset: number): Date;
+        /**
+         * Returns sunset + `offset` minutes (either positive or negative).
+         * @param offset minutes
          */
         sunsetOffset(offset: number): Date;
         /**
