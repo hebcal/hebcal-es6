@@ -1,5 +1,5 @@
 import {HDate} from './hdate';
-import {Sun} from '@hebcal/solar-calc/lib/sun';
+import {SolarCalc} from '@hebcal/solar-calc';
 import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
 import {greg} from './greg';
 
@@ -63,7 +63,8 @@ export class Zmanim {
         HDate.isHDate(date) ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
     this.date = dt;
-    this.sun = new Sun(this.date, latitude, longitude);
+    this.solarCalc = new SolarCalc(this.date, latitude, longitude);
+    this.sun = this.solarCalc.sun;
     this.latitude = latitude;
     this.longitude = longitude;
   }
@@ -73,19 +74,19 @@ export class Zmanim {
    */
   suntime() {
     return {
-      solarNoon: this.sun.solarNoon,
+      solarNoon: this.solarCalc.solarNoon,
       sunrise: this.sunrise(),
       sunset: this.sunset(),
-      sunriseEnd: this.sun.timeAtAngle(0.3, true),
-      sunsetStart: this.sun.timeAtAngle(0.3, false),
+      sunriseEnd: this.solarCalc.sunriseEnd,
+      sunsetStart: this.solarCalc.sunsetStart,
       dawn: this.dawn(),
       dusk: this.dusk(),
-      nauticalDawn: this.sun.timeAtAngle(12, true),
-      nauticalDusk: this.sun.timeAtAngle(12, false),
-      nightEnd: this.sun.timeAtAngle(18, true),
-      night: this.sun.timeAtAngle(18, false),
-      goldenHourEnd: this.sun.timeAtAngle(-6, true),
-      goldenHour: this.sun.timeAtAngle(-6, false),
+      nauticalDawn: this.solarCalc.nauticalDawn,
+      nauticalDusk: this.solarCalc.nauticalDusk,
+      nightEnd: this.solarCalc.nightEnd,
+      night: this.solarCalc.nightStart,
+      goldenHourEnd: this.solarCalc.goldenHourEnd,
+      goldenHour: this.solarCalc.goldenHourStart,
       alotHaShachar: this.alotHaShachar(),
       misheyakir: this.misheyakir(),
       misheyakirMachmir: this.misheyakirMachmir(),
@@ -102,11 +103,11 @@ export class Zmanim {
   }
   /** @return {Date} */
   dawn() {
-    return this.sun.timeAtAngle(6, true);
+    return this.solarCalc.dawn;
   }
   /** @return {Date} */
   dusk() {
-    return this.sun.timeAtAngle(6, false);
+    return this.solarCalc.dusk;
   }
   /** @return {number} */
   hour() {
