@@ -71,7 +71,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.2.1",
     "ava": "^4.2.0",
-    "core-js": "^3.22.0",
+    "core-js": "^3.22.1",
     "eslint": "^8.13.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.10",
