@@ -1,4 +1,4 @@
-import {flags, Event, KEYCAP_DIGITS} from './event';
+import {flags, Event} from './event';
 import {Locale} from './locale';
 import {gematriya} from './gematriya';
 
@@ -13,17 +13,16 @@ const sefirot = [
   'Majesty',
 ];
 
-/*
-const sefirotTranslit = {
-  Lovingkindness: 'Chesed',
-  Might: 'Gevurah',
-  Beauty: 'Tiferet',
-  Eternity: 'Netzach',
-  Splendor: 'Hod',
-  Foundation: 'Yesod',
-  Majesty: 'Malkhut',
-};
-*/
+const sefirotTranslit = [
+  null,
+  'Chesed',
+  'Gevurah',
+  'Tiferet',
+  'Netzach',
+  'Hod',
+  'Yesod',
+  'Malkhut',
+];
 
 /** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
 export class OmerEvent extends Event {
@@ -33,14 +32,35 @@ export class OmerEvent extends Event {
    */
   constructor(date, omerDay) {
     super(date, `Omer ${omerDay}`, flags.OMER_COUNT, {omer: omerDay});
+    if (omerDay < 1 || omerDay > 49) {
+      throw new RangeError(`Invalid Omer day ${omerDay}`);
+    }
     this.weekNumber = Math.floor((omerDay - 1) / 7) + 1;
     this.daysWithinWeeks = (omerDay % 7) || 7;
+    this.memo = [this.sefira('en'), this.sefira('he'), this.sefira('translit')].join('\n');
+  }
+  /**
+   * @param {string} lang
+   * @return {string}
+   */
+  sefira(lang='en') {
     const week = sefirot[this.weekNumber];
     const dayWithinWeek = sefirot[this.daysWithinWeeks];
-    const heWeek = Locale.gettext(week, 'he');
-    const heDayWithinWeek = Locale.gettext(dayWithinWeek, 'he');
-    const hePrefix = 'שֶׁבַּ';
-    this.memo = `${dayWithinWeek} that is in ${week} / ${heDayWithinWeek} ${hePrefix}${heWeek}`.normalize();
+    switch (lang) {
+      case 'he':
+        const heWeek = Locale.gettext(week, 'he');
+        const heDayWithinWeek = Locale.gettext(dayWithinWeek, 'he');
+        const hePrefix = this.weekNumber === 2 || this.weekNumber === 6 ? 'שֶׁבִּ' : 'שֶׁבְּ';
+        return `${heDayWithinWeek} ${hePrefix}${heWeek}`.normalize();
+      case 'translit':
+        const translitWeek = sefirotTranslit[this.weekNumber];
+        const translitDayWithinWeek = sefirotTranslit[this.daysWithinWeeks];
+        const translitPrefix = this.weekNumber === 2 || this.weekNumber === 6 ? 'shebi' : `sheb'`;
+        return `${translitDayWithinWeek} ${translitPrefix}${translitWeek}`;
+      case 'en':
+      default:
+        return `${dayWithinWeek} within ${week}`;
+    }
   }
   /**
    * @todo use gettext()
@@ -64,9 +84,15 @@ export class OmerEvent extends Event {
   getEmoji() {
     if (typeof this.emoji === 'string') return this.emoji;
     const number = this.omer;
-    const ones = number % 10;
-    const tens = Math.floor(number / 10);
-    return KEYCAP_DIGITS[tens] + KEYCAP_DIGITS[ones];
+    if (number <= 20) {
+      return String.fromCodePoint(9312 + number - 1);
+    } else if (number <= 35) {
+      // between 21 and 35 inclusive
+      return String.fromCodePoint(12881 + number - 21);
+    } else {
+      // between 36 and 49 inclusive
+      return String.fromCodePoint(12977 + number - 36);
+    }
   }
   /** @return {number} */
   getWeeks() {

@@ -960,6 +960,7 @@ declare module '@hebcal/core' {
         render(locale?: string): string;
         renderBrief(locale?: string): string;
     }
+    export type OmerSefiraLang = 'en' | 'he' | 'translit';
     export class OmerEvent extends Event {
         constructor(date: HDate, omerDay: number);
         render(locale?: string): string;
@@ -968,6 +969,7 @@ declare module '@hebcal/core' {
         getWeeks(): number;
         getDaysWithinWeeks(): number;
         getTodayIs(locale?: string): string;
+        sefira(lang: OmerSefiraLang): string;
     }
     export class ParshaEvent extends Event {
         constructor(date: HDate, parsha: string[], il: boolean);

@@ -384,7 +384,7 @@ msgid "Chanukah: 8th Day"
 msgstr "חֲנוּכָּה: יוֹם ח׳"
 
 msgid "Days of the Omer"
-msgstr "עוֹמֶר"
+msgstr "סְפִירַת הָעוֹמֶר"
 
 msgid "Omer"
 msgstr "עוֹמֶר"

@@ -473,7 +473,6 @@ test('emoji', (t) => {
     'Chanukah: 3 Candles': '🕎3️⃣',
     'Chanukah: 8 Candles': '🕎8️⃣',
     'Chanukah: 8th Day': '🕎',
-    'Days of the Omer': '🔥',
     'Lag BaOmer': '🔥',
     'Leil Selichot': '🕍',
     'Pesach Sheni': '✡️',
