@@ -122,4 +122,8 @@ export class OmerEvent extends Event {
     }
     return str + ' of the Omer';
   }
+  /** @return {string} */
+  url() {
+    return `https://www.hebcal.com/omer/${this.getDate().getFullYear()}/${this.omer}`;
+  }
 }

@@ -343,7 +343,7 @@ export class Zmanim {
     if (offset > 0 && sunrise.getSeconds() >= 30) {
       offset++;
     }
-    sunrise.setSeconds(0);
+    sunrise.setSeconds(0, 0);
     return new Date(sunrise.getTime() + (offset * 60 * 1000));
   }
 
@@ -361,7 +361,7 @@ export class Zmanim {
     if (offset > 0 && sunset.getSeconds() >= 30) {
       offset++;
     }
-    sunset.setSeconds(0);
+    sunset.setSeconds(0, 0);
     return new Date(sunset.getTime() + (offset * 60 * 1000));
   }
 

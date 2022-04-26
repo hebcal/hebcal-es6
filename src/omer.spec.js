@@ -119,3 +119,8 @@ test('throws-invalid-day', (t) => {
   }, {instanceOf: RangeError});
   t.is(error.message, 'Invalid Omer day 123');
 });
+
+test('url', (t) => {
+  const omer = new OmerEvent(new HDate(2, 'Sivan', 5770), 46);
+  t.is(omer.url(), 'https://www.hebcal.com/omer/5770/46');
+});

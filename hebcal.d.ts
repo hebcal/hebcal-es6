@@ -959,6 +959,7 @@ declare module '@hebcal/core' {
         constructor(date: HDate, hyear: number, hmonth: number);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+        molad: Molad;
     }
     export type OmerSefiraLang = 'en' | 'he' | 'translit';
     export class OmerEvent extends Event {
@@ -970,12 +971,19 @@ declare module '@hebcal/core' {
         getDaysWithinWeeks(): number;
         getTodayIs(locale?: string): string;
         sefira(lang: OmerSefiraLang): string;
+        url(): string;
+        weekNumber: number;
+        daysWithinWeeks: number;
+        memo: string;
+        alarm?: Date;
     }
     export class ParshaEvent extends Event {
         constructor(date: HDate, parsha: string[], il: boolean);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         url(): string;
+        parsha: string[];
+        il: boolean;
     }
     export class RoshChodeshEvent extends HolidayEvent {
         constructor(date: HDate, monthName: string);
