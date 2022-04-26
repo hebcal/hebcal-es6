@@ -73,12 +73,12 @@ export class OmerEvent extends Event {
     return nth + ' ' + Locale.gettext('day of the Omer', locale);
   }
   /**
-   * Returns translation of "Omer 22" without ordinal numbers.
+   * Returns translation of "Omer day 22" without ordinal numbers.
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
   renderBrief(locale) {
-    return Locale.gettext('Omer', locale) + ' ' + this.omer;
+    return Locale.gettext('Omer', locale) + ' ' + Locale.gettext('day', locale) + ' '+ this.omer;
   }
   /** @return {string} */
   getEmoji() {
