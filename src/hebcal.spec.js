@@ -594,3 +594,19 @@ test('mishnaYomi-only', (t) => {
   t.is(events[0].getDesc(), 'Berakhot 3:2-3');
   t.is(events[2].getDesc(), 'Berakhot 3:6-4:1');
 });
+
+test('omer-alarm', (t) => {
+  const dt = new Date(2022, 3, 26);
+  const events = HebrewCalendar.calendar({
+    start: dt,
+    end: dt,
+    omer: true,
+    candlelighting: true,
+    location: Location.lookup('San Francisco'),
+    noHolidays: true,
+  });
+  const alarm = events[0].alarm;
+  t.is(typeof alarm, 'object');
+  t.is(alarm instanceof Date, true);
+  t.is(alarm.toISOString(), '2022-04-26T03:28:34.000Z');
+});

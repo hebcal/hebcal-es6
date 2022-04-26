@@ -37,6 +37,7 @@ import './locale-ashkenazi';
 import './locale-he';
 import {MishnaYomiEvent} from './MishnaYomiEvent';
 import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
+import {Zmanim} from './zmanim';
 
 const FRI = 5;
 const SAT = 6;
@@ -559,7 +560,12 @@ export class HebrewCalendar {
       }
       if (options.omer && abs >= beginOmer && abs <= endOmer) {
         const omer = abs - beginOmer + 1;
-        evts.push(new OmerEvent(hd, omer));
+        const omerEv = new OmerEvent(hd, omer);
+        if (options.candlelighting) {
+          const zmanim = new Zmanim(hd.prev(), location.getLatitude(), location.getLongitude());
+          omerEv.alarm = zmanim.tzeit(7.0833);
+        }
+        evts.push(omerEv);
       }
       const hmonth = hd.getMonth();
       if (options.molad && dow == SAT && hmonth != ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
