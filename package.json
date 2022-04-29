@@ -62,8 +62,8 @@
     "verbose": true
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/preset-env": "^7.16.11",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
     "@babel/register": "^7.17.7",
     "@hebcal/solar-calc": "^1.1.2",
     "@rollup/plugin-babel": "^5.3.1",
@@ -71,7 +71,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.2.1",
     "ava": "^4.2.0",
-    "core-js": "^3.22.2",
+    "core-js": "^3.22.3",
     "eslint": "^8.14.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.10",
