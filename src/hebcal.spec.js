@@ -610,3 +610,29 @@ test('omer-alarm', (t) => {
   t.is(alarm instanceof Date, true);
   t.is(alarm.toISOString(), '2022-04-26T03:28:34.000Z');
 });
+
+test('omer-alarm-alaska', (t) => {
+  const location = new Location(63.780185, -145.36958, false, 'America/Anchorage', 'Delta Junction, AK 99737', 'US');
+  const events = HebrewCalendar.calendar({
+    start: new Date(2022, 4, 13),
+    end: new Date(2022, 4, 20),
+    omer: true,
+    candlelighting: true,
+    location,
+    noHolidays: true,
+  }).filter((ev) => ev.getFlags() & flags.OMER_COUNT);
+  const alarms = events.map((ev) => {
+    return {dt: gregDtString(ev), alarm: ev.alarm && ev.alarm.toISOString()};
+  });
+  const expected = [
+    {dt: '5/13/2022', alarm: '2022-05-13T08:41:42.000Z'},
+    {dt: '5/14/2022', alarm: '2022-05-14T08:52:10.000Z'},
+    {dt: '5/15/2022', alarm: '2022-05-15T09:05:35.000Z'},
+    {dt: '5/16/2022', alarm: '2022-05-16T09:33:44.000Z'},
+    {dt: '5/17/2022', alarm: undefined},
+    {dt: '5/18/2022', alarm: undefined},
+    {dt: '5/19/2022', alarm: undefined},
+    {dt: '5/20/2022', alarm: undefined},
+  ];
+  t.deepEqual(alarms, expected);
+});
