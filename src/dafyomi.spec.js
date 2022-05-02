@@ -67,7 +67,7 @@ function getDafYomi5780() {
 10/18/2019 Daf Yomi: Tamid 31
 10/19/2019 Daf Yomi: Tamid 32
 10/20/2019 Daf Yomi: Tamid 33
-10/21/2019 Daf Yomi: Tamid 34
+10/21/2019 Daf Yomi: Midot 34
 10/22/2019 Daf Yomi: Midot 35
 10/23/2019 Daf Yomi: Midot 36
 10/24/2019 Daf Yomi: Midot 37
