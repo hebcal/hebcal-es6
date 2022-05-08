@@ -12,7 +12,7 @@ workflows:
       - node/test:
           matrix:
             parameters:
-              version: ['18.1', '16.14', '14.19', '12.21']
+              version: ['18.0', '16.14', '14.19', '12.21']
           post-steps:
             - run:
                 name: "Generate Code Coverage"

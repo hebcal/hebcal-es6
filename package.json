@@ -48,7 +48,7 @@
     "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
     "lint": "eslint src",
     "coverage-local": "nyc --concurrency 2",
-    "coverage": "nyc --reporter=lcov ava --concurrency 2 && codecov",
+    "coverage": "nyc --reporter=lcov ava --concurrency 4 && codecov",
     "test": "ava --concurrency 4"
   },
   "license": "GPL-2.0",
