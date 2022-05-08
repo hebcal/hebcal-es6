@@ -47,8 +47,9 @@
     "pretest": "npm run build",
     "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
     "lint": "eslint src",
-    "coverage": "nyc ava --concurrency 2",
-    "test": "ava --concurrency 3"
+    "coverage-local": "nyc --concurrency 2",
+    "coverage": "nyc --reporter=lcov ava --concurrency 2 && codecov",
+    "test": "ava --concurrency 4"
   },
   "license": "GPL-2.0",
   "ava": {
@@ -71,13 +72,14 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "ava": "^4.2.0",
+    "codecov": "^3.8.3",
     "core-js": "^3.22.4",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.10",
     "jsdoc-to-markdown": "^7.1.1",
     "nyc": "^15.1.0",
-    "rollup": "^2.71.1",
+    "rollup": "^2.72.1",
     "rollup-plugin-terser": "^7.0.2",
     "tsd-jsdoc": "^2.5.0",
     "ttag-cli": "^1.9.3"
