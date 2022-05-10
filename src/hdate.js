@@ -18,8 +18,7 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {greg as g} from './greg';
-import {mod} from './greg0';
+import {greg2abs, abs2greg, isDate, mod} from './greg0';
 import {gematriya} from './gematriya';
 import {Locale} from './locale';
 import {abs2hebrew, daysInMonth, daysInYear, getMonthName, hebrew2abs,
@@ -111,7 +110,7 @@ export class HDate {
       }
       // 1 argument
       const abs0 = (typeof day === 'number' && !isNaN(day)) ? day :
-        g.isDate(day) ? g.greg2abs(day) :
+        isDate(day) ? greg2abs(day) :
         HDate.isHDate(day) ? {dd: day.day, mm: day.month, yy: day.year} :
         throwTypeError(`HDate called with bad argument: ${day}`);
       const isNumber = typeof abs0 === 'number';
@@ -239,7 +238,7 @@ export class HDate {
    * @return {Date}
    */
   greg() {
-    return g.abs2greg(this.abs());
+    return abs2greg(this.abs());
   }
 
   /**

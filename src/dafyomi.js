@@ -19,14 +19,14 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {greg as g} from './greg';
+import {greg2abs, isDate} from './greg0';
 import {Locale} from './locale';
 import {Event, flags} from './event';
 import {HDate} from './hdate';
 
 const osdate = new Date(1923, 8, 11);
-const osday = g.greg2abs(osdate);
-const nsday = g.greg2abs(new Date(1975, 5, 24));
+const osday = greg2abs(osdate);
+const nsday = greg2abs(new Date(1975, 5, 24));
 
 const shas = [
   ['Berachot',       64],
@@ -88,7 +88,7 @@ export class DafYomi {
    */
   constructor(gregdate) {
     const cday = (typeof gregdate === 'number' && !isNaN(gregdate)) ? gregdate :
-      g.isDate(gregdate) ? g.greg2abs(gregdate) :
+      isDate(gregdate) ? greg2abs(gregdate) :
       HDate.isHDate(gregdate) ? gregdate.abs() :
       throwTypeError(`non-date given to dafyomi: ${gregdate}`);
     if (cday < osday) {

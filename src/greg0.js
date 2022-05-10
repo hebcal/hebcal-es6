@@ -1,7 +1,10 @@
-/**
+/*
  * More minimal greg routines
  */
+
+/** @private */
 const lengths = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+/** @private */
 const monthLengths = [
   lengths,
   lengths.slice(),
@@ -68,7 +71,7 @@ export function isDate(obj) {
  */
 export function dayOfYear(date) {
   if (!isDate(date)) {
-    throw new TypeError('Argument to greg.dayOfYear not a Date');
+    throw new TypeError(`Argument not a Date: ${date}`);
   }
   let doy = date.getDate() + 31 * date.getMonth();
   if (date.getMonth() > 1) {
@@ -89,7 +92,7 @@ export function dayOfYear(date) {
  */
 export function greg2abs(date) {
   if (!isDate(date)) {
-    throw new TypeError('Argument to greg.greg2abs not a Date');
+    throw new TypeError(`Argument not a Date: ${date}`);
   }
   const year = date.getFullYear() - 1;
   return (
@@ -150,7 +153,7 @@ function toFixed(year, month, day) {
  */
 export function abs2greg(abs) {
   if (typeof abs !== 'number') {
-    throw new TypeError('Argument to greg.abs2greg not a Number');
+    throw new TypeError(`Argument not a Number: ${abs}`);
   }
   abs = Math.trunc(abs);
   const year = yearFromFixed(abs);

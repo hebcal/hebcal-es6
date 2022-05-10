@@ -1,9 +1,9 @@
-import {greg as g} from './greg';
+import {greg2abs, isDate} from './greg0';
 import {HDate} from './hdate';
 import mishnayot from './mishnayot.json';
 
 const cycleStartDate = new Date(1947, 4, 20);
-export const mishnaYomiStart = g.greg2abs(cycleStartDate);
+export const mishnaYomiStart = greg2abs(cycleStartDate);
 
 const numMishnayot = 4192;
 const numDays = numMishnayot / 2;
@@ -56,7 +56,7 @@ export class MishnaYomiIndex {
    */
   lookup(date) {
     const abs = (typeof date === 'number' && !isNaN(date)) ? date :
-      g.isDate(date) ? g.greg2abs(date) :
+      isDate(date) ? greg2abs(date) :
       HDate.isHDate(date) ? date.abs() :
       throwTypeError(`Invalid date: ${date}`);
     if (abs < mishnaYomiStart) {

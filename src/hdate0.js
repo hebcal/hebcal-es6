@@ -1,6 +1,7 @@
-/**
+/*
  * More minimal HDate
  */
+
 const NISAN = 1;
 const IYYAR = 2;
 // const SIVAN = 3;
@@ -91,6 +92,7 @@ const AVG_HEBYEAR_DAYS = 365.24682220597794;
  * Converts Hebrew date to R.D. (Rata Die) fixed days.
  * R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
  * Calendar.
+ * @private
  * @param {number} year Hebrew year
  * @param {number} month Hebrew month
  * @param {number} day Hebrew date (1-30)
@@ -170,6 +172,7 @@ export function abs2hebrew(abs) {
 
 /**
  * Returns true if Hebrew year is a leap year
+ * @private
  * @param {number} year Hebrew year
  * @return {boolean}
  */
@@ -179,6 +182,7 @@ export function isLeapYear(year) {
 
 /**
  * Number of months in this Hebrew year (either 12 or 13 depending on leap year)
+ * @private
  * @param {number} year Hebrew year
  * @return {number}
  */
@@ -188,6 +192,7 @@ export function monthsInYear(year) {
 
 /**
  * Number of days in Hebrew month in a given year (29 or 30)
+ * @private
  * @param {number} month Hebrew month (e.g. months.TISHREI)
  * @param {number} year Hebrew year
  * @return {number}
@@ -215,6 +220,7 @@ export function daysInMonth(month, year) {
 /**
  * Returns a transliterated string name of Hebrew month in year,
  * for example 'Elul' or 'Cheshvan'.
+ * @private
  * @param {number} month Hebrew month (e.g. months.TISHREI)
  * @param {number} year Hebrew year
  * @return {string}
@@ -229,6 +235,7 @@ export function getMonthName(month, year) {
 /**
  * Days from sunday prior to start of Hebrew calendar to mean
  * conjunction of Tishrei in Hebrew YEAR
+ * @private
  * @param {number} year Hebrew year
  * @return {number}
  */
@@ -270,6 +277,7 @@ function elapsedDays0(year) {
 
 /**
  * Number of days in the hebrew YEAR
+ * @private
  * @param {number} year Hebrew year
  * @return {number}
  */
@@ -279,6 +287,7 @@ export function daysInYear(year) {
 
 /**
  * true if Cheshvan is long in Hebrew year
+ * @private
  * @param {number} year Hebrew year
  * @return {boolean}
  */
@@ -288,6 +297,7 @@ export function longCheshvan(year) {
 
 /**
  * true if Kislev is short in Hebrew year
+ * @private
  * @param {number} year Hebrew year
  * @return {boolean}
  */

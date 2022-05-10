@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 import test from 'ava';
 import {DafYomi, DafYomiEvent} from './dafyomi';
-import {greg as g} from './greg';
+import {abs2greg} from './greg0';
 import {HDate, months} from './hdate';
 import './locale-ashkenazi';
 import './locale-he';
@@ -20,7 +20,7 @@ test('dafyomi-multi', (t) => {
   const endAbs = HDate.hebrew2abs(5781, months.TISHREI, 1) - 1;
   let i = 0;
   for (let abs = startAbs; abs <= endAbs; abs++) {
-    const dt = g.abs2greg(abs);
+    const dt = abs2greg(abs);
     const dy = new DafYomi(dt);
     const dateStr = dt.toLocaleDateString('en-US');
     const str = dateStr + ' Daf Yomi: ' + dy.render();

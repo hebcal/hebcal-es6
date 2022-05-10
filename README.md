@@ -399,7 +399,6 @@ Represents a Hebrew date
         * [.daysInMonth(month, year)](#HDate.daysInMonth) ⇒ <code>number</code>
         * [.getMonthName(month, year)](#HDate.getMonthName) ⇒ <code>string</code>
         * [.monthNum(month)](#HDate.monthNum) ⇒ <code>number</code>
-        * [.elapsedDays(year)](#HDate.elapsedDays) ⇒ <code>number</code>
         * [.daysInYear(year)](#HDate.daysInYear) ⇒ <code>number</code>
         * [.longCheshvan(year)](#HDate.longCheshvan) ⇒ <code>boolean</code>
         * [.shortKislev(year)](#HDate.shortKislev) ⇒ <code>boolean</code>
@@ -801,18 +800,6 @@ Returns the Hebrew month number (NISAN=1, TISHREI=7)
 | Param | Type | Description |
 | --- | --- | --- |
 | month | <code>number</code> \| <code>string</code> | A number, or Hebrew month name string |
-
-<a name="HDate.elapsedDays"></a>
-
-### HDate.elapsedDays(year) ⇒ <code>number</code>
-Days from sunday prior to start of Hebrew calendar to mean
-conjunction of Tishrei in Hebrew YEAR
-
-**Kind**: static method of [<code>HDate</code>](#HDate)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Hebrew year |
 
 <a name="HDate.daysInYear"></a>
 
@@ -1823,12 +1810,14 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 * [OmerEvent](#OmerEvent)
     * [new OmerEvent(date, omerDay)](#new_OmerEvent_new)
+    * [.sefira(lang)](#OmerEvent+sefira) ⇒ <code>string</code>
     * [.render([locale])](#OmerEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#OmerEvent+renderBrief) ⇒ <code>string</code>
     * [.getEmoji()](#OmerEvent+getEmoji) ⇒ <code>string</code>
     * [.getWeeks()](#OmerEvent+getWeeks) ⇒ <code>number</code>
     * [.getDaysWithinWeeks()](#OmerEvent+getDaysWithinWeeks) ⇒ <code>number</code>
     * [.getTodayIs(locale)](#OmerEvent+getTodayIs) ⇒ <code>string</code>
+    * [.url()](#OmerEvent+url) ⇒ <code>string</code>
 
 <a name="new_OmerEvent_new"></a>
 
@@ -1838,6 +1827,15 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
 | omerDay | <code>number</code> | 
+
+<a name="OmerEvent+sefira"></a>
+
+### omerEvent.sefira(lang) ⇒ <code>string</code>
+**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| lang | <code>string</code> | <code>&quot;en&quot;</code> | 
 
 <a name="OmerEvent+render"></a>
 
@@ -1855,7 +1853,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 <a name="OmerEvent+renderBrief"></a>
 
 ### omerEvent.renderBrief([locale]) ⇒ <code>string</code>
-Returns translation of "Omer 22" without ordinal numbers.
+Returns translation of "Omer day 22" without ordinal numbers.
 
 **Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
 
@@ -1884,6 +1882,10 @@ Returns translation of "Omer 22" without ordinal numbers.
 | --- | --- |
 | locale | <code>string</code> | 
 
+<a name="OmerEvent+url"></a>
+
+### omerEvent.url() ⇒ <code>string</code>
+**Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
 <a name="DafYomi"></a>
 
 ## DafYomi
