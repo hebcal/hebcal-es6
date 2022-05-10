@@ -108,6 +108,9 @@ export class OmerEvent extends Event {
    * @return {string}
    */
   getTodayIs(locale) {
+    if (locale === 'he' || locale === 'he') {
+      return getTodayIsHe(this.omer);
+    }
     const totalDaysStr = (this.omer === 1) ? 'day' : 'days';
     let str = `Today is ${this.omer} ${totalDaysStr}`;
     if (this.weekNumber > 1 || this.omer === 7) {
@@ -126,4 +129,86 @@ export class OmerEvent extends Event {
   url() {
     return `https://www.hebcal.com/omer/${this.getDate().getFullYear()}/${this.omer}`;
   }
+}
+
+// adapted from pip hdate package (GPL)
+// https://github.com/py-libhdate/py-libhdate/blob/master/hdate/date.py
+
+const tens = ['', 'עֲשָׂרָה', 'עֶשְׂרִים', 'שְׁלוֹשִׁים', 'אַרְבָּעִים'];
+const ones = [
+  '',
+  'אֶחָד',
+  'שְׁנַיִם',
+  'שְׁלוֹשָׁה',
+  'אַרְבָּעָה',
+  'חֲמִשָׁה',
+  'שִׁשָׁה',
+  'שִׁבְעָה',
+  'שְׁמוֹנָה',
+  'תִּשְׁעָה',
+];
+
+const shnei = 'שְׁנֵי';
+const yamim = 'יָמִים';
+const shneiYamim = shnei + ' ' + yamim;
+const shavuot = 'שָׁבוּעוֹת';
+const yom = 'יוֹם';
+const yomEchad = yom + ' ' + ones[1];
+
+/**
+ * @private
+ * @param {number} omer
+ * @return {string}
+ */
+function getTodayIsHe(omer) {
+  const ten = Math.floor(omer / 10);
+  const one = omer % 10;
+  let str = 'הַיוֹם ';
+  if (10 < omer && omer < 20) {
+    str += ones[one] + ' עָשָׂר';
+  } else if (omer > 9) {
+    str += ones[one];
+    if (one) {
+      str += ' וְ';
+    }
+  }
+  if (omer > 2) {
+    if ((omer > 20) || (omer === 10) || (omer === 20)) {
+      str += tens[ten];
+    }
+    if (omer < 11) {
+      str += ones[one] + ' ' + yamim + ' ';
+    } else {
+      str += ' ' + yom + ' ';
+    }
+  } else if (omer === 1) {
+    str += yomEchad + ' ';
+  } else { // omer == 2
+    str += shneiYamim + ' ';
+  }
+  if (omer > 6) {
+    str = str.trim(); // remove trailing space before comma
+    str += ', שְׁהֵם ';
+    const weeks = Math.floor(omer / 7);
+    const days = omer % 7;
+    if (weeks > 2) {
+      str += ones[weeks] + ' ' + shavuot + ' ';
+    } else if (weeks == 1) {
+      str += 'שָׁבוּעַ' + ' ' + ones[1] + ' ';
+    } else { // weeks == 2
+      str += shnei + ' ' + shavuot + ' ';
+    }
+    if (days) {
+      str += 'וְ';
+      if (days > 2) {
+        str += ones[days] + ' ' + yamim + ' ';
+      } else if (days == 1) {
+        str += yomEchad + ' ';
+      } else { // days == 2
+        str += shneiYamim + ' ';
+      }
+    }
+  }
+  str += 'לָעוֹמֶר';
+  return str;
 }
