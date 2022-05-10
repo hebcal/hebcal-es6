@@ -175,4 +175,30 @@ export default [
       commonjs(),
     ],
   },
+  {
+    input: 'src/hdate0-index.js',
+    output: [
+      {
+        file: 'dist/hdate0-bundle.js',
+        format: 'iife',
+        name: 'hebcal',
+        indent: false,
+        banner,
+      },
+      {
+        file: 'dist/hdate0-bundle.min.js',
+        format: 'iife',
+        name: 'hebcal',
+        plugins: [terser()],
+        banner,
+      },
+    ],
+    plugins: [
+      babel({
+        babelHelpers: 'bundled',
+        presets: ['@babel/preset-env'],
+        exclude: ['node_modules/**'],
+      }),
+    ],
+  },
 ];
