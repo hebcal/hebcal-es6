@@ -36,37 +36,29 @@ test('sefira', (t) => {
   t.is(omer.sefira(), 'Eternity within Majesty');
 });
 
-test('memo-and-days-weeks', (t) => {
+test('getTodayIs-en', (t) => {
   let omer = new OmerEvent(new HDate(16, 'Nisan', 5770), 1);
-  t.is(omer.memo, `Lovingkindness within Lovingkindness\nחֶֽסֶד שֶׁבְּחֶֽסֶד\nChesed sheb'Chesed`);
   t.is(omer.getTodayIs('en'), 'Today is 1 day of the Omer');
 
   omer = new OmerEvent(new HDate(17, 'Nisan', 5770), 2);
-  t.is(omer.memo, `Might within Lovingkindness\nגְבוּרָה שֶׁבְּחֶֽסֶד\nGevurah sheb'Chesed`);
   t.is(omer.getTodayIs('en'), 'Today is 2 days of the Omer');
 
   omer = new OmerEvent(new HDate(22, 'Nisan', 5770), 7);
-  t.is(omer.memo, `Majesty within Lovingkindness\nמַּלְכוּת שֶׁבְּחֶֽסֶד\nMalkhut sheb'Chesed`);
   t.is(omer.getTodayIs('en'), 'Today is 7 days, which is 1 week of the Omer');
 
   omer = new OmerEvent(new HDate(23, 'Nisan', 5770), 8);
-  t.is(omer.memo, `Lovingkindness within Might\nחֶֽסֶד שֶׁבִּגְבוּרָה\nChesed shebiGevurah`);
   t.is(omer.getTodayIs('en'), 'Today is 8 days, which is 1 week and 1 day of the Omer');
 
   omer = new OmerEvent(new HDate(28, 'Nisan', 5770), 13);
-  t.is(omer.memo, `Foundation within Might\nיְּסוֹד שֶׁבִּגְבוּרָה\nYesod shebiGevurah`);
   t.is(omer.getTodayIs('en'), 'Today is 13 days, which is 1 week and 6 days of the Omer');
 
   omer = new OmerEvent(new HDate(29, 'Nisan', 5770), 14);
-  t.is(omer.memo, `Majesty within Might\nמַּלְכוּת שֶׁבִּגְבוּרָה\nMalkhut shebiGevurah`);
   t.is(omer.getTodayIs('en'), 'Today is 14 days, which is 2 weeks of the Omer');
 
   omer = new OmerEvent(new HDate(26, 'Iyyar', 5770), 41);
-  t.is(omer.memo, `Foundation within Foundation\nיְּסוֹד שֶׁבִּיְּסוֹד\nYesod shebiYesod`);
   t.is(omer.getTodayIs('en'), 'Today is 41 days, which is 5 weeks and 6 days of the Omer');
 
   omer = new OmerEvent(new HDate(2, 'Sivan', 5770), 46);
-  t.is(omer.memo, `Eternity within Majesty\nנֶּֽצַח שֶׁבְּמַּלְכוּת\nNetzach sheb'Malkhut`);
   t.is(omer.getTodayIs('en'), 'Today is 46 days, which is 6 weeks and 4 days of the Omer');
 });
 

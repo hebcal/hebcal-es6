@@ -37,7 +37,6 @@ export class OmerEvent extends Event {
     }
     this.weekNumber = Math.floor((omerDay - 1) / 7) + 1;
     this.daysWithinWeeks = (omerDay % 7) || 7;
-    this.memo = [this.sefira('en'), this.sefira('he'), this.sefira('translit')].join('\n');
   }
   /**
    * @param {string} lang
