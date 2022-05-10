@@ -123,23 +123,7 @@ export function hebrew2abs(year, month, day) {
  * @return {number}
  */
 function newYear(year) {
-  return EPOCH + elapsedDays(year) + newYearDelay(year);
-}
-
-/**
- * @private
- * @param {number} year
- * @return {number}
- */
-function newYearDelay(year) {
-  const ny1 = elapsedDays(year);
-  const ny2 = elapsedDays(year + 1);
-  if (ny2 - ny1 === 356) {
-    return 2;
-  } else {
-    const ny0 = elapsedDays(year - 1);
-    return ny1 - ny0 === 382 ? 1 : 0;
-  }
+  return EPOCH + elapsedDays(year);
 }
 
 /**
@@ -226,7 +210,7 @@ export function daysInMonth(month, year) {
  * @return {string}
  */
 export function getMonthName(month, year) {
-  if (typeof month !== 'number' || month < 1 || month > 14) {
+  if (typeof month !== 'number' || isNaN(month) || month < 1 || month > 14) {
     throw new TypeError(`bad month argument ${month}`);
   }
   return monthNames[+isLeapYear(year)][month];
@@ -276,7 +260,9 @@ function elapsedDays0(year) {
 }
 
 /**
- * Number of days in the hebrew YEAR
+ * Number of days in the hebrew YEAR.
+ * A common Hebrew calendar year can have a length of 353, 354 or 355 days
+ * A leap Hebrew calendar year can have a length of 383, 384 or 385 days
  * @private
  * @param {number} year Hebrew year
  * @return {number}

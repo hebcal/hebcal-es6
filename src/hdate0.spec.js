@@ -1,20 +1,20 @@
 import test from 'ava';
 import {abs2hebrew, daysInMonth, daysInYear, elapsedDays, hebrew2abs,
-  isLeapYear, months} from './hdate0';
+  isLeapYear, months, getMonthName} from './hdate0';
 
 const NISAN = months.NISAN;
 const IYYAR = months.IYYAR;
 const SIVAN = months.SIVAN;
-// const TAMUZ = months.TAMUZ;
+const TAMUZ = months.TAMUZ;
 // const AV = months.AV;
-// const ELUL = months.ELUL;
+const ELUL = months.ELUL;
 const TISHREI = months.TISHREI;
 const CHESHVAN = months.CHESHVAN;
 const KISLEV = months.KISLEV;
 const TEVET = months.TEVET;
 const SHVAT = months.SHVAT;
-// const ADAR_I = months.ADAR_I;
-// const ADAR_II = months.ADAR_II;
+const ADAR_I = months.ADAR_I;
+const ADAR_II = months.ADAR_II;
 
 test('elapsedDays', (t) => {
   t.is(elapsedDays(5780), 2110760);
@@ -62,6 +62,27 @@ test('daysInYear', (t) => {
   t.is(daysInYear(1), 355);
 });
 
+test('daysInYear2', (t) => {
+  const actual = {};
+  for (let year = 1; year <= 9999; year++) {
+    const days = daysInYear(year);
+    if (actual[days]) {
+      actual[days]++;
+    } else {
+      actual[days] = 1;
+    }
+  }
+  const expected = {
+    '353': 1004,
+    '354': 2431,
+    '355': 2881,
+    '383': 1547,
+    '384': 524,
+    '385': 1612,
+  };
+  t.deepEqual(actual, expected);
+});
+
 test('daysInMonth', (t) => {
   t.is(daysInMonth(IYYAR, 5780), 29);
   t.is(daysInMonth(SIVAN, 5780), 30);
@@ -89,6 +110,13 @@ test('abs2hebrew', (t) => {
   t.deepEqual(abs2hebrew(1), {yy: 3761, mm: TEVET, dd: 18});
   t.deepEqual(abs2hebrew(0), {yy: 3761, mm: TEVET, dd: 17});
   t.deepEqual(abs2hebrew(-16), {yy: 3761, mm: TEVET, dd: 1});
+  t.deepEqual(abs2hebrew(736685), {yy: 5778, mm: 10, dd: 4});
+  t.deepEqual(abs2hebrew(737485), {yy: 5780, mm: 12, dd: 5});
+  t.deepEqual(abs2hebrew(737885), {dd: 23, mm: 1, yy: 5781});
+  t.deepEqual(abs2hebrew(738285), {dd: 9, mm: 2, yy: 5782});
+  for (let i = 73668; i <= 943620; i += 365) {
+    abs2hebrew(i);
+  }
 });
 
 test('abs2hebrew-88ce', (t) => {
@@ -101,4 +129,45 @@ test('abs2hebrew-88ce', (t) => {
   t.is(h3.yy, 3849);
   t.is(h3.mm, SHVAT);
   t.is(h3.dd, 2);
+});
+
+test('throws-abs2hebrew', (t) => {
+  const error = t.throws(() => {
+    abs2hebrew(NaN);
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'invalid parameter to abs2hebrew NaN');
+  const error2 = t.throws(() => {
+    abs2hebrew('bogus');
+  }, {instanceOf: TypeError});
+  t.is(error2.message, 'invalid parameter to abs2hebrew bogus');
+});
+
+test('getMonthName', (t) => {
+  // leap year
+  t.is(getMonthName(ADAR_I, 5763), 'Adar I');
+  t.is(getMonthName(ADAR_II, 5763), 'Adar II');
+  t.is(getMonthName(14, 5763), 'Nisan');
+  // not a leap year
+  t.is(getMonthName(ADAR_I, 5764), 'Adar');
+  t.is(getMonthName(ADAR_II, 5764), 'Nisan');
+  // not boundary conditions
+  t.is(getMonthName(TAMUZ, 5780), 'Tamuz');
+  t.is(getMonthName(NISAN, 5763), 'Nisan');
+  t.is(getMonthName(ELUL, 5763), 'Elul');
+  t.is(getMonthName(TISHREI, 5763), 'Tishrei');
+});
+
+test('throws-getMonthName', (t) => {
+  const error = t.throws(() => {
+    getMonthName(NaN, 5780);
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'bad month argument NaN');
+  const error2 = t.throws(() => {
+    getMonthName('bogus', 5780);
+  }, {instanceOf: TypeError});
+  t.is(error2.message, 'bad month argument bogus');
+  const error3 = t.throws(() => {
+    getMonthName(20, 5780);
+  }, {instanceOf: TypeError});
+  t.is(error3.message, 'bad month argument 20');
 });

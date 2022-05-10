@@ -94,15 +94,17 @@ export class HDate {
        * @private
        * @type {number}
        */
-      this.year = +year;
-      if (isNaN(this.year)) {
+      year = parseInt(year, 10);
+      if (isNaN(year)) {
         throw new TypeError(`HDate called with bad year argument: ${year}`);
       }
+      this.year = year;
       this.setMonth(month); // will throw if we can't parse
-      this.setDate(+day);
-      if (isNaN(this.day)) {
+      day = parseInt(day, 10);
+      if (isNaN(day)) {
         throw new TypeError(`HDate called with bad day argument: ${day}`);
       }
+      this.setDate(day);
     } else {
       // 0 arguments
       if (typeof day === 'undefined') {
@@ -603,9 +605,13 @@ export class HDate {
    * @return {number}
    */
   static monthNum(month) {
-    return typeof month === 'number' ?
-    month :
-    month.charCodeAt(0) >= 48 && month.charCodeAt(0) <= 57 ? /* number */
+    if (typeof month === 'number') {
+      if (isNaN(month) || month > 14) {
+        throw new RangeError(`Invalid month number: ${month}`);
+      }
+      return month;
+    }
+    return month.charCodeAt(0) >= 48 && month.charCodeAt(0) <= 57 ? /* number */
     parseInt(month, 10) :
     HDate.monthFromName(month);
   }
@@ -643,7 +649,12 @@ export class HDate {
    * @return {number}
    */
   static monthFromName(monthName) {
-    if (typeof monthName === 'number') return monthName;
+    if (typeof monthName === 'number') {
+      if (isNaN(monthName) || monthName < 1 || monthName > 14) {
+        throw new RangeError(`Invalid month name: ${monthName}`);
+      }
+      return monthName;
+    }
     const c = monthName.toLowerCase();
     /*
     the Hebrew months are unique to their second letter

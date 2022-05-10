@@ -47,7 +47,7 @@
     "pretest": "npm run build",
     "typedef": "npx jsdoc -t node_modules/tsd-jsdoc/dist -r ./src/",
     "lint": "eslint src",
-    "coverage-local": "nyc --concurrency 2",
+    "coverage-local": "nyc --concurrency 2 ava",
     "coverage": "nyc --reporter=lcov ava --concurrency 4 && codecov",
     "test": "ava --concurrency 4"
   },

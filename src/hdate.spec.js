@@ -30,21 +30,6 @@ test('daysInMonth', (t) => {
   t.is(HDate.daysInMonth(KISLEV, 5784), 29);
 });
 
-test('getMonthName', (t) => {
-  // leap year
-  t.is(HDate.getMonthName(ADAR_I, 5763), 'Adar I');
-  t.is(HDate.getMonthName(ADAR_II, 5763), 'Adar II');
-  t.is(HDate.getMonthName(14, 5763), 'Nisan');
-  // not a leap year
-  t.is(HDate.getMonthName(ADAR_I, 5764), 'Adar');
-  t.is(HDate.getMonthName(ADAR_II, 5764), 'Nisan');
-  // not boundary conditions
-  t.is(HDate.getMonthName(TAMUZ, 5780), 'Tamuz');
-  t.is(HDate.getMonthName(NISAN, 5763), 'Nisan');
-  t.is(HDate.getMonthName(ELUL, 5763), 'Elul');
-  t.is(HDate.getMonthName(TISHREI, 5763), 'Tishrei');
-});
-
 test('ctor-mdy', (t) => {
   let d = new HDate(29, CHESHVAN, 5769);
   let dt = d.greg(); // 2008-11-27
@@ -156,6 +141,22 @@ test('throws-ctor-4', (t) => {
   }, {instanceOf: TypeError});
   t.is(error.message, 'HDate constructor requires 0, 1 or 3 arguments');
 });
+
+test('throws-ctor-NaN', (t) => {
+  const error = t.throws(() => {
+    new HDate(NaN, 'Sivan', 5780);
+  }, {instanceOf: TypeError});
+  t.is(error.message, 'HDate called with bad day argument: NaN');
+  const error3 = t.throws(() => {
+    new HDate(17, 'Sivan', NaN);
+  }, {instanceOf: TypeError});
+  t.is(error3.message, 'HDate called with bad year argument: NaN');
+  const error2 = t.throws(() => {
+    new HDate(17, NaN, 5780);
+  }, {instanceOf: RangeError});
+  t.is(error2.message, 'Invalid month number: NaN');
+});
+
 
 test('toString', (t) => {
   const d = new HDate(new Date(1751, 0, 1));
