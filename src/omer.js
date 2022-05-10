@@ -50,7 +50,7 @@ export class OmerEvent extends Event {
       case 'he':
         const heWeek = Locale.gettext(week, 'he');
         const heDayWithinWeek = Locale.gettext(dayWithinWeek, 'he');
-        const hePrefix = this.weekNumber === 2 || this.weekNumber === 6 ? 'שֶׁבִּ' : 'שֶׁבְּ';
+        const hePrefix = this.weekNumber === 2 || this.weekNumber === 6 ? 'שֶׁבִּ' : 'שֶׁבְּ';
         return `${heDayWithinWeek} ${hePrefix}${heWeek}`.normalize();
       case 'translit':
         const translitWeek = sefirotTranslit[this.weekNumber];
@@ -138,11 +138,11 @@ const tens = ['', 'עֲשָׂרָה', 'עֶשְׂרִים', 'שְׁלוֹשִׁ�
 const ones = [
   '',
   'אֶחָד',
-  'שְׁנַיִם',
-  'שְׁלוֹשָׁה',
+  'שְׁנַיִם',
+  'שְׁלוֹשָׁה',
   'אַרְבָּעָה',
-  'חֲמִשָׁה',
-  'שִׁשָׁה',
+  'חֲמִשָׁה',
+  'שִׁשָׁה',
   'שִׁבְעָה',
   'שְׁמוֹנָה',
   'תִּשְׁעָה',
@@ -188,7 +188,7 @@ function getTodayIsHe(omer) {
   }
   if (omer > 6) {
     str = str.trim(); // remove trailing space before comma
-    str += ', שְׁהֵם ';
+    str += ', שְׁהֵם ';
     const weeks = Math.floor(omer / 7);
     const days = omer % 7;
     if (weeks > 2) {
@@ -210,5 +210,5 @@ function getTodayIsHe(omer) {
     }
   }
   str += 'לָעוֹמֶר';
-  return str;
+  return str.normalize();
 }
