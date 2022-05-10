@@ -2,7 +2,7 @@
 import {Locale} from './locale';
 import {flags, Event} from './event';
 import {Zmanim} from './zmanim';
-import {months} from './hdate';
+import {months} from './hdate0';
 
 const days = {
   FRI: 5,
