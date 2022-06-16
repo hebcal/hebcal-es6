@@ -31,7 +31,7 @@ export const flags = {
   /** Daily page of Talmud */
   DAF_YOMI: 0x000800,
   /** Days of the Omer */
-  OMER_COUNT: 0x000800,
+  OMER_COUNT: 0x001000,
   /** Yom HaShoah, Yom HaAtzma'ut, ... */
   MODERN_HOLIDAY: 0x002000,
   /** Yom Kippur and Tish'a B'Av */
@@ -47,7 +47,7 @@ export const flags = {
   /** A holiday that's not major, modern, rosh chodesh, or a fast day */
   MINOR_HOLIDAY: 0x080000,
   /** Evening before a major or minor holiday */
-  EREV: 0x080000,
+  EREV: 0x100000,
   /** Chol haMoed, intermediate days of Pesach or Sukkot */
   CHOL_HAMOED: 0x200000,
   /** Mishna Yomi */
