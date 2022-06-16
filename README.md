@@ -2659,7 +2659,7 @@ Holiday flags for Event
 | SPECIAL_SHABBAT | <code>number</code> | <code>512</code> | Shabbat Shekalim, Zachor, ... |
 | PARSHA_HASHAVUA | <code>number</code> | <code>1024</code> | Weekly sedrot on Saturdays |
 | DAF_YOMI | <code>number</code> | <code>2048</code> | Daily page of Talmud |
-| OMER_COUNT | <code>number</code> | <code>2048</code> | Days of the Omer |
+| OMER_COUNT | <code>number</code> | <code>4096</code> | Days of the Omer |
 | MODERN_HOLIDAY | <code>number</code> | <code>8192</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
 | MAJOR_FAST | <code>number</code> | <code>16384</code> | Yom Kippur and Tish'a B'Av |
 | SHABBAT_MEVARCHIM | <code>number</code> | <code>32768</code> | On the Saturday before Rosh Chodesh |
@@ -2667,7 +2667,7 @@ Holiday flags for Event
 | USER_EVENT | <code>number</code> | <code>131072</code> | Yahrzeit or Hebrew Anniversary |
 | HEBREW_DATE | <code>number</code> | <code>262144</code> | Daily Hebrew date ("11th of Sivan, 5780") |
 | MINOR_HOLIDAY | <code>number</code> | <code>524288</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
-| EREV | <code>number</code> | <code>524288</code> | Evening before a major or minor holiday |
+| EREV | <code>number</code> | <code>1048576</code> | Evening before a major or minor holiday |
 | CHOL_HAMOED | <code>number</code> | <code>2097152</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
 | MISHNA_YOMI | <code>number</code> | <code>4194304</code> | Mishna Yomi |
 
