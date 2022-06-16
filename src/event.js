@@ -1,29 +1,5 @@
 import {Locale} from './locale';
 
-const CHAG = 0x000001;
-const LIGHT_CANDLES = 0x000002;
-const YOM_TOV_ENDS = 0x000004;
-const CHUL_ONLY = 0x000008; // chutz l'aretz (Diaspora)
-const IL_ONLY = 0x000010; // b'aretz (Israel)
-const LIGHT_CANDLES_TZEIS = 0x000020;
-const CHANUKAH_CANDLES = 0x000040;
-const ROSH_CHODESH = 0x000080;
-const MINOR_FAST = 0x000100;
-const SPECIAL_SHABBAT = 0x000200;
-const PARSHA_HASHAVUA = 0x000400;
-const DAF_YOMI = 0x000800;
-const OMER_COUNT = 0x001000;
-const MODERN_HOLIDAY = 0x002000;
-const MAJOR_FAST = 0x004000;
-const SHABBAT_MEVARCHIM = 0x008000;
-const MOLAD = 0x010000;
-const USER_EVENT = 0x020000;
-const HEBREW_DATE = 0x040000;
-const MINOR_HOLIDAY = 0x080000;
-const EREV = 0x100000;
-const CHOL_HAMOED = 0x200000;
-const MISHNA_YOMI = 0x400000;
-
 /**
  * Holiday flags for Event
  * @readonly
@@ -31,51 +7,51 @@ const MISHNA_YOMI = 0x400000;
  */
 export const flags = {
   /** Chag, yontiff, yom tov */
-  CHAG,
+  CHAG: 0x000001,
   /** Light candles 18 minutes before sundown */
-  LIGHT_CANDLES,
+  LIGHT_CANDLES: 0x000002,
   /** End of holiday (end of Yom Tov)  */
-  YOM_TOV_ENDS,
+  YOM_TOV_ENDS: 0x000004,
   /** Observed only in the Diaspora (chutz l'aretz)  */
-  CHUL_ONLY,
+  CHUL_ONLY: 0x000008,
   /** Observed only in Israel */
-  IL_ONLY,
+  IL_ONLY: 0x000010,
   /** Light candles in the evening at Tzeit time (3 small stars) */
-  LIGHT_CANDLES_TZEIS,
+  LIGHT_CANDLES_TZEIS: 0x000020,
   /** Candle-lighting for Chanukah */
-  CHANUKAH_CANDLES,
+  CHANUKAH_CANDLES: 0x000040,
   /** Rosh Chodesh, beginning of a new Hebrew month */
-  ROSH_CHODESH,
+  ROSH_CHODESH: 0x000080,
   /** Minor fasts like Tzom Tammuz, Ta'anit Esther, ... */
-  MINOR_FAST,
+  MINOR_FAST: 0x000100,
   /** Shabbat Shekalim, Zachor, ... */
-  SPECIAL_SHABBAT,
+  SPECIAL_SHABBAT: 0x000200,
   /** Weekly sedrot on Saturdays */
-  PARSHA_HASHAVUA,
+  PARSHA_HASHAVUA: 0x000400,
   /** Daily page of Talmud */
-  DAF_YOMI,
+  DAF_YOMI: 0x000800,
   /** Days of the Omer */
-  OMER_COUNT,
+  OMER_COUNT: 0x000800,
   /** Yom HaShoah, Yom HaAtzma'ut, ... */
-  MODERN_HOLIDAY,
+  MODERN_HOLIDAY: 0x002000,
   /** Yom Kippur and Tish'a B'Av */
-  MAJOR_FAST,
+  MAJOR_FAST: 0x004000,
   /** On the Saturday before Rosh Chodesh */
-  SHABBAT_MEVARCHIM,
+  SHABBAT_MEVARCHIM: 0x008000,
   /** Molad */
-  MOLAD,
+  MOLAD: 0x010000,
   /** Yahrzeit or Hebrew Anniversary */
-  USER_EVENT,
+  USER_EVENT: 0x020000,
   /** Daily Hebrew date ("11th of Sivan, 5780") */
-  HEBREW_DATE,
+  HEBREW_DATE: 0x040000,
   /** A holiday that's not major, modern, rosh chodesh, or a fast day */
-  MINOR_HOLIDAY,
+  MINOR_HOLIDAY: 0x080000,
   /** Evening before a major or minor holiday */
-  EREV,
+  EREV: 0x080000,
   /** Chol haMoed, intermediate days of Pesach or Sukkot */
-  CHOL_HAMOED,
+  CHOL_HAMOED: 0x200000,
   /** Mishna Yomi */
-  MISHNA_YOMI,
+  MISHNA_YOMI: 0x400000,
 };
 
 /** Represents an Event with a title, date, and flags */
@@ -174,7 +150,7 @@ export class Event {
    * @return {boolean}
    */
   observedInIsrael() {
-    return !(this.mask & CHUL_ONLY);
+    return !(this.mask & flags.CHUL_ONLY);
   }
   /**
    * Is this event observed in the Diaspora?
@@ -186,7 +162,7 @@ export class Event {
    * @return {boolean}
    */
   observedInDiaspora() {
-    return !(this.mask & IL_ONLY);
+    return !(this.mask & flags.IL_ONLY);
   }
   /**
    * @deprecated

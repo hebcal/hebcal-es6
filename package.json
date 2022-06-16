@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.38.0",
+  "version": "3.38.1",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -73,7 +73,7 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "ava": "^4.3.0",
     "codecov": "^3.8.3",
-    "core-js": "^3.23.0",
+    "core-js": "^3.23.1",
     "eslint": "^8.17.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.10",

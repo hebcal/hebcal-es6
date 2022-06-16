@@ -2647,29 +2647,29 @@ Holiday flags for Event
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| CHAG | <code>number</code> | <code>CHAG$1</code> | Chag, yontiff, yom tov |
-| LIGHT_CANDLES | <code>number</code> | <code>LIGHT_CANDLES$2</code> | Light candles 18 minutes before sundown |
-| YOM_TOV_ENDS | <code>number</code> | <code>YOM_TOV_ENDS$2</code> | End of holiday (end of Yom Tov) |
-| CHUL_ONLY | <code>number</code> | <code>CHUL_ONLY$2</code> | Observed only in the Diaspora (chutz l'aretz) |
-| IL_ONLY | <code>number</code> | <code>IL_ONLY$2</code> | Observed only in Israel |
-| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>LIGHT_CANDLES_TZEIS$2</code> | Light candles in the evening at Tzeit time (3 small stars) |
-| CHANUKAH_CANDLES | <code>number</code> | <code>CHANUKAH_CANDLES$2</code> | Candle-lighting for Chanukah |
-| ROSH_CHODESH | <code>number</code> | <code>ROSH_CHODESH$1</code> | Rosh Chodesh, beginning of a new Hebrew month |
-| MINOR_FAST | <code>number</code> | <code>MINOR_FAST$2</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
-| SPECIAL_SHABBAT | <code>number</code> | <code>SPECIAL_SHABBAT$2</code> | Shabbat Shekalim, Zachor, ... |
-| PARSHA_HASHAVUA | <code>number</code> | <code>PARSHA_HASHAVUA$1</code> | Weekly sedrot on Saturdays |
-| DAF_YOMI | <code>number</code> | <code>DAF_YOMI$1</code> | Daily page of Talmud |
-| OMER_COUNT | <code>number</code> | <code>OMER_COUNT$1</code> | Days of the Omer |
-| MODERN_HOLIDAY | <code>number</code> | <code>MODERN_HOLIDAY$2</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
-| MAJOR_FAST | <code>number</code> | <code>MAJOR_FAST$2</code> | Yom Kippur and Tish'a B'Av |
-| SHABBAT_MEVARCHIM | <code>number</code> | <code>SHABBAT_MEVARCHIM$1</code> | On the Saturday before Rosh Chodesh |
-| MOLAD | <code>number</code> | <code>MOLAD</code> | Molad |
-| USER_EVENT | <code>number</code> | <code>USER_EVENT</code> | Yahrzeit or Hebrew Anniversary |
-| HEBREW_DATE | <code>number</code> | <code>HEBREW_DATE</code> | Daily Hebrew date ("11th of Sivan, 5780") |
-| MINOR_HOLIDAY | <code>number</code> | <code>MINOR_HOLIDAY$2</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
-| EREV | <code>number</code> | <code>EREV$2</code> | Evening before a major or minor holiday |
-| CHOL_HAMOED | <code>number</code> | <code>CHOL_HAMOED$2</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
-| MISHNA_YOMI | <code>number</code> | <code>MISHNA_YOMI</code> | Mishna Yomi |
+| CHAG | <code>number</code> | <code>1</code> | Chag, yontiff, yom tov |
+| LIGHT_CANDLES | <code>number</code> | <code>2</code> | Light candles 18 minutes before sundown |
+| YOM_TOV_ENDS | <code>number</code> | <code>4</code> | End of holiday (end of Yom Tov) |
+| CHUL_ONLY | <code>number</code> | <code>8</code> | Observed only in the Diaspora (chutz l'aretz) |
+| IL_ONLY | <code>number</code> | <code>16</code> | Observed only in Israel |
+| LIGHT_CANDLES_TZEIS | <code>number</code> | <code>32</code> | Light candles in the evening at Tzeit time (3 small stars) |
+| CHANUKAH_CANDLES | <code>number</code> | <code>64</code> | Candle-lighting for Chanukah |
+| ROSH_CHODESH | <code>number</code> | <code>128</code> | Rosh Chodesh, beginning of a new Hebrew month |
+| MINOR_FAST | <code>number</code> | <code>256</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
+| SPECIAL_SHABBAT | <code>number</code> | <code>512</code> | Shabbat Shekalim, Zachor, ... |
+| PARSHA_HASHAVUA | <code>number</code> | <code>1024</code> | Weekly sedrot on Saturdays |
+| DAF_YOMI | <code>number</code> | <code>2048</code> | Daily page of Talmud |
+| OMER_COUNT | <code>number</code> | <code>2048</code> | Days of the Omer |
+| MODERN_HOLIDAY | <code>number</code> | <code>8192</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
+| MAJOR_FAST | <code>number</code> | <code>16384</code> | Yom Kippur and Tish'a B'Av |
+| SHABBAT_MEVARCHIM | <code>number</code> | <code>32768</code> | On the Saturday before Rosh Chodesh |
+| MOLAD | <code>number</code> | <code>65536</code> | Molad |
+| USER_EVENT | <code>number</code> | <code>131072</code> | Yahrzeit or Hebrew Anniversary |
+| HEBREW_DATE | <code>number</code> | <code>262144</code> | Daily Hebrew date ("11th of Sivan, 5780") |
+| MINOR_HOLIDAY | <code>number</code> | <code>524288</code> | A holiday that's not major, modern, rosh chodesh, or a fast day |
+| EREV | <code>number</code> | <code>524288</code> | Evening before a major or minor holiday |
+| CHOL_HAMOED | <code>number</code> | <code>2097152</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
+| MISHNA_YOMI | <code>number</code> | <code>4194304</code> | Mishna Yomi |
 
 <a name="parshiot"></a>
 
