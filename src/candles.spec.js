@@ -565,3 +565,19 @@ test('emoji', (t) => {
   t.is(candleLighting.getEmoji(), '🕯️');
   t.is(havdalah.getEmoji(), '✨');
 });
+
+test('yk-candles-only', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2022, 9, 4),
+    end: new Date(2022, 9, 5),
+    noHolidays: true,
+    location: Location.lookup('Boston'),
+    candlelighting: true,
+  });
+  const actual = events.map(eventTitleDateTime);
+  const expected = [
+    {date: '2022-10-04', time: '18:02', desc: 'Candle lighting'},
+    {date: '2022-10-05', time: '19:00', desc: 'Havdalah'},
+  ];
+  t.deepEqual(actual, expected);
+});
