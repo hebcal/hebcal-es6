@@ -165,6 +165,21 @@ export class Event {
     return !(this.mask & flags.IL_ONLY);
   }
   /**
+   * Is this event observed in Israel/Diaspora?
+   * @example
+   * const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
+   * ev1.observedIn(false); // true
+   * ev1.observedIn(true); // false
+   * const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
+   * ev2.observedIn(false); // true
+   * ev2.observedIn(true); // true
+   * @param {boolean} il
+   * @return {boolean}
+   */
+  observedIn(il) {
+    return il ? this.observedInIsrael() : this.observedInDiaspora();
+  }
+  /**
    * @deprecated
    * Optional additional event attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
    * @return {Object}

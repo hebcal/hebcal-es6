@@ -27,6 +27,7 @@ declare module '@hebcal/core' {
         getEmoji(): string;
         observedInIsrael(): boolean;
         observedInDiaspora(): boolean;
+        observedIn(il: boolean): boolean;
         clone(): Event;
     }
 

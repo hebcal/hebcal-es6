@@ -80,16 +80,19 @@ test('candles-only-diaspora', (t) => {
     candlelighting: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 120);
-  t.is(Boolean(events[0].getFlags() & flags.LIGHT_CANDLES), true);
-  t.is(events[0].render(), 'Candle lighting: 16:12');
-  t.is(events[0].getDesc(), 'Candle lighting');
-  t.is(events[0].eventTimeStr, '16:12');
-  t.is(Boolean(events[1].getFlags() & flags.LIGHT_CANDLES_TZEIS), true);
-  t.is(events[1].render(), 'Havdalah: 17:18');
-  t.is(events[1].getDesc(), 'Havdalah');
-  t.is(events[1].eventTimeStr, '17:18');
-  t.is(Boolean(events[48].getFlags() & flags.LIGHT_CANDLES), true);
+  t.is(events.length, 132);
+  const ev0 = events[0];
+  t.is(Boolean(ev0.getFlags() & flags.LIGHT_CANDLES), true);
+  t.is(ev0.render(), 'Candle lighting: 16:12');
+  t.is(ev0.getDesc(), 'Candle lighting');
+  t.is(ev0.eventTimeStr, '16:12');
+  const ev1 = events[1];
+  t.is(Boolean(ev1.getFlags() & flags.LIGHT_CANDLES_TZEIS), true);
+  t.is(ev1.render(), 'Havdalah: 17:18');
+  t.is(ev1.getDesc(), 'Havdalah');
+  t.is(ev1.eventTimeStr, '17:18');
+  const fastBegins = eventDateDesc(events[2]);
+  t.deepEqual(fastBegins, {date: '1993-01-03', desc: 'Fast begins: 05:49'} );
 });
 
 // eslint-disable-next-line require-jsdoc
@@ -150,6 +153,7 @@ test('havdalah-zero-suppressed', (t) => {
     year: 2020,
     month: 4,
     noHolidays: true,
+    noMinorFast: true,
     candlelighting: true,
     havdalahMins: 0,
     location: Location.lookup('Providence'),
@@ -202,9 +206,10 @@ test('candles-only-israel', (t) => {
     location: new Location(32.1836, 34.87386, true, 'Asia/Jerusalem'), // Ra'anana
     il: true,
     candlelighting: true,
+    noMinorFast: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 117);
+  t.is(events.length, 119);
   t.is(events[0].getFlags(), flags.LIGHT_CANDLES, 'Candle lighting 0');
   t.is(events[33].getFlags(), flags.CHAG | flags.YOM_TOV_ENDS | flags.IL_ONLY, 'Havdalah in Israel on Pesach VII');
 });
@@ -354,6 +359,32 @@ test('fastStartEnd-TzomTammuz', (t) => {
   t.deepEqual(events.map(eventTitleDateTime), expected);
   t.deepEqual(events[1].startEvent, events[0], 'startEvent');
   t.deepEqual(events[1].endEvent, events[2], 'endEvent');
+});
+
+test('fastStartEnd-withoutHoliday', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2021, 5, 27),
+    end: new Date(2021, 5, 27),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+    noHolidays: true,
+  });
+  const expected = [
+    {date: '2021-06-27', time: '03:20', desc: 'Fast begins'},
+    {date: '2021-06-27', time: '21:07', desc: 'Fast ends'},
+  ];
+  t.deepEqual(events.map(eventTitleDateTime), expected);
+});
+
+test('noMinorFast', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2021, 5, 27),
+    end: new Date(2021, 5, 27),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+    noMinorFast: true,
+  });
+  t.is(events.length, 0);
 });
 
 test('fastStartEnd-friday', (t) => {

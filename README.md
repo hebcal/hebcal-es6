@@ -890,6 +890,7 @@ Represents an Event with a title, date, and flags
     * [.url()](#Event+url) ⇒ <code>string</code>
     * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
     * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
+    * [.observedIn(il)](#Event+observedIn) ⇒ <code>boolean</code>
     * ~~[.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>~~
     * [.clone()](#Event+clone) ⇒ [<code>Event</code>](#Event)
 
@@ -1002,6 +1003,26 @@ const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | fl
 ev1.observedInDiaspora(); // true
 const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
 ev2.observedInDiaspora(); // true
+```
+<a name="Event+observedIn"></a>
+
+### event.observedIn(il) ⇒ <code>boolean</code>
+Is this event observed in Israel/Diaspora?
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+
+| Param | Type |
+| --- | --- |
+| il | <code>boolean</code> | 
+
+**Example**  
+```js
+const ev1 = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II', flags.CHAG | flags.CHUL_ONLY);
+ev1.observedIn(false); // true
+ev1.observedIn(true); // false
+const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
+ev2.observedIn(false); // true
+ev2.observedIn(true); // true
 ```
 <a name="Event+getAttrs"></a>
 

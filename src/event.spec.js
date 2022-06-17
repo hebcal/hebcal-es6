@@ -39,10 +39,22 @@ test('url', (t) => {
 
 test('observedInIsrael', (t) => {
   t.is(ev.observedInIsrael(), false);
+  const ev2 = new Event(hd, 'Quux', 0);
+  t.is(ev2.observedInIsrael(), true);
 });
 
 test('observedInDiaspora', (t) => {
   t.is(ev.observedInDiaspora(), true);
+  const ev2 = new Event(hd, 'Quux', 0);
+  t.is(ev2.observedInDiaspora(), true);
+});
+
+test('observedIn', (t) => {
+  t.is(ev.observedIn(true), false);
+  t.is(ev.observedIn(false), true);
+  const ev2 = new Event(hd, 'Quux', 0);
+  t.is(ev2.observedIn(false), true);
+  t.is(ev2.observedIn(true), true);
 });
 
 test('clone', (t) => {

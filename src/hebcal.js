@@ -529,7 +529,7 @@ export class HebrewCalendar {
       const hyear = hd.getFullYear();
       if (hyear != currentYear) {
         currentYear = hyear;
-        holidaysYear = HebrewCalendar.getHolidaysForYear(currentYear);
+        holidaysYear = getHolidaysForYear_(currentYear);
         if (options.sedrot && currentYear >= 3762) {
           sedra = getSedra_(currentYear, il);
         }
@@ -776,12 +776,21 @@ export class HebrewCalendar {
  * @return {Event}
  */
 function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
-  const eFlags = ev.getFlags();
   const il = options.il;
-  const observed = (il && ev.observedInIsrael()) || (!il && ev.observedInDiaspora());
-  const mask = options.mask;
-  if (observed && ((eFlags & mask) || (!eFlags && !options.userMask))) {
-    const location = options.location;
+  if (!ev.observedIn(il)) {
+    return candlesEv; // holiday isn't observed here; bail out early
+  }
+  const eFlags = ev.getFlags();
+  const location = options.location;
+  const isMajorFast = Boolean(eFlags & MAJOR_FAST);
+  const isMinorFast = Boolean(eFlags & MINOR_FAST);
+  if (options.candlelighting && (isMajorFast || isMinorFast)) {
+    ev = makeFastStartEnd(ev, location);
+    if (ev.startEvent && (isMajorFast || (isMinorFast && !options.noMinorFast))) {
+      events.push(ev.startEvent);
+    }
+  }
+  if ((eFlags & options.mask) || (!eFlags && !options.userMask)) {
     if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
       const hd = ev.getDate();
       candlesEv = makeCandleEvent(ev, hd, dow, location, options);
@@ -802,17 +811,11 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
       }
     }
     if (!options.noHolidays) {
-      if (options.candlelighting && eFlags & (MINOR_FAST | MAJOR_FAST)) {
-        ev = makeFastStartEnd(ev, location);
-      }
-      if (ev.startEvent) {
-        events.push(ev.startEvent);
-      }
       events.push(ev); // the original event itself
-      if (ev.endEvent) {
-        events.push(ev.endEvent);
-      }
     }
+  }
+  if (ev.endEvent && (isMajorFast || (isMinorFast && !options.noMinorFast))) {
+    events.push(ev.endEvent);
   }
   return candlesEv;
 }
