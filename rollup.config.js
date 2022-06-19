@@ -118,7 +118,6 @@ export default [
     input: 'src/hdate-index.js',
     output: [
       {file: 'dist/hdate.js', format: 'cjs', banner},
-      {file: 'dist/hdate.mjs', format: 'es', banner},
     ],
     plugins: [
       json({compact: true, preferConst: true}),
@@ -203,7 +202,7 @@ export default [
   },
   {
     input: 'src/hdate-index.js',
-    output: {file: 'dist/hdate-bundle.mjs', format: 'es', banner},
+    output: {file: 'dist/hdate.mjs', format: 'es', banner},
     plugins: [json({compact: true, preferConst: true})],
   },
   {
