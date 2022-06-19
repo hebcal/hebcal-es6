@@ -9,9 +9,8 @@ const heNoNikud = {};
 Object.keys(heStrs).forEach((key) => {
   heNoNikud[key] = [Locale.hebrewStripNikkud(heStrs[key][0])];
 });
-const localeName = 'he-x-NoNikud';
 const poHeNoNikud = {
-  headers: {'plural-forms': 'nplurals=2; plural=(n!=1);', 'language': localeName},
+  headers: poHe.headers,
   contexts: {'': heNoNikud},
 };
-Locale.addLocale(localeName, poHeNoNikud);
+Locale.addLocale('he-x-NoNikud', poHeNoNikud);

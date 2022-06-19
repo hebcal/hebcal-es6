@@ -201,4 +201,17 @@ export default [
       }),
     ],
   },
+  {
+    input: 'src/hdate-index.js',
+    output: {file: 'dist/hdate-bundle.mjs', format: 'es', banner},
+    plugins: [json({compact: true, preferConst: true})],
+  },
+  {
+    input: 'src/hdate0-index.js',
+    output: {file: 'dist/hdate0.mjs', format: 'es', banner},
+  },
+  {
+    input: 'src/greg0.js',
+    output: {file: 'dist/greg0.mjs', format: 'es', banner},
+  },
 ];

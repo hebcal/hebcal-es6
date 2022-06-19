@@ -10,3 +10,13 @@ export {version} from '../package.json';
 import poHeMin from './he.min.po.json';
 Locale.addLocale('he', poHeMin);
 Locale.addLocale('h', poHeMin);
+
+const heStrs = poHeMin.contexts[''];
+const heNoNikud = {};
+Object.keys(heStrs).forEach((key) => {
+  heNoNikud[key] = [Locale.hebrewStripNikkud(heStrs[key][0])];
+});
+Locale.addLocale('he-x-NoNikud', {
+  headers: poHeMin.headers,
+  contexts: {'': heNoNikud},
+});
