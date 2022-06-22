@@ -73,10 +73,11 @@ export function dayOfYear(date) {
   if (!isDate(date)) {
     throw new TypeError(`Argument not a Date: ${date}`);
   }
-  let doy = date.getDate() + 31 * date.getMonth();
-  if (date.getMonth() > 1) {
+  const month = date.getMonth();
+  let doy = date.getDate() + 31 * month;
+  if (month > 1) {
     // FEB
-    doy -= Math.floor((4 * (date.getMonth() + 1) + 23) / 10);
+    doy -= Math.floor((4 * (month + 1) + 23) / 10);
     if (isLeapYear(date.getFullYear())) {
       doy++;
     }
@@ -131,13 +132,12 @@ function yearFromFixed(abs) {
  */
 function toFixed(year, month, day) {
   const py = year - 1;
-  return 0 +
-    365 * py +
+  return 365 * py +
     quotient(py, 4) -
     quotient(py, 100) +
     quotient(py, 400) +
     quotient((367 * month - 362), 12) +
-    Math.floor(month <= 2 ? 0 : (isLeapYear(year) ? -1 : -2)) +
+    (month <= 2 ? 0 : (isLeapYear(year) ? -1 : -2)) +
     day;
 }
 
