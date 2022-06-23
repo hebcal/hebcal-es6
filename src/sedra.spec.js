@@ -57,8 +57,8 @@ test('getString', (t) => {
 test('lookup', (t) => {
   const sedra = new Sedra(5749, false);
   t.deepEqual(sedra.lookup(oct1), {parsha: ['Sukkot Shabbat Chol ha-Moed'], chag: true});
-  t.deepEqual(sedra.lookup(nov5), {parsha: ['Chayei Sara'], chag: false});
-  t.deepEqual(sedra.lookup(jul15), {parsha: ['Chukat', 'Balak'], chag: false});
+  t.deepEqual(sedra.lookup(nov5), {parsha: ['Chayei Sara'], chag: false, num: 5});
+  t.deepEqual(sedra.lookup(jul15), {parsha: ['Chukat', 'Balak'], chag: false, num: [39, 40]});
 });
 
 test('isParsha', (t) => {

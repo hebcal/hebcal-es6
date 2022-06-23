@@ -5,9 +5,9 @@ import {ParshaEvent} from './ParshaEvent';
 import './locale-he';
 
 test('ParshaEvent-url', (t) => {
-  const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai']);
+  const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai'], false, [32, 33]);
   t.is(ev1.url(), 'https://www.hebcal.com/sedrot/behar-bechukotai-20200516');
-  const ev2 = new ParshaEvent(new HDate(new Date(2020, 5, 6)), ['Nasso']);
+  const ev2 = new ParshaEvent(new HDate(new Date(2020, 5, 6)), ['Nasso'], false, 35);
   t.is(ev2.url(), 'https://www.hebcal.com/sedrot/nasso-20200606');
   const ev3 = new ParshaEvent(new HDate(new Date(2020, 5, 13)), ['Beha\'alotcha']);
   t.is(ev3.url(), 'https://www.hebcal.com/sedrot/behaalotcha-20200613');

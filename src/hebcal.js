@@ -548,7 +548,7 @@ export class HebrewCalendar {
       if (options.sedrot && dow == SAT && hyear >= 3762) {
         const parsha0 = sedra.lookup(abs);
         if (!parsha0.chag) {
-          evts.push(new ParshaEvent(hd, parsha0.parsha, il));
+          evts.push(new ParshaEvent(hd, parsha0.parsha, il, parsha0.num));
         }
       }
       if (options.dafyomi && hyear >= 5684) {

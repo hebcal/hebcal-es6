@@ -10,8 +10,9 @@ export class ParshaEvent extends Event {
    * @param {string[]} parsha - untranslated name of single or double parsha,
    *   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim']
    * @param {boolean} il
+   * @param {number|number[]} num
    */
-  constructor(date, parsha, il) {
+  constructor(date, parsha, il, num) {
     if (!Array.isArray(parsha) || parsha.length === 0 || parsha.length > 2) {
       throw new TypeError('Bad parsha argument');
     }
@@ -19,6 +20,7 @@ export class ParshaEvent extends Event {
     super(date, desc, flags.PARSHA_HASHAVUA);
     this.parsha = parsha;
     this.il = Boolean(il);
+    this.num = num || -1;
   }
   /**
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.

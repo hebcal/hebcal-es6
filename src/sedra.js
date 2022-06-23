@@ -50,6 +50,10 @@ function throwError(errorMessage) {
  *     Hebrew date, e.g. `['Noach']` or `['Matot', 'Masei']`
  * @property {boolean} chag True if this is a regular parasha HaShavua
  *     Torah reading, false if it's a special holiday reading
+ * @property {number|number[]} num the parsha number (or numbers) using 1-indexing.
+ *     A `number` for a regular (single) parsha, and a `number[]` for a doubled parsha.
+ *     For Parashat *Bereshit*, `num` would be equal to `1`, and for
+ *     *Matot-Masei* it would be `[42, 43]`
  */
 
 /**
@@ -223,11 +227,11 @@ export class Sedra {
       return {parsha: [index], chag: true};
     }
     if (index >= 0) {
-      return {parsha: [parshiot[index]], chag: false};
+      return {parsha: [parshiot[index]], chag: false, num: index + 1};
     }
 
     const p1 = D(index); // undouble the parsha
-    return {parsha: [parshiot[p1], parshiot[p1 + 1]], chag: false};
+    return {parsha: [parshiot[p1], parshiot[p1 + 1]], chag: false, num: [p1 + 1, p1 + 2]};
   }
 }
 

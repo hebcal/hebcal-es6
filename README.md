@@ -2101,7 +2101,7 @@ Represents one of 54 weekly Torah portions, always on a Saturday
 **Kind**: global class  
 
 * [ParshaEvent](#ParshaEvent)
-    * [new ParshaEvent(date, parsha, il)](#new_ParshaEvent_new)
+    * [new ParshaEvent(date, parsha, il, num)](#new_ParshaEvent_new)
     * [.render([locale])](#ParshaEvent+render) ⇒ <code>string</code>
     * [.basename()](#ParshaEvent+basename) ⇒ <code>string</code>
     * [.url()](#ParshaEvent+url) ⇒ <code>string</code>
@@ -2109,13 +2109,14 @@ Represents one of 54 weekly Torah portions, always on a Saturday
 
 <a name="new_ParshaEvent_new"></a>
 
-### new ParshaEvent(date, parsha, il)
+### new ParshaEvent(date, parsha, il, num)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | date | [<code>HDate</code>](#HDate) |  |
 | parsha | <code>Array.&lt;string&gt;</code> | untranslated name of single or double parsha,   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim'] |
 | il | <code>boolean</code> |  |
+| num | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  |
 
 <a name="ParshaEvent+render"></a>
 
@@ -2760,6 +2761,7 @@ Result of Sedra.lookup
 | --- | --- | --- |
 | parsha | <code>Array.&lt;string&gt;</code> | Name of the parsha (or parshiyot) read on     Hebrew date, e.g. `['Noach']` or `['Matot', 'Masei']` |
 | chag | <code>boolean</code> | True if this is a regular parasha HaShavua     Torah reading, false if it's a special holiday reading |
+| num | <code>number</code> \| <code>Array.&lt;number&gt;</code> | the parsha number (or numbers) using 1-indexing.     A `number` for a regular (single) parsha, and a `number[]` for a doubled parsha.     For Parashat *Bereshit*, `num` would be equal to `1`, and for     *Matot-Masei* it would be `[42, 43]` |
 
 <a name="MishnaYomi"></a>
 

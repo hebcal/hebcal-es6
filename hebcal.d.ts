@@ -866,6 +866,14 @@ declare module '@hebcal/core' {
          * Torah reading, false if it's a special holiday reading
          */
         chag: boolean;
+        /**
+         * The parsha number (or numbers) using 1-indexing.
+         * A `number` for a regular (single) parsha, and a `number[]`
+         * for a doubled parsha.
+         * For Parashat *Bereshit*, `num` would be equal to `1`, and for
+         * *Matot-Masei* it would be `[42, 43]`
+         */
+        num: number | number[];
     }
 
     export class Sedra {
