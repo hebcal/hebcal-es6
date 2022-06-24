@@ -381,6 +381,28 @@ test('reformatTimeStr', (t) => {
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'MX'}}), '11:45');
 });
 
+test('reformatTimeStr-hour12', (t) => {
+  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'fr', hour12: true}), '11:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'en', hour12: true}), '11:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'ashkenazi', hour12: true}), '11:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'FR'}, hour12: true}), '11:56 PM');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'IL'}, hour12: true}), '11:56 PM');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'US'}, hour12: true}), '11:56 PM');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'CA'}, hour12: true}), '11:56 PM');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'BR'}, hour12: true}), '11:56 PM');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'MX'}, hour12: true}), '11:56 PM');
+
+  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'fr', hour12: false}), '23:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'en', hour12: false}), '23:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'ashkenazi', hour12: false}), '23:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'FR'}, hour12: false}), '23:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'IL'}, hour12: false}), '23:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'US'}, hour12: false}), '23:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'CA'}, hour12: false}), '23:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'BR'}, hour12: false}), '23:56');
+  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'MX'}, hour12: false}), '23:56');
+});
+
 test('no-rosh-chodesh', (t) => {
   const events = HebrewCalendar.calendar({year: 2020, noRoshChodesh: true});
   const ev = events.find((ev) => ev.getDesc() == 'Rosh Chodesh Sivan');

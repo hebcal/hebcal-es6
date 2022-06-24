@@ -179,6 +179,25 @@ export class RoshHashanaEvent extends HolidayEvent {
   }
 }
 
+/** Represents Rosh Hashana, the Jewish New Year */
+export class YomKippurKatanEvent extends HolidayEvent {
+  /**
+   * @private
+   * @param {HDate} date Hebrew date event occurs
+   * @param {string} nextMonthName name of the upcoming month
+   */
+  constructor(date, nextMonthName) {
+    super(date, 'Yom Kippur Katan', flags.MINOR_FAST);
+    this.memo = `Minor Day of Atonement on the day preceeding Rosh Chodesh ${nextMonthName}`;
+  }
+  /** @return {string} */
+  urlDateSuffix() {
+    const isoDateTime = this.getDate().greg().toISOString();
+    const isoDate = isoDateTime.substring(0, isoDateTime.indexOf('T'));
+    return isoDate.replace(/-/g, '');
+  }
+}
+
 const SUN = 0;
 // const MON = 1;
 const TUE = 2;
@@ -541,6 +560,27 @@ export function getHolidaysForYear_(year) {
     // Don't worry about month overrun; will get "Nisan" for month=14
     const nextMonthName = HDate.getMonthName(month + 1, year);
     add(new MevarchimChodeshEvent(new HDate(29, month, year).onOrBefore(SAT), nextMonthName));
+  }
+
+  // Begin: Yom Kippur Katan
+  // start at Iyyar because one may not fast during Nisan
+  for (let month = months.IYYAR; month <= monthsInYear; month++) {
+    const nextMonth = month + 1;
+    // Yom Kippur Katan is not observed on the day before Rosh Hashanah.
+    // Not observed prior to Rosh Chodesh Cheshvan because Yom Kippur has just passed.
+    // Not observed before Rosh Chodesh Tevet, because that day is Hanukkah.
+    if (nextMonth === months.TISHREI || nextMonth === months.CHESHVAN || nextMonth === months.TEVET) {
+      continue;
+    }
+    let ykk = new HDate(29, month, year);
+    const dow = ykk.getDay();
+    if (dow === FRI || dow === SAT) {
+      ykk = ykk.onOrBefore(THU);
+    }
+
+    const nextMonthName = HDate.getMonthName(nextMonth, year);
+    const ev = new YomKippurKatanEvent(ykk, nextMonthName);
+    add(ev);
   }
 
   const sedra = getSedra_(year, false);

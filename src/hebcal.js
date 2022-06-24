@@ -22,7 +22,7 @@ import {Locale} from './locale';
 import {HDate, months} from './hdate';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {MoladEvent} from './molad';
-import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays';
+import {HolidayEvent, YomKippurKatanEvent, getHolidaysForYear_, getSedra_} from './holidays';
 import {getYahrzeit_, getBirthdayOrAnniversary_} from './anniversary';
 import {flags} from './event';
 import {OmerEvent} from './omer';
@@ -101,6 +101,8 @@ const RECOGNIZED_OPTIONS = {
   appendHebrewToSubject: 1,
   mask: 1,
   userMask: 1,
+  yomKippurKatan: 1,
+  hour12: 1,
 };
 
 /**
@@ -200,6 +202,15 @@ function checkCandleOptions(options) {
  * @property {boolean} addHebrewDates - print the Hebrew date for the entire date range
  * @property {boolean} addHebrewDatesForEvents - print the Hebrew date for dates with some events
  * @property {number} mask - use bitmask from `flags` to filter events
+ * @property {boolean} yomKippurKatan - include Yom Kippur Katan (default `false`).
+ *      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.
+ *      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),
+ *      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)
+ *      and Nisan (fasting not permitted during Nisan).
+ *      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.
+ *      See {@link https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices Wikipedia Yom Kippur Katan practices}
+ * @property {boolean} hour12 - Whether to use 12-hour time (as opposed to 24-hour time).
+ *      Possible values are `true` and `false`; the default is locale dependent.
  */
 
 /**
@@ -723,8 +734,10 @@ export class HebrewCalendar {
 
   /**
    * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-   * keep as "20:13" for any other locale/country. Uses `CalOptions` to determine
+   * keep as "20:13" for any other locale/country. Uses {@link CalOptions} to determine
    * locale.
+   * If `options.hour12` is `false`, locale is ignored and always returns 24-hour time.
+   * If `options.hour12` is `true`, locale is ignored and always returns 12-hour time.
    * @param {string} timeStr - original time like "20:30"
    * @param {string} suffix - "p" or "pm" or " P.M.". Add leading space if you want it
    * @param {CalOptions} options
@@ -733,7 +746,10 @@ export class HebrewCalendar {
   static reformatTimeStr(timeStr, suffix, options) {
     if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);
     const cc = (options.location && options.location.cc) || (options.il ? 'IL' : 'US');
-    if (typeof hour12cc[cc] === 'undefined') {
+    if (typeof options.hour12 !== 'undefined' && !options.hour12) {
+      return timeStr;
+    }
+    if (!options.hour12 && typeof hour12cc[cc] === 'undefined') {
       return timeStr;
     }
     const hm = timeStr.split(':');
@@ -779,6 +795,9 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
   const il = options.il;
   if (!ev.observedIn(il)) {
     return candlesEv; // holiday isn't observed here; bail out early
+  }
+  if (ev instanceof YomKippurKatanEvent && !options.yomKippurKatan) {
+    return candlesEv; // bail out early
   }
   const eFlags = ev.getFlags();
   const location = options.location;

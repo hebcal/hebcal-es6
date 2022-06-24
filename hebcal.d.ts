@@ -586,6 +586,21 @@ declare module '@hebcal/core' {
         addHebrewDatesForEvents?: boolean;
         /** use bitmask from `flags` to filter events */
         mask?: number;
+        /**
+         * include Yom Kippur Katan (default `false`).
+         * יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.
+         * Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),
+         * Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)
+         * and Nisan (fasting not permitted during Nisan).
+         * When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.
+         * @see {@link https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices Wikipedia Yom Kippur Katan practices}
+         */
+        yomKippurKatan?: boolean;
+        /**
+         * Whether to use 12-hour time (as opposed to 24-hour time).
+         * Possible values are `true` and `false`; the default is locale dependent.
+         */
+        hour12?: boolean;
     };
 
     /**

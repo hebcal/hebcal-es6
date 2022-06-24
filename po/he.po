@@ -1063,3 +1063,6 @@ msgstr "ידים"
 # Mishna Oktzin
 msgid "Oktzin"
 msgstr "עוקצים"
+
+msgid "Yom Kippur Katan"
+msgstr "יוֹם כִּפּוּר קָטָן"

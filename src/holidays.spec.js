@@ -166,6 +166,7 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2010-10-02', desc: 'Shabbat Mevarchim Chodesh Cheshvan'},
     {date: '2010-10-08', desc: 'Rosh Chodesh Cheshvan'},
     {date: '2010-10-09', desc: 'Rosh Chodesh Cheshvan'},
+    {date: '2010-11-04', desc: 'Yom Kippur Katan'},
     {date: '2010-11-06', desc: 'Sigd'},
     {date: '2010-11-06', desc: 'Shabbat Mevarchim Chodesh Kislev'},
     {date: '2010-11-07', desc: 'Rosh Chodesh Kislev'},
@@ -184,13 +185,16 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2010-12-09', desc: 'Chanukah: 8th Day'},
     {date: '2010-12-17', desc: 'Asara B\'Tevet'},
     {date: '2011-01-01', desc: 'Shabbat Mevarchim Chodesh Sh\'vat'},
+    {date: '2011-01-05', desc: 'Yom Kippur Katan'},
     {date: '2011-01-06', desc: 'Rosh Chodesh Sh\'vat'},
     {date: '2011-01-15', desc: 'Shabbat Shirah'},
     {date: '2011-01-20', desc: 'Tu BiShvat'},
     {date: '2011-01-29', desc: 'Shabbat Mevarchim Chodesh Adar I'},
+    {date: '2011-02-03', desc: 'Yom Kippur Katan'},
     {date: '2011-02-04', desc: 'Rosh Chodesh Adar I'},
     {date: '2011-02-05', desc: 'Rosh Chodesh Adar I'},
     {date: '2011-02-18', desc: 'Purim Katan'},
+    {date: '2011-03-03', desc: 'Yom Kippur Katan'},
     {date: '2011-03-05', desc: 'Shabbat Shekalim'},
     {date: '2011-03-05', desc: 'Shabbat Mevarchim Chodesh Adar II'},
     {date: '2011-03-06', desc: 'Rosh Chodesh Adar II'},
@@ -203,6 +207,7 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2011-03-26', desc: 'Shabbat Parah'},
     {date: '2011-04-02', desc: 'Shabbat HaChodesh'},
     {date: '2011-04-02', desc: 'Shabbat Mevarchim Chodesh Nisan'},
+    {date: '2011-04-04', desc: 'Yom Kippur Katan'},
     {date: '2011-04-05', desc: 'Rosh Chodesh Nisan'},
     {date: '2011-04-16', desc: 'Shabbat HaGadol'},
     {date: '2011-04-18', desc: 'Ta\'anit Bechorot'},
@@ -225,15 +230,18 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2011-05-22', desc: 'Lag BaOmer'},
     {date: '2011-05-28', desc: 'Shabbat Mevarchim Chodesh Sivan'},
     {date: '2011-06-01', desc: 'Yom Yerushalayim'},
+    {date: '2011-06-02', desc: 'Yom Kippur Katan'},
     {date: '2011-06-03', desc: 'Rosh Chodesh Sivan'},
     {date: '2011-06-07', desc: 'Erev Shavuot'},
     {date: '2011-06-08', desc: 'Shavuot I'},
     {date: '2011-06-09', desc: 'Shavuot II'},
     {date: '2011-06-25', desc: 'Shabbat Mevarchim Chodesh Tamuz'},
+    {date: '2011-06-30', desc: 'Yom Kippur Katan'},
     {date: '2011-07-02', desc: 'Rosh Chodesh Tamuz'},
     {date: '2011-07-03', desc: 'Rosh Chodesh Tamuz'},
     {date: '2011-07-19', desc: 'Tzom Tammuz'},
     {date: '2011-07-30', desc: 'Shabbat Mevarchim Chodesh Av'},
+    {date: '2011-07-31', desc: 'Yom Kippur Katan'},
     {date: '2011-08-01', desc: 'Rosh Chodesh Av'},
     {date: '2011-08-06', desc: 'Shabbat Chazon'},
     {date: '2011-08-08', desc: 'Erev Tish\'a B\'Av'},
@@ -241,6 +249,7 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2011-08-13', desc: 'Shabbat Nachamu'},
     {date: '2011-08-15', desc: 'Tu B\'Av'},
     {date: '2011-08-27', desc: 'Shabbat Mevarchim Chodesh Elul'},
+    {date: '2011-08-29', desc: 'Yom Kippur Katan'},
     {date: '2011-08-30', desc: 'Rosh Chodesh Elul'},
     {date: '2011-08-31', desc: 'Rosh Hashana LaBehemot'},
     {date: '2011-08-31', desc: 'Rosh Chodesh Elul'},
@@ -272,6 +281,7 @@ test('getHolidaysForYearArray-5720-il', (t) => {
     {date: '1959-11-01', desc: 'Rosh Chodesh Cheshvan'},
     {date: '1959-11-02', desc: 'Rosh Chodesh Cheshvan'},
     {date: '1959-11-28', desc: 'Shabbat Mevarchim Chodesh Kislev'},
+    {date: '1959-11-30', desc: 'Yom Kippur Katan'},
     {date: '1959-12-01', desc: 'Rosh Chodesh Kislev'},
     {date: '1959-12-02', desc: 'Rosh Chodesh Kislev'},
     {date: '1959-12-25', desc: 'Chanukah: 1 Candle'},
@@ -288,9 +298,11 @@ test('getHolidaysForYearArray-5720-il', (t) => {
     {date: '1960-01-02', desc: 'Chanukah: 8th Day'},
     {date: '1960-01-10', desc: 'Asara B\'Tevet'},
     {date: '1960-01-23', desc: 'Shabbat Mevarchim Chodesh Sh\'vat'},
+    {date: '1960-01-28', desc: 'Yom Kippur Katan'},
     {date: '1960-01-30', desc: 'Rosh Chodesh Sh\'vat'},
     {date: '1960-02-13', desc: 'Tu BiShvat'},
     {date: '1960-02-13', desc: 'Shabbat Shirah'},
+    {date: '1960-02-25', desc: 'Yom Kippur Katan'},
     {date: '1960-02-27', desc: 'Shabbat Shekalim'},
     {date: '1960-02-27', desc: 'Shabbat Mevarchim Chodesh Adar'},
     {date: '1960-02-28', desc: 'Rosh Chodesh Adar'},
@@ -303,6 +315,7 @@ test('getHolidaysForYearArray-5720-il', (t) => {
     {date: '1960-03-19', desc: 'Shabbat Parah'},
     {date: '1960-03-26', desc: 'Shabbat HaChodesh'},
     {date: '1960-03-26', desc: 'Shabbat Mevarchim Chodesh Nisan'},
+    {date: '1960-03-28', desc: 'Yom Kippur Katan'},
     {date: '1960-03-29', desc: 'Rosh Chodesh Nisan'},
     {date: '1960-04-09', desc: 'Shabbat HaGadol'},
     {date: '1960-04-11', desc: 'Ta\'anit Bechorot'},
@@ -323,14 +336,17 @@ test('getHolidaysForYearArray-5720-il', (t) => {
     {date: '1960-05-11', desc: 'Pesach Sheni'},
     {date: '1960-05-15', desc: 'Lag BaOmer'},
     {date: '1960-05-21', desc: 'Shabbat Mevarchim Chodesh Sivan'},
+    {date: '1960-05-26', desc: 'Yom Kippur Katan'},
     {date: '1960-05-27', desc: 'Rosh Chodesh Sivan'},
     {date: '1960-05-31', desc: 'Erev Shavuot'},
     {date: '1960-06-01', desc: 'Shavuot'},
     {date: '1960-06-18', desc: 'Shabbat Mevarchim Chodesh Tamuz'},
+    {date: '1960-06-23', desc: 'Yom Kippur Katan'},
     {date: '1960-06-25', desc: 'Rosh Chodesh Tamuz'},
     {date: '1960-06-26', desc: 'Rosh Chodesh Tamuz'},
     {date: '1960-07-12', desc: 'Tzom Tammuz'},
     {date: '1960-07-23', desc: 'Shabbat Mevarchim Chodesh Av'},
+    {date: '1960-07-24', desc: 'Yom Kippur Katan'},
     {date: '1960-07-25', desc: 'Rosh Chodesh Av'},
     {date: '1960-07-30', desc: 'Shabbat Chazon'},
     {date: '1960-08-01', desc: 'Erev Tish\'a B\'Av'},
@@ -338,6 +354,7 @@ test('getHolidaysForYearArray-5720-il', (t) => {
     {date: '1960-08-06', desc: 'Shabbat Nachamu'},
     {date: '1960-08-08', desc: 'Tu B\'Av'},
     {date: '1960-08-20', desc: 'Shabbat Mevarchim Chodesh Elul'},
+    {date: '1960-08-22', desc: 'Yom Kippur Katan'},
     {date: '1960-08-23', desc: 'Rosh Chodesh Elul'},
     {date: '1960-08-24', desc: 'Rosh Hashana LaBehemot'},
     {date: '1960-08-24', desc: 'Rosh Chodesh Elul'},
@@ -559,4 +576,65 @@ test('RoshChodeshEvent', (t) => {
   t.is(ev.render('ashkenazi'), 'Rosh Chodesh Teves');
   t.is(ev.render('he'), 'רֹאשׁ חוֹדֶשׁ טֵבֵת');
   t.is(ev.render('he-x-NoNikud'), 'ראש חודש טבת');
+});
+
+test('fast days includes Yom Kippur Katan', (t) => {
+  const events0 = HebrewCalendar.calendar({
+    year: 2021,
+    yomKippurKatan: true,
+  });
+  const events = events0.filter((ev) => ev.getFlags() & flags.MINOR_FAST);
+  const actual = events.map(function(ev) {
+    const o = eventDateDesc(ev);
+    if (ev.memo) o.memo = ev.memo;
+    return o;
+  });
+  const expected = [
+    {
+      date: '2021-01-13',
+      desc: 'Yom Kippur Katan',
+      memo: 'Minor Day of Atonement on the day preceeding Rosh Chodesh Sh\'vat',
+    },
+    {
+      date: '2021-02-11',
+      desc: 'Yom Kippur Katan',
+      memo: 'Minor Day of Atonement on the day preceeding Rosh Chodesh Adar',
+    },
+    {date: '2021-02-25', desc: 'Ta\'anit Esther'},
+    {
+      date: '2021-03-11',
+      desc: 'Yom Kippur Katan',
+      memo: 'Minor Day of Atonement on the day preceeding Rosh Chodesh Nisan',
+    },
+    {date: '2021-03-25', desc: 'Ta\'anit Bechorot'},
+    {
+      date: '2021-05-11',
+      desc: 'Yom Kippur Katan',
+      memo: 'Minor Day of Atonement on the day preceeding Rosh Chodesh Sivan',
+    },
+    {
+      date: '2021-06-09',
+      desc: 'Yom Kippur Katan',
+      memo: 'Minor Day of Atonement on the day preceeding Rosh Chodesh Tamuz',
+    },
+    {date: '2021-06-27', desc: 'Tzom Tammuz'},
+    {
+      date: '2021-07-08',
+      desc: 'Yom Kippur Katan',
+      memo: 'Minor Day of Atonement on the day preceeding Rosh Chodesh Av',
+    },
+    {
+      date: '2021-08-05',
+      desc: 'Yom Kippur Katan',
+      memo: 'Minor Day of Atonement on the day preceeding Rosh Chodesh Elul',
+    },
+    {date: '2021-09-09', desc: 'Tzom Gedaliah'},
+    {
+      date: '2021-11-04',
+      desc: 'Yom Kippur Katan',
+      memo: 'Minor Day of Atonement on the day preceeding Rosh Chodesh Kislev',
+    },
+    {date: '2021-12-14', desc: 'Asara B\'Tevet'},
+  ];
+  t.deepEqual(actual, expected);
 });

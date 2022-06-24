@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.40.0",
+  "version": "3.41.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -68,7 +68,7 @@
     "@babel/register": "^7.17.7",
     "@hebcal/solar-calc": "^1.1.2",
     "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "ava": "^4.3.0",

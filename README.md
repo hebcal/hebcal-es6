@@ -2605,8 +2605,10 @@ Returns an array of Events on this date (or undefined if no events)
 
 ### HebrewCalendar.reformatTimeStr(timeStr, suffix, options) ⇒ <code>string</code>
 Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-keep as "20:13" for any other locale/country. Uses `CalOptions` to determine
+keep as "20:13" for any other locale/country. Uses [CalOptions](#CalOptions) to determine
 locale.
+If `options.hour12` is `false`, locale is ignored and always returns 24-hour time.
+If `options.hour12` is `true`, locale is ignored and always returns 12-hour time.
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
 
@@ -2814,3 +2816,5 @@ Options to configure which events are returned
 | addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
 | addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
 | mask | <code>number</code> | use bitmask from `flags` to filter events |
+| yomKippurKatan | <code>boolean</code> | include Yom Kippur Katan (default `false`).      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)      and Nisan (fasting not permitted during Nisan).      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.      See [Wikipedia Yom Kippur Katan practices](https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices) |
+| hour12 | <code>boolean</code> | Whether to use 12-hour time (as opposed to 24-hour time).      Possible values are `true` and `false`; the default is locale dependent. |
