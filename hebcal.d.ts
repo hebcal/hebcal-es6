@@ -974,6 +974,12 @@ declare module '@hebcal/core' {
         constructor(date: HDate, desc: string, mask?: number, attrs?: any);
         urlDateSuffix(): string;
     }
+    export class YomKippurKatanEvent extends HolidayEvent {
+        constructor(date: HDate, nextMonthName: string);
+        render(locale?: string): string;
+        renderBrief(locale?: string): string;
+        urlDateSuffix(): string;
+    }
     export class MevarchimChodeshEvent extends Event {
         constructor(date: HDate, monthName: string);
         render(locale?: string): string;

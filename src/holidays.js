@@ -179,6 +179,8 @@ export class RoshHashanaEvent extends HolidayEvent {
   }
 }
 
+const ykk = 'Yom Kippur Katan';
+
 /** Represents Rosh Hashana, the Jewish New Year */
 export class YomKippurKatanEvent extends HolidayEvent {
   /**
@@ -187,8 +189,23 @@ export class YomKippurKatanEvent extends HolidayEvent {
    * @param {string} nextMonthName name of the upcoming month
    */
   constructor(date, nextMonthName) {
-    super(date, 'Yom Kippur Katan', flags.MINOR_FAST);
+    super(date, `${ykk} ${nextMonthName}`, flags.MINOR_FAST);
+    this.nextMonthName = nextMonthName;
     this.memo = `Minor Day of Atonement on the day preceeding Rosh Chodesh ${nextMonthName}`;
+  }
+  /**
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    return Locale.gettext(ykk, locale) + ' ' + Locale.gettext(this.nextMonthName, locale);
+  }
+  /**
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  renderBrief(locale) {
+    return Locale.gettext(ykk, locale);
   }
   /** @return {string} */
   urlDateSuffix() {
