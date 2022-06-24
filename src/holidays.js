@@ -147,6 +147,10 @@ export class MevarchimChodeshEvent extends Event {
     const molad = new MoladEvent(date, hyear, monNext);
     this.memo = molad.render();
   }
+  /** @return {string} */
+  basename() {
+    return this.getDesc();
+  }
   /**
    * Returns (translated) description of this event
    * @param {string} [locale] Optional locale name (defaults to active locale).
@@ -193,6 +197,10 @@ export class YomKippurKatanEvent extends HolidayEvent {
     this.nextMonthName = nextMonthName;
     this.memo = `Minor Day of Atonement on the day preceeding Rosh Chodesh ${nextMonthName}`;
   }
+  /** @return {string} */
+  basename() {
+    return this.getDesc();
+  }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
@@ -208,10 +216,8 @@ export class YomKippurKatanEvent extends HolidayEvent {
     return Locale.gettext(ykk, locale);
   }
   /** @return {string} */
-  urlDateSuffix() {
-    const isoDateTime = this.getDate().greg().toISOString();
-    const isoDate = isoDateTime.substring(0, isoDateTime.indexOf('T'));
-    return isoDate.replace(/-/g, '');
+  url() {
+    return undefined;
   }
 }
 
