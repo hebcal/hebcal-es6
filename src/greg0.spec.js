@@ -1,5 +1,10 @@
 import test from 'ava';
-import {greg2abs, abs2greg, dayOfYear, daysInMonth, isLeapYear} from './greg0';
+import {greg2abs, abs2greg, daysInMonth, isLeapYear} from './greg0';
+
+// eslint-disable-next-line require-jsdoc
+function ymd(date) {
+  return {yy: date.getFullYear(), mm: date.getMonth() + 1, dd: date.getDate()};
+}
 
 test('greg2abs', (t) => {
   const dt = new Date(1995, 11, 17);
@@ -23,38 +28,15 @@ test('greg2abs-negative', (t) => {
   t.is(greg2abs(new Date(-1000, 5, 15)), -365442);
 });
 
-test('dayOfYear', (t) => {
-  const dt = new Date(1995, 11, 17);
-  t.is(dayOfYear(dt), 351);
-});
-
 test('abs2greg', (t) => {
-  const dt = abs2greg(737553);
-  t.is(dt.getFullYear(), 2020);
-  t.is(dt.getMonth(), 4); // 4=May (January=0)
-  t.is(dt.getDate(), 8);
-
-  const dt2 = abs2greg(689578);
-  t.is(dt2.getFullYear(), 1888);
-  t.is(dt2.getMonth(), 11);
-  t.is(dt2.getDate(), 31);
+  t.deepEqual(ymd(abs2greg(737553)), {yy: 2020, mm: 5, dd: 8});
+  t.deepEqual(ymd(abs2greg(689578)), {yy: 1888, mm: 12, dd: 31});
 });
 
 test('abs2greg-88ce', (t) => {
-  const dt = abs2greg(32141); // 0088-12-30
-  t.is(dt.getFullYear(), 88);
-  t.is(dt.getMonth(), 11);
-  t.is(dt.getDate(), 30);
-
-  const dt2 = abs2greg(32142);
-  t.is(dt2.getFullYear(), 88);
-  t.is(dt2.getMonth(), 11);
-  t.is(dt2.getDate(), 31);
-
-  const dt3 = abs2greg(32143);
-  t.is(dt3.getFullYear(), 89);
-  t.is(dt3.getMonth(), 0);
-  t.is(dt3.getDate(), 1);
+  t.deepEqual(ymd(abs2greg(32141)), {yy: 88, mm: 12, dd: 30});
+  t.deepEqual(ymd(abs2greg(32142)), {yy: 88, mm: 12, dd: 31});
+  t.deepEqual(ymd(abs2greg(32143)), {yy: 89, mm: 1, dd: 1});
 });
 
 test('abs2greg-1ce', (t) => {
@@ -105,11 +87,6 @@ test('isLeapYear', (t) => {
 });
 
 test('throws-not-a-date', (t) => {
-  const error = t.throws(() => {
-    console.log(dayOfYear('bogus'));
-  }, {instanceOf: TypeError});
-  t.is(error.message, 'Argument not a Date: bogus');
-
   const error2 = t.throws(() => {
     console.log(greg2abs('bogus'));
   }, {instanceOf: TypeError});
@@ -119,4 +96,29 @@ test('throws-not-a-date', (t) => {
     console.log(abs2greg('bogus'));
   }, {instanceOf: TypeError});
   t.is(error3.message, 'Argument not a Number: bogus');
+});
+
+test.skip('greg2abs-1752-reformation', (t) => {
+  t.is(greg2abs(new Date(1752, 8, 14)), 639797);
+  // t.is(greg2abs(new Date(1752, 8, 2)), 639796);
+  t.is(greg2abs(new Date(1752, 5, 2)), 639704);
+  t.is(greg2abs(new Date(1751, 0, 1)), 639186);
+});
+
+test.skip('gregorian-reformation-throws', (t) => {
+  const error = t.throws(() => {
+    console.log(greg2abs(new Date(1752, 8, 13)));
+  }, {instanceOf: RangeError});
+  t.is(error.message.substring(0, 14), 'Invalid Date: ');
+
+  const error2 = t.throws(() => {
+    console.log(greg2abs(new Date(1752, 8, 3)));
+  }, {instanceOf: RangeError});
+  t.is(error2.message.substring(0, 14), 'Invalid Date: ');
+});
+
+test.skip('abs2greg-1752-reformation', (t) => {
+  t.deepEqual(ymd(abs2greg(639797)), {yy: 1752, mm: 9, dd: 14});
+  t.deepEqual(ymd(abs2greg(639796)), {yy: 1752, mm: 9, dd: 2});
+  t.deepEqual(ymd(abs2greg(639186)), {yy: 1751, mm: 1, dd: 1});
 });

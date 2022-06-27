@@ -786,6 +786,7 @@ declare module '@hebcal/core' {
         static daysInMonth(month: number, year: number): number;
         /**
          * Returns number of days since January 1 of that year
+         * @deprecated
          * @param date - Gregorian date
          */
         static dayOfYear(date: Date): number;

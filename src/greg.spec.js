@@ -31,6 +31,7 @@ test('greg2abs-negative', (t) => {
 test('dayOfYear', (t) => {
   const dt = new Date(1995, 11, 17);
   t.is(greg.dayOfYear(dt), 351);
+  t.is(greg.dayOfYear(new Date(1752, 8, 14)), 258);
 });
 
 test('abs2greg', (t) => {

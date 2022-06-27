@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {abs2greg, dayOfYear, daysInMonth, greg2abs, isDate, isLeapYear} from './greg0';
+import {abs2greg, daysInMonth, greg2abs, isDate, isLeapYear} from './greg0';
 
 /**
  * Gregorian date helper functions.
@@ -76,11 +76,24 @@ export class greg {
 
   /**
    * Returns number of days since January 1 of that year
+   * @deprecated
    * @param {Date} date Gregorian date
    * @return {number}
    */
   static dayOfYear(date) {
-    return dayOfYear(date);
+    if (!isDate(date)) {
+      throw new TypeError(`Argument not a Date: ${date}`);
+    }
+    const month = date.getMonth();
+    let doy = date.getDate() + 31 * month;
+    if (month > 1) {
+      // FEB
+      doy -= Math.floor((4 * (month + 1) + 23) / 10);
+      if (isLeapYear(date.getFullYear())) {
+        doy++;
+      }
+    }
+    return doy;
   }
 
   /**

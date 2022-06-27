@@ -63,27 +63,10 @@ export function isDate(obj) {
   return typeof obj === 'object' && Date.prototype === obj.__proto__;
 }
 
-/**
- * Returns number of days since January 1 of that year
- * @private
- * @param {Date} date Gregorian date
- * @return {number}
- */
-export function dayOfYear(date) {
-  if (!isDate(date)) {
-    throw new TypeError(`Argument not a Date: ${date}`);
-  }
-  const month = date.getMonth();
-  let doy = date.getDate() + 31 * month;
-  if (month > 1) {
-    // FEB
-    doy -= Math.floor((4 * (month + 1) + 23) / 10);
-    if (isLeapYear(date.getFullYear())) {
-      doy++;
-    }
-  }
-  return doy;
-}
+/*
+const ABS_14SEP1752 = 639797;
+const ABS_2SEP1752 = 639785;
+*/
 
 /**
  * Converts Gregorian date to absolute R.D. (Rata Die) days
@@ -95,14 +78,13 @@ export function greg2abs(date) {
   if (!isDate(date)) {
     throw new TypeError(`Argument not a Date: ${date}`);
   }
-  const year = date.getFullYear() - 1;
-  return (
-    dayOfYear(date) + // days this year
-    365 * year + // + days in prior years
-    (Math.floor(year / 4) - // + Julian Leap years
-    Math.floor(year / 100) + // - century years
-    Math.floor(year / 400))
-  ); // + Gregorian leap years
+  const abs = toFixed(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  /*
+  if (abs < ABS_14SEP1752 && abs > ABS_2SEP1752) {
+    throw new RangeError(`Invalid Date: ${date}`);
+  }
+  */
+  return abs;
 }
 
 /**
@@ -126,8 +108,8 @@ function yearFromFixed(abs) {
 /**
  * @private
  * @param {number} year
- * @param {number} month
- * @param {number} day
+ * @param {number} month (1-12)
+ * @param {number} day (1-31)
  * @return {number}
  */
 function toFixed(year, month, day) {
@@ -156,6 +138,11 @@ export function abs2greg(abs) {
     throw new TypeError(`Argument not a Number: ${abs}`);
   }
   abs = Math.trunc(abs);
+  /*
+  if (abs < ABS_14SEP1752 && abs > ABS_2SEP1752) {
+    throw new RangeError(`Invalid Date: ${abs}`);
+  }
+  */
   const year = yearFromFixed(abs);
   const priorDays = abs - toFixed(year, 1, 1);
   const correction = abs < toFixed(year, 3, 1) ? 0 : (isLeapYear(year) ? 1 : 2);
