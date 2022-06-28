@@ -38,6 +38,7 @@ import './locale-he';
 import {MishnaYomiEvent} from './MishnaYomiEvent';
 import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
 import {Zmanim} from './zmanim';
+import {hallel_} from './hallel';
 
 const FRI = 5;
 const SAT = 6;
@@ -398,6 +399,8 @@ function observedInDiaspora(ev) {
   return ev.observedInDiaspora();
 }
 
+const yearArrayCache = Object.create(null);
+
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
  * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
@@ -704,10 +707,15 @@ export class HebrewCalendar {
    * @return {Event[]}
    */
   static getHolidaysForYearArray(year, il) {
+    const cacheKey = `${year}-${il ? 1 : 0}`;
+    let events = yearArrayCache[cacheKey];
+    if (events) {
+      return events;
+    }
     const yearMap = getHolidaysForYear_(year);
     const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
     const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
-    let events = [];
+    events = [];
     const myFilter = il ? observedInIsrael : observedInDiaspora;
     for (let absDt = startAbs; absDt <= endAbs; absDt++) {
       const hd = new HDate(absDt);
@@ -717,6 +725,7 @@ export class HebrewCalendar {
         events = events.concat(filtered);
       }
     }
+    yearArrayCache[cacheKey] = events;
     return events;
   }
 
@@ -782,6 +791,28 @@ export class HebrewCalendar {
    */
   static getSedra(hyear, il) {
     return getSedra_(hyear, il);
+  }
+
+  /**
+   * Return a number containing information on what Hallel is said on that day.
+   *
+   * Whole Hallel is said on Chanukah, the first Yom Tov of Pesach, Shavuot, Sukkot,
+   * Yom Ha'atzmaut, and Yom Yerushalayim.
+   * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
+   *
+   * The number is one of the following values:
+   *
+   * 0 - No Hallel
+   * 1 - Half Hallel
+   * 2 - Whole Hallel
+   *
+   * @param {HDate} hdate
+   * @param {boolean} il
+   * @return {number}
+   */
+  static hallel(hdate, il) {
+    const events = HebrewCalendar.getHolidaysForYearArray(hdate.getFullYear(), il);
+    return hallel_(events, hdate);
   }
 }
 
