@@ -6,17 +6,7 @@ const HALF = 1;
 const WHOLE = 2;
 
 /**
- * Return a number containing information on what Hallel is said on that day.
- *
- * Whole Hallel is said on Chanukah, the first Yom Tov of Pesach, Shavuot, Sukkot, Yom Ha'atzmaut, and Yom Yerushalayim.
- * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
- *
- * The number is one of the following values:
- *
- * 0 - No Hallel
- * 1 - Half Hallel
- * 2 - Whole Hallel
- *
+ * @private
  * @param {Event[]} events
  * @param {HDate} hdate
  * @return {number}

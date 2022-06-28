@@ -798,6 +798,7 @@ export class HebrewCalendar {
    *
    * Whole Hallel is said on Chanukah, the first Yom Tov of Pesach, Shavuot, Sukkot,
    * Yom Ha'atzmaut, and Yom Yerushalayim.
+   *
    * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
    *
    * The number is one of the following values:
