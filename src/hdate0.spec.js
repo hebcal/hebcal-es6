@@ -171,3 +171,17 @@ test('throws-getMonthName', (t) => {
   }, {instanceOf: TypeError});
   t.is(error3.message, 'bad month argument 20');
 });
+
+test('abs2hebrew-1752-reformation', (t) => {
+  // 14 September 1752
+  t.deepEqual(abs2hebrew(639797), {yy: 5513, mm: TISHREI, dd: 6});
+  // 2 September 1752
+  t.deepEqual(abs2hebrew(639796), {yy: 5513, mm: TISHREI, dd: 5});
+});
+
+test('hebrew2abs-1752-reformation', (t) => {
+  // 14 September 1752
+  t.is(hebrew2abs(5513, TISHREI, 6), 639797);
+  // 2 September 1752
+  t.is(hebrew2abs(5513, TISHREI, 5), 639796);
+});

@@ -193,7 +193,7 @@ export class YomKippurKatanEvent extends HolidayEvent {
    * @param {string} nextMonthName name of the upcoming month
    */
   constructor(date, nextMonthName) {
-    super(date, `${ykk} ${nextMonthName}`, flags.MINOR_FAST);
+    super(date, `${ykk} ${nextMonthName}`, flags.MINOR_FAST | flags.YOM_KIPPUR_KATAN);
     this.nextMonthName = nextMonthName;
     this.memo = `Minor Day of Atonement on the day preceeding Rosh Chodesh ${nextMonthName}`;
   }

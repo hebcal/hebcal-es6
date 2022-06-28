@@ -292,6 +292,7 @@ declare module '@hebcal/core' {
         tzeit(hdate: Date | HDate, angle?: number): Date;
         /**
          * Builds a city description from geonameid string components
+         * @deprecated
          * @param cityName e.g. 'Tel Aviv' or 'Chicago'
          * @param admin1 e.g. 'England' or 'Massachusetts'
          * @param countryName full country name, e.g. 'Israel' or 'United States'

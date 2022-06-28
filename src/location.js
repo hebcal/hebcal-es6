@@ -322,6 +322,7 @@ export class Location {
 
   /**
    * Builds a city description from geonameid string components
+   * @deprecated
    * @param {string} cityName e.g. 'Tel Aviv' or 'Chicago'
    * @param {string} admin1 e.g. 'England' or 'Massachusetts'
    * @param {string} countryName full country name, e.g. 'Israel' or 'United States'

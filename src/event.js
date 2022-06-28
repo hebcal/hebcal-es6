@@ -52,6 +52,8 @@ export const flags = {
   CHOL_HAMOED: 0x200000,
   /** Mishna Yomi */
   MISHNA_YOMI: 0x400000,
+  /** Yom Kippur Katan, minor day of atonement on the day preceeding each Rosh Chodesh */
+  YOM_KIPPUR_KATAN: 0x800000,
 };
 
 /** Represents an Event with a title, date, and flags */

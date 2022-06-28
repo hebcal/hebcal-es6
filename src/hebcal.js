@@ -22,7 +22,7 @@ import {Locale} from './locale';
 import {HDate, months} from './hdate';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {MoladEvent} from './molad';
-import {HolidayEvent, YomKippurKatanEvent, getHolidaysForYear_, getSedra_} from './holidays';
+import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays';
 import {getYahrzeit_, getBirthdayOrAnniversary_} from './anniversary';
 import {flags} from './event';
 import {OmerEvent} from './omer';
@@ -310,6 +310,7 @@ function getMaskFromOptions(options) {
     if (m & OMER_COUNT) options.omer = true;
     if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
     if (m & flags.MISHNA_YOMI) options.mishnaYomi = true;
+    if (m & flags.YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
     options.userMask = true;
     return m;
   }
@@ -359,6 +360,9 @@ function getMaskFromOptions(options) {
   }
   if (options.shabbatMevarchim) {
     mask |= SHABBAT_MEVARCHIM;
+  }
+  if (options.yomKippurKatan) {
+    mask |= flags.YOM_KIPPUR_KATAN;
   }
 
   return mask;
@@ -436,6 +440,7 @@ export class HebrewCalendar {
    * * Mishna Yomi (`options.mishnaYomi`)
    * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
    * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
+   * * Yom Kippur Katan (`options.yomKippurKatan`)
    *
    * Candle-lighting and Havdalah times are approximated using latitude and longitude
    * specified by the {@link Location} class. The `Location` class contains a small
@@ -796,10 +801,10 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
   if (!ev.observedIn(il)) {
     return candlesEv; // holiday isn't observed here; bail out early
   }
-  if (ev instanceof YomKippurKatanEvent && !options.yomKippurKatan) {
+  const eFlags = ev.getFlags();
+  if (!options.yomKippurKatan && (eFlags & flags.YOM_KIPPUR_KATAN)) {
     return candlesEv; // bail out early
   }
-  const eFlags = ev.getFlags();
   const location = options.location;
   const isMajorFast = Boolean(eFlags & MAJOR_FAST);
   const isMinorFast = Boolean(eFlags & MINOR_FAST);
@@ -829,7 +834,9 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
         candlesEv = undefined;
       }
     }
-    if (!options.noHolidays) {
+    if (options.yomKippurKatan && (eFlags & flags.YOM_KIPPUR_KATAN)) {
+      events.push(ev);
+    } else if (!options.noHolidays) {
       events.push(ev); // the original event itself
     }
   }

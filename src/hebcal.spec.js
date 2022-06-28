@@ -658,3 +658,13 @@ test('omer-alarm-alaska', (t) => {
   ];
   t.deepEqual(alarms, expected);
 });
+
+test('ykk-only', (t) => {
+  const events = HebrewCalendar.calendar({
+    yomKippurKatan: true,
+    noHolidays: true,
+    year: 5782,
+    isHebrewYear: true,
+  });
+  t.is(events.length, 9);
+});

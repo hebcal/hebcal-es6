@@ -178,7 +178,7 @@ Gregorian date helper functions.
     * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
     * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
     * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
-    * [.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>
+    * ~~[.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>~~
     * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
     * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
 
@@ -218,7 +218,9 @@ Returns true if the object is a Javascript Date
 
 <a name="greg.dayOfYear"></a>
 
-### greg.dayOfYear(date) ⇒ <code>number</code>
+### ~~greg.dayOfYear(date) ⇒ <code>number</code>~~
+***Deprecated***
+
 Returns number of days since January 1 of that year
 
 **Kind**: static method of [<code>greg</code>](#greg)  
@@ -1443,7 +1445,7 @@ Class representing Location
         * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
         * [.legacyTzToTzid(tz, dst)](#Location.legacyTzToTzid) ⇒ <code>string</code>
         * [.getUsaTzid(state, tz, dst)](#Location.getUsaTzid) ⇒ <code>string</code>
-        * [.geonameCityDescr(cityName, admin1, countryName)](#Location.geonameCityDescr) ⇒ <code>string</code>
+        * ~~[.geonameCityDescr(cityName, admin1, countryName)](#Location.geonameCityDescr) ⇒ <code>string</code>~~
         * [.addLocation(cityName, location)](#Location.addLocation) ⇒ <code>boolean</code>
 
 <a name="new_Location_new"></a>
@@ -1585,7 +1587,9 @@ Location.getUsaTzid('AZ', 7, 'Y') // 'America/Denver'
 ```
 <a name="Location.geonameCityDescr"></a>
 
-### Location.geonameCityDescr(cityName, admin1, countryName) ⇒ <code>string</code>
+### ~~Location.geonameCityDescr(cityName, admin1, countryName) ⇒ <code>string</code>~~
+***Deprecated***
+
 Builds a city description from geonameid string components
 
 **Kind**: static method of [<code>Location</code>](#Location)  
@@ -2263,6 +2267,7 @@ Represents Mevarchim haChodesh, the announcement of the new month
 
 * [MevarchimChodeshEvent](#MevarchimChodeshEvent)
     * [new MevarchimChodeshEvent(date, monthName)](#new_MevarchimChodeshEvent_new)
+    * [.basename()](#MevarchimChodeshEvent+basename) ⇒ <code>string</code>
     * [.render([locale])](#MevarchimChodeshEvent+render) ⇒ <code>string</code>
 
 <a name="new_MevarchimChodeshEvent_new"></a>
@@ -2276,6 +2281,10 @@ Constructs Mevarchim haChodesh event
 | date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
 | monthName | <code>string</code> | Hebrew month name (not translated) |
 
+<a name="MevarchimChodeshEvent+basename"></a>
+
+### mevarchimChodeshEvent.basename() ⇒ <code>string</code>
+**Kind**: instance method of [<code>MevarchimChodeshEvent</code>](#MevarchimChodeshEvent)  
 <a name="MevarchimChodeshEvent+render"></a>
 
 ### mevarchimChodeshEvent.render([locale]) ⇒ <code>string</code>
@@ -2416,6 +2425,7 @@ Additional non-default event types can be specified:
 * Mishna Yomi (`options.mishnaYomi`)
 * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
 * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
+* Yom Kippur Katan (`options.yomKippurKatan`)
 
 Candle-lighting and Havdalah times are approximated using latitude and longitude
 specified by the [Location](#Location) class. The `Location` class contains a small
@@ -2694,6 +2704,7 @@ Holiday flags for Event
 | EREV | <code>number</code> | <code>1048576</code> | Evening before a major or minor holiday |
 | CHOL_HAMOED | <code>number</code> | <code>2097152</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
 | MISHNA_YOMI | <code>number</code> | <code>4194304</code> | Mishna Yomi |
+| YOM_KIPPUR_KATAN | <code>number</code> | <code>8388608</code> | Yom Kippur Katan, minor day of atonement on the day preceeding each Rosh Chodesh |
 
 <a name="parshiot"></a>
 
