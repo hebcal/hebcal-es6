@@ -258,3 +258,22 @@ msgstr "Tahoros"
 # Mishna Mikvaot
 msgid "Mikvaot"
 msgstr "Mikvaos"
+
+# hebcal/hebcal zmanim (unused by hebcal/hebcal-es6)
+msgid "Alot HaShachar"
+msgstr "Alos HaShachar"
+
+msgid "Misheyakir"
+msgstr "Misheyakir"
+
+msgid "Kriat Shema, sof zeman"
+msgstr "Krias Shema, sof zman"
+
+msgid "Tefilah, sof zeman"
+msgstr "Tefilah, sof zman"
+
+msgid "Chatzot hayom"
+msgstr "Chatzos"
+
+msgid "Tzait HaKochavim"
+msgstr "Tzeis HaKochavim"
