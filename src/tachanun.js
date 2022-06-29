@@ -23,6 +23,7 @@ const cache = Object.create(null);
  * @property {boolean} shacharit Tachanun is said at Mincha
  * @property {boolean} mincha Tachanun is said at Shacharit
  * @property {boolean} allCongs All congregations say Tachanun on the day
+ * @private
  */
 
 /** @type {TachanunResult} */
@@ -54,6 +55,17 @@ const NONE = {
  * @return {TachanunResult}
  */
 export function tachanun(hdate, il) {
+  return tachanun0(hdate, il, true);
+}
+
+/**
+ * @private
+ * @param {HDate} hdate
+ * @param {boolean} il
+ * @param {boolean} checkNext
+ * @return {TachanunResult}
+ */
+function tachanun0(hdate, il, checkNext) {
   const year = hdate.getFullYear();
   const key = `${year}-${il ? 1 : 0}`;
   const dates = cache[key] = cache[key] || tachanunYear(year, il);
@@ -74,8 +86,10 @@ export function tachanun(hdate, il) {
   if (dow !== 6) {
     ret.shacharit = true;
   }
-  if (dates.yesPrev.indexOf(abs + 1) === -1) {
-    ret.mincha = true;
+  const tomorrow = abs + 1;
+  if (checkNext && dates.yesPrev.indexOf(tomorrow) === -1) {
+    const tmp = tachanun0(new HDate(tomorrow), il, false);
+    ret.mincha = tmp.shacharit;
   } else {
     ret.mincha = (dow !== 5);
   }

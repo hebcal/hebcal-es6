@@ -2,7 +2,7 @@ import test from 'ava';
 import {HDate} from './hdate';
 import {tachanun} from './tachanun';
 
-test.skip('tachanun', (t) => {
+test('tachanun', (t) => {
   const startAbs = new HDate(1, 'Tishrei', 5782).abs();
   const endAbs = new HDate(1, 'Tishrei', 5783).abs();
   const actual = [];
@@ -175,7 +175,7 @@ test.skip('tachanun', (t) => {
     [738199, {shacharit: true, mincha: true, allCongs: true}],
     [738200, {shacharit: true, mincha: false, allCongs: true}],
     [738201, {shacharit: false, mincha: false, allCongs: false}],
-    [738202, {shacharit: false, mincha: false, allCongs: false}],
+    [738202, {shacharit: true, mincha: true, allCongs: true}], // 15 Adar I - "Sushuan Purim Katan" isn't a thing
     [738203, {shacharit: true, mincha: true, allCongs: true}],
     [738204, {shacharit: true, mincha: false, allCongs: true}],
     [738205, {shacharit: false, mincha: true, allCongs: true}],
@@ -277,8 +277,8 @@ test.skip('tachanun', (t) => {
     [738301, {shacharit: true, mincha: true, allCongs: true}],
     [738302, {shacharit: true, mincha: false, allCongs: true}],
     [738303, {shacharit: false, mincha: true, allCongs: true}],
-    [738304, {shacharit: true, mincha: true, allCongs: true}],
-    [738305, {shacharit: true, mincha: false, allCongs: false}],
+    [738304, {shacharit: true, mincha: true, allCongs: false}],
+    [738305, {shacharit: true, mincha: false, allCongs: true}], // correct date for Yom Yerushalayim
     [738306, {shacharit: false, mincha: false, allCongs: false}],
     [738307, {shacharit: false, mincha: false, allCongs: false}],
     [738308, {shacharit: false, mincha: false, allCongs: false}],
@@ -347,7 +347,7 @@ test.skip('tachanun', (t) => {
     [738371, {shacharit: true, mincha: true, allCongs: true}],
     [738372, {shacharit: true, mincha: false, allCongs: true}],
     [738373, {shacharit: false, mincha: false, allCongs: false}],
-    [738374, {shacharit: true, mincha: true, allCongs: true}],
+    [738374, {shacharit: false, mincha: false, allCongs: false}], // 10 Av (Tish'a B'Av observed)
     [738375, {shacharit: true, mincha: true, allCongs: true}],
     [738376, {shacharit: true, mincha: true, allCongs: true}],
     [738377, {shacharit: true, mincha: true, allCongs: true}],
@@ -395,7 +395,7 @@ test.skip('tachanun', (t) => {
     [738419, {shacharit: true, mincha: true, allCongs: true}],
     [738420, {shacharit: true, mincha: true, allCongs: true}],
     [738421, {shacharit: true, mincha: false, allCongs: true}],
-    [738422, {shacharit: false, mincha: true, allCongs: true}],
+    [738422, {shacharit: false, mincha: false, allCongs: false}], // 28 Elul isn't Erev RH
     [738423, {shacharit: false, mincha: false, allCongs: false}],
   ];
   for (let i = 0; i < actual.length; i++) {
