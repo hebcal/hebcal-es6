@@ -1,35 +1,40 @@
 import {HDate, months} from './hdate';
+import {dateYomHaZikaron} from './modern';
 
-const NONE = 0;
-const MINCHA = 1;
-const SHACHARIT = 2;
-const ALL_CONGS = 4;
-
-function range(start, end, step) {
-  step = step || 1;
-  if (step < 0) {
-    step = 0 - step;
-  }
-
-  const arr = []; let i = start;
-  if (start < end) {
-    for (; i <= end; i += step) {
-      arr.push(i);
-    }
-  } else {
-    for (; i >= end; i -= step) {
-      arr.push(i);
-    }
+/**
+ * @private
+ * @param {number} start
+ * @param {number} end
+ * @return {number[]}
+ */
+function range(start, end) {
+  const arr = [];
+  for (let i = start; i <= end; i++) {
+    arr.push(i);
   }
   return arr;
 }
 
+const cache = Object.create(null);
 
 /**
- * Return a bitmask containing information on what Tachanun (or Tzidchatcha on Shabbat)
- * is said on that day.
- * For an explanation of how this works, see
- * [issue #38](https://github.com/hebcal/hebcal-js/issues/38#issuecomment-300735615).
+ * @typedef {Object} TachanunResult
+ * @property {boolean} noTachanun No Tachanun, according to everybody
+ * @property {boolean} shacharit Tachanun is said at Mincha
+ * @property {boolean} mincha Tachanun is said at Shacharit
+ * @property {boolean} allCongs All congregations say Tachanun on the day
+ */
+
+/** @type {TachanunResult} */
+const NONE = {
+  noTachanun: true,
+  shacharit: false,
+  mincha: false,
+  allCongs: false,
+};
+
+/**
+ * Return details on what Tachanun (or Tzidchatcha on Shabbat) is said on `hdate`.
  *
  * Tachanun is not said on Rosh Chodesh, the month of Nisan, Lag Baomer,
  * Rosh Chodesh Sivan until Isru Chag, Tisha B'av, 15 Av, Erev Rosh Hashanah,
@@ -41,37 +46,71 @@ function range(start, end, step) {
  * Yom Ha'atzmaut, and Yom Yerushalayim.
  *
  * Tachanun is not said at Mincha on days before it is not said at Shacharit.
+ *
  * Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
-
-The bitmask is made up of the following values:
-
-* 0 - No Tachanun, according to everybody
-* 1 - Tachanun is said at Mincha
-* 2 - Tachanun is said at Shacharit
-* 4 - All congregations say Tachanun on the day
-
-An object with Boolean properties {shacharit, mincha, all_congs}.
-
  * @private
  * @param {HDate} hdate
  * @param {boolean} il
- * @return {number}
+ * @return {TachanunResult}
  */
 export function tachanun(hdate, il) {
   const year = hdate.getFullYear();
-  const monthsInYear = HDate.monthsInYear(year);
+  const key = `${year}-${il ? 1 : 0}`;
+  const dates = cache[key] = cache[key] || tachanunYear(year, il);
+  const abs = hdate.abs();
+  if (dates.none.indexOf(abs) > -1) {
+    return NONE;
+  }
+  const dow = hdate.getDay();
+  const ret = {
+    noTachanun: false,
+    shacharit: false,
+    mincha: false,
+    allCongs: false,
+  };
+  if (dates.some.indexOf(abs) === -1) {
+    ret.allCongs = true;
+  }
+  if (dow !== 6) {
+    ret.shacharit = true;
+  }
+  if (dates.yesPrev.indexOf(abs + 1) === -1) {
+    ret.mincha = true;
+  } else {
+    ret.mincha = (dow !== 5);
+  }
+  if (ret.allCongs && !ret.mincha && !ret.shacharit) {
+    return NONE;
+  }
+  return ret;
+}
+
+/**
+ * @private
+ * @param {number} year
+ * @param {boolean} il
+ * @return {*}
+ */
+function tachanunYear(year, il) {
+  const leap = HDate.isLeapYear(year);
+  const monthsInYear = 12 + leap;
   let av9dt = new HDate(9, months.AV, year);
   if (av9dt.getDay() === 6) {
     av9dt = av9dt.next();
   }
-  const all = [].concat(
-      // Rosh Chodesh - 1st of every month. Also includes RH (1 Tishrei)
+  let shushPurim = new HDate(15, months.ADAR_II, year);
+  if (shushPurim.getDay() === 6) {
+    shushPurim = shushPurim.next();
+  }
+  const none = [].concat(
+      // Rosh Chodesh - 1st of every month. Also includes RH day 1 (1 Tishrei)
       range(1, monthsInYear)
           .map((month) => new HDate(1, month, year)),
       // Rosh Chodesh - 30th of months that have one
       range(1, monthsInYear)
           .filter((month) => HDate.daysInMonth(month, year) === 30)
           .map((month) => new HDate(30, month, year)),
+      new HDate(2, months.TISHREI, year), // Rosh Hashana II
       // entire month of Nisan
       range(1, HDate.daysInMonth(months.NISAN, year))
           .map((mday) => new HDate(mday, months.NISAN, year)),
@@ -90,52 +129,30 @@ export function tachanun(hdate, il) {
           .map((mday) => new HDate(mday, months.KISLEV, year)),
       new HDate(15, months.SHVAT, year), // Tu BiShvat
       new HDate(14, months.ADAR_II, year), // Purim
-    HDate.isLeapYear(year) ? new HDate(14, months.ADAR_I, year) : [], // Purim Katan
+      shushPurim,
+      leap ? new HDate(14, months.ADAR_I, year) : [], // Purim Katan
   );
-  const allAbs = all.map((hd) => hd.abs()).sort();
-  return allAbs;
-//  return 0;
-  /*
-  ('Rosh Chodesh').concat(
-        year.find(c.range(1, c.daysInMonth(NISAN, y)), NISAN), // all of Nisan
-        year.find(15 + 33, NISAN), // Lag Baomer
-        year.find(c.range(1, 8 - me.il), months.SIVAN), // Rosh Chodesh Sivan thru Isru Chag
-        year.find([9, 15], months.AV), // Tisha B'av and Tu B'av
-        year.find(-1, months.ELUL), // Erev Rosh Hashanah
-        year.find([1, 2], TISHREI), // Rosh Hashanah
-        year.find(c.range(9, 24 - me.il), TISHREI), // Erev Yom Kippur thru Isru Chag
-        year.find(c.range(25, 33), months.KISLEV), // Chanukah
-        year.find(15, months.SHVAT), // Tu B'shvat
-        year.find([14, 15], year[isLeapYear]() ? [months.ADAR_I, months.ADAR_II] : months.ADAR_I), // Purim/Shushan Purim + Katan
-    ));
-    some = __cache.some[y] = mapAbs([].concat( // Don't care if it overlaps days in all, because all takes precedence
-        year.find(c.range(1, 13), months.SIVAN), // Until 14 Sivan
-        year.find(c.range(20, 31), TISHREI), // Until after Rosh Chodesh Cheshvan
-        year.find(14, months.IYYAR), // Pesach Sheini
-        holidays.atzmaut(y)[1].date || [], // Yom HaAtzma'ut, which changes based on day of week
-      y >= 5727 ? year.find(29, months.IYYAR) : [], // Yom Yerushalayim
-    ));
-    yesPrev = __cache.yesPrev[y] = mapAbs([].concat( // tachanun is said on the previous day at mincha
-        year.find(-1, months.ELUL), // Erev Rosh Hashanah
-        year.find(9, months.TISHREI), // Erev Yom Kippur
-        year.find(14, months.IYYAR), // Pesach Sheini
-    ));
-    __cache.il[y] = me.il;
-  }
-
-  all = all.includes(me.abs());
-  some = some.includes(me.abs());
-  yesPrev = yesPrev.includes(me.abs()+1);
-
-  if (all) {
-    return NONE;
-  }
-  let ret = (!some && ALL_CONGS) | (me.getDay() != 6 && SHACHARIT);
-  if (checkNext && !yesPrev) {
-    ret |= ((me.next().tachanun(true) & SHACHARIT) && MINCHA);
-  } else {
-    ret |= (me.getDay() != 5 && MINCHA);
-  }
-  return ret == ALL_CONGS ? NONE : ret;
-  */
+  const some = [].concat(
+      // Until 14 Sivan
+      range(1, 13)
+          .map((mday) => new HDate(mday, months.SIVAN, year)),
+      // Until after Rosh Chodesh Cheshvan
+      range(20, 31)
+          .map((mday) => new HDate(mday, months.TISHREI, year)),
+      new HDate(14, months.IYYAR, year), // Pesach Sheini
+      // Yom HaAtzma'ut, which changes based on day of week
+      year >= 5708 ? dateYomHaZikaron(year).next() : [],
+      // Yom Yerushalayim
+      year >= 5727 ? new HDate(28, months.IYYAR, year) : [],
+  );
+  const yesPrev = [].concat(
+      new HDate(29, months.ELUL, year - 1), // Erev Rosh Hashanah
+      new HDate(9, months.TISHREI, year), // Erev Yom Kippur
+      new HDate(14, months.IYYAR, year), // Pesach Sheini
+  );
+  return {
+    none: none.map((hd) => hd.abs()).sort(),
+    some: some.map((hd) => hd.abs()).sort(),
+    yesPrev: yesPrev.map((hd) => hd.abs()).sort(),
+  };
 }
