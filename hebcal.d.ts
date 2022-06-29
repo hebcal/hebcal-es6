@@ -604,6 +604,15 @@ declare module '@hebcal/core' {
         hour12?: boolean;
     };
 
+    export type TachanunResult = {
+        /** Tachanun is said at Shacharit */
+        shacharit: boolean;
+        /** Tachanun is said at Mincha */
+        mincha: boolean;
+        /** All congregations say Tachanun on the day */
+        allCongs: boolean;
+    };
+
     /**
      * HebrewCalendar is the main interface to the `@hebcal/core` library.
      * This class is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
@@ -713,6 +722,40 @@ declare module '@hebcal/core' {
          * created and cached instance.
          */
         static getSedra(hyear: number, il: boolean): Sedra;
+
+        /**
+         * Return a number containing information on what Hallel is said on that day.
+         *
+         * Whole Hallel is said on Chanukah, the first Yom Tov of Pesach, Shavuot, Sukkot,
+         * Yom Ha'atzmaut, and Yom Yerushalayim.
+         *
+         * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
+         *
+         * The number is one of the following values:
+         *
+         * 0 - No Hallel
+         * 1 - Half Hallel
+         * 2 - Whole Hallel
+         */
+        static hallel(hdate: HDate, il: boolean): number;
+
+        /**
+         * Return details on what Tachanun (or Tzidchatcha on Shabbat) is said on `hdate`.
+         *
+         * Tachanun is not said on Rosh Chodesh, the month of Nisan, Lag Baomer,
+         * Rosh Chodesh Sivan until Isru Chag, Tisha B'av, 15 Av, Erev Rosh Hashanah,
+         * Rosh Hashanah, Erev Yom Kippur until after Simchat Torah, Chanukah,
+         * Tu B'shvat, Purim and Shushan Purim, and Purim and Shushan Purim Katan.
+         *
+         * In some congregations Tachanun is not said until from Rosh Chodesh Sivan
+         * until 14th Sivan, Sukkot until after Rosh Chodesh Cheshvan, Pesach Sheini,
+         * Yom Ha'atzmaut, and Yom Yerushalayim.
+         *
+         * Tachanun is not said at Mincha on days before it is not said at Shacharit.
+         *
+         * Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
+         */
+        static tachanun(hdate: HDate, il: boolean): TachanunResult;
     }
 
     /**

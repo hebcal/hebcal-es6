@@ -39,6 +39,7 @@ import {MishnaYomiEvent} from './MishnaYomiEvent';
 import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
 import {Zmanim} from './zmanim';
 import {hallel_} from './hallel';
+import {tachanun_} from './tachanun';
 
 const FRI = 5;
 const SAT = 6;
@@ -212,6 +213,13 @@ function checkCandleOptions(options) {
  *      See {@link https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices Wikipedia Yom Kippur Katan practices}
  * @property {boolean} hour12 - Whether to use 12-hour time (as opposed to 24-hour time).
  *      Possible values are `true` and `false`; the default is locale dependent.
+ */
+
+/**
+ * @typedef {Object} TachanunResult
+ * @property {boolean} shacharit Tachanun is said at Shacharit
+ * @property {boolean} mincha Tachanun is said at Mincha
+ * @property {boolean} allCongs All congregations say Tachanun on the day
  */
 
 /**
@@ -814,6 +822,29 @@ export class HebrewCalendar {
   static hallel(hdate, il) {
     const events = HebrewCalendar.getHolidaysForYearArray(hdate.getFullYear(), il);
     return hallel_(events, hdate);
+  }
+
+  /**
+   * Return details on what Tachanun (or Tzidchatcha on Shabbat) is said on `hdate`.
+   *
+   * Tachanun is not said on Rosh Chodesh, the month of Nisan, Lag Baomer,
+   * Rosh Chodesh Sivan until Isru Chag, Tisha B'av, 15 Av, Erev Rosh Hashanah,
+   * Rosh Hashanah, Erev Yom Kippur until after Simchat Torah, Chanukah,
+   * Tu B'shvat, Purim and Shushan Purim, and Purim and Shushan Purim Katan.
+   *
+   * In some congregations Tachanun is not said until from Rosh Chodesh Sivan
+   * until 14th Sivan, Sukkot until after Rosh Chodesh Cheshvan, Pesach Sheini,
+   * Yom Ha'atzmaut, and Yom Yerushalayim.
+   *
+   * Tachanun is not said at Mincha on days before it is not said at Shacharit.
+   *
+   * Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
+   * @param {HDate} hdate
+   * @param {boolean} il
+   * @return {TachanunResult}
+   */
+  static tachanun(hdate, il) {
+    return tachanun_(hdate, il);
   }
 }
 

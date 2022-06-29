@@ -668,3 +668,17 @@ test('ykk-only', (t) => {
   });
   t.is(events.length, 9);
 });
+
+test('hallel', (t) => {
+  t.is(HebrewCalendar.hallel(new HDate(25, months.KISLEV, 5780), false), 2);
+  t.is(HebrewCalendar.hallel(new HDate(26, months.KISLEV, 5780), true), 2);
+});
+
+test('tachanun', (t) => {
+  const erevRch = new HDate(29, months.CHESHVAN, 5787);
+  t.deepEqual(HebrewCalendar.tachanun(erevRch, false),
+      {shacharit: true, mincha: false, allCongs: true});
+  const rch = new HDate(1, months.KISLEV, 5787);
+  t.deepEqual(HebrewCalendar.tachanun(rch, true),
+      {shacharit: false, mincha: false, allCongs: false});
+});

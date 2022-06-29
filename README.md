@@ -165,6 +165,8 @@ we omit the thousands (which is presently 5 [ה]).</p>
 <dt><a href="#CalOptions">CalOptions</a> : <code>Object</code></dt>
 <dd><p>Options to configure which events are returned</p>
 </dd>
+<dt><a href="#TachanunResult">TachanunResult</a> : <code>Object</code></dt>
+<dd></dd>
 </dl>
 
 <a name="greg"></a>
@@ -2387,6 +2389,8 @@ Event names can be rendered in several languges using the `locale` option.
     * [.reformatTimeStr(timeStr, suffix, options)](#HebrewCalendar.reformatTimeStr) ⇒ <code>string</code>
     * [.version()](#HebrewCalendar.version) ⇒ <code>string</code>
     * [.getSedra(hyear, il)](#HebrewCalendar.getSedra) ⇒ [<code>Sedra</code>](#Sedra)
+    * [.hallel(hdate, il)](#HebrewCalendar.hallel) ⇒ <code>number</code>
+    * [.tachanun(hdate, il)](#HebrewCalendar.tachanun) ⇒ [<code>TachanunResult</code>](#TachanunResult)
 
 <a name="HebrewCalendar.calendar"></a>
 
@@ -2645,6 +2649,54 @@ created and cached instance.
 | hyear | <code>number</code> | 
 | il | <code>boolean</code> | 
 
+<a name="HebrewCalendar.hallel"></a>
+
+### HebrewCalendar.hallel(hdate, il) ⇒ <code>number</code>
+Return a number containing information on what Hallel is said on that day.
+
+Whole Hallel is said on Chanukah, the first Yom Tov of Pesach, Shavuot, Sukkot,
+Yom Ha'atzmaut, and Yom Yerushalayim.
+
+Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
+
+The number is one of the following values:
+
+0 - No Hallel
+1 - Half Hallel
+2 - Whole Hallel
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+
+| Param | Type |
+| --- | --- |
+| hdate | [<code>HDate</code>](#HDate) | 
+| il | <code>boolean</code> | 
+
+<a name="HebrewCalendar.tachanun"></a>
+
+### HebrewCalendar.tachanun(hdate, il) ⇒ [<code>TachanunResult</code>](#TachanunResult)
+Return details on what Tachanun (or Tzidchatcha on Shabbat) is said on `hdate`.
+
+Tachanun is not said on Rosh Chodesh, the month of Nisan, Lag Baomer,
+Rosh Chodesh Sivan until Isru Chag, Tisha B'av, 15 Av, Erev Rosh Hashanah,
+Rosh Hashanah, Erev Yom Kippur until after Simchat Torah, Chanukah,
+Tu B'shvat, Purim and Shushan Purim, and Purim and Shushan Purim Katan.
+
+In some congregations Tachanun is not said until from Rosh Chodesh Sivan
+until 14th Sivan, Sukkot until after Rosh Chodesh Cheshvan, Pesach Sheini,
+Yom Ha'atzmaut, and Yom Yerushalayim.
+
+Tachanun is not said at Mincha on days before it is not said at Shacharit.
+
+Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
+
+**Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
+
+| Param | Type |
+| --- | --- |
+| hdate | [<code>HDate</code>](#HDate) | 
+| il | <code>boolean</code> | 
+
 <a name="months"></a>
 
 ## months : <code>enum</code>
@@ -2829,3 +2881,16 @@ Options to configure which events are returned
 | mask | <code>number</code> | use bitmask from `flags` to filter events |
 | yomKippurKatan | <code>boolean</code> | include Yom Kippur Katan (default `false`).      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)      and Nisan (fasting not permitted during Nisan).      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.      See [Wikipedia Yom Kippur Katan practices](https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices) |
 | hour12 | <code>boolean</code> | Whether to use 12-hour time (as opposed to 24-hour time).      Possible values are `true` and `false`; the default is locale dependent. |
+
+<a name="TachanunResult"></a>
+
+## TachanunResult : <code>Object</code>
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| shacharit | <code>boolean</code> | Tachanun is said at Shacharit |
+| mincha | <code>boolean</code> | Tachanun is said at Mincha |
+| allCongs | <code>boolean</code> | All congregations say Tachanun on the day |
+

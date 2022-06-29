@@ -1,15 +1,14 @@
 import test from 'ava';
-import {HDate} from './hdate';
-import {tachanun} from './tachanun';
+import {HDate, months} from './hdate';
+import {tachanun_} from './tachanun';
 
 test('tachanun', (t) => {
-  const startAbs = new HDate(1, 'Tishrei', 5782).abs();
-  const endAbs = new HDate(1, 'Tishrei', 5783).abs();
+  const startAbs = HDate.hebrew2abs(5782, months.TISHREI, 1);
+  const endAbs = HDate.hebrew2abs(5783, months.TISHREI, 1);
   const actual = [];
   for (let abs = startAbs; abs < endAbs; abs++) {
     const hd = new HDate(abs);
-    const tach = tachanun(hd, false);
-    delete tach.noTachanun;
+    const tach = tachanun_(hd, false);
     actual.push([hd.abs(), tach]);
   }
   const expected = [
