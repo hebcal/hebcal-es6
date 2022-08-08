@@ -43,6 +43,31 @@ test('dafyomi-shekalim', (t) => {
   t.is(ev.url(), 'https://www.sefaria.org/Jerusalem_Talmud_Shekalim.2a?lang=bi');
 });
 
+test('dafyomi-shekalim-cycles-1-7-8', (t) => {
+  const dates = [
+    new Date(1924, 11, 7),
+    new Date(1924, 11, 8),
+    new Date(1924, 11, 9),
+    new Date(1924, 11, 10),
+    new Date(1961, 11, 3),
+    new Date(1961, 11, 4),
+    new Date(1961, 11, 5),
+    new Date(1961, 11, 6),
+    new Date(1969, 3, 27),
+    new Date(1969, 3, 28),
+    new Date(1969, 3, 29),
+    new Date(1969, 3, 30),
+  ];
+  const events = dates.map((dt) => new DafYomiEvent(new HDate(dt)));
+  const descs = events.map((ev) => ev.getDesc());
+  const expected = [
+    'Shekalim 12', 'Shekalim 13', 'Yoma 2', 'Yoma 3',
+    'Shekalim 12', 'Shekalim 13', 'Yoma 2', 'Yoma 3',
+    'Shekalim 12', 'Shekalim 13', 'Shekalim 14', 'Shekalim 15',
+  ];
+  t.deepEqual(descs, expected);
+});
+
 // hebcal --daf-yomi -h -x -H 5780
 function getDafYomi5780() {
   return `9/29/2019 Daf Yomi: Meilah 12

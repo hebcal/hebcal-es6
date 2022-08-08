@@ -28,7 +28,7 @@ const osdate = new Date(1923, 8, 11);
 const osday = greg2abs(osdate);
 const nsday = greg2abs(new Date(1975, 5, 24));
 
-const shas = [
+const shas0 = [
   ['Berachot',       64],
   ['Shabbat',        157],
   ['Eruvin',         105],
@@ -111,10 +111,10 @@ export class DafYomi {
     let count = -1;
 
     // Fix Shekalim for old cycles
-    if (cno <= 7) {
-      shas[4].blatt = 13;
-    } else {
-      shas[4].blatt = 22;
+    const shortShekalim = cno <= 7;
+    const shas = shortShekalim ? shas0.slice() : shas0;
+    if (shortShekalim) {
+      shas[4] = {name: 'Shekalim', blatt: 13};
     }
 
     // Find the daf
