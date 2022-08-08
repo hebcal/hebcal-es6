@@ -29,6 +29,11 @@ declare module '@hebcal/core' {
         observedInDiaspora(): boolean;
         observedIn(il: boolean): boolean;
         clone(): Event;
+        readonly date: Date;
+        readonly desc: string;
+        readonly mask: number;
+        readonly emoji?: string;
+        readonly memo?: string;
     }
 
     /**
@@ -984,6 +989,10 @@ declare module '@hebcal/core' {
         constructor(date: HDate, desc: string, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+        readonly eventTime: Date;
+        readonly location: Location;
+        readonly eventTimeStr: string;
+        readonly linkedEvent?: Event;
     }
     export class CandleLightingEvent extends TimedEvent {
         constructor(date: HDate, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
@@ -1000,6 +1009,7 @@ declare module '@hebcal/core' {
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         getEmoji(): string;
+        readonly havdalahMins?: number;
     }
     export class HebrewDateEvent extends Event {
         constructor(date: HDate, locale?: string);
@@ -1014,6 +1024,9 @@ declare module '@hebcal/core' {
         url(): string;
         urlDateSuffix(): string;
         getEmoji(): string;
+        readonly cholHaMoedDay?: number;
+        readonly startEvent?: TimedEvent;
+        readonly endEvent?: TimedEvent;
     }
     export class AsaraBTevetEvent extends HolidayEvent {
         constructor(date: HDate, desc: string, mask?: number, attrs?: any);
@@ -1029,12 +1042,13 @@ declare module '@hebcal/core' {
         constructor(date: HDate, monthName: string);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+        readonly monthName: string;
     }
     export class MoladEvent extends Event {
         constructor(date: HDate, hyear: number, hmonth: number);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
-        molad: Molad;
+        readonly molad: Molad;
     }
     export type OmerSefiraLang = 'en' | 'he' | 'translit';
     export class OmerEvent extends Event {
@@ -1047,18 +1061,19 @@ declare module '@hebcal/core' {
         getTodayIs(locale?: string): string;
         sefira(lang: OmerSefiraLang): string;
         url(): string;
-        weekNumber: number;
-        daysWithinWeeks: number;
-        memo: string;
-        alarm?: Date;
+        readonly weekNumber: number;
+        readonly daysWithinWeeks: number;
+        readonly memo: string;
+        readonly alarm?: Date;
     }
     export class ParshaEvent extends Event {
         constructor(date: HDate, parsha: string[], il: boolean);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         url(): string;
-        parsha: string[];
-        il: boolean;
+        readonly parsha: string[];
+        readonly il: boolean;
+        readonly num: number | number[];
     }
     export class RoshChodeshEvent extends HolidayEvent {
         constructor(date: HDate, monthName: string);
@@ -1112,5 +1127,6 @@ declare module '@hebcal/core' {
          * Returns a link to sefaria.org
          */
         url(): string;
+        readonly mishnaYomi: MishnaYomi[];
     }
 }
