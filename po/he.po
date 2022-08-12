@@ -695,6 +695,9 @@ msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ג׳"
 msgid "Sukkot Chol ha-Moed Day 4"
 msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ד׳"
 
+msgid "Sukkot Chol ha-Moed Day 5"
+msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ה׳"
+
 msgid "Sukkot Shabbat Chol ha-Moed"
 msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמּוֹעֵד"
 

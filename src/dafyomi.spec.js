@@ -45,14 +45,17 @@ test('dafyomi-shekalim', (t) => {
 
 test('dafyomi-shekalim-cycles-1-7-8', (t) => {
   const dates = [
+    // cycle 1
     new Date(1924, 11, 7),
     new Date(1924, 11, 8),
     new Date(1924, 11, 9),
     new Date(1924, 11, 10),
+    // cycle 7
     new Date(1961, 11, 3),
     new Date(1961, 11, 4),
     new Date(1961, 11, 5),
     new Date(1961, 11, 6),
+    // cycle 8
     new Date(1969, 3, 27),
     new Date(1969, 3, 28),
     new Date(1969, 3, 29),
