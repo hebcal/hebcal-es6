@@ -877,6 +877,9 @@ msgstr "חֲנוּכָּה יוֹם ז׳ (רֹאשׁ חוֹדֶשׁ)"
 msgid "Chanukah Day 8"
 msgstr "חֲנוּכָּה יוֹם ח׳"
 
+msgid "Shabbat Rosh Chodesh Chanukah"
+msgstr "שַׁבָּת רֹאשׁ חוֹדֶשׁ חֲנוּכָּה"
+
 # Berachot
 msgid "Berakhot"
 msgstr "ברכות"
