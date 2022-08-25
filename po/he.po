@@ -877,6 +877,27 @@ msgstr "חֲנוּכָּה יוֹם ז׳ (רֹאשׁ חוֹדֶשׁ)"
 msgid "Chanukah Day 8"
 msgstr "חֲנוּכָּה יוֹם ח׳"
 
+msgid "Chanukah Day 1 (on Shabbat)"
+msgstr "חֲנוּכָּה יוֹם א׳ (בְּשַׁבָּת)"
+
+msgid "Chanukah Day 2 (on Shabbat)"
+msgstr "חֲנוּכָּה יוֹם ב׳ (בְּשַׁבָּת)"
+
+msgid "Chanukah Day 3 (on Shabbat)"
+msgstr "חֲנוּכָּה יוֹם ג׳ (בְּשַׁבָּת)"
+
+msgid "Chanukah Day 4 (on Shabbat)"
+msgstr "חֲנוּכָּה יוֹם ד׳ (בְּשַׁבָּת)"
+
+msgid "Chanukah Day 5 (on Shabbat)"
+msgstr "חֲנוּכָּה יוֹם ה׳ (בְּשַׁבָּת)"
+
+msgid "Chanukah Day 7 (on Shabbat)"
+msgstr "חֲנוּכָּה יוֹם ז׳ (בְּשַׁבָּת)"
+
+msgid "Chanukah Day 8 (on Shabbat)"
+msgstr "חֲנוּכָּה יוֹם ח׳ (בְּשַׁבָּת)"
+
 msgid "Shabbat Rosh Chodesh Chanukah"
 msgstr "שַׁבָּת רֹאשׁ חוֹדֶשׁ חֲנוּכָּה"
 
