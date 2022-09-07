@@ -56,10 +56,10 @@ test('dafyomi-shekalim-cycles-1-7-8', (t) => {
     new Date(1961, 11, 5),
     new Date(1961, 11, 6),
     // cycle 8
-    new Date(1969, 3, 27),
-    new Date(1969, 3, 28),
-    new Date(1969, 3, 29),
-    new Date(1969, 3, 30),
+    new Date(1976, 8, 19),
+    new Date(1976, 8, 20),
+    new Date(1976, 8, 21),
+    new Date(1976, 8, 22),
   ];
   const events = dates.map((dt) => new DafYomiEvent(new HDate(dt)));
   const descs = events.map((ev) => ev.getDesc());

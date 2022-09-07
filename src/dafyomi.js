@@ -97,10 +97,10 @@ export class DafYomi {
     let cno;
     let dno;
     if (cday >= nsday) { // "new" cycle
-      cno = 8 + ( (cday - nsday) / 2711 );
+      cno = 8 + Math.floor( (cday - nsday) / 2711 );
       dno = (cday - nsday) % 2711;
     } else { // old cycle
-      cno = 1 + ( (cday - osday) / 2702 );
+      cno = 1 + Math.floor( (cday - osday) / 2702 );
       dno = (cday - osday) % 2702;
     }
 

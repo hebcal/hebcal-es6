@@ -675,10 +675,10 @@ msgid "Yom Kippur (on Shabbat)"
 msgstr "יוֹם כִּפּוּר (בְּשַׁבָּת)"
 
 msgid "Yom Kippur (Mincha, Traditional)"
-msgstr "יוֹם כִּפּוּר מנחה"
+msgstr "יוֹם כִּפּוּר מִנחָה"
 
 msgid "Yom Kippur (Mincha, Alternate)"
-msgstr "יוֹם כִּפּוּר מנחה"
+msgstr "יוֹם כִּפּוּר מִנחָה"
 
 msgid "Sukkot I (on Shabbat)"
 msgstr "סוּכּוֹת יוֹם א׳ (בְּשַׁבָּת)"

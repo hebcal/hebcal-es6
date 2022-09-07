@@ -129,9 +129,14 @@ test('dafyomi-only', (t) => {
   t.is(events.length, 30);
   t.is(gregDtString(events[0]), '6/1/1975');
   t.is(events[0].getFlags(), flags.DAF_YOMI);
-  t.is(events[0].render(), 'Daf Yomi: Niddah 42');
-  t.is(events[0].renderBrief(), 'Niddah 42');
-  t.is(events[0].getDesc(), 'Niddah 42');
+  t.is(events[0].render(), 'Daf Yomi: Niddah 51');
+  t.is(events[0].renderBrief(), 'Niddah 51');
+  t.is(events[0].getDesc(), 'Niddah 51');
+  t.is(gregDtString(events[23]), '6/24/1975');
+  t.is(events[23].getFlags(), flags.DAF_YOMI);
+  t.is(events[23].render(), 'Daf Yomi: Berachot 2');
+  t.is(events[23].renderBrief(), 'Berachot 2');
+  t.is(events[23].getDesc(), 'Berachot 2');
   t.is(gregDtString(events[29]), '6/30/1975');
   t.is(events[29].getFlags(), flags.DAF_YOMI);
   t.is(events[29].render(), 'Daf Yomi: Berachot 8');

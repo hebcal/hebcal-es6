@@ -10,6 +10,7 @@ test('greg2abs', (t) => {
   const dt = new Date(1995, 11, 17);
   t.is(greg2abs(dt), 728644);
   t.is(greg2abs(new Date(1888, 11, 31)), 689578);
+  t.is(greg2abs(new Date(2005, 3, 2)), 732038);
 });
 
 test('greg2abs-early-ce', (t) => {
@@ -31,6 +32,7 @@ test('greg2abs-negative', (t) => {
 test('abs2greg', (t) => {
   t.deepEqual(ymd(abs2greg(737553)), {yy: 2020, mm: 5, dd: 8});
   t.deepEqual(ymd(abs2greg(689578)), {yy: 1888, mm: 12, dd: 31});
+  t.deepEqual(ymd(abs2greg(732038)), {yy: 2005, mm: 4, dd: 2});
 });
 
 test('abs2greg-88ce', (t) => {
