@@ -1150,8 +1150,8 @@ Class representing halachic times
         * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
         * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
         * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
-        * [.sunriseOffset(offset)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
-        * [.sunsetOffset(offset)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
+        * [.sunriseOffset(offset, roundMinute)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
+        * [.sunsetOffset(offset, roundMinute)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
         * ~~[.sunsetOffsetTime(offset, timeFormat)](#Zmanim+sunsetOffsetTime) ⇒ <code>Array.&lt;Object&gt;</code>~~
         * ~~[.tzeitTime(angle, timeFormat)](#Zmanim+tzeitTime) ⇒ <code>Array.&lt;Object&gt;</code>~~
     * _static_
@@ -1326,25 +1326,27 @@ Alias for sunset
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunriseOffset"></a>
 
-### zmanim.sunriseOffset(offset) ⇒ <code>Date</code>
+### zmanim.sunriseOffset(offset, roundMinute) ⇒ <code>Date</code>
 Returns sunrise + `offset` minutes (either positive or negative).
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| offset | <code>number</code> | minutes |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| offset | <code>number</code> |  | minutes |
+| roundMinute | <code>boolean</code> | <code>true</code> | round time to nearest minute (default true) |
 
 <a name="Zmanim+sunsetOffset"></a>
 
-### zmanim.sunsetOffset(offset) ⇒ <code>Date</code>
+### zmanim.sunsetOffset(offset, roundMinute) ⇒ <code>Date</code>
 Returns sunset + `offset` minutes (either positive or negative).
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| offset | <code>number</code> | minutes |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| offset | <code>number</code> |  | minutes |
+| roundMinute | <code>boolean</code> | <code>true</code> | round time to nearest minute (default true) |
 
 <a name="Zmanim+sunsetOffsetTime"></a>
 

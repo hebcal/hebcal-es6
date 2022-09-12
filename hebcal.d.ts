@@ -426,14 +426,16 @@ declare module '@hebcal/core' {
         shkiah(): Date;
         /**
          * Returns sunrise + `offset` minutes (either positive or negative).
+         * @param roundMinute round time to nearest minute (default true)
          * @param offset minutes
          */
-        sunriseOffset(offset: number): Date;
+        sunriseOffset(offset: number, roundMinute?: boolean): Date;
         /**
          * Returns sunset + `offset` minutes (either positive or negative).
          * @param offset minutes
+         * @param roundMinute round time to nearest minute (default true)
          */
-        sunsetOffset(offset: number): Date;
+        sunsetOffset(offset: number, roundMinute?: boolean): Date;
         /**
          * Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
          * @deprecated

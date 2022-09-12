@@ -207,8 +207,8 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanShmaMGA() { // Magen Avraham
-    const alot72 = this.sunriseOffset(-72);
-    const tzeit72 = this.sunsetOffset(72);
+    const alot72 = this.sunriseOffset(-72, false);
+    const tzeit72 = this.sunsetOffset(72, false);
     const temporalHour = (tzeit72 - alot72) / 12; // ms in hour
     return new Date(alot72.getTime() + (3 * temporalHour));
   }
@@ -217,8 +217,8 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanTfillaMGA() { // Magen Avraham
-    const alot72 = this.sunriseOffset(-72);
-    const tzeit72 = this.sunsetOffset(72);
+    const alot72 = this.sunriseOffset(-72, false);
+    const tzeit72 = this.sunsetOffset(72, false);
     const temporalHour = (tzeit72 - alot72) / 12; // ms in hour
     return new Date(alot72.getTime() + (4 * temporalHour));
   }
@@ -332,36 +332,42 @@ export class Zmanim {
   /**
    * Returns sunrise + `offset` minutes (either positive or negative).
    * @param {number} offset minutes
+   * @param {boolean} roundMinute round time to nearest minute (default true)
    * @return {Date}
    */
-  sunriseOffset(offset) {
+  sunriseOffset(offset, roundMinute=true) {
     const sunrise = this.sunrise();
     if (isNaN(sunrise.getTime())) {
       return sunrise;
     }
-    // For positive offsets only, round up to next minute if needed
-    if (offset > 0 && sunrise.getSeconds() >= 30) {
-      offset++;
+    if (roundMinute) {
+      // For positive offsets only, round up to next minute if needed
+      if (offset > 0 && sunrise.getSeconds() >= 30) {
+        offset++;
+      }
+      sunrise.setSeconds(0, 0);
     }
-    sunrise.setSeconds(0, 0);
     return new Date(sunrise.getTime() + (offset * 60 * 1000));
   }
 
   /**
    * Returns sunset + `offset` minutes (either positive or negative).
    * @param {number} offset minutes
+   * @param {boolean} roundMinute round time to nearest minute (default true)
    * @return {Date}
    */
-  sunsetOffset(offset) {
+  sunsetOffset(offset, roundMinute=true) {
     const sunset = this.sunset();
     if (isNaN(sunset.getTime())) {
       return sunset;
     }
-    // For Havdalah only, round up to next minute if needed
-    if (offset > 0 && sunset.getSeconds() >= 30) {
-      offset++;
+    if (roundMinute) {
+      // For Havdalah only, round up to next minute if needed
+      if (offset > 0 && sunset.getSeconds() >= 30) {
+        offset++;
+      }
+      sunset.setSeconds(0, 0);
     }
-    sunset.setSeconds(0, 0);
     return new Date(sunset.getTime() + (offset * 60 * 1000));
   }
 
@@ -373,7 +379,7 @@ export class Zmanim {
    * @return {Object[]}
    */
   sunsetOffsetTime(offset, timeFormat) {
-    const dt = this.sunsetOffset(offset);
+    const dt = this.sunsetOffset(offset, true);
     if (isNaN(dt.getTime())) {
       // `No sunset for ${location} on ${hd}`
       return [undefined, undefined];

@@ -50,7 +50,7 @@ export function makeCandleEvent(e, hd, dow, location, options) {
   // if offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset ? options.havdalahMins : options.candleLightingMins;
   const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude());
-  const time = offset ? zmanim.sunsetOffset(offset) : zmanim.tzeit(options.havdalahDeg);
+  const time = offset ? zmanim.sunsetOffset(offset, true) : zmanim.tzeit(options.havdalahDeg);
   if (isNaN(time.getTime())) {
     return null; // no sunset
   }

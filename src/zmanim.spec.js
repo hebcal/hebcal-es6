@@ -336,3 +336,18 @@ test('Zmanim.formatISOWithTimeZone-1948', (t) => {
   t.is(Zmanim.formatISOWithTimeZone('America/New_York', dt), '1948-01-31T02:30:50-05:00');
   t.is(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt), '1948-01-30T23:30:50-08:00');
 });
+
+test('sunsetOffset', (t) => {
+  const zman = makeZman();
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Chicago',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+  t.is(f.format(zman.sunriseOffset(10, true)), '05:26:00');
+  t.is(f.format(zman.sunriseOffset(10, false)), '05:26:18');
+  t.is(f.format(zman.sunsetOffset(10, true)), '20:32:00');
+  t.is(f.format(zman.sunsetOffset(10, false)), '20:32:29');
+});
