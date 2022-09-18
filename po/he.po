@@ -1093,3 +1093,18 @@ msgstr "עוקצים"
 
 msgid "Yom Kippur Katan"
 msgstr "יוֹם כִּפּוּר קָטָן"
+
+msgid "Family Day"
+msgstr "יוֹם המשפחה"
+
+msgid "Yitzhak Rabin Memorial Day"
+msgstr "יוֹם הַזִּכָּרוֹן ליצחק רבין"
+
+msgid "Jabotinsky Day"
+msgstr "יוֹם ז׳בוטינסקי"
+
+msgid "Herzl Day"
+msgstr "יוֹם הרצל"
+
+msgid "Ben-Gurion Day"
+msgstr "יוֹם בן-גוריון"

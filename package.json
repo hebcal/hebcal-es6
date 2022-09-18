@@ -35,7 +35,8 @@
   },
   "files": [
     "dist",
-    "hebcal.d.ts"
+    "hebcal.d.ts",
+    "po"
   ],
   "scripts": {
     "build:rollup": "rollup -c",
@@ -63,18 +64,18 @@
     "verbose": true
   },
   "devDependencies": {
-    "@babel/core": "^7.19.0",
-    "@babel/preset-env": "^7.19.0",
+    "@babel/core": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
     "@babel/register": "^7.18.9",
     "@hebcal/solar-calc": "^1.1.2",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^14.0.1",
+    "@rollup/plugin-node-resolve": "^14.1.0",
     "ava": "^4.3.3",
     "codecov": "^3.8.3",
     "core-js": "^3.25.1",
-    "eslint": "^8.23.0",
+    "eslint": "^8.23.1",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.11",
     "jsdoc-to-markdown": "^7.1.1",

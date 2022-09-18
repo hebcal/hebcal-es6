@@ -24,6 +24,7 @@ import {Event, flags, KEYCAP_DIGITS} from './event';
 import {MoladEvent} from './molad';
 import {Sedra} from './sedra';
 import {dateYomHaZikaron, dateYomHaShoah} from './modern';
+import {staticHolidays} from './staticHolidays';
 
 /** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
 export class HolidayEvent extends Event {
@@ -232,7 +233,7 @@ const SAT = 6;
 
 const NISAN = months.NISAN;
 const IYYAR = months.IYYAR;
-const SIVAN = months.SIVAN;
+// const SIVAN = months.SIVAN;
 const TAMUZ = months.TAMUZ;
 const AV = months.AV;
 const ELUL = months.ELUL;
@@ -240,15 +241,15 @@ const TISHREI = months.TISHREI;
 const CHESHVAN = months.CHESHVAN;
 const KISLEV = months.KISLEV;
 const TEVET = months.TEVET;
-const SHVAT = months.SHVAT;
+// const SHVAT = months.SHVAT;
 const ADAR_I = months.ADAR_I;
-const ADAR_II = months.ADAR_II;
+// const ADAR_II = months.ADAR_II;
 
 const CHAG = flags.CHAG;
-const LIGHT_CANDLES = flags.LIGHT_CANDLES;
-const YOM_TOV_ENDS = flags.YOM_TOV_ENDS;
-const CHUL_ONLY = flags.CHUL_ONLY;
-const IL_ONLY = flags.IL_ONLY;
+// const LIGHT_CANDLES = flags.LIGHT_CANDLES;
+// const YOM_TOV_ENDS = flags.YOM_TOV_ENDS;
+// const CHUL_ONLY = flags.CHUL_ONLY;
+// const IL_ONLY = flags.IL_ONLY;
 const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
 const CHANUKAH_CANDLES = flags.CHANUKAH_CANDLES;
 const MINOR_FAST = flags.MINOR_FAST;
@@ -257,7 +258,7 @@ const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
 const MAJOR_FAST = flags.MAJOR_FAST;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
-const CHOL_HAMOED = flags.CHOL_HAMOED;
+// const CHOL_HAMOED = flags.CHOL_HAMOED;
 
 /**
  * Avoid dependency on ES6 Map object
@@ -313,9 +314,6 @@ export function getSedra_(hyear, il) {
 
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';
-const emojiPesach = '🫓';
-const emojiShavuot = {emoji: '⛰️🌸'};
-const emojiSukkot = '🌿🍋';
 const yearCache = Object.create(null);
 
 /**
@@ -346,63 +344,35 @@ export function getHolidaysForYear_(year) {
     // for (const ev of events) {
     events.forEach((ev) => {
       const key = ev.date.toString();
-      if (h.has(key)) {
-        h.get(key).push(ev);
+      const arr = h.get(key);
+      if (typeof arr === 'object') {
+        if (arr[0].getFlags() & flags.EREV) {
+          arr.unshift(ev);
+        } else {
+          arr.push(ev);
+        }
       } else {
         h.set(key, [ev]);
       }
     });
   }
 
-  /**
-   * @private
-   * @param {number} year
-   * @param {Object[]} arr
-   */
-  function addEvents(year, arr) {
-    arr.forEach((a) => {
-      add(new HolidayEvent(new HDate(a[0], a[1], year), a[2], a[3], a[4]));
-    });
-  }
+  staticHolidays.forEach((h) => {
+    const hd = new HDate(h.dd, h.mm, year);
+    const ev = new HolidayEvent(hd, h.desc, h.flags);
+    if (h.emoji) ev.emoji = h.emoji;
+    if (h.chmDay) ev.cholHaMoedDay = h.chmDay;
+    add(ev);
+  });
 
   // standard holidays that don't shift based on year
   add(new RoshHashanaEvent(RH, year, CHAG | LIGHT_CANDLES_TZEIS));
-  addEvents(year, [
-    [2, TISHREI, 'Rosh Hashana II', CHAG | YOM_TOV_ENDS, {emoji: '🍏🍯'}],
-    [3 + (RH.getDay() == THU),
-      TISHREI, 'Tzom Gedaliah', MINOR_FAST],
-    [9, TISHREI, 'Erev Yom Kippur', EREV | LIGHT_CANDLES],
-  ]);
+
+  // Variable date holidays
+  add(new HolidayEvent(new HDate(3 + (RH.getDay() == THU), TISHREI, year),
+      'Tzom Gedaliah', MINOR_FAST));
   // first SAT after RH
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', SPECIAL_SHABBAT));
-  addEvents(year, [
-    [10, TISHREI, 'Yom Kippur', CHAG | YOM_TOV_ENDS | MAJOR_FAST],
-
-    // Attributes for Israel and Diaspora are different
-    [14, TISHREI, 'Erev Sukkot', EREV | LIGHT_CANDLES | CHUL_ONLY, {emoji: emojiSukkot}],
-    [15, TISHREI, 'Sukkot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, {emoji: emojiSukkot}],
-    [16, TISHREI, 'Sukkot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY, {emoji: emojiSukkot}],
-    [17, TISHREI, 'Sukkot III (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1, emoji: emojiSukkot}],
-    [18, TISHREI, 'Sukkot IV (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2, emoji: emojiSukkot}],
-    [19, TISHREI, 'Sukkot V (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3, emoji: emojiSukkot}],
-    [20, TISHREI, 'Sukkot VI (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4, emoji: emojiSukkot}],
-
-    [14, TISHREI, 'Erev Sukkot', EREV | LIGHT_CANDLES | IL_ONLY, {emoji: emojiSukkot}],
-    [15, TISHREI, 'Sukkot I', CHAG | YOM_TOV_ENDS | IL_ONLY, {emoji: emojiSukkot}],
-    [16, TISHREI, 'Sukkot II (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1, emoji: emojiSukkot}],
-    [17, TISHREI, 'Sukkot III (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2, emoji: emojiSukkot}],
-    [18, TISHREI, 'Sukkot IV (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3, emoji: emojiSukkot}],
-    [19, TISHREI, 'Sukkot V (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4, emoji: emojiSukkot}],
-    [20, TISHREI, 'Sukkot VI (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 5, emoji: emojiSukkot}],
-    [21, TISHREI, 'Sukkot VII (Hoshana Raba)', LIGHT_CANDLES | CHOL_HAMOED, {cholHaMoedDay: -1, emoji: emojiSukkot}],
-    [22, TISHREI, 'Shmini Atzeret', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY],
-    //    [22,  TISHREI,    "Shmini Atzeret / Simchat Torah", YOM_TOV_ENDS | IL_ONLY],
-    [22, TISHREI, 'Shmini Atzeret', CHAG | YOM_TOV_ENDS | IL_ONLY],
-    [23, TISHREI, 'Simchat Torah', CHAG | YOM_TOV_ENDS | CHUL_ONLY],
-  ]);
-  add(new HolidayEvent(new HDate(24, KISLEV, year),
-      'Chanukah: 1 Candle', EREV | MINOR_HOLIDAY | CHANUKAH_CANDLES,
-      {emoji: chanukahEmoji + KEYCAP_DIGITS[1]}));
   // yes, we know Kislev 30-32 are wrong
   // HDate() corrects the month automatically
   for (let candles = 2; candles <= 8; candles++) {
@@ -416,7 +386,6 @@ export function getHolidaysForYear_(year) {
       'Chanukah: 8th Day', MINOR_HOLIDAY, {chanukahDay: 8, emoji: chanukahEmoji}));
   add(
       new AsaraBTevetEvent(new HDate(10, TEVET, year), 'Asara B\'Tevet', MINOR_FAST),
-      new HolidayEvent(new HDate(15, SHVAT, year), 'Tu BiShvat', MINOR_HOLIDAY, {emoji: '🌳'}),
   );
   const pesachAbs = pesach.abs();
   add(
@@ -425,10 +394,6 @@ export function getHolidaysForYear_(year) {
       new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == TUE ? 33 : 31)),
           'Ta\'anit Esther', MINOR_FAST),
   );
-  addEvents(year, [
-    [13, ADAR_II, 'Erev Purim', EREV | MINOR_HOLIDAY, {emoji: '🎭️📜'}],
-    [14, ADAR_II, 'Purim', MINOR_HOLIDAY, {emoji: '🎭️📜'}],
-  ]);
   add(
       new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == SUN ? 28 : 29)), 'Shushan Purim',
           MINOR_HOLIDAY, {emoji: '🎭️📜'}),
@@ -444,43 +409,8 @@ export function getHolidaysForYear_(year) {
         MINOR_FAST,
       ),
   );
-  addEvents(year, [
-    // Attributes for Israel and Diaspora are different
-    [14, NISAN, 'Erev Pesach', EREV | LIGHT_CANDLES | IL_ONLY, {emoji: '🫓🍷'}],
-    [15, NISAN, 'Pesach I', CHAG | YOM_TOV_ENDS | IL_ONLY, {emoji: emojiPesach}],
-    [16, NISAN, 'Pesach II (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1, emoji: emojiPesach}],
-    [17, NISAN, 'Pesach III (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2, emoji: emojiPesach}],
-    [18, NISAN, 'Pesach IV (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3, emoji: emojiPesach}],
-    [19, NISAN, 'Pesach V (CH\'\'M)', IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4, emoji: emojiPesach}],
-    [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | IL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 5, emoji: emojiPesach}],
-    [21, NISAN, 'Pesach VII', CHAG | YOM_TOV_ENDS | IL_ONLY, {emoji: emojiPesach}],
-
-    [14, NISAN, 'Erev Pesach', EREV | LIGHT_CANDLES | CHUL_ONLY, {emoji: '🫓🍷'}],
-    [15, NISAN, 'Pesach I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, {emoji: '🫓🍷'}],
-    [16, NISAN, 'Pesach II', CHAG | YOM_TOV_ENDS | CHUL_ONLY, {emoji: emojiPesach}],
-    [17, NISAN, 'Pesach III (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 1, emoji: emojiPesach}],
-    [18, NISAN, 'Pesach IV (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 2, emoji: emojiPesach}],
-    [19, NISAN, 'Pesach V (CH\'\'M)', CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 3, emoji: emojiPesach}],
-    [20, NISAN, 'Pesach VI (CH\'\'M)', LIGHT_CANDLES | CHUL_ONLY | CHOL_HAMOED, {cholHaMoedDay: 4, emoji: emojiPesach}],
-    [21, NISAN, 'Pesach VII', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, {emoji: emojiPesach}],
-    [22, NISAN, 'Pesach VIII', CHAG | YOM_TOV_ENDS | CHUL_ONLY, {emoji: emojiPesach}],
-    [14, IYYAR, 'Pesach Sheni', MINOR_HOLIDAY],
-    [18, IYYAR, 'Lag BaOmer', MINOR_HOLIDAY, {emoji: '🔥'}],
-
-    // Attributes for Israel and Diaspora are different
-    [5, SIVAN, 'Erev Shavuot', EREV | LIGHT_CANDLES | IL_ONLY, emojiShavuot],
-    [6, SIVAN, 'Shavuot', CHAG | YOM_TOV_ENDS | IL_ONLY, emojiShavuot],
-
-    [5, SIVAN, 'Erev Shavuot', EREV | LIGHT_CANDLES | CHUL_ONLY, emojiShavuot],
-    [6, SIVAN, 'Shavuot I', CHAG | LIGHT_CANDLES_TZEIS | CHUL_ONLY, emojiShavuot],
-    [7, SIVAN, 'Shavuot II', CHAG | YOM_TOV_ENDS | CHUL_ONLY, emojiShavuot],
-
-    [15, AV, 'Tu B\'Av', MINOR_HOLIDAY, {emoji: '❤️'}],
-    [1, ELUL, 'Rosh Hashana LaBehemot', MINOR_HOLIDAY, {emoji: '🐑'}],
-  ]);
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
       'Leil Selichot', MINOR_HOLIDAY, {emoji: '🕍'}));
-  add(new HolidayEvent(new HDate(29, ELUL, year), 'Erev Rosh Hashana', EREV | LIGHT_CANDLES, {emoji: '🍏🍯'}));
 
   if (HDate.isLeapYear(year)) {
     add(new HolidayEvent(new HDate(14, ADAR_I, year), 'Purim Katan', MINOR_HOLIDAY, {emoji: '🎭️'}));
