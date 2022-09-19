@@ -558,13 +558,54 @@ test('emoji', (t) => {
 });
 
 test('Yom HaAliyah', (t) => {
-  const events = HebrewCalendar.calendar({year: 2038});
+  const events = HebrewCalendar.calendar({year: 2038, il: true});
   const aliyah = events.filter((ev) => ev.getDesc().startsWith('Yom HaAliyah'));
   t.is(aliyah.length, 2);
   t.is(aliyah[0].getDate().toString(), '10 Nisan 5798');
   t.is(aliyah[0].getDesc(), 'Yom HaAliyah');
   t.is(aliyah[1].getDate().toString(), '7 Cheshvan 5799');
   t.is(aliyah[1].getDesc(), 'Yom HaAliyah School Observance');
+});
+
+test('modern', (t) => {
+  const eventsDiaspora = HebrewCalendar.calendar({year: 2041, il: false, mask: flags.MODERN_HOLIDAY});
+  t.is(eventsDiaspora.length, 6);
+  const actual = eventsDiaspora.map((ev) => {
+    const o = eventDateDesc(ev);
+    if (ev.emoji) o.em = ev.emoji;
+    return o;
+  });
+  const expected = [
+    {date: '2041-04-11', desc: 'Yom HaAliyah', em: '🇮🇱'},
+    {date: '2041-04-29', desc: 'Yom HaShoah'},
+    {date: '2041-05-06', desc: 'Yom HaZikaron', em: '🇮🇱'},
+    {date: '2041-05-07', desc: 'Yom HaAtzma\'ut', em: '🇮🇱'},
+    {date: '2041-05-29', desc: 'Yom Yerushalayim', em: '🇮🇱'},
+    {date: '2041-11-23', desc: 'Sigd'},
+  ];
+  t.deepEqual(actual, expected);
+  const eventsIL = HebrewCalendar.calendar({year: 2041, il: true, mask: flags.MODERN_HOLIDAY});
+  t.is(eventsIL.length, 12);
+  const actualIL = eventsIL.map((ev) => {
+    const o = eventDateDesc(ev);
+    if (ev.emoji) o.em = ev.emoji;
+    return o;
+  });
+  const expectedIL = [
+    {date: '2041-02-01', desc: 'Family Day'},
+    {date: '2041-04-11', desc: 'Yom HaAliyah', em: '🇮🇱'},
+    {date: '2041-04-29', desc: 'Yom HaShoah'},
+    {date: '2041-05-06', desc: 'Yom HaZikaron', em: '🇮🇱'},
+    {date: '2041-05-07', desc: 'Yom HaAtzma\'ut', em: '🇮🇱'},
+    {date: '2041-05-12', desc: 'Herzl Day', em: '🇮🇱'},
+    {date: '2041-05-29', desc: 'Yom Yerushalayim', em: '🇮🇱'},
+    {date: '2041-07-28', desc: 'Jabotinsky Day', em: '🇮🇱'},
+    {date: '2041-11-01', desc: 'Yom HaAliyah School Observance', em: '🇮🇱'},
+    {date: '2041-11-06', desc: 'Yitzhak Rabin Memorial Day', em: '🇮🇱'},
+    {date: '2041-11-23', desc: 'Sigd'},
+    {date: '2041-12-01', desc: 'Ben-Gurion Day', em: '🇮🇱'},
+  ];
+  t.deepEqual(actualIL, expectedIL);
 });
 
 test('RoshChodeshEvent', (t) => {

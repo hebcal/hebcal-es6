@@ -24,7 +24,7 @@ import {Event, flags, KEYCAP_DIGITS} from './event';
 import {MoladEvent} from './molad';
 import {Sedra} from './sedra';
 import {dateYomHaZikaron, dateYomHaShoah} from './modern';
-import {staticHolidays} from './staticHolidays';
+import {staticHolidays, staticModernHolidays} from './staticHolidays';
 
 /** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
 export class HolidayEvent extends Event {
@@ -232,13 +232,13 @@ const FRI = 5;
 const SAT = 6;
 
 const NISAN = months.NISAN;
-const IYYAR = months.IYYAR;
+// const IYYAR = months.IYYAR;
 // const SIVAN = months.SIVAN;
 const TAMUZ = months.TAMUZ;
 const AV = months.AV;
 const ELUL = months.ELUL;
 const TISHREI = months.TISHREI;
-const CHESHVAN = months.CHESHVAN;
+// const CHESHVAN = months.CHESHVAN;
 const KISLEV = months.KISLEV;
 const TEVET = months.TEVET;
 // const SHVAT = months.SHVAT;
@@ -429,23 +429,24 @@ export function getHolidaysForYear_(year) {
     );
   }
 
-  if (year >= 5727) {
-    // Yom Yerushalayim only celebrated after 1967
-    add(new HolidayEvent(new HDate(28, IYYAR, year), 'Yom Yerushalayim', MODERN_HOLIDAY, emojiIsraelFlag));
-  }
-
-  if (year >= 5769) {
-    add(new HolidayEvent(new HDate(29, CHESHVAN, year), 'Sigd', MODERN_HOLIDAY));
-  }
-
-  if (year >= 5777) {
-    add(
-        new HolidayEvent(new HDate(7, CHESHVAN, year),
-            'Yom HaAliyah School Observance', MODERN_HOLIDAY, emojiIsraelFlag),
-        new HolidayEvent(new HDate(10, NISAN, year),
-            'Yom HaAliyah', MODERN_HOLIDAY, emojiIsraelFlag),
-    );
-  }
+  staticModernHolidays.forEach((h) => {
+    if (year >= h.firstYear) {
+      let hd = new HDate(h.dd, h.mm, year);
+      const dow = hd.getDay();
+      if (h.friPostponeToSun && dow === FRI) {
+        hd = new HDate(hd.abs() + 2);
+      }
+      if (h.satPostponeToSun && dow === SAT) {
+        hd = hd.next();
+      }
+      const mask = h.chul ? MODERN_HOLIDAY : (MODERN_HOLIDAY | flags.IL_ONLY);
+      const ev = new HolidayEvent(hd, h.desc, mask);
+      if (!h.suppressEmoji) {
+        ev.emoji = '🇮🇱';
+      }
+      add(ev);
+    }
+  });
 
   let tamuz17 = new HDate(17, TAMUZ, year);
   let tamuz17attrs;
