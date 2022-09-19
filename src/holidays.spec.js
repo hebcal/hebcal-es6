@@ -592,7 +592,7 @@ test('modern', (t) => {
     return o;
   });
   const expectedIL = [
-    {date: '2041-02-01', desc: 'Family Day'},
+    {date: '2041-02-01', desc: 'Family Day', em: '🇮🇱'},
     {date: '2041-04-11', desc: 'Yom HaAliyah', em: '🇮🇱'},
     {date: '2041-04-29', desc: 'Yom HaShoah'},
     {date: '2041-05-06', desc: 'Yom HaZikaron', em: '🇮🇱'},
