@@ -35,8 +35,8 @@ export const staticHolidays = [
   {mm: Tishrei, dd: 2, desc: 'Rosh Hashana II', flags: CHAG | YOM_TOV_ENDS, emoji: '🍏🍯'},
   {mm: Tishrei, dd: 9, desc: 'Erev Yom Kippur', flags: EREV | LIGHT_CANDLES},
   {mm: Tishrei, dd: 10, desc: 'Yom Kippur', flags: CHAG | MAJOR_FAST | YOM_TOV_ENDS},
-  {mm: Tishrei, dd: 14, desc: 'Erev Sukkot', flags: EREV | LIGHT_CANDLES, emoji: emojiSukkot},
 
+  {mm: Tishrei, dd: 14, desc: 'Erev Sukkot', flags: CHUL_ONLY | EREV | LIGHT_CANDLES, emoji: emojiSukkot},
   {mm: Tishrei, dd: 15, desc: 'Sukkot I', flags: CHUL_ONLY | CHAG | LIGHT_CANDLES_TZEIS, emoji: emojiSukkot},
   {mm: Tishrei, dd: 16, desc: 'Sukkot II', flags: CHUL_ONLY | CHAG | YOM_TOV_ENDS, emoji: emojiSukkot},
   {mm: Tishrei, dd: 17, desc: 'Sukkot III (CH\'\'M)', flags: CHUL_ONLY | CHOL_HAMOED, chmDay: 1, emoji: emojiSukkot},
@@ -48,6 +48,7 @@ export const staticHolidays = [
   {mm: Tishrei, dd: 23, desc: 'Simchat Torah',
     flags: CHUL_ONLY | CHAG | YOM_TOV_ENDS},
 
+  {mm: Tishrei, dd: 14, desc: 'Erev Sukkot', flags: IL_ONLY | EREV | LIGHT_CANDLES, emoji: emojiSukkot},
   {mm: Tishrei, dd: 15, desc: 'Sukkot I', flags: IL_ONLY | CHAG | YOM_TOV_ENDS, emoji: emojiSukkot},
   {mm: Tishrei, dd: 16, desc: 'Sukkot II (CH\'\'M)', flags: IL_ONLY | CHOL_HAMOED, chmDay: 1, emoji: emojiSukkot},
   {mm: Tishrei, dd: 17, desc: 'Sukkot III (CH\'\'M)', flags: IL_ONLY | CHOL_HAMOED, chmDay: 2, emoji: emojiSukkot},
@@ -64,8 +65,9 @@ export const staticHolidays = [
   {mm: Shvat, dd: 15, desc: 'Tu BiShvat', flags: MINOR_HOLIDAY, emoji: '🌳'},
   {mm: Adar2, dd: 13, desc: 'Erev Purim', flags: EREV | MINOR_HOLIDAY, emoji: '🎭️📜'},
   {mm: Adar2, dd: 14, desc: 'Purim', flags: MINOR_HOLIDAY, emoji: '🎭️📜'},
-  {mm: Nisan, dd: 14, desc: 'Erev Pesach', flags: EREV | LIGHT_CANDLES, emoji: '🫓🍷'},
   // Pesach Israel
+  {mm: Nisan, dd: 14, desc: 'Erev Pesach',
+    flags: IL_ONLY | EREV | LIGHT_CANDLES, emoji: '🫓🍷'},
   {mm: Nisan, dd: 15, desc: 'Pesach I',
     flags: IL_ONLY | CHAG | YOM_TOV_ENDS, emoji: emojiPesach},
   {mm: Nisan, dd: 16, desc: 'Pesach II (CH\'\'M)',
@@ -81,6 +83,8 @@ export const staticHolidays = [
   {mm: Nisan, dd: 21, desc: 'Pesach VII',
     flags: IL_ONLY | CHAG | YOM_TOV_ENDS, emoji: emojiPesach},
   // Pesach chutz l'aretz
+  {mm: Nisan, dd: 14, desc: 'Erev Pesach',
+    flags: CHUL_ONLY | EREV | LIGHT_CANDLES, emoji: '🫓🍷'},
   {mm: Nisan, dd: 15, desc: 'Pesach I',
     flags: CHUL_ONLY | CHAG | LIGHT_CANDLES_TZEIS, emoji: '🫓🍷'},
   {mm: Nisan, dd: 16, desc: 'Pesach II',
