@@ -102,7 +102,7 @@ test('find-holiday', (t) => {
 });
 
 test('complete-incomplete-types', (t) => {
-  const years = [5701, 5715, 5716, 5745, 5746, 5752, 5753, 5754, 5756, 5757, 5761, 5768];
+  const years = [5701, 5702, 5703, 5708, 5710, 5711, 5713, 5714, 5715, 5717, 5719, 5726, 5734, 5736];
   for (const year of years) {
     const sedraDiaspora = new Sedra(year, false);
     const sedraIL = new Sedra(year, true);
