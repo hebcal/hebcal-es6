@@ -74,28 +74,35 @@ test('MevarchimChodeshEvent', (t) => {
   t.is(mvch.memo, 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
 });
 
-test('shushan-purim', (t) => {
-  const events = HebrewCalendar.calendar({year: 2015, numYears: 15});
-  const shushan = events.filter((ev) => ev.getDesc() == 'Shushan Purim');
-  const dates = shushan.map((ev) => ev.getDate().toString());
+test('Shushan Purim', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new HDate(13, 'Adar2', 5782),
+    end: new HDate(17, 'Adar2', 5782),
+  });
+  const actual = events.map(eventDateDesc);
   const expected = [
-    '15 Adar 5775',
-    '15 Adar II 5776',
-    '15 Adar 5777',
-    '15 Adar 5778',
-    '15 Adar II 5779',
-    '15 Adar 5780',
-    '16 Adar 5781',
-    '15 Adar II 5782',
-    '15 Adar 5783',
-    '15 Adar II 5784',
-    '16 Adar 5785',
-    '15 Adar 5786',
-    '15 Adar II 5787',
-    '15 Adar 5788',
-    '15 Adar 5789',
+    {date: '2022-03-16', desc: 'Ta\'anit Esther'},
+    {date: '2022-03-16', desc: 'Erev Purim'},
+    {date: '2022-03-17', desc: 'Purim'},
+    {date: '2022-03-18', desc: 'Shushan Purim'},
   ];
-  t.deepEqual(dates, expected, '15 years of Shushan Purim differ');
+  t.deepEqual(actual, expected);
+});
+
+test('Purim Meshulash', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new HDate(13, 'Adar2', 5785),
+    end: new HDate(17, 'Adar2', 5785),
+  });
+  const actual = events.map(eventDateDesc);
+  const expected = [
+    {date: '2025-03-13', desc: 'Ta\'anit Esther'},
+    {date: '2025-03-13', desc: 'Erev Purim'},
+    {date: '2025-03-14', desc: 'Purim'},
+    {date: '2025-03-15', desc: 'Shushan Purim'},
+    {date: '2025-03-16', desc: 'Purim Meshulash'},
+  ];
+  t.deepEqual(actual, expected);
 });
 
 test('getHolidaysOnDate', (t) => {

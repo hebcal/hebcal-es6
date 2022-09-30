@@ -1114,3 +1114,6 @@ msgstr "בִרְכַּת הַחַמָּה"
 
 msgid "Shushan Purim Katan"
 msgstr "שׁוּשָׁן פּוּרִים קָטָן"
+
+msgid "Purim Meshulash"
+msgstr "פּוּרִים מְשׁוּלָּשׁ"

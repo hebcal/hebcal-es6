@@ -490,7 +490,7 @@ test('molad', (t) => {
 
 test('year2', (t) => {
   const events = HebrewCalendar.calendar({year: 2});
-  t.is(events.length, 82);
+  t.is(events.length, 83);
   const events2 = events.slice(0, 3);
   const actual = events2.map(eventISODateDesc);
   const expected = [

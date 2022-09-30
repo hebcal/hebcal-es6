@@ -395,8 +395,6 @@ export function getHolidaysForYear_(year) {
           'Ta\'anit Esther', MINOR_FAST),
   );
   add(
-      new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == SUN ? 28 : 29)), 'Shushan Purim',
-          MINOR_HOLIDAY, {emoji: '🎭️📜'}),
       new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 14) - 7), 'Shabbat Parah', SPECIAL_SHABBAT),
       new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 14)), 'Shabbat HaChodesh', SPECIAL_SHABBAT),
       new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 1)), 'Shabbat HaGadol', SPECIAL_SHABBAT),
@@ -411,6 +409,10 @@ export function getHolidaysForYear_(year) {
   );
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
       'Leil Selichot', MINOR_HOLIDAY, {emoji: '🕍'}));
+
+  if (pesach.getDay() == SUN) {
+    add(new HolidayEvent(new HDate(16, months.ADAR_II, year), 'Purim Meshulash', MINOR_HOLIDAY));
+  }
 
   if (HDate.isLeapYear(year)) {
     add(new HolidayEvent(new HDate(14, ADAR_I, year), 'Purim Katan', MINOR_HOLIDAY, {emoji: '🎭️'}));

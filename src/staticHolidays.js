@@ -65,6 +65,7 @@ export const staticHolidays = [
   {mm: Shvat, dd: 15, desc: 'Tu BiShvat', flags: MINOR_HOLIDAY, emoji: '🌳'},
   {mm: Adar2, dd: 13, desc: 'Erev Purim', flags: EREV | MINOR_HOLIDAY, emoji: '🎭️📜'},
   {mm: Adar2, dd: 14, desc: 'Purim', flags: MINOR_HOLIDAY, emoji: '🎭️📜'},
+  {mm: Adar2, dd: 15, desc: 'Shushan Purim', flags: MINOR_HOLIDAY, emoji: '🎭️📜'},
   // Pesach Israel
   {mm: Nisan, dd: 14, desc: 'Erev Pesach',
     flags: IL_ONLY | EREV | LIGHT_CANDLES, emoji: '🫓🍷'},
