@@ -697,4 +697,9 @@ test('Birkat Hachamah', (t) => {
   const ev = events.find((ev) => ev.getDesc() === 'Birkat Hachamah');
   t.is(typeof ev, 'object');
   t.is(ev.getDate().toString(), '19 Nisan 5965');
+
+  const events2 = HebrewCalendar.getHolidaysForYearArray(5993, false);
+  const ev2 = events2.find((ev) => ev.getDesc() === 'Birkat Hachamah');
+  t.is(typeof ev2, 'object');
+  t.is(ev2.getDate().toString(), '29 Adar II 5993');
 });

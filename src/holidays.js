@@ -520,14 +520,39 @@ export function getHolidaysForYear_(year) {
   add(new HolidayEvent(beshalachHd, 'Shabbat Shirah', SPECIAL_SHABBAT));
 
   // Birkat Hachamah appears only once every 28 years
-  for (let day = 1; day <= 30; day++) {
-    const abs = HDate.hebrew2abs(year, NISAN, day);
-    const elapsed = abs + 1373429;
-    if (elapsed % 10227 == 172) {
-      add(new HolidayEvent(new HDate(abs), 'Birkat Hachamah', MINOR_HOLIDAY, {emoji: '☀️'}));
-    }
+  const birkatHaChama = getBirkatHaChama(year);
+  if (birkatHaChama) {
+    const hd = new HDate(birkatHaChama);
+    add(new HolidayEvent(hd, 'Birkat Hachamah', MINOR_HOLIDAY, {emoji: '☀️'}));
   }
 
   yearCache[year] = h;
   return h;
+}
+
+/**
+ * Birkat Hachamah appears only once every 28 years.
+ * Although almost always in Nisan, it can occur in Adar II.
+ *   - 27 Adar II 5461 (Gregorian year 1701)
+ *   - 29 Adar II 5993 (Gregorian year 2233)
+ *
+ * Due to drift, this will eventually slip into Iyyar
+ *   - 2 Iyyar 7141 (Gregorian year 3381)
+ * @private
+ * @param {number} year
+ * @return {number}
+ */
+function getBirkatHaChama(year) {
+  const leap = HDate.isLeapYear(year);
+  const startMonth = leap ? months.ADAR_II : NISAN;
+  const startDay = leap ? 20 : 1;
+  const baseRd = HDate.hebrew2abs(year, startMonth, startDay);
+  for (let day = 0; day <= 40; day++) {
+    const abs = baseRd + day;
+    const elapsed = abs + 1373429;
+    if (elapsed % 10227 == 172) {
+      return abs;
+    }
+  }
+  return 0;
 }
