@@ -277,3 +277,9 @@ msgstr "Chatzos"
 
 msgid "Tzait HaKochavim"
 msgstr "Tzeis HaKochavim"
+
+msgid "Birkat Hachamah"
+msgstr "Birkas Hachamah"
+
+msgid "Shushan Purim Katan"
+msgstr "Shushan Purim Koton"

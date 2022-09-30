@@ -1108,3 +1108,9 @@ msgstr "יוֹם הרצל"
 
 msgid "Ben-Gurion Day"
 msgstr "יוֹם בן-גוריון"
+
+msgid "Birkat Hachamah"
+msgstr "בִרְכַּת הַחַמָּה"
+
+msgid "Shushan Purim Katan"
+msgstr "שׁוּשָׁן פּוּרִים קָטָן"

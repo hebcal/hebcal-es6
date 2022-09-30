@@ -84,7 +84,7 @@ test('heb-year', (t) => {
     isHebrewYear: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 85);
+  t.is(events.length, 86);
   t.is(events[0].getDesc(), 'Erev Rosh Hashana');
   t.is(gregDtString(events[0]), '9/11/1988');
   t.is(events[1].getDesc(), 'Rosh Hashana 5749');
@@ -490,7 +490,7 @@ test('molad', (t) => {
 
 test('year2', (t) => {
   const events = HebrewCalendar.calendar({year: 2});
-  t.is(events.length, 81);
+  t.is(events.length, 82);
   const events2 = events.slice(0, 3);
   const actual = events2.map(eventISODateDesc);
   const expected = [

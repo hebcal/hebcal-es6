@@ -414,6 +414,7 @@ export function getHolidaysForYear_(year) {
 
   if (HDate.isLeapYear(year)) {
     add(new HolidayEvent(new HDate(14, ADAR_I, year), 'Purim Katan', MINOR_HOLIDAY, {emoji: '🎭️'}));
+    add(new HolidayEvent(new HDate(15, ADAR_I, year), 'Shushan Purim Katan', MINOR_HOLIDAY, {emoji: '🎭️'}));
   }
 
   const nisan27dt = dateYomHaShoah(year);
@@ -517,6 +518,15 @@ export function getHolidaysForYear_(year) {
   const sedra = getSedra_(year, false);
   const beshalachHd = sedra.find(15);
   add(new HolidayEvent(beshalachHd, 'Shabbat Shirah', SPECIAL_SHABBAT));
+
+  // Birkat Hachamah appears only once every 28 years
+  for (let day = 1; day <= 30; day++) {
+    const abs = HDate.hebrew2abs(year, NISAN, day);
+    const elapsed = abs + 1373429;
+    if (elapsed % 10227 == 172) {
+      add(new HolidayEvent(new HDate(abs), 'Birkat Hachamah', MINOR_HOLIDAY, {emoji: '☀️'}));
+    }
+  }
 
   yearCache[year] = h;
   return h;

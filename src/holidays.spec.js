@@ -194,6 +194,7 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2011-02-04', desc: 'Rosh Chodesh Adar I'},
     {date: '2011-02-05', desc: 'Rosh Chodesh Adar I'},
     {date: '2011-02-18', desc: 'Purim Katan'},
+    {date: '2011-02-19', desc: 'Shushan Purim Katan'},
     {date: '2011-03-03', desc: 'Yom Kippur Katan Adar II'},
     {date: '2011-03-05', desc: 'Shabbat Shekalim'},
     {date: '2011-03-05', desc: 'Shabbat Mevarchim Chodesh Adar II'},
@@ -678,4 +679,22 @@ test('fast days includes Yom Kippur Katan', (t) => {
     {date: '2021-12-14', desc: 'Asara B\'Tevet'},
   ];
   t.deepEqual(actual, expected);
+});
+
+test('Birkat Hachamah', (t) => {
+  const actual = [];
+  for (let year = 5650; year <= 5920; year++) {
+    const events = HebrewCalendar.getHolidaysForYearArray(year, false);
+    const ev = events.find((ev) => ev.getDesc() === 'Birkat Hachamah');
+    if (ev) {
+      actual.push(year);
+    }
+  }
+  const expected = [5657, 5685, 5713, 5741, 5769, 5797, 5825, 5853, 5881, 5909];
+  t.deepEqual(actual, expected);
+
+  const events = HebrewCalendar.getHolidaysForYearArray(5965, false);
+  const ev = events.find((ev) => ev.getDesc() === 'Birkat Hachamah');
+  t.is(typeof ev, 'object');
+  t.is(ev.getDate().toString(), '19 Nisan 5965');
 });
