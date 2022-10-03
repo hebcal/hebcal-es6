@@ -178,3 +178,10 @@ test('getTodayIs-he', (t) => {
   ];
   t.deepEqual(actual, expected);
 });
+
+test('getTodayIs-he-x-NoNikud', (t) => {
+  const start = new HDate(16, 'Nisan', 5782);
+  const ev = new OmerEvent(start, 1);
+  const expected = 'היום יום אחד לעומר';
+  t.is(ev.getTodayIs('he-x-NoNikud'), expected);
+});

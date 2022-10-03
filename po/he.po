@@ -174,13 +174,8 @@ msgstr "מדות"
 msgid "Niddah"
 msgstr "נדה"
 
-#: ../dafyomi.c:141
-#, c-format
-msgid "Daf Yomi: %s %d"
-msgstr "דף יומי: %s %d"
-
 msgid "Daf Yomi"
-msgstr "דף יומי"
+msgstr "דַף יוֹמִי"
 
 msgid "Parashat"
 msgstr "פָּרָשַׁת"

@@ -107,8 +107,13 @@ export class OmerEvent extends Event {
    * @return {string}
    */
   getTodayIs(locale) {
-    if (locale === 'he' || locale === 'he') {
+    if (typeof locale === 'string') {
+      locale = locale.toLowerCase();
+    }
+    if (locale === 'he') {
       return getTodayIsHe(this.omer);
+    } else if (locale === 'he-x-nonikud') {
+      return Locale.hebrewStripNikkud(getTodayIsHe(this.omer));
     }
     const totalDaysStr = (this.omer === 1) ? 'day' : 'days';
     let str = `Today is ${this.omer} ${totalDaysStr}`;

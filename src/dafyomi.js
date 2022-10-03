@@ -23,6 +23,7 @@ import {greg2abs, isDate} from './greg0';
 import {Locale} from './locale';
 import {Event, flags} from './event';
 import {HDate} from './hdate';
+import {gematriya} from './gematriya';
 
 const osdate = new Date(1923, 8, 11);
 const osday = greg2abs(osdate);
@@ -166,6 +167,13 @@ export class DafYomi {
    * @return {string}
    */
   render(locale) {
+    if (typeof locale === 'string') {
+      locale = locale.toLowerCase();
+    }
+    if (locale === 'he' || locale === 'he-x-nonikud') {
+      return Locale.gettext(this.name, locale) + ' דף ' +
+        gematriya(this.blatt);
+    }
     return Locale.gettext(this.name, locale) + ' ' + this.blatt;
   }
 }
