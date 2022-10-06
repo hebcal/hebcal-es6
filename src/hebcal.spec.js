@@ -476,6 +476,23 @@ test('no-modern', (t) => {
   t.is(ev, undefined);
 });
 
+test('no-modern-il', (t) => {
+  const events = HebrewCalendar.calendar({
+    il: true,
+    noMinorHolidays: true,
+    noRoshChodesh: true,
+    noModern: true,
+    noMinorFast: true,
+    noSpecialShabbat: true,
+    candleLightingMins: 18,
+    isHebrewYear: false,
+    year: 2022,
+    locale: 's',
+  });
+  const ev = events.find((ev) => ev.getDesc() == 'Family Day');
+  t.is(ev, undefined);
+});
+
 test('shabbat-mevarchim', (t) => {
   const events = HebrewCalendar.calendar({year: 2020, shabbatMevarchim: true});
   const ev = events.find((ev) => ev.getDesc() == 'Shabbat Mevarchim Chodesh Sivan');

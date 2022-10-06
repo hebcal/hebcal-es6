@@ -1090,7 +1090,7 @@ msgid "Yom Kippur Katan"
 msgstr "יוֹם כִּפּוּר קָטָן"
 
 msgid "Family Day"
-msgstr "יוֹם המשפחה"
+msgstr "יוֹם הַמִּשׁפָּחָה"
 
 msgid "Yitzhak Rabin Memorial Day"
 msgstr "יוֹם הַזִּכָּרוֹן ליצחק רבין"

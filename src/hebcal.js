@@ -865,7 +865,8 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
     return candlesEv; // holiday isn't observed here; bail out early
   }
   const eFlags = ev.getFlags();
-  if (!options.yomKippurKatan && (eFlags & flags.YOM_KIPPUR_KATAN)) {
+  if ((!options.yomKippurKatan && (eFlags & flags.YOM_KIPPUR_KATAN)) ||
+    (options.noModern && (eFlags & MODERN_HOLIDAY))) {
     return candlesEv; // bail out early
   }
   const location = options.location;
