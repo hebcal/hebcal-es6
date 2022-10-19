@@ -18,11 +18,11 @@ test('getFlags', (t) => {
 });
 
 test('render', (t) => {
-  t.is(ev.render(), 'Foo Bar');
+  t.is(ev.render('en'), 'Foo Bar');
 });
 
 test('renderBrief', (t) => {
-  t.is(ev.renderBrief(), 'Foo Bar');
+  t.is(ev.renderBrief('en'), 'Foo Bar');
 });
 
 test('emoji', (t) => {

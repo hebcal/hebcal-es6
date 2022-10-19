@@ -18,7 +18,7 @@ export class HebrewDateEvent extends Event {
    *
    * const hd = new HDate(15, months.CHESHVAN, 5769);
    * const ev = new HebrewDateEvent(hd);
-   * console.log(ev.render()); // '15th of Cheshvan, 5769'
+   * console.log(ev.render('en')); // '15th of Cheshvan, 5769'
    * console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'
    * @return {string}
    */

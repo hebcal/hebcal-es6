@@ -67,6 +67,7 @@ export class OmerEvent extends Event {
    * @return {string}
    */
   render(locale) {
+    locale = locale || Locale.getLocaleName();
     const omer = this.omer;
     const nth = (locale == 'he') ? gematriya(omer) : Locale.ordinal(omer, locale);
     return nth + ' ' + Locale.gettext('day of the Omer', locale);
@@ -107,6 +108,7 @@ export class OmerEvent extends Event {
    * @return {string}
    */
   getTodayIs(locale) {
+    locale = locale || Locale.getLocaleName();
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }

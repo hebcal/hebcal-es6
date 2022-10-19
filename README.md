@@ -39,7 +39,7 @@ const events = HebrewCalendar.calendar(options);
 for (const ev of events) {
   const hd = ev.getDate();
   const date = hd.greg();
-  console.log(date.toLocaleDateString(), ev.render(), hd.toString());
+  console.log(date.toLocaleDateString(), ev.render('en'), hd.toString());
 }
 ```
 
@@ -526,7 +526,7 @@ including ordinal e.g. `'15th of Cheshvan, 5769'`.
 import {HDate, months} from '@hebcal/core';
 
 const hd = new HDate(15, months.CHESHVAN, 5769);
-console.log(hd.render()); // '15th of Cheshvan, 5769'
+console.log(hd.render('en')); // '15th of Cheshvan, 5769'
 console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
 ```
 <a name="HDate+renderGematriya"></a>
@@ -943,7 +943,7 @@ Returns (translated) description of this event
 **Example**  
 ```js
 const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
-ev.render(); // 'Shavuot'
+ev.render('en'); // 'Shavuot'
 ev.render('he'); // 'שָׁבוּעוֹת'
 ev.render('ashkenazi'); // 'Shavuos'
 ```
@@ -1078,7 +1078,7 @@ import {HDate, HebrewDateEvent, months} from '@hebcal/core';
 
 const hd = new HDate(15, months.CHESHVAN, 5769);
 const ev = new HebrewDateEvent(hd);
-console.log(ev.render()); // '15th of Cheshvan, 5769'
+console.log(ev.render('en')); // '15th of Cheshvan, 5769'
 console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'
 ```
 <a name="HebrewDateEvent+renderBrief"></a>
@@ -2499,7 +2499,7 @@ const events = HebrewCalendar.calendar(options);
 for (const ev of events) {
   const hd = ev.getDate();
   const date = hd.greg();
-  console.log(date.toLocaleDateString(), ev.render(), hd.toString());
+  console.log(date.toLocaleDateString(), ev.render('en'), hd.toString());
 }
 ```
 <a name="HebrewCalendar.getBirthdayOrAnniversary"></a>

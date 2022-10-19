@@ -5,21 +5,21 @@ import './locale-he';
 
 test('render', (t) => {
   const o1 = new OmerEvent(new HDate(16, 'Nisan', 5770), 1);
-  t.is(o1.render(), '1st day of the Omer');
+  t.is(o1.render('en'), '1st day of the Omer');
   t.is(o1.getDesc(), 'Omer 1');
-  t.is(o1.renderBrief(), 'Omer day 1');
+  t.is(o1.renderBrief('en'), 'Omer day 1');
   t.is(o1.render('he'), 'א׳ בָּעוֹמֶר');
   t.is(o1.renderBrief('he'), 'עוֹמֶר יוֹם 1');
   const o33 = new OmerEvent(new HDate(18, 'Iyyar', 5770), 33);
-  t.is(o33.render(), '33rd day of the Omer');
+  t.is(o33.render('en'), '33rd day of the Omer');
   t.is(o33.getDesc(), 'Omer 33');
-  t.is(o33.renderBrief(), 'Omer day 33');
+  t.is(o33.renderBrief('en'), 'Omer day 33');
   t.is(o33.render('he'), 'ל״ג בָּעוֹמֶר');
   t.is(o33.renderBrief('he'), 'עוֹמֶר יוֹם 33');
   const o42 = new OmerEvent(new HDate(27, 'Iyyar', 5770), 42);
-  t.is(o42.render(), '42nd day of the Omer');
+  t.is(o42.render('en'), '42nd day of the Omer');
   t.is(o42.getDesc(), 'Omer 42');
-  t.is(o42.renderBrief(), 'Omer day 42');
+  t.is(o42.renderBrief('en'), 'Omer day 42');
   t.is(o42.render('he'), 'מ״ב בָּעוֹמֶר');
   t.is(o42.renderBrief('he'), 'עוֹמֶר יוֹם 42');
   t.is(o42.render('es'), '42º day of the Omer');

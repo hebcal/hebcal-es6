@@ -11,7 +11,7 @@ test('dafyomi-single', (t) => {
   const dy = new DafYomi(dt);
   t.is(dy.getName(), 'Avodah Zarah');
   t.is(dy.getBlatt(), 68);
-  t.is(dy.render(), 'Avodah Zarah 68');
+  t.is(dy.render('en'), 'Avodah Zarah 68');
 });
 
 test('dafyomi-multi', (t) => {
@@ -23,7 +23,7 @@ test('dafyomi-multi', (t) => {
     const dt = abs2greg(abs);
     const dy = new DafYomi(dt);
     const dateStr = dt.toLocaleDateString('en-US');
-    const str = dateStr + ' Daf Yomi: ' + dy.render();
+    const str = dateStr + ' Daf Yomi: ' + dy.render('en');
     t.is(str, expected[i]);
     i++;
   }
@@ -31,7 +31,7 @@ test('dafyomi-multi', (t) => {
 
 test('dafyomi-render', (t) => {
   const ev = new DafYomiEvent(new HDate(new Date(2020, 5, 18)));
-  t.is(ev.render(), 'Daf Yomi: Shabbat 104');
+  t.is(ev.render('en'), 'Daf Yomi: Shabbat 104');
   t.is(ev.render('a'), 'Daf Yomi: Shabbos 104');
   t.is(ev.render('he'), 'דַף יוֹמִי: שַׁבָּת דף ק״ד');
   t.is(ev.render('he-x-NoNikud'), 'דף יומי: שבת דף ק״ד');
@@ -40,7 +40,7 @@ test('dafyomi-render', (t) => {
 
 test('dafyomi-shekalim', (t) => {
   const ev = new DafYomiEvent(new HDate(new Date(2021, 2, 23)));
-  t.is(ev.render(), 'Daf Yomi: Shekalim 2');
+  t.is(ev.render('en'), 'Daf Yomi: Shekalim 2');
   t.is(ev.url(), 'https://www.sefaria.org/Jerusalem_Talmud_Shekalim.2a?lang=bi');
 });
 

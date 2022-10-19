@@ -295,7 +295,7 @@ export class HDate {
    * import {HDate, months} from '@hebcal/core';
    *
    * const hd = new HDate(15, months.CHESHVAN, 5769);
-   * console.log(hd.render()); // '15th of Cheshvan, 5769'
+   * console.log(hd.render('en')); // '15th of Cheshvan, 5769'
    * console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @param {boolean} [showYear=true] Display year (defaults to true).

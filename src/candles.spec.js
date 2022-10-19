@@ -12,7 +12,7 @@ function eventDateDesc(ev) {
   }
   return {
     date: ev.getDate().greg().toISOString().substring(0, 10),
-    desc: ev.render(),
+    desc: ev.render('en'),
   };
 }
 
@@ -83,12 +83,12 @@ test('candles-only-diaspora', (t) => {
   t.is(events.length, 132);
   const ev0 = events[0];
   t.is(Boolean(ev0.getFlags() & flags.LIGHT_CANDLES), true);
-  t.is(ev0.render(), 'Candle lighting: 16:12');
+  t.is(ev0.render('en'), 'Candle lighting: 16:12');
   t.is(ev0.getDesc(), 'Candle lighting');
   t.is(ev0.eventTimeStr, '16:12');
   const ev1 = events[1];
   t.is(Boolean(ev1.getFlags() & flags.LIGHT_CANDLES_TZEIS), true);
-  t.is(ev1.render(), 'Havdalah: 17:18');
+  t.is(ev1.render('en'), 'Havdalah: 17:18');
   t.is(ev1.getDesc(), 'Havdalah');
   t.is(ev1.eventTimeStr, '17:18');
   const fastBegins = eventDateDesc(events[2]);
@@ -135,7 +135,7 @@ test('havdalah-mins', (t) => {
       .filter((ev) => ev.getDesc().startsWith('Havdalah'));
   const ev = events[0];
   t.is(ev.getFlags(), flags.LIGHT_CANDLES_TZEIS);
-  t.is(ev.render(), 'Havdalah (47 min): 20:02');
+  t.is(ev.render('en'), 'Havdalah (47 min): 20:02');
   t.is(ev.getDesc(), 'Havdalah');
   t.is(ev.eventTimeStr, '20:02');
   const actual = events.slice(1, 5).map(eventTitleDateTime);
@@ -465,17 +465,17 @@ test('renderBrief', (t) => {
   const havdalahTzeit = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location);
 
   t.is(timed.getDesc(), 'Foo Bar');
-  t.is(timed.render(), 'Foo Bar: 20:12');
-  t.is(timed.renderBrief(), 'Foo Bar');
+  t.is(timed.render('en'), 'Foo Bar: 20:12');
+  t.is(timed.renderBrief('en'), 'Foo Bar');
   t.is(candleLighting.getDesc(), 'Candle lighting');
-  t.is(candleLighting.render(), 'Candle lighting: 20:12');
-  t.is(candleLighting.renderBrief(), 'Candle lighting');
+  t.is(candleLighting.render('en'), 'Candle lighting: 20:12');
+  t.is(candleLighting.renderBrief('en'), 'Candle lighting');
   t.is(havdalah.getDesc(), 'Havdalah');
-  t.is(havdalah.render(), 'Havdalah (42 min): 20:12');
-  t.is(havdalah.renderBrief(), 'Havdalah (42 min)');
+  t.is(havdalah.render('en'), 'Havdalah (42 min): 20:12');
+  t.is(havdalah.renderBrief('en'), 'Havdalah (42 min)');
   t.is(havdalahTzeit.getDesc(), 'Havdalah');
-  t.is(havdalahTzeit.render(), 'Havdalah: 20:12');
-  t.is(havdalahTzeit.renderBrief(), 'Havdalah');
+  t.is(havdalahTzeit.render('en'), 'Havdalah: 20:12');
+  t.is(havdalahTzeit.renderBrief('en'), 'Havdalah');
 
   t.is(candleLighting.render('he'), 'הַדלָקָת נֵרוֹת: 20:12');
   t.is(candleLighting.renderBrief('he'), 'הַדלָקָת נֵרוֹת');

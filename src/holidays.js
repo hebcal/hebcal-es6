@@ -147,7 +147,7 @@ export class MevarchimChodeshEvent extends Event {
     const hmonth = date.getMonth();
     const monNext = (hmonth == HDate.monthsInYear(hyear) ? months.NISAN : hmonth + 1);
     const molad = new MoladEvent(date, hyear, monNext);
-    this.memo = molad.render();
+    this.memo = molad.render('en');
   }
   /** @return {string} */
   basename() {

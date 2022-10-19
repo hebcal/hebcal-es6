@@ -1102,7 +1102,7 @@ msgid "Herzl Day"
 msgstr "יוֹם הרצל"
 
 msgid "Ben-Gurion Day"
-msgstr "יוֹם בן-גוריון"
+msgstr "יוֹם בן־גוריון"
 
 msgid "Birkat Hachamah"
 msgstr "בִרְכַּת הַחַמָּה"

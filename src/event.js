@@ -98,7 +98,7 @@ export class Event {
    * Returns (translated) description of this event
    * @example
    * const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
-   * ev.render(); // 'Shavuot'
+   * ev.render('en'); // 'Shavuot'
    * ev.render('he'); // 'שָׁבוּעוֹת'
    * ev.render('ashkenazi'); // 'Shavuos'
    * @param {string} [locale] Optional locale name (defaults to active locale).

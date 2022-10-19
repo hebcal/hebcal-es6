@@ -8,38 +8,38 @@ test('basename-and-url', (t) => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
       'Pesach IV (CH\'\'M)', flags.CHUL_ONLY, {cholHaMoedDay: 2});
   t.is(ev.getDesc(), 'Pesach IV (CH\'\'M)');
-  t.is(ev.render(), 'Pesach IV (CH\'\'M)');
-  t.is(ev.renderBrief(), 'Pesach IV (CH\'\'M)');
+  t.is(ev.render('en'), 'Pesach IV (CH\'\'M)');
+  t.is(ev.renderBrief('en'), 'Pesach IV (CH\'\'M)');
   t.is(ev.basename(), 'Pesach');
   t.is(ev.url(), 'https://www.hebcal.com/holidays/pesach-2003');
 
   const ev2 = new HolidayEvent(new HDate(23, months.TISHREI, 5763),
       'Simchat Torah', flags.CHUL_ONLY);
   t.is(ev2.getDesc(), 'Simchat Torah');
-  t.is(ev2.render(), 'Simchat Torah');
-  t.is(ev2.renderBrief(), 'Simchat Torah');
+  t.is(ev2.render('en'), 'Simchat Torah');
+  t.is(ev2.renderBrief('en'), 'Simchat Torah');
   t.is(ev2.basename(), 'Simchat Torah');
   t.is(ev2.url(), 'https://www.hebcal.com/holidays/simchat-torah-2002');
 
   const ev3 = new HolidayEvent(new HDate(8, months.AV, 5783),
       'Erev Tish\'a B\'Av', flags.MAJOR_FAST);
   t.is(ev3.getDesc(), 'Erev Tish\'a B\'Av');
-  t.is(ev3.render(), 'Erev Tish\'a B\'Av');
-  t.is(ev3.renderBrief(), 'Erev Tish\'a B\'Av');
+  t.is(ev3.render('en'), 'Erev Tish\'a B\'Av');
+  t.is(ev3.renderBrief('en'), 'Erev Tish\'a B\'Av');
   t.is(ev3.basename(), 'Tish\'a B\'Av');
   t.is(ev3.url(), 'https://www.hebcal.com/holidays/tisha-bav-2023');
 
   const rch = new RoshChodeshEvent(new HDate(30, months.ADAR_I, 5787), 'Adar II');
   t.is(rch.getDesc(), 'Rosh Chodesh Adar II');
-  t.is(rch.render(), 'Rosh Chodesh Adar II');
-  t.is(rch.renderBrief(), 'Rosh Chodesh Adar II');
+  t.is(rch.render('en'), 'Rosh Chodesh Adar II');
+  t.is(rch.renderBrief('en'), 'Rosh Chodesh Adar II');
   t.is(rch.basename(), 'Rosh Chodesh Adar II');
   t.is(rch.url(), 'https://www.hebcal.com/holidays/rosh-chodesh-adar-ii-2027');
 
   const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
   t.is(mvch.getDesc(), 'Shabbat Mevarchim Chodesh Tevet');
-  t.is(mvch.render(), 'Shabbat Mevarchim Chodesh Tevet');
-  t.is(mvch.renderBrief(), 'Shabbat Mevarchim Chodesh Tevet');
+  t.is(mvch.render('en'), 'Shabbat Mevarchim Chodesh Tevet');
+  t.is(mvch.renderBrief('en'), 'Shabbat Mevarchim Chodesh Tevet');
   t.is(mvch.url(), undefined);
 });
 
@@ -487,7 +487,7 @@ test('Rosh Hashana L\'Ma\'sar Behemah', (t) => {
     end: new Date(2011, 7, 31),
     locale: 'he',
   });
-  t.is(events[0].render(), 'רֹאשׁ הַשָּׁנָה לְמַעְשַׂר בְּהֵמָה');
+  t.is(events[0].render('he'), 'רֹאשׁ הַשָּׁנָה לְמַעְשַׂר בְּהֵמָה');
 });
 
 test('emoji', (t) => {

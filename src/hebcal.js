@@ -512,7 +512,7 @@ export class HebrewCalendar {
    * for (const ev of events) {
    *   const hd = ev.getDate();
    *   const date = hd.greg();
-   *   console.log(date.toLocaleDateString(), ev.render(), hd.toString());
+   *   console.log(date.toLocaleDateString(), ev.render('en'), hd.toString());
    * }
    * @param {CalOptions} [options={}]
    * @return {Event[]}

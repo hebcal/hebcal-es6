@@ -31,5 +31,5 @@ test('molad', (t) => {
 test('MoladEvent', (t) => {
   const ev = new MoladEvent(new HDate(23, months.KISLEV, 5769), 5769, months.TEVET);
   t.is(ev.getDesc(), 'Molad Tevet 5769');
-  t.is(ev.render(), 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
+  t.is(ev.render('en'), 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
 });
