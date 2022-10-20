@@ -64,12 +64,12 @@
     "verbose": true
   },
   "devDependencies": {
-    "@babel/core": "^7.19.3",
+    "@babel/core": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
     "@babel/register": "^7.18.9",
     "@hebcal/solar-calc": "^1.1.2",
     "@rollup/plugin-babel": "^6.0.0",
-    "@rollup/plugin-commonjs": "^23.0.0",
+    "@rollup/plugin-commonjs": "^23.0.1",
     "@rollup/plugin-json": "^5.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "ava": "^4.3.3",
