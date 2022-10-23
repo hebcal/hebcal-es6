@@ -436,10 +436,11 @@ export function getHolidaysForYear_(year) {
     if (year >= h.firstYear) {
       let hd = new HDate(h.dd, h.mm, year);
       const dow = hd.getDay();
-      if (h.friPostponeToSun && dow === FRI) {
+      if (h.friSatMovetoThu && (dow === FRI || dow === SAT)) {
+        hd = hd.onOrBefore(THU);
+      } else if (h.friPostponeToSun && dow === FRI) {
         hd = new HDate(hd.abs() + 2);
-      }
-      if (h.satPostponeToSun && dow === SAT) {
+      } else if (h.satPostponeToSun && dow === SAT) {
         hd = hd.next();
       }
       const mask = h.chul ? MODERN_HOLIDAY : (MODERN_HOLIDAY | flags.IL_ONLY);

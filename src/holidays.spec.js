@@ -616,6 +616,13 @@ test('modern', (t) => {
   t.deepEqual(actualIL, expectedIL);
 });
 
+test('modernFriSatMovetoThu', (t) => {
+  const events = HebrewCalendar.calendar({year: 2020, il: true});
+  const ev = events.find((ev) => ev.getDesc() === 'Yitzhak Rabin Memorial Day');
+  t.is(ev.getDate().toString(), '11 Cheshvan 5781');
+  t.is(ev.getDate().getDay(), 4);
+});
+
 test('RoshChodeshEvent', (t) => {
   const hd = new HDate(1, 'Tevet', 5782);
   const ev = new RoshChodeshEvent(hd, 'Tevet');
