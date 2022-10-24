@@ -99,6 +99,10 @@ const AVG_HEBYEAR_DAYS = 365.24682220597794;
  * @return {number}
  */
 export function hebrew2abs(year, month, day) {
+  if (year < 1) {
+    throw new RangeError(`hebrew2abs: invalid year ${year}`);
+  }
+
   let tempabs = day;
 
   if (month < TISHREI) {
@@ -137,7 +141,9 @@ export function abs2hebrew(abs) {
     throw new TypeError(`invalid parameter to abs2hebrew ${abs}`);
   }
   abs = Math.trunc(abs);
-
+  if (abs <= EPOCH) {
+    throw new RangeError(`abs2hebrew: ${abs} is before epoch`);
+  }
   // first, quickly approximate year
   let year = Math.floor((abs - EPOCH) / AVG_HEBYEAR_DAYS);
   while (newYear(year) <= abs) {

@@ -141,6 +141,7 @@ test('abs2hebrew', (t) => {
   for (let i = 73668; i <= 943620; i += 365) {
     abs2hebrew(i);
   }
+  t.deepEqual(abs2hebrew(-1373427), {yy: 1, mm: TISHREI, dd: 1});
 });
 
 test('abs2hebrew-88ce', (t) => {
@@ -165,6 +166,21 @@ test('throws-abs2hebrew', (t) => {
   }, {instanceOf: TypeError});
   t.is(error2.message, 'invalid parameter to abs2hebrew bogus');
 });
+
+test('throws-abs2hebrew-before-epoch', (t) => {
+  const error = t.throws(() => {
+    abs2hebrew(-1373429);
+  }, {instanceOf: RangeError});
+  t.is(error.message, 'abs2hebrew: -1373429 is before epoch');
+});
+
+test('throws-hebrew2abs', (t) => {
+  const error = t.throws(() => {
+    hebrew2abs(0, NISAN, 15);
+  }, {instanceOf: RangeError});
+  t.is(error.message, 'hebrew2abs: invalid year 0');
+});
+
 
 test('getMonthName', (t) => {
   // leap year
