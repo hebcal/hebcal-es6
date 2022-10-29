@@ -132,6 +132,16 @@ function shallowCopy(target, source) {
   return target;
 }
 
+const israelCityOffset = {
+  'Jerusalem': 40,
+  'Haifa': 30,
+  'Zikhron Ya\'aqov': 30,
+  'Zikhron Ya\'akov': 30,
+  'Zikhron Yaakov': 30,
+  'Zichron Ya\'akov': 30,
+  'Zichron Yaakov': 30,
+};
+
 /**
  * Modifies options in-place
  * @private
@@ -141,7 +151,8 @@ function checkCandleOptions(options) {
   if (!options.candlelighting) {
     return;
   }
-  if (typeof options.location === 'undefined' || !options.location instanceof Location) {
+  const location = options.location;
+  if (typeof location === 'undefined' || !location instanceof Location) {
     throw new TypeError('options.candlelighting requires valid options.location');
   }
   if (typeof options.havdalahMins === 'number' && typeof options.havdalahDeg === 'number') {
@@ -149,10 +160,11 @@ function checkCandleOptions(options) {
   }
 
   let min = parseInt(options.candleLightingMins, 10) || 18;
-  if (options.location && options.location.getIsrael() &&
-      options.location.getShortName() === 'Jerusalem' &&
-      Math.abs(min) === 18) {
-    min = 40;
+  if (location.getIsrael()) {
+    const offset = israelCityOffset[location.getShortName()];
+    if (typeof offset === 'number' && Math.abs(min) === 18) {
+      min = offset;
+    }
   }
   options.candleLightingMins = -1 * Math.abs(min);
 
