@@ -2442,7 +2442,7 @@ the times are guaranteed to be wrong.
 
 To add candle-lighting options, set `options.candlelighting=true` and set
 `options.location` to an instance of `Location`. By default, candle lighting
-time is 18 minutes before sundown (40 minutes for Jerusalem) and Havdalah is
+time is 18 minutes before sundown (40 minutes for Jerusalem, 30 minutes for Haifa and Zikhron Ya'akov) and Havdalah is
 calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
 are observable in the night time sky with the naked eye). The default Havdalah
 option (Tzeit Hakochavim) is calculated when the sun is 8.5° below the horizon.

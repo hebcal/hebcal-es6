@@ -1112,3 +1112,6 @@ msgstr "שׁוּשָׁן פּוּרִים קָטָן"
 
 msgid "Purim Meshulash"
 msgstr "פּוּרִים מְשׁוּלָּשׁ"
+
+msgid "after sunset"
+msgstr "אחרי השקיעה"

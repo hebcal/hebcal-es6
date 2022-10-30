@@ -142,6 +142,12 @@ const israelCityOffset = {
   'Zichron Yaakov': 30,
 };
 
+const geoIdCandleOffset = {
+  '281184': 40, // Jerusalem
+  '294801': 30, // Haifa
+  '293067': 30, // Zikhron Yaakov
+};
+
 /**
  * Modifies options in-place
  * @private
@@ -160,9 +166,14 @@ function checkCandleOptions(options) {
   }
 
   let min = parseInt(options.candleLightingMins, 10) || 18;
-  if (location.getIsrael()) {
+  if (location.getIsrael() && Math.abs(min) === 18) {
+    const geoid = location.getGeoId();
+    const offset0 = geoIdCandleOffset[geoid];
+    if (typeof offset0 === 'number') {
+      min = offset0;
+    }
     const offset = israelCityOffset[location.getShortName()];
-    if (typeof offset === 'number' && Math.abs(min) === 18) {
+    if (typeof offset === 'number') {
       min = offset;
     }
   }
