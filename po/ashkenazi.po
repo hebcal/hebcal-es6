@@ -263,19 +263,25 @@ msgstr "Mikvaos"
 msgid "Alot HaShachar"
 msgstr "Alos HaShachar"
 
-msgid "Misheyakir"
-msgstr "Misheyakir"
-
 msgid "Kriat Shema, sof zeman"
 msgstr "Krias Shema, sof zman"
 
 msgid "Tefilah, sof zeman"
 msgstr "Tefilah, sof zman"
 
+msgid "Kriat Shema, sof zeman (MGA)"
+msgstr "Krias Shema, sof zman (MGA)"
+
+msgid "Tefilah, sof zeman (MGA)"
+msgstr "Tefilah, sof zman (MGA)"
+
+msgid "Chatzot HaLailah"
+msgstr "Chatzos HaLailah"
+
 msgid "Chatzot hayom"
 msgstr "Chatzos"
 
-msgid "Tzait HaKochavim"
+msgid "Tzeit HaKochavim"
 msgstr "Tzeis HaKochavim"
 
 msgid "Birkat Hachamah"

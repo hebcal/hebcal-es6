@@ -760,50 +760,65 @@ msgid "Shabbat Shirah"
 msgstr "שַׁבָּת שִׁירָה"
 
 # midnight (sunset + six halachic hours)
-msgid "chatzotNight"
+msgid "Chatzot HaLailah"
 msgstr "חֲצוֹת הַלַיְלָה"
 
 # Dawn
-msgid "alotHaShachar"
+msgid "Alot haShachar"
 msgstr "עֲלוֹת הַשַּׁחַר"
 
 # Earliest talis & tefillin 11.5 degrees
-msgid "misheyakir"
+msgid "Misheyakir"
 msgstr "משיכיר - זמן ציצית ותפילין"
 
 # Earliest talis & tefillin 10.2 degrees
-msgid "misheyakirMachmir"
+msgid "Misheyakir Machmir"
 msgstr "משיכיר - זמן ציצית ותפילין"
 
 # sunrise
-msgid "neitzHaChama"
+msgid "Dawn"
+msgstr "שַׁחַר"
+
+# sunrise
+msgid "Sunrise"
 msgstr "הַנֵץ הַחַמָּה"
 
 # Latest shema Gra
-msgid "sofZmanShma"
+msgid "Kriat Shema, sof zeman"
 msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע גר״א"
 
 # Latest shachris Gra
-msgid "sofZmanTfilla"
+msgid "Tefilah, sof zeman"
 msgstr "סוֹף זְמַן תְּפִלָּה גר״א"
 
+# Latest shema MGA
+msgid "Kriat Shema, sof zeman (MGA)"
+msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע מג״א"
+
+# Latest shachris MGA
+msgid "Tefilah, sof zeman (MGA)"
+msgstr "סוֹף זְמַן תְּפִלָּה מג״א"
+
 # Midday (sunrise + six halachic hours)
-msgid "chatzot"
+msgid "Chatzot hayom"
 msgstr "חֲצוֹת הַיּוֹם"
 
 # Earliest mincha
-msgid "minchaGedola"
+msgid "Mincha Gedolah"
 msgstr "מִנְחָה גְּדוֹלָה"
 
 # Preferable earliest time to recite Minchah
-msgid "minchaKetana"
+msgid "Mincha Ketanah"
 msgstr "מִנְחָה קְטַנָּה"
 
-msgid "plagHaMincha"
+msgid "Plag HaMincha"
 msgstr "פְּלַג הַמִּנְחָה"
 
+msgid "Dusk"
+msgstr "דִמדוּם"
+
 # sunset
-msgid "shkiah"
+msgid "Sunset"
 msgstr "שְׁקִיעָה"
 
 # Nightfall - End of ordained fasts
@@ -811,7 +826,7 @@ msgid "Nightfall - End of ordained fasts"
 msgstr "לַיְלָה - גמר תעניות דרבנן"
 
 # Nightfall - 3 stars emerge
-msgid "tzeit"
+msgid "Tzeit HaKochavim"
 msgstr "צֵאת כוכבים"
 
 # Chesed
