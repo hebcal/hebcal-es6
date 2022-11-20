@@ -72,15 +72,15 @@
     "@rollup/plugin-json": "^5.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.1.0",
-    "ava": "^5.0.1",
+    "ava": "^5.1.0",
     "codecov": "^3.8.3",
-    "core-js": "^3.26.0",
-    "eslint": "^8.27.0",
+    "core-js": "^3.26.1",
+    "eslint": "^8.28.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.0",
     "jsdoc-to-markdown": "^7.1.1",
     "nyc": "^15.1.0",
-    "rollup": "^3.2.5",
-    "ttag-cli": "^1.10.1"
+    "rollup": "^3.3.0",
+    "ttag-cli": "^1.10.2"
   }
 }
