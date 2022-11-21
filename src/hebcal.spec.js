@@ -704,3 +704,57 @@ test('tachanun', (t) => {
   t.deepEqual(HebrewCalendar.tachanun(rch, true),
       {shacharit: false, mincha: false, allCongs: false});
 });
+
+test('yerushalmi-yomi-only', (t) => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(1997, 2, 14),
+    end: new Date(2001, 5, 22),
+    noHolidays: true,
+    yerushalmi: true,
+  });
+  t.is(events.length, 1554);
+  const daf1 = events.filter((ev) => ev.daf.blatt === 1);
+  const actual = daf1.map((ev) => gregDtString(ev) + ' ' + ev.render('en'));
+  const expected = [
+    '3/14/1997 Yerushalmi Berakhot 1',
+    '5/21/1997 Yerushalmi Peah 1',
+    '6/27/1997 Yerushalmi Demai 1',
+    '7/31/1997 Yerushalmi Kilayim 1',
+    '9/14/1997 Yerushalmi Sheviit 1',
+    '10/16/1997 Yerushalmi Terumot 1',
+    '12/14/1997 Yerushalmi Maasrot 1',
+    '1/9/1998 Yerushalmi Maaser Sheni 1',
+    '2/11/1998 Yerushalmi Challah 1',
+    '3/11/1998 Yerushalmi Orlah 1',
+    '3/31/1998 Yerushalmi Bikkurim 1',
+    '4/13/1998 Yerushalmi Shabbat 1',
+    '7/14/1998 Yerushalmi Eruvin 1',
+    '9/18/1998 Yerushalmi Pesachim 1',
+    '11/29/1998 Yerushalmi Beitzah 1',
+    '12/21/1998 Yerushalmi Rosh Hashanah 1',
+    '1/12/1999 Yerushalmi Yoma 1',
+    '2/23/1999 Yerushalmi Sukkah 1',
+    '3/21/1999 Yerushalmi Taanit 1',
+    '4/16/1999 Yerushalmi Shekalim 1',
+    '5/19/1999 Yerushalmi Megillah 1',
+    '6/22/1999 Yerushalmi Chagigah 1',
+    '7/14/1999 Yerushalmi Moed Katan 1',
+    '8/3/1999 Yerushalmi Yevamot 1',
+    '10/28/1999 Yerushalmi Ketubot 1',
+    '1/8/2000 Yerushalmi Sotah 1',
+    '2/24/2000 Yerushalmi Nedarim 1',
+    '4/4/2000 Yerushalmi Nazir 1',
+    '5/21/2000 Yerushalmi Gittin 1',
+    '7/14/2000 Yerushalmi Kiddushin 1',
+    '9/1/2000 Yerushalmi Bava Kamma 1',
+    '10/16/2000 Yerushalmi Bava Metzia 1',
+    '11/22/2000 Yerushalmi Bava Batra 1',
+    '12/26/2000 Yerushalmi Shevuot 1',
+    '2/8/2001 Yerushalmi Makkot 1',
+    '2/17/2001 Yerushalmi Sanhedrin 1',
+    '4/15/2001 Yerushalmi Avodah Zarah 1',
+    '5/22/2001 Yerushalmi Horayot 1',
+    '6/10/2001 Yerushalmi Niddah 1',
+  ];
+  t.deepEqual(actual, expected);
+});

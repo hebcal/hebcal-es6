@@ -63,6 +63,7 @@ declare module '@hebcal/core' {
         EREV,
         CHOL_HAMOED,
         MISHNA_YOMI,
+        YERUSHALMI_YOMI,
     }
 
     export type UnitTypeShort = 'd' | 'w' | 'M' | 'y';
@@ -571,8 +572,10 @@ declare module '@hebcal/core' {
         noSpecialShabbat?: boolean;
         /** suppress regular holidays */
         noHolidays?: boolean;
-        /** include Daf Yomi */
+        /** Babylonian Talmud Daf Yomi */
         dafyomi?: boolean;
+        /** Jerusalem Talmud (Yerushalmi) Yomi */
+        yerushalmi?: boolean;
         /** include Mishna Yomi */
         mishnaYomi?: boolean;
         /** include Days of the Omer */

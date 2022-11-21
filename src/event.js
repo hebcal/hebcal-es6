@@ -28,7 +28,7 @@ export const flags = {
   SPECIAL_SHABBAT: 0x000200,
   /** Weekly sedrot on Saturdays */
   PARSHA_HASHAVUA: 0x000400,
-  /** Daily page of Talmud */
+  /** Daily page of Talmud (Bavli) */
   DAF_YOMI: 0x000800,
   /** Days of the Omer */
   OMER_COUNT: 0x001000,
@@ -54,6 +54,8 @@ export const flags = {
   MISHNA_YOMI: 0x400000,
   /** Yom Kippur Katan, minor day of atonement on the day preceeding each Rosh Chodesh */
   YOM_KIPPUR_KATAN: 0x800000,
+  /** Daily page of Jerusalem Talmud (Yerushalmi) */
+  YERUSHALMI_YOMI: 0x1000000,
 };
 
 /** Represents an Event with a title, date, and flags */

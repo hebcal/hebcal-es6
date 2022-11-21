@@ -1,5 +1,8 @@
 import {greg2abs, isDate} from './greg0';
 import {HDate, months} from './hdate';
+import {Locale} from './locale';
+import {Event, flags} from './event';
+import {gematriya} from './gematriya';
 
 const cycleStartDate = new Date(1980, 1, 2);
 export const yerushalmiYomiStart = greg2abs(cycleStartDate);
@@ -61,6 +64,12 @@ const SAT = 6;
  * Unlike the Daf Yomi Bavli cycle, the Yerushalmi cycle skips both
  * Yom Kippur and Tisha B'Av. The page numbers are according to the Vilna
  * Edition which is used since 1900.
+ *
+ * Returns `null` for Yom Kippur and Tisha B'Av.
+ *
+ * Throws an exception if the date is before Daf Yomi Yerushalmi
+ * cycle began (2 February 1980).
+ *
  * @param {HDate|Date|number} date
  * @return {any}
  */
@@ -75,9 +84,9 @@ export function yerushalmiYomi(date) {
   const hd = new HDate(cday);
   // No Daf for Yom Kippur and Tisha B'Av
   if ((hd.getMonth() === months.TISHREI && hd.getDate() === 10) ||
-  (hd.getMonth() === months.AV &&
-    ((hd.getDate() === 9 && hd.getDay() !== SAT) ||
-      (hd.getDate() === 10 && hd.getDay() === SUN)))) {
+      (hd.getMonth() === months.AV &&
+        ((hd.getDate() === 9 && hd.getDay() !== SAT) ||
+          (hd.getDate() === 10 && hd.getDay() === SUN)))) {
     return null;
   }
 
@@ -124,4 +133,35 @@ function numSpecialDays(startAbs, endAbs) {
     }
   }
   return specialDays;
+}
+
+/**
+ * Event wrapper around a Yerushalmi Yomi result
+ */
+export class YerushalmiYomiEvent extends Event {
+  /**
+   * @param {HDate} date
+   * @param {any} daf
+   */
+  constructor(date, daf) {
+    super(date, `${daf.name} ${daf.blatt}`, flags.YERUSHALMI_YOMI, {daf});
+  }
+  /**
+   * Returns name of tractate and page (e.g. "Yerushalmi Beitzah 21").
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    locale = locale || Locale.getLocaleName();
+    if (typeof locale === 'string') {
+      locale = locale.toLowerCase();
+    }
+    const prefix = Locale.gettext('Yerushalmi', locale);
+    const name = Locale.gettext(this.daf.name, locale);
+    if (locale === 'he' || locale === 'he-x-nonikud') {
+      return prefix + ' ' + name + ' דף ' +
+        gematriya(this.blatt);
+    }
+    return prefix + ' ' + name + ' ' + this.daf.blatt;
+  }
 }

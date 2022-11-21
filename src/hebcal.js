@@ -40,6 +40,7 @@ import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
 import {Zmanim} from './zmanim';
 import {hallel_} from './hallel';
 import {tachanun_} from './tachanun';
+import {yerushalmiYomi, YerushalmiYomiEvent, yerushalmiYomiStart} from './yerushalmi';
 
 const FRI = 5;
 const SAT = 6;
@@ -105,6 +106,7 @@ const RECOGNIZED_OPTIONS = {
   userMask: 1,
   yomKippurKatan: 1,
   hour12: 1,
+  yerushalmi: 1,
 };
 
 /**
@@ -215,7 +217,8 @@ function checkCandleOptions(options) {
  * @property {boolean} shabbatMevarchim - add Shabbat Mevarchim
  * @property {boolean} noSpecialShabbat - suppress Special Shabbat
  * @property {boolean} noHolidays - suppress regular holidays
- * @property {boolean} dafyomi - include Daf Yomi
+ * @property {boolean} dafyomi - Babylonian Talmud Daf Yomi
+ * @property {boolean} yerushalmi - Jerusalem Talmud (Yerushalmi) Yomi
  * @property {boolean} mishnaYomi - include Mishna Yomi
  * @property {boolean} omer - include Days of the Omer
  * @property {boolean} molad - include event announcing the molad
@@ -343,6 +346,7 @@ function getMaskFromOptions(options) {
     if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
     if (m & flags.MISHNA_YOMI) options.mishnaYomi = true;
     if (m & flags.YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
+    if (m & flags.YERUSHALMI_YOMI) options.yerushalmi = true;
     options.userMask = true;
     return m;
   }
@@ -395,6 +399,9 @@ function getMaskFromOptions(options) {
   }
   if (options.yomKippurKatan) {
     mask |= flags.YOM_KIPPUR_KATAN;
+  }
+  if (options.yerushalmi) {
+    mask |= flags.YERUSHALMI_YOMI;
   }
 
   return mask;
@@ -470,7 +477,8 @@ export class HebrewCalendar {
    * Additional non-default event types can be specified:
    * * Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
    * * Counting of the Omer (`options.omer`)
-   * * Daf Yomi (`options.dafyomi`)
+   * * Babylonian Talmud Daf Yomi (`options.dafyomi`)
+   * * Jerusalem Talmud (Yerushalmi) Yomi (`options.yerushalmi`)
    * * Mishna Yomi (`options.mishnaYomi`)
    * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
    * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
@@ -485,7 +493,8 @@ export class HebrewCalendar {
    *
    * To add candle-lighting options, set `options.candlelighting=true` and set
    * `options.location` to an instance of `Location`. By default, candle lighting
-   * time is 18 minutes before sundown (40 minutes for Jerusalem) and Havdalah is
+   * time is 18 minutes before sundown (40 minutes for Jerusalem,
+   * 30 minutes for Haifa and Zikhron Ya'akov) and Havdalah is
    * calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
    * are observable in the night time sky with the naked eye). The default Havdalah
    * option (Tzeit Hakochavim) is calculated when the sun is 8.5° below the horizon.
@@ -603,6 +612,13 @@ export class HebrewCalendar {
       }
       if (options.dafyomi && hyear >= 5684) {
         evts.push(new DafYomiEvent(hd));
+      }
+      if (options.yerushalmi && abs >= yerushalmiYomiStart) {
+        const daf = yerushalmiYomi(abs);
+        // daf will be null to signal no Yerushalmi Yomi on YK and 9Av
+        if (daf != null) {
+          evts.push(new YerushalmiYomiEvent(hd, daf));
+        }
       }
       if (options.mishnaYomi && abs >= mishnaYomiStart) {
         const mishnaYomi = mishnaYomiIndex.lookup(abs);

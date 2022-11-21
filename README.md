@@ -126,6 +126,9 @@ each day in order to finish the entire Mishnah in ~6 years.</p>
 <dt><a href="#MishnaYomiEvent">MishnaYomiEvent</a></dt>
 <dd><p>Event wrapper around a Mishna Yomi instance</p>
 </dd>
+<dt><a href="#YerushalmiYomiEvent">YerushalmiYomiEvent</a></dt>
+<dd><p>Event wrapper around a DafYomi instance</p>
+</dd>
 <dt><a href="#HebrewCalendar">HebrewCalendar</a></dt>
 <dd><p>HebrewCalendar is the main interface to the <code>@hebcal/core</code> library.
 This namespace is used to calculate holidays, rosh chodesh, candle lighting &amp; havdalah times,
@@ -150,6 +153,15 @@ parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] 
 <dd><p>Converts a numerical value to a string of Hebrew letters.</p>
 <p>When specifying years of the Hebrew calendar in the present millennium,
 we omit the thousands (which is presently 5 [ה]).</p>
+</dd>
+<dt><a href="#yerushalmiYomi">yerushalmiYomi(date)</a> ⇒ <code>any</code></dt>
+<dd><p>The Yerushalmi Daf Yomi program takes approx. 4.25 years or 51 months.
+Unlike the Daf Yomi Bavli cycle, the Yerushalmi cycle skips both
+Yom Kippur and Tisha B&#39;Av. The page numbers are according to the Vilna
+Edition which is used since 1900.</p>
+<p>Returns <code>null</code> for Yom Kippur and Tisha B&#39;Av.</p>
+<p>Throws an exception if the date is before Daf Yomi Yerushalmi
+cycle began (2 February 1980).</p>
 </dd>
 </dl>
 
@@ -2373,6 +2385,36 @@ Returns Mishna Yomi name (e.g. "Bava Metzia 10:5-6" or "Berakhot 9:5-Peah 1:1").
 Returns a link to sefaria.org
 
 **Kind**: instance method of [<code>MishnaYomiEvent</code>](#MishnaYomiEvent)  
+<a name="YerushalmiYomiEvent"></a>
+
+## YerushalmiYomiEvent
+Event wrapper around a DafYomi instance
+
+**Kind**: global class  
+
+* [YerushalmiYomiEvent](#YerushalmiYomiEvent)
+    * [new YerushalmiYomiEvent(date)](#new_YerushalmiYomiEvent_new)
+    * [.render([locale])](#YerushalmiYomiEvent+render) ⇒ <code>string</code>
+
+<a name="new_YerushalmiYomiEvent_new"></a>
+
+### new YerushalmiYomiEvent(date)
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) | 
+
+<a name="YerushalmiYomiEvent+render"></a>
+
+### yerushalmiYomiEvent.render([locale]) ⇒ <code>string</code>
+Returns name of tractate and page (e.g. "Yerushalmi Beitzah 21").
+
+**Kind**: instance method of [<code>YerushalmiYomiEvent</code>](#YerushalmiYomiEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
 <a name="HebrewCalendar"></a>
 
 ## HebrewCalendar
@@ -2429,7 +2471,8 @@ Set `options.il=true` to use the Israeli schedule.
 Additional non-default event types can be specified:
 * Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
 * Counting of the Omer (`options.omer`)
-* Daf Yomi (`options.dafyomi`)
+* Babylonian Talmud Daf Yomi (`options.dafyomi`)
+* Jerusalem Talmud (Yerushalmi) Yomi (`options.yerushalmi`)
 * Mishna Yomi (`options.mishnaYomi`)
 * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
 * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
@@ -2748,7 +2791,7 @@ Holiday flags for Event
 | MINOR_FAST | <code>number</code> | <code>256</code> | Minor fasts like Tzom Tammuz, Ta'anit Esther, ... |
 | SPECIAL_SHABBAT | <code>number</code> | <code>512</code> | Shabbat Shekalim, Zachor, ... |
 | PARSHA_HASHAVUA | <code>number</code> | <code>1024</code> | Weekly sedrot on Saturdays |
-| DAF_YOMI | <code>number</code> | <code>2048</code> | Daily page of Talmud |
+| DAF_YOMI | <code>number</code> | <code>2048</code> | Daily page of Talmud (Bavli) |
 | OMER_COUNT | <code>number</code> | <code>4096</code> | Days of the Omer |
 | MODERN_HOLIDAY | <code>number</code> | <code>8192</code> | Yom HaShoah, Yom HaAtzma'ut, ... |
 | MAJOR_FAST | <code>number</code> | <code>16384</code> | Yom Kippur and Tish'a B'Av |
@@ -2761,6 +2804,7 @@ Holiday flags for Event
 | CHOL_HAMOED | <code>number</code> | <code>2097152</code> | Chol haMoed, intermediate days of Pesach or Sukkot |
 | MISHNA_YOMI | <code>number</code> | <code>4194304</code> | Mishna Yomi |
 | YOM_KIPPUR_KATAN | <code>number</code> | <code>8388608</code> | Yom Kippur Katan, minor day of atonement on the day preceeding each Rosh Chodesh |
+| YERUSHALMI_YOMI | <code>number</code> | <code>16777216</code> | Daily page of Jerusalem Talmud (Yerushalmi) |
 
 <a name="parshiot"></a>
 
@@ -2792,6 +2836,25 @@ gematriya(60) // 'ס׳'
 gematriya(3761) // 'ג׳תשס״א'
 gematriya(1123) // 'א׳קכ״ג'
 ```
+<a name="yerushalmiYomi"></a>
+
+## yerushalmiYomi(date) ⇒ <code>any</code>
+The Yerushalmi Daf Yomi program takes approx. 4.25 years or 51 months.
+Unlike the Daf Yomi Bavli cycle, the Yerushalmi cycle skips both
+Yom Kippur and Tisha B'Av. The page numbers are according to the Vilna
+Edition which is used since 1900.
+
+Returns `null` for Yom Kippur and Tisha B'Av.
+
+Throws an exception if the date is before Daf Yomi Yerushalmi
+cycle began (2 February 1980).
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | 
+
 <a name="ZmanimTimesResult"></a>
 
 ## ZmanimTimesResult : <code>Object</code>
@@ -2874,7 +2937,8 @@ Options to configure which events are returned
 | shabbatMevarchim | <code>boolean</code> | add Shabbat Mevarchim |
 | noSpecialShabbat | <code>boolean</code> | suppress Special Shabbat |
 | noHolidays | <code>boolean</code> | suppress regular holidays |
-| dafyomi | <code>boolean</code> | include Daf Yomi |
+| dafyomi | <code>boolean</code> | Babylonian Talmud Daf Yomi |
+| yerushalmi | <code>boolean</code> | Jerusalem Talmud (Yerushalmi) Yomi |
 | mishnaYomi | <code>boolean</code> | include Mishna Yomi |
 | omer | <code>boolean</code> | include Days of the Omer |
 | molad | <code>boolean</code> | include event announcing the molad |
