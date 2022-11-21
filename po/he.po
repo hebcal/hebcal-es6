@@ -777,7 +777,7 @@ msgstr "משיכיר - זמן ציצית ותפילין"
 
 # sunrise
 msgid "Dawn"
-msgstr "שַׁחַר"
+msgstr "דִּימְדּוּמֵי בּוֹקֵר"
 
 # sunrise
 msgid "Sunrise"
@@ -815,7 +815,7 @@ msgid "Plag HaMincha"
 msgstr "פְּלַג הַמִּנְחָה"
 
 msgid "Dusk"
-msgstr "דִמדוּם"
+msgstr "דִּימְדּוּמֵי עֶרֶב"
 
 # sunset
 msgid "Sunset"
