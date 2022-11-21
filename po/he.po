@@ -1130,3 +1130,6 @@ msgstr "פּוּרִים מְשׁוּלָּשׁ"
 
 msgid "after sunset"
 msgstr "אחרי השקיעה"
+
+msgid "Yerushalmi"
+msgstr "יְרוּשַׁלְמִי"
