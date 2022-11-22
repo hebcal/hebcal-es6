@@ -1010,6 +1010,7 @@ declare module '@hebcal/core' {
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         url(): string;
+        readonly daf: DafYomi;
     }
     export class HavdalahEvent extends TimedEvent {
         constructor(date: HDate, mask: number, eventTime: Date, location: Location, havdalahMins?: number, linkedEvent?: Event);
@@ -1135,5 +1136,42 @@ declare module '@hebcal/core' {
          */
         url(): string;
         readonly mishnaYomi: MishnaYomi[];
+    }
+
+    /**
+     * Using the Vilna edition, the Yerushalmi Daf Yomi program takes
+     * ~4.25 years or 51 months.
+     * Unlike the Daf Yomi Bavli cycle, this Yerushalmi cycle skips both
+     * Yom Kippur and Tisha B'Av (returning `null`).
+     * The page numbers are according to the Vilna
+     * Edition which is used since 1900.
+     *
+     * The Schottenstein edition uses different page numbers and takes
+     * ~6 years to complete.
+     *
+     * Throws an exception if the date is before Daf Yomi Yerushalmi
+     * cycle began (2 February 1980 for Vilna,
+     * 14 November 2022 for Schottenstein).
+     *
+     * @param date - Hebrew or Gregorian date
+     * @param config - either vilna or schottenstein
+     */
+    export function yerushalmiYomi(date: Date | HDate | number, config: any): any;
+    /** Yerushalmi Yomi configuration for Vilna Edition */
+    export const vilna: any;
+    /** Yerushalmi Yomi configuration for Schottenstein Edition */
+    export const schottenstein: any;
+
+    /**
+     * Event wrapper around a Yerushalmi Yomi result
+     */
+     export class YerushalmiYomiEvent {
+        constructor(date: HDate, daf: any);
+        /**
+         * Returns name of tractate and page (e.g. "Yerushalmi Beitzah 21").
+         * @param [locale] - Optional locale name (defaults to active locale).
+         */
+        render(locale?: string): string;
+        readonly daf: any;
     }
 }

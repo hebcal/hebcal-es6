@@ -5,6 +5,10 @@ import {Event, flags} from './event';
 import {gematriya} from './gematriya';
 
 const vilnaStartDate = new Date(1980, 1, 2);
+/**
+ * Yerushalmi Yomi configuration for Vilna Edition
+ * @readonly
+ */
 export const vilna = {
   startDate: vilnaStartDate,
   startAbs: greg2abs(vilnaStartDate),
@@ -53,6 +57,10 @@ export const vilna = {
 };
 
 const schottensteinStartDate = new Date(2022, 10, 14);
+/**
+ * Yerushalmi Yomi configuration for Schottenstein Edition
+ * @readonly
+ */
 export const schottenstein = {
   startDate: schottensteinStartDate,
   startAbs: greg2abs(schottensteinStartDate),
