@@ -769,11 +769,11 @@ msgstr "עֲלוֹת הַשַּׁחַר"
 
 # Earliest talis & tefillin 11.5 degrees
 msgid "Misheyakir"
-msgstr "משיכיר - זמן ציצית ותפילין"
+msgstr "מִשֶּׁיַּכִּיר"
 
 # Earliest talis & tefillin 10.2 degrees
 msgid "Misheyakir Machmir"
-msgstr "משיכיר - זמן ציצית ותפילין"
+msgstr "מִשֶּׁיַּכִּיר מַחמִיר"
 
 # sunrise
 msgid "Dawn"
