@@ -40,7 +40,7 @@ import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
 import {Zmanim} from './zmanim';
 import {hallel_} from './hallel';
 import {tachanun_} from './tachanun';
-import {yerushalmiYomi, YerushalmiYomiEvent, yerushalmiYomiStart} from './yerushalmi';
+import {yerushalmiYomi, YerushalmiYomiEvent, vilna, schottenstein} from './yerushalmi';
 
 const FRI = 5;
 const SAT = 6;
@@ -107,6 +107,7 @@ const RECOGNIZED_OPTIONS = {
   yomKippurKatan: 1,
   hour12: 1,
   yerushalmi: 1,
+  yerushalmiEdition: 1,
 };
 
 /**
@@ -219,6 +220,7 @@ function checkCandleOptions(options) {
  * @property {boolean} noHolidays - suppress regular holidays
  * @property {boolean} dafyomi - Babylonian Talmud Daf Yomi
  * @property {boolean} yerushalmi - Jerusalem Talmud (Yerushalmi) Yomi
+ * @property {number} yerushalmiEdition - Use 1 for Vilna, 2 for Schottenstein
  * @property {boolean} mishnaYomi - include Mishna Yomi
  * @property {boolean} omer - include Days of the Omer
  * @property {boolean} molad - include event announcing the molad
@@ -583,6 +585,7 @@ export class HebrewCalendar {
     if (options.mishnaYomi) {
       mishnaYomiIndex = new MishnaYomiIndex();
     }
+    const yerushalmiCfg = options.yerushalmiEdition === 2 ? schottenstein : vilna;
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);
       const hyear = hd.getFullYear();
@@ -613,8 +616,8 @@ export class HebrewCalendar {
       if (options.dafyomi && hyear >= 5684) {
         evts.push(new DafYomiEvent(hd));
       }
-      if (options.yerushalmi && abs >= yerushalmiYomiStart) {
-        const daf = yerushalmiYomi(abs);
+      if (options.yerushalmi && abs >= yerushalmiCfg.startAbs) {
+        const daf = yerushalmiYomi(abs, yerushalmiCfg);
         // daf will be null to signal no Yerushalmi Yomi on YK and 9Av
         if (daf != null) {
           evts.push(new YerushalmiYomiEvent(hd, daf));

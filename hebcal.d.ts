@@ -576,6 +576,8 @@ declare module '@hebcal/core' {
         dafyomi?: boolean;
         /** Jerusalem Talmud (Yerushalmi) Yomi */
         yerushalmi?: boolean;
+        /** Use 1 for Vilna, 2 for Schottenstein */
+        yerushalmiEdition?: number;
         /** include Mishna Yomi */
         mishnaYomi?: boolean;
         /** include Days of the Omer */

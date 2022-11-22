@@ -127,7 +127,7 @@ each day in order to finish the entire Mishnah in ~6 years.</p>
 <dd><p>Event wrapper around a Mishna Yomi instance</p>
 </dd>
 <dt><a href="#YerushalmiYomiEvent">YerushalmiYomiEvent</a></dt>
-<dd><p>Event wrapper around a DafYomi instance</p>
+<dd><p>Event wrapper around a Yerushalmi Yomi result</p>
 </dd>
 <dt><a href="#HebrewCalendar">HebrewCalendar</a></dt>
 <dd><p>HebrewCalendar is the main interface to the <code>@hebcal/core</code> library.
@@ -154,14 +154,18 @@ parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] 
 <p>When specifying years of the Hebrew calendar in the present millennium,
 we omit the thousands (which is presently 5 [ה]).</p>
 </dd>
-<dt><a href="#yerushalmiYomi">yerushalmiYomi(date)</a> ⇒ <code>any</code></dt>
-<dd><p>The Yerushalmi Daf Yomi program takes approx. 4.25 years or 51 months.
-Unlike the Daf Yomi Bavli cycle, the Yerushalmi cycle skips both
-Yom Kippur and Tisha B&#39;Av. The page numbers are according to the Vilna
+<dt><a href="#yerushalmiYomi">yerushalmiYomi(date, config)</a> ⇒ <code>any</code></dt>
+<dd><p>Using the Vilna edition, the Yerushalmi Daf Yomi program takes
+~4.25 years or 51 months.
+Unlike the Daf Yomi Bavli cycle, this Yerushalmi cycle skips both
+Yom Kippur and Tisha B&#39;Av (returning <code>null</code>).
+The page numbers are according to the Vilna
 Edition which is used since 1900.</p>
-<p>Returns <code>null</code> for Yom Kippur and Tisha B&#39;Av.</p>
+<p>The Schottenstein edition uses different page numbers and takes
+~6 years to complete.</p>
 <p>Throws an exception if the date is before Daf Yomi Yerushalmi
-cycle began (2 February 1980).</p>
+cycle began (2 February 1980 for Vilna,
+14 November 2022 for Schottenstein).</p>
 </dd>
 </dl>
 
@@ -2388,21 +2392,22 @@ Returns a link to sefaria.org
 <a name="YerushalmiYomiEvent"></a>
 
 ## YerushalmiYomiEvent
-Event wrapper around a DafYomi instance
+Event wrapper around a Yerushalmi Yomi result
 
 **Kind**: global class  
 
 * [YerushalmiYomiEvent](#YerushalmiYomiEvent)
-    * [new YerushalmiYomiEvent(date)](#new_YerushalmiYomiEvent_new)
+    * [new YerushalmiYomiEvent(date, daf)](#new_YerushalmiYomiEvent_new)
     * [.render([locale])](#YerushalmiYomiEvent+render) ⇒ <code>string</code>
 
 <a name="new_YerushalmiYomiEvent_new"></a>
 
-### new YerushalmiYomiEvent(date)
+### new YerushalmiYomiEvent(date, daf)
 
 | Param | Type |
 | --- | --- |
 | date | [<code>HDate</code>](#HDate) | 
+| daf | <code>any</code> | 
 
 <a name="YerushalmiYomiEvent+render"></a>
 
@@ -2487,7 +2492,8 @@ the times are guaranteed to be wrong.
 
 To add candle-lighting options, set `options.candlelighting=true` and set
 `options.location` to an instance of `Location`. By default, candle lighting
-time is 18 minutes before sundown (40 minutes for Jerusalem, 30 minutes for Haifa and Zikhron Ya'akov) and Havdalah is
+time is 18 minutes before sundown (40 minutes for Jerusalem,
+30 minutes for Haifa and Zikhron Ya'akov) and Havdalah is
 calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
 are observable in the night time sky with the naked eye). The default Havdalah
 option (Tzeit Hakochavim) is calculated when the sun is 8.5° below the horizon.
@@ -2838,22 +2844,27 @@ gematriya(1123) // 'א׳קכ״ג'
 ```
 <a name="yerushalmiYomi"></a>
 
-## yerushalmiYomi(date) ⇒ <code>any</code>
-The Yerushalmi Daf Yomi program takes approx. 4.25 years or 51 months.
-Unlike the Daf Yomi Bavli cycle, the Yerushalmi cycle skips both
-Yom Kippur and Tisha B'Av. The page numbers are according to the Vilna
+## yerushalmiYomi(date, config) ⇒ <code>any</code>
+Using the Vilna edition, the Yerushalmi Daf Yomi program takes
+~4.25 years or 51 months.
+Unlike the Daf Yomi Bavli cycle, this Yerushalmi cycle skips both
+Yom Kippur and Tisha B'Av (returning `null`).
+The page numbers are according to the Vilna
 Edition which is used since 1900.
 
-Returns `null` for Yom Kippur and Tisha B'Av.
+The Schottenstein edition uses different page numbers and takes
+~6 years to complete.
 
 Throws an exception if the date is before Daf Yomi Yerushalmi
-cycle began (2 February 1980).
+cycle began (2 February 1980 for Vilna,
+14 November 2022 for Schottenstein).
 
 **Kind**: global function  
 
-| Param | Type |
-| --- | --- |
-| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) \| <code>Date</code> \| <code>number</code> | Hebrew or Gregorian date |
+| config | <code>any</code> | either vilna or schottenstein |
 
 <a name="ZmanimTimesResult"></a>
 
@@ -2939,6 +2950,7 @@ Options to configure which events are returned
 | noHolidays | <code>boolean</code> | suppress regular holidays |
 | dafyomi | <code>boolean</code> | Babylonian Talmud Daf Yomi |
 | yerushalmi | <code>boolean</code> | Jerusalem Talmud (Yerushalmi) Yomi |
+| yerushalmiEdition | <code>number</code> | Use 1 for Vilna, 2 for Schottenstein |
 | mishnaYomi | <code>boolean</code> | include Mishna Yomi |
 | omer | <code>boolean</code> | include Days of the Omer |
 | molad | <code>boolean</code> | include event announcing the molad |

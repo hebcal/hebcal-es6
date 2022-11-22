@@ -16,6 +16,6 @@ export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays';
 export {MishnaYomiIndex} from './mishnaYomi';
 export {MishnaYomiEvent} from './MishnaYomiEvent';
-export {yerushalmiYomi, YerushalmiYomiEvent} from './yerushalmi';
+export {yerushalmiYomi, YerushalmiYomiEvent, vilna, schottenstein} from './yerushalmi';
 export {HebrewCalendar} from './hebcal';
 export {version} from '../package.json';
