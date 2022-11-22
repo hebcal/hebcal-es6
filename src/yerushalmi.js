@@ -240,16 +240,23 @@ export class YerushalmiYomiEvent extends Event {
    * @return {string}
    */
   render(locale) {
+    const prefix = Locale.gettext('Yerushalmi', locale);
+    return prefix + ' ' + this.renderBrief(locale);
+  }
+  /**
+   * Returns name of tractate and page (e.g. "Beitzah 21").
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  renderBrief(locale) {
     locale = locale || Locale.getLocaleName();
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }
-    const prefix = Locale.gettext('Yerushalmi', locale);
     const name = Locale.gettext(this.daf.name, locale);
     if (locale === 'he' || locale === 'he-x-nonikud') {
-      return prefix + ' ' + name + ' דף ' +
-        gematriya(this.daf.blatt);
+      return name + ' דף ' + gematriya(this.daf.blatt);
     }
-    return prefix + ' ' + name + ' ' + this.daf.blatt;
+    return name + ' ' + this.daf.blatt;
   }
 }

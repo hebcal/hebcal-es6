@@ -144,6 +144,12 @@ Event names can be rendered in several languges using the <code>locale</code> op
 <dd><p>The 54 parshiyot of the Torah as transilterated strings
 parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &quot;Ha&#39;Azinu&quot;.</p>
 </dd>
+<dt><a href="#vilna">vilna</a></dt>
+<dd><p>Yerushalmi Yomi configuration for Vilna Edition</p>
+</dd>
+<dt><a href="#schottenstein">schottenstein</a></dt>
+<dd><p>Yerushalmi Yomi configuration for Schottenstein Edition</p>
+</dd>
 </dl>
 
 ## Functions
@@ -2399,6 +2405,7 @@ Event wrapper around a Yerushalmi Yomi result
 * [YerushalmiYomiEvent](#YerushalmiYomiEvent)
     * [new YerushalmiYomiEvent(date, daf)](#new_YerushalmiYomiEvent_new)
     * [.render([locale])](#YerushalmiYomiEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#YerushalmiYomiEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_YerushalmiYomiEvent_new"></a>
 
@@ -2413,6 +2420,17 @@ Event wrapper around a Yerushalmi Yomi result
 
 ### yerushalmiYomiEvent.render([locale]) ⇒ <code>string</code>
 Returns name of tractate and page (e.g. "Yerushalmi Beitzah 21").
+
+**Kind**: instance method of [<code>YerushalmiYomiEvent</code>](#YerushalmiYomiEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="YerushalmiYomiEvent+renderBrief"></a>
+
+### yerushalmiYomiEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns name of tractate and page (e.g. "Beitzah 21").
 
 **Kind**: instance method of [<code>YerushalmiYomiEvent</code>](#YerushalmiYomiEvent)  
 
@@ -2817,6 +2835,20 @@ Holiday flags for Event
 ## parshiot : <code>Array.&lt;string&gt;</code>
 The 54 parshiyot of the Torah as transilterated strings
 parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'Azinu".
+
+**Kind**: global constant  
+**Read only**: true  
+<a name="vilna"></a>
+
+## vilna
+Yerushalmi Yomi configuration for Vilna Edition
+
+**Kind**: global constant  
+**Read only**: true  
+<a name="schottenstein"></a>
+
+## schottenstein
+Yerushalmi Yomi configuration for Schottenstein Edition
 
 **Kind**: global constant  
 **Read only**: true  

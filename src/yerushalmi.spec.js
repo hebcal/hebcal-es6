@@ -1665,4 +1665,8 @@ test('YerushalmiYomiEvent.render', (t) => {
   t.is(ev.render('en'), 'Yerushalmi Berakhot 2');
   t.is(ev.render('ashkenazi'), 'Yerushalmi Berakhos 2');
   t.is(ev.render('he'), 'יְרוּשַׁלְמִי ברכות דף ב׳');
+
+  t.is(ev.renderBrief('en'), 'Berakhot 2');
+  t.is(ev.renderBrief('ashkenazi'), 'Berakhos 2');
+  t.is(ev.renderBrief('he'), 'ברכות דף ב׳');
 });

@@ -1172,6 +1172,7 @@ declare module '@hebcal/core' {
          * @param [locale] - Optional locale name (defaults to active locale).
          */
         render(locale?: string): string;
+        renderBrief(locale?: string): string;
         readonly daf: any;
     }
 }
