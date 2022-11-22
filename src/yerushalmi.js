@@ -240,7 +240,7 @@ export class YerushalmiYomiEvent extends Event {
     const name = Locale.gettext(this.daf.name, locale);
     if (locale === 'he' || locale === 'he-x-nonikud') {
       return prefix + ' ' + name + ' דף ' +
-        gematriya(this.blatt);
+        gematriya(this.daf.blatt);
     }
     return prefix + ' ' + name + ' ' + this.daf.blatt;
   }

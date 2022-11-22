@@ -1,7 +1,9 @@
 import test from 'ava';
-import {yerushalmiYomi, vilna, schottenstein} from './yerushalmi';
+import {yerushalmiYomi, YerushalmiYomiEvent, vilna, schottenstein} from './yerushalmi';
 import {greg2abs} from './greg0';
 import {HDate} from '../dist';
+import './locale-ashkenazi';
+import './locale-he';
 
 test('yerushalmiYomi-small', (t) => {
   const toTest = [
@@ -1654,4 +1656,13 @@ test('schottenstein', (t) => {
     '2028-07-28 Niddah 1',
   ];
   t.deepEqual(actual, expected);
+});
+
+test('YerushalmiYomiEvent.render', (t) => {
+  const hd = new HDate(new Date(2022, 10, 15));
+  const daf = {name: 'Berakhot', blatt: 2};
+  const ev = new YerushalmiYomiEvent(hd, daf);
+  t.is(ev.render('en'), 'Yerushalmi Berakhot 2');
+  t.is(ev.render('ashkenazi'), 'Yerushalmi Berakhos 2');
+  t.is(ev.render('he'), 'יְרוּשַׁלְמִי ברכות דף ב׳');
 });
