@@ -1,25 +1,22 @@
 import test from 'ava';
-import {yerushalmiYomi} from './yerushalmi';
+import {yerushalmiYomi, vilna, schottenstein} from './yerushalmi';
 import {greg2abs} from './greg0';
 import {HDate} from '../dist';
 
 test('yerushalmiYomi-small', (t) => {
-  t.deepEqual(yerushalmiYomi(new Date(1997, 2, 14)),
-      {name: 'Berakhot', blatt: 1});
-  t.deepEqual(yerushalmiYomi(new Date(1997, 2, 15)),
-      {name: 'Berakhot', blatt: 2});
-  t.deepEqual(yerushalmiYomi(new Date(1997, 2, 16)),
-      {name: 'Berakhot', blatt: 3});
-  t.deepEqual(yerushalmiYomi(new Date(1999, 8, 21)),
-      {name: 'Yevamot', blatt: 49});
-  t.deepEqual(yerushalmiYomi(new Date(2001, 5, 22)),
-      {name: 'Niddah', blatt: 13});
-  t.deepEqual(yerushalmiYomi(new Date(2022, 10, 14)),
-      {name: 'Berakhot', blatt: 1});
-  t.deepEqual(yerushalmiYomi(new Date(2023, 0, 21)),
-      {name: 'Peah', blatt: 1});
-  t.deepEqual(yerushalmiYomi(new Date(1980, 1, 2)),
-      {name: 'Berakhot', blatt: 1});
+  const toTest = [
+    [new Date(1997, 2, 14), {name: 'Berakhot', blatt: 1}],
+    [new Date(1997, 2, 15), {name: 'Berakhot', blatt: 2}],
+    [new Date(1997, 2, 16), {name: 'Berakhot', blatt: 3}],
+    [new Date(1999, 8, 21), {name: 'Yevamot', blatt: 49}],
+    [new Date(2001, 5, 22), {name: 'Niddah', blatt: 13}],
+    [new Date(2022, 10, 14), {name: 'Berakhot', blatt: 1}],
+    [new Date(1980, 1, 2), {name: 'Berakhot', blatt: 1}],
+    [new Date(2023, 0, 21), {name: 'Peah', blatt: 1}],
+  ];
+  for (const [dt, expected] of toTest) {
+    t.deepEqual(yerushalmiYomi(dt, vilna), expected);
+  }
 });
 
 
@@ -33,7 +30,7 @@ test('yerushalmiYomi-big', (t) => {
   const endAbs = greg2abs(new Date(2001, 5, 22));
   const actual = [];
   for (let abs = start; abs <= endAbs; abs++) {
-    const daf = yerushalmiYomi(abs);
+    const daf = yerushalmiYomi(abs, vilna);
     const hd = new HDate(abs);
     actual.push([hd2iso(hd), daf ? `${daf.name} ${daf.blatt}` : null]);
   }
@@ -1600,6 +1597,61 @@ test('yerushalmiYomi-big', (t) => {
     ['2001-06-20', 'Niddah 11'],
     ['2001-06-21', 'Niddah 12'],
     ['2001-06-22', 'Niddah 13'],
+  ];
+  t.deepEqual(actual, expected);
+});
+
+test('schottenstein', (t) => {
+  const start = greg2abs(new Date(2022, 10, 14));
+  const endAbs = greg2abs(new Date(2028, 7, 7));
+  const actual = [];
+  for (let abs = start; abs <= endAbs; abs++) {
+    const daf = yerushalmiYomi(abs, schottenstein);
+    const hd = new HDate(abs);
+    if (daf.blatt === 1) {
+      actual.push(hd2iso(hd) + ' ' + daf.name + ' ' + daf.blatt);
+    }
+  }
+  const expected = [
+    '2022-11-14 Berakhot 1',
+    '2023-02-16 Peah 1',
+    '2023-04-30 Demai 1',
+    '2023-07-16 Kilayim 1',
+    '2023-10-08 Sheviit 1',
+    '2024-01-03 Terumot 1',
+    '2024-04-19 Maasrot 1',
+    '2024-06-04 Maaser Sheni 1',
+    '2024-08-02 Challah 1',
+    '2024-09-20 Orlah 1',
+    '2024-11-01 Bikkurim 1',
+    '2024-11-27 Shabbat 1',
+    '2025-03-20 Eruvin 1',
+    '2025-05-30 Pesachim 1',
+    '2025-08-24 Shekalim 1',
+    '2025-10-24 Yoma 1',
+    '2025-12-20 Sukkah 1',
+    '2026-01-22 Beitzah 1',
+    '2026-03-12 Rosh Hashanah 1',
+    '2026-04-08 Taanit 1',
+    '2026-05-09 Megillah 1',
+    '2026-06-19 Chagigah 1',
+    '2026-07-17 Moed Katan 1',
+    '2026-08-09 Yevamot 1',
+    '2026-11-05 Ketubot 1',
+    '2027-01-21 Nedarim 1',
+    '2027-03-04 Nazir 1',
+    '2027-04-26 Sotah 1',
+    '2027-06-17 Gittin 1',
+    '2027-08-09 Kiddushin 1',
+    '2027-10-01 Bava Kamma 1',
+    '2027-11-10 Bava Metzia 1',
+    '2027-12-15 Bava Batra 1',
+    '2028-01-23 Sanhedrin 1',
+    '2028-04-07 Shevuot 1',
+    '2028-05-26 Avodah Zarah 1',
+    '2028-06-29 Makkot 1',
+    '2028-07-10 Horayot 1',
+    '2028-07-28 Niddah 1',
   ];
   t.deepEqual(actual, expected);
 });
