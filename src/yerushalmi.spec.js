@@ -7,18 +7,20 @@ import './locale-he';
 
 test('yerushalmiYomi-small', (t) => {
   const toTest = [
-    [new Date(1997, 2, 14), {name: 'Berakhot', blatt: 1}],
-    [new Date(1997, 2, 15), {name: 'Berakhot', blatt: 2}],
-    [new Date(1997, 2, 16), {name: 'Berakhot', blatt: 3}],
-    [new Date(1999, 8, 21), {name: 'Yevamot', blatt: 49}],
-    [new Date(2001, 5, 22), {name: 'Niddah', blatt: 13}],
-    [new Date(2022, 10, 14), {name: 'Berakhot', blatt: 1}],
-    [new Date(1980, 1, 2), {name: 'Berakhot', blatt: 1}],
-    [new Date(2023, 0, 21), {name: 'Peah', blatt: 1}],
+    [new Date(1997, 2, 14), {name: 'Berakhot', blatt: 1, ed: 'vilna'}],
+    [new Date(1997, 2, 15), {name: 'Berakhot', blatt: 2, ed: 'vilna'}],
+    [new Date(1997, 2, 16), {name: 'Berakhot', blatt: 3, ed: 'vilna'}],
+    [new Date(1999, 8, 21), {name: 'Yevamot', blatt: 49, ed: 'vilna'}],
+    [new Date(2001, 5, 22), {name: 'Niddah', blatt: 13, ed: 'vilna'}],
+    [new Date(2022, 10, 14), {name: 'Berakhot', blatt: 1, ed: 'vilna'}],
+    [new Date(1980, 1, 2), {name: 'Berakhot', blatt: 1, ed: 'vilna'}],
+    [new Date(2023, 0, 21), {name: 'Peah', blatt: 1, ed: 'vilna'}],
   ];
   for (const [dt, expected] of toTest) {
     t.deepEqual(yerushalmiYomi(dt, vilna), expected);
   }
+  t.deepEqual(yerushalmiYomi(new Date(2023, 0, 21), schottenstein),
+      {name: 'Berakhot', blatt: 69, ed: 'schottenstein'});
 });
 
 
@@ -1660,7 +1662,7 @@ test('schottenstein', (t) => {
 
 test('YerushalmiYomiEvent.render', (t) => {
   const hd = new HDate(new Date(2022, 10, 15));
-  const daf = {name: 'Berakhot', blatt: 2};
+  const daf = {name: 'Berakhot', blatt: 2, ed: 'vilna'};
   const ev = new YerushalmiYomiEvent(hd, daf);
   t.is(ev.render('en'), 'Yerushalmi Berakhot 2');
   t.is(ev.render('ashkenazi'), 'Yerushalmi Berakhos 2');
@@ -1669,4 +1671,11 @@ test('YerushalmiYomiEvent.render', (t) => {
   t.is(ev.renderBrief('en'), 'Berakhot 2');
   t.is(ev.renderBrief('ashkenazi'), 'Berakhos 2');
   t.is(ev.renderBrief('he'), 'ברכות דף ב׳');
+});
+
+test('YerushalmiYomiEvent.url', (t) => {
+  const hd = new HDate(new Date(2022, 10, 23));
+  const daf = {name: 'Berakhot', blatt: 10, ed: 'vilna'};
+  const ev = new YerushalmiYomiEvent(hd, daf);
+  t.is(ev.url(), 'https://www.sefaria.org/Jerusalem_Talmud_Berakhot.1.5.9-14?lang=bi');
 });

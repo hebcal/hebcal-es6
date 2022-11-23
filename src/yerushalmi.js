@@ -3,6 +3,7 @@ import {HDate, months} from './hdate';
 import {Locale} from './locale';
 import {Event, flags} from './event';
 import {gematriya} from './gematriya';
+import vilnaMap from './yerushalmiVilnaMap.json';
 
 const vilnaStartDate = new Date(1980, 1, 2);
 /**
@@ -10,6 +11,7 @@ const vilnaStartDate = new Date(1980, 1, 2);
  * @readonly
  */
 export const vilna = {
+  ed: 'vilna',
   startDate: vilnaStartDate,
   startAbs: greg2abs(vilnaStartDate),
   skipYK9Av: true,
@@ -62,6 +64,7 @@ const schottensteinStartDate = new Date(2022, 10, 14);
  * @readonly
  */
 export const schottenstein = {
+  ed: 'schottenstein',
   startDate: schottensteinStartDate,
   startAbs: greg2abs(schottensteinStartDate),
   skipYK9Av: false,
@@ -170,7 +173,7 @@ export function yerushalmiYomi(date, config) {
   for (let j = 0; j < shas.length; j++) {
     const masechet = shas[j];
     if (total < masechet[1]) {
-      return {name: masechet[0], blatt: total + 1};
+      return {name: masechet[0], blatt: total + 1, ed: config.ed};
     }
     total -= masechet[1];
   }
@@ -258,5 +261,22 @@ export class YerushalmiYomiEvent extends Event {
       return name + ' דף ' + gematriya(this.daf.blatt);
     }
     return name + ' ' + this.daf.blatt;
+  }
+  /**
+   * Returns a link to sefaria.org
+   * @return {string}
+   */
+  url() {
+    const daf = this.daf;
+    if (daf.ed !== 'vilna') {
+      return undefined;
+    }
+    const tractate = daf.name;
+    const name0 = 'Jerusalem Talmud ' + tractate;
+    const name = name0.replace(/ /g, '_');
+    const idx = 2 * (daf.blatt - 1);
+    const verses0 = vilnaMap[tractate][idx];
+    const verses = verses0.replace(/:/g, '.');
+    return `https://www.sefaria.org/${name}.${verses}?lang=bi`;
   }
 }

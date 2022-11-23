@@ -1173,6 +1173,7 @@ declare module '@hebcal/core' {
          */
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+        url(): string;
         readonly daf: any;
     }
 }
