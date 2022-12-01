@@ -1679,3 +1679,29 @@ test('YerushalmiYomiEvent.url', (t) => {
   const ev = new YerushalmiYomiEvent(hd, daf);
   t.is(ev.url(), 'https://www.sefaria.org/Jerusalem_Talmud_Berakhot.1.5.9-14?lang=bi');
 });
+
+test('YerushalmiYomiEvent.url schottenstein', (t) => {
+  const hd = new HDate(new Date(2023, 0, 21));
+  const daf = {name: 'Berakhot', blatt: 69, ed: 'schottenstein'};
+  const ev = new YerushalmiYomiEvent(hd, daf);
+  t.is(ev.url(), undefined);
+});
+
+test('YerushalmiYomiEvent.url bogus', (t) => {
+  const hd = new HDate(new Date(2023, 0, 21));
+  const daf = {name: 'Bogus', blatt: 1, ed: 'vilna'};
+  const ev = new YerushalmiYomiEvent(hd, daf);
+  t.is(ev.url(), undefined);
+});
+
+test('YerushalmiYomiEvent.url Peah 10a', (t) => {
+  const ev9 = new YerushalmiYomiEvent(new HDate(new Date(2023, 0, 29)),
+      {name: 'Peah', blatt: 9, ed: 'vilna'});
+  const ev10 = new YerushalmiYomiEvent(new HDate(new Date(2023, 0, 30)),
+      {name: 'Peah', blatt: 10, ed: 'vilna'});
+  const ev11 = new YerushalmiYomiEvent(new HDate(new Date(2023, 0, 31)),
+      {name: 'Peah', blatt: 11, ed: 'vilna'});
+  t.is(typeof ev9.url(), 'string');
+  t.is(typeof ev10.url(), 'undefined');
+  t.is(typeof ev11.url(), 'string');
+});

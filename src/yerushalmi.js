@@ -272,10 +272,17 @@ export class YerushalmiYomiEvent extends Event {
       return undefined;
     }
     const tractate = daf.name;
+    const pageMap = vilnaMap[tractate];
+    if (!Array.isArray(pageMap)) {
+      return undefined;
+    }
+    const idx = daf.blatt - 1;
+    const verses0 = pageMap[idx];
+    if (typeof verses0 !== 'string') {
+      return undefined;
+    }
     const name0 = 'Jerusalem Talmud ' + tractate;
     const name = name0.replace(/ /g, '_');
-    const idx = daf.blatt - 1;
-    const verses0 = vilnaMap[tractate][idx];
     const verses = verses0.replace(/:/g, '.');
     return `https://www.sefaria.org/${name}.${verses}?lang=bi`;
   }
