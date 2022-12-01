@@ -274,7 +274,7 @@ export class YerushalmiYomiEvent extends Event {
     const tractate = daf.name;
     const name0 = 'Jerusalem Talmud ' + tractate;
     const name = name0.replace(/ /g, '_');
-    const idx = 2 * (daf.blatt - 1);
+    const idx = daf.blatt - 1;
     const verses0 = vilnaMap[tractate][idx];
     const verses = verses0.replace(/:/g, '.');
     return `https://www.sefaria.org/${name}.${verses}?lang=bi`;
