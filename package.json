@@ -22,6 +22,10 @@
   "description": "A perpetual Jewish Calendar API",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
   "typings": "hebcal.d.ts",
   "engines": {
     "node": ">=10.21.0"
@@ -75,7 +79,7 @@
     "ava": "^5.1.0",
     "codecov": "^3.8.3",
     "core-js": "^3.26.1",
-    "eslint": "^8.28.0",
+    "eslint": "^8.29.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.0",
     "jsdoc-to-markdown": "^8.0.0",
