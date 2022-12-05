@@ -1,15 +1,13 @@
-import {nodeResolve} from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import babel from '@rollup/plugin-babel';
-import json from '@rollup/plugin-json';
-import terser from '@rollup/plugin-terser';
-import {createRequire} from 'node:module';
-const require = createRequire(import.meta.url);
+const {nodeResolve} = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const babel = require('@rollup/plugin-babel');
+const json = require('@rollup/plugin-json');
+const terser = require('@rollup/plugin-terser');
 const pkg = require('./package.json');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
 
-export default [
+module.exports = [
   {
     input: 'src/index.js',
     output: [

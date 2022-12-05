@@ -75,7 +75,7 @@
     "@rollup/plugin-commonjs": "^23.0.3",
     "@rollup/plugin-json": "^5.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-terser": "^0.1.0",
+    "@rollup/plugin-terser": "^0.2.0",
     "ava": "^5.1.0",
     "codecov": "^3.8.3",
     "core-js": "^3.26.1",
@@ -84,7 +84,7 @@
     "jsdoc": "^4.0.0",
     "jsdoc-to-markdown": "^8.0.0",
     "nyc": "^15.1.0",
-    "rollup": "^3.5.1",
+    "rollup": "^3.6.0",
     "ttag-cli": "^1.10.5"
   }
 }
