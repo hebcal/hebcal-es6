@@ -31,12 +31,13 @@ export class OmerEvent extends Event {
    * @param {number} omerDay
    */
   constructor(date, omerDay) {
-    super(date, `Omer ${omerDay}`, flags.OMER_COUNT, {omer: omerDay});
+    super(date, `Omer ${omerDay}`, flags.OMER_COUNT);
     if (omerDay < 1 || omerDay > 49) {
       throw new RangeError(`Invalid Omer day ${omerDay}`);
     }
     this.weekNumber = Math.floor((omerDay - 1) / 7) + 1;
     this.daysWithinWeeks = (omerDay % 7) || 7;
+    this.omer = omerDay;
   }
   /**
    * @param {string} lang

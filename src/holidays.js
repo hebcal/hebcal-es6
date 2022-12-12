@@ -118,10 +118,9 @@ export class AsaraBTevetEvent extends HolidayEvent {
    * @param {HDate} date Hebrew date event occurs
    * @param {string} desc Description (not translated)
    * @param {number} [mask=0] optional holiday flags
-   * @param {Object} [attrs={}]
    */
-  constructor(date, desc, mask, attrs) {
-    super(date, desc, mask, attrs);
+  constructor(date, desc, mask) {
+    super(date, desc, mask);
   }
   /** @return {string} */
   urlDateSuffix() {
@@ -172,7 +171,7 @@ export class RoshHashanaEvent extends HolidayEvent {
    * @param {number} mask optional holiday flags
    */
   constructor(date, hyear, mask) {
-    super(date, `Rosh Hashana ${hyear}`, mask, {emoji: '🍏🍯'});
+    super(date, `Rosh Hashana ${hyear}`, mask);
     this.hyear = hyear;
   }
   /**
@@ -183,11 +182,15 @@ export class RoshHashanaEvent extends HolidayEvent {
   render(locale) {
     return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
   }
+  /** @return {string} */
+  getEmoji() {
+    return '🍏🍯';
+  }
 }
 
 const ykk = 'Yom Kippur Katan';
 
-/** Represents Rosh Hashana, the Jewish New Year */
+/** YKK is minor day of atonement on the day preceeding each Rosh Chodesh */
 export class YomKippurKatanEvent extends HolidayEvent {
   /**
    * @private
