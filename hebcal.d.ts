@@ -1037,7 +1037,7 @@ declare module '@hebcal/core' {
         readonly endEvent?: TimedEvent;
     }
     export class AsaraBTevetEvent extends HolidayEvent {
-        constructor(date: HDate, desc: string, mask?: number, attrs?: any);
+        constructor(date: HDate, desc: string, mask?: number);
         urlDateSuffix(): string;
     }
     export class YomKippurKatanEvent extends HolidayEvent {

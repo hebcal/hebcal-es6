@@ -813,3 +813,11 @@ test('yerushalmiYomi-Schottenstein', (t) => {
   ];
   t.deepEqual(actual, expected);
 });
+
+test('year1', (t) => {
+  const events = HebrewCalendar.calendar({
+    isHebrewYear: true,
+    year: 1,
+  });
+  t.is(events.length, 78);
+});

@@ -303,7 +303,7 @@ export function getStartAndEnd(options) {
     // for full Hebrew year, start on Erev Rosh Hashana which
     // is technically in the previous Hebrew year
     // (but conveniently lets us get candle-lighting time for Erev)
-    if (!theMonth) {
+    if (!theMonth && theYear > 1) {
       startAbs--;
     }
     return [startAbs, endAbs];

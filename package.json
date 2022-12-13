@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.46.6",
+  "version": "3.46.7",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -28,7 +28,7 @@
   },
   "typings": "hebcal.d.ts",
   "engines": {
-    "node": ">=10.21.0"
+    "node": ">= 12.17.0"
   },
   "repository": {
     "type": "git",
