@@ -821,3 +821,23 @@ test('year1', (t) => {
   });
   t.is(events.length, 78);
 });
+
+test('year1-sedrot', (t) => {
+  const events = HebrewCalendar.calendar({
+    isHebrewYear: true,
+    year: 1,
+    sedrot: true,
+    noHolidays: true,
+  });
+  t.is(events.length, 47);
+  const actual = events.slice(0, 6).map(eventISODateDesc);
+  const expected = [
+    {date: '-003760-09-12', desc: 'Parashat Vayeilech'},
+    {date: '-003760-09-19', desc: 'Parashat Ha\'Azinu'},
+    {date: '-003760-10-03', desc: 'Parashat Bereshit'},
+    {date: '-003760-10-10', desc: 'Parashat Noach'},
+    {date: '-003760-10-17', desc: 'Parashat Lech-Lecha'},
+    {date: '-003760-10-24', desc: 'Parashat Vayera'},
+  ];
+  t.deepEqual(actual, expected);
+});
