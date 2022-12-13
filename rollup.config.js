@@ -7,6 +7,13 @@ const pkg = require('./package.json');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
 
+const TARGET_NODE_VER = '12.22.0';
+const TARGETS_BROWSER = {
+  chrome: '103',
+  ie: '11',
+  safari: '13.1',
+};
+
 module.exports = [
   {
     input: 'src/index.js',
@@ -21,7 +28,7 @@ module.exports = [
           ['@babel/preset-env', {
             modules: false,
             targets: {
-              node: '10.21.0',
+              node: TARGET_NODE_VER,
             },
           }],
         ],
@@ -44,7 +51,7 @@ module.exports = [
           ['@babel/preset-env', {
             modules: false,
             targets: {
-              node: '12.22.0',
+              node: TARGET_NODE_VER,
             },
           }],
         ],
@@ -81,10 +88,7 @@ module.exports = [
         presets: [
           ['@babel/preset-env', {
             modules: false,
-            targets: {
-              'chrome': '58',
-              'ie': '11',
-            },
+            targets: TARGETS_BROWSER,
             exclude: [
               'es.array.concat',
               'es.array.filter',
@@ -127,7 +131,7 @@ module.exports = [
           ['@babel/preset-env', {
             modules: false,
             targets: {
-              node: '12.22.0',
+              node: TARGET_NODE_VER,
             },
           }],
         ],
@@ -162,10 +166,7 @@ module.exports = [
         presets: [
           ['@babel/preset-env', {
             modules: false,
-            targets: {
-              'chrome': '58',
-              'ie': '11',
-            },
+            targets: TARGETS_BROWSER,
             useBuiltIns: false,
           }],
         ],
