@@ -754,7 +754,7 @@ msgid "Tish'a B'Av (observed)"
 msgstr "תִּשְׁעָה בְּאָב נִדחֶה"
 
 msgid "Shabbat Mevarchim Chodesh"
-msgstr "שַׁבָּת מברכים חוֹדֶשׁ"
+msgstr "שַׁבָּת מְבָרְכִים חוֹדֶשׁ"
 
 msgid "Shabbat Shirah"
 msgstr "שַׁבָּת שִׁירָה"
