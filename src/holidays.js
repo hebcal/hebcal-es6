@@ -376,6 +376,9 @@ export function getHolidaysForYear_(year) {
       'Tzom Gedaliah', MINOR_FAST));
   // first SAT after RH
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())), 'Shabbat Shuva', SPECIAL_SHABBAT));
+  const rchTevet = HDate.shortKislev(year) ?
+    new HDate(1, TEVET, year) : new HDate(30, KISLEV, year);
+  add(new HolidayEvent(rchTevet, 'Chag HaBanot', MINOR_HOLIDAY));
   // yes, we know Kislev 30-32 are wrong
   // HDate() corrects the month automatically
   for (let candles = 2; candles <= 8; candles++) {

@@ -334,6 +334,7 @@ test('chanukah-candles', (t) => {
     {date: '2020-12-13', time: '16:47', desc: 'Chanukah: 4 Candles'},
     {date: '2020-12-14', time: '16:47', desc: 'Chanukah: 5 Candles'},
     {date: '2020-12-15', time: '16:47', desc: 'Chanukah: 6 Candles'},
+    {date: '2020-12-16', time: undefined, desc: 'Chag HaBanot'},
     {date: '2020-12-16', time: '16:48', desc: 'Chanukah: 7 Candles'},
     {date: '2020-12-16', time: undefined, desc: 'Rosh Chodesh Tevet'},
     {date: '2020-12-17', time: '16:48', desc: 'Chanukah: 8 Candles'},

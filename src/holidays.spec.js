@@ -112,7 +112,7 @@ test('getHolidaysOnDate', (t) => {
     new HDate(1, 'Tishrei', hyear), ['Rosh Hashana 5771'],
     new HDate(10, 'Tishrei', hyear), ['Yom Kippur'],
     new HDate(3, 'Cheshvan', hyear), undefined,
-    new Date(2010, 11, 7), ['Chanukah: 7 Candles', 'Rosh Chodesh Tevet'],
+    new Date(2010, 11, 7), ['Chag HaBanot', 'Chanukah: 7 Candles', 'Rosh Chodesh Tevet'],
   ];
   for (let i = 0; i < expected.length; i += 2) {
     const dt = expected[i];
@@ -185,6 +185,7 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2010-12-04', desc: 'Shabbat Mevarchim Chodesh Tevet'},
     {date: '2010-12-05', desc: 'Chanukah: 5 Candles'},
     {date: '2010-12-06', desc: 'Chanukah: 6 Candles'},
+    {date: '2010-12-07', desc: 'Chag HaBanot'},
     {date: '2010-12-07', desc: 'Chanukah: 7 Candles'},
     {date: '2010-12-07', desc: 'Rosh Chodesh Tevet'},
     {date: '2010-12-08', desc: 'Chanukah: 8 Candles'},
@@ -299,6 +300,7 @@ test('getHolidaysForYearArray-5720-il', (t) => {
     {date: '1959-12-28', desc: 'Chanukah: 4 Candles'},
     {date: '1959-12-29', desc: 'Chanukah: 5 Candles'},
     {date: '1959-12-30', desc: 'Chanukah: 6 Candles'},
+    {date: '1959-12-31', desc: 'Chag HaBanot'},
     {date: '1959-12-31', desc: 'Chanukah: 7 Candles'},
     {date: '1959-12-31', desc: 'Rosh Chodesh Tevet'},
     {date: '1960-01-01', desc: 'Chanukah: 8 Candles'},

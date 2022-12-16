@@ -46,7 +46,7 @@ test('greg-year', (t) => {
     year: 1993,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 84);
+  t.is(events.length, 85);
   t.is(events[0].getDesc(), 'Asara B\'Tevet');
   t.is(gregDtString(events[0]), '1/3/1993');
   t.is(events[72].getDesc(), 'Chanukah: 1 Candle');
@@ -84,7 +84,7 @@ test('heb-year', (t) => {
     isHebrewYear: true,
   };
   const events = HebrewCalendar.calendar(options);
-  t.is(events.length, 86);
+  t.is(events.length, 87);
   t.is(events[0].getDesc(), 'Erev Rosh Hashana');
   t.is(gregDtString(events[0]), '9/11/1988');
   t.is(events[1].getDesc(), 'Rosh Hashana 5749');
@@ -507,7 +507,7 @@ test('molad', (t) => {
 
 test('year2', (t) => {
   const events = HebrewCalendar.calendar({year: 2});
-  t.is(events.length, 83);
+  t.is(events.length, 84);
   const events2 = events.slice(0, 3);
   const actual = events2.map(eventISODateDesc);
   const expected = [
@@ -819,7 +819,7 @@ test('year1', (t) => {
     isHebrewYear: true,
     year: 1,
   });
-  t.is(events.length, 78);
+  t.is(events.length, 79);
 });
 
 test('year1-sedrot', (t) => {
