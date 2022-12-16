@@ -1133,3 +1133,6 @@ msgstr "אחרי השקיעה"
 
 msgid "Yerushalmi"
 msgstr "יְרוּשַׁלְמִי"
+
+msgid "Chag HaBanot"
+msgstr "חַג הַבָּנוֹת"
