@@ -11,7 +11,7 @@ export class NachYomiEvent extends Event {
    * @param {NachYomi} nachYomi
    */
   constructor(date, nachYomi) {
-    super(date, `${nachYomi.k} ${nachYomi.v}`, flags.MISHNA_YOMI);
+    super(date, `${nachYomi.k} ${nachYomi.v}`, flags.NACH_YOMI);
     this.nachYomi = nachYomi;
   }
   /**
