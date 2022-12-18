@@ -37,7 +37,7 @@ import './locale-ashkenazi';
 import './locale-he';
 import {MishnaYomiEvent} from './MishnaYomiEvent';
 import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
-import {NachYomiEvent} from './nachYomiEvent';
+import {NachYomiEvent} from './NachYomiEvent';
 import {NachYomiIndex, nachYomiStart} from './nachYomi';
 import {Zmanim} from './zmanim';
 import {hallel_} from './hallel';
