@@ -4,6 +4,7 @@ import {Locale} from './locale';
 import {Event, flags} from './event';
 import {gematriya} from './gematriya';
 import vilnaMap from './yerushalmiVilnaMap.json';
+import {throwTypeError} from './throwTypeError';
 
 const vilnaStartDate = new Date(1980, 1, 2);
 /**
@@ -110,11 +111,6 @@ export const schottenstein = {
     ['Niddah', 11],
   ],
 };
-
-// eslint-disable-next-line require-jsdoc
-function throwTypeError(msg) {
-  throw new TypeError(msg);
-}
 
 const SUN = 0;
 const SAT = 6;

@@ -24,12 +24,8 @@ import {Locale} from './locale';
 import {abs2hebrew, daysInMonth, daysInYear, getMonthName, hebrew2abs,
   isLeapYear, longCheshvan, months,
   monthsInYear, shortKislev} from './hdate0';
+import {throwTypeError} from './throwTypeError';
 export {months};
-
-// eslint-disable-next-line require-jsdoc
-function throwTypeError(msg) {
-  throw new TypeError(msg);
-}
 
 const UNITS_DAY = 'day';
 const UNITS_WEEK = 'week';

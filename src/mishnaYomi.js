@@ -1,6 +1,7 @@
-import {greg2abs, isDate} from './greg0';
+import {abs2greg, greg2abs, isDate} from './greg0';
 import {HDate} from './hdate';
 import mishnayot from './mishnayot.json';
+import {throwTypeError} from './throwTypeError';
 
 const cycleStartDate = new Date(1947, 4, 20);
 export const mishnaYomiStart = greg2abs(cycleStartDate);
@@ -15,11 +16,6 @@ const numDays = numMishnayot / 2;
  * @property {string} v verse (e.g. "2:1")
  */
 
-// eslint-disable-next-line require-jsdoc
-function throwTypeError(msg) {
-  throw new TypeError(msg);
-}
-
 /**
  * A program of daily learning in which participants study two Mishnahs
  * each day in order to finish the entire Mishnah in ~6 years.
@@ -31,7 +27,8 @@ export class MishnaYomiIndex {
   constructor() {
     const tmp = Array(numMishnayot);
     let i = 0;
-    for (const tractate of mishnayot) {
+    for (let j = 0; j < mishnayot.length; j++) {
+      const tractate = mishnayot[j];
       const v = tractate.v;
       for (let chap = 1; chap <= v.length; chap++) {
         const numv = v[chap - 1];
@@ -60,7 +57,8 @@ export class MishnaYomiIndex {
       HDate.isHDate(date) ? date.abs() :
       throwTypeError(`Invalid date: ${date}`);
     if (abs < mishnaYomiStart) {
-      const s = date.toISOString().substring(0, 10);
+      const dt = abs2greg(abs);
+      const s = dt.toISOString().substring(0, 10);
       throw new RangeError(`Date ${s} too early; Mishna Yomi cycle began on 1947-05-20`);
     }
     const dayNum = (abs - mishnaYomiStart) % numDays;

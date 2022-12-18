@@ -37,6 +37,8 @@ import './locale-ashkenazi';
 import './locale-he';
 import {MishnaYomiEvent} from './MishnaYomiEvent';
 import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
+import {NachYomiEvent} from './nachYomiEvent';
+import {NachYomiIndex, nachYomiStart} from './nachYomi';
 import {Zmanim} from './zmanim';
 import {hallel_} from './hallel';
 import {tachanun_} from './tachanun';
@@ -95,6 +97,7 @@ const RECOGNIZED_OPTIONS = {
   noHolidays: 1,
   dafyomi: 1,
   mishnaYomi: 1,
+  nachYomi: 1,
   omer: 1,
   molad: 1,
   ashkenazi: 1,
@@ -222,6 +225,7 @@ function checkCandleOptions(options) {
  * @property {boolean} yerushalmi - Jerusalem Talmud (Yerushalmi) Yomi
  * @property {number} yerushalmiEdition - Use 1 for Vilna, 2 for Schottenstein
  * @property {boolean} mishnaYomi - include Mishna Yomi
+ * @property {boolean} nachYomi - include Nach Yomi
  * @property {boolean} omer - include Days of the Omer
  * @property {boolean} molad - include event announcing the molad
  * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
@@ -347,6 +351,7 @@ function getMaskFromOptions(options) {
     if (m & OMER_COUNT) options.omer = true;
     if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
     if (m & flags.MISHNA_YOMI) options.mishnaYomi = true;
+    if (m & flags.NACH_YOMI) options.nachYomi = true;
     if (m & flags.YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
     if (m & flags.YERUSHALMI_YOMI) options.yerushalmi = true;
     options.userMask = true;
@@ -392,6 +397,9 @@ function getMaskFromOptions(options) {
   }
   if (options.mishnaYomi) {
     mask |= flags.MISHNA_YOMI;
+  }
+  if (options.nachYomi) {
+    mask |= flags.NACH_YOMI;
   }
   if (options.omer) {
     mask |= OMER_COUNT;
@@ -482,6 +490,7 @@ export class HebrewCalendar {
    * * Babylonian Talmud Daf Yomi (`options.dafyomi`)
    * * Jerusalem Talmud (Yerushalmi) Yomi (`options.yerushalmi`)
    * * Mishna Yomi (`options.mishnaYomi`)
+   * * Nach Yomi (`options.nachYomi`)
    * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
    * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
    * * Yom Kippur Katan (`options.yomKippurKatan`)
@@ -585,6 +594,10 @@ export class HebrewCalendar {
     if (options.mishnaYomi) {
       mishnaYomiIndex = new MishnaYomiIndex();
     }
+    let nachYomiIndex;
+    if (options.nachYomi) {
+      nachYomiIndex = new NachYomiIndex();
+    }
     const yerushalmiCfg = options.yerushalmiEdition === 2 ? schottenstein : vilna;
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);
@@ -626,6 +639,10 @@ export class HebrewCalendar {
       if (options.mishnaYomi && abs >= mishnaYomiStart) {
         const mishnaYomi = mishnaYomiIndex.lookup(abs);
         evts.push(new MishnaYomiEvent(hd, mishnaYomi));
+      }
+      if (options.nachYomi && abs >= nachYomiStart) {
+        const nachYomi = nachYomiIndex.lookup(abs);
+        evts.push(new NachYomiEvent(hd, nachYomi));
       }
       if (options.omer && abs >= beginOmer && abs <= endOmer) {
         const omer = abs - beginOmer + 1;

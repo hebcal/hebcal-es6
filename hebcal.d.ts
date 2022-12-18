@@ -64,6 +64,7 @@ declare module '@hebcal/core' {
         CHOL_HAMOED,
         MISHNA_YOMI,
         YERUSHALMI_YOMI,
+        NACH_YOMI,
     }
 
     export type UnitTypeShort = 'd' | 'w' | 'M' | 'y';
@@ -580,6 +581,8 @@ declare module '@hebcal/core' {
         yerushalmiEdition?: number;
         /** include Mishna Yomi */
         mishnaYomi?: boolean;
+        /** include Nach Yomi */
+        nachYomi?: boolean;
         /** include Days of the Omer */
         omer?: boolean;
         /** include event announcing the molad */

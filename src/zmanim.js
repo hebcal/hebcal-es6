@@ -2,11 +2,7 @@ import {HDate} from './hdate';
 import {SolarCalc} from '@hebcal/solar-calc';
 import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
 import {isDate} from './greg0';
-
-// eslint-disable-next-line require-jsdoc
-function throwTypeError(error) {
-  throw new TypeError(error);
-}
+import {throwTypeError} from './throwTypeError';
 
 /**
  * @private

@@ -56,6 +56,8 @@ export const flags = {
   YOM_KIPPUR_KATAN: 0x800000,
   /** Daily page of Jerusalem Talmud (Yerushalmi) */
   YERUSHALMI_YOMI: 0x1000000,
+  /** Nach Yomi */
+  NACH_YOMI: 0x2000000,
 };
 
 /** Represents an Event with a title, date, and flags */
