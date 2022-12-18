@@ -1,5 +1,6 @@
 import {Event, flags} from './event';
 import {Locale} from './locale';
+import {gematriya} from './gematriya';
 
 /**
  * Event wrapper around a Nach Yomi instance
