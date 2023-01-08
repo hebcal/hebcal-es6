@@ -1144,16 +1144,16 @@ msgid "Judges"
 msgstr "שׁוֹפְטִים"
 
 msgid "I Samuel"
-msgstr "שְׁמוּאֵל א׳"
+msgstr "שְׁמוּאֵל רִאשׁוֹן"
 
 msgid "II Samuel"
-msgstr "שְׁמוּאֵל ב׳"
+msgstr "שְׁמוּאֵל שֵׁנִי"
 
 msgid "I Kings"
-msgstr "מְלָכִים א׳"
+msgstr "מְלָכִים רִאשׁוֹן"
 
 msgid "II Kings"
-msgstr "מְלָכִים ב׳"
+msgstr "מְלָכִים שֵׁנִי"
 
 msgid "Isaiah"
 msgstr "יְשַׁעְיָהוּ"
@@ -1234,7 +1234,7 @@ msgid "Nehemiah"
 msgstr "נְחֶמְיָה"
 
 msgid "I Chronicles"
-msgstr "דִברֵי הַיָמִים א׳"
+msgstr "דִברֵי הַיָמִים רִאשׁוֹן"
 
 msgid "II Chronicles"
-msgstr "דִברֵי הַיָמִים ב׳"
+msgstr "דִברֵי הַיָמִים שֵׁנִי"

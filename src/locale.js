@@ -9,6 +9,13 @@ const alias = {
   '': 'en',
 };
 
+/** @private */
+const locales = Object.create(null);
+/** @private */
+let activeLocale = null;
+/** @private */
+let activeName = null;
+
 /**
  * A locale in Hebcal is used for translations/transliterations of
  * holidays. `@hebcal/core` supports four locales by default
@@ -18,13 +25,6 @@ const alias = {
  * * `he-x-NoNikud` - Hebrew without nikud (e.g. "שבת")
  */
 export class Locale {
-  /** @private */
-  static locales = Object.create(null);
-  /** @private */
-  static activeLocale = null;
-  /** @private */
-  static activeName = null;
-
   /**
    * Returns translation only if `locale` offers a non-empty translation for `id`.
    * Otherwise, returns `undefined`.
@@ -34,7 +34,7 @@ export class Locale {
    */
   static lookupTranslation(id, locale) {
     const locale0 = locale && locale.toLowerCase();
-    const loc = (typeof locale == 'string' && this.locales[locale0]) || this.activeLocale;
+    const loc = (typeof locale == 'string' && locales[locale0]) || activeLocale;
     const array = loc[id];
     if (array && array.length && array[0].length) {
       return array[0];
@@ -65,7 +65,7 @@ export class Locale {
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
       throw new TypeError(`Locale '${locale}' invalid compact format`);
     }
-    this.locales[locale.toLowerCase()] = data.contexts[''];
+    locales[locale.toLowerCase()] = data.contexts[''];
   }
 
   /**
@@ -77,13 +77,13 @@ export class Locale {
    */
   static useLocale(locale) {
     const locale0 = locale.toLowerCase();
-    const obj = this.locales[locale0];
+    const obj = locales[locale0];
     if (!obj) {
       throw new RangeError(`Locale '${locale}' not found`);
     }
-    this.activeName = alias[locale0] || locale0;
-    this.activeLocale = obj;
-    return this.activeLocale;
+    activeName = alias[locale0] || locale0;
+    activeLocale = obj;
+    return activeLocale;
   }
 
   /**
@@ -91,7 +91,7 @@ export class Locale {
    * @return {string}
    */
   static getLocaleName() {
-    return this.activeName;
+    return activeName;
   }
 
   /**
@@ -99,7 +99,7 @@ export class Locale {
    * @return {string[]}
    */
   static getLocaleNames() {
-    return Object.keys(this.locales).sort();
+    return Object.keys(locales).sort();
   }
 
   /**
@@ -109,7 +109,7 @@ export class Locale {
    */
   static ordinal(n, locale) {
     const locale1 = locale && locale.toLowerCase();
-    const locale0 = locale1 || this.activeName;
+    const locale0 = locale1 || activeName;
     if (!locale0) {
       return this.getEnOrdinal(n);
     }

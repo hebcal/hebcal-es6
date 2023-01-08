@@ -24,13 +24,13 @@ import {abs2greg, daysInMonth, greg2abs, isDate, isLeapYear} from './greg0';
 /**
  * Gregorian date helper functions.
  */
-export class greg {
+export const greg = {
   /**
    * Long names of the Gregorian months (1='January', 12='December')
    * @readonly
    * @type {string[]}
    */
-  static monthNames = [
+  monthNames: [
     '',
     'January',
     'February',
@@ -44,35 +44,32 @@ export class greg {
     'October',
     'November',
     'December',
-  ];
+  ],
 
   /**
    * Returns true if the Gregorian year is a leap year
+   * @function
    * @param {number} year Gregorian year
    * @return {boolean}
    */
-  static isLeapYear(year) {
-    return isLeapYear(year);
-  }
+  isLeapYear: isLeapYear,
 
   /**
    * Number of days in the Gregorian month for given year
+   * @function
    * @param {number} month Gregorian month (1=January, 12=December)
    * @param {number} year Gregorian year
    * @return {number}
    */
-  static daysInMonth(month, year) {
-    return daysInMonth(month, year);
-  }
+  daysInMonth: daysInMonth,
 
   /**
    * Returns true if the object is a Javascript Date
+   * @function
    * @param {Object} obj
    * @return {boolean}
    */
-  static isDate(obj) {
-    return isDate(obj);
-  }
+  isDate: isDate,
 
   /**
    * Returns number of days since January 1 of that year
@@ -80,7 +77,7 @@ export class greg {
    * @param {Date} date Gregorian date
    * @return {number}
    */
-  static dayOfYear(date) {
+  dayOfYear: function(date) {
     if (!isDate(date)) {
       throw new TypeError(`Argument not a Date: ${date}`);
     }
@@ -94,16 +91,15 @@ export class greg {
       }
     }
     return doy;
-  }
+  },
 
   /**
    * Converts Gregorian date to absolute R.D. (Rata Die) days
+   * @function
    * @param {Date} date Gregorian date
    * @return {number}
    */
-  static greg2abs(date) {
-    return greg2abs(date);
-  }
+  greg2abs: greg2abs,
 
   /**
    * Converts from Rata Die (R.D. number) to Gregorian date.
@@ -111,10 +107,9 @@ export class greg {
    * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
    * Clamen, Software--Practice and Experience, Volume 23, Number 4
    * (April, 1993), pages 383-404 for an explanation.
+   * @function
    * @param {number} theDate - R.D. number of days
    * @return {Date}
    */
-  static abs2greg(theDate) {
-    return abs2greg(theDate);
-  }
-}
+  abs2greg: abs2greg,
+};

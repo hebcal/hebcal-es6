@@ -48,9 +48,6 @@ for (const ev of events) {
 ## Classes
 
 <dl>
-<dt><a href="#greg">greg</a></dt>
-<dd><p>Gregorian date helper functions.</p>
-</dd>
 <dt><a href="#Locale">Locale</a></dt>
 <dd><p>A locale in Hebcal is used for translations/transliterations of
 holidays. <code>@hebcal/core</code> supports four locales by default</p>
@@ -126,6 +123,13 @@ each day in order to finish the entire Mishnah in ~6 years.</p>
 <dt><a href="#MishnaYomiEvent">MishnaYomiEvent</a></dt>
 <dd><p>Event wrapper around a Mishna Yomi instance</p>
 </dd>
+<dt><a href="#NachYomiIndex">NachYomiIndex</a></dt>
+<dd><p>A daily regimen of learning the books of Nevi&#39;im (Prophets)
+and Ketuvim (Writings).</p>
+</dd>
+<dt><a href="#NachYomiEvent">NachYomiEvent</a></dt>
+<dd><p>Event wrapper around a Nach Yomi instance</p>
+</dd>
 <dt><a href="#YerushalmiYomiEvent">YerushalmiYomiEvent</a></dt>
 <dd><p>Event wrapper around a Yerushalmi Yomi result</p>
 </dd>
@@ -140,6 +144,9 @@ Event names can be rendered in several languges using the <code>locale</code> op
 ## Constants
 
 <dl>
+<dt><a href="#greg">greg</a></dt>
+<dd><p>Gregorian date helper functions.</p>
+</dd>
 <dt><a href="#parshiot">parshiot</a> : <code>Array.&lt;string&gt;</code></dt>
 <dd><p>The 54 parshiyot of the Torah as transilterated strings
 parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &quot;Ha&#39;Azinu&quot;.</p>
@@ -186,100 +193,15 @@ cycle began (2 February 1980 for Vilna,
 <dt><a href="#MishnaYomi">MishnaYomi</a> : <code>Object</code></dt>
 <dd><p>Describes a mishna to be read</p>
 </dd>
+<dt><a href="#NachYomi">NachYomi</a> : <code>Object</code></dt>
+<dd><p>Describes a chapter to be read</p>
+</dd>
 <dt><a href="#CalOptions">CalOptions</a> : <code>Object</code></dt>
 <dd><p>Options to configure which events are returned</p>
 </dd>
 <dt><a href="#TachanunResult">TachanunResult</a> : <code>Object</code></dt>
 <dd></dd>
 </dl>
-
-<a name="greg"></a>
-
-## greg
-Gregorian date helper functions.
-
-**Kind**: global class  
-
-* [greg](#greg)
-    * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
-    * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
-    * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
-    * ~~[.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>~~
-    * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
-    * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
-
-<a name="greg.isLeapYear"></a>
-
-### greg.isLeapYear(year) ⇒ <code>boolean</code>
-Returns true if the Gregorian year is a leap year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Gregorian year |
-
-<a name="greg.daysInMonth"></a>
-
-### greg.daysInMonth(month, year) ⇒ <code>number</code>
-Number of days in the Gregorian month for given year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| month | <code>number</code> | Gregorian month (1=January, 12=December) |
-| year | <code>number</code> | Gregorian year |
-
-<a name="greg.isDate"></a>
-
-### greg.isDate(obj) ⇒ <code>boolean</code>
-Returns true if the object is a Javascript Date
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type |
-| --- | --- |
-| obj | <code>Object</code> | 
-
-<a name="greg.dayOfYear"></a>
-
-### ~~greg.dayOfYear(date) ⇒ <code>number</code>~~
-***Deprecated***
-
-Returns number of days since January 1 of that year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg.greg2abs"></a>
-
-### greg.greg2abs(date) ⇒ <code>number</code>
-Converts Gregorian date to absolute R.D. (Rata Die) days
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg.abs2greg"></a>
-
-### greg.abs2greg(theDate) ⇒ <code>Date</code>
-Converts from Rata Die (R.D. number) to Gregorian date.
-See the footnote on page 384 of ``Calendrical Calculations, Part II:
-Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
-Clamen, Software--Practice and Experience, Volume 23, Number 4
-(April, 1993), pages 383-404 for an explanation.
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| theDate | <code>number</code> | R.D. number of days |
 
 <a name="Locale"></a>
 
@@ -2266,12 +2188,12 @@ we subclass HolidayEvent to override the `url()` method.
 **Kind**: global class  
 
 * [AsaraBTevetEvent](#AsaraBTevetEvent)
-    * [new AsaraBTevetEvent(date, desc, [mask], [attrs])](#new_AsaraBTevetEvent_new)
+    * [new AsaraBTevetEvent(date, desc, [mask])](#new_AsaraBTevetEvent_new)
     * [.urlDateSuffix()](#AsaraBTevetEvent+urlDateSuffix) ⇒ <code>string</code>
 
 <a name="new_AsaraBTevetEvent_new"></a>
 
-### new AsaraBTevetEvent(date, desc, [mask], [attrs])
+### new AsaraBTevetEvent(date, desc, [mask])
 Constructs AsaraBTevetEvent
 
 
@@ -2280,7 +2202,6 @@ Constructs AsaraBTevetEvent
 | date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
 | desc | <code>string</code> |  | Description (not translated) |
 | [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
-| [attrs] | <code>Object</code> | <code>{}</code> |  |
 
 <a name="AsaraBTevetEvent+urlDateSuffix"></a>
 
@@ -2395,6 +2316,72 @@ Returns Mishna Yomi name (e.g. "Bava Metzia 10:5-6" or "Berakhot 9:5-Peah 1:1").
 Returns a link to sefaria.org
 
 **Kind**: instance method of [<code>MishnaYomiEvent</code>](#MishnaYomiEvent)  
+<a name="NachYomiIndex"></a>
+
+## NachYomiIndex
+A daily regimen of learning the books of Nevi'im (Prophets)
+and Ketuvim (Writings).
+
+**Kind**: global class  
+
+* [NachYomiIndex](#NachYomiIndex)
+    * [new NachYomiIndex()](#new_NachYomiIndex_new)
+    * [.lookup(date)](#NachYomiIndex+lookup) ⇒ [<code>NachYomi</code>](#NachYomi)
+
+<a name="new_NachYomiIndex_new"></a>
+
+### new NachYomiIndex()
+Initializes a Nach Yomi instance
+
+<a name="NachYomiIndex+lookup"></a>
+
+### nachYomiIndex.lookup(date) ⇒ [<code>NachYomi</code>](#NachYomi)
+Looks up a Mishna Yomi
+
+**Kind**: instance method of [<code>NachYomiIndex</code>](#NachYomiIndex)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | Gregorian date |
+
+<a name="NachYomiEvent"></a>
+
+## NachYomiEvent
+Event wrapper around a Nach Yomi instance
+
+**Kind**: global class  
+
+* [NachYomiEvent](#NachYomiEvent)
+    * [new NachYomiEvent(date, nachYomi)](#new_NachYomiEvent_new)
+    * [.render([locale])](#NachYomiEvent+render) ⇒ <code>string</code>
+    * [.url()](#NachYomiEvent+url) ⇒ <code>string</code>
+
+<a name="new_NachYomiEvent_new"></a>
+
+### new NachYomiEvent(date, nachYomi)
+
+| Param | Type |
+| --- | --- |
+| date | [<code>HDate</code>](#HDate) | 
+| nachYomi | [<code>NachYomi</code>](#NachYomi) | 
+
+<a name="NachYomiEvent+render"></a>
+
+### nachYomiEvent.render([locale]) ⇒ <code>string</code>
+Returns name of tractate and page (e.g. "Beitzah 21").
+
+**Kind**: instance method of [<code>NachYomiEvent</code>](#NachYomiEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="NachYomiEvent+url"></a>
+
+### nachYomiEvent.url() ⇒ <code>string</code>
+Returns a link to sefaria.org
+
+**Kind**: instance method of [<code>NachYomiEvent</code>](#NachYomiEvent)  
 <a name="YerushalmiYomiEvent"></a>
 
 ## YerushalmiYomiEvent
@@ -2406,6 +2393,7 @@ Event wrapper around a Yerushalmi Yomi result
     * [new YerushalmiYomiEvent(date, daf)](#new_YerushalmiYomiEvent_new)
     * [.render([locale])](#YerushalmiYomiEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#YerushalmiYomiEvent+renderBrief) ⇒ <code>string</code>
+    * [.url()](#YerushalmiYomiEvent+url) ⇒ <code>string</code>
 
 <a name="new_YerushalmiYomiEvent_new"></a>
 
@@ -2438,6 +2426,12 @@ Returns name of tractate and page (e.g. "Beitzah 21").
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+<a name="YerushalmiYomiEvent+url"></a>
+
+### yerushalmiYomiEvent.url() ⇒ <code>string</code>
+Returns a link to sefaria.org
+
+**Kind**: instance method of [<code>YerushalmiYomiEvent</code>](#YerushalmiYomiEvent)  
 <a name="HebrewCalendar"></a>
 
 ## HebrewCalendar
@@ -2497,6 +2491,7 @@ Additional non-default event types can be specified:
 * Babylonian Talmud Daf Yomi (`options.dafyomi`)
 * Jerusalem Talmud (Yerushalmi) Yomi (`options.yerushalmi`)
 * Mishna Yomi (`options.mishnaYomi`)
+* Nach Yomi (`options.nachYomi`)
 * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
 * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
 * Yom Kippur Katan (`options.yomKippurKatan`)
@@ -2829,6 +2824,103 @@ Holiday flags for Event
 | MISHNA_YOMI | <code>number</code> | <code>4194304</code> | Mishna Yomi |
 | YOM_KIPPUR_KATAN | <code>number</code> | <code>8388608</code> | Yom Kippur Katan, minor day of atonement on the day preceeding each Rosh Chodesh |
 | YERUSHALMI_YOMI | <code>number</code> | <code>16777216</code> | Daily page of Jerusalem Talmud (Yerushalmi) |
+| NACH_YOMI | <code>number</code> | <code>33554432</code> | Nach Yomi |
+
+<a name="greg"></a>
+
+## greg
+Gregorian date helper functions.
+
+**Kind**: global constant  
+
+* [greg](#greg)
+    * [.monthNames](#greg.monthNames) : <code>Array.&lt;string&gt;</code>
+    * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
+    * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
+    * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
+    * ~~[.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>~~
+    * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
+    * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
+
+<a name="greg.monthNames"></a>
+
+### greg.monthNames : <code>Array.&lt;string&gt;</code>
+Long names of the Gregorian months (1='January', 12='December')
+
+**Kind**: static property of [<code>greg</code>](#greg)  
+**Read only**: true  
+<a name="greg.isLeapYear"></a>
+
+### greg.isLeapYear(year) ⇒ <code>boolean</code>
+Returns true if the Gregorian year is a leap year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Gregorian year |
+
+<a name="greg.daysInMonth"></a>
+
+### greg.daysInMonth(month, year) ⇒ <code>number</code>
+Number of days in the Gregorian month for given year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> | Gregorian month (1=January, 12=December) |
+| year | <code>number</code> | Gregorian year |
+
+<a name="greg.isDate"></a>
+
+### greg.isDate(obj) ⇒ <code>boolean</code>
+Returns true if the object is a Javascript Date
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type |
+| --- | --- |
+| obj | <code>Object</code> | 
+
+<a name="greg.dayOfYear"></a>
+
+### ~~greg.dayOfYear(date) ⇒ <code>number</code>~~
+***Deprecated***
+
+Returns number of days since January 1 of that year
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> | Gregorian date |
+
+<a name="greg.greg2abs"></a>
+
+### greg.greg2abs(date) ⇒ <code>number</code>
+Converts Gregorian date to absolute R.D. (Rata Die) days
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Date</code> | Gregorian date |
+
+<a name="greg.abs2greg"></a>
+
+### greg.abs2greg(theDate) ⇒ <code>Date</code>
+Converts from Rata Die (R.D. number) to Gregorian date.
+See the footnote on page 384 of ``Calendrical Calculations, Part II:
+Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
+Clamen, Software--Practice and Experience, Volume 23, Number 4
+(April, 1993), pages 383-404 for an explanation.
+
+**Kind**: static method of [<code>greg</code>](#greg)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| theDate | <code>number</code> | R.D. number of days |
 
 <a name="parshiot"></a>
 
@@ -2951,6 +3043,19 @@ Describes a mishna to be read
 | k | <code>string</code> | tractate name in Sephardic transliteration (e.g. "Berakhot", "Moed Katan") |
 | v | <code>string</code> | verse (e.g. "2:1") |
 
+<a name="NachYomi"></a>
+
+## NachYomi : <code>Object</code>
+Describes a chapter to be read
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| k | <code>string</code> | book name in Sephardic transliteration (e.g. "Berakhot", "Moed Katan") |
+| v | <code>number</code> | chapter (e.g. "2:1") |
+
 <a name="CalOptions"></a>
 
 ## CalOptions : <code>Object</code>
@@ -2984,6 +3089,7 @@ Options to configure which events are returned
 | yerushalmi | <code>boolean</code> | Jerusalem Talmud (Yerushalmi) Yomi |
 | yerushalmiEdition | <code>number</code> | Use 1 for Vilna, 2 for Schottenstein |
 | mishnaYomi | <code>boolean</code> | include Mishna Yomi |
+| nachYomi | <code>boolean</code> | include Nach Yomi |
 | omer | <code>boolean</code> | include Days of the Omer |
 | molad | <code>boolean</code> | include event announcing the molad |
 | ashkenazi | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
