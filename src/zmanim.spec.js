@@ -17,34 +17,35 @@ test('zmanim', (t) => {
     timeZone: tzid,
     hour: 'numeric',
     minute: 'numeric',
+    hour12: false,
   });
 
   const expected = {
-    chatzotNight: '12:49 AM',
-    alotHaShachar: '3:25 AM',
-    misheyakir: '4:03 AM',
-    misheyakirMachmir: '4:12 AM',
-    dawn: '4:42 AM',
-    sunrise: '5:16 AM',
-    neitzHaChama: '5:16 AM',
-    sofZmanShma: '9:02 AM',
-    sofZmanShmaMGA: '8:26 AM',
-    sofZmanTfilla: '10:18 AM',
-    sofZmanTfillaMGA: '9:54 AM',
-    chatzot: '12:49 PM',
-    minchaGedola: '1:27 PM',
-    minchaKetana: '5:13 PM',
-    plagHaMincha: '6:48 PM',
-    sunset: '8:22 PM',
-    shkiah: '8:22 PM',
-    dusk: '8:56 PM',
-    tzeit: '9:13 PM',
+    chatzotNight: '00:49',
+    alotHaShachar: '03:25',
+    misheyakir: '04:03',
+    misheyakirMachmir: '04:12',
+    dawn: '04:42',
+    sunrise: '05:16',
+    neitzHaChama: '05:16',
+    sofZmanShma: '09:02',
+    sofZmanShmaMGA: '08:26',
+    sofZmanTfilla: '10:18',
+    sofZmanTfillaMGA: '09:54',
+    chatzot: '12:49',
+    minchaGedola: '13:27',
+    minchaKetana: '17:13',
+    plagHaMincha: '18:48',
+    sunset: '20:22',
+    shkiah: '20:22',
+    dusk: '20:56',
+    tzeit: '21:13',
   };
 
   const actual = {};
   for (const func of Object.keys(expected)) {
     const dt = zman[func]();
-    actual[func] = f.format(dt);
+    actual[func] = f.format(dt).replace(/^24:/, '00:');
   }
   t.deepEqual(actual, expected);
 
@@ -104,29 +105,30 @@ test('suntime', (t) => {
     timeZone: 'America/Chicago',
     hour: 'numeric',
     minute: 'numeric',
+    hour12: false,
   });
   const result = {};
   for (const [key, val] of Object.entries(times)) {
     result[key] = f.format(val);
   }
   const expected = {
-    solarNoon: '12:49 PM',
-    sunrise: '5:16 AM',
-    sunset: '8:22 PM',
-    sunriseEnd: '5:19 AM',
-    sunsetStart: '8:19 PM',
-    dawn: '4:42 AM',
-    dusk: '8:56 PM',
-    nauticalDawn: '3:59 AM',
-    nauticalDusk: '9:39 PM',
-    nightEnd: '3:07 AM',
-    night: '10:31 PM',
-    goldenHourEnd: '5:58 AM',
-    goldenHour: '7:40 PM',
-    alotHaShachar: '3:25 AM',
-    misheyakir: '4:03 AM',
-    misheyakirMachmir: '4:12 AM',
-    tzeit: '9:13 PM',
+    solarNoon: '12:49',
+    sunrise: '05:16',
+    sunset: '20:22',
+    sunriseEnd: '05:19',
+    sunsetStart: '20:19',
+    dawn: '04:42',
+    dusk: '20:56',
+    nauticalDawn: '03:59',
+    nauticalDusk: '21:39',
+    nightEnd: '03:07',
+    night: '22:31',
+    goldenHourEnd: '05:58',
+    goldenHour: '19:40',
+    alotHaShachar: '03:25',
+    misheyakir: '04:03',
+    misheyakirMachmir: '04:12',
+    tzeit: '21:13',
   };
   t.deepEqual(result, expected);
 });

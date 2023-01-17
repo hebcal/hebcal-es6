@@ -4,10 +4,10 @@ import {HDate} from './hdate';
 
 test('sunset', (t) => {
   const locations = [
-    [41.85003, -87.65005, false, 'America/Chicago', '8:22 PM'], // Chicago
-    [37.33939, -121.89496, false, 'America/Los_Angeles', '8:25 PM'], // San Jose
-    [32.1836, 34.87386, true, 'Asia/Jerusalem', '7:44 PM'], // Ra'anana
-    [-37.814, 144.96332, true, 'Australia/Melbourne', '5:08 PM'], // Melbourne
+    [41.85003, -87.65005, false, 'America/Chicago', '20:22'], // Chicago
+    [37.33939, -121.89496, false, 'America/Los_Angeles', '20:25'], // San Jose
+    [32.1836, 34.87386, true, 'Asia/Jerusalem', '19:44'], // Ra'anana
+    [-37.814, 144.96332, true, 'Australia/Melbourne', '17:08'], // Melbourne
   ];
   const june5 = new HDate(new Date(Date.UTC(2020, 5, 5, 12))); // Friday June 5 2020
   for (const l of locations) {
@@ -18,6 +18,7 @@ test('sunset', (t) => {
       timeZone: loc.tzid,
       hour: 'numeric',
       minute: 'numeric',
+      hour12: false,
     };
     const time = new Intl.DateTimeFormat('en-US', options).format(sunset);
     t.is(time, expected);
