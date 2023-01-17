@@ -286,8 +286,6 @@ export function getStartAndEnd(options) {
     throw new RangeError(`Invalid year ${options.year}`);
   } else if (isHebrewYear && theYear < 1) {
     throw new RangeError(`Invalid Hebrew year ${theYear}`);
-  } else if (theYear == 0) {
-    throw new RangeError(`Invalid Gregorian year ${theYear}`);
   }
   let theMonth = NaN;
   if (options.month) {

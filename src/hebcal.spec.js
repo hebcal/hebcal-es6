@@ -519,10 +519,8 @@ test('year2', (t) => {
 });
 
 test('year0', (t) => {
-  const error = t.throws(() => {
-    HebrewCalendar.calendar({year: 0});
-  }, {instanceOf: RangeError});
-  t.is(error.message, 'Invalid Gregorian year 0');
+  const events = HebrewCalendar.calendar({year: 0});
+  t.is(events.length, 82);
 });
 
 test('getHolidaysForYear-throw', (t) => {

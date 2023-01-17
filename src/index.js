@@ -20,4 +20,6 @@ export {NachYomiIndex} from './nachYomi';
 export {NachYomiEvent} from './NachYomiEvent';
 export {yerushalmiYomi, YerushalmiYomiEvent, vilna, schottenstein} from './yerushalmi';
 export {HebrewCalendar} from './hebcal';
+import {SolarCalc} from '@hebcal/solar-calc';
+export {SolarCalc};
 export {version} from '../package.json';
