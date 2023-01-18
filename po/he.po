@@ -1238,3 +1238,24 @@ msgstr "דִברֵי הַיָמִים רִאשׁוֹן"
 
 msgid "II Chronicles"
 msgstr "דִברֵי הַיָמִים שֵׁנִי"
+
+msgid "Yom Kippur (Mincha)"
+msgstr "יוֹם כִּפּוּר מִנחָה"
+
+msgid "Tish'a B'Av (Mincha)"
+msgstr "תִּשְׁעָה בְּאָב מִנחָה"
+
+msgid "Asara B'Tevet (Mincha)"
+msgstr "עֲשָׂרָה בְּטֵבֵת מִנחָה"
+
+msgid "Ta'anit Bechorot (Mincha)"
+msgstr "תַּעֲנִית בְּכוֹרוֹת מִנחָה"
+
+msgid "Ta'anit Esther (Mincha)"
+msgstr "תַּעֲנִית אֶסְתֵּר מִנחָה"
+
+msgid "Tzom Gedaliah (Mincha)"
+msgstr "צוֹם גְּדַלְיָה מִנחָה"
+
+msgid "Tzom Tammuz (Mincha)"
+msgstr "צוֹם תָּמוּז מִנחָה"

@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "3.50.2",
+  "version": "3.50.3",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -78,7 +78,7 @@
     "@rollup/plugin-terser": "^0.3.0",
     "ava": "^5.1.1",
     "codecov": "^3.8.3",
-    "core-js": "^3.27.1",
+    "core-js": "^3.27.2",
     "eslint": "^8.32.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.0",
