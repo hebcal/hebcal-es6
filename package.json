@@ -67,9 +67,9 @@
     "verbose": true
   },
   "devDependencies": {
-    "@babel/core": "^7.20.12",
+    "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
-    "@babel/register": "^7.18.9",
+    "@babel/register": "^7.21.0",
     "@hebcal/solar-calc": "^1.1.2",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.0.1",
@@ -78,13 +78,13 @@
     "@rollup/plugin-terser": "^0.4.0",
     "ava": "^5.2.0",
     "codecov": "^3.8.3",
-    "core-js": "^3.28.0",
-    "eslint": "^8.34.0",
+    "core-js": "^3.29.1",
+    "eslint": "^8.36.0",
     "eslint-config-google": "^0.14.0",
-    "jsdoc": "^4.0.0",
+    "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "nyc": "^15.1.0",
-    "rollup": "^3.15.0",
+    "rollup": "^3.19.1",
     "ttag-cli": "^1.10.5"
   }
 }

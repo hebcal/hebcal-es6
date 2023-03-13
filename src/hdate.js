@@ -343,11 +343,13 @@ export class HDate {
    * import {HDate, months} from '@hebcal/core';
    * const hd = new HDate(15, months.CHESHVAN, 5769);
    * console.log(hd.renderGematriya()); // 'ט״ו חֶשְׁוָן תשס״ט'
+   * @param {boolean} [suppressNikud]
    * @return {string}
    */
-  renderGematriya() {
+  renderGematriya(suppressNikud=false) {
     const d = this.getDate();
-    const m = Locale.gettext(this.getMonthName(), 'he');
+    const locale = suppressNikud ? 'he-x-NoNikud' : 'he';
+    const m = Locale.gettext(this.getMonthName(), locale);
     const y = this.getFullYear();
     return gematriya(d) + ' ' + m + ' ' + gematriya(y);
   }

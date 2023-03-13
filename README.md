@@ -329,7 +329,7 @@ Represents a Hebrew date
         * [.abs()](#HDate+abs) ⇒ <code>number</code>
         * [.getMonthName()](#HDate+getMonthName) ⇒ <code>string</code>
         * [.render([locale], [showYear])](#HDate+render) ⇒ <code>string</code>
-        * [.renderGematriya()](#HDate+renderGematriya) ⇒ <code>string</code>
+        * [.renderGematriya([suppressNikud])](#HDate+renderGematriya) ⇒ <code>string</code>
         * [.before(day)](#HDate+before) ⇒ [<code>HDate</code>](#HDate)
         * [.onOrBefore(dow)](#HDate+onOrBefore) ⇒ [<code>HDate</code>](#HDate)
         * [.nearest(dow)](#HDate+nearest) ⇒ [<code>HDate</code>](#HDate)
@@ -477,10 +477,15 @@ console.log(hd.render('he')); // '15 חֶשְׁוָן, 5769'
 ```
 <a name="HDate+renderGematriya"></a>
 
-### hDate.renderGematriya() ⇒ <code>string</code>
+### hDate.renderGematriya([suppressNikud]) ⇒ <code>string</code>
 Renders this Hebrew date in Hebrew gematriya, regardless of locale.
 
 **Kind**: instance method of [<code>HDate</code>](#HDate)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [suppressNikud] | <code>boolean</code> | <code>false</code> | 
+
 **Example**  
 ```js
 import {HDate, months} from '@hebcal/core';
@@ -1869,20 +1874,20 @@ Returns the Daf Yomi for given date
 **Kind**: global class  
 
 * [DafYomi](#DafYomi)
-    * [new DafYomi(gregdate)](#new_DafYomi_new)
+    * [new DafYomi(date)](#new_DafYomi_new)
     * [.getBlatt()](#DafYomi+getBlatt) ⇒ <code>number</code>
     * [.getName()](#DafYomi+getName) ⇒ <code>string</code>
     * [.render([locale])](#DafYomi+render) ⇒ <code>string</code>
 
 <a name="new_DafYomi_new"></a>
 
-### new DafYomi(gregdate)
+### new DafYomi(date)
 Initializes a daf yomi instance
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| gregdate | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | Gregorian date |
+| date | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | Gregorian or Hebrew date |
 
 <a name="DafYomi+getBlatt"></a>
 

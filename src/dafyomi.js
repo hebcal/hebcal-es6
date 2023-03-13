@@ -81,15 +81,15 @@ const shas0 = [
 export class DafYomi {
   /**
    * Initializes a daf yomi instance
-   * @param {Date|HDate|number} gregdate Gregorian date
+   * @param {Date|HDate|number} date Gregorian or Hebrew date
    */
-  constructor(gregdate) {
-    const cday = (typeof gregdate === 'number' && !isNaN(gregdate)) ? gregdate :
-      isDate(gregdate) ? greg2abs(gregdate) :
-      HDate.isHDate(gregdate) ? gregdate.abs() :
-      throwTypeError(`non-date given to dafyomi: ${gregdate}`);
+  constructor(date) {
+    const cday = (typeof date === 'number' && !isNaN(date)) ? date :
+      isDate(date) ? greg2abs(date) :
+      HDate.isHDate(date) ? date.abs() :
+      throwTypeError(`non-date given to dafyomi: ${date}`);
     if (cday < osday) {
-      throw new RangeError(`Date ${gregdate} too early; Daf Yomi cycle began on ${osdate}`);
+      throw new RangeError(`Date ${date} too early; Daf Yomi cycle began on ${osdate}`);
     }
     let cno;
     let dno;

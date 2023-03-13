@@ -1,11 +1,7 @@
 import test from 'ava';
 import {HDate, months} from './hdate';
-import {Locale} from './locale';
-import poHeMin from './he.min.po.json';
+import './locale-he';
 import './locale-ashkenazi';
-
-Locale.addLocale('he', poHeMin);
-Locale.addLocale('h', poHeMin);
 
 const NISAN = months.NISAN;
 const IYYAR = months.IYYAR;
@@ -167,6 +163,11 @@ test('renderGematriya', (t) => {
   t.is(new HDate(17, 'Tamuz', 5748).renderGematriya(), 'י״ז תַּמּוּז תשמ״ח');
   t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִשְׁרֵי תש״פ');
   t.is(new HDate(26, 'Tevet', 8008).renderGematriya(), 'כ״ו טֵבֵת ח׳ח׳');
+});
+
+test('renderGematriya-suppressNikud', (t) => {
+  t.is(new HDate(17, 'Tamuz', 5748).renderGematriya(false), 'י״ז תַּמּוּז תשמ״ח');
+  t.is(new HDate(17, 'Tamuz', 5748).renderGematriya(true), 'י״ז תמוז תשמ״ח');
 });
 
 test('render', (t) => {

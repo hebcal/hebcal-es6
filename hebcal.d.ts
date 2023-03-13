@@ -130,7 +130,7 @@ declare module '@hebcal/core' {
         /**
          * Renders this Hebrew date in Hebrew gematriya, regardless of locale.
          */
-        renderGematriya(): string;
+        renderGematriya(suppressNikud?: boolean): string;
 
         before(day: number): HDate;
         onOrBefore(day: number): HDate;
@@ -808,9 +808,9 @@ declare module '@hebcal/core' {
     export class DafYomi {
         /**
          * Initializes a daf yomi instance
-         * @param gregdate Gregorian date
+         * @param date Gregorian or Hebrew date
          */
-        constructor(gregdate: Date);
+        constructor(date: Date | HDate | number);
         getBlatt(): number;
         getName(): string;
         /**

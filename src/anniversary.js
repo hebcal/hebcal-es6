@@ -68,7 +68,9 @@ export function getYahrzeit_(hyear, gdate) {
 export function getBirthdayOrAnniversary_(hyear, gdate) {
   const orig = HDate.isHDate(gdate) ? gdate : new HDate(gdate);
   const origYear = orig.getFullYear();
-  if (hyear <= origYear) {
+  if (hyear === origYear) {
+    return orig;
+  } else if (hyear < origYear) {
     // `Hebrew year ${hyear} occurs on or before original date in ${origYear}`
     return undefined;
   }
