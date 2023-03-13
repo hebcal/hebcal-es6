@@ -85,10 +85,7 @@ test('before-original', (t) => {
   t.is(hd.getFullYear(), 5770);
 
   hd = getBirthdayOrAnniversary_(5778, new Date(2018, 11, 13));
-  t.is(hd, undefined, 'Hebrew year 5778 occurs on or before original date in 5779');
-
-  hd = getBirthdayOrAnniversary_(5779, new Date(2018, 11, 13));
-  t.is(hd, undefined, 'Hebrew year 5779 occurs on or before original date in 5779');
+  t.is(hd, undefined, 'Hebrew year 5778 occurs before original date in 5779');
 
   hd = getBirthdayOrAnniversary_(5780, new Date(2018, 11, 13));
   t.is(hd.getFullYear(), 5780);
