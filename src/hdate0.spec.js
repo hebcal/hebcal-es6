@@ -160,11 +160,11 @@ test('throws-abs2hebrew', (t) => {
   const error = t.throws(() => {
     abs2hebrew(NaN);
   }, {instanceOf: TypeError});
-  t.is(error.message, 'invalid parameter to abs2hebrew NaN');
+  t.is(error.message, 'invalid parameter \'abs\' not a number: NaN');
   const error2 = t.throws(() => {
     abs2hebrew('bogus');
   }, {instanceOf: TypeError});
-  t.is(error2.message, 'invalid parameter to abs2hebrew bogus');
+  t.is(error2.message, 'invalid parameter \'abs\' not a number: bogus');
 });
 
 test('throws-abs2hebrew-before-epoch', (t) => {
@@ -201,11 +201,11 @@ test('throws-getMonthName', (t) => {
   const error = t.throws(() => {
     getMonthName(NaN, 5780);
   }, {instanceOf: TypeError});
-  t.is(error.message, 'bad month argument NaN');
+  t.is(error.message, 'invalid parameter \'month\' not a number: NaN');
   const error2 = t.throws(() => {
     getMonthName('bogus', 5780);
   }, {instanceOf: TypeError});
-  t.is(error2.message, 'bad month argument bogus');
+  t.is(error2.message, 'invalid parameter \'month\' not a number: bogus');
   const error3 = t.throws(() => {
     getMonthName(20, 5780);
   }, {instanceOf: TypeError});

@@ -89,6 +89,17 @@ const EPOCH = -1373428;
 const AVG_HEBYEAR_DAYS = 365.24682220597794;
 
 /**
+ * @private
+ * @param {any} n
+ * @param {string} name
+ */
+function assertNumber(n, name) {
+  if (typeof n !== 'number' || isNaN(n)) {
+    throw new TypeError(`invalid parameter '${name}' not a number: ${n}`);
+  }
+}
+
+/**
  * Converts Hebrew date to R.D. (Rata Die) fixed days.
  * R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
  * Calendar.
@@ -99,6 +110,10 @@ const AVG_HEBYEAR_DAYS = 365.24682220597794;
  * @return {number}
  */
 export function hebrew2abs(year, month, day) {
+  assertNumber(year, 'year');
+  assertNumber(month, 'month');
+  assertNumber(day, 'day');
+
   if (year < 1) {
     throw new RangeError(`hebrew2abs: invalid year ${year}`);
   }
@@ -137,9 +152,7 @@ function newYear(year) {
  * @return {SimpleHebrewDate}
  */
 export function abs2hebrew(abs) {
-  if (typeof abs !== 'number' || isNaN(abs)) {
-    throw new TypeError(`invalid parameter to abs2hebrew ${abs}`);
-  }
+  assertNumber(abs, 'abs');
   abs = Math.trunc(abs);
   if (abs <= EPOCH) {
     throw new RangeError(`abs2hebrew: ${abs} is before epoch`);
@@ -216,7 +229,9 @@ export function daysInMonth(month, year) {
  * @return {string}
  */
 export function getMonthName(month, year) {
-  if (typeof month !== 'number' || isNaN(month) || month < 1 || month > 14) {
+  assertNumber(month, 'month');
+  assertNumber(year, 'year');
+  if (month < 1 || month > 14) {
     throw new TypeError(`bad month argument ${month}`);
   }
   return monthNames[+isLeapYear(year)][month];
