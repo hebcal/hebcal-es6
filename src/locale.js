@@ -59,7 +59,7 @@ export class Locale {
   /**
    * Register locale translations.
    * @param {string} locale Locale name (i.e.: `'he'`, `'fr'`)
-   * @param {LocaleDate} data parsed data from a `.po` file.
+   * @param {LocaleData} data parsed data from a `.po` file.
    */
   static addLocale(locale, data) {
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {

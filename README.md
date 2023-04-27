@@ -260,7 +260,7 @@ Register locale translations.
 | Param | Type | Description |
 | --- | --- | --- |
 | locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
-| data | <code>LocaleDate</code> | parsed data from a `.po` file. |
+| data | <code>LocaleData</code> | parsed data from a `.po` file. |
 
 <a name="Locale.useLocale"></a>
 

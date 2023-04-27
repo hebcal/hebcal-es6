@@ -28,21 +28,16 @@ import {flags} from './event';
 import {OmerEvent} from './omer';
 import {ParshaEvent} from './ParshaEvent';
 import {greg2abs, abs2greg, isDate, daysInMonth} from './greg0';
-import {DafYomiEvent} from './dafyomi';
+import {DailyLearning} from './DailyLearning';
 import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
   makeWeekdayChanukahCandleLighting} from './candles';
 import {version as pkgVersion} from '../package.json';
 import './locale-ashkenazi';
 import './locale-he';
-import {MishnaYomiEvent} from './MishnaYomiEvent';
-import {MishnaYomiIndex, mishnaYomiStart} from './mishnaYomi';
-import {NachYomiEvent} from './NachYomiEvent';
-import {NachYomiIndex, nachYomiStart} from './nachYomi';
 import {Zmanim} from './zmanim';
 import {hallel_} from './hallel';
 import {tachanun_} from './tachanun';
-import {yerushalmiYomi, YerushalmiYomiEvent, vilna, schottenstein} from './yerushalmi';
 
 const FRI = 5;
 const SAT = 6;
@@ -588,15 +583,8 @@ export class HebrewCalendar {
     if (startGreg.getFullYear() < 100) {
       options.candlelighting = false;
     }
-    let mishnaYomiIndex;
-    if (options.mishnaYomi) {
-      mishnaYomiIndex = new MishnaYomiIndex();
-    }
-    let nachYomiIndex;
-    if (options.nachYomi) {
-      nachYomiIndex = new NachYomiIndex();
-    }
-    const yerushalmiCfg = options.yerushalmiEdition === 2 ? schottenstein : vilna;
+    const yerushalmiCfg = options.yerushalmiEdition === 2 ? 'schottenstein' : 'vilna';
+    const yerushalmiEdition = `yerushalmi-${yerushalmiCfg}`;
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);
       const hyear = hd.getFullYear();
@@ -624,23 +612,29 @@ export class HebrewCalendar {
           evts.push(new ParshaEvent(hd, parsha0.parsha, il, parsha0.num));
         }
       }
-      if (options.dafyomi && hyear >= 5684) {
-        evts.push(new DafYomiEvent(hd));
-      }
-      if (options.yerushalmi && abs >= yerushalmiCfg.startAbs) {
-        const daf = yerushalmiYomi(abs, yerushalmiCfg);
-        // daf will be null to signal no Yerushalmi Yomi on YK and 9Av
-        if (daf != null) {
-          evts.push(new YerushalmiYomiEvent(hd, daf));
+      if (options.dafyomi) {
+        const learningEv = DailyLearning.lookup('dafYomi', hd);
+        if (learningEv) {
+          evts.push(learningEv);
         }
       }
-      if (options.mishnaYomi && abs >= mishnaYomiStart) {
-        const mishnaYomi = mishnaYomiIndex.lookup(abs);
-        evts.push(new MishnaYomiEvent(hd, mishnaYomi));
+      if (options.yerushalmi) {
+        const learningEv = DailyLearning.lookup(yerushalmiEdition, hd);
+        if (learningEv) {
+          evts.push(learningEv);
+        }
       }
-      if (options.nachYomi && abs >= nachYomiStart) {
-        const nachYomi = nachYomiIndex.lookup(abs);
-        evts.push(new NachYomiEvent(hd, nachYomi));
+      if (options.mishnaYomi) {
+        const learningEv = DailyLearning.lookup('mishnaYomi', hd);
+        if (learningEv) {
+          evts.push(learningEv);
+        }
+      }
+      if (options.nachYomi) {
+        const learningEv = DailyLearning.lookup('nachYomi', hd);
+        if (learningEv) {
+          evts.push(learningEv);
+        }
       }
       if (options.omer && abs >= beginOmer && abs <= endOmer) {
         const omer = abs - beginOmer + 1;

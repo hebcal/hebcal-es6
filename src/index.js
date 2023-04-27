@@ -9,16 +9,11 @@ export {Zmanim} from './zmanim';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './candles';
 export {Molad, MoladEvent} from './molad';
 export {OmerEvent} from './omer';
-export {DafYomi, DafYomiEvent} from './dafyomi';
 export {Sedra, parshiot} from './sedra';
 export {ParshaEvent} from './ParshaEvent';
 export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays';
-export {MishnaYomiIndex} from './mishnaYomi';
-export {MishnaYomiEvent} from './MishnaYomiEvent';
-export {NachYomiIndex} from './nachYomi';
-export {NachYomiEvent} from './NachYomiEvent';
-export {yerushalmiYomi, YerushalmiYomiEvent, vilna, schottenstein} from './yerushalmi';
+export {DailyLearning} from './DailyLearning';
 export {HebrewCalendar} from './hebcal';
 import {SolarCalc} from '@hebcal/solar-calc';
 export {SolarCalc};
