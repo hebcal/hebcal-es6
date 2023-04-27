@@ -804,6 +804,7 @@ Represents an Event with a title, date, and flags
     * [.observedIn(il)](#Event+observedIn) ⇒ <code>boolean</code>
     * ~~[.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>~~
     * [.clone()](#Event+clone) ⇒ [<code>Event</code>](#Event)
+    * [.getCategories()](#Event+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
 
 <a name="new_Event_new"></a>
 
@@ -945,6 +946,12 @@ ev2.observedIn(true); // true
 
 ### event.clone() ⇒ [<code>Event</code>](#Event)
 Makes a clone of this Event object
+
+**Kind**: instance method of [<code>Event</code>](#Event)  
+<a name="Event+getCategories"></a>
+
+### event.getCategories() ⇒ <code>Array.&lt;string&gt;</code>
+Returns a list of event categories
 
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="HebrewDateEvent"></a>
@@ -1536,6 +1543,7 @@ An event that has an `eventTime` and `eventTimeStr`
     * [new TimedEvent(date, desc, mask, eventTime, location, linkedEvent)](#new_TimedEvent_new)
     * [.render([locale])](#TimedEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#TimedEvent+renderBrief) ⇒ <code>string</code>
+    * [.getCategories()](#TimedEvent+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
 
 <a name="new_TimedEvent_new"></a>
 
@@ -1570,6 +1578,10 @@ Returns translation of "Candle lighting" without the time.
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+<a name="TimedEvent+getCategories"></a>
+
+### timedEvent.getCategories() ⇒ <code>Array.&lt;string&gt;</code>
+**Kind**: instance method of [<code>TimedEvent</code>](#TimedEvent)  
 <a name="HavdalahEvent"></a>
 
 ## HavdalahEvent
@@ -1976,6 +1988,7 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
     * [.url()](#HolidayEvent+url) ⇒ <code>string</code>
     * [.urlDateSuffix()](#HolidayEvent+urlDateSuffix) ⇒ <code>string</code>
     * [.getEmoji()](#HolidayEvent+getEmoji) ⇒ <code>string</code>
+    * [.getCategories()](#HolidayEvent+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
 
 <a name="new_HolidayEvent_new"></a>
 
@@ -2005,6 +2018,10 @@ Constructs Holiday event
 <a name="HolidayEvent+getEmoji"></a>
 
 ### holidayEvent.getEmoji() ⇒ <code>string</code>
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+<a name="HolidayEvent+getCategories"></a>
+
+### holidayEvent.getCategories() ⇒ <code>Array.&lt;string&gt;</code>
 **Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
 <a name="RoshChodeshEvent"></a>
 
@@ -2209,13 +2226,15 @@ Set `options.il=true` to use the Israeli schedule.
 Additional non-default event types can be specified:
 * Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
 * Counting of the Omer (`options.omer`)
-* Babylonian Talmud Daf Yomi (`options.dafyomi`)
-* Jerusalem Talmud (Yerushalmi) Yomi (`options.yerushalmi`)
-* Mishna Yomi (`options.mishnaYomi`)
-* Nach Yomi (`options.nachYomi`)
 * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
 * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
 * Yom Kippur Katan (`options.yomKippurKatan`)
+
+Daily Study of texts:
+* Babylonian Talmud Daf Yomi (`options.dailyLearning.dafYomi`)
+* Jerusalem Talmud (Yerushalmi) Yomi (`options.dailyLearning.yerushalmi`)
+* Mishna Yomi (`options.dailyLearning.mishnaYomi`)
+* Nach Yomi (`options.dailyLearning.nachYomi`)
 
 Candle-lighting and Havdalah times are approximated using latitude and longitude
 specified by the [Location](#Location) class. The `Location` class contains a small
@@ -2742,11 +2761,6 @@ Options to configure which events are returned
 | shabbatMevarchim | <code>boolean</code> | add Shabbat Mevarchim |
 | noSpecialShabbat | <code>boolean</code> | suppress Special Shabbat |
 | noHolidays | <code>boolean</code> | suppress regular holidays |
-| dafyomi | <code>boolean</code> | Babylonian Talmud Daf Yomi |
-| yerushalmi | <code>boolean</code> | Jerusalem Talmud (Yerushalmi) Yomi |
-| yerushalmiEdition | <code>number</code> | Use 1 for Vilna, 2 for Schottenstein |
-| mishnaYomi | <code>boolean</code> | include Mishna Yomi |
-| nachYomi | <code>boolean</code> | include Nach Yomi |
 | omer | <code>boolean</code> | include Days of the Omer |
 | molad | <code>boolean</code> | include event announcing the molad |
 | ashkenazi | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
@@ -2756,6 +2770,7 @@ Options to configure which events are returned
 | mask | <code>number</code> | use bitmask from `flags` to filter events |
 | yomKippurKatan | <code>boolean</code> | include Yom Kippur Katan (default `false`).      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)      and Nisan (fasting not permitted during Nisan).      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.      See [Wikipedia Yom Kippur Katan practices](https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices) |
 | hour12 | <code>boolean</code> | Whether to use 12-hour time (as opposed to 24-hour time).      Possible values are `true` and `false`; the default is locale dependent. |
+| dailyLearning | <code>Object.&lt;string, any&gt;</code> | map of options to enable daily study calendars      such as `dafYomi`, `mishnaYomi`, `nachYomi` with value `true`. For `yerushalmi`      the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein). |
 
 <a name="TachanunResult"></a>
 

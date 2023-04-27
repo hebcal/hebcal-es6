@@ -90,9 +90,6 @@ const RECOGNIZED_OPTIONS = {
   noRoshChodesh: 1,
   noSpecialShabbat: 1,
   noHolidays: 1,
-  dafyomi: 1,
-  mishnaYomi: 1,
-  nachYomi: 1,
   omer: 1,
   molad: 1,
   ashkenazi: 1,
@@ -104,8 +101,7 @@ const RECOGNIZED_OPTIONS = {
   userMask: 1,
   yomKippurKatan: 1,
   hour12: 1,
-  yerushalmi: 1,
-  yerushalmiEdition: 1,
+  dailyLearning: 1,
 };
 
 /**
@@ -216,11 +212,6 @@ function checkCandleOptions(options) {
  * @property {boolean} shabbatMevarchim - add Shabbat Mevarchim
  * @property {boolean} noSpecialShabbat - suppress Special Shabbat
  * @property {boolean} noHolidays - suppress regular holidays
- * @property {boolean} dafyomi - Babylonian Talmud Daf Yomi
- * @property {boolean} yerushalmi - Jerusalem Talmud (Yerushalmi) Yomi
- * @property {number} yerushalmiEdition - Use 1 for Vilna, 2 for Schottenstein
- * @property {boolean} mishnaYomi - include Mishna Yomi
- * @property {boolean} nachYomi - include Nach Yomi
  * @property {boolean} omer - include Days of the Omer
  * @property {boolean} molad - include event announcing the molad
  * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
@@ -240,6 +231,9 @@ function checkCandleOptions(options) {
  *      See {@link https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices Wikipedia Yom Kippur Katan practices}
  * @property {boolean} hour12 - Whether to use 12-hour time (as opposed to 24-hour time).
  *      Possible values are `true` and `false`; the default is locale dependent.
+ * @property {Object<string,any>} dailyLearning - map of options to enable daily study calendars
+ *      such as `dafYomi`, `mishnaYomi`, `nachYomi` with value `true`. For `yerushalmi`
+ *      the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein).
  */
 
 /**
@@ -340,13 +334,25 @@ function getMaskFromOptions(options) {
     if (m & MINOR_FAST) delete options.noMinorFast;
     if (m & SPECIAL_SHABBAT) delete options.noSpecialShabbat;
     if (m & PARSHA_HASHAVUA) options.sedrot = true;
-    if (m & DAF_YOMI) options.dafyomi = true;
+    if (m & DAF_YOMI) {
+      options.dailyLearning = options.dailyLearning || {};
+      options.dailyLearning.dafYomi = true;
+    }
     if (m & OMER_COUNT) options.omer = true;
     if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
-    if (m & flags.MISHNA_YOMI) options.mishnaYomi = true;
-    if (m & flags.NACH_YOMI) options.nachYomi = true;
+    if (m & flags.MISHNA_YOMI) {
+      options.dailyLearning = options.dailyLearning || {};
+      options.dailyLearning.mishnaYomi = true;
+    }
+    if (m & flags.NACH_YOMI) {
+      options.dailyLearning = options.dailyLearning || {};
+      options.dailyLearning.nachYomi = true;
+    }
     if (m & flags.YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
-    if (m & flags.YERUSHALMI_YOMI) options.yerushalmi = true;
+    if (m & flags.YERUSHALMI_YOMI) {
+      options.dailyLearning = options.dailyLearning || {};
+      options.dailyLearning.yerushalmi = 1;
+    }
     options.userMask = true;
     return m;
   }
@@ -385,15 +391,6 @@ function getMaskFromOptions(options) {
   if (options.sedrot) {
     mask |= PARSHA_HASHAVUA;
   }
-  if (options.dafyomi) {
-    mask |= DAF_YOMI;
-  }
-  if (options.mishnaYomi) {
-    mask |= flags.MISHNA_YOMI;
-  }
-  if (options.nachYomi) {
-    mask |= flags.NACH_YOMI;
-  }
   if (options.omer) {
     mask |= OMER_COUNT;
   }
@@ -403,8 +400,20 @@ function getMaskFromOptions(options) {
   if (options.yomKippurKatan) {
     mask |= flags.YOM_KIPPUR_KATAN;
   }
-  if (options.yerushalmi) {
-    mask |= flags.YERUSHALMI_YOMI;
+  if (options.dailyLearning) {
+    const dailyLearning = options.dailyLearning;
+    if (dailyLearning.dafYomi) {
+      mask |= DAF_YOMI;
+    }
+    if (dailyLearning.mishnaYomi) {
+      mask |= flags.MISHNA_YOMI;
+    }
+    if (dailyLearning.nachYomi) {
+      mask |= flags.NACH_YOMI;
+    }
+    if (dailyLearning.yerushalmi) {
+      mask |= flags.YERUSHALMI_YOMI;
+    }
   }
 
   return mask;
@@ -480,13 +489,15 @@ export class HebrewCalendar {
    * Additional non-default event types can be specified:
    * * Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
    * * Counting of the Omer (`options.omer`)
-   * * Babylonian Talmud Daf Yomi (`options.dafyomi`)
-   * * Jerusalem Talmud (Yerushalmi) Yomi (`options.yerushalmi`)
-   * * Mishna Yomi (`options.mishnaYomi`)
-   * * Nach Yomi (`options.nachYomi`)
    * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
    * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
    * * Yom Kippur Katan (`options.yomKippurKatan`)
+   *
+   * Daily Study of texts:
+   * * Babylonian Talmud Daf Yomi (`options.dailyLearning.dafYomi`)
+   * * Jerusalem Talmud (Yerushalmi) Yomi (`options.dailyLearning.yerushalmi`)
+   * * Mishna Yomi (`options.dailyLearning.mishnaYomi`)
+   * * Nach Yomi (`options.dailyLearning.nachYomi`)
    *
    * Candle-lighting and Havdalah times are approximated using latitude and longitude
    * specified by the {@link Location} class. The `Location` class contains a small
@@ -583,8 +594,6 @@ export class HebrewCalendar {
     if (startGreg.getFullYear() < 100) {
       options.candlelighting = false;
     }
-    const yerushalmiCfg = options.yerushalmiEdition === 2 ? 'schottenstein' : 'vilna';
-    const yerushalmiEdition = `yerushalmi-${yerushalmiCfg}`;
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);
       const hyear = hd.getFullYear();
@@ -612,29 +621,21 @@ export class HebrewCalendar {
           evts.push(new ParshaEvent(hd, parsha0.parsha, il, parsha0.num));
         }
       }
-      if (options.dafyomi) {
-        const learningEv = DailyLearning.lookup('dafYomi', hd);
-        if (learningEv) {
-          evts.push(learningEv);
-        }
-      }
-      if (options.yerushalmi) {
-        const learningEv = DailyLearning.lookup(yerushalmiEdition, hd);
-        if (learningEv) {
-          evts.push(learningEv);
-        }
-      }
-      if (options.mishnaYomi) {
-        const learningEv = DailyLearning.lookup('mishnaYomi', hd);
-        if (learningEv) {
-          evts.push(learningEv);
-        }
-      }
-      if (options.nachYomi) {
-        const learningEv = DailyLearning.lookup('nachYomi', hd);
-        if (learningEv) {
-          evts.push(learningEv);
-        }
+      const dailyLearning = options.dailyLearning;
+      if (typeof dailyLearning === 'object') {
+        Object.entries(dailyLearning).forEach((kv) => {
+          const key = kv[0];
+          const val = kv[1];
+          if (val) {
+            const name = key === 'yerushalmi' ?
+              (val === 2 ? 'yerushalmi-schottenstein' : 'yerushalmi-vilna') :
+              key;
+            const learningEv = DailyLearning.lookup(name, hd);
+            if (learningEv) {
+              evts.push(learningEv);
+            }
+          }
+        });
       }
       if (options.omer && abs >= beginOmer && abs <= endOmer) {
         const omer = abs - beginOmer + 1;

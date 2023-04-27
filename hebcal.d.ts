@@ -574,16 +574,6 @@ declare module '@hebcal/core' {
         noSpecialShabbat?: boolean;
         /** suppress regular holidays */
         noHolidays?: boolean;
-        /** Babylonian Talmud Daf Yomi */
-        dafyomi?: boolean;
-        /** Jerusalem Talmud (Yerushalmi) Yomi */
-        yerushalmi?: boolean;
-        /** Use 1 for Vilna, 2 for Schottenstein */
-        yerushalmiEdition?: number;
-        /** include Mishna Yomi */
-        mishnaYomi?: boolean;
-        /** include Nach Yomi */
-        nachYomi?: boolean;
         /** include Days of the Omer */
         omer?: boolean;
         /** include event announcing the molad */
@@ -618,6 +608,12 @@ declare module '@hebcal/core' {
          * Possible values are `true` and `false`; the default is locale dependent.
          */
         hour12?: boolean;
+        /**
+         * map of options to enable daily study calendars such as `dafYomi`, `mishnaYomi`,
+         * `nachYomi`, etc. with value `true`.
+         * For `yerushalmi` the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein).
+         */
+        dailyLearning?: Object<string,any>;       
     };
 
     export type TachanunResult = {
