@@ -29,6 +29,7 @@ declare module '@hebcal/core' {
         observedInDiaspora(): boolean;
         observedIn(il: boolean): boolean;
         clone(): Event;
+        getCategories(): string[];
         readonly date: Date;
         readonly desc: string;
         readonly mask: number;

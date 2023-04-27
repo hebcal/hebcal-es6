@@ -20,7 +20,7 @@
  */
 import {Locale} from './locale';
 import {HDate, months} from './hdate';
-import {Event, flags, KEYCAP_DIGITS} from './event';
+import {Event, flags} from './event';
 import {MoladEvent} from './molad';
 import {Sedra} from './sedra';
 import {dateYomHaZikaron, dateYomHaShoah} from './modern';
@@ -73,6 +73,29 @@ export class HolidayEvent extends Event {
       return '🕍';
     } else {
       return '✡️';
+    }
+  }
+  /** @return {string[]} */
+  getCategories() {
+    const cats = super.getCategories();
+    if (cats[0] !== 'unknown') {
+      return cats;
+    }
+    const desc = this.getDesc();
+    // Don't depend on flags.MINOR_HOLIDAY always being set
+    switch (desc) {
+      case 'Lag BaOmer':
+      case 'Leil Selichot':
+      case 'Pesach Sheni':
+      case 'Erev Purim':
+      case 'Purim Katan':
+      case 'Shushan Purim':
+      case 'Tu B\'Av':
+      case 'Tu BiShvat':
+      case 'Rosh Hashana LaBehemot':
+        return ['holiday', 'minor'];
+      default:
+        return ['holiday', 'major'];
     }
   }
 }
@@ -318,6 +341,11 @@ export function getSedra_(hyear, il) {
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';
 const yearCache = Object.create(null);
+
+const KEYCAP_DIGITS = [
+  '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣',
+  '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣',
+];
 
 /**
  * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by

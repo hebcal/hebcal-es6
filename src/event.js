@@ -60,6 +60,22 @@ export const flags = {
   NACH_YOMI: 0x2000000,
 };
 
+const flagToCategory = [
+  [flags.MAJOR_FAST, 'holiday', 'major', 'fast'],
+  [flags.CHANUKAH_CANDLES, 'holiday', 'major'],
+  [flags.HEBREW_DATE, 'hebdate'],
+  [flags.MINOR_FAST, 'holiday', 'fast'],
+  [flags.MINOR_HOLIDAY, 'holiday', 'minor'],
+  [flags.MODERN_HOLIDAY, 'holiday', 'modern'],
+  [flags.MOLAD, 'molad'],
+  [flags.OMER_COUNT, 'omer'],
+  [flags.PARSHA_HASHAVUA, 'parashat'], // backwards-compat
+  [flags.ROSH_CHODESH, 'roshchodesh'],
+  [flags.SHABBAT_MEVARCHIM, 'mevarchim'],
+  [flags.SPECIAL_SHABBAT, 'holiday', 'shabbat'],
+  [flags.USER_EVENT, 'user'],
+];
+
 /** Represents an Event with a title, date, and flags */
 export class Event {
   /**
@@ -206,9 +222,18 @@ export class Event {
     }
     return ev;
   }
+  /**
+   * Returns a list of event categories
+   * @return {string[]}
+   */
+  getCategories() {
+    const mask = this.getFlags();
+    for (let i = 0; i < flagToCategory.length; i++) {
+      const attrs = flagToCategory[i];
+      if (mask & attrs[0]) {
+        return attrs.slice(1);
+      }
+    }
+    return ['unknown'];
+  }
 }
-
-export const KEYCAP_DIGITS = [
-  '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣',
-  '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣',
-];

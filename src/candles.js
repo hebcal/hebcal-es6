@@ -96,6 +96,22 @@ export class TimedEvent extends Event {
   renderBrief(locale) {
     return Locale.gettext(this.getDesc(), locale);
   }
+  /** @return {string[]} */
+  getCategories() {
+    const desc = this.getDesc();
+    switch (desc) {
+      // LIGHT_CANDLES or LIGHT_CANDLES_TZEIS
+      case 'Candle lighting':
+        return ['candles'];
+      // YOM_TOV_ENDS
+      case 'Havdalah':
+        return ['havdalah'];
+      // flags.MINOR_FAST or flags.MAJOR_FAST
+      case 'Fast begins':
+      case 'Fast ends':
+        return ['zmanim', 'fast'];
+    }
+  }
 }
 
 /** Havdalah after Shabbat or holiday */
