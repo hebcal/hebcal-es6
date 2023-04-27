@@ -523,6 +523,10 @@ declare module '@hebcal/core' {
         dd: number;
     };
 
+    export interface DailyLearningOptions {
+        [key: string]: any;
+    }
+
     /**
      * Options to configure which events are returned
      */
@@ -613,7 +617,7 @@ declare module '@hebcal/core' {
          * `nachYomi`, etc. with value `true`.
          * For `yerushalmi` the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein).
          */
-        dailyLearning?: Object<string,any>;       
+        dailyLearning?: DailyLearningOptions;
     };
 
     export type TachanunResult = {
