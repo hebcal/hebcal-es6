@@ -1259,3 +1259,269 @@ msgstr "צוֹם גְּדַלְיָה מִנחָה"
 
 msgid "Tzom Tammuz (Mincha)"
 msgstr "צוֹם תָּמוּז מִנחָה"
+
+####### Mishneh Torah #######
+
+msgid "Transmission of the Oral Law"
+msgstr "מסירת תורה שבעל פה"
+
+msgid "Positive Mitzvot"
+msgstr "מצוות עשה"
+
+msgid "Negative Mitzvot"
+msgstr "מצוות לא תעשה"
+
+msgid "Overview of Mishneh Torah Contents"
+msgstr "תוכן החיבור"
+
+msgid "Foundations of the Torah"
+msgstr "הלכות יסודי התורה"
+
+msgid "Human Dispositions"
+msgstr "הלכות דעות"
+
+msgid "Torah Study"
+msgstr "הלכות תלמוד תורה"
+
+msgid "Foreign Worship and Customs of the Nations"
+msgstr "הלכות עבודה זרה וחוקות הגויים"
+
+msgid "Repentance"
+msgstr "הלכות תשובה"
+
+msgid "Reading the Shema"
+msgstr "הלכות קריאת שמע"
+
+msgid "Prayer and the Priestly Blessing"
+msgstr "הלכות תפילה וברכת כהנים"
+
+msgid "Tefillin, Mezuzah and the Torah Scroll"
+msgstr "הלכות תפילין ומזוזה וספר תורה"
+
+msgid "Fringes"
+msgstr "הלכות ציצית"
+
+msgid "Blessings"
+msgstr "הלכות ברכות"
+
+msgid "Circumcision"
+msgstr "הלכות מילה"
+
+msgid "The Order of Prayer"
+msgstr "סדר התפילה"
+
+msgid "Sabbath"
+msgstr "הלכות שבת"
+
+# msgid "Eruvin"
+# msgstr "הלכות עירובין"
+
+msgid "Rest on the Tenth of Tishrei"
+msgstr "הלכות שביתת עשור"
+
+msgid "Rest on a Holiday"
+msgstr "הלכות שביתת יום טוב"
+
+msgid "Leavened and Unleavened Bread"
+msgstr "הלכות חמץ ומצה"
+
+msgid "Shofar, Sukkah and Lulav"
+msgstr "הלכות שופר וסוכה ולולב"
+
+msgid "Sheqel Dues"
+msgstr "הלכות שקלים"
+
+msgid "Sanctification of the New Month"
+msgstr "הלכות קידוש החודש"
+
+msgid "Fasts"
+msgstr "הלכות תעניות"
+
+msgid "Scroll of Esther and Hanukkah"
+msgstr "הלכות מגילה וחנוכה"
+
+msgid "Marriage"
+msgstr "הלכות אישות"
+
+msgid "Divorce"
+msgstr "הלכות גירושין"
+
+msgid "Levirate Marriage and Release"
+msgstr "הלכות יבום וחליצה"
+
+msgid "Virgin Maiden"
+msgstr "הלכות נערה בתולה"
+
+msgid "Woman Suspected of Infidelity"
+msgstr "הלכות סוטה"
+
+msgid "Forbidden Intercourse"
+msgstr "הלכות איסורי ביאה"
+
+msgid "Forbidden Foods"
+msgstr "הלכות מאכלות אסורות"
+
+msgid "Ritual Slaughter"
+msgstr "הלכות שחיטה"
+
+msgid "Oaths"
+msgstr "הלכות שבועות"
+
+msgid "Vows"
+msgstr "הלכות נדרים"
+
+msgid "Nazariteship"
+msgstr "הלכות נזירות"
+
+msgid "Appraisals and Devoted Property"
+msgstr "הלכות ערכים וחרמין"
+
+msgid "Diverse Species"
+msgstr "הלכות כלאים"
+
+msgid "Gifts to the Poor"
+msgstr "הלכות מתנות עניים"
+
+msgid "Heave Offerings"
+msgstr "הלכות תרומות"
+
+msgid "Tithes"
+msgstr "הלכות מעשרות"
+
+msgid "Second Tithes and Fourth Year's Fruit"
+msgstr "הלכות מעשר שני ונטע רבעי"
+
+msgid "First Fruits and other Gifts to Priests Outside the Sanctuary"
+msgstr "הלכות ביכורים ושאר מתנות כהונה שבגבולין"
+
+msgid "Sabbatical Year and the Jubilee"
+msgstr "הלכות שמיטה ויובל"
+
+msgid "The Chosen Temple"
+msgstr "הלכות בית הבחירה"
+
+msgid "Vessels of the Sanctuary and Those who Serve Therein"
+msgstr "הלכות כלי המקדש והעובדין בו"
+
+msgid "Admission into the Sanctuary"
+msgstr "הלכות ביאת מקדש"
+
+msgid "Things Forbidden on the Altar"
+msgstr "הלכות איסורי המזבח"
+
+msgid "Sacrificial Procedure"
+msgstr "הלכות מעשה הקרבנות"
+
+msgid "Daily Offerings and Additional Offerings"
+msgstr "הלכות תמידים ומוספין"
+
+msgid "Sacrifices Rendered Unfit"
+msgstr "הלכות פסולי המוקדשין"
+
+msgid "Service on the Day of Atonement"
+msgstr "הלכות עבודת יום הכפורים"
+
+msgid "Trespass"
+msgstr "הלכות מעילה"
+
+msgid "Paschal Offering"
+msgstr "הלכות קרבן פסח"
+
+msgid "Festival Offering"
+msgstr "הלכות חגיגה"
+
+msgid "Firstlings"
+msgstr "הלכות בכורות"
+
+msgid "Offerings for Unintentional Transgressions"
+msgstr "הלכות שגגות"
+
+msgid "Offerings for Those with Incomplete Atonement"
+msgstr "הלכות מחוסרי כפרה"
+
+msgid "Substitution"
+msgstr "הלכות תמורה"
+
+msgid "Defilement by a Corpse"
+msgstr "הלכות טומאת מת"
+
+msgid "Red Heifer"
+msgstr "הלכות פרה אדומה"
+
+msgid "Defilement by Leprosy"
+msgstr "הלכות טומאת צרעת"
+
+msgid "Those Who Defile Bed or Seat"
+msgstr "הלכות מטמאי משכב ומושב"
+
+msgid "Other Sources of Defilement"
+msgstr "הלכות שאר אבות הטומאות"
+
+msgid "Defilement of Foods"
+msgstr "הלכות טומאת אוכלים"
+
+msgid "Vessels"
+msgstr "הלכות כלים"
+
+msgid "Immersion Pools"
+msgstr "הלכות מקואות"
+
+msgid "Damages to Property"
+msgstr "הלכות נזקי ממון"
+
+msgid "Theft"
+msgstr "הלכות גניבה"
+
+msgid "Robbery and Lost Property"
+msgstr "הלכות גזילה ואבידה"
+
+msgid "One Who Injures a Person or Property"
+msgstr "הלכות חובל ומזיק"
+
+msgid "Murderer and the Preservation of Life"
+msgstr "הלכות רוצח ושמירת נפש"
+
+msgid "Sales"
+msgstr "הלכות מכירה"
+
+msgid "Ownerless Property and Gifts"
+msgstr "הלכות זכייה ומתנה"
+
+msgid "Neighbors"
+msgstr "הלכות שכנים"
+
+msgid "Agents and Partners"
+msgstr "הלכות שלוחין ושותפין"
+
+msgid "Slaves"
+msgstr "הלכות עבדים"
+
+msgid "Hiring"
+msgstr "הלכות שכירות"
+
+msgid "Borrowing and Deposit"
+msgstr "הלכות שאלה ופיקדון"
+
+msgid "Creditor and Debtor"
+msgstr "הלכות מלווה ולווה"
+
+msgid "Plaintiff and Defendant"
+msgstr "הלכות טוען ונטען"
+
+msgid "Inheritances"
+msgstr "הלכות נחלות"
+
+msgid "The Sanhedrin and the Penalties within their Jurisdiction"
+msgstr "הלכות סנהדרין והעונשין המסורין להם"
+
+msgid "Testimony"
+msgstr "הלכות עדות"
+
+msgid "Rebels"
+msgstr "הלכות ממרים"
+
+msgid "Mourning"
+msgstr "הלכות אבל"
+
+msgid "Kings and Wars"
+msgstr "הלכות מלכים ומלחמות"
