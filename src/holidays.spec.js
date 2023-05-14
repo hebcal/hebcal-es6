@@ -719,3 +719,17 @@ test('Birkat Hachamah', (t) => {
   t.is(typeof ev2, 'object');
   t.is(ev2.getDate().toString(), '29 Adar II 5993');
 });
+
+test('getCategories', (t) => {
+  const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
+      'Pesach IV (CH\'\'M)', flags.CHUL_ONLY, {cholHaMoedDay: 2});
+  t.deepEqual(ev.getCategories(), ['holiday', 'major', 'cholhamoed']);
+
+  const ev2 = new HolidayEvent(new HDate(18, months.IYYAR, 5763),
+      'Lag BaOmer', flags.MINOR_HOLIDAY);
+  t.deepEqual(ev2.getCategories(), ['holiday', 'minor']);
+
+  const ev3 = new HolidayEvent(new HDate(9, months.TISHREI, 5763),
+      'Erev Yom Kippur', flags.EREV | flags.LIGHT_CANDLES);
+  t.deepEqual(ev3.getCategories(), ['holiday', 'major']);
+});

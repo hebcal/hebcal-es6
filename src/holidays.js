@@ -77,7 +77,7 @@ export class HolidayEvent extends Event {
   }
   /** @return {string[]} */
   getCategories() {
-    if (ev.cholHaMoedDay) {
+    if (this.cholHaMoedDay) {
       return ['holiday', 'major', 'cholhamoed'];
     }
     const cats = super.getCategories();
