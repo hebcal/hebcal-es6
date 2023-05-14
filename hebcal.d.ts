@@ -984,6 +984,7 @@ declare module '@hebcal/core' {
         constructor(date: HDate, desc: string, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
+        getCategories(): string[];
         readonly eventTime: Date;
         readonly location: Location;
         readonly eventTimeStr: string;
@@ -1013,6 +1014,7 @@ declare module '@hebcal/core' {
         url(): string;
         urlDateSuffix(): string;
         getEmoji(): string;
+        getCategories(): string[];
         readonly cholHaMoedDay?: number;
         readonly startEvent?: TimedEvent;
         readonly endEvent?: TimedEvent;
