@@ -126,10 +126,12 @@ declare module '@hebcal/core' {
          * Renders this Hebrew date as a translated or transliterated string,
          * including ordinal e.g. `'15th of Cheshvan, 5769'`.
          * @param [locale] Optional locale name (defaults to active locale).
+         * @param [showYear] Display year (defaults to `true`).
          */
-        render(locale?: string): number;
+        render(locale?: string, showYear?: boolean): number;
         /**
          * Renders this Hebrew date in Hebrew gematriya, regardless of locale.
+         * @param [suppressNikud] suppress nekudot (defaults to `false`).
          */
         renderGematriya(suppressNikud?: boolean): string;
 
