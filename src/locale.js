@@ -62,6 +62,9 @@ export class Locale {
    * @param {LocaleData} data parsed data from a `.po` file.
    */
   static addLocale(locale, data) {
+    if (typeof locale !== 'string') {
+      throw new TypeError(`Invalid locale name: ${locale}`);
+    }
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
       throw new TypeError(`Locale '${locale}' invalid compact format`);
     }
@@ -97,7 +100,28 @@ export class Locale {
     }
     loc[id] = isArray ? translation : [translation];
   }
-
+  /**
+   * Adds multiple translations to `locale`, replacing any previous translations.
+   * @param {string} locale Locale name (i.e: `'he'`, `'fr'`).
+   * @param {LocaleData} data parsed data from a `.po` file.
+   */
+  static addTranslations(locale, data) {
+    if (typeof locale !== 'string') {
+      throw new TypeError(`Invalid locale name: ${locale}`);
+    }
+    const locale0 = locale.toLowerCase();
+    const loc = locales[locale0];
+    if (!loc) {
+      throw new TypeError(`Unknown locale: ${locale}`);
+    }
+    if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
+      throw new TypeError(`Locale '${locale}' invalid compact format`);
+    }
+    const ctx = data.contexts[''];
+    Object.keys(ctx).forEach((id) => {
+      loc[id] = ctx[id];
+    });
+  }
   /**
    * Activates a locale. Throws an error if the locale has not been previously added.
    * After setting the locale to be used, all strings marked for translations

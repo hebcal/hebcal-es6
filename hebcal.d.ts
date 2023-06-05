@@ -502,6 +502,12 @@ declare module '@hebcal/core' {
          */
         static addTranslation(locale: string, id: string, translation: string | string[]): void;
         /**
+         * Adds multiple translations to `locale`, replacing any previous translations.
+         * @param locale - Locale name (i.e: `'he'`, `'fr'`).
+         * @param data - parsed data from a `.po` file.
+         */
+        static addTranslations(locale: string, data: LocaleData): void;
+        /**
          * Activates a locale. Throws an error if the locale has not been previously added.
          * After setting the locale to be used, all strings marked for translations
          * will be represented by the corresponding translation in the specified locale.

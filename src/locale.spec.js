@@ -87,3 +87,17 @@ test('addTranslation', (t) => {
   Locale.addTranslation('a', 'Baaz', ['Quux']);
   t.is(Locale.lookupTranslation('Baaz', 'a'), 'Quux');
 });
+
+test('addTranslations', (t) => {
+  t.is(Locale.lookupTranslation('Hello world', 'a'), undefined);
+  const localeData = {
+    headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
+    contexts: {'': {
+      'Hello': ['World'],
+      'Hello world': ['Quux'],
+      'Goodbye': ['World'],
+    }},
+  };
+  Locale.addTranslations('a', localeData);
+  t.is(Locale.lookupTranslation('Hello world', 'a'), 'Quux');
+});
