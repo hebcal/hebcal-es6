@@ -77,3 +77,13 @@ test('useLocale-throws', (t) => {
   }, {instanceOf: RangeError});
   t.is(error.message, 'Locale \'bogus\' not found');
 });
+
+test('addTranslation', (t) => {
+  t.is(Locale.lookupTranslation('Foobar', 'a'), undefined);
+  Locale.addTranslation('a', 'Foobar', 'Quux');
+  t.is(Locale.lookupTranslation('Foobar', 'a'), 'Quux');
+
+  t.is(Locale.lookupTranslation('Baaz', 'a'), undefined);
+  Locale.addTranslation('a', 'Baaz', ['Quux']);
+  t.is(Locale.lookupTranslation('Baaz', 'a'), 'Quux');
+});

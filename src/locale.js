@@ -69,6 +69,36 @@ export class Locale {
   }
 
   /**
+   * Adds a translation to `locale`, replacing any previous translation.
+   * @param {string} locale Locale name (i.e: `'he'`, `'fr'`).
+   * @param {string} id Message ID to translate
+   * @param {string} translation Translation text
+   */
+  static addTranslation(locale, id, translation) {
+    if (typeof locale !== 'string') {
+      throw new TypeError(`Invalid locale name: ${locale}`);
+    }
+    const locale0 = locale.toLowerCase();
+    const loc = locales[locale0];
+    if (!loc) {
+      throw new TypeError(`Unknown locale: ${locale}`);
+    }
+    if (typeof id !== 'string' || id.length === 0) {
+      throw new TypeError(`Invalid id: ${id}`);
+    }
+    const isArray = Array.isArray(translation);
+    if (isArray) {
+      const t0 = translation[0];
+      if (typeof t0 !== 'string' || t0.length === 0) {
+        throw new TypeError(`Invalid translation array: ${translation}`);
+      }
+    } else if (typeof translation !== 'string') {
+      throw new TypeError(`Invalid translation: ${translation}`);
+    }
+    loc[id] = isArray ? translation : [translation];
+  }
+
+  /**
    * Activates a locale. Throws an error if the locale has not been previously added.
    * After setting the locale to be used, all strings marked for translations
    * will be represented by the corresponding translation in the specified locale.
