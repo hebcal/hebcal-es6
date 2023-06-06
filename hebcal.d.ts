@@ -128,7 +128,7 @@ declare module '@hebcal/core' {
          * @param [locale] Optional locale name (defaults to active locale).
          * @param [showYear] Display year (defaults to `true`).
          */
-        render(locale?: string, showYear?: boolean): number;
+        render(locale?: string, showYear?: boolean): string;
         /**
          * Renders this Hebrew date in Hebrew gematriya, regardless of locale.
          * @param [suppressNikud] suppress nekudot (defaults to `false`).
