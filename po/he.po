@@ -194,7 +194,7 @@ msgid "Asara B'Tevet"
 msgstr "עֲשָׂרָה בְּטֵבֵת"
 
 msgid "Candle lighting"
-msgstr "הַדלָקָת נֵרוֹת"
+msgstr "הַדְלָקַת נֵרוֹת"
 
 msgid "Chanukah"
 msgstr "חֲנוּכָּה"
@@ -260,7 +260,7 @@ msgid "Erev Yom Kippur"
 msgstr "עֶרֶב יוֹם כִּפּוּר"
 
 msgid "Havdalah"
-msgstr "הַבדָלָה"
+msgstr "הַבְדָּלָה"
 
 msgid "Lag BaOmer"
 msgstr "ל״ג בָּעוֹמֶר"
@@ -675,7 +675,7 @@ msgstr "לַיְלָה - גמר תעניות דרבנן"
 
 # Nightfall - 3 stars emerge
 msgid "Tzeit HaKochavim"
-msgstr "צֵאת כוכבים"
+msgstr "צֵאת הַכּוֹכָבִים"
 
 # Chesed
 msgid "Lovingkindness"

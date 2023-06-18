@@ -481,12 +481,12 @@ test('renderBrief', (t) => {
   t.is(havdalahTzeit.render('en'), 'Havdalah: 20:12');
   t.is(havdalahTzeit.renderBrief('en'), 'Havdalah');
 
-  t.is(candleLighting.render('he'), 'הַדלָקָת נֵרוֹת: 20:12');
-  t.is(candleLighting.renderBrief('he'), 'הַדלָקָת נֵרוֹת');
-  t.is(havdalah.render('he'), 'הַבדָלָה (42 דקות): 20:12');
-  t.is(havdalah.renderBrief('he'), 'הַבדָלָה (42 דקות)');
-  t.is(havdalahTzeit.render('he'), 'הַבדָלָה: 20:12');
-  t.is(havdalahTzeit.renderBrief('he'), 'הַבדָלָה');
+  t.is(candleLighting.render('he'), 'הַדְלָקַת נֵרוֹת: 20:12');
+  t.is(candleLighting.renderBrief('he'), 'הַדְלָקַת נֵרוֹת');
+  t.is(havdalah.render('he'), 'הַבְדָּלָה (42 דקות): 20:12');
+  t.is(havdalah.renderBrief('he'), 'הַבְדָּלָה (42 דקות)');
+  t.is(havdalahTzeit.render('he'), 'הַבְדָּלָה: 20:12');
+  t.is(havdalahTzeit.renderBrief('he'), 'הַבְדָּלָה');
 });
 
 test('havdalahDeg', (t) => {
