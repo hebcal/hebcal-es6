@@ -1,5 +1,5 @@
 export {greg} from './greg';
-export {gematriya} from './gematriya';
+export {gematriya, gematriyaStrToNum} from './gematriya';
 export {Locale} from './locale';
 export {HDate, months} from './hdate';
 export {HebrewDateEvent} from './HebrewDateEvent';

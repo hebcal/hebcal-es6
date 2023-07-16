@@ -142,6 +142,12 @@ parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] 
 <p>When specifying years of the Hebrew calendar in the present millennium,
 we omit the thousands (which is presently 5 [ה]).</p>
 </dd>
+<dt><a href="#gematriyaStrToNum">gematriyaStrToNum(str)</a> ⇒ <code>number</code></dt>
+<dd><p>Converts a string of Hebrew letters to a numerical value.</p>
+<p>Only considers the value of Hebrew letters <code>א</code> through <code>ת</code>.
+Ignores final Hebrew letters such as <code>ך</code> (kaf sofit) or <code>ם</code> (mem sofit)
+and vowels (nekudot).</p>
+</dd>
 </dl>
 
 ## Typedefs
@@ -175,6 +181,8 @@ holidays. `@hebcal/core` supports four locales by default
     * [.lookupTranslation(id, [locale])](#Locale.lookupTranslation) ⇒ <code>string</code>
     * [.gettext(id, [locale])](#Locale.gettext) ⇒ <code>string</code>
     * [.addLocale(locale, data)](#Locale.addLocale)
+    * [.addTranslation(locale, id, translation)](#Locale.addTranslation)
+    * [.addTranslations(locale, data)](#Locale.addTranslations)
     * [.useLocale(locale)](#Locale.useLocale) ⇒ <code>LocaleData</code>
     * [.getLocaleName()](#Locale.getLocaleName) ⇒ <code>string</code>
     * [.getLocaleNames()](#Locale.getLocaleNames) ⇒ <code>Array.&lt;string&gt;</code>
@@ -216,6 +224,31 @@ Register locale translations.
 | Param | Type | Description |
 | --- | --- | --- |
 | locale | <code>string</code> | Locale name (i.e.: `'he'`, `'fr'`) |
+| data | <code>LocaleData</code> | parsed data from a `.po` file. |
+
+<a name="Locale.addTranslation"></a>
+
+### Locale.addTranslation(locale, id, translation)
+Adds a translation to `locale`, replacing any previous translation.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`). |
+| id | <code>string</code> | Message ID to translate |
+| translation | <code>string</code> | Translation text |
+
+<a name="Locale.addTranslations"></a>
+
+### Locale.addTranslations(locale, data)
+Adds multiple translations to `locale`, replacing any previous translations.
+
+**Kind**: static method of [<code>Locale</code>](#Locale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`). |
 | data | <code>LocaleData</code> | parsed data from a `.po` file. |
 
 <a name="Locale.useLocale"></a>
@@ -2692,6 +2725,21 @@ gematriya(60) // 'ס׳'
 gematriya(3761) // 'ג׳תשס״א'
 gematriya(1123) // 'א׳קכ״ג'
 ```
+<a name="gematriyaStrToNum"></a>
+
+## gematriyaStrToNum(str) ⇒ <code>number</code>
+Converts a string of Hebrew letters to a numerical value.
+
+Only considers the value of Hebrew letters `א` through `ת`.
+Ignores final Hebrew letters such as `ך` (kaf sofit) or `ם` (mem sofit)
+and vowels (nekudot).
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
+
 <a name="ZmanimTimesResult"></a>
 
 ## ZmanimTimesResult : <code>Object</code>

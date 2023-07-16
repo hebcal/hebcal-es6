@@ -1,38 +1,35 @@
 const GERESH = '׳';
 const GERSHAYIM = '״';
 
-/**
- * @private
- * @param {number} num
- * @return {string}
- */
-function num2heb(num) {
-  switch (num) {
-    case 1: return 'א';
-    case 2: return 'ב';
-    case 3: return 'ג';
-    case 4: return 'ד';
-    case 5: return 'ה';
-    case 6: return 'ו';
-    case 7: return 'ז';
-    case 8: return 'ח';
-    case 9: return 'ט';
-    case 10: return 'י';
-    case 20: return 'כ';
-    case 30: return 'ל';
-    case 40: return 'מ';
-    case 50: return 'נ';
-    case 60: return 'ס';
-    case 70: return 'ע';
-    case 80: return 'פ';
-    case 90: return 'צ';
-    case 100: return 'ק';
-    case 200: return 'ר';
-    case 300: return 'ש';
-    case 400: return 'ת';
-    default: return '*INVALID*';
-  }
-}
+const heb2num = {
+  'א': 1,
+  'ב': 2,
+  'ג': 3,
+  'ד': 4,
+  'ה': 5,
+  'ו': 6,
+  'ז': 7,
+  'ח': 8,
+  'ט': 9,
+  'י': 10,
+  'כ': 20,
+  'ל': 30,
+  'מ': 40,
+  'נ': 50,
+  'ס': 60,
+  'ע': 70,
+  'פ': 80,
+  'צ': 90,
+  'ק': 100,
+  'ר': 200,
+  'ש': 300,
+  'ת': 400,
+};
+const num2heb = {};
+Object.keys(heb2num).forEach((key) => {
+  const val = heb2num[key];
+  num2heb[val] = key;
+});
 
 /**
  * @private
@@ -84,19 +81,40 @@ export function gematriya(number) {
   if (thousands > 0 && thousands !== 5) {
     const tdigits = num2digits(thousands);
     for (let i = 0; i < tdigits.length; i++) {
-      str += num2heb(tdigits[i]);
+      str += num2heb[tdigits[i]];
     }
     str += GERESH;
   }
   const digits = num2digits(num % 1000);
   if (digits.length == 1) {
-    return str + num2heb(digits[0]) + GERESH;
+    return str + num2heb[digits[0]] + GERESH;
   }
   for (let i = 0; i < digits.length; i++) {
     if (i + 1 === digits.length) {
       str += GERSHAYIM;
     }
-    str += num2heb(digits[i]);
+    str += num2heb[digits[i]];
   }
   return str;
+}
+
+/**
+ * Converts a string of Hebrew letters to a numerical value.
+ *
+ * Only considers the value of Hebrew letters `א` through `ת`.
+ * Ignores final Hebrew letters such as `ך` (kaf sofit) or `ם` (mem sofit)
+ * and vowels (nekudot).
+ *
+ * @param {string} str
+ * @return {number}
+ */
+export function gematriyaStrToNum(str) {
+  let num = 0;
+  for (let i = 0; i < str.length; i++) {
+    const n = heb2num[str[i]];
+    if (typeof n === 'number') {
+      num += n;
+    }
+  }
+  return num;
 }

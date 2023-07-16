@@ -1099,6 +1099,15 @@ declare module '@hebcal/core' {
     export function gematriya(number: number): string;
 
     /**
+     * Converts a string of Hebrew letters to a numerical value.
+     *
+     * Only considers the value of Hebrew letters `א` through `ת`.
+     * Ignores final Hebrew letters such as `ך` (kaf sofit) or `ם` (mem sofit)
+     * and vowels (nekudot).
+     */
+    export function gematriyaStrToNum(str: string): number;
+
+    /**
      * Daf Yomi, Mishna Yomi, Nach Yomi, etc.
      */
     export class DailyLearning {

@@ -623,9 +623,8 @@ export class HebrewCalendar {
       }
       const dailyLearning = options.dailyLearning;
       if (typeof dailyLearning === 'object') {
-        Object.entries(dailyLearning).forEach((kv) => {
-          const key = kv[0];
-          const val = kv[1];
+        Object.keys(dailyLearning).forEach((key) => {
+          const val = dailyLearning[key];
           if (val) {
             const name = key === 'yerushalmi' ?
               (val === 2 ? 'yerushalmi-schottenstein' : 'yerushalmi-vilna') :

@@ -211,7 +211,7 @@ export class HDate {
   /**
    * Sets the day of the month of the date. Returns the object it was called upon
    * @private
-   * @param {number} month
+   * @param {number|string} month A number, or Hebrew month name string
    * @return {HDate}
    */
   setMonth(month) {
@@ -653,7 +653,11 @@ export class HDate {
       }
       return monthName;
     }
-    const c = monthName.toLowerCase();
+    let c = Locale.hebrewStripNikkud(monthName).trim().toLowerCase();
+    // If Hebrew month starts with a bet (for example `בתמוז`) then ignore it
+    if (c[0] === 'ב') {
+      c = c.substring(1);
+    }
     /*
     the Hebrew months are unique to their second letter
     N         Nisan  (November?)

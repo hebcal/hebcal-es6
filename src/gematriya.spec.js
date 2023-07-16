@@ -1,5 +1,5 @@
 import test from 'ava';
-import {gematriya} from './gematriya';
+import {gematriya, gematriyaStrToNum} from './gematriya';
 
 test('gematriya', (t) => {
   t.is(gematriya(5749), 'תשמ״ט');
@@ -15,7 +15,6 @@ test('gematriya', (t) => {
   t.is(gematriya(60), 'ס׳');
   t.is(gematriya(123), 'קכ״ג');
   t.is(gematriya(613), 'תרי״ג');
-  t.is(gematriya(5749), 'תשמ״ט');
   t.is(gematriya(3761), 'ג׳תשס״א');
   t.is(gematriya(6749), 'ו׳תשמ״ט');
   t.is(gematriya(8765), 'ח׳תשס״ה');
@@ -24,4 +23,20 @@ test('gematriya', (t) => {
   t.is(gematriya(1123), 'א׳קכ״ג');
   t.is(gematriya(6000), 'ו׳');
   t.is(gematriya(7007), 'ז׳ז׳');
+});
+
+test('gematriyaStrToNum', (t) => {
+  t.is(gematriyaStrToNum('תשמ״ט'), 749);
+  t.is(gematriyaStrToNum('תשע״ד'), 774);
+  t.is(gematriyaStrToNum('תש״פ'), 780);
+  t.is(gematriyaStrToNum('ג׳'), 3);
+  t.is(gematriyaStrToNum('י״ד'), 14);
+  t.is(gematriyaStrToNum('ט״ו'), 15);
+  t.is(gematriyaStrToNum('ט״ז'), 16);
+  t.is(gematriyaStrToNum('י״ז'), 17);
+  t.is(gematriyaStrToNum('כ׳'), 20);
+  t.is(gematriyaStrToNum('כ״ה'), 25);
+  t.is(gematriyaStrToNum('ס׳'), 60);
+  t.is(gematriyaStrToNum('קכ״ג'), 123);
+  t.is(gematriyaStrToNum('תרי״ג'), 613);
 });
