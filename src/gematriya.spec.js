@@ -40,3 +40,13 @@ test('gematriyaStrToNum', (t) => {
   t.is(gematriyaStrToNum('קכ״ג'), 123);
   t.is(gematriyaStrToNum('תרי״ג'), 613);
 });
+
+test('gematriyaStrToNum-thousands', (t) => {
+  t.is(gematriyaStrToNum('ג׳תשס״א'), 3761);
+  t.is(gematriyaStrToNum('ו׳תשמ״ט'), 6749);
+  t.is(gematriyaStrToNum('ח׳תשס״ה'), 8765);
+  t.is(gematriyaStrToNum('כב׳ת״ש'), 22700);
+  t.is(gematriyaStrToNum('טז׳קכ״ג'), 16123);
+  t.is(gematriyaStrToNum('א׳קכ״ג'), 1123);
+  t.is(gematriyaStrToNum('ז׳ז׳'), 7007);
+});

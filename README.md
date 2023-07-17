@@ -344,6 +344,7 @@ Represents a Hebrew date
         * [.monthFromName(monthName)](#HDate.monthFromName) ⇒ <code>number</code>
         * [.dayOnOrBefore(dayOfWeek, absdate)](#HDate.dayOnOrBefore) ⇒ <code>number</code>
         * [.isHDate(obj)](#HDate.isHDate) ⇒ <code>boolean</code>
+        * [.fromGematriyaString(str, currentThousands)](#HDate.fromGematriyaString) ⇒ [<code>HDate</code>](#HDate)
 
 <a name="new_HDate_new"></a>
 
@@ -815,6 +816,24 @@ Tests if the object is an instance of `HDate`
 | --- | --- |
 | obj | <code>any</code> | 
 
+<a name="HDate.fromGematriyaString"></a>
+
+### HDate.fromGematriyaString(str, currentThousands) ⇒ [<code>HDate</code>](#HDate)
+Construct a new instance of `HDate` from a Gematriya-formatted string
+
+**Kind**: static method of [<code>HDate</code>](#HDate)  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| str | <code>string</code> |  | 
+| currentThousands | <code>number</code> | <code>5000</code> | 
+
+**Example**  
+```js
+HDate.fromGematriyaString('כ״ז בְּתַמּוּז תשפ״ג') // 27 Tamuz 5783
+ HDate.fromGematriyaString('כ׳ סיון תש״ד') // 20 Sivan 5704
+ HDate.fromGematriyaString('ה׳ אִיָיר תש״ח') // 5 Iyyar 5708
+```
 <a name="Event"></a>
 
 ## Event

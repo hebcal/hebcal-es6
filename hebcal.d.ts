@@ -168,7 +168,7 @@ declare module '@hebcal/core' {
         /**
          * Tests if the object is an instance of `HDate`
          */
-        isHDate(obj: any): boolean;
+        static isHDate(obj: any): boolean;
 
         /**
          * Converts Hebrew date to R.D. (Rata Die) fixed days.
@@ -242,6 +242,15 @@ declare module '@hebcal/core' {
          * @param c - monthName
          */
         static monthFromName(c: string): number;
+
+        /**
+         * Construct a new instance of `HDate` from a Gematriya-formatted string
+         * @example
+         *  HDate.fromGematriyaString('כ״ז בְּתַמּוּז תשפ״ג') // 27 Tamuz 5783
+         *  HDate.fromGematriyaString('כ׳ סיון תש״ד') // 20 Sivan 5704
+         *  HDate.fromGematriyaString('ה׳ אִיָיר תש״ח') // 5 Iyyar 5708
+         */
+        static fromGematriyaString(str: string, currentThousands?: number): HDate;
     }
 
     /**

@@ -110,6 +110,12 @@ export function gematriya(number) {
  */
 export function gematriyaStrToNum(str) {
   let num = 0;
+  const gereshIdx = str.indexOf(GERESH);
+  if (gereshIdx !== -1 && gereshIdx !== str.length - 1) {
+    const thousands = str.substring(0, gereshIdx);
+    num += gematriyaStrToNum(thousands) * 1000;
+    str = str.substring(gereshIdx);
+  }
   for (let i = 0; i < str.length; i++) {
     const n = heb2num[str[i]];
     if (typeof n === 'number') {

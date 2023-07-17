@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {greg2abs, abs2greg, isDate, mod} from './greg0';
-import {gematriya} from './gematriya';
+import {gematriya, gematriyaStrToNum} from './gematriya';
 import {Locale} from './locale';
 import {abs2hebrew, daysInMonth, daysInYear, getMonthName, hebrew2abs,
   isLeapYear, longCheshvan, months,
@@ -785,6 +785,27 @@ export class HDate {
       typeof obj.day === 'number' &&
       typeof obj.greg === 'function' &&
       typeof obj.abs === 'function';
+  }
+
+  /**
+   * Construct a new instance of `HDate` from a Gematriya-formatted string
+   * @example
+   *  HDate.fromGematriyaString('כ״ז בְּתַמּוּז תשפ״ג') // 27 Tamuz 5783
+   *  HDate.fromGematriyaString('כ׳ סיון תש״ד') // 20 Sivan 5704
+   *  HDate.fromGematriyaString('ה׳ אִיָיר תש״ח') // 5 Iyyar 5708
+   * @param {string} str
+   * @param {number} currentThousands
+   * @return {HDate}
+   */
+  static fromGematriyaString(str, currentThousands=5000) {
+    const parts = str.split(' ');
+    const day = gematriyaStrToNum(parts[0]);
+    const month = HDate.monthFromName(parts[1]);
+    let year = gematriyaStrToNum(parts[2]);
+    if (year < 1000) {
+      year += currentThousands;
+    }
+    return new HDate(day, month, year);
   }
 }
 

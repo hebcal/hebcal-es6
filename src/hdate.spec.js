@@ -446,3 +446,12 @@ test('throws-invalid-deltaDays', (t) => {
   }, {instanceOf: TypeError});
   t.is(error.message, 'Bad argument: 1234');
 });
+
+test('fromGematriyaString', (t) => {
+  t.is(HDate.fromGematriyaString('כ״ז בְּתַמּוּז תשפ״ג').toString(), '27 Tamuz 5783');
+  t.is(HDate.fromGematriyaString('כ׳ סיון תש״ד').toString(), '20 Sivan 5704');
+  t.is(HDate.fromGematriyaString('ה׳ אִיָיר תש״ח').toString(), '5 Iyyar 5708');
+  t.is(HDate.fromGematriyaString('ה׳ אִיָיר תש״ח', 6000).toString(), '5 Iyyar 6708');
+  t.is(HDate.fromGematriyaString('ה׳ אִיָיר ח׳תשס״ה', 4000).toString(), '5 Iyyar 8765');
+  t.is(HDate.fromGematriyaString('ה׳ אִיָיר ח׳תשס״ה').toString(), '5 Iyyar 8765');
+});
