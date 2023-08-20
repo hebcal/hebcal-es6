@@ -58,9 +58,6 @@ msgstr "Matos"
 msgid "Purim Katan"
 msgstr "Purim Koton"
 
-msgid "Tazria"
-msgstr "Sazria"
-
 msgid "Shabbat Chazon"
 msgstr "Shabbos Chazon"
 
