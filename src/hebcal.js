@@ -223,7 +223,7 @@ function checkCandleOptions(options) {
  * @property {boolean} addHebrewDatesForEvents - print the Hebrew date for dates with some events
  * @property {number} mask - use bitmask from `flags` to filter events
  * @property {boolean} yomKippurKatan - include Yom Kippur Katan (default `false`).
- *      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.
+ *      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.
  *      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),
  *      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)
  *      and Nisan (fasting not permitted during Nisan).
