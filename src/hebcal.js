@@ -829,8 +829,13 @@ export class HebrewCalendar {
     let hour = parseInt(hm[0], 10);
     if (hour < 12 && suffix) {
       suffix = suffix.replace('p', 'a').replace('P', 'A');
+      if (hour === 0) {
+        hour = 12;
+      }
     } else if (hour > 12) {
       hour = hour % 12;
+    } else if (hour === 0) {
+      hour = '00';
     }
     return `${hour}:${hm[1]}${suffix}`;
   }

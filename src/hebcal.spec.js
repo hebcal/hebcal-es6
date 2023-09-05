@@ -357,6 +357,19 @@ test('reformatTimeStr', (t) => {
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'CA'}}), '11:45 AM');
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'BR'}}), '11:45 AM');
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'MX'}}), '11:45');
+
+  t.is(HebrewCalendar.reformatTimeStr('00:07', 'pm', {}), '12:07am');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', ' P.M.', {}), '12:07 A.M.');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', '', {}), '00:07');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', '', {locale: 'fr'}), '00:07');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', '', {locale: 'en'}), '00:07');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', '', {locale: 'ashkenazi'}), '00:07');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'FR'}}), '00:07');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'IL'}}), '00:07');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'US'}}), '12:07 AM');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'CA'}}), '12:07 AM');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'BR'}}), '12:07 AM');
+  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'MX'}}), '00:07');
 });
 
 test('reformatTimeStr-hour12', (t) => {
