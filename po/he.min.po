@@ -47,4 +47,4 @@ msgid "Tevet"
 msgstr "טֵבֵת"
 
 msgid "Tishrei"
-msgstr "תִשְׁרֵי"
+msgstr "תִשְׁרֵי"
