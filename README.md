@@ -130,7 +130,7 @@ Event names can be rendered in several languges using the <code>locale</code> op
 </dd>
 <dt><a href="#parshiot">parshiot</a> : <code>Array.&lt;string&gt;</code></dt>
 <dd><p>The 54 parshiyot of the Torah as transilterated strings
-parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &quot;Ha&#39;Azinu&quot;.</p>
+parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &quot;Ha&#39;azinu&quot;.</p>
 </dd>
 </dl>
 
@@ -2572,7 +2572,7 @@ Hebrew months of the year (NISAN=1, TISHREI=7)
 | TAMUZ | <code>number</code> | <code>4</code> | Tamuz (sometimes Tammuz) / תמוז |
 | AV | <code>number</code> | <code>5</code> | Av / אב |
 | ELUL | <code>number</code> | <code>6</code> | Elul / אלול |
-| TISHREI | <code>number</code> | <code>7</code> | Tishrei / תִשְׁרֵי |
+| TISHREI | <code>number</code> | <code>7</code> | Tishrei / תִשְׁרֵי |
 | CHESHVAN | <code>number</code> | <code>8</code> | Cheshvan / חשון |
 | KISLEV | <code>number</code> | <code>9</code> | Kislev / כסלו |
 | TEVET | <code>number</code> | <code>10</code> | Tevet / טבת |
@@ -2718,7 +2718,7 @@ Clamen, Software--Practice and Experience, Volume 23, Number 4
 
 ## parshiot : <code>Array.&lt;string&gt;</code>
 The 54 parshiyot of the Torah as transilterated strings
-parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'Azinu".
+parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'azinu".
 
 **Kind**: global constant  
 **Read only**: true  
@@ -2835,7 +2835,7 @@ Options to configure which events are returned
 | addHebrewDates | <code>boolean</code> | print the Hebrew date for the entire date range |
 | addHebrewDatesForEvents | <code>boolean</code> | print the Hebrew date for dates with some events |
 | mask | <code>number</code> | use bitmask from `flags` to filter events |
-| yomKippurKatan | <code>boolean</code> | include Yom Kippur Katan (default `false`).      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)      and Nisan (fasting not permitted during Nisan).      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.      See [Wikipedia Yom Kippur Katan practices](https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices) |
+| yomKippurKatan | <code>boolean</code> | include Yom Kippur Katan (default `false`).      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)      and Nisan (fasting not permitted during Nisan).      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.      See [Wikipedia Yom Kippur Katan practices](https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices) |
 | hour12 | <code>boolean</code> | Whether to use 12-hour time (as opposed to 24-hour time).      Possible values are `true` and `false`; the default is locale dependent. |
 | dailyLearning | <code>Object.&lt;string, any&gt;</code> | map of options to enable daily study calendars      such as `dafYomi`, `mishnaYomi`, `nachYomi` with value `true`. For `yerushalmi`      the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein). |
 

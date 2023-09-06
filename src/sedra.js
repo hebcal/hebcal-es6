@@ -237,7 +237,7 @@ export class Sedra {
 
 /**
  * The 54 parshiyot of the Torah as transilterated strings
- * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'Azinu".
+ * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'azinu".
  * @readonly
  * @type {string[]}
  */
@@ -294,7 +294,7 @@ export const parshiot = [
   'Ki Tavo',
   'Nitzavim',
   'Vayeilech',
-  'Ha\'Azinu',
+  'Ha\'azinu',
 ];
 
 const parsha2id = {};

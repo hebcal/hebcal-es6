@@ -25,7 +25,7 @@ test('diaspora-5701', (t) => {
     }
   }
   const expected = {
-    '1940-10-05': ['Ha\'Azinu'],
+    '1940-10-05': ['Ha\'azinu'],
     '1940-10-12': ['Yom Kippur'],
     '1940-10-19': ['Sukkot Shabbat Chol ha-Moed'],
     '1940-10-26': ['Bereshit'],
@@ -94,7 +94,7 @@ test('diaspora-5779', (t) => {
   }
   const expected = {
     '2018-09-15': ['Vayeilech'],
-    '2018-09-22': ['Ha\'Azinu'],
+    '2018-09-22': ['Ha\'azinu'],
     '2018-09-29': ['Sukkot Shabbat Chol ha-Moed'],
     '2018-10-06': ['Bereshit'],
     '2018-10-13': ['Noach'],
@@ -165,7 +165,7 @@ test('israel-5745', (t) => {
     }
   }
   const expected = {
-    '1984-09-29': ['Ha\'Azinu'],
+    '1984-09-29': ['Ha\'azinu'],
     '1984-10-06': ['Yom Kippur'],
     '1984-10-13': ['Sukkot Shabbat Chol ha-Moed'],
     '1984-10-20': ['Bereshit'],
@@ -234,7 +234,7 @@ test('israel-5779', (t) => {
   }
   const expected = {
     '2018-09-15': ['Vayeilech'],
-    '2018-09-22': ['Ha\'Azinu'],
+    '2018-09-22': ['Ha\'azinu'],
     '2018-09-29': ['Sukkot Shabbat Chol ha-Moed'],
     '2018-10-06': ['Bereshit'],
     '2018-10-13': ['Noach'],
@@ -306,7 +306,7 @@ test('diaspora-bce', (t) => {
   }
   const expected = {
     '-000428-09-09': ['Vayeilech'],
-    '-000428-09-16': ['Ha\'Azinu'],
+    '-000428-09-16': ['Ha\'azinu'],
     '-000428-09-23': ['Sukkot Shabbat Chol ha-Moed'],
     '-000428-09-30': ['Bereshit'],
     '-000428-10-07': ['Noach'],
@@ -378,7 +378,7 @@ test('israel-bce', (t) => {
   }
   const expected = {
     '-000428-09-09': ['Vayeilech'],
-    '-000428-09-16': ['Ha\'Azinu'],
+    '-000428-09-16': ['Ha\'azinu'],
     '-000428-09-23': ['Sukkot Shabbat Chol ha-Moed'],
     '-000428-09-30': ['Bereshit'],
     '-000428-10-07': ['Noach'],

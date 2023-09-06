@@ -932,7 +932,7 @@ declare module '@hebcal/core' {
 
     /**
      * The 54 parshiyot of the Torah as transilterated strings
-     * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'Azinu'.
+     * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == 'Ha\'azinu'.
      */
     export const parshiot: string[];
 

@@ -696,7 +696,7 @@ test('year1-sedrot', (t) => {
   const actual = events.slice(0, 6).map(eventISODateDesc);
   const expected = [
     {date: '-003760-09-12', desc: 'Parashat Vayeilech'},
-    {date: '-003760-09-19', desc: 'Parashat Ha\'Azinu'},
+    {date: '-003760-09-19', desc: 'Parashat Ha\'azinu'},
     {date: '-003760-10-03', desc: 'Parashat Bereshit'},
     {date: '-003760-10-10', desc: 'Parashat Noach'},
     {date: '-003760-10-17', desc: 'Parashat Lech-Lecha'},

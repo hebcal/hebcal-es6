@@ -70,7 +70,7 @@ msgstr "עֵקֶב"
 msgid "Emor"
 msgstr "אֱמוֹר"
 
-msgid "Ha'Azinu"
+msgid "Ha'azinu"
 msgstr "הַאֲזִינוּ"
 
 msgid "Kedoshim"
