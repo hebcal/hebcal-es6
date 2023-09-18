@@ -161,7 +161,7 @@ test('toString', (t) => {
 
 test('renderGematriya', (t) => {
   t.is(new HDate(17, 'Tamuz', 5748).renderGematriya(), 'י״ז תַּמּוּז תשמ״ח');
-  t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִשְׁרֵי תש״פ');
+  t.is(new HDate(20, 'Tishrei', 5780).renderGematriya(), 'כ׳ תִּשְׁרֵי תש״פ');
   t.is(new HDate(26, 'Tevet', 8008).renderGematriya(), 'כ״ו טֵבֵת ח׳ח׳');
 });
 

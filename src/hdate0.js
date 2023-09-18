@@ -34,7 +34,7 @@ export const months = {
   AV: 5,
   /** Elul / אלול */
   ELUL: 6,
-  /** Tishrei / תִשְׁרֵי */
+  /** Tishrei / תִּשְׁרֵי */
   TISHREI: 7,
   /** Cheshvan / חשון */
   CHESHVAN: 8,
