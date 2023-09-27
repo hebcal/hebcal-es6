@@ -27,9 +27,9 @@ export class DailyLearning {
    * @return {Event}
    */
   static lookup(name, hd) {
-    const lookup = cals[name];
-    if (typeof lookup === 'function') {
-      return lookup(hd);
+    const fn = cals[name];
+    if (typeof fn === 'function') {
+      return fn(hd);
     }
     return null;
   }

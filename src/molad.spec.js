@@ -1,6 +1,7 @@
 import test from 'ava';
 import {Molad, MoladEvent} from './molad';
 import {HDate, months} from './hdate';
+import './locale-he';
 
 test('molad', (t) => {
   const items = [
@@ -32,4 +33,13 @@ test('MoladEvent', (t) => {
   const ev = new MoladEvent(new HDate(23, months.KISLEV, 5769), 5769, months.TEVET);
   t.is(ev.getDesc(), 'Molad Tevet 5769');
   t.is(ev.render('en'), 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
+});
+
+test('MoladEvent-he', (t) => {
+  const hd = new HDate(new Date(2023, 9, 14));
+  const ev = new MoladEvent(hd, hd.getFullYear(), months.TISHREI);
+  t.is(ev.getDesc(), 'Molad Tishrei 5784');
+  t.is(ev.render('en'), 'Molad Tishrei: Fri, 49 minutes and 0 chalakim after 5:00');
+  // eslint-disable-next-line max-len
+  t.is(ev.render('he'), 'מוֹלָד הָלְּבָנָה תִּשְׁרֵי יִהְיֶה בַּיּוֹם שִׁישִּׁי בשָׁבוּעַ, בְּשָׁעָה 5 בַּבֹּקֶר, ו-49 דַּקּוֹת ו-0 חֲלָקִים');
 });

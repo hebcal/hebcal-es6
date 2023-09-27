@@ -1,8 +1,15 @@
 /* eslint-disable camelcase */
 import {HDate} from './hdate';
 import {Event, flags} from './event';
+import {Locale} from './locale';
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const heDayNames = ['רִאשׁוֹן', 'שֵׁנִי', 'שְׁלִישִׁי', 'רְבִיעִי', 'חֲמִישִׁי', 'שִׁישִּׁי', 'שַׁבָּת'];
+
+const night = 'בַּלַּ֥יְלָה';
+const morning = 'בַּבֹּקֶר';
+const afternoon = 'בַּצׇּהֳרַיִם';
+const evening = 'בָּעֶרֶב';
 
 /**
  * Represents a molad, the moment when the new moon is "born"
@@ -106,11 +113,28 @@ export class MoladEvent extends Event {
    */
   render(locale) {
     const m = this.molad;
-    const monthName = m.getMonthName();
-    const dow = shortDayNames[m.getDow()];
+    locale = locale || Locale.getLocaleName();
+    if (typeof locale === 'string') {
+      locale = locale.toLowerCase();
+    }
+    const isHebrewLocale = locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
+    const monthName = Locale.gettext(m.getMonthName(), locale);
+    const dayNames = isHebrewLocale ? heDayNames : shortDayNames;
+    const dow = dayNames[m.getDow()];
     const minutes = m.getMinutes();
     const hour = m.getHour();
     const chalakim = m.getChalakim();
-    return `Molad ${monthName}: ${dow}, ${minutes} minutes and ${chalakim} chalakim after ${hour}:00`;
+    const moladStr = Locale.gettext('Molad', locale);
+    const minutesStr = Locale.lookupTranslation('min', locale) || 'minutes';
+    const chalakimStr = Locale.gettext('chalakim', locale);
+    if (isHebrewLocale) {
+      const ampm = hour < 5 ? night : hour < 12 ? morning :
+        hour < 17 ? afternoon : hour < 21 ? evening : night;
+      return `${moladStr} ${monthName} יִהְיֶה בַּיּוֹם ${dow} בשָׁבוּעַ, ` +
+        `בְּשָׁעָה ${hour} ${ampm}, ` +
+        `ו-${minutes} ${minutesStr} ` +
+        `ו-${chalakim} ${chalakimStr}`;
+    }
+    return `${moladStr} ${monthName}: ${dow}, ${minutes} ${minutesStr} and ${chalakim} ${chalakimStr} after ${hour}:00`;
   }
 }

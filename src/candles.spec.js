@@ -483,8 +483,8 @@ test('renderBrief', (t) => {
 
   t.is(candleLighting.render('he'), 'הַדְלָקַת נֵרוֹת: 20:12');
   t.is(candleLighting.renderBrief('he'), 'הַדְלָקַת נֵרוֹת');
-  t.is(havdalah.render('he'), 'הַבְדָּלָה (42 דקות): 20:12');
-  t.is(havdalah.renderBrief('he'), 'הַבְדָּלָה (42 דקות)');
+  t.is(havdalah.render('he'), 'הַבְדָּלָה (42 דַּקּוֹת): 20:12');
+  t.is(havdalah.renderBrief('he'), 'הַבְדָּלָה (42 דַּקּוֹת)');
   t.is(havdalahTzeit.render('he'), 'הַבְדָּלָה: 20:12');
   t.is(havdalahTzeit.renderBrief('he'), 'הַבְדָּלָה');
 });

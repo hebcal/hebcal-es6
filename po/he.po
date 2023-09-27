@@ -587,7 +587,7 @@ msgid "Rosh Chodesh Tevet"
 msgstr "רֹאשׁ חוֹדֶשׁ טֵבֵת"
 
 msgid "min"
-msgstr "דקות"
+msgstr "דַּקּוֹת"
 
 msgid "Fast begins"
 msgstr "תחילת הַצוֹם"
@@ -917,3 +917,9 @@ msgstr "צוֹם גְּדַלְיָה מִנחָה"
 
 msgid "Tzom Tammuz (Mincha)"
 msgstr "צוֹם תָּמוּז מִנחָה"
+
+msgid "Molad"
+msgstr "מוֹלָד הָלְּבָנָה"
+
+msgid "chalakim"
+msgstr "חֲלָקִים"

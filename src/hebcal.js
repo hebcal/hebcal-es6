@@ -493,7 +493,9 @@ export class HebrewCalendar {
    * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
    * * Yom Kippur Katan (`options.yomKippurKatan`)
    *
-   * Daily Study of texts:
+   * Daily Study of texts are supported by the
+   * {@link https://github.com/hebcal/hebcal-learning @hebcal/learning} package,
+   * for example:
    * * Babylonian Talmud Daf Yomi (`options.dailyLearning.dafYomi`)
    * * Jerusalem Talmud (Yerushalmi) Yomi (`options.dailyLearning.yerushalmi`)
    * * Mishna Yomi (`options.dailyLearning.mishnaYomi`)
