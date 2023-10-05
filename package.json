@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "4.3.4",
+  "version": "4.3.5",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -51,8 +51,7 @@
     "readme": "npx -p jsdoc-to-markdown jsdoc2md dist/index.js",
     "pretest": "npm run build",
     "lint": "eslint src",
-    "coverage-local": "nyc --concurrency 2 ava",
-    "coverage": "nyc --reporter=lcov ava --concurrency 4 && codecov",
+    "coverage": "nyc --concurrency 2 ava",
     "test": "ava --concurrency 4"
   },
   "license": "GPL-2.0",
@@ -63,7 +62,6 @@
     "require": [
       "@babel/register"
     ],
-    "inherit": true,
     "verbose": true
   },
   "devDependencies": {
@@ -77,14 +75,13 @@
     "@rollup/plugin-node-resolve": "^15.2.1",
     "@rollup/plugin-terser": "^0.4.3",
     "ava": "^5.3.1",
-    "codecov": "^3.8.3",
-    "core-js": "^3.32.2",
+    "core-js": "^3.33.0",
     "eslint": "^8.50.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "nyc": "^15.1.0",
-    "rollup": "^3.29.3",
+    "rollup": "^3.29.4",
     "ttag-cli": "^1.10.6"
   }
 }

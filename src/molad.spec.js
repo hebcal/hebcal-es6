@@ -36,10 +36,10 @@ test('MoladEvent', (t) => {
 });
 
 test('MoladEvent-he', (t) => {
-  const hd = new HDate(new Date(2023, 9, 14));
-  const ev = new MoladEvent(hd, hd.getFullYear(), months.TISHREI);
-  t.is(ev.getDesc(), 'Molad Tishrei 5784');
-  t.is(ev.render('en'), 'Molad Tishrei: Fri, 49 minutes and 0 chalakim after 5:00');
+  const hd = new HDate(new Date(2023, 10, 11));
+  const ev = new MoladEvent(hd, hd.getFullYear(), months.KISLEV);
+  t.is(ev.getDesc(), 'Molad Kislev 5784');
+  t.is(ev.render('en'), 'Molad Kislev: Mon, 17 minutes and 2 chalakim after 7:00');
   // eslint-disable-next-line max-len
-  t.is(ev.render('he'), 'מוֹלָד הָלְּבָנָה תִּשְׁרֵי יִהְיֶה בַּיּוֹם שִׁישִּׁי בשָׁבוּעַ, בְּשָׁעָה 5 בַּבֹּקֶר, ו-49 דַּקּוֹת ו-0 חֲלָקִים');
+  t.is(ev.render('he'), 'מוֹלָד הָלְּבָנָה כִּסְלֵו יִהְיֶה בַּיּוֹם שֵׁנִי בשָׁבוּעַ, בְּשָׁעָה 7 בַּבֹּקֶר, ו-17 דַּקּוֹת ו-2 חֲלָקִים');
 });

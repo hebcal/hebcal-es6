@@ -8,7 +8,7 @@ const heDayNames = ['רִאשׁוֹן', 'שֵׁנִי', 'שְׁלִישִׁי', 
 
 const night = 'בַּלַּ֥יְלָה';
 const morning = 'בַּבֹּקֶר';
-const afternoon = 'בַּצׇּהֳרַיִם';
+const afternoon = 'בַּצׇּהֳרַיִים';
 const evening = 'בָּעֶרֶב';
 
 /**
