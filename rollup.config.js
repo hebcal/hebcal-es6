@@ -7,11 +7,12 @@ const pkg = require('./package.json');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
 
-const TARGET_NODE_VER = '12.22.0';
+const TARGET_NODE_VER = '16.0.0';
 const TARGETS_BROWSER = {
   chrome: '103',
-  ie: '11',
-  safari: '13.1',
+  firefox: '91',
+  edge: '84',
+  safari: '15.6',
 };
 
 module.exports = [
@@ -21,7 +22,7 @@ module.exports = [
       {file: pkg.main, format: 'cjs', name: pkg.name, banner},
     ],
     plugins: [
-      json({compact: true}),
+      json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
         presets: [
@@ -80,7 +81,7 @@ module.exports = [
       },
     ],
     plugins: [
-      json({compact: true}),
+      json({compact: true, preferConst: true}),
       nodeResolve(),
       commonjs(),
       babel({
@@ -89,27 +90,6 @@ module.exports = [
           ['@babel/preset-env', {
             modules: false,
             targets: TARGETS_BROWSER,
-            exclude: [
-              'es.array.concat',
-              'es.array.filter',
-              'es.array.find',
-              // sedra.js uses Array.from() - 'es.array.from' - polyfill needed by IE
-              'es.array.join',
-              'es.array.map',
-              'es.array.splice',
-              'es.function.name',
-              'es.math.trunc',
-              'es.number.to-fixed',
-              'es.object.keys',
-              'es.object.to-string',
-              'es.parse-int',
-              'es.regexp.exec',
-              'es.regexp.to-string',
-              'es.string.iterator',
-              'es.string.replace',
-              'es.string.split',
-              'web.dom-collections.for-each',
-            ],
             useBuiltIns: 'usage',
             corejs: 3,
           }],
@@ -160,7 +140,7 @@ module.exports = [
       },
     ],
     plugins: [
-      json({compact: true}),
+      json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
         presets: [
