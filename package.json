@@ -77,7 +77,7 @@
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "nyc": "^15.1.0",
-    "rollup": "^3.29.4",
+    "rollup": "^4.0.2",
     "ttag-cli": "^1.10.6"
   }
 }
