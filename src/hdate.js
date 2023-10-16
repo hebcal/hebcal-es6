@@ -331,7 +331,7 @@ export class HDate {
     if (ofStr) {
       return ' ' + ofStr;
     }
-    if ('ashkenazi' === locale.substring(0, 9)) {
+    if (locale.startsWith('ashkenazi')) {
       return ' of';
     }
     return '';

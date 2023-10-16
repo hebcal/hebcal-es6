@@ -193,7 +193,7 @@ export function makeFastStartEnd(ev, location) {
   if (desc === 'Erev Tish\'a B\'Av') {
     const sunset = zmanim.sunset();
     ev.startEvent = makeTimedEvent(hd, sunset, 'Fast begins', ev, location);
-  } else if (desc.substring(0, 11) === 'Tish\'a B\'Av') {
+  } else if (desc.startsWith('Tish\'a B\'Av')) {
     ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
   } else {
     const dawn = zmanim.alotHaShachar();

@@ -33,7 +33,7 @@ export class Locale {
    * @return {string}
    */
   static lookupTranslation(id, locale) {
-    const locale0 = locale && locale.toLowerCase();
+    const locale0 = locale?.toLowerCase();
     const loc = (typeof locale == 'string' && locales[locale0]) || activeLocale;
     const array = loc[id];
     if (array && array.length && array[0].length) {
@@ -153,7 +153,7 @@ export class Locale {
    * @return {string[]}
    */
   static getLocaleNames() {
-    return Object.keys(locales).sort();
+    return Object.keys(locales).sort((a, b) => a.localeCompare(b));
   }
 
   /**
@@ -162,7 +162,7 @@ export class Locale {
    * @return {string}
    */
   static ordinal(n, locale) {
-    const locale1 = locale && locale.toLowerCase();
+    const locale1 = locale?.toLowerCase();
     const locale0 = locale1 || activeName;
     if (!locale0) {
       return this.getEnOrdinal(n);

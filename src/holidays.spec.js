@@ -394,7 +394,7 @@ function eventDateDesc(ev) {
 
 test('9av-observed', (t) => {
   const events = HebrewCalendar.calendar({year: 2015, numYears: 10});
-  const av9 = events.filter((ev) => ev.getDesc().substring(0, 11) === 'Tish\'a B\'Av');
+  const av9 = events.filter((ev) => ev.getDesc().startsWith('Tish\'a B\'Av'));
   const actual = av9.map(eventDateBasenameDesc);
   const expected = [
     {date: '2015-07-26', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av (observed)'},

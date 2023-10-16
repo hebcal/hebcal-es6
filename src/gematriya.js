@@ -80,8 +80,8 @@ export function gematriya(number) {
   const thousands = Math.floor(num / 1000);
   if (thousands > 0 && thousands !== 5) {
     const tdigits = num2digits(thousands);
-    for (let i = 0; i < tdigits.length; i++) {
-      str += num2heb[tdigits[i]];
+    for (const tdig of tdigits) {
+      str += num2heb[tdig];
     }
     str += GERESH;
   }
@@ -116,8 +116,8 @@ export function gematriyaStrToNum(str) {
     num += gematriyaStrToNum(thousands) * 1000;
     str = str.substring(gereshIdx);
   }
-  for (let i = 0; i < str.length; i++) {
-    const n = heb2num[str[i]];
+  for (const ch of str) {
+    const n = heb2num[ch];
     if (typeof n === 'number') {
       num += n;
     }

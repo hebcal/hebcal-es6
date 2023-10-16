@@ -155,7 +155,7 @@ function checkCandleOptions(options) {
     return;
   }
   const location = options.location;
-  if (typeof location === 'undefined' || !location instanceof Location) {
+  if (typeof location === 'undefined' || !(location instanceof Location)) {
     throw new TypeError('options.candlelighting requires valid options.location');
   }
   if (typeof options.havdalahMins === 'number' && typeof options.havdalahDeg === 'number') {

@@ -228,8 +228,7 @@ export class Event {
    */
   getCategories() {
     const mask = this.getFlags();
-    for (let i = 0; i < flagToCategory.length; i++) {
-      const attrs = flagToCategory[i];
+    for (const attrs of flagToCategory) {
       if (mask & attrs[0]) {
         return attrs.slice(1);
       }

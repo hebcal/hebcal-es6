@@ -139,8 +139,8 @@ function tachanunYear(year, il) {
       new HDate(14, months.IYYAR, year), // Pesach Sheini
   );
   return {
-    none: none.map((hd) => hd.abs()).sort(),
-    some: some.map((hd) => hd.abs()).sort(),
-    yesPrev: yesPrev.map((hd) => hd.abs()).sort(),
+    none: none.map((hd) => hd.abs()).sort((a, b) => a - b),
+    some: some.map((hd) => hd.abs()).sort((a, b) => a - b),
+    yesPrev: yesPrev.map((hd) => hd.abs()).sort((a, b) => a - b),
   };
 }
