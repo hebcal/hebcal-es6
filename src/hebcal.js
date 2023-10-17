@@ -63,11 +63,15 @@ const MAJOR_FAST = flags.MAJOR_FAST;
 const ROSH_CHODESH = flags.ROSH_CHODESH;
 const PARSHA_HASHAVUA = flags.PARSHA_HASHAVUA;
 const DAF_YOMI = flags.DAF_YOMI;
+const MISHNA_YOMI = flags.MISHNA_YOMI;
+const NACH_YOMI = flags.NACH_YOMI;
+const YERUSHALMI_YOMI = flags.YERUSHALMI_YOMI;
 const OMER_COUNT = flags.OMER_COUNT;
 const SHABBAT_MEVARCHIM = flags.SHABBAT_MEVARCHIM;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
 const CHOL_HAMOED = flags.CHOL_HAMOED;
+const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
 
 const unrecognizedAlreadyWarned = Object.create(null);
 const RECOGNIZED_OPTIONS = {
@@ -328,33 +332,7 @@ export function getStartAndEnd(options) {
  */
 function getMaskFromOptions(options) {
   if (typeof options.mask === 'number') {
-    const m = options.mask;
-    if (m & ROSH_CHODESH) delete options.noRoshChodesh;
-    if (m & MODERN_HOLIDAY) delete options.noModern;
-    if (m & MINOR_FAST) delete options.noMinorFast;
-    if (m & SPECIAL_SHABBAT) delete options.noSpecialShabbat;
-    if (m & PARSHA_HASHAVUA) options.sedrot = true;
-    if (m & DAF_YOMI) {
-      options.dailyLearning = options.dailyLearning || {};
-      options.dailyLearning.dafYomi = true;
-    }
-    if (m & OMER_COUNT) options.omer = true;
-    if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
-    if (m & flags.MISHNA_YOMI) {
-      options.dailyLearning = options.dailyLearning || {};
-      options.dailyLearning.mishnaYomi = true;
-    }
-    if (m & flags.NACH_YOMI) {
-      options.dailyLearning = options.dailyLearning || {};
-      options.dailyLearning.nachYomi = true;
-    }
-    if (m & flags.YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
-    if (m & flags.YERUSHALMI_YOMI) {
-      options.dailyLearning = options.dailyLearning || {};
-      options.dailyLearning.yerushalmi = 1;
-    }
-    options.userMask = true;
-    return m;
+    return setOptionsFromMask(options);
   }
   const il = options.il || options.location?.il || false;
   let mask = 0;
@@ -398,7 +376,7 @@ function getMaskFromOptions(options) {
     mask |= SHABBAT_MEVARCHIM;
   }
   if (options.yomKippurKatan) {
-    mask |= flags.YOM_KIPPUR_KATAN;
+    mask |= YOM_KIPPUR_KATAN;
   }
   if (options.dailyLearning) {
     const dailyLearning = options.dailyLearning;
@@ -406,13 +384,13 @@ function getMaskFromOptions(options) {
       mask |= DAF_YOMI;
     }
     if (dailyLearning.mishnaYomi) {
-      mask |= flags.MISHNA_YOMI;
+      mask |= MISHNA_YOMI;
     }
     if (dailyLearning.nachYomi) {
-      mask |= flags.NACH_YOMI;
+      mask |= NACH_YOMI;
     }
     if (dailyLearning.yerushalmi) {
-      mask |= flags.YERUSHALMI_YOMI;
+      mask |= YERUSHALMI_YOMI;
     }
   }
 
@@ -430,6 +408,40 @@ const defaultLocation = new Location(0, 0, false, 'UTC');
 const hour12cc = {
   US: 1, CA: 1, BR: 1, AU: 1, NZ: 1, DO: 1, PR: 1, GR: 1, IN: 1, KR: 1, NP: 1, ZA: 1,
 };
+
+/**
+ * @private
+ * @param {CalOptions} options
+ * @return {number}
+ */
+function setOptionsFromMask(options) {
+  const m = options.mask;
+  if (m & ROSH_CHODESH) delete options.noRoshChodesh;
+  if (m & MODERN_HOLIDAY) delete options.noModern;
+  if (m & MINOR_FAST) delete options.noMinorFast;
+  if (m & SPECIAL_SHABBAT) delete options.noSpecialShabbat;
+  if (m & PARSHA_HASHAVUA) options.sedrot = true;
+  if (m & (DAF_YOMI | MISHNA_YOMI | NACH_YOMI | YERUSHALMI_YOMI)) {
+    options.dailyLearning = options.dailyLearning || {};
+    if (m & DAF_YOMI) {
+      options.dailyLearning.dafYomi = true;
+    }
+    if (m & MISHNA_YOMI) {
+      options.dailyLearning.mishnaYomi = true;
+    }
+    if (m & NACH_YOMI) {
+      options.dailyLearning.nachYomi = true;
+    }
+    if (m & YERUSHALMI_YOMI) {
+      options.dailyLearning.yerushalmi = 1;
+    }
+  }
+  if (m & OMER_COUNT) options.omer = true;
+  if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
+  if (m & YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
+  options.userMask = true;
+  return m;
+}
 
 /**
  * @private
@@ -923,7 +935,7 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
     return candlesEv; // holiday isn't observed here; bail out early
   }
   const eFlags = ev.getFlags();
-  if ((!options.yomKippurKatan && (eFlags & flags.YOM_KIPPUR_KATAN)) ||
+  if ((!options.yomKippurKatan && (eFlags & YOM_KIPPUR_KATAN)) ||
     (options.noModern && (eFlags & MODERN_HOLIDAY))) {
     return candlesEv; // bail out early
   }
@@ -956,7 +968,7 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
         candlesEv = undefined;
       }
     }
-    if (!options.noHolidays || (options.yomKippurKatan && (eFlags & flags.YOM_KIPPUR_KATAN))) {
+    if (!options.noHolidays || (options.yomKippurKatan && (eFlags & YOM_KIPPUR_KATAN))) {
       events.push(ev); // the original event itself
     }
   }

@@ -706,6 +706,7 @@ export class HDate {
           default:
             break;
         }
+        break;
       case 't':
         switch (c[1]) {
           case 'a':
