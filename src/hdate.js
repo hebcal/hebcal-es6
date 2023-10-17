@@ -714,6 +714,8 @@ export class HDate {
             return months.TISHREI;
           case 'e':
             return months.TEVET;
+          default:
+            break;
         }
         break;
       case 'a':
@@ -725,6 +727,8 @@ export class HDate {
               return months.ADAR_I;
             }
             return months.ADAR_II; // else assume sheini
+          default:
+            break;
         }
         break;
       case 'ס':
@@ -746,6 +750,8 @@ export class HDate {
             return months.IYYAR;
           case 'ל':
             return months.ELUL;
+          default:
+            break;
         }
         break;
       case 'ת':
@@ -754,6 +760,8 @@ export class HDate {
             return months.TAMUZ;
           case 'ש':
             return months.TISHREI;
+          default:
+            break;
         }
         break;
     }

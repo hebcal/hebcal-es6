@@ -356,7 +356,7 @@ function getMaskFromOptions(options) {
     options.userMask = true;
     return m;
   }
-  const il = options.il || (options.location && options.location.il) || false;
+  const il = options.il || options.location?.il || false;
   let mask = 0;
 
   // default options
@@ -612,7 +612,7 @@ export class HebrewCalendar {
       }
       const prevEventsLength = evts.length;
       const dow = hd.getDay();
-      let candlesEv = undefined;
+      let candlesEv;
       const ev = holidaysYear.get(hd.toString()) || [];
       ev.forEach((e) => {
         candlesEv = appendHolidayAndRelated(evts, e, options, candlesEv, dow);
@@ -820,7 +820,7 @@ export class HebrewCalendar {
    */
   static reformatTimeStr(timeStr, suffix, options) {
     if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);
-    const cc = (options.location && options.location.cc) || (options.il ? 'IL' : 'US');
+    const cc = options.location?.cc || (options.il ? 'IL' : 'US');
     if (typeof options.hour12 !== 'undefined' && !options.hour12) {
       return timeStr;
     }
@@ -956,9 +956,7 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
         candlesEv = undefined;
       }
     }
-    if (options.yomKippurKatan && (eFlags & flags.YOM_KIPPUR_KATAN)) {
-      events.push(ev);
-    } else if (!options.noHolidays) {
+    if (!options.noHolidays || (options.yomKippurKatan && (eFlags & flags.YOM_KIPPUR_KATAN))) {
       events.push(ev); // the original event itself
     }
   }
