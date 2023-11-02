@@ -306,7 +306,7 @@ declare module '@hebcal/core' {
         /**
          * @deprecated
          * @param [angle=8.5] optional time for solar depression.
-         *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+         *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
          */
         tzeit(hdate: Date | HDate, angle?: number): Date;
         /**
@@ -431,7 +431,7 @@ declare module '@hebcal/core' {
         plagHaMincha(): Date;
         /**
          * @param [angle=8.5] optional time for solar depression.
-         *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+         *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
          */
         tzeit(angle?: number): Date;
         /** Alias for sunrise */
@@ -459,7 +459,7 @@ declare module '@hebcal/core' {
          * Returns an array with tzeit Date object and a 24-hour string formatted time.
          * @deprecated
          * @param angle optional time for solar depression.
-         *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+         *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
          */
         tzeitTime(angle: number, timeFormat: Intl.DateTimeFormat): any[];
     }
@@ -577,14 +577,14 @@ declare module '@hebcal/core' {
          * minutes after sundown for Havdalah (typical values are 42, 50, or 72).
          * If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
          * Nightfall (the point when 3 small stars are observable in the night time sky with
-         * the naked eye). If `0`, Havdalah times are supressed.
+         * the naked eye). If `0`, Havdalah times are suppressed.
          */
         havdalahMins?: number;
         /**
          * degrees for solar depression for Havdalah.
          * Default is 8.5 degrees for 3 small stars.
-         * Use 7.083 degress for 3 medium-sized stars.
-         * Havdalah times are supressed when `havdalahDeg=0`.
+         * Use 7.083 degrees for 3 medium-sized stars.
+         * Havdalah times are suppressed when `havdalahDeg=0`.
          */
         havdalahDeg?: number;
         /** calculate parashah hashavua on Saturdays */

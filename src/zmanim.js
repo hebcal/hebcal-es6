@@ -241,7 +241,7 @@ export class Zmanim {
   }
   /**
    * @param {number} [angle=8.5] optional time for solar depression.
-   *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+   *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
    * @return {Date}
    */
   tzeit(angle=8.5) {
@@ -388,7 +388,7 @@ export class Zmanim {
    * Returns an array with tzeit Date object and a 24-hour string formatted time.
    * @deprecated
    * @param {number} angle degrees for solar depression.
-   *   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars.
+   *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
    * @param {Intl.DateTimeFormat} timeFormat
    * @return {Object[]}
    */

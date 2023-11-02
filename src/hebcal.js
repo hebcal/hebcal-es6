@@ -204,10 +204,10 @@ function checkCandleOptions(options) {
  * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
  *      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
  *      Nightfall (the point when 3 small stars are observable in the night time sky with
- *      the naked eye). If `0`, Havdalah times are supressed.
+ *      the naked eye). If `0`, Havdalah times are suppressed.
  * @property {number} havdalahDeg - degrees for solar depression for Havdalah.
- *      Default is 8.5 degrees for 3 small stars. use 7.083 degress for 3 medium-sized stars.
- *      If `0`, Havdalah times are supressed.
+ *      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars.
+ *      If `0`, Havdalah times are suppressed.
  * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
  * @property {boolean} il - Israeli holiday and sedra schedule
  * @property {boolean} noMinorFast - suppress minor fasts
@@ -530,10 +530,10 @@ export class HebrewCalendar {
    * These defaults can be changed using these options:
    * * `options.candleLightingMins` - minutes before sundown to light candles
    * * `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
-   *    Havdalah times are supressed when `options.havdalahMins=0`.
+   *    Havdalah times are suppressed when `options.havdalahMins=0`.
    * * `options.havdalahDeg` - degrees for solar depression for Havdalah.
-   *    Default is 8.5 degrees for 3 small stars. Use 7.083 degress for 3 medium-sized stars.
-   *    Havdalah times are supressed when `options.havdalahDeg=0`.
+   *    Default is 8.5 degrees for 3 small stars. Use 7.083 degrees for 3 medium-sized stars.
+   *    Havdalah times are suppressed when `options.havdalahDeg=0`.
    *
    * If both `options.candlelighting=true` and `options.location` is specified,
    * Chanukah candle-lighting times and minor fast start/end times will also be generated.

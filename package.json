@@ -40,7 +40,6 @@
   ],
   "scripts": {
     "build:rollup": "rollup -c",
-    "build:babel": "babel src --out-dir dist --source-maps",
     "build": "npm run po2json && npm run build:rollup",
     "prepublish": "npm run build",
     "po2json": "node ./po2json.js po/*.po",
@@ -71,13 +70,13 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "ava": "^5.3.1",
-    "core-js": "^3.33.0",
-    "eslint": "^8.51.0",
+    "core-js": "^3.33.2",
+    "eslint": "^8.52.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "nyc": "^15.1.0",
-    "rollup": "^4.1.4",
+    "rollup": "^4.2.0",
     "ttag-cli": "^1.10.6"
   }
 }

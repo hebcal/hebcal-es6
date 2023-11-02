@@ -1276,7 +1276,7 @@ Plag haMincha; Sunrise plus 10.75 halachic hours
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [angle] | <code>number</code> | <code>8.5</code> | optional time for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars. |
+| [angle] | <code>number</code> | <code>8.5</code> | optional time for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars. |
 
 <a name="Zmanim+neitzHaChama"></a>
 
@@ -1339,7 +1339,7 @@ Returns an array with tzeit Date object and a 24-hour string formatted time.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| angle | <code>number</code> | degrees for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degress for 3 medium-sized stars. |
+| angle | <code>number</code> | degrees for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars. |
 | timeFormat | <code>Intl.DateTimeFormat</code> |  |
 
 <a name="Zmanim.formatTime"></a>
@@ -2305,10 +2305,10 @@ option (Tzeit Hakochavim) is calculated when the sun is 8.5° below the horizon.
 These defaults can be changed using these options:
 * `options.candleLightingMins` - minutes before sundown to light candles
 * `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
-   Havdalah times are supressed when `options.havdalahMins=0`.
+   Havdalah times are suppressed when `options.havdalahMins=0`.
 * `options.havdalahDeg` - degrees for solar depression for Havdalah.
-   Default is 8.5 degrees for 3 small stars. Use 7.083 degress for 3 medium-sized stars.
-   Havdalah times are supressed when `options.havdalahDeg=0`.
+   Default is 8.5 degrees for 3 small stars. Use 7.083 degrees for 3 medium-sized stars.
+   Havdalah times are suppressed when `options.havdalahDeg=0`.
 
 If both `options.candlelighting=true` and `options.location` is specified,
 Chanukah candle-lighting times and minor fast start/end times will also be generated.
@@ -2818,8 +2818,8 @@ Options to configure which events are returned
 | end | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific end date (requires start date) |
 | candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
 | candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
-| havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are supressed. |
-| havdalahDeg | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degress for 3 medium-sized stars.      If `0`, Havdalah times are supressed. |
+| havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are suppressed. |
+| havdalahDeg | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars.      If `0`, Havdalah times are suppressed. |
 | sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
 | il | <code>boolean</code> | Israeli holiday and sedra schedule |
 | noMinorFast | <code>boolean</code> | suppress minor fasts |
