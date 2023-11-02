@@ -37,7 +37,30 @@ function pad2(number) {
  * @property {Date} tzeit
 */
 
-/** Class representing halachic times */
+/**
+ * Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
+ * Calculations are available for tzeit / tzais (nightfall),
+ * shkiah (sunset) and more.
+ *
+ * Zmanim are estimated using an algorithm published by the US National Oceanic
+ * and Atmospheric Administration. The NOAA solar calculator is based on equations
+ * from _Astronomical Algorithms_ by Jean Meeus.
+ *
+ * The sunrise and sunset results are theoretically accurate to within a minute for
+ * locations between +/- 72° latitude, and within 10 minutes outside of those latitudes.
+ * However, due to variations in atmospheric composition, temperature, pressure and
+ * conditions, observed values may vary from calculations.
+ * https://gml.noaa.gov/grad/solcalc/calcdetails.html
+ *
+ * @example
+ * const {Zmanim} = require('@hebcal/core');
+ * const latitude = 41.822232;
+ * const longitude = -71.448292;
+ * const friday = new Date(2023, 8, 8);
+ * const zmanim = new Zmanim(friday, latitude, longitude);
+ * const candleLighting = zmanim.sunsetOffset(-18, true);
+ * const timeStr = Zmanim.formatISOWithTimeZone('America/New_York', candleLighting);
+ */
 export class Zmanim {
   /**
      * Initialize a Zmanim instance.
@@ -88,6 +111,16 @@ export class Zmanim {
       misheyakirMachmir: this.misheyakirMachmir(),
       tzeit: this.tzeit(),
     };
+  }
+  /**
+   * Convenience function to get the time when sun is above or below the horizon
+   * for a certain angle (in degrees).
+   * @param {number} angle
+   * @param {boolean} rising
+   * @return {Date}
+   */
+  timeAtAngle(angle, rising) {
+    return this.sun.timeAtAngle(angle, rising);
   }
   /**
    * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)

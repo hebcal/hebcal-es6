@@ -86,6 +86,7 @@ const RECOGNIZED_OPTIONS = {
   candleLightingMins: 1,
   havdalahMins: 1,
   havdalahDeg: 1,
+  fastEndDeg: 1,
   sedrot: 1,
   il: 1,
   noMinorFast: 1,
@@ -150,6 +151,27 @@ const geoIdCandleOffset = {
 };
 
 /**
+ * @private
+ * @constant
+ * This calculation is based on the position of the sun 36 minutes after sunset in Jerusalem
+ * around the equinox / equilux, which is 8.5° below geometric zenith.
+ * The Ohr Meir considers this the time that 3 small stars are visible,
+ * which is later than the required 3 medium stars.
+ * @see {https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ZmanimCalendar.html#ZENITH_8_POINT_5}
+ */
+const TZEIT_3SMALL_STARS = 8.5;
+
+/**
+ * @private
+ * @constant
+ * This calculation is based on observation of 3 medium sized stars by Dr. Baruch Cohen
+ * in his calendar published in in 1899 in Strasbourg, France.
+ * This calculates to 7.0833333° below geometric zenith.
+ * @see {https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ComplexZmanimCalendar.html#ZENITH_7_POINT_083}
+ */
+const TZEIT_3MEDIUM_STARS = 7.0833333;
+
+/**
  * Modifies options in-place
  * @private
  * @param {CalOptions} options
@@ -185,7 +207,10 @@ function checkCandleOptions(options) {
   } else if (typeof options.havdalahDeg === 'number') {
     options.havdalahDeg = Math.abs(options.havdalahDeg);
   } else {
-    options.havdalahDeg = 8.5;
+    options.havdalahDeg = TZEIT_3SMALL_STARS;
+  }
+  if (typeof options.fastEndDeg !== 'number') {
+    options.fastEndDeg = TZEIT_3MEDIUM_STARS;
   }
 }
 
@@ -206,8 +231,12 @@ function checkCandleOptions(options) {
  *      Nightfall (the point when 3 small stars are observable in the night time sky with
  *      the naked eye). If `0`, Havdalah times are suppressed.
  * @property {number} havdalahDeg - degrees for solar depression for Havdalah.
- *      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars.
+ *      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars
+ *      (observed by Dr. Baruch (Berthold) Cohn in his luach published in France in 1899).
  *      If `0`, Havdalah times are suppressed.
+ * @property {number} fastEndDeg - degrees for solar depression for end of fast days.
+ *      Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include
+ *      6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky.
  * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
  * @property {boolean} il - Israeli holiday and sedra schedule
  * @property {boolean} noMinorFast - suppress minor fasts
@@ -943,7 +972,7 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
   const isMajorFast = Boolean(eFlags & MAJOR_FAST);
   const isMinorFast = Boolean(eFlags & MINOR_FAST);
   if (options.candlelighting && (isMajorFast || isMinorFast)) {
-    ev = makeFastStartEnd(ev, location);
+    ev = makeFastStartEnd(ev, options);
     if (ev.startEvent && (isMajorFast || (isMinorFast && !options.noMinorFast))) {
       events.push(ev.startEvent);
     }

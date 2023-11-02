@@ -68,7 +68,17 @@ holidays. <code>@hebcal/core</code> supports four locales by default</p>
 <dd><p>Daily Hebrew date (&quot;11th of Sivan, 5780&quot;)</p>
 </dd>
 <dt><a href="#Zmanim">Zmanim</a></dt>
-<dd><p>Class representing halachic times</p>
+<dd><p>Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
+Calculations are available for tzeit / tzais (nightfall),
+shkiah (sunset) and more.</p>
+<p>Zmanim are estimated using an algorithm published by the US National Oceanic
+and Atmospheric Administration. The NOAA solar calculator is based on equations
+from <em>Astronomical Algorithms</em> by Jean Meeus.</p>
+<p>The sunrise and sunset results are theoretically accurate to within a minute for
+locations between +/- 72° latitude, and within 10 minutes outside of those latitudes.
+However, due to variations in atmospheric composition, temperature, pressure and
+conditions, observed values may vary from calculations.
+<a href="https://gml.noaa.gov/grad/solcalc/calcdetails.html">https://gml.noaa.gov/grad/solcalc/calcdetails.html</a></p>
 </dd>
 <dt><a href="#Location">Location</a></dt>
 <dd><p>Class representing Location</p>
@@ -1083,7 +1093,19 @@ Helper function to render a Hebrew date
 <a name="Zmanim"></a>
 
 ## Zmanim
-Class representing halachic times
+Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
+Calculations are available for tzeit / tzais (nightfall),
+shkiah (sunset) and more.
+
+Zmanim are estimated using an algorithm published by the US National Oceanic
+and Atmospheric Administration. The NOAA solar calculator is based on equations
+from _Astronomical Algorithms_ by Jean Meeus.
+
+The sunrise and sunset results are theoretically accurate to within a minute for
+locations between +/- 72° latitude, and within 10 minutes outside of those latitudes.
+However, due to variations in atmospheric composition, temperature, pressure and
+conditions, observed values may vary from calculations.
+https://gml.noaa.gov/grad/solcalc/calcdetails.html
 
 **Kind**: global class  
 
@@ -1091,6 +1113,7 @@ Class representing halachic times
     * [new Zmanim(date, latitude, longitude)](#new_Zmanim_new)
     * _instance_
         * ~~[.suntime()](#Zmanim+suntime) ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)~~
+        * [.timeAtAngle(angle, rising)](#Zmanim+timeAtAngle) ⇒ <code>Date</code>
         * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
         * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
         * [.dawn()](#Zmanim+dawn) ⇒ <code>Date</code>
@@ -1138,12 +1161,35 @@ Initialize a Zmanim instance.
 | latitude | <code>number</code> |  |
 | longitude | <code>number</code> |  |
 
+**Example**  
+```js
+const {Zmanim} = require('@hebcal/core');
+const latitude = 41.822232;
+const longitude = -71.448292;
+const friday = new Date(2023, 8, 8);
+const zmanim = new Zmanim(friday, latitude, longitude);
+const candleLighting = zmanim.sunsetOffset(-18, true);
+const timeStr = Zmanim.formatISOWithTimeZone('America/New_York', candleLighting);
+```
 <a name="Zmanim+suntime"></a>
 
 ### ~~zmanim.suntime() ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)~~
 ***Deprecated***
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+timeAtAngle"></a>
+
+### zmanim.timeAtAngle(angle, rising) ⇒ <code>Date</code>
+Convenience function to get the time when sun is above or below the horizon
+for a certain angle (in degrees).
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| angle | <code>number</code> | 
+| rising | <code>boolean</code> | 
+
 <a name="Zmanim+sunrise"></a>
 
 ### zmanim.sunrise() ⇒ <code>Date</code>
@@ -2035,25 +2081,11 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
 **Kind**: global class  
 
 * [HolidayEvent](#HolidayEvent)
-    * [new HolidayEvent(date, desc, [mask], [attrs])](#new_HolidayEvent_new)
     * [.basename()](#HolidayEvent+basename) ⇒ <code>string</code>
     * [.url()](#HolidayEvent+url) ⇒ <code>string</code>
     * [.urlDateSuffix()](#HolidayEvent+urlDateSuffix) ⇒ <code>string</code>
     * [.getEmoji()](#HolidayEvent+getEmoji) ⇒ <code>string</code>
     * [.getCategories()](#HolidayEvent+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
-
-<a name="new_HolidayEvent_new"></a>
-
-### new HolidayEvent(date, desc, [mask], [attrs])
-Constructs Holiday event
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
-| desc | <code>string</code> |  | Description (not translated) |
-| [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
-| [attrs] | <code>Object</code> | <code>{}</code> |  |
 
 <a name="HolidayEvent+basename"></a>
 
@@ -2125,23 +2157,6 @@ Because Asara B'Tevet often occurs twice in the same Gregorian year,
 we subclass HolidayEvent to override the `url()` method.
 
 **Kind**: global class  
-
-* [AsaraBTevetEvent](#AsaraBTevetEvent)
-    * [new AsaraBTevetEvent(date, desc, [mask])](#new_AsaraBTevetEvent_new)
-    * [.urlDateSuffix()](#AsaraBTevetEvent+urlDateSuffix) ⇒ <code>string</code>
-
-<a name="new_AsaraBTevetEvent_new"></a>
-
-### new AsaraBTevetEvent(date, desc, [mask])
-Constructs AsaraBTevetEvent
-
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  | Hebrew date event occurs |
-| desc | <code>string</code> |  | Description (not translated) |
-| [mask] | <code>number</code> | <code>0</code> | optional holiday flags |
-
 <a name="AsaraBTevetEvent+urlDateSuffix"></a>
 
 ### asaraBTevetEvent.urlDateSuffix() ⇒ <code>string</code>
@@ -2282,7 +2297,9 @@ Additional non-default event types can be specified:
 * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
 * Yom Kippur Katan (`options.yomKippurKatan`)
 
-Daily Study of texts:
+Daily Study of texts are supported by the
+[@hebcal/learning](https://github.com/hebcal/hebcal-learning) package,
+for example:
 * Babylonian Talmud Daf Yomi (`options.dailyLearning.dafYomi`)
 * Jerusalem Talmud (Yerushalmi) Yomi (`options.dailyLearning.yerushalmi`)
 * Mishna Yomi (`options.dailyLearning.mishnaYomi`)
@@ -2819,7 +2836,8 @@ Options to configure which events are returned
 | candlelighting | <code>boolean</code> | calculate candle-lighting and havdalah times |
 | candleLightingMins | <code>number</code> | minutes before sundown to light candles (default 18) |
 | havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are suppressed. |
-| havdalahDeg | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars.      If `0`, Havdalah times are suppressed. |
+| havdalahDeg | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars      (observed by Dr. Baruch (Berthold) Cohn in his luach published in France in 1899).      If `0`, Havdalah times are suppressed. |
+| fastEndDeg | <code>number</code> | degrees for solar depression for end of fast days.      Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include      6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky. |
 | sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
 | il | <code>boolean</code> | Israeli holiday and sedra schedule |
 | noMinorFast | <code>boolean</code> | suppress minor fasts |

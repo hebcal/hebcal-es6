@@ -11,17 +11,6 @@ const days = {
 
 /**
  * @private
- * @constant
- * This method returns the tzais (nightfall) based on the opinion of the
- * Geonim calculated as 30 minutes after sunset during the equinox
- * (on March 16, about 4 days before the astronomical equinox, the day that
- * a solar hour is 60 minutes) in Yerushalayim.
- * @see {https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ComplexZmanimCalendar.html#getTzaisGeonim7Point083Degrees()}
- */
-const TZEIT_3MEDIUM_STARS = 7.083;
-
-/**
- * @private
  * @param {Event} e
  * @param {HDate} hd
  * @param {number} dow
@@ -178,10 +167,10 @@ export class CandleLightingEvent extends TimedEvent {
  * Makes a pair of events representing fast start and end times
  * @private
  * @param {Event} ev
- * @param {Location} location
+ * @param {CalOptions} options
  * @return {Event}
  */
-export function makeFastStartEnd(ev, location) {
+export function makeFastStartEnd(ev, options) {
   const desc = ev.getDesc();
   if (desc === 'Yom Kippur') {
     return ev;
@@ -189,17 +178,19 @@ export function makeFastStartEnd(ev, location) {
   ev = ev.clone();
   const hd = ev.getDate();
   const dt = hd.greg();
+  const location = options.location;
+  const fastEndDeg = options.fastEndDeg;
   const zmanim = new Zmanim(dt, location.getLatitude(), location.getLongitude());
   if (desc === 'Erev Tish\'a B\'Av') {
     const sunset = zmanim.sunset();
     ev.startEvent = makeTimedEvent(hd, sunset, 'Fast begins', ev, location);
   } else if (desc.startsWith('Tish\'a B\'Av')) {
-    ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
+    ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(fastEndDeg), 'Fast ends', ev, location);
   } else {
     const dawn = zmanim.alotHaShachar();
     ev.startEvent = makeTimedEvent(hd, dawn, 'Fast begins', ev, location);
     if (dt.getDay() !== 5 && !(hd.getDate() === 14 && hd.getMonth() === months.NISAN)) {
-      ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(TZEIT_3MEDIUM_STARS), 'Fast ends', ev, location);
+      ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(fastEndDeg), 'Fast ends', ev, location);
     }
   }
   return ev;

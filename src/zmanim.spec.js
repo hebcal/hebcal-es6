@@ -353,3 +353,18 @@ test('sunsetOffset', (t) => {
   t.is(f.format(zman.sunsetOffset(10, true)), '20:32:00');
   t.is(f.format(zman.sunsetOffset(10, false)), '20:32:29');
 });
+
+test('timeAtAngle', (t) => {
+  const zman = makeZman();
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Chicago',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+  t.is(f.format(zman.timeAtAngle(11.5, true)), '04:03:04');
+  t.is(f.format(zman.timeAtAngle(3.7, true)), '04:57:50');
+  t.is(f.format(zman.timeAtAngle(3.7, false)), '20:40:59');
+  t.is(f.format(zman.timeAtAngle(11.5, false)), '21:35:53');
+});

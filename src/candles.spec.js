@@ -585,3 +585,27 @@ test('yk-candles-only', (t) => {
   ];
   t.deepEqual(actual, expected);
 });
+
+test('fastEndDeg', (t) => {
+  const options = {
+    start: new Date(2021, 5, 27),
+    end: new Date(2021, 5, 27),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+    fastEndDeg: 6.45,
+  };
+  const events = HebrewCalendar.calendar(options);
+  const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
+  t.deepEqual(eventTitleDateTime(ev), {
+    dt: '2021-06-27T21:02:00-04:00',
+    desc: 'Fast ends',
+  });
+
+  options.fastEndDeg = 6.0;
+  const events2 = HebrewCalendar.calendar(options);
+  const ev2 = events2.filter((ev) => ev.getDesc() === 'Fast ends')[0];
+  t.deepEqual(eventTitleDateTime(ev2), {
+    dt: '2021-06-27T20:59:00-04:00',
+    desc: 'Fast ends',
+  });
+});

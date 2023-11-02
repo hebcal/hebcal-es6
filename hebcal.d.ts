@@ -361,12 +361,19 @@ declare module '@hebcal/core' {
     }
 
     /**
-     * Class representing halachic times
+     * Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
+     * Calculations are available for tzeit / tzais (nightfall),
+     * shkiah (sunset) and more.
+     *
+     * Zmanim are estimated using an algorithm published by the US National
+     * Oceanic and Atmospheric Administration. The NOAA solar calculator is
+     * based on equations from _Astronomical Algorithms_ by Jean Meeus.
      */
     export class Zmanim {
         /**
          * Initialize a Zmanim instance
-         * @param date Regular or Hebrew Date
+         * @param date Regular or Hebrew Date. If `date` is a regular `Date`,
+         *    hours, minutes, seconds and milliseconds are ignored
          * @param latitude
          * @param longitude
          */
@@ -388,6 +395,12 @@ declare module '@hebcal/core' {
          * Get offset string (like "+05:00" or "-08:00") from tzid (like "Europe/Moscow")
          */
         static timeZoneOffset(tzid: string, date: Date): string;
+
+        /**
+         * Convenience function to get the time when sun is above or below the
+         * horizon for a certain angle (in degrees).
+         */
+        timeAtAngle(angle: number, rising: boolean): Date;
 
         /** @deprecated */
         suntime(): ZmanimTimesResult;
@@ -583,10 +596,18 @@ declare module '@hebcal/core' {
         /**
          * degrees for solar depression for Havdalah.
          * Default is 8.5 degrees for 3 small stars.
-         * Use 7.083 degrees for 3 medium-sized stars.
+         * Use 7.083 degrees for 3 medium-sized stars (as observed by Dr. Baruch
+         * (Berthold) Cohn in his luach published in France in 1899).
          * Havdalah times are suppressed when `havdalahDeg=0`.
          */
         havdalahDeg?: number;
+        /**
+         * fastEndDeg - degrees for solar depression for end of fast days.
+         * Default is 7.083 degrees for 3 medium-sized stars. Another
+         * commonly-used value is 6.45 degrees, as calculated by Rabbi
+         * Yechiel Michel Tucazinsky.
+         */
+        fastEndDeg?: number;
         /** calculate parashah hashavua on Saturdays */
         sedrot?: boolean;
         /** Israeli holiday and sedra schedule */
