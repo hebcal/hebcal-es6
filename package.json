@@ -60,8 +60,8 @@
     "verbose": true
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
-    "@babel/preset-env": "^7.23.2",
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
     "@babel/register": "^7.22.15",
     "@hebcal/solar-calc": "^1.1.2",
     "@rollup/plugin-babel": "^6.0.4",
@@ -76,7 +76,7 @@
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "nyc": "^15.1.0",
-    "rollup": "^4.3.0",
+    "rollup": "^4.4.0",
     "ttag-cli": "^1.10.6"
   }
 }
