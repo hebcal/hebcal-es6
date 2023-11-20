@@ -71,7 +71,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "ava": "^5.3.1",
-    "core-js": "^3.33.2",
+    "core-js": "^3.33.3",
     "eslint": "^8.54.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.2",
