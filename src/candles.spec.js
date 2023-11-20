@@ -207,7 +207,7 @@ test('candles-only-israel', (t) => {
   const options = {
     year: 1993,
     noHolidays: true,
-    location: new Location(32.1836, 34.87386, true, 'Asia/Jerusalem'), // Ra'anana
+    location: new Location(32.1836, 34.87386, true, 'Asia/Jerusalem', 'Ra\'anana', 'IL', undefined, 1),
     il: true,
     candlelighting: true,
     noMinorFast: true,
@@ -251,11 +251,14 @@ test('candleLightingMins', (t) => {
   t.deepEqual(events18, expected18);
 });
 
+const jerusalemSeaLevel = new Location(31.76904, 35.21633, true, 'Asia/Jerusalem',
+    'Jerusalem, Israel', 'IL', undefined, 1);
+
 test('jerusalem40', (t) => {
   const options = {
     start: new Date(2020, 0, 1),
     end: new Date(2020, 2, 31),
-    location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
+    location: jerusalemSeaLevel,
     candlelighting: true,
     havdalahMins: 0,
   };
@@ -264,16 +267,16 @@ test('jerusalem40', (t) => {
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
     {dt: '2020-01-03T16:07:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-01-10T16:12:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-01-10T16:13:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-01-17T16:19:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-01-24T16:25:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-01-31T16:31:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-01-31T16:32:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-02-07T16:38:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-02-14T16:44:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-02-21T16:50:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-02-28T16:55:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-03-06T17:00:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-03-13T17:05:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-06T17:01:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-13T17:06:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-20T17:10:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-27T18:15:00+03:00', desc: 'Candle lighting'},
   ];
@@ -284,7 +287,7 @@ test('jerusalem31', (t) => {
   const options = {
     start: new Date(2020, 2, 1),
     end: new Date(2020, 2, 31),
-    location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
+    location: jerusalemSeaLevel,
     candlelighting: true,
     candleLightingMins: 31,
   };
@@ -292,8 +295,8 @@ test('jerusalem31', (t) => {
   const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
-    {dt: '2020-03-06T17:09:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-03-13T17:14:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-06T17:10:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-13T17:15:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-20T17:19:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-27T18:24:00+03:00', desc: 'Candle lighting'},
   ];
@@ -304,7 +307,7 @@ test('jerusalem18-forced-to-40', (t) => {
   const options = {
     start: new Date(2020, 2, 1),
     end: new Date(2020, 2, 31),
-    location: new Location(31.76904, 35.21633, true, 'Asia/Jerusalem', 'Jerusalem, Israel', 'IL'),
+    location: jerusalemSeaLevel,
     candlelighting: true,
     candleLightingMins: 18,
   };
@@ -312,8 +315,8 @@ test('jerusalem18-forced-to-40', (t) => {
   const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
-    {dt: '2020-03-06T17:00:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-03-13T17:05:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-06T17:01:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-13T17:06:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-20T17:10:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-27T18:15:00+03:00', desc: 'Candle lighting'},
   ];
