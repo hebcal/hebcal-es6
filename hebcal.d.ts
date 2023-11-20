@@ -292,9 +292,10 @@ declare module '@hebcal/core' {
          * @param tzid - Olson timezone ID, e.g. "America/Chicago"
          * @param cityName - optional descriptive city name
          * @param countryCode - ISO 3166 alpha-2 country code (e.g. "FR")
-         * @param geoid - optional string or numeric geographic ID
+         * @param [geoid] - optional string or numeric geographic ID
+         * @param [elevation] - in meters (default `0`)
          */
-        constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: string);
+        constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: string, elevation?: number);
         /**
          * Creates a location object from one of 60 "classic" Hebcal city names.
          * The following city names are supported:
@@ -401,10 +402,12 @@ declare module '@hebcal/core' {
          * Initialize a Zmanim instance
          * @param date Regular or Hebrew Date. If `date` is a regular `Date`,
          *    hours, minutes, seconds and milliseconds are ignored
-         * @param latitude
-         * @param longitude
+         * @param latitude Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
+         * @param longitude Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
+         * @param [elevation=0] in meters (default `0`)
+         * @param [tzid] Olson timezone ID, e.g. "America/Chicago"
          */
-        constructor(date: Date | HDate, latitude: number, longitude: number);
+        constructor(date: Date | HDate, latitude: number, longitude: number, elevation?: number, tzid?: string);
 
         /**
          * Returns a string like "2022-04-01T13:06:00-11:00"

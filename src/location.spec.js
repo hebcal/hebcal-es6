@@ -35,6 +35,7 @@ test('lookup', (t) => {
   t.is(loc2.getCountryCode(), 'IL');
   t.is(loc2.getIsrael(), true);
   t.is(loc2.getTzid(), 'Asia/Jerusalem');
+  t.is(loc2.elevation, 786);
 
   const providence = Location.lookup('Providence');
   t.is(providence.latitude, 41.82399);

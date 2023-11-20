@@ -10,6 +10,17 @@ function makeZman() {
   return zman;
 }
 
+// eslint-disable-next-line require-jsdoc
+function makeZmanWithElevation() {
+  const latitude = 39.73915;
+  const longitude = -104.9847;
+  const elevtion = 1636;
+  const tzid = 'America/Denver';
+  const dt = new Date(2020, 5, 5, 12); // Friday June 5 2020
+  const zman = new Zmanim(dt, latitude, longitude, elevtion, tzid);
+  return zman;
+}
+
 test('zmanim', (t) => {
   const zman = makeZman();
   const tzid = 'America/Chicago';
@@ -97,6 +108,98 @@ test('zmanim-tlv', (t) => {
   t.deepEqual(actual, expected);
 });
 
+/*
+{
+  "metadata": {
+    "date": "2020-06-02",
+    "type": "com.kosherjava.zmanim.ZmanimCalendar",
+    "algorithm": "US National Oceanic and Atmospheric Administration Algorithm",
+    "location": "Denver",
+    "latitude": "39.73915",
+    "longitude": "-104.9847",
+    "elevation": "1636.0",
+    "timeZoneName": "Mountain Daylight Time",
+    "timeZoneID": "America/Denver",
+    "timeZoneOffset": "-6.0"
+  },
+  "BasicZmanim": {
+    "BeginAstronomicalTwilight": "2020-06-02T03:34:54-06:00",
+    "AlosHashachar": "2020-06-02T03:50:25-06:00",
+    "BeginNauticalTwilight": "2020-06-02T04:21:01-06:00",
+    "Alos72": "2020-06-02T04:21:22-06:00",
+    "BeginCivilTwilight": "2020-06-02T05:01:19-06:00",
+    "Sunrise": "2020-06-02T05:25:29-06:00",
+    "SeaLevelSunrise": "2020-06-02T05:33:22-06:00",
+    "SofZmanShmaMGA": "2020-06-02T08:39:48-06:00",
+    "SofZmanShmaGRA": "2020-06-02T09:15:48-06:00",
+    "SofZmanTfilaMGA": "2020-06-02T10:05:56-06:00",
+    "SofZmanTfilaGRA": "2020-06-02T10:29:56-06:00",
+    "Chatzos": "2020-06-02T12:58:13-06:00",
+    "SunTransit": "2020-06-02T12:58:13-06:00",
+    "MinchaGedola": "2020-06-02T13:35:18-06:00",
+    "MinchaKetana": "2020-06-02T17:17:44-06:00",
+    "PlagHamincha": "2020-06-02T18:50:25-06:00",
+    "CandleLighting": "2020-06-02T20:05:05-06:00",
+    "SeaLevelSunset": "2020-06-02T20:23:05-06:00",
+    "Sunset": "2020-06-02T20:30:59-06:00",
+    "EndCivilTwilight": "2020-06-02T20:55:12-06:00",
+    "Tzais": "2020-06-02T21:11:32-06:00",
+    "Tzais72": "2020-06-02T21:35:05-06:00",
+    "EndNauticalTwilight": "2020-06-02T21:35:36-06:00",
+    "EndAstronomicalTwilight": "2020-06-02T22:21:56-06:00",
+    "ShaahZmanisGra": "PT1H14M8.636S",
+    "TemporalHour": "PT1H14M8.636S",
+    "ShaahZmanisMGA": "PT1H26M8.636S"
+  }
+}
+*/
+test('zmanim-denver', (t) => {
+  const zman = makeZmanWithElevation();
+  const tzid = 'America/Denver';
+  const f = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: tzid,
+  });
+
+  const expected = {
+    gregEve: '06/04/2020, 20:32:19',
+    chatzotNight: '06/05/2020, 24:58:24',
+    alotHaShachar: '06/05/2020, 03:48:37',
+    misheyakir: '06/05/2020, 04:23:08',
+    misheyakirMachmir: '06/05/2020, 04:32:14',
+    dawn: '06/05/2020, 05:00:12',
+    sunrise: '06/05/2020, 05:24:30',
+    neitzHaChama: '06/05/2020, 05:24:30',
+    sofZmanShma: '06/05/2020, 09:11:36',
+    sofZmanShmaMGA: '06/05/2020, 08:35:36',
+    sofZmanTfilla: '06/05/2020, 10:27:19',
+    sofZmanTfillaMGA: '06/05/2020, 10:03:19',
+    chatzot: '06/05/2020, 12:58:43',
+    minchaGedola: '06/05/2020, 13:36:34',
+    minchaKetana: '06/05/2020, 17:23:41',
+    plagHaMincha: '06/05/2020, 18:58:19',
+    sunset: '06/05/2020, 20:32:57',
+    shkiah: '06/05/2020, 20:32:57',
+    dusk: '06/05/2020, 20:57:18',
+    tzeit: '06/05/2020, 21:13:45',
+  };
+
+  const actual = {};
+  for (const func of Object.keys(expected)) {
+    const dt = zman[func]();
+    actual[func] = f.format(dt).replace(/^24:/, '00:');
+  }
+  t.deepEqual(actual, expected);
+
+  t.is(Math.round(zman.hourMins()), 76);
+  t.is(Math.round(zman.nightHourMins()), 44);
+});
 
 test('suntime', (t) => {
   const zman = makeZman();

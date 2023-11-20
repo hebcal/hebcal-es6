@@ -3,6 +3,8 @@ import {SolarCalc} from '@hebcal/solar-calc';
 import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
 import {isDate} from './greg0';
 import {throwTypeError} from './throwTypeError';
+import {Temporal} from 'temporal-polyfill';
+import {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 
 /**
  * @private
@@ -66,10 +68,12 @@ export class Zmanim {
      * Initialize a Zmanim instance.
      * @param {Date|HDate} date Regular or Hebrew Date. If `date` is a regular `Date`,
      *    hours, minutes, seconds and milliseconds are ignored.
-     * @param {number} latitude
-     * @param {number} longitude
+     * @param {number} latitude Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
+     * @param {number} longitude Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
+     * @param {number} [elevation] in meters (default `0`)
+     * @param {string} [tzid] Olson timezone ID, e.g. "America/Chicago"
      */
-  constructor(date, latitude, longitude) {
+  constructor(date, latitude, longitude, elevation, tzid) {
     if (typeof latitude !== 'number') throw new TypeError('Invalid latitude');
     if (typeof longitude !== 'number') throw new TypeError('Invalid longitude');
     if (latitude < -90 || latitude > 90) {
@@ -82,10 +86,22 @@ export class Zmanim {
         HDate.isHDate(date) ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
     this.date = dt;
-    this.solarCalc = new SolarCalc(this.date, latitude, longitude);
-    this.sun = this.solarCalc.sun;
     this.latitude = latitude;
     this.longitude = longitude;
+    if (elevation) {
+      elevation = +elevation;
+      this.elevation = elevation;
+      this.tzid = tzid;
+      const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
+      const plainDate = Temporal.PlainDate.from({
+        year: dt.getFullYear(),
+        month: dt.getMonth() + 1,
+        day: dt.getDate()});
+      this.noaa = new NOAACalculator(gloc, plainDate);
+    } else {
+      this.solarCalc = new SolarCalc(this.date, latitude, longitude);
+      this.sun = this.solarCalc.sun;
+    }
   }
   /**
    * @deprecated
@@ -120,6 +136,17 @@ export class Zmanim {
    * @return {Date}
    */
   timeAtAngle(angle, rising) {
+    if (this.noaa) {
+      const offsetZenith = 90 + angle;
+      const zdt = rising ? this.noaa.getSunriseOffsetByDegrees(offsetZenith) :
+        this.noaa.getSunsetOffsetByDegrees(offsetZenith);
+      if (zdt === null) {
+        return new Date(NaN);
+      }
+      const res = new Date(zdt.epochMilliseconds);
+      res.setMilliseconds(0);
+      return res;
+    }
     return this.sun.timeAtAngle(angle, rising);
   }
   /**
@@ -127,6 +154,15 @@ export class Zmanim {
    * @return {Date}
    */
   sunrise() {
+    if (this.noaa) {
+      const zdt = this.noaa.getSunrise();
+      if (zdt === null) {
+        return new Date(NaN);
+      }
+      const res = new Date(zdt.epochMilliseconds);
+      res.setMilliseconds(0);
+      return res;
+    }
     return this.sun.timeAtAngle(0.833333, true);
   }
   /**
@@ -134,6 +170,15 @@ export class Zmanim {
    * @return {Date}
    */
   sunset() {
+    if (this.noaa) {
+      const zdt = this.noaa.getSunset();
+      if (zdt === null) {
+        return new Date(NaN);
+      }
+      const res = new Date(zdt.epochMilliseconds);
+      res.setMilliseconds(0);
+      return res;
+    }
     return this.sun.timeAtAngle(0.833333, false);
   }
   /**
@@ -141,14 +186,32 @@ export class Zmanim {
    * @return {Date}
    */
   dawn() {
-    return this.solarCalc.dawn;
+    if (this.noaa) {
+      const zdt = this.noaa.getBeginCivilTwilight();
+      if (zdt === null) {
+        return new Date(NaN);
+      }
+      const res = new Date(zdt.epochMilliseconds);
+      res.setMilliseconds(0);
+      return res;
+    }
+    return this.sun.timeAtAngle(6, true);
   }
   /**
    * Civil dusk; Sun is 6° below the horizon in the evening
    * @return {Date}
    */
   dusk() {
-    return this.solarCalc.dusk;
+    if (this.noaa) {
+      const zdt = this.noaa.getEndCivilTwilight();
+      if (zdt === null) {
+        return new Date(NaN);
+      }
+      const res = new Date(zdt.epochMilliseconds);
+      res.setMilliseconds(0);
+      return res;
+    }
+    return this.sun.timeAtAngle(6, false);
   }
   /** @return {number} */
   hour() {
@@ -163,7 +226,7 @@ export class Zmanim {
   gregEve() {
     const prev = new Date(this.date);
     prev.setDate(prev.getDate() - 1);
-    const zman = new Zmanim(prev, this.latitude, this.longitude);
+    const zman = new Zmanim(prev, this.latitude, this.longitude, this.elevation, this.tzid);
     return zman.sunset();
   }
   /** @return {number} */
@@ -201,21 +264,21 @@ export class Zmanim {
    * @return {Date}
    */
   alotHaShachar() {
-    return this.sun.timeAtAngle(16.1, true);
+    return this.timeAtAngle(16.1, true);
   }
   /**
    * Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning
    * @return {Date}
    */
   misheyakir() {
-    return this.sun.timeAtAngle(11.5, true);
+    return this.timeAtAngle(11.5, true);
   }
   /**
    * Earliest talis & tefillin – Misheyakir Machmir; Sun is 10.2° below the horizon in the morning
    * @return {Date}
    */
   misheyakirMachmir() {
-    return this.sun.timeAtAngle(10.2, true);
+    return this.timeAtAngle(10.2, true);
   }
   /**
    * Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra
@@ -278,7 +341,7 @@ export class Zmanim {
    * @return {Date}
    */
   tzeit(angle=8.5) {
-    return this.sun.timeAtAngle(angle, false);
+    return this.timeAtAngle(angle, false);
   }
   /**
    * Alias for sunrise

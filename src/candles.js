@@ -38,7 +38,7 @@ export function makeCandleEvent(e, hd, dow, location, options) {
   }
   // if offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset ? options.havdalahMins : options.candleLightingMins;
-  const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude());
+  const zmanim = new Zmanim(hd, location.getLatitude(), location.getLongitude(), location.elevation, location.getTzid());
   const time = offset ? zmanim.sunsetOffset(offset, true) : zmanim.tzeit(options.havdalahDeg);
   if (isNaN(time.getTime())) {
     return null; // no sunset
@@ -180,7 +180,7 @@ export function makeFastStartEnd(ev, options) {
   const dt = hd.greg();
   const location = options.location;
   const fastEndDeg = options.fastEndDeg;
-  const zmanim = new Zmanim(dt, location.getLatitude(), location.getLongitude());
+  const zmanim = new Zmanim(dt, location.getLatitude(), location.getLongitude(), location.elevation, location.getTzid());
   if (desc === 'Erev Tish\'a B\'Av') {
     const sunset = zmanim.sunset();
     ev.startEvent = makeTimedEvent(hd, sunset, 'Fast begins', ev, location);
@@ -222,7 +222,7 @@ function makeTimedEvent(hd, time, desc, ev, location) {
  * @return {TimedEvent}
  */
 export function makeWeekdayChanukahCandleLighting(ev, hd, location) {
-  const zmanim = new Zmanim(hd.greg(), location.getLatitude(), location.getLongitude());
+  const zmanim = new Zmanim(hd.greg(), location.getLatitude(), location.getLongitude(), location.elevation, location.getTzid());
   const candleLightingTime = zmanim.dusk();
   // const candleLightingTime = zmanim.tzeit(4.6667);
   return makeTimedEvent(hd, candleLightingTime, ev.getDesc(), ev, location);
