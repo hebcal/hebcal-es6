@@ -19,6 +19,20 @@ function pad2(number) {
 }
 
 /**
+ * @private
+ * @param {Temporal.ZonedDateTime} zdt
+ * @return {Date}
+ */
+function zdtToDate(zdt) {
+  if (zdt === null) {
+    return new Date(NaN);
+  }
+  const res = new Date(zdt.epochMilliseconds);
+  res.setMilliseconds(0);
+  return res;
+}
+
+/**
  * @typedef {Object} ZmanimTimesResult
  * @property {Date} dawn
  * @property {Date} dusk
@@ -140,12 +154,7 @@ export class Zmanim {
       const offsetZenith = 90 + angle;
       const zdt = rising ? this.noaa.getSunriseOffsetByDegrees(offsetZenith) :
         this.noaa.getSunsetOffsetByDegrees(offsetZenith);
-      if (zdt === null) {
-        return new Date(NaN);
-      }
-      const res = new Date(zdt.epochMilliseconds);
-      res.setMilliseconds(0);
-      return res;
+      return zdtToDate(zdt);
     }
     return this.sun.timeAtAngle(angle, rising);
   }
@@ -156,12 +165,18 @@ export class Zmanim {
   sunrise() {
     if (this.noaa) {
       const zdt = this.noaa.getSunrise();
-      if (zdt === null) {
-        return new Date(NaN);
-      }
-      const res = new Date(zdt.epochMilliseconds);
-      res.setMilliseconds(0);
-      return res;
+      return zdtToDate(zdt);
+    }
+    return this.sun.timeAtAngle(0.833333, true);
+  }
+  /**
+   * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
+   * @return {Date}
+   */
+  seaLevelSunrise() {
+    if (this.noaa) {
+      const zdt = this.noaa.getSeaLevelSunrise();
+      return zdtToDate(zdt);
     }
     return this.sun.timeAtAngle(0.833333, true);
   }
@@ -172,12 +187,18 @@ export class Zmanim {
   sunset() {
     if (this.noaa) {
       const zdt = this.noaa.getSunset();
-      if (zdt === null) {
-        return new Date(NaN);
-      }
-      const res = new Date(zdt.epochMilliseconds);
-      res.setMilliseconds(0);
-      return res;
+      return zdtToDate(zdt);
+    }
+    return this.sun.timeAtAngle(0.833333, false);
+  }
+  /**
+   * When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
+   * @return {Date}
+   */
+  seaLevelSunset() {
+    if (this.noaa) {
+      const zdt = this.noaa.getSeaLevelSunset();
+      return zdtToDate(zdt);
     }
     return this.sun.timeAtAngle(0.833333, false);
   }
@@ -188,12 +209,7 @@ export class Zmanim {
   dawn() {
     if (this.noaa) {
       const zdt = this.noaa.getBeginCivilTwilight();
-      if (zdt === null) {
-        return new Date(NaN);
-      }
-      const res = new Date(zdt.epochMilliseconds);
-      res.setMilliseconds(0);
-      return res;
+      return zdtToDate(zdt);
     }
     return this.sun.timeAtAngle(6, true);
   }
@@ -204,12 +220,7 @@ export class Zmanim {
   dusk() {
     if (this.noaa) {
       const zdt = this.noaa.getEndCivilTwilight();
-      if (zdt === null) {
-        return new Date(NaN);
-      }
-      const res = new Date(zdt.epochMilliseconds);
-      res.setMilliseconds(0);
-      return res;
+      return zdtToDate(zdt);
     }
     return this.sun.timeAtAngle(6, false);
   }
@@ -250,6 +261,10 @@ export class Zmanim {
    * @return {Date}
    */
   chatzot() {
+    if (this.noaa) {
+      const zdt = this.noaa.getSunTransit();
+      return zdtToDate(zdt);
+    }
     return this.hourOffset(6);
   }
   /**
@@ -281,10 +296,27 @@ export class Zmanim {
     return this.timeAtAngle(10.2, true);
   }
   /**
+   * Utility method for using elevation-aware sunrise/sunset
+   * @private
+   * @param {number} hours
+   * @return {Date}
+   */
+  getShaahZmanisBasedZman(hours) {
+    const startOfDay = this.noaa.getSunrise();
+    const endOfDay = this.noaa.getSunset();
+    const temporalHour = this.noaa.getTemporalHour(startOfDay, endOfDay);
+    const offset = Math.round(temporalHour * hours);
+    const zdt = NOAACalculator.getTimeOffset(startOfDay, offset);
+    return zdtToDate(zdt);
+  }
+  /**
    * Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra
    * @return {Date}
    */
   sofZmanShma() { // Gra
+    if (this.noaa) {
+      return this.getShaahZmanisBasedZman(3);
+    }
     return this.hourOffset(3);
   }
   /**
@@ -292,6 +324,9 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanTfilla() { // Gra
+    if (this.noaa) {
+      return this.getShaahZmanisBasedZman(4);
+    }
     return this.hourOffset(4);
   }
   /**
@@ -319,6 +354,9 @@ export class Zmanim {
    * @return {Date}
    */
   minchaGedola() {
+    if (this.noaa) {
+      return this.getShaahZmanisBasedZman(6.5);
+    }
     return this.hourOffset(6.5);
   }
   /**
@@ -326,6 +364,9 @@ export class Zmanim {
    * @return {Date}
    */
   minchaKetana() {
+    if (this.noaa) {
+      return this.getShaahZmanisBasedZman(9.5);
+    }
     return this.hourOffset(9.5);
   }
   /**
@@ -333,6 +374,9 @@ export class Zmanim {
    * @return {Date}
    */
   plagHaMincha() {
+    if (this.noaa) {
+      return this.getShaahZmanisBasedZman(10.75);
+    }
     return this.hourOffset(10.75);
   }
   /**
@@ -428,7 +472,7 @@ export class Zmanim {
    * @return {Date}
    */
   sunriseOffset(offset, roundMinute=true) {
-    const sunrise = this.sunrise();
+    const sunrise = this.seaLevelSunrise();
     if (isNaN(sunrise.getTime())) {
       return sunrise;
     }
@@ -449,7 +493,7 @@ export class Zmanim {
    * @return {Date}
    */
   sunsetOffset(offset, roundMinute=true) {
-    const sunset = this.sunset();
+    const sunset = this.seaLevelSunset();
     if (isNaN(sunset.getTime())) {
       return sunset;
     }

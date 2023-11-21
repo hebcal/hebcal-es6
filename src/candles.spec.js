@@ -38,13 +38,13 @@ test('makeCandleEvent-nosunset', (t) => {
   }
   const result = events.map(eventDateDesc);
   const expected = [
-    {date: '2020-05-15', desc: 'Candle lighting: 21:38'},
+    {date: '2020-05-15', desc: 'Candle lighting: 21:36'},
     {date: '2020-05-16', desc: 'Havdalah: 23:49'},
-    {date: '2020-05-22', desc: 'Candle lighting: 21:54'},
+    {date: '2020-05-22', desc: 'Candle lighting: 21:52'},
     {date: '2020-05-23', desc: 'Havdalah: 00:31'},
-    {date: '2020-05-29', desc: 'Candle lighting: 22:08'},
+    {date: '2020-05-29', desc: 'Candle lighting: 22:06'},
     null, // no tzeit
-    {date: '2020-06-05', desc: 'Candle lighting: 22:20'},
+    {date: '2020-06-05', desc: 'Candle lighting: 22:18'},
     null, // no tzeit
   ];
   t.deepEqual(result, expected);
@@ -60,14 +60,14 @@ test('makeCandleEvent-nosunset', (t) => {
   }
   const result2 = events2.map(eventDateDesc);
   const expected2 = [
-    {date: '2020-05-15', desc: 'Candle lighting: 21:38'},
-    {date: '2020-05-16', desc: 'Havdalah (72 min): 23:11'},
-    {date: '2020-05-22', desc: 'Candle lighting: 21:54'},
-    {date: '2020-05-23', desc: 'Havdalah (72 min): 23:26'},
-    {date: '2020-05-29', desc: 'Candle lighting: 22:08'},
-    {date: '2020-05-30', desc: 'Havdalah (72 min): 23:41'},
-    {date: '2020-06-05', desc: 'Candle lighting: 22:20'},
-    {date: '2020-06-06', desc: 'Havdalah (72 min): 23:52'},
+    {date: '2020-05-15', desc: 'Candle lighting: 21:36'},
+    {date: '2020-05-16', desc: 'Havdalah (72 min): 23:09'},
+    {date: '2020-05-22', desc: 'Candle lighting: 21:52'},
+    {date: '2020-05-23', desc: 'Havdalah (72 min): 23:25'},
+    {date: '2020-05-29', desc: 'Candle lighting: 22:06'},
+    {date: '2020-05-30', desc: 'Havdalah (72 min): 23:39'},
+    {date: '2020-06-05', desc: 'Candle lighting: 22:18'},
+    {date: '2020-06-06', desc: 'Havdalah (72 min): 23:50'},
   ];
   t.deepEqual(result2, expected2);
 });
@@ -84,9 +84,9 @@ test('candles-only-diaspora', (t) => {
   t.is(events.length, 132);
   const ev0 = events[0];
   t.is(Boolean(ev0.getFlags() & flags.LIGHT_CANDLES), true);
-  t.is(ev0.render('en'), 'Candle lighting: 16:16');
+  t.is(ev0.render('en'), 'Candle lighting: 16:13');
   t.is(ev0.getDesc(), 'Candle lighting');
-  t.is(ev0.eventTimeStr, '16:16');
+  t.is(ev0.eventTimeStr, '16:13');
   const ev1 = events[1];
   t.is(Boolean(ev1.getFlags() & flags.LIGHT_CANDLES_TZEIS), true);
   t.is(ev1.render('en'), 'Havdalah: 17:18');
@@ -230,23 +230,23 @@ test('candleLightingMins', (t) => {
   };
   const events30 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
   const expected30 = [
-    {dt: '2020-05-01T18:52:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-08T18:57:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-15T19:02:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-22T19:07:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-01T18:51:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-08T18:56:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-15T19:01:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-22T19:06:00+03:00', desc: 'Candle lighting'},
     {dt: '2020-05-28T19:10:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-29T19:11:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-29T19:10:00+03:00', desc: 'Candle lighting'},
   ];
   t.deepEqual(events30, expected30);
   delete options.candleLightingMins;
   const events18 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
   const expected18 = [
-    {dt: '2020-05-01T19:04:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-08T19:09:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-15T19:14:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-22T19:19:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-01T19:03:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-08T19:08:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-15T19:13:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-22T19:18:00+03:00', desc: 'Candle lighting'},
     {dt: '2020-05-28T19:22:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-29T19:23:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-29T19:22:00+03:00', desc: 'Candle lighting'},
   ];
   t.deepEqual(events18, expected18);
 });
@@ -267,16 +267,16 @@ test('jerusalem40', (t) => {
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
     {dt: '2020-01-03T16:07:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-01-10T16:13:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-01-10T16:12:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-01-17T16:19:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-01-24T16:25:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-01-31T16:32:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-01-31T16:31:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-02-07T16:38:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-02-14T16:44:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-02-21T16:50:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-02-28T16:55:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-03-06T17:01:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-03-13T17:06:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-06T17:00:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-13T17:05:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-20T17:10:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-27T18:15:00+03:00', desc: 'Candle lighting'},
   ];
@@ -295,8 +295,8 @@ test('jerusalem31', (t) => {
   const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
-    {dt: '2020-03-06T17:10:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-03-13T17:15:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-06T17:09:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-13T17:14:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-20T17:19:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-27T18:24:00+03:00', desc: 'Candle lighting'},
   ];
@@ -315,8 +315,8 @@ test('jerusalem18-forced-to-40', (t) => {
   const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
-    {dt: '2020-03-06T17:01:00+02:00', desc: 'Candle lighting'},
-    {dt: '2020-03-13T17:06:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-06T17:00:00+02:00', desc: 'Candle lighting'},
+    {dt: '2020-03-13T17:05:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-20T17:10:00+02:00', desc: 'Candle lighting'},
     {dt: '2020-03-27T18:15:00+03:00', desc: 'Candle lighting'},
   ];
@@ -455,9 +455,9 @@ test('no-chanukah-candles-when-noHolidays', (t) => {
   };
   const events = HebrewCalendar.calendar(options);
   const expected = [
-    {dt: '2020-12-11T16:01:00-08:00', desc: 'Candle lighting'},
+    {dt: '2020-12-11T15:59:00-08:00', desc: 'Candle lighting'},
     {dt: '2020-12-12T17:10:00-08:00', desc: 'Havdalah'},
-    {dt: '2020-12-18T16:02:00-08:00', desc: 'Candle lighting'},
+    {dt: '2020-12-18T16:01:00-08:00', desc: 'Candle lighting'},
     {dt: '2020-12-19T17:12:00-08:00', desc: 'Havdalah'},
   ];
   const actual = events.map(eventTitleDateTime);
@@ -585,7 +585,7 @@ test('yk-candles-only', (t) => {
   });
   const actual = events.map(eventTitleDateTime);
   const expected = [
-    {dt: '2022-10-04T18:03:00-04:00', desc: 'Candle lighting'},
+    {dt: '2022-10-04T18:02:00-04:00', desc: 'Candle lighting'},
     {dt: '2022-10-05T19:00:00-04:00', desc: 'Havdalah'},
   ];
   t.deepEqual(actual, expected);
