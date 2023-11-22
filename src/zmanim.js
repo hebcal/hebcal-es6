@@ -1,7 +1,6 @@
 import {HDate} from './hdate';
-import {SolarCalc} from '@hebcal/solar-calc';
 import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
-import {isDate} from './greg0';
+import {greg} from '@hebcal/hdate';
 import {throwTypeError} from './throwTypeError';
 import {Temporal} from 'temporal-polyfill';
 import {GeoLocation, NOAACalculator} from '@hebcal/noaa';
@@ -96,51 +95,22 @@ export class Zmanim {
     if (longitude < -180 || longitude > 180) {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
-    const dt = isDate(date) ? date :
+    const dt = greg.isDate(date) ? date :
         HDate.isHDate(date) ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
     this.date = dt;
     this.latitude = latitude;
     this.longitude = longitude;
-    if (elevation) {
-      elevation = +elevation;
-      this.elevation = elevation;
-      this.tzid = tzid;
-      const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
-      const plainDate = Temporal.PlainDate.from({
-        year: dt.getFullYear(),
-        month: dt.getMonth() + 1,
-        day: dt.getDate()});
-      this.noaa = new NOAACalculator(gloc, plainDate);
-    } else {
-      this.solarCalc = new SolarCalc(this.date, latitude, longitude);
-      this.sun = this.solarCalc.sun;
-    }
-  }
-  /**
-   * @deprecated
-   * @return {ZmanimTimesResult}
-   */
-  suntime() {
-    return {
-      solarNoon: this.solarCalc.solarNoon,
-      sunrise: this.sunrise(),
-      sunset: this.sunset(),
-      sunriseEnd: this.solarCalc.sunriseEnd,
-      sunsetStart: this.solarCalc.sunsetStart,
-      dawn: this.dawn(),
-      dusk: this.dusk(),
-      nauticalDawn: this.solarCalc.nauticalDawn,
-      nauticalDusk: this.solarCalc.nauticalDusk,
-      nightEnd: this.solarCalc.nightEnd,
-      night: this.solarCalc.nightStart,
-      goldenHourEnd: this.solarCalc.goldenHourEnd,
-      goldenHour: this.solarCalc.goldenHourStart,
-      alotHaShachar: this.alotHaShachar(),
-      misheyakir: this.misheyakir(),
-      misheyakirMachmir: this.misheyakirMachmir(),
-      tzeit: this.tzeit(),
-    };
+    elevation = +elevation || 0;
+    this.elevation = elevation;
+    tzid = tzid || 'UTC';
+    this.tzid = tzid;
+    const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
+    const plainDate = Temporal.PlainDate.from({
+      year: dt.getFullYear(),
+      month: dt.getMonth() + 1,
+      day: dt.getDate()});
+    this.noaa = new NOAACalculator(gloc, plainDate);
   }
   /**
    * Convenience function to get the time when sun is above or below the horizon
@@ -505,40 +475,5 @@ export class Zmanim {
       sunset.setSeconds(0, 0);
     }
     return new Date(sunset.getTime() + (offset * 60 * 1000));
-  }
-
-  /**
-   * Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
-   * @deprecated
-   * @param {number} offset
-   * @param {Intl.DateTimeFormat} timeFormat
-   * @return {Object[]}
-   */
-  sunsetOffsetTime(offset, timeFormat) {
-    const dt = this.sunsetOffset(offset, true);
-    if (isNaN(dt.getTime())) {
-      // `No sunset for ${location} on ${hd}`
-      return [undefined, undefined];
-    }
-    const time = Zmanim.formatTime(dt, timeFormat);
-    return [dt, time];
-  }
-
-  /**
-   * Returns an array with tzeit Date object and a 24-hour string formatted time.
-   * @deprecated
-   * @param {number} angle degrees for solar depression.
-   *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
-   * @param {Intl.DateTimeFormat} timeFormat
-   * @return {Object[]}
-   */
-  tzeitTime(angle, timeFormat) {
-    const dt = this.tzeit(angle);
-    if (isNaN(dt.getTime())) {
-      return [undefined, undefined];
-    }
-    const time = Zmanim.roundTime(dt);
-    const timeStr = Zmanim.formatTime(time, timeFormat);
-    return [time, timeStr];
   }
 }

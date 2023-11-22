@@ -27,7 +27,7 @@ import {getYahrzeit_, getBirthdayOrAnniversary_} from './anniversary';
 import {flags} from './event';
 import {OmerEvent} from './omer';
 import {ParshaEvent} from './ParshaEvent';
-import {greg2abs, abs2greg, isDate, daysInMonth} from './greg0';
+import {greg} from '@hebcal/hdate';
 import {DailyLearning} from './DailyLearning';
 import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
@@ -284,7 +284,7 @@ function checkCandleOptions(options) {
  */
 function getAbs(d) {
   if (typeof d == 'number') return d;
-  if (isDate(d)) return greg2abs(d);
+  if (greg.isDate(d)) return greg.greg2abs(d);
   if (HDate.isHDate(d)) return d.abs();
   throw new TypeError(`Invalid date type: ${d}`);
 }
@@ -337,17 +337,17 @@ export function getStartAndEnd(options) {
     if (theYear < 100) {
       startGreg.setFullYear(theYear);
     }
-    const startAbs = greg2abs(startGreg);
+    const startAbs = greg.greg2abs(startGreg);
     let endAbs;
     if (options.month) {
-      endAbs = startAbs + daysInMonth(theMonth, theYear) - 1;
+      endAbs = startAbs + greg.daysInMonth(theMonth, theYear) - 1;
     } else {
       const endYear = theYear + numYears;
       const endGreg = new Date(endYear, 0, 1);
       if (endYear < 100) {
         endGreg.setFullYear(endYear);
       }
-      endAbs = greg2abs(endGreg) - 1;
+      endAbs = greg.greg2abs(endGreg) - 1;
     }
     return [startAbs, endAbs];
   }
@@ -633,7 +633,7 @@ export class HebrewCalendar {
     warnUnrecognizedOptions(options);
     const startAbs = startAndEnd[0];
     const endAbs = startAndEnd[1];
-    const startGreg = abs2greg(startAbs);
+    const startGreg = greg.abs2greg(startAbs);
     if (startGreg.getFullYear() < 100) {
       options.candlelighting = false;
     }

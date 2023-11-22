@@ -19,8 +19,6 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Zmanim} from './zmanim';
-
 const classicCities0 = [
   ['Ashdod', 'IL', 31.79213, 34.64966, 'Asia/Jerusalem', 27],
   ['Atlanta', 'US', 33.749, -84.38798, 'America/New_York', 336],
@@ -249,25 +247,6 @@ export class Location {
     return classicCities[name.toLowerCase()];
   }
 
-  /**
-   * @deprecated
-   * @param {Date|HDate} hdate
-   * @return {Date}
-   */
-  sunset(hdate) {
-    return new Zmanim(hdate, this.getLatitude(), this.getLongitude()).sunset();
-  }
-
-  /**
-   * @deprecated
-   * @param {Date|HDate} hdate
-   * @param {number} [angle]
-   * @return {Date}
-   */
-  tzeit(hdate, angle) {
-    return new Zmanim(hdate, this.getLatitude(), this.getLongitude()).tzeit(angle);
-  }
-
   /** @return {string} */
   toString() {
     return JSON.stringify(this);
@@ -322,27 +301,6 @@ export class Location {
     } else {
       return ZIPCODES_TZ_MAP[tz];
     }
-  }
-
-  /**
-   * Builds a city description from geonameid string components
-   * @deprecated
-   * @param {string} cityName e.g. 'Tel Aviv' or 'Chicago'
-   * @param {string} admin1 e.g. 'England' or 'Massachusetts'
-   * @param {string} countryName full country name, e.g. 'Israel' or 'United States'
-   * @return {string}
-   */
-  static geonameCityDescr(cityName, admin1, countryName) {
-    if (countryName == 'United States') countryName = 'USA';
-    if (countryName == 'United Kingdom') countryName = 'UK';
-    let cityDescr = cityName;
-    if (countryName != 'Israel' && admin1 && admin1.indexOf(cityName) != 0) {
-      cityDescr += ', ' + admin1;
-    }
-    if (countryName) {
-      cityDescr += ', ' + countryName;
-    }
-    return cityDescr;
   }
 
   /**

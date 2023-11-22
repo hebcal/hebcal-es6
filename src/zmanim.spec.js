@@ -89,13 +89,13 @@ test('zmanim-tlv', (t) => {
     sunrise: '03/06/2021, 06:02:16',
     neitzHaChama: '03/06/2021, 06:02:16',
     sofZmanShma: '03/06/2021, 08:57:17',
-    sofZmanTfilla: '03/06/2021, 09:55:37',
-    chatzot: '03/06/2021, 11:52:18',
-    minchaGedola: '03/06/2021, 12:21:28',
-    minchaKetana: '03/06/2021, 15:16:29',
-    plagHaMincha: '03/06/2021, 16:29:25',
-    sunset: '03/06/2021, 17:42:21',
-    shkiah: '03/06/2021, 17:42:21',
+    sofZmanTfilla: '03/06/2021, 09:55:38',
+    chatzot: '03/06/2021, 11:52:19',
+    minchaGedola: '03/06/2021, 12:21:29',
+    minchaKetana: '03/06/2021, 15:16:30',
+    plagHaMincha: '03/06/2021, 16:29:26',
+    sunset: '03/06/2021, 17:42:22',
+    shkiah: '03/06/2021, 17:42:22',
     dusk: '03/06/2021, 18:06:50',
     tzeit: '03/06/2021, 18:18:39',
   };
@@ -174,41 +174,6 @@ test('zmanim-denver', (t) => {
 
   // "Tzais72": "2020-06-05T21:37:01-06:00"
   t.is(f.format(zman.sunsetOffset(72, false)), '06/05/2020, 21:37:01');
-});
-
-test('suntime', (t) => {
-  const zman = makeZman();
-  const times = zman.suntime();
-  const f = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Chicago',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: false,
-  });
-  const result = {};
-  for (const [key, val] of Object.entries(times)) {
-    result[key] = f.format(val);
-  }
-  const expected = {
-    solarNoon: '12:49',
-    sunrise: '05:16',
-    sunset: '20:22',
-    sunriseEnd: '05:19',
-    sunsetStart: '20:19',
-    dawn: '04:42',
-    dusk: '20:56',
-    nauticalDawn: '03:59',
-    nauticalDusk: '21:39',
-    nightEnd: '03:07',
-    night: '22:31',
-    goldenHourEnd: '05:58',
-    goldenHour: '19:40',
-    alotHaShachar: '03:25',
-    misheyakir: '04:03',
-    misheyakirMachmir: '04:12',
-    tzeit: '21:13',
-  };
-  t.deepEqual(result, expected);
 });
 
 test('throws', (t) => {
@@ -377,7 +342,7 @@ test('nightHourMins-dst', (t) => {
 
   const dt0 = new Date(2022, 2, 12); // March 12, 2022 - before DST
   const zman0 = new Zmanim(dt0, latitude, longitude);
-  t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve()), '2022-03-11T17:46:04-05:00');
+  t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve()), '2022-03-11T17:46:05-05:00');
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset()), '2022-03-12T17:47:15-05:00');
   t.is(Math.round(zman0.nightHourMins()), 61);
 
@@ -470,4 +435,50 @@ test('jlem-sunset', (t) => {
     const actual = f.format(sunset);
     t.is(actual, expected, dt.toDateString());
   }
+});
+
+
+test('zmanim-UTC', (t) => {
+  const zman = new Zmanim(new Date(2020, 5, 5), 0, 0, 21, 'UTC');
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: '2-digit',
+    hour12: false,
+  });
+
+  /*
+    "SofZmanShmaMGA": "2020-06-05T08:20:46+00:00",
+    "SofZmanShmaGRA": "2020-06-05T08:56:46+00:00",
+    "SofZmanTfilaMGA": "2020-06-05T09:33:23+00:00",
+    "SofZmanTfilaGRA": "2020-06-05T09:57:23+00:00",
+  */
+  const expected = {
+    alotHaShachar: '04:48:37',
+    dawn: '05:32:33',
+    sunrise: '05:54:18',
+    seaLevelSunrise: '05:54:56',
+    sofZmanShma: '08:56:27',
+    sofZmanShmaMGA: '08:20:45',
+    sofZmanTfilla: '09:57:10',
+    sofZmanTfillaMGA: '09:33:22',
+    chatzot: '11:58:36',
+    minchaGedola: '12:28:57',
+    minchaKetana: '15:31:06',
+    plagHaMincha: '16:47:00',
+    seaLevelSunset: '18:02:15',
+    sunset: '18:02:53',
+    dusk: '18:24:39',
+    tzeit: '18:35:31',
+  };
+
+  const actual = {};
+  for (const func of Object.keys(expected)) {
+    const dt = zman[func]();
+    actual[func] = f.format(dt);
+  }
+  t.deepEqual(actual, expected);
+
+  t.is(f.format(zman.sunsetOffset(72, false)), '19:14:15');
 });

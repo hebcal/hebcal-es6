@@ -1,29 +1,5 @@
 import test from 'ava';
 import {Location} from './location';
-import {HDate} from './hdate';
-
-test('sunset', (t) => {
-  const locations = [
-    [41.85003, -87.65005, false, 'America/Chicago', '20:22'], // Chicago
-    [37.33939, -121.89496, false, 'America/Los_Angeles', '20:25'], // San Jose
-    [32.1836, 34.87386, true, 'Asia/Jerusalem', '19:44'], // Ra'anana
-    [-37.814, 144.96332, true, 'Australia/Melbourne', '17:08'], // Melbourne
-  ];
-  const june5 = new HDate(new Date(Date.UTC(2020, 5, 5, 12))); // Friday June 5 2020
-  for (const l of locations) {
-    const loc = new Location(l[0], l[1], l[2], l[3]);
-    const expected = l[4];
-    const sunset = loc.sunset(june5);
-    const options = {
-      timeZone: loc.tzid,
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false,
-    };
-    const time = new Intl.DateTimeFormat('en-US', options).format(sunset);
-    t.is(time, expected);
-  }
-});
 
 test('lookup', (t) => {
   const loc1 = Location.lookup('San Francisco');
@@ -118,13 +94,6 @@ test('legacyTzToTzid', (t) => {
   t.is(Location.legacyTzToTzid(9, 'eu'), undefined);
   t.is(Location.legacyTzToTzid(9, 'israel'), undefined);
   t.is(Location.legacyTzToTzid(9, 'bogus'), undefined);
-});
-
-test('geonameCityDescr', (t) => {
-  t.is(Location.geonameCityDescr('Providence', 'Rhode Island', 'United States'), 'Providence, Rhode Island, USA');
-  t.is(Location.geonameCityDescr('London', 'England', 'United Kingdom'), 'London, England, UK');
-  t.is(Location.geonameCityDescr('Tel Aviv', 'Central District', 'Israel'), 'Tel Aviv, Israel');
-  t.is(Location.geonameCityDescr('Montréal', 'Quebec', 'Canada'), 'Montréal, Quebec, Canada');
 });
 
 test('shortName', (t) => {

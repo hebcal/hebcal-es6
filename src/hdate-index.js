@@ -1,5 +1,6 @@
 export {gematriya} from './gematriya';
-export {greg} from './greg';
+import {greg} from '@hebcal/hdate';
+export {greg};
 import {Locale} from './locale';
 export {Locale};
 export {HDate, months} from './hdate';

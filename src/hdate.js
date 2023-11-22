@@ -18,14 +18,18 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {greg2abs, abs2greg, isDate, mod} from './greg0';
+import {greg, abs2hebrew, daysInMonth, daysInYear, getMonthName,
+  hebrew2abs, isLeapYear, longCheshvan, months,
+  monthsInYear, shortKislev} from '@hebcal/hdate';
 import {gematriya, gematriyaStrToNum} from './gematriya';
 import {Locale} from './locale';
-import {abs2hebrew, daysInMonth, daysInYear, getMonthName, hebrew2abs,
-  isLeapYear, longCheshvan, months,
-  monthsInYear, shortKislev} from './hdate0';
 import {throwTypeError} from './throwTypeError';
 export {months};
+
+// eslint-disable-next-line require-jsdoc
+function mod(x, y) {
+  return x - y * Math.floor(x / y);
+}
 
 const UNITS_DAY = 'day';
 const UNITS_WEEK = 'week';
@@ -108,7 +112,7 @@ export class HDate {
       }
       // 1 argument
       const abs0 = (typeof day === 'number' && !isNaN(day)) ? day :
-        isDate(day) ? greg2abs(day) :
+        greg.isDate(day) ? greg.greg2abs(day) :
         HDate.isHDate(day) ? {dd: day.day, mm: day.month, yy: day.year} :
         throwTypeError(`HDate called with bad argument: ${day}`);
       const isNumber = typeof abs0 === 'number';
@@ -196,19 +200,6 @@ export class HDate {
   }
 
   /**
-   * Sets the year of the date. Returns the object it was called upon.
-   * @private
-   * @deprecated
-   * @param {number} year
-   * @return {HDate}
-   */
-  setFullYear(year) {
-    this.year = year;
-    fix(this);
-    return this;
-  }
-
-  /**
    * Sets the day of the month of the date. Returns the object it was called upon
    * @private
    * @param {number|string} month A number, or Hebrew month name string
@@ -236,7 +227,7 @@ export class HDate {
    * @return {Date}
    */
   greg() {
-    return abs2greg(this.abs());
+    return greg.abs2greg(this.abs());
   }
 
   /**

@@ -1,4 +1,3 @@
-export {greg} from './greg';
 export {gematriya, gematriyaStrToNum} from './gematriya';
 export {Locale} from './locale';
 export {HDate, months} from './hdate';
@@ -15,6 +14,5 @@ export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays';
 export {DailyLearning} from './DailyLearning';
 export {HebrewCalendar} from './hebcal';
-import {SolarCalc} from '@hebcal/solar-calc';
-export {SolarCalc};
 export {version} from '../package.json';
+export {GeoLocation, NOAACalculator} from '@hebcal/noaa';

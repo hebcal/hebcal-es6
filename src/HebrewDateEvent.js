@@ -67,15 +67,4 @@ export class HebrewDateEvent extends Event {
         return hd.render(locale0, false);
     }
   }
-  /**
-   * Helper function to render a Hebrew date
-   * @deprecated
-   * @param {number} day
-   * @param {string} monthName
-   * @param {number} fullYear
-   * @return {string}
-   */
-  static renderHebrew(day, monthName, fullYear) {
-    return gematriya(day) + ' ' + monthName + ' ' + gematriya(fullYear);
-  }
 }

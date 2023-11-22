@@ -202,14 +202,6 @@ export class Event {
     return il ? this.observedInIsrael() : this.observedInDiaspora();
   }
   /**
-   * @deprecated
-   * Optional additional event attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
-   * @return {Object}
-   */
-  getAttrs() {
-    return this;
-  }
-  /**
    * Makes a clone of this Event object
    * @return {Event}
    */

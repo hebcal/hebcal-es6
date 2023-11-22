@@ -518,7 +518,7 @@ test('getHolidaysForYear-throw', (t) => {
 
 test('version', (t) => {
   const version = HebrewCalendar.version();
-  t.is(version.substring(0, version.indexOf('.')), '4');
+  t.is(version.substring(0, version.indexOf('.')), '5');
 });
 
 test('candlelighting-no-location-throw', (t) => {
@@ -641,10 +641,10 @@ test('omer-alarm-alaska', (t) => {
     return {dt: gregDtString(ev), alarm: ev.alarm && ev.alarm.toISOString()};
   });
   const expected = [
-    {dt: '5/13/2022', alarm: '2022-05-13T08:41:42.000Z'},
-    {dt: '5/14/2022', alarm: '2022-05-14T08:52:10.000Z'},
-    {dt: '5/15/2022', alarm: '2022-05-15T09:05:35.000Z'},
-    {dt: '5/16/2022', alarm: '2022-05-16T09:33:44.000Z'},
+    {dt: '5/13/2022', alarm: '2022-05-13T08:41:45.000Z'},
+    {dt: '5/14/2022', alarm: '2022-05-14T08:52:14.000Z'},
+    {dt: '5/15/2022', alarm: '2022-05-15T09:05:42.000Z'},
+    {dt: '5/16/2022', alarm: '2022-05-16T09:35:22.000Z'},
     {dt: '5/17/2022', alarm: undefined},
     {dt: '5/18/2022', alarm: undefined},
     {dt: '5/19/2022', alarm: undefined},

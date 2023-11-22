@@ -1,6 +1,8 @@
 import test from 'ava';
 import {Location} from './location';
-import {makeCandleEvent, CandleLightingEvent, HavdalahEvent, TimedEvent} from './candles';
+import {makeCandleEvent, CandleLightingEvent, HavdalahEvent, TimedEvent,
+  makeFastStartEnd} from './candles';
+import {HolidayEvent} from './holidays';
 import {HDate} from './hdate';
 import {flags} from './event';
 import {HebrewCalendar} from './hebcal';
@@ -613,4 +615,19 @@ test('fastEndDeg', (t) => {
     dt: '2021-06-27T20:59:00-04:00',
     desc: 'Fast ends',
   });
+});
+
+test('makeFastStartEnd', (t) => {
+  const location = Location.lookup('Providence');
+  const hd = new HDate(8, 'Av', 5783);
+  const ev = new HolidayEvent(hd, 'Erev Tish\'a B\'Av', flags.EREV | flags.MAJOR_FAST);
+  const options = {
+    location,
+    candlelighting: true,
+    fastEndDeg: 7.0833,
+  };
+  const ev2 = makeFastStartEnd(ev, options);
+  const startEvent = ev2.startEvent;
+  t.is(startEvent.eventTime.toISOString(), '2023-07-27T00:10:00.000Z');
+  t.is(startEvent.eventTimeStr, '20:10');
 });

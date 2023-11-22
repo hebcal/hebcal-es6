@@ -1,5 +1,5 @@
 import {hebrew2abs, abs2hebrew, isLeapYear, months, monthsInYear,
-  shortKislev, longCheshvan} from './hdate0';
+  shortKislev, longCheshvan} from '@hebcal/hdate';
 import {HDate} from './hdate';
 
 const NISAN = months.NISAN;
