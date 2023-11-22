@@ -23,11 +23,10 @@ import {HDate, months} from './hdate';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {MoladEvent} from './molad';
 import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays';
-import {getYahrzeit_, getBirthdayOrAnniversary_} from './anniversary';
 import {flags} from './event';
 import {OmerEvent} from './omer';
 import {ParshaEvent} from './ParshaEvent';
-import {greg} from '@hebcal/hdate';
+import {greg, getYahrzeit, getBirthdayOrAnniversary} from '@hebcal/hdate';
 import {DailyLearning} from './DailyLearning';
 import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
@@ -750,7 +749,8 @@ export class HebrewCalendar {
    * @return {HDate} anniversary occurring in `hyear`
    */
   static getBirthdayOrAnniversary(hyear, gdate) {
-    return getBirthdayOrAnniversary_(hyear, gdate);
+    const dt = getBirthdayOrAnniversary(hyear, gdate);
+    return new HDate(dt);
   }
 
   /**
@@ -788,7 +788,8 @@ export class HebrewCalendar {
    * @return {HDate} anniversary occurring in hyear
    */
   static getYahrzeit(hyear, gdate) {
-    return getYahrzeit_(hyear, gdate);
+    const dt = getYahrzeit(hyear, gdate);
+    return new HDate(dt);
   }
 
   /**
