@@ -16,8 +16,6 @@ declare module '@hebcal/core' {
          */
         constructor(date: HDate, desc: string, mask?: number, attrs?: any);
         getFlags(): number;
-        /** @deprecated */
-        getAttrs(): any;
         getDesc(): string;
         basename(): string;
         url(): string;
@@ -329,22 +327,6 @@ declare module '@hebcal/core' {
          * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
          */
         getTimeFormatter(): Intl.DateTimeFormat;
-        /** @deprecated */
-        sunset(hdate: Date | HDate): Date;
-        /**
-         * @deprecated
-         * @param [angle=8.5] optional time for solar depression.
-         *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
-         */
-        tzeit(hdate: Date | HDate, angle?: number): Date;
-        /**
-         * Builds a city description from geonameid string components
-         * @deprecated
-         * @param cityName e.g. 'Tel Aviv' or 'Chicago'
-         * @param admin1 e.g. 'England' or 'Massachusetts'
-         * @param countryName full country name, e.g. 'Israel' or 'United States'
-         */
-        static geonameCityDescr(cityName: string, admin1: string, countryName: string): string;
         /**
          * Converts timezone info from Zip-Codes.com to a standard Olson tzid.
          * @example
@@ -366,26 +348,6 @@ declare module '@hebcal/core' {
          * and `true` if successfully added.
          */
         static addLocation(cityName: string, location: Location): boolean;
-    }
-
-    export interface ZmanimTimesResult {
-        dawn: Date;
-        dusk: Date;
-        goldenHour: Date;
-        goldenHourEnd: Date;
-        nauticalDawn: Date;
-        nauticalDusk: Date;
-        night: Date;
-        nightEnd: Date;
-        solarNoon: Date;
-        sunrise: Date;
-        sunriseEnd: Date;
-        sunset: Date;
-        sunsetStart: Date;
-        alotHaShachar: Date;
-        misheyakir: Date;
-        misheyakirMachmir: Date;
-        tzeit: Date;
     }
 
     /**
@@ -432,8 +394,6 @@ declare module '@hebcal/core' {
          */
         timeAtAngle(angle: number, rising: boolean): Date;
 
-        /** @deprecated */
-        suntime(): ZmanimTimesResult;
         /** Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon) */
         sunrise(): Date;
         /** When the upper edge of the Sun disappears below the horizon (0.833° below horizon) */
@@ -493,18 +453,6 @@ declare module '@hebcal/core' {
          * @param roundMinute round time to nearest minute (default true)
          */
         sunsetOffset(offset: number, roundMinute?: boolean): Date;
-        /**
-         * Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
-         * @deprecated
-         */
-        sunsetOffsetTime(offset: number, timeFormat: Intl.DateTimeFormat): any[];
-        /**
-         * Returns an array with tzeit Date object and a 24-hour string formatted time.
-         * @deprecated
-         * @param angle optional time for solar depression.
-         *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
-         */
-        tzeitTime(angle: number, timeFormat: Intl.DateTimeFormat): any[];
     }
 
     export interface Headers {
@@ -577,18 +525,6 @@ declare module '@hebcal/core' {
          */
         static hebrewStripNikkud(str: string): string;
     }
-
-    /**
-     * A simple Hebrew date
-     */
-    export type SimpleHebrewDate = {
-        /** Hebrew year */
-        yy: number;
-        /** Hebrew month of year (1=NISAN, 7=TISHREI) */
-        mm: number;
-        /** Day of month (1-30) */
-        dd: number;
-    };
 
     export interface DailyLearningOptions {
         [key: string]: any;
@@ -876,51 +812,6 @@ declare module '@hebcal/core' {
          * @return parts of a minute (0-17)
          */
         getChalakim(): number;
-    }
-
-    /**
-     * Gregorian date helper functions.
-     */
-    export class greg {
-        /**
-         * Long names of the Gregorian months (1='January', 12='December')
-         */
-        static monthNames: string[];
-        /**
-         * Returns true if the object is a Javascript Date
-         */
-        static isDate(obj: any): boolean;
-        /**
-         * Returns true if the Gregorian year is a leap year
-         * @param year - Gregorian year
-         */
-        static isLeapYear(year: number): boolean;
-        /**
-         * Number of days in the Gregorian month for given year
-         * @param month - Gregorian month (1=January, 12=December)
-         * @param year - Gregorian year
-         */
-        static daysInMonth(month: number, year: number): number;
-        /**
-         * Returns number of days since January 1 of that year
-         * @deprecated
-         * @param date - Gregorian date
-         */
-        static dayOfYear(date: Date): number;
-        /**
-         * Converts Gregorian date to absolute R.D. (Rata Die) days
-         * @param date - Gregorian date
-         */
-        static greg2abs(date: Date): number;
-        /**
-         * Converts from Rata Die (R.D. number) to Gregorian date.
-         * See the footnote on page 384 of ``Calendrical Calculations, Part II:
-         * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
-         * Clamen, Software--Practice and Experience, Volume 23, Number 4
-         * (April, 1993), pages 383-404 for an explanation.
-         * @param theDate - R.D. number of days
-         */
-        static abs2greg(theDate: number): Date;
     }
 
     /**
