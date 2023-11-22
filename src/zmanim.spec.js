@@ -59,9 +59,6 @@ test('zmanim', (t) => {
     actual[func] = f.format(dt).replace(/^24:/, '00:');
   }
   t.deepEqual(actual, expected);
-
-  t.is(Math.round(zman.hourMins()), 76);
-  t.is(Math.round(zman.nightHourMins()), 45);
 });
 
 test('zmanim-tlv', (t) => {
@@ -168,9 +165,6 @@ test('zmanim-denver', (t) => {
     actual[func] = f.format(dt).replace(/^24:/, '00:');
   }
   t.deepEqual(actual, expected);
-
-  t.is(Math.round(zman.hourMins()), 76);
-  t.is(Math.round(zman.nightHourMins()), 44);
 
   // "Tzais72": "2020-06-05T21:37:01-06:00"
   t.is(f.format(zman.sunsetOffset(72, false)), '06/05/2020, 21:37:01');
@@ -344,19 +338,16 @@ test('nightHourMins-dst', (t) => {
   const zman0 = new Zmanim(dt0, latitude, longitude);
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve()), '2022-03-11T17:46:05-05:00');
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset()), '2022-03-12T17:47:15-05:00');
-  t.is(Math.round(zman0.nightHourMins()), 61);
 
   const dt1 = new Date(2022, 2, 13); // March 14, 2022
   const zman1 = new Zmanim(dt1, latitude, longitude);
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.gregEve()), '2022-03-12T17:47:15-05:00');
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset()), '2022-03-13T18:48:25-04:00');
-  t.is(Math.round(zman1.nightHourMins()), 61); // not 181
 
   const dt2 = new Date(2022, 2, 14); // March 14, 2022
   const zman2 = new Zmanim(dt2, latitude, longitude);
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.gregEve()), '2022-03-13T18:48:25-04:00');
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.sunset()), '2022-03-14T18:49:35-04:00');
-  t.is(Math.round(zman2.nightHourMins()), 61);
 });
 
 test('bce', (t) => {

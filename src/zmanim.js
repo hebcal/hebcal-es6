@@ -120,88 +120,58 @@ export class Zmanim {
    * @return {Date}
    */
   timeAtAngle(angle, rising) {
-    if (this.noaa) {
-      const offsetZenith = 90 + angle;
-      const zdt = rising ? this.noaa.getSunriseOffsetByDegrees(offsetZenith) :
+    const offsetZenith = 90 + angle;
+    const zdt = rising ? this.noaa.getSunriseOffsetByDegrees(offsetZenith) :
         this.noaa.getSunsetOffsetByDegrees(offsetZenith);
-      return zdtToDate(zdt);
-    }
-    return this.sun.timeAtAngle(angle, rising);
+    return zdtToDate(zdt);
   }
   /**
    * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
    * @return {Date}
    */
   sunrise() {
-    if (this.noaa) {
-      const zdt = this.noaa.getSunrise();
-      return zdtToDate(zdt);
-    }
-    return this.sun.timeAtAngle(0.833333, true);
+    const zdt = this.noaa.getSunrise();
+    return zdtToDate(zdt);
   }
   /**
    * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
    * @return {Date}
    */
   seaLevelSunrise() {
-    if (this.noaa) {
-      const zdt = this.noaa.getSeaLevelSunrise();
-      return zdtToDate(zdt);
-    }
-    return this.sun.timeAtAngle(0.833333, true);
+    const zdt = this.noaa.getSeaLevelSunrise();
+    return zdtToDate(zdt);
   }
   /**
    * When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
    * @return {Date}
    */
   sunset() {
-    if (this.noaa) {
-      const zdt = this.noaa.getSunset();
-      return zdtToDate(zdt);
-    }
-    return this.sun.timeAtAngle(0.833333, false);
+    const zdt = this.noaa.getSunset();
+    return zdtToDate(zdt);
   }
   /**
    * When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
    * @return {Date}
    */
   seaLevelSunset() {
-    if (this.noaa) {
-      const zdt = this.noaa.getSeaLevelSunset();
-      return zdtToDate(zdt);
-    }
-    return this.sun.timeAtAngle(0.833333, false);
+    const zdt = this.noaa.getSeaLevelSunset();
+    return zdtToDate(zdt);
   }
   /**
    * Civil dawn; Sun is 6° below the horizon in the morning
    * @return {Date}
    */
   dawn() {
-    if (this.noaa) {
-      const zdt = this.noaa.getBeginCivilTwilight();
-      return zdtToDate(zdt);
-    }
-    return this.sun.timeAtAngle(6, true);
+    const zdt = this.noaa.getBeginCivilTwilight();
+    return zdtToDate(zdt);
   }
   /**
    * Civil dusk; Sun is 6° below the horizon in the evening
    * @return {Date}
    */
   dusk() {
-    if (this.noaa) {
-      const zdt = this.noaa.getEndCivilTwilight();
-      return zdtToDate(zdt);
-    }
-    return this.sun.timeAtAngle(6, false);
-  }
-  /** @return {number} */
-  hour() {
-    return (this.sunset() - this.sunrise()) / 12; // ms in hour
-  }
-  /** @return {number} */
-  hourMins() {
-    // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
-    return this.hour() / (1000 * 60);
+    const zdt = this.noaa.getEndCivilTwilight();
+    return zdtToDate(zdt);
   }
   /** @return {Date} */
   gregEve() {
@@ -210,32 +180,20 @@ export class Zmanim {
     const zman = new Zmanim(prev, this.latitude, this.longitude, this.elevation, this.tzid);
     return zman.sunset();
   }
-  /** @return {number} */
+  /**
+   * @private
+   * @return {number}
+   */
   nightHour() {
     return (this.sunrise() - this.gregEve()) / 12; // ms in hour
-  }
-  /** @return {number} */
-  nightHourMins() {
-    // hour in ms / (1000 ms in s * 60 s in m) = mins in halachic hour
-    return this.nightHour() / (1000 * 60);
-  }
-  /**
-     * @param {number} hours
-     * @return {Date}
-     */
-  hourOffset(hours) {
-    return new Date(this.sunrise().getTime() + (this.hour() * hours));
   }
   /**
    * Midday – Chatzot; Sunrise plus 6 halachic hours
    * @return {Date}
    */
   chatzot() {
-    if (this.noaa) {
-      const zdt = this.noaa.getSunTransit();
-      return zdtToDate(zdt);
-    }
-    return this.hourOffset(6);
+    const zdt = this.noaa.getSunTransit();
+    return zdtToDate(zdt);
   }
   /**
    * Midnight – Chatzot; Sunset plus 6 halachic hours
@@ -284,20 +242,14 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanShma() { // Gra
-    if (this.noaa) {
-      return this.getShaahZmanisBasedZman(3);
-    }
-    return this.hourOffset(3);
+    return this.getShaahZmanisBasedZman(3);
   }
   /**
    * Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra
    * @return {Date}
    */
   sofZmanTfilla() { // Gra
-    if (this.noaa) {
-      return this.getShaahZmanisBasedZman(4);
-    }
-    return this.hourOffset(4);
+    return this.getShaahZmanisBasedZman(4);
   }
   /**
    * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham
@@ -324,30 +276,21 @@ export class Zmanim {
    * @return {Date}
    */
   minchaGedola() {
-    if (this.noaa) {
-      return this.getShaahZmanisBasedZman(6.5);
-    }
-    return this.hourOffset(6.5);
+    return this.getShaahZmanisBasedZman(6.5);
   }
   /**
    * Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours
    * @return {Date}
    */
   minchaKetana() {
-    if (this.noaa) {
-      return this.getShaahZmanisBasedZman(9.5);
-    }
-    return this.hourOffset(9.5);
+    return this.getShaahZmanisBasedZman(9.5);
   }
   /**
    * Plag haMincha; Sunrise plus 10.75 halachic hours
    * @return {Date}
    */
   plagHaMincha() {
-    if (this.noaa) {
-      return this.getShaahZmanisBasedZman(10.75);
-    }
-    return this.hourOffset(10.75);
+    return this.getShaahZmanisBasedZman(10.75);
   }
   /**
    * @param {number} [angle=8.5] optional time for solar depression.

@@ -402,12 +402,7 @@ declare module '@hebcal/core' {
         dawn(): Date;
         /** Civil dusk; Sun is 6° below the horizon in the evening */
         dusk(): Date;
-        hour(): number;
-        hourMins(): number;
         gregEve(): Date;
-        nightHour(): number;
-        nightHourMins(): number;
-        hourOffset(hours: number): Date;
         /** Midday – Chatzot; Sunrise plus 6 halachic hours */
         chatzot(): Date;
         /** Midnight – Chatzot; Sunset plus 6 halachic hours */
