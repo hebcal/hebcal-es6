@@ -807,6 +807,53 @@ declare module '@hebcal/core' {
     }
 
     /**
+     * Gregorian date helper functions.
+     */
+    export declare namespace greg {
+        /**
+         * Long names of the Gregorian months (1='January', 12='December')
+         * @readonly
+         * @type {string[]}
+         */
+        const monthNames: string[];
+        /**
+         * Returns true if the Gregorian year is a leap year
+         * @param {number} year Gregorian year
+         * @return {boolean}
+         */
+        function isLeapYear(year: number): boolean;
+        /**
+         * Number of days in the Gregorian month for given year
+         * @param {number} month Gregorian month (1=January, 12=December)
+         * @param {number} year Gregorian year
+         * @return {number}
+         */
+        function daysInMonth(month: number, year: number): number;
+        /**
+         * Returns true if the object is a Javascript Date
+         * @param {Object} obj
+         * @return {boolean}
+         */
+        function isDate(obj: any): boolean;
+        /**
+         * Converts Gregorian date to absolute R.D. (Rata Die) days
+         * @param {Date} date Gregorian date
+         * @return {number}
+         */
+        function greg2abs(date: Date): number;
+        /**
+         * Converts from Rata Die (R.D. number) to Gregorian date.
+         * See the footnote on page 384 of ``Calendrical Calculations, Part II:
+         * Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
+         * Clamen, Software--Practice and Experience, Volume 23, Number 4
+         * (April, 1993), pages 383-404 for an explanation.
+         * @param {number} abs - R.D. number of days
+         * @return {Date}
+         */
+        function abs2greg(abs: number): Date;
+    }
+
+    /**
      * Hebrew months of the year (NISAN=1, TISHREI=7)
      */
     export const enum months {

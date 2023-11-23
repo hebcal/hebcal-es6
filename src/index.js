@@ -1,5 +1,6 @@
 export {gematriya, gematriyaStrToNum} from './gematriya';
 export {Locale} from './locale';
+export {greg} from '@hebcal/hdate';
 export {HDate, months} from './hdate';
 export {HebrewDateEvent} from './HebrewDateEvent';
 export {Event, flags} from './event';
