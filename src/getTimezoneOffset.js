@@ -1,4 +1,4 @@
-const _formatters = {};
+const _formatters = new Map();
 
 /**
  * @private
@@ -6,7 +6,7 @@ const _formatters = {};
  * @return {Intl.DateTimeFormat}
  */
 function getFormatter(tzid) {
-  const fmt = _formatters[tzid];
+  const fmt = _formatters.get(tzid);
   if (fmt) return fmt;
   const f = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
@@ -18,7 +18,7 @@ function getFormatter(tzid) {
     hour12: false,
     timeZone: tzid,
   });
-  _formatters[tzid] = f;
+  _formatters.set(tzid, f);
   return f;
 }
 

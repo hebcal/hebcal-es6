@@ -324,7 +324,7 @@ export function getSedra_(hyear, il) {
 
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';
-const yearCache = Object.create(null);
+const yearCache = new Map();
 
 const KEYCAP_DIGITS = [
   '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣',
@@ -345,7 +345,7 @@ export function getHolidaysForYear_(year) {
   } else if (year < 1 || year > 32658) {
     throw new RangeError(`Hebrew year ${year} out of range 1-32658`);
   }
-  const cached = yearCache[year];
+  const cached = yearCache.get(year);
   if (cached) {
     return cached;
   }
@@ -547,7 +547,7 @@ export function getHolidaysForYear_(year) {
     add(new HolidayEvent(hd, 'Birkat Hachamah', MINOR_HOLIDAY, {emoji: '☀️'}));
   }
 
-  yearCache[year] = h;
+  yearCache.set(year, h);
   return h;
 }
 

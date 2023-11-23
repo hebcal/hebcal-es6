@@ -149,7 +149,7 @@ export class Sedra {
       }
       return new HDate(this.firstSaturday + (idx * 7));
     } else if (typeof parsha === 'string') {
-      const num = parsha2id[parsha];
+      const num = parsha2id.get(parsha);
       if (typeof num === 'number') {
         return this.find(num);
       } else if (parsha.indexOf('-') !== -1) {
@@ -169,8 +169,8 @@ export class Sedra {
                typeof parsha[0] === 'string' && typeof parsha[1] === 'string') {
       const p1 = parsha[0];
       const p2 = parsha[1];
-      const num1 = parsha2id[p1];
-      const num2 = parsha2id[p2];
+      const num1 = parsha2id.get(p1);
+      const num2 = parsha2id.get(p2);
       if (num2 === num1 + 1) {
         return this.find(-num1);
       } else {
@@ -297,10 +297,10 @@ export const parshiot = [
   'Ha\'azinu',
 ];
 
-const parsha2id = {};
+const parsha2id = new Map();
 for (let id = 0; id < parshiot.length; id++) {
   const name = parshiot[id];
-  parsha2id[name] = id;
+  parsha2id.set(name, id);
 }
 
 /**

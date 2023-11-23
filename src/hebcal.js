@@ -72,7 +72,7 @@ const EREV = flags.EREV;
 const CHOL_HAMOED = flags.CHOL_HAMOED;
 const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
 
-const unrecognizedAlreadyWarned = Object.create(null);
+const unrecognizedAlreadyWarned = new Set();
 const RECOGNIZED_OPTIONS = {
   location: 1,
   year: 1,
@@ -114,9 +114,9 @@ const RECOGNIZED_OPTIONS = {
  */
 function warnUnrecognizedOptions(options) {
   Object.keys(options).forEach((k) => {
-    if (typeof RECOGNIZED_OPTIONS[k] === 'undefined' && !unrecognizedAlreadyWarned[k]) {
+    if (typeof RECOGNIZED_OPTIONS[k] === 'undefined' && !unrecognizedAlreadyWarned.has(k)) {
       console.warn(`Ignoring unrecognized HebrewCalendar option: ${k}`);
-      unrecognizedAlreadyWarned[k] = true;
+      unrecognizedAlreadyWarned.add(k);
     }
   });
 }
@@ -489,7 +489,7 @@ function observedInDiaspora(ev) {
   return ev.observedInDiaspora();
 }
 
-const yearArrayCache = Object.create(null);
+const yearArrayCache = new Map();
 
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
@@ -811,7 +811,7 @@ export class HebrewCalendar {
    */
   static getHolidaysForYearArray(year, il) {
     const cacheKey = `${year}-${il ? 1 : 0}`;
-    let events = yearArrayCache[cacheKey];
+    let events = yearArrayCache.get(cacheKey);
     if (events) {
       return events;
     }
@@ -828,7 +828,7 @@ export class HebrewCalendar {
         events = events.concat(filtered);
       }
     }
-    yearArrayCache[cacheKey] = events;
+    yearArrayCache.set(cacheKey, events);
     return events;
   }
 

@@ -1,5 +1,5 @@
 /** @private */
-const cals = Object.create(null);
+const cals = new Map();
 
 /**
  * Plug-ins for daily learning calendars such as Daf Yomi, Mishna Yomi, Nach Yomi, etc.
@@ -16,7 +16,7 @@ export class DailyLearning {
     if (typeof calendar !== 'function') {
       throw new TypeError(`Invalid calendar function: ${calendar}`);
     }
-    cals[name] = calendar;
+    cals.set(name, calendar);
   }
 
   /**
@@ -27,7 +27,7 @@ export class DailyLearning {
    * @return {Event}
    */
   static lookup(name, hd) {
-    const fn = cals[name];
+    const fn = cals.get(name);
     if (typeof fn === 'function') {
       return fn(hd);
     }

@@ -10,7 +10,7 @@ const alias = {
 };
 
 /** @private */
-const locales = Object.create(null);
+const locales = new Map();
 /** @private */
 let activeLocale = null;
 /** @private */
@@ -34,7 +34,7 @@ export class Locale {
    */
   static lookupTranslation(id, locale) {
     const locale0 = locale?.toLowerCase();
-    const loc = (typeof locale == 'string' && locales[locale0]) || activeLocale;
+    const loc = (typeof locale == 'string' && locales.get(locale0)) || activeLocale;
     const array = loc[id];
     if (array && array.length && array[0].length) {
       return array[0];
@@ -68,7 +68,7 @@ export class Locale {
     if (typeof data.contexts !== 'object' || typeof data.contexts[''] !== 'object') {
       throw new TypeError(`Locale '${locale}' invalid compact format`);
     }
-    locales[locale.toLowerCase()] = data.contexts[''];
+    locales.set(locale.toLowerCase(), data.contexts['']);
   }
 
   /**
@@ -82,7 +82,7 @@ export class Locale {
       throw new TypeError(`Invalid locale name: ${locale}`);
     }
     const locale0 = locale.toLowerCase();
-    const loc = locales[locale0];
+    const loc = locales.get(locale0);
     if (!loc) {
       throw new TypeError(`Unknown locale: ${locale}`);
     }
@@ -110,7 +110,7 @@ export class Locale {
       throw new TypeError(`Invalid locale name: ${locale}`);
     }
     const locale0 = locale.toLowerCase();
-    const loc = locales[locale0];
+    const loc = locales.get(locale0);
     if (!loc) {
       throw new TypeError(`Unknown locale: ${locale}`);
     }
@@ -131,7 +131,7 @@ export class Locale {
    */
   static useLocale(locale) {
     const locale0 = locale.toLowerCase();
-    const obj = locales[locale0];
+    const obj = locales.get(locale0);
     if (!obj) {
       throw new RangeError(`Locale '${locale}' not found`);
     }
@@ -153,7 +153,8 @@ export class Locale {
    * @return {string[]}
    */
   static getLocaleNames() {
-    return Object.keys(locales).sort((a, b) => a.localeCompare(b));
+    const keys = Array.from(locales.keys());
+    return keys.sort((a, b) => a.localeCompare(b));
   }
 
   /**

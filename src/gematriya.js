@@ -25,10 +25,10 @@ const heb2num = {
   'ש': 300,
   'ת': 400,
 };
-const num2heb = {};
+const num2heb = new Map();
 Object.keys(heb2num).forEach((key) => {
   const val = heb2num[key];
-  num2heb[val] = key;
+  num2heb.set(val, key);
 });
 
 /**
@@ -81,19 +81,19 @@ export function gematriya(number) {
   if (thousands > 0 && thousands !== 5) {
     const tdigits = num2digits(thousands);
     for (const tdig of tdigits) {
-      str += num2heb[tdig];
+      str += num2heb.get(tdig);
     }
     str += GERESH;
   }
   const digits = num2digits(num % 1000);
   if (digits.length == 1) {
-    return str + num2heb[digits[0]] + GERESH;
+    return str + num2heb.get(digits[0]) + GERESH;
   }
   for (let i = 0; i < digits.length; i++) {
     if (i + 1 === digits.length) {
       str += GERSHAYIM;
     }
-    str += num2heb[digits[i]];
+    str += num2heb.get(digits[i]);
   }
   return str;
 }
