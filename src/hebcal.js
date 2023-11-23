@@ -682,8 +682,7 @@ export class HebrewCalendar {
         const omer = abs - beginOmer + 1;
         const omerEv = new OmerEvent(hd, omer);
         if (options.candlelighting) {
-          const zmanim = new Zmanim(hd.prev(), location.getLatitude(), location.getLongitude(),
-              location.elevation, location.getTzid());
+          const zmanim = new Zmanim(location, hd.prev());
           const tzeit = zmanim.tzeit(7.0833);
           if (!isNaN(tzeit.getTime())) {
             omerEv.alarm = tzeit;

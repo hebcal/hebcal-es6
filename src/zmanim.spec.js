@@ -1,4 +1,5 @@
 import test from 'ava';
+import {GeoLocation} from '@hebcal/noaa';
 import {Zmanim} from './zmanim';
 
 // eslint-disable-next-line require-jsdoc
@@ -6,7 +7,8 @@ function makeZman() {
   const latitude = 41.85003;
   const longitude = -87.65005;
   const dt = new Date(2020, 5, 5, 12); // Friday June 5 2020
-  const zman = new Zmanim(dt, latitude, longitude);
+  const gloc = new GeoLocation(null, latitude, longitude, 0, 'America/Chicago');
+  const zman = new Zmanim(gloc, dt);
   return zman;
 }
 
@@ -17,7 +19,8 @@ function makeZmanWithElevation() {
   const elevtion = 1636;
   const tzid = 'America/Denver';
   const dt = new Date(2020, 5, 5, 12); // Friday June 5 2020
-  const zman = new Zmanim(dt, latitude, longitude, elevtion, tzid);
+  const gloc = new GeoLocation(null, latitude, longitude, elevtion, tzid);
+  const zman = new Zmanim(gloc, dt);
   return zman;
 }
 
@@ -63,8 +66,9 @@ test('zmanim', (t) => {
 
 test('zmanim-tlv', (t) => {
   const dt = new Date(2021, 2, 6, 12); // March 6 2021
-  const zman = new Zmanim(dt, 32.08088, 34.78057);
   const tzid = 'Asia/Jerusalem';
+  const gloc = new GeoLocation(null, 32.08088, 34.78057, 0, tzid);
+  const zman = new Zmanim(gloc, dt);
   const f = new Intl.DateTimeFormat('en-US', {
     timeZone: tzid,
     year: 'numeric',
@@ -171,29 +175,11 @@ test('zmanim-denver', (t) => {
 });
 
 test('throws', (t) => {
+  const gloc = new GeoLocation(null, 0, 0, 21, 'UTC');
   const error = t.throws(() => {
-    new Zmanim(123, 44, 55);
+    new Zmanim(gloc, 123);
   }, {instanceOf: TypeError});
   t.is(error.message, 'invalid date: 123');
-
-  const error2 = t.throws(() => {
-    new Zmanim(new Date(), 33, 'def');
-  }, {instanceOf: TypeError});
-  t.is(error2.message, 'Invalid longitude');
-  const error2b = t.throws(() => {
-    new Zmanim(new Date(), 'abc', 33);
-  }, {instanceOf: TypeError});
-  t.is(error2b.message, 'Invalid latitude');
-
-  const error3 = t.throws(() => {
-    new Zmanim(new Date(), 100, 100);
-  }, {instanceOf: RangeError});
-  t.is(error3.message, 'Latitude 100 out of range [-90,90]');
-
-  const error4 = t.throws(() => {
-    new Zmanim(new Date(), 44, -200);
-  }, {instanceOf: RangeError});
-  t.is(error4.message, 'Longitude -200 out of range [-180,180]');
 });
 
 test('roundTime', (t) => {
@@ -332,29 +318,29 @@ test('formatISOWithTimeZone', (t) => {
 });
 
 test('nightHourMins-dst', (t) => {
-  const [latitude, longitude, tzid] = [42.35843, -71.05977, 'America/New_York']; // Boston
+  const tzid = 'America/New_York';
+  const gloc = new GeoLocation(null, 42.35843, -71.05977, 0, tzid); // Boston
 
   const dt0 = new Date(2022, 2, 12); // March 12, 2022 - before DST
-  const zman0 = new Zmanim(dt0, latitude, longitude);
+  const zman0 = new Zmanim(gloc, dt0);
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve()), '2022-03-11T17:46:05-05:00');
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset()), '2022-03-12T17:47:15-05:00');
 
   const dt1 = new Date(2022, 2, 13); // March 14, 2022
-  const zman1 = new Zmanim(dt1, latitude, longitude);
+  const zman1 = new Zmanim(gloc, dt1);
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.gregEve()), '2022-03-12T17:47:15-05:00');
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset()), '2022-03-13T18:48:25-04:00');
 
   const dt2 = new Date(2022, 2, 14); // March 14, 2022
-  const zman2 = new Zmanim(dt2, latitude, longitude);
+  const zman2 = new Zmanim(gloc, dt2);
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.gregEve()), '2022-03-13T18:48:25-04:00');
   t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.sunset()), '2022-03-14T18:49:35-04:00');
 });
 
 test('bce', (t) => {
-  const latitude = 41.85003;
-  const longitude = -87.65005;
+  const gloc = new GeoLocation(null, 41.85003, -87.65005, 0, 'UTC');
   const dt = new Date(-1234, 5, 5, 12, 0, 0);
-  const zman = new Zmanim(dt, latitude, longitude);
+  const zman = new Zmanim(gloc, dt);
   t.deepEqual(zman.sunrise(), new Date('-001234-06-05 10:08:09 UTC'));
   t.deepEqual(zman.sunset(), new Date('-001234-06-06 01:14:12 UTC'));
 });
@@ -408,6 +394,7 @@ test('jlem-sunset', (t) => {
   const longitude = 35.21633;
   const elevtion = 786;
   const tzid = 'Asia/Jerusalem';
+  const gloc = new GeoLocation(null, latitude, longitude, elevtion, tzid);
   const f = new Intl.DateTimeFormat('en-US', {
     timeZone: tzid,
     hour: 'numeric',
@@ -421,7 +408,7 @@ test('jlem-sunset', (t) => {
     [new Date(2023, 5, 26), '19:53'], // Tisha B'Av 6/26/2023
   ];
   for (const [dt, expected] of toTest) {
-    const zman = new Zmanim(dt, latitude, longitude, elevtion, tzid);
+    const zman = new Zmanim(gloc, dt);
     const sunset = zman.sunset();
     const actual = f.format(sunset);
     t.is(actual, expected, dt.toDateString());
@@ -430,7 +417,8 @@ test('jlem-sunset', (t) => {
 
 
 test('zmanim-UTC', (t) => {
-  const zman = new Zmanim(new Date(2020, 5, 5), 0, 0, 21, 'UTC');
+  const gloc = new GeoLocation(null, 0, 0, 21, 'UTC');
+  const zman = new Zmanim(gloc, new Date(2020, 5, 5));
   const f = new Intl.DateTimeFormat('en-US', {
     timeZone: 'UTC',
     hour: 'numeric',

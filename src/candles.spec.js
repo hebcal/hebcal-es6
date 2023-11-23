@@ -628,6 +628,7 @@ test('makeFastStartEnd', (t) => {
   };
   const ev2 = makeFastStartEnd(ev, options);
   const startEvent = ev2.startEvent;
+  t.not(startEvent, null);
   t.is(startEvent.eventTime.toISOString(), '2023-07-27T00:10:00.000Z');
   t.is(startEvent.eventTimeStr, '20:10');
 });

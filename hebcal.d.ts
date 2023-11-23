@@ -1,4 +1,4 @@
-/// <reference types="node"/>
+import { GeoLocation } from '@hebcal/noaa';
 
 declare module '@hebcal/core' {
     export const version: string;
@@ -281,7 +281,7 @@ declare module '@hebcal/core' {
     /**
      * A Hebcal location is used for Zmanim and a latitude, longitude, timezone, and more
      */
-    export class Location {
+    export class Location extends GeoLocation {
         /**
          * Initialize a Location instance
          * @param latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
@@ -362,14 +362,11 @@ declare module '@hebcal/core' {
     export class Zmanim {
         /**
          * Initialize a Zmanim instance
+         * @param gloc GeoLocation including latitude, longitude, and timezone
          * @param date Regular or Hebrew Date. If `date` is a regular `Date`,
          *    hours, minutes, seconds and milliseconds are ignored
-         * @param latitude Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
-         * @param longitude Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
-         * @param [elevation=0] in meters (default `0`)
-         * @param [tzid] Olson timezone ID, e.g. "America/Chicago"
          */
-        constructor(date: Date | HDate, latitude: number, longitude: number, elevation?: number, tzid?: string);
+        constructor(gloc: GeoLocation, date: Date | HDate);
 
         /**
          * Returns a string like "2022-04-01T13:06:00-11:00"

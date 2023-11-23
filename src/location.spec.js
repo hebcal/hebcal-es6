@@ -14,14 +14,14 @@ test('lookup', (t) => {
   t.is(loc2.elevation, 786);
 
   const providence = Location.lookup('Providence');
-  t.is(providence.latitude, 41.82399);
-  t.is(providence.longitude, -71.41283);
-  t.is(providence.tzid, 'America/New_York');
+  t.is(providence.getLatitude(), 41.82399);
+  t.is(providence.getLongitude(), -71.41283);
+  t.is(providence.getTzid(), 'America/New_York');
 
   const melbourne = Location.lookup('Melbourne');
-  t.is(melbourne.latitude, -37.814);
-  t.is(melbourne.longitude, 144.96332);
-  t.is(melbourne.tzid, 'Australia/Melbourne');
+  t.is(melbourne.getLatitude(), -37.814);
+  t.is(melbourne.getLongitude(), 144.96332);
+  t.is(melbourne.getTzid(), 'Australia/Melbourne');
   t.is(melbourne.cc, 'AU');
 });
 
@@ -112,12 +112,6 @@ test('shortName-DC', (t) => {
 
   const loc3 = new Location(38.908089, -76.976663, false, 'America/New_York', 'Dover, DE 19901', 'US', '19901');
   t.is(loc3.getShortName(), 'Dover');
-});
-
-test('toString', (t) => {
-  const loc = new Location(32.1836, 34.87386, true, 'Asia/Jerusalem', 'Ra\'anana', 'IL', 54321);
-  // eslint-disable-next-line max-len
-  t.is(loc.toString(), '{"latitude":32.1836,"longitude":34.87386,"il":true,"tzid":"Asia/Jerusalem","name":"Ra\'anana","cc":"IL","geoid":54321}');
 });
 
 test('throws', (t) => {

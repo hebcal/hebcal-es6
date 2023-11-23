@@ -18,6 +18,7 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import {GeoLocation} from '@hebcal/noaa';
 
 const classicCities0 = [
   ['Ashdod', 'IL', 31.79213, 34.64966, 'Asia/Jerusalem', 27],
@@ -86,7 +87,7 @@ const classicCities0 = [
   ['Washington DC', 'US', 38.89511, -77.03637, 'America/New_York', 6],
   ['Worcester', 'US', 42.26259, -71.80229, 'America/New_York', 164],
 ];
-const classicCities = Object.create(null);
+const classicCities = new Map();
 
 // Zip-Codes.com TimeZone IDs
 const ZIPCODES_TZ_MAP = {
@@ -106,7 +107,7 @@ const ZIPCODES_TZ_MAP = {
 };
 
 /** @private */
-const timeFormatCache = Object.create(null);
+const timeFormatCache = new Map();
 
 /**
  * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) from cache
@@ -116,7 +117,7 @@ const timeFormatCache = Object.create(null);
  * @return {Intl.DateTimeFormat}
  */
 function getFormatter(tzid) {
-  const fmt = timeFormatCache[tzid];
+  const fmt = timeFormatCache.get(tzid);
   if (fmt) return fmt;
   const f = new Intl.DateTimeFormat('en-US', {
     timeZone: tzid,
@@ -124,12 +125,12 @@ function getFormatter(tzid) {
     minute: 'numeric',
     hour12: false,
   });
-  timeFormatCache[tzid] = f;
+  timeFormatCache.set(tzid, f);
   return f;
 }
 
 /** Class representing Location */
-export class Location {
+export class Location extends GeoLocation {
   /**
    * Initialize a Location instance
    * @param {number} latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
@@ -150,26 +151,11 @@ export class Location {
     if (isNaN(long) || long < -180 || long > 180) {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
-    this.latitude = lat;
-    this.longitude = long;
+    const elev = (typeof elevation === 'number' && elevation > 0) ? elevation : 0;
+    super(cityName, lat, long, elev, tzid);
     this.il = Boolean(il);
-    this.tzid = tzid;
-    this.name = cityName;
     this.cc = countryCode;
     this.geoid = geoid;
-    if (typeof elevation === 'number' && elevation > 0) {
-      this.elevation = elevation;
-    }
-  }
-
-  /** @return {number} */
-  getLatitude() {
-    return this.latitude;
-  }
-
-  /** @return {number} */
-  getLongitude() {
-    return this.longitude;
   }
 
   /** @return {boolean} */
@@ -179,7 +165,7 @@ export class Location {
 
   /** @return {string} */
   getName() {
-    return this.name;
+    return this.getLocationName();
   }
 
   /**
@@ -187,7 +173,7 @@ export class Location {
    * @return {string}
    */
   getShortName() {
-    const name = this.name;
+    const name = this.getLocationName();
     if (!name) return name;
     const comma = name.indexOf(', ');
     if (comma === -1) return name;
@@ -208,7 +194,7 @@ export class Location {
 
   /** @return {string} */
   getTzid() {
-    return this.tzid;
+    return this.getTimeZone();
   }
 
   /**
@@ -216,7 +202,7 @@ export class Location {
    * @return {Intl.DateTimeFormat}
    */
   getTimeFormatter() {
-    return getFormatter(this.tzid);
+    return getFormatter(this.getTimeZone());
   }
 
   /** @return {string} */
@@ -244,7 +230,7 @@ export class Location {
    * @return {Location}
    */
   static lookup(name) {
-    return classicCities[name.toLowerCase()];
+    return classicCities.get(name.toLowerCase());
   }
 
   /** @return {string} */
@@ -313,10 +299,10 @@ export class Location {
    */
   static addLocation(cityName, location) {
     const name = cityName.toLowerCase();
-    if (classicCities[name]) {
+    if (classicCities.has(name)) {
       return false;
     }
-    classicCities[name] = location;
+    classicCities.set(name, location);
     return true;
   }
 }

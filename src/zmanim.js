@@ -3,7 +3,7 @@ import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
 import {greg} from '@hebcal/hdate';
 import {throwTypeError} from './throwTypeError';
 import {Temporal} from 'temporal-polyfill';
-import {GeoLocation, NOAACalculator} from '@hebcal/noaa';
+import {NOAACalculator} from '@hebcal/noaa';
 
 /**
  * @private
@@ -32,27 +32,6 @@ function zdtToDate(zdt) {
 }
 
 /**
- * @typedef {Object} ZmanimTimesResult
- * @property {Date} dawn
- * @property {Date} dusk
- * @property {Date} goldenHour
- * @property {Date} goldenHourEnd
- * @property {Date} nauticalDawn
- * @property {Date} nauticalDusk
- * @property {Date} night
- * @property {Date} nightEnd
- * @property {Date} solarNoon
- * @property {Date} sunrise
- * @property {Date} sunriseEnd
- * @property {Date} sunset
- * @property {Date} sunsetStart
- * @property {Date} alotHaShachar
- * @property {Date} misheyakir
- * @property {Date} misheyakirMachmir
- * @property {Date} tzeit
-*/
-
-/**
  * Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
  * Calculations are available for tzeit / tzais (nightfall),
  * shkiah (sunset) and more.
@@ -68,44 +47,29 @@ function zdtToDate(zdt) {
  * https://gml.noaa.gov/grad/solcalc/calcdetails.html
  *
  * @example
- * const {Zmanim} = require('@hebcal/core');
+ * const {GeoLocation, Zmanim} = require('@hebcal/core');
  * const latitude = 41.822232;
  * const longitude = -71.448292;
+ * const tzid = 'America/New_York';
  * const friday = new Date(2023, 8, 8);
- * const zmanim = new Zmanim(friday, latitude, longitude);
+ * const gloc = new GeoLocation(null, latitude, longitude, 0, tzid);
+ * const zmanim = new Zmanim(gloc, friday);
  * const candleLighting = zmanim.sunsetOffset(-18, true);
- * const timeStr = Zmanim.formatISOWithTimeZone('America/New_York', candleLighting);
+ * const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
  */
 export class Zmanim {
   /**
-     * Initialize a Zmanim instance.
-     * @param {Date|HDate} date Regular or Hebrew Date. If `date` is a regular `Date`,
-     *    hours, minutes, seconds and milliseconds are ignored.
-     * @param {number} latitude Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
-     * @param {number} longitude Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
-     * @param {number} [elevation] in meters (default `0`)
-     * @param {string} [tzid] Olson timezone ID, e.g. "America/Chicago"
-     */
-  constructor(date, latitude, longitude, elevation, tzid) {
-    if (typeof latitude !== 'number') throw new TypeError('Invalid latitude');
-    if (typeof longitude !== 'number') throw new TypeError('Invalid longitude');
-    if (latitude < -90 || latitude > 90) {
-      throw new RangeError(`Latitude ${latitude} out of range [-90,90]`);
-    }
-    if (longitude < -180 || longitude > 180) {
-      throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
-    }
+   * Initialize a Zmanim instance.
+   * @param {GeoLocation} gloc GeoLocation including latitude, longitude, and timezone
+   * @param {Date|HDate} date Regular or Hebrew Date. If `date` is a regular `Date`,
+   *    hours, minutes, seconds and milliseconds are ignored.
+   */
+  constructor(gloc, date) {
     const dt = greg.isDate(date) ? date :
         HDate.isHDate(date) ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
     this.date = dt;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    elevation = +elevation || 0;
-    this.elevation = elevation;
-    tzid = tzid || 'UTC';
-    this.tzid = tzid;
-    const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
+    this.gloc = gloc;
     const plainDate = Temporal.PlainDate.from({
       year: dt.getFullYear(),
       month: dt.getMonth() + 1,
@@ -177,7 +141,7 @@ export class Zmanim {
   gregEve() {
     const prev = new Date(this.date);
     prev.setDate(prev.getDate() - 1);
-    const zman = new Zmanim(prev, this.latitude, this.longitude, this.elevation, this.tzid);
+    const zman = new Zmanim(this.gloc, prev);
     return zman.sunset();
   }
   /**
