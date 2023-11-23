@@ -3,6 +3,7 @@ export {Locale} from './locale';
 export {HDate, months} from './hdate';
 export {HebrewDateEvent} from './HebrewDateEvent';
 export {Event, flags} from './event';
+export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 export {Location} from './location';
 export {Zmanim} from './zmanim';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './candles';
@@ -15,4 +16,3 @@ export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
 export {DailyLearning} from './DailyLearning';
 export {HebrewCalendar} from './hebcal';
 export {version} from '../package.json';
-export {GeoLocation, NOAACalculator} from '@hebcal/noaa';

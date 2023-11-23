@@ -67,6 +67,26 @@ holidays. <code>@hebcal/core</code> supports four locales by default</p>
 <dt><a href="#HebrewDateEvent">HebrewDateEvent</a></dt>
 <dd><p>Daily Hebrew date (&quot;11th of Sivan, 5780&quot;)</p>
 </dd>
+<dt><a href="#GeoLocation">GeoLocation</a></dt>
+<dd><p>A class that contains location information such as latitude and longitude required for astronomical calculations. The
+elevation field may not be used by some calculation engines and would be ignored if set. Check the documentation for
+specific implementations of the <a href="AstronomicalCalculator">AstronomicalCalculator</a> to see if elevation is calculated as part of the
+algorithm.</p>
+</dd>
+<dt><a href="#NOAACalculator">NOAACalculator</a></dt>
+<dd><p>Implementation of sunrise and sunset methods to calculate astronomical times based on the <a
+href="http://noaa.gov">NOAA</a> algorithm. This calculator uses the Java algorithm based on the implementation by <a
+href="http://noaa.gov">NOAA - National Oceanic and Atmospheric Administration</a>&#39;s <a href =
+"http://www.srrb.noaa.gov/highlights/sunrise/sunrise.html">Surface Radiation Research Branch</a>. NOAA&#39;s <a
+href="http://www.srrb.noaa.gov/highlights/sunrise/solareqns.PDF">implementation</a> is based on equations from <a
+href="http://www.willbell.com/math/mc1.htm">Astronomical Algorithms</a> by <a
+href="http://en.wikipedia.org/wiki/Jean_Meeus">Jean Meeus</a>. Added to the algorithm is an adjustment of the zenith
+to account for elevation. The algorithm can be found in the <a
+href="http://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation</a> article.</p>
+</dd>
+<dt><a href="#Location">Location</a></dt>
+<dd><p>Class representing Location</p>
+</dd>
 <dt><a href="#Zmanim">Zmanim</a></dt>
 <dd><p>Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
 Calculations are available for tzeit / tzais (nightfall),
@@ -79,9 +99,6 @@ locations between +/- 72° latitude, and within 10 minutes outside of those lati
 However, due to variations in atmospheric composition, temperature, pressure and
 conditions, observed values may vary from calculations.
 <a href="https://gml.noaa.gov/grad/solcalc/calcdetails.html">https://gml.noaa.gov/grad/solcalc/calcdetails.html</a></p>
-</dd>
-<dt><a href="#Location">Location</a></dt>
-<dd><p>Class representing Location</p>
 </dd>
 <dt><a href="#TimedEvent">TimedEvent</a></dt>
 <dd><p>An event that has an <code>eventTime</code> and <code>eventTimeStr</code></p>
@@ -132,12 +149,17 @@ Event names can be rendered in several languges using the <code>locale</code> op
 </dd>
 </dl>
 
-## Constants
+## Members
 
 <dl>
 <dt><a href="#greg">greg</a></dt>
 <dd><p>Gregorian date helper functions.</p>
 </dd>
+</dl>
+
+## Constants
+
+<dl>
 <dt><a href="#parshiot">parshiot</a> : <code>Array.&lt;string&gt;</code></dt>
 <dd><p>The 54 parshiyot of the Torah as transilterated strings
 parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] == &quot;Ha&#39;azinu&quot;.</p>
@@ -158,13 +180,87 @@ we omit the thousands (which is presently 5 [ה]).</p>
 Ignores final Hebrew letters such as <code>ך</code> (kaf sofit) or <code>ם</code> (mem sofit)
 and vowels (nekudot).</p>
 </dd>
+<dt><a href="#hebrew2abs">hebrew2abs(year, month, day)</a> ⇒ <code>number</code></dt>
+<dd><p>Converts Hebrew date to R.D. (Rata Die) fixed days.
+R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
+Calendar.</p>
+</dd>
+<dt><a href="#abs2hebrew">abs2hebrew(abs)</a> ⇒ <code>SimpleHebrewDate</code></dt>
+<dd><p>Converts absolute R.D. days to Hebrew date</p>
+</dd>
+<dt><a href="#isLeapYear">isLeapYear(year)</a> ⇒ <code>boolean</code></dt>
+<dd><p>Returns true if Hebrew year is a leap year</p>
+</dd>
+<dt><a href="#monthsInYear">monthsInYear(year)</a> ⇒ <code>number</code></dt>
+<dd><p>Number of months in this Hebrew year (either 12 or 13 depending on leap year)</p>
+</dd>
+<dt><a href="#daysInMonth">daysInMonth(month, year)</a> ⇒ <code>number</code></dt>
+<dd><p>Number of days in Hebrew month in a given year (29 or 30)</p>
+</dd>
+<dt><a href="#getMonthName">getMonthName(month, year)</a></dt>
+<dd><p>Returns a transliterated string name of Hebrew month in year,
+for example &#39;Elul&#39; or &#39;Cheshvan&#39;.</p>
+</dd>
+<dt><a href="#elapsedDays">elapsedDays(year)</a> ⇒ <code>number</code></dt>
+<dd><p>Days from sunday prior to start of Hebrew calendar to mean
+conjunction of Tishrei in Hebrew YEAR</p>
+</dd>
+<dt><a href="#daysInYear">daysInYear(year)</a> ⇒ <code>number</code></dt>
+<dd><p>Number of days in the hebrew YEAR.
+A common Hebrew calendar year can have a length of 353, 354 or 355 days
+A leap Hebrew calendar year can have a length of 383, 384 or 385 days</p>
+</dd>
+<dt><a href="#longCheshvan">longCheshvan(year)</a> ⇒ <code>boolean</code></dt>
+<dd><p>true if Cheshvan is long in Hebrew year</p>
+</dd>
+<dt><a href="#shortKislev">shortKislev(year)</a> ⇒ <code>boolean</code></dt>
+<dd><p>true if Kislev is short in Hebrew year</p>
+</dd>
+<dt><a href="#getYahrzeit">getYahrzeit(hyear, date)</a> ⇒ <code>Date</code></dt>
+<dd><p>Calculates yahrzeit.
+<code>hyear</code> must be after original <code>date</code> of death.
+Returns <code>undefined</code> when requested year preceeds or is same as original year.</p>
+<p>Hebcal uses the algorithm defined in &quot;Calendrical Calculations&quot;
+by Edward M. Reingold and Nachum Dershowitz.</p>
+<p>The customary anniversary date of a death is more complicated and depends
+also on the character of the year in which the first anniversary occurs.
+There are several cases:</p>
+<ul>
+<li>If the date of death is Marcheshvan 30, the anniversary in general depends
+on the first anniversary; if that first anniversary was not Marcheshvan 30,
+use the day before Kislev 1.</li>
+<li>If the date of death is Kislev 30, the anniversary in general again depends
+on the first anniversary — if that was not Kislev 30, use the day before
+Tevet 1.</li>
+<li>If the date of death is Adar II, the anniversary is the same day in the
+last month of the Hebrew year (Adar or Adar II).</li>
+<li>If the date of death is Adar I 30, the anniversary in a Hebrew year that
+is not a leap year (in which Adar only has 29 days) is the last day in
+Shevat.</li>
+<li>In all other cases, use the normal (that is, same month number) anniversary
+of the date of death. [Calendrical Calculations p. 113]</li>
+</ul>
+</dd>
+<dt><a href="#getBirthdayOrAnniversary">getBirthdayOrAnniversary(hyear, date)</a> ⇒ <code>Date</code></dt>
+<dd><p>Calculates a birthday or anniversary (non-yahrzeit).
+<code>hyear</code> must be after original <code>date</code> of anniversary.
+Returns <code>undefined</code> when requested year preceeds or is same as original year.</p>
+<p>Hebcal uses the algorithm defined in &quot;Calendrical Calculations&quot;
+by Edward M. Reingold and Nachum Dershowitz.</p>
+<p>The birthday of someone born in Adar of an ordinary year or Adar II of
+a leap year is also always in the last month of the year, be that Adar
+or Adar II. The birthday in an ordinary year of someone born during the
+first 29 days of Adar I in a leap year is on the corresponding day of Adar;
+in a leap year, the birthday occurs in Adar I, as expected.</p>
+<p>Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
+has his birthday postponed until the first of the following month in
+years where that day does not occur. [Calendrical Calculations p. 111]</p>
+</dd>
 </dl>
 
 ## Typedefs
 
 <dl>
-<dt><a href="#ZmanimTimesResult">ZmanimTimesResult</a> : <code>Object</code></dt>
-<dd></dd>
 <dt><a href="#SedraResult">SedraResult</a> : <code>Object</code></dt>
 <dd><p>Result of Sedra.lookup</p>
 </dd>
@@ -864,7 +960,6 @@ Represents an Event with a title, date, and flags
     * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
     * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
     * [.observedIn(il)](#Event+observedIn) ⇒ <code>boolean</code>
-    * ~~[.getAttrs()](#Event+getAttrs) ⇒ <code>Object</code>~~
     * [.clone()](#Event+clone) ⇒ [<code>Event</code>](#Event)
     * [.getCategories()](#Event+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
 
@@ -998,12 +1093,6 @@ const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
 ev2.observedIn(false); // true
 ev2.observedIn(true); // true
 ```
-<a name="Event+getAttrs"></a>
-
-### ~~event.getAttrs() ⇒ <code>Object</code>~~
-***Deprecated***
-
-**Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="Event+clone"></a>
 
 ### event.clone() ⇒ [<code>Event</code>](#Event)
@@ -1025,11 +1114,8 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 * [HebrewDateEvent](#HebrewDateEvent)
     * [new HebrewDateEvent(date)](#new_HebrewDateEvent_new)
-    * _instance_
-        * [.render([locale])](#HebrewDateEvent+render) ⇒ <code>string</code>
-        * [.renderBrief([locale])](#HebrewDateEvent+renderBrief) ⇒ <code>string</code>
-    * _static_
-        * ~~[.renderHebrew(day, monthName, fullYear)](#HebrewDateEvent.renderHebrew) ⇒ <code>string</code>~~
+    * [.render([locale])](#HebrewDateEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#HebrewDateEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_HebrewDateEvent_new"></a>
 
@@ -1075,20 +1161,746 @@ const ev = new HebrewDateEvent(hd);
 console.log(ev.renderBrief()); // '15th of Cheshvan'
 console.log(ev.renderBrief('he')); // 'ט״ו חֶשְׁוָן'
 ```
-<a name="HebrewDateEvent.renderHebrew"></a>
+<a name="GeoLocation"></a>
 
-### ~~HebrewDateEvent.renderHebrew(day, monthName, fullYear) ⇒ <code>string</code>~~
-***Deprecated***
+## GeoLocation
+A class that contains location information such as latitude and longitude required for astronomical calculations. The
+elevation field may not be used by some calculation engines and would be ignored if set. Check the documentation for
+specific implementations of the [AstronomicalCalculator](AstronomicalCalculator) to see if elevation is calculated as part of the
+algorithm.
 
-Helper function to render a Hebrew date
+**Kind**: global class  
+**Version**: 1.1  
+**Author**: &copy; Eliyahu Hershfeld 2004 - 2016  
 
-**Kind**: static method of [<code>HebrewDateEvent</code>](#HebrewDateEvent)  
+* [GeoLocation](#GeoLocation)
+    * [new GeoLocation(name, latitude, longitude, elevation, timeZoneId)](#new_GeoLocation_new)
+    * [.getElevation()](#GeoLocation+getElevation) ⇒ <code>number</code>
+    * [.setElevation(elevation)](#GeoLocation+setElevation)
+    * [.getLatitude()](#GeoLocation+getLatitude) ⇒ <code>number</code>
+    * [.getLongitude()](#GeoLocation+getLongitude) ⇒ <code>number</code>
+    * [.getLocationName()](#GeoLocation+getLocationName) ⇒ <code>string</code> \| <code>null</code>
+    * [.setLocationName(name)](#GeoLocation+setLocationName)
+    * [.getTimeZone()](#GeoLocation+getTimeZone) ⇒ <code>string</code>
+    * [.setTimeZone(timeZone)](#GeoLocation+setTimeZone)
+
+<a name="new_GeoLocation_new"></a>
+
+### new GeoLocation(name, latitude, longitude, elevation, timeZoneId)
+GeoLocation constructor with parameters for all required fields.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | The location name for display use such as &quot;Lakewood, NJ&quot; |
+| latitude | <code>number</code> | the latitude in a double format such as 40.095965 for Lakewood, NJ.            <b>Note: </b> For latitudes south of the equator, a negative value should be used. |
+| longitude | <code>number</code> | double the longitude in a double format such as -74.222130 for Lakewood, NJ.            <b>Note: </b> For longitudes east of the <a href="http://en.wikipedia.org/wiki/Prime_Meridian">Prime            Meridian </a> (Greenwich), a negative value should be used. |
+| elevation | <code>number</code> | the elevation above sea level in Meters. Elevation is not used in most algorithms used for calculating            sunrise and set. |
+| timeZoneId | <code>string</code> | the <code>TimeZone</code> for the location. |
+
+<a name="GeoLocation+getElevation"></a>
+
+### geoLocation.getElevation() ⇒ <code>number</code>
+Method to get the elevation in Meters.
+
+**Kind**: instance method of [<code>GeoLocation</code>](#GeoLocation)  
+**Returns**: <code>number</code> - Returns the elevation in Meters.  
+<a name="GeoLocation+setElevation"></a>
+
+### geoLocation.setElevation(elevation)
+Method to set the elevation in Meters <b>above </b> sea level.
+
+**Kind**: instance method of [<code>GeoLocation</code>](#GeoLocation)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| elevation | <code>number</code> | The elevation to set in Meters. An IllegalArgumentException will be thrown if the value is a negative. |
+
+<a name="GeoLocation+getLatitude"></a>
+
+### geoLocation.getLatitude() ⇒ <code>number</code>
+**Kind**: instance method of [<code>GeoLocation</code>](#GeoLocation)  
+**Returns**: <code>number</code> - Returns the latitude.  
+<a name="GeoLocation+getLongitude"></a>
+
+### geoLocation.getLongitude() ⇒ <code>number</code>
+**Kind**: instance method of [<code>GeoLocation</code>](#GeoLocation)  
+**Returns**: <code>number</code> - Returns the longitude.  
+<a name="GeoLocation+getLocationName"></a>
+
+### geoLocation.getLocationName() ⇒ <code>string</code> \| <code>null</code>
+**Kind**: instance method of [<code>GeoLocation</code>](#GeoLocation)  
+**Returns**: <code>string</code> \| <code>null</code> - Returns the location name.  
+<a name="GeoLocation+setLocationName"></a>
+
+### geoLocation.setLocationName(name)
+**Kind**: instance method of [<code>GeoLocation</code>](#GeoLocation)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> \| <code>null</code> | The setter method for the display name. |
+
+<a name="GeoLocation+getTimeZone"></a>
+
+### geoLocation.getTimeZone() ⇒ <code>string</code>
+**Kind**: instance method of [<code>GeoLocation</code>](#GeoLocation)  
+**Returns**: <code>string</code> - Returns the timeZone.  
+<a name="GeoLocation+setTimeZone"></a>
+
+### geoLocation.setTimeZone(timeZone)
+Method to set the TimeZone. If this is ever set after the GeoLocation is set in the
+[AstronomicalCalendar](AstronomicalCalendar), it is critical that
+[AstronomicalCalendar#getCalendar()](AstronomicalCalendar#getCalendar()).
+[setTimeZone(TimeZone)](java.util.Calendar#setTimeZone(TimeZone)) be called in order for the
+AstronomicalCalendar to output times in the expected offset. This situation will arise if the
+AstronomicalCalendar is ever [cloned](AstronomicalCalendar#clone()).
+
+**Kind**: instance method of [<code>GeoLocation</code>](#GeoLocation)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| timeZone | <code>string</code> | The timeZone to set. |
+
+<a name="NOAACalculator"></a>
+
+## NOAACalculator
+Implementation of sunrise and sunset methods to calculate astronomical times based on the <a
+href="http://noaa.gov">NOAA</a> algorithm. This calculator uses the Java algorithm based on the implementation by <a
+href="http://noaa.gov">NOAA - National Oceanic and Atmospheric Administration</a>'s <a href =
+"http://www.srrb.noaa.gov/highlights/sunrise/sunrise.html">Surface Radiation Research Branch</a>. NOAA's <a
+href="http://www.srrb.noaa.gov/highlights/sunrise/solareqns.PDF">implementation</a> is based on equations from <a
+href="http://www.willbell.com/math/mc1.htm">Astronomical Algorithms</a> by <a
+href="http://en.wikipedia.org/wiki/Jean_Meeus">Jean Meeus</a>. Added to the algorithm is an adjustment of the zenith
+to account for elevation. The algorithm can be found in the <a
+href="http://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation</a> article.
+
+**Kind**: global class  
+**See**: #setAstronomicalCalculator(AstronomicalCalculator) for changing the calculator class.  
+**Author**: &copy; Eliyahu Hershfeld 2011 - 2019  
+
+* [NOAACalculator](#NOAACalculator)
+    * [new NOAACalculator(geoLocation, date)](#new_NOAACalculator_new)
+    * _instance_
+        * [.getSunrise()](#NOAACalculator+getSunrise) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getSeaLevelSunrise()](#NOAACalculator+getSeaLevelSunrise) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getBeginCivilTwilight()](#NOAACalculator+getBeginCivilTwilight) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getBeginNauticalTwilight()](#NOAACalculator+getBeginNauticalTwilight) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getBeginAstronomicalTwilight()](#NOAACalculator+getBeginAstronomicalTwilight) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getSunset()](#NOAACalculator+getSunset) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getSeaLevelSunset()](#NOAACalculator+getSeaLevelSunset) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getEndCivilTwilight()](#NOAACalculator+getEndCivilTwilight) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getEndNauticalTwilight()](#NOAACalculator+getEndNauticalTwilight) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getEndAstronomicalTwilight()](#NOAACalculator+getEndAstronomicalTwilight) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getSunriseOffsetByDegrees(offsetZenith)](#NOAACalculator+getSunriseOffsetByDegrees) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getSunsetOffsetByDegrees(offsetZenith)](#NOAACalculator+getSunsetOffsetByDegrees) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getUTCSunrise0(zenith)](#NOAACalculator+getUTCSunrise0) ⇒ <code>number</code>
+        * [.getUTCSeaLevelSunrise(zenith)](#NOAACalculator+getUTCSeaLevelSunrise) ⇒ <code>number</code>
+        * [.getUTCSunset0(zenith)](#NOAACalculator+getUTCSunset0) ⇒ <code>number</code>
+        * [.getUTCSeaLevelSunset(zenith)](#NOAACalculator+getUTCSeaLevelSunset) ⇒ <code>number</code>
+        * [.getElevationAdjustment(elevation)](#NOAACalculator+getElevationAdjustment) ⇒ <code>number</code>
+        * [.adjustZenith(zenith, elevation)](#NOAACalculator+adjustZenith) ⇒ <code>number</code>
+        * [.getUTCSunrise()](#NOAACalculator+getUTCSunrise)
+        * [.getUTCSunset()](#NOAACalculator+getUTCSunset)
+        * [.getTemporalHour(startOfDay, endOfDay)](#NOAACalculator+getTemporalHour) ⇒ <code>number</code>
+        * [.getSunTransit(startOfDay, endOfDay)](#NOAACalculator+getSunTransit) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getDateFromTime(time, isSunrise)](#NOAACalculator+getDateFromTime) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+    * _static_
+        * [.CIVIL_ZENITH](#NOAACalculator.CIVIL_ZENITH)
+        * [.NAUTICAL_ZENITH](#NOAACalculator.NAUTICAL_ZENITH)
+        * [.ASTRONOMICAL_ZENITH](#NOAACalculator.ASTRONOMICAL_ZENITH)
+        * [.getTimeOffset(time, offset)](#NOAACalculator.getTimeOffset) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+        * [.getSolarElevation(date, lat, lon)](#NOAACalculator.getSolarElevation) ⇒ <code>number</code>
+        * [.getSolarAzimuth(date, latitude, lon)](#NOAACalculator.getSolarAzimuth) ⇒ <code>number</code>
+
+<a name="new_NOAACalculator_new"></a>
+
+### new NOAACalculator(geoLocation, date)
+A constructor that takes in <a href="http://en.wikipedia.org/wiki/Geolocation">geolocation</a> information as a
+parameter. The default [AstronomicalCalculator](AstronomicalCalculator#getDefault()) used for solar
+calculations is the the [NOAACalculator](#NOAACalculator).
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| geoLocation | [<code>GeoLocation</code>](#GeoLocation) | The location information used for calculating astronomical sun times. |
+| date | <code>Temporal.PlainDate</code> |  |
+
+<a name="NOAACalculator+getSunrise"></a>
+
+### noaaCalculator.getSunrise() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+The getSunrise method Returns a `Date` representing the
+[elevation adjusted](AstronomicalCalculator#getElevationAdjustment(double)) sunrise time. The zenith used
+for the calculation uses [geometric zenith](#GEOMETRIC_ZENITH) of 90&deg; plus
+[AstronomicalCalculator#getElevationAdjustment(double)](AstronomicalCalculator#getElevationAdjustment(double)). This is adjusted by the
+[AstronomicalCalculator](AstronomicalCalculator) to add approximately 50/60 of a degree to account for 34 archminutes of refraction
+and 16 archminutes for the sun's radius for a total of [90.83333&deg;](AstronomicalCalculator#adjustZenith).
+See documentation for the specific implementation of the [AstronomicalCalculator](AstronomicalCalculator) that you are using.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - the `Date` representing the exact sunrise time. If the calculation can't be computed such as
+        in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
+        does not set, a null will be returned. See detailed explanation on top of the page.  
+**See**
+
+- AstronomicalCalculator#adjustZenith
+- #getSeaLevelSunrise()
+- AstronomicalCalendar#getUTCSunrise
+
+<a name="NOAACalculator+getSeaLevelSunrise"></a>
+
+### noaaCalculator.getSeaLevelSunrise() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns the sunrise without [elevation
+adjustment](AstronomicalCalculator#getElevationAdjustment(double)). Non-sunrise and sunset calculations such as dawn and dusk, depend on the amount of visible light,
+something that is not affected by elevation. This method returns sunrise calculated at sea level. This forms the
+base for dawn calculations that are calculated as a dip below the horizon before sunrise.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - the `Date` representing the exact sea-level sunrise time. If the calculation can't be computed
+        such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
+        where it does not set, a null will be returned. See detailed explanation on top of the page.  
+**See**
+
+- AstronomicalCalendar#getSunrise
+- AstronomicalCalendar#getUTCSeaLevelSunrise
+- #getSeaLevelSunset()
+
+<a name="NOAACalculator+getBeginCivilTwilight"></a>
+
+### noaaCalculator.getBeginCivilTwilight() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns the beginning of civil twilight (dawn) using a zenith of [96&deg;](#CIVIL_ZENITH).
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` of the beginning of civil twilight using a zenith of 96&deg;. If the calculation
+        can't be computed, null will be returned. See detailed explanation on top of the page.  
+**See**: #CIVIL_ZENITH  
+<a name="NOAACalculator+getBeginNauticalTwilight"></a>
+
+### noaaCalculator.getBeginNauticalTwilight() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns the beginning of nautical twilight using a zenith of [102&deg;](#NAUTICAL_ZENITH).
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` of the beginning of nautical twilight using a zenith of 102&deg;. If the
+        calculation can't be computed null will be returned. See detailed explanation on top of the page.  
+**See**: #NAUTICAL_ZENITH  
+<a name="NOAACalculator+getBeginAstronomicalTwilight"></a>
+
+### noaaCalculator.getBeginAstronomicalTwilight() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns the beginning of astronomical twilight using a zenith of [108&deg;](#ASTRONOMICAL_ZENITH).
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` of the beginning of astronomical twilight using a zenith of 108&deg;. If the
+        calculation can't be computed, null will be returned. See detailed explanation on top of the page.  
+**See**: #ASTRONOMICAL_ZENITH  
+<a name="NOAACalculator+getSunset"></a>
+
+### noaaCalculator.getSunset() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+The getSunset method Returns a `Date` representing the
+[elevation adjusted](AstronomicalCalculator#getElevationAdjustment(double)) sunset time. The zenith used for
+the calculation uses [geometric zenith](#GEOMETRIC_ZENITH) of 90&deg; plus
+[AstronomicalCalculator#getElevationAdjustment(double)](AstronomicalCalculator#getElevationAdjustment(double)). This is adjusted by the
+[AstronomicalCalculator](AstronomicalCalculator) to add approximately 50/60 of a degree to account for 34 archminutes of refraction
+and 16 archminutes for the sun's radius for a total of [90.83333&deg;](AstronomicalCalculator#adjustZenith).
+See documentation for the specific implementation of the [AstronomicalCalculator](AstronomicalCalculator) that you are using. Note:
+In certain cases the calculates sunset will occur before sunrise. This will typically happen when a timezone
+other than the local timezone is used (calculating Los Angeles sunset using a GMT timezone for example). In this
+case the sunset date will be incremented to the following date.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` representing the exact sunset time. If the calculation can't be computed such as in
+        the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
+        does not set, a null will be returned. See detailed explanation on top of the page.  
+**See**
+
+- AstronomicalCalculator#adjustZenith
+- #getSeaLevelSunset()
+- AstronomicalCalendar#getUTCSunset
+
+<a name="NOAACalculator+getSeaLevelSunset"></a>
+
+### noaaCalculator.getSeaLevelSunset() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns the sunset without [elevation
+adjustment](AstronomicalCalculator#getElevationAdjustment(double)). Non-sunrise and sunset calculations such as dawn and dusk, depend on the amount of visible light,
+something that is not affected by elevation. This method returns sunset calculated at sea level. This forms the
+base for dusk calculations that are calculated as a dip below the horizon after sunset.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` representing the exact sea-level sunset time. If the calculation can't be computed
+        such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
+        where it does not set, a null will be returned. See detailed explanation on top of the page.  
+**See**
+
+- AstronomicalCalendar#getSunset
+- AstronomicalCalendar#getUTCSeaLevelSunset 2see [#getSunset()](#getSunset())
+
+<a name="NOAACalculator+getEndCivilTwilight"></a>
+
+### noaaCalculator.getEndCivilTwilight() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns the end of civil twilight using a zenith of [96&deg;](#CIVIL_ZENITH).
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` of the end of civil twilight using a zenith of [96&deg;](#CIVIL_ZENITH). If
+        the calculation can't be computed, null will be returned. See detailed explanation on top of the page.  
+**See**: #CIVIL_ZENITH  
+<a name="NOAACalculator+getEndNauticalTwilight"></a>
+
+### noaaCalculator.getEndNauticalTwilight() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns the end of nautical twilight using a zenith of [102&deg;](#NAUTICAL_ZENITH).
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` of the end of nautical twilight using a zenith of [102&deg;](#NAUTICAL_ZENITH)
+        . If the calculation can't be computed, null will be returned. See detailed explanation on top of the
+        page.  
+**See**: #NAUTICAL_ZENITH  
+<a name="NOAACalculator+getEndAstronomicalTwilight"></a>
+
+### noaaCalculator.getEndAstronomicalTwilight() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns the end of astronomical twilight using a zenith of [108&deg;](#ASTRONOMICAL_ZENITH).
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` of the end of astronomical twilight using a zenith of [108&deg;](#ASTRONOMICAL_ZENITH). If the calculation can't be computed, null will be returned. See detailed explanation on top
+        of the page.  
+**See**: #ASTRONOMICAL_ZENITH  
+<a name="NOAACalculator+getSunriseOffsetByDegrees"></a>
+
+### noaaCalculator.getSunriseOffsetByDegrees(offsetZenith) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A utility method that returns the time of an offset by degrees below or above the horizon of
+[sunrise](#getSunrise()). Note that the degree offset is from the vertical, so for a calculation of 14&deg;
+before sunrise, an offset of 14 + [#GEOMETRIC_ZENITH](#GEOMETRIC_ZENITH) = 104 would have to be passed as a parameter.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` of the offset after (or before) [#getSunrise()](#getSunrise()). If the calculation
+        can't be computed such as in the Arctic Circle where there is at least one day a year where the sun does
+        not rise, and one where it does not set, a null will be returned. See detailed explanation on top of the
+        page.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| offsetZenith | <code>number</code> | the degrees before [#getSunrise()](#getSunrise()) to use in the calculation. For time after sunrise use            negative numbers. Note that the degree offset is from the vertical, so for a calculation of 14&deg;            before sunrise, an offset of 14 + [#GEOMETRIC_ZENITH](#GEOMETRIC_ZENITH) = 104 would have to be passed as a            parameter. |
+
+<a name="NOAACalculator+getSunsetOffsetByDegrees"></a>
+
+### noaaCalculator.getSunsetOffsetByDegrees(offsetZenith) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A utility method that returns the time of an offset by degrees below or above the horizon of [sunset](#getSunset()). Note that the degree offset is from the vertical, so for a calculation of 14&deg; after sunset, an
+offset of 14 + [#GEOMETRIC_ZENITH](#GEOMETRIC_ZENITH) = 104 would have to be passed as a parameter.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date`of the offset after (or before) [#getSunset()](#getSunset()). If the calculation can't
+        be computed such as in the Arctic Circle where there is at least one day a year where the sun does not
+        rise, and one where it does not set, a null will be returned. See detailed explanation on top of the
+        page.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| offsetZenith | <code>number</code> | the degrees after [#getSunset()](#getSunset()) to use in the calculation. For time before sunset use negative            numbers. Note that the degree offset is from the vertical, so for a calculation of 14&deg; after            sunset, an offset of 14 + [#GEOMETRIC_ZENITH](#GEOMETRIC_ZENITH) = 104 would have to be passed as a parameter. |
+
+<a name="NOAACalculator+getUTCSunrise0"></a>
+
+### noaaCalculator.getUTCSunrise0(zenith) ⇒ <code>number</code>
+A method that returns the sunrise in UTC time without correction for time zone offset from GMT and without using
+daylight savings time.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>number</code> - The time in the format: 18.75 for 18:45:00 UTC/GMT. If the calculation can't be computed such as in the
+        Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
+        not set, [Double#NaN](Double#NaN) will be returned. See detailed explanation on top of the page.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| zenith | <code>number</code> | the degrees below the horizon. For time after sunrise use negative numbers. |
+
+<a name="NOAACalculator+getUTCSeaLevelSunrise"></a>
+
+### noaaCalculator.getUTCSeaLevelSunrise(zenith) ⇒ <code>number</code>
+A method that returns the sunrise in UTC time without correction for time zone offset from GMT and without using
+daylight savings time. Non-sunrise and sunset calculations such as dawn and dusk, depend on the amount of visible
+light, something that is not affected by elevation. This method returns UTC sunrise calculated at sea level. This
+forms the base for dawn calculations that are calculated as a dip below the horizon before sunrise.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>number</code> - The time in the format: 18.75 for 18:45:00 UTC/GMT. If the calculation can't be computed such as in the
+        Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
+        not set, [Double#NaN](Double#NaN) will be returned. See detailed explanation on top of the page.  
+**See**
+
+- AstronomicalCalendar#getUTCSunrise
+- AstronomicalCalendar#getUTCSeaLevelSunset
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| zenith | <code>number</code> | the degrees below the horizon. For time after sunrise use negative numbers. |
+
+<a name="NOAACalculator+getUTCSunset0"></a>
+
+### noaaCalculator.getUTCSunset0(zenith) ⇒ <code>number</code>
+A method that returns the sunset in UTC time without correction for time zone offset from GMT and without using
+daylight savings time.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>number</code> - The time in the format: 18.75 for 18:45:00 UTC/GMT. If the calculation can't be computed such as in the
+        Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
+        not set, [Double#NaN](Double#NaN) will be returned. See detailed explanation on top of the page.  
+**See**: AstronomicalCalendar#getUTCSeaLevelSunset  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| zenith | <code>number</code> | the degrees below the horizon. For time after sunset use negative numbers. |
+
+<a name="NOAACalculator+getUTCSeaLevelSunset"></a>
+
+### noaaCalculator.getUTCSeaLevelSunset(zenith) ⇒ <code>number</code>
+A method that returns the sunset in UTC time without correction for elevation, time zone offset from GMT and
+without using daylight savings time. Non-sunrise and sunset calculations such as dawn and dusk, depend on the
+amount of visible light, something that is not affected by elevation. This method returns UTC sunset calculated
+at sea level. This forms the base for dusk calculations that are calculated as a dip below the horizon after
+sunset.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>number</code> - The time in the format: 18.75 for 18:45:00 UTC/GMT. If the calculation can't be computed such as in the
+        Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
+        not set, [Double#NaN](Double#NaN) will be returned. See detailed explanation on top of the page.  
+**See**
+
+- AstronomicalCalendar#getUTCSunset
+- AstronomicalCalendar#getUTCSeaLevelSunrise
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| zenith | <code>number</code> | the degrees below the horizon. For time before sunset use negative numbers. |
+
+<a name="NOAACalculator+getElevationAdjustment"></a>
+
+### noaaCalculator.getElevationAdjustment(elevation) ⇒ <code>number</code>
+Method to return the adjustment to the zenith required to account for the elevation. Since a person at a higher
+elevation can see farther below the horizon, the calculation for sunrise / sunset is calculated below the horizon
+used at sea level. This is only used for sunrise and sunset and not times before or after it such as
+[nautical twilight](AstronomicalCalendar#getBeginNauticalTwilight()) since those
+calculations are based on the level of available light at the given dip below the horizon, something that is not
+affected by elevation, the adjustment should only made if the zenith == 90&deg; [adjusted](#adjustZenith)
+for refraction and solar radius. The algorithm used is
+
+<pre>
+elevationAdjustment = Math.toDegrees(Math.acos(earthRadiusInMeters / (earthRadiusInMeters + elevationMeters)));
+</pre>
+
+The source of this algorithm is <a href="http://www.calendarists.com">Calendrical Calculations</a> by Edward M.
+Reingold and Nachum Dershowitz. An alternate algorithm that produces an almost identical (but not accurate)
+result found in Ma'aglay Tzedek by Moishe Kosower and other sources is:
+
+<pre>
+elevationAdjustment = 0.0347 * Math.sqrt(elevationMeters);
+</pre>
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>number</code> - the adjusted zenith  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| elevation | <code>number</code> | elevation in Meters. |
+
+<a name="NOAACalculator+adjustZenith"></a>
+
+### noaaCalculator.adjustZenith(zenith, elevation) ⇒ <code>number</code>
+Adjusts the zenith of astronomical sunrise and sunset to account for solar refraction, solar radius and
+elevation. The value for Sun's zenith and true rise/set Zenith (used in this class and subclasses) is the angle
+that the center of the Sun makes to a line perpendicular to the Earth's surface. If the Sun were a point and the
+Earth were without an atmosphere, true sunset and sunrise would correspond to a 90&deg; zenith. Because the Sun
+is not a point, and because the atmosphere refracts light, this 90&deg; zenith does not, in fact, correspond to
+true sunset or sunrise, instead the centre of the Sun's disk must lie just below the horizon for the upper edge
+to be obscured. This means that a zenith of just above 90&deg; must be used. The Sun subtends an angle of 16
+minutes of arc (this can be changed via the [#setSolarRadius(double)](#setSolarRadius(double)) method , and atmospheric refraction
+accounts for 34 minutes or so (this can be changed via the [#setRefraction(double)](#setRefraction(double)) method), giving a total
+of 50 arcminutes. The total value for ZENITH is 90+(5/6) or 90.8333333&deg; for true sunrise/sunset. Since a
+person at an elevation can see blow the horizon of a person at sea level, this will also adjust the zenith to
+account for elevation if available. Note that this will only adjust the value if the zenith is exactly 90 degrees.
+For values below and above this no correction is done. As an example, astronomical twilight is when the sun is
+18&deg; below the horizon or [108&deg;
+below the zenith](AstronomicalCalendar#ASTRONOMICAL_ZENITH). This is traditionally calculated with none of the above mentioned adjustments. The same goes
+for various <em>tzais</em> and <em>alos</em> times such as the
+[16.1&deg;](ZmanimCalendar#ZENITH_16_POINT_1) dip used in
+[ComplexZmanimCalendar#getAlos16Point1Degrees()](ComplexZmanimCalendar#getAlos16Point1Degrees()).
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>number</code> - The zenith adjusted to include the [sun's radius](#getSolarRadius), [refraction](#getRefraction) and [elevation](#getElevationAdjustment) adjustment. This will only be adjusted for
+        sunrise and sunset (if the zenith == 90&deg;)  
+**See**: #getElevationAdjustment(double)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| zenith | <code>number</code> | the azimuth below the vertical zenith of 90&deg;. For sunset typically the [zenith](#adjustZenith) used for the calculation uses geometric zenith of 90&deg; and [adjusts](#adjustZenith)            this slightly to account for solar refraction and the sun's radius. Another example would be            [AstronomicalCalendar#getEndNauticalTwilight()](AstronomicalCalendar#getEndNauticalTwilight()) that passes            [AstronomicalCalendar#NAUTICAL_ZENITH](AstronomicalCalendar#NAUTICAL_ZENITH) to this method. |
+| elevation | <code>number</code> | elevation in Meters. |
+
+<a name="NOAACalculator+getUTCSunrise"></a>
+
+### noaaCalculator.getUTCSunrise()
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**See**: AstronomicalCalculator#getUTCSunrise(Calendar, GeoLocation, double, boolean)  
+<a name="NOAACalculator+getUTCSunset"></a>
+
+### noaaCalculator.getUTCSunset()
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**See**: AstronomicalCalculator#getUTCSunset(Calendar, GeoLocation, double, boolean)  
+<a name="NOAACalculator+getTemporalHour"></a>
+
+### noaaCalculator.getTemporalHour(startOfDay, endOfDay) ⇒ <code>number</code>
+A utility method that will allow the calculation of a temporal (solar) hour based on the sunrise and sunset
+passed as parameters to this method. An example of the use of this method would be the calculation of a
+non-elevation adjusted temporal hour by passing in [sea level sunrise](#getSeaLevelSunrise()) and
+[sea level sunset](#getSeaLevelSunset()) as parameters.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>number</code> - the <code>long</code> millisecond length of the temporal hour. If the calculation can't be computed a
+        [Long#MIN_VALUE](Long#MIN_VALUE) will be returned. See detailed explanation on top of the page.  
+**See**: #getTemporalHour()  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| startOfDay | <code>Temporal.ZonedDateTime</code> \| <code>null</code> | The start of the day. |
+| endOfDay | <code>Temporal.ZonedDateTime</code> \| <code>null</code> | The end of the day. |
+
+<a name="NOAACalculator+getSunTransit"></a>
+
+### noaaCalculator.getSunTransit(startOfDay, endOfDay) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns sundial or solar noon. It occurs when the Sun is <a href
+="http://en.wikipedia.org/wiki/Transit_%28astronomy%29">transiting</a> the <a
+href="http://en.wikipedia.org/wiki/Meridian_%28astronomy%29">celestial meridian</a>. In this class it is
+calculated as halfway between the sunrise and sunset passed to this method. This time can be slightly off the
+real transit time due to changes in declination (the lengthening or shortening day).
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The `Date` representing Sun's transit. If the calculation can't be computed such as in the
+        Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
+        not set, null will be returned. See detailed explanation on top of the page.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| startOfDay | <code>Temporal.ZonedDateTime</code> \| <code>null</code> | the start of day for calculating the sun's transit. This can be sea level sunrise, visual sunrise (or            any arbitrary start of day) passed to this method. |
+| endOfDay | <code>Temporal.ZonedDateTime</code> \| <code>null</code> | the end of day for calculating the sun's transit. This can be sea level sunset, visual sunset (or any            arbitrary end of day) passed to this method. |
+
+<a name="NOAACalculator+getDateFromTime"></a>
+
+### noaaCalculator.getDateFromTime(time, isSunrise) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A method that returns a `Date` from the time passed in as a parameter.
+
+**Kind**: instance method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - The Date.  
+**Access**: protected  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| time | <code>number</code> | The time to be set as the time for the `Date`. The time expected is in the format: 18.75            for 6:45:00 PM. |
+| isSunrise | <code>boolean</code> | true if the time is sunrise, and false if it is sunset |
+
+<a name="NOAACalculator.CIVIL_ZENITH"></a>
+
+### NOAACalculator.CIVIL\_ZENITH
+Sun's zenith at civil twilight (96&deg;).
+
+**Kind**: static property of [<code>NOAACalculator</code>](#NOAACalculator)  
+<a name="NOAACalculator.NAUTICAL_ZENITH"></a>
+
+### NOAACalculator.NAUTICAL\_ZENITH
+Sun's zenith at nautical twilight (102&deg;).
+
+**Kind**: static property of [<code>NOAACalculator</code>](#NOAACalculator)  
+<a name="NOAACalculator.ASTRONOMICAL_ZENITH"></a>
+
+### NOAACalculator.ASTRONOMICAL\_ZENITH
+Sun's zenith at astronomical twilight (108&deg;).
+
+**Kind**: static property of [<code>NOAACalculator</code>](#NOAACalculator)  
+<a name="NOAACalculator.getTimeOffset"></a>
+
+### NOAACalculator.getTimeOffset(time, offset) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
+A utility method that returns a date offset by the offset time passed in. Please note that the level of light
+during twilight is not affected by elevation, so if this is being used to calculate an offset before sunrise or
+after sunset with the intent of getting a rough "level of light" calculation, the sunrise or sunset time passed
+to this method should be sea level sunrise and sunset.
+
+**Kind**: static method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>Temporal.ZonedDateTime</code> \| <code>null</code> - the `Date` with the offset in milliseconds added to it  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| time | <code>Temporal.ZonedDateTime</code> \| <code>null</code> | the start time |
+| offset | <code>number</code> | the offset in milliseconds to add to the time. |
+
+<a name="NOAACalculator.getSolarElevation"></a>
+
+### NOAACalculator.getSolarElevation(date, lat, lon) ⇒ <code>number</code>
+Return the <a href="http://en.wikipedia.org/wiki/Celestial_coordinate_system">Solar Elevation</a> for the
+horizontal coordinate system at the given location at the given time. Can be negative if the sun is below the
+horizon. Not corrected for altitude.
+
+**Kind**: static method of [<code>NOAACalculator</code>](#NOAACalculator)  
+**Returns**: <code>number</code> - solar elevation in degrees - horizon is 0 degrees, civil twilight is -6 degrees  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Temporal.ZonedDateTime</code> | time of calculation |
+| lat | <code>number</code> | latitude of location for calculation |
+| lon | <code>number</code> | longitude of location for calculation |
+
+<a name="NOAACalculator.getSolarAzimuth"></a>
+
+### NOAACalculator.getSolarAzimuth(date, latitude, lon) ⇒ <code>number</code>
+Return the <a href="http://en.wikipedia.org/wiki/Celestial_coordinate_system">Solar Azimuth</a> for the
+horizontal coordinate system at the given location at the given time. Not corrected for altitude. True south is 0
+degrees.
+
+**Kind**: static method of [<code>NOAACalculator</code>](#NOAACalculator)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| date | <code>Temporal.ZonedDateTime</code> | time of calculation |
+| latitude | <code>number</code> | latitude of location for calculation |
+| lon | <code>number</code> | longitude of location for calculation |
+
+<a name="Location"></a>
+
+## Location
+Class representing Location
+
+**Kind**: global class  
+
+* [Location](#Location)
+    * [new Location(latitude, longitude, il, tzid, cityName, countryCode, [geoid], [elevation])](#new_Location_new)
+    * _instance_
+        * [.getIsrael()](#Location+getIsrael) ⇒ <code>boolean</code>
+        * [.getName()](#Location+getName) ⇒ <code>string</code>
+        * [.getShortName()](#Location+getShortName) ⇒ <code>string</code>
+        * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
+        * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
+        * [.getTimeFormatter()](#Location+getTimeFormatter) ⇒ <code>Intl.DateTimeFormat</code>
+        * [.getGeoId()](#Location+getGeoId) ⇒ <code>string</code>
+        * [.toString()](#Location+toString) ⇒ <code>string</code>
+    * _static_
+        * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
+        * [.legacyTzToTzid(tz, dst)](#Location.legacyTzToTzid) ⇒ <code>string</code>
+        * [.getUsaTzid(state, tz, dst)](#Location.getUsaTzid) ⇒ <code>string</code>
+        * [.addLocation(cityName, location)](#Location.addLocation) ⇒ <code>boolean</code>
+
+<a name="new_Location_new"></a>
+
+### new Location(latitude, longitude, il, tzid, cityName, countryCode, [geoid], [elevation])
+Initialize a Location instance
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| latitude | <code>number</code> | Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003) |
+| longitude | <code>number</code> | Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005) |
+| il | <code>boolean</code> | in Israel (true) or Diaspora (false) |
+| tzid | <code>string</code> | Olson timezone ID, e.g. "America/Chicago" |
+| cityName | <code>string</code> | optional descriptive city name |
+| countryCode | <code>string</code> | ISO 3166 alpha-2 country code (e.g. "FR") |
+| [geoid] | <code>string</code> | optional string or numeric geographic ID |
+| [elevation] | <code>number</code> | in meters (default `0`) |
+
+<a name="Location+getIsrael"></a>
+
+### location.getIsrael() ⇒ <code>boolean</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getName"></a>
+
+### location.getName() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getShortName"></a>
+
+### location.getShortName() ⇒ <code>string</code>
+Returns the location name, up to the first comma
+
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getCountryCode"></a>
+
+### location.getCountryCode() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getTzid"></a>
+
+### location.getTzid() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getTimeFormatter"></a>
+
+### location.getTimeFormatter() ⇒ <code>Intl.DateTimeFormat</code>
+Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
+
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+getGeoId"></a>
+
+### location.getGeoId() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location+toString"></a>
+
+### location.toString() ⇒ <code>string</code>
+**Kind**: instance method of [<code>Location</code>](#Location)  
+<a name="Location.lookup"></a>
+
+### Location.lookup(name) ⇒ [<code>Location</code>](#Location)
+Creates a location object from one of 60 "classic" Hebcal city names.
+The following city names are supported:
+'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
+'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
+'Buenos Aires', 'Buffalo', 'Chicago', 'Cincinnati', 'Cleveland',
+'Dallas', 'Denver', 'Detroit', 'Eilat', 'Gibraltar', 'Haifa',
+'Hawaii', 'Helsinki', 'Houston', 'Jerusalem', 'Johannesburg',
+'Kiev', 'La Paz', 'Livingston', 'Las Vegas', 'London', 'Los Angeles',
+'Marseilles', 'Miami', 'Minneapolis', 'Melbourne', 'Mexico City',
+'Montreal', 'Moscow', 'New York', 'Omaha', 'Ottawa', 'Panama City',
+'Paris', 'Pawtucket', 'Petach Tikvah', 'Philadelphia', 'Phoenix',
+'Pittsburgh', 'Providence', 'Portland', 'Saint Louis', 'Saint Petersburg',
+'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
+'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
+'Washington DC', 'Worcester'
+
+**Kind**: static method of [<code>Location</code>](#Location)  
 
 | Param | Type |
 | --- | --- |
-| day | <code>number</code> | 
-| monthName | <code>string</code> | 
-| fullYear | <code>number</code> | 
+| name | <code>string</code> | 
+
+<a name="Location.legacyTzToTzid"></a>
+
+### Location.legacyTzToTzid(tz, dst) ⇒ <code>string</code>
+Converts legacy Hebcal timezone to a standard Olson tzid.
+
+**Kind**: static method of [<code>Location</code>](#Location)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| tz | <code>number</code> | integer, GMT offset in hours |
+| dst | <code>string</code> | 'none', 'eu', 'usa', or 'israel' |
+
+<a name="Location.getUsaTzid"></a>
+
+### Location.getUsaTzid(state, tz, dst) ⇒ <code>string</code>
+Converts timezone info from Zip-Codes.com to a standard Olson tzid.
+
+**Kind**: static method of [<code>Location</code>](#Location)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| state | <code>string</code> | two-letter all-caps US state abbreviation like 'CA' |
+| tz | <code>number</code> | positive number, 5=America/New_York, 8=America/Los_Angeles |
+| dst | <code>string</code> | single char 'Y' or 'N' |
+
+**Example**  
+```js
+Location.getUsaTzid('AZ', 7, 'Y') // 'America/Denver'
+```
+<a name="Location.addLocation"></a>
+
+### Location.addLocation(cityName, location) ⇒ <code>boolean</code>
+Adds a location name for `Location.lookup()` only if the name isn't
+already being used. Returns `false` if the name is already taken
+and `true` if successfully added.
+
+**Kind**: static method of [<code>Location</code>](#Location)  
+
+| Param | Type |
+| --- | --- |
+| cityName | <code>string</code> | 
+| location | [<code>Location</code>](#Location) | 
 
 <a name="Zmanim"></a>
 
@@ -1110,20 +1922,16 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
 **Kind**: global class  
 
 * [Zmanim](#Zmanim)
-    * [new Zmanim(date, latitude, longitude)](#new_Zmanim_new)
+    * [new Zmanim(gloc, date)](#new_Zmanim_new)
     * _instance_
-        * ~~[.suntime()](#Zmanim+suntime) ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)~~
         * [.timeAtAngle(angle, rising)](#Zmanim+timeAtAngle) ⇒ <code>Date</code>
         * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
+        * [.seaLevelSunrise()](#Zmanim+seaLevelSunrise) ⇒ <code>Date</code>
         * [.sunset()](#Zmanim+sunset) ⇒ <code>Date</code>
+        * [.seaLevelSunset()](#Zmanim+seaLevelSunset) ⇒ <code>Date</code>
         * [.dawn()](#Zmanim+dawn) ⇒ <code>Date</code>
         * [.dusk()](#Zmanim+dusk) ⇒ <code>Date</code>
-        * [.hour()](#Zmanim+hour) ⇒ <code>number</code>
-        * [.hourMins()](#Zmanim+hourMins) ⇒ <code>number</code>
         * [.gregEve()](#Zmanim+gregEve) ⇒ <code>Date</code>
-        * [.nightHour()](#Zmanim+nightHour) ⇒ <code>number</code>
-        * [.nightHourMins()](#Zmanim+nightHourMins) ⇒ <code>number</code>
-        * [.hourOffset(hours)](#Zmanim+hourOffset) ⇒ <code>Date</code>
         * [.chatzot()](#Zmanim+chatzot) ⇒ <code>Date</code>
         * [.chatzotNight()](#Zmanim+chatzotNight) ⇒ <code>Date</code>
         * [.alotHaShachar()](#Zmanim+alotHaShachar) ⇒ <code>Date</code>
@@ -1141,8 +1949,6 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
         * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
         * [.sunriseOffset(offset, roundMinute)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
         * [.sunsetOffset(offset, roundMinute)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
-        * ~~[.sunsetOffsetTime(offset, timeFormat)](#Zmanim+sunsetOffsetTime) ⇒ <code>Array.&lt;Object&gt;</code>~~
-        * ~~[.tzeitTime(angle, timeFormat)](#Zmanim+tzeitTime) ⇒ <code>Array.&lt;Object&gt;</code>~~
     * _static_
         * [.formatTime(dt, timeFormat)](#Zmanim.formatTime) ⇒ <code>string</code>
         * [.roundTime(dt)](#Zmanim.roundTime) ⇒ <code>Date</code>
@@ -1151,32 +1957,27 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
 
 <a name="new_Zmanim_new"></a>
 
-### new Zmanim(date, latitude, longitude)
+### new Zmanim(gloc, date)
 Initialize a Zmanim instance.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
+| gloc | [<code>GeoLocation</code>](#GeoLocation) | GeoLocation including latitude, longitude, and timezone |
 | date | <code>Date</code> \| [<code>HDate</code>](#HDate) | Regular or Hebrew Date. If `date` is a regular `Date`,    hours, minutes, seconds and milliseconds are ignored. |
-| latitude | <code>number</code> |  |
-| longitude | <code>number</code> |  |
 
 **Example**  
 ```js
-const {Zmanim} = require('@hebcal/core');
+const {GeoLocation, Zmanim} = require('@hebcal/core');
 const latitude = 41.822232;
 const longitude = -71.448292;
+const tzid = 'America/New_York';
 const friday = new Date(2023, 8, 8);
-const zmanim = new Zmanim(friday, latitude, longitude);
+const gloc = new GeoLocation(null, latitude, longitude, 0, tzid);
+const zmanim = new Zmanim(gloc, friday);
 const candleLighting = zmanim.sunsetOffset(-18, true);
-const timeStr = Zmanim.formatISOWithTimeZone('America/New_York', candleLighting);
+const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
 ```
-<a name="Zmanim+suntime"></a>
-
-### ~~zmanim.suntime() ⇒ [<code>ZmanimTimesResult</code>](#ZmanimTimesResult)~~
-***Deprecated***
-
-**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+timeAtAngle"></a>
 
 ### zmanim.timeAtAngle(angle, rising) ⇒ <code>Date</code>
@@ -1196,9 +1997,21 @@ for a certain angle (in degrees).
 Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+seaLevelSunrise"></a>
+
+### zmanim.seaLevelSunrise() ⇒ <code>Date</code>
+Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunset"></a>
 
 ### zmanim.sunset() ⇒ <code>Date</code>
+When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+seaLevelSunset"></a>
+
+### zmanim.seaLevelSunset() ⇒ <code>Date</code>
 When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -1214,35 +2027,10 @@ Civil dawn; Sun is 6° below the horizon in the morning
 Civil dusk; Sun is 6° below the horizon in the evening
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
-<a name="Zmanim+hour"></a>
-
-### zmanim.hour() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
-<a name="Zmanim+hourMins"></a>
-
-### zmanim.hourMins() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+gregEve"></a>
 
 ### zmanim.gregEve() ⇒ <code>Date</code>
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
-<a name="Zmanim+nightHour"></a>
-
-### zmanim.nightHour() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
-<a name="Zmanim+nightHourMins"></a>
-
-### zmanim.nightHourMins() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
-<a name="Zmanim+hourOffset"></a>
-
-### zmanim.hourOffset(hours) ⇒ <code>Date</code>
-**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
-
-| Param | Type |
-| --- | --- |
-| hours | <code>number</code> | 
-
 <a name="Zmanim+chatzot"></a>
 
 ### zmanim.chatzot() ⇒ <code>Date</code>
@@ -1360,34 +2148,6 @@ Returns sunset + `offset` minutes (either positive or negative).
 | offset | <code>number</code> |  | minutes |
 | roundMinute | <code>boolean</code> | <code>true</code> | round time to nearest minute (default true) |
 
-<a name="Zmanim+sunsetOffsetTime"></a>
-
-### ~~zmanim.sunsetOffsetTime(offset, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>~~
-***Deprecated***
-
-Returns an array with sunset + offset Date object, and a 24-hour string formatted time.
-
-**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
-
-| Param | Type |
-| --- | --- |
-| offset | <code>number</code> | 
-| timeFormat | <code>Intl.DateTimeFormat</code> | 
-
-<a name="Zmanim+tzeitTime"></a>
-
-### ~~zmanim.tzeitTime(angle, timeFormat) ⇒ <code>Array.&lt;Object&gt;</code>~~
-***Deprecated***
-
-Returns an array with tzeit Date object and a 24-hour string formatted time.
-
-**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| angle | <code>number</code> | degrees for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars. |
-| timeFormat | <code>Intl.DateTimeFormat</code> |  |
-
 <a name="Zmanim.formatTime"></a>
 
 ### Zmanim.formatTime(dt, timeFormat) ⇒ <code>string</code>
@@ -1434,201 +2194,6 @@ Returns a string like "2022-04-01T13:06:00-11:00"
 | --- | --- |
 | tzid | <code>string</code> | 
 | date | <code>Date</code> | 
-
-<a name="Location"></a>
-
-## Location
-Class representing Location
-
-**Kind**: global class  
-
-* [Location](#Location)
-    * [new Location(latitude, longitude, il, tzid, cityName, countryCode, geoid)](#new_Location_new)
-    * _instance_
-        * [.getLatitude()](#Location+getLatitude) ⇒ <code>number</code>
-        * [.getLongitude()](#Location+getLongitude) ⇒ <code>number</code>
-        * [.getIsrael()](#Location+getIsrael) ⇒ <code>boolean</code>
-        * [.getName()](#Location+getName) ⇒ <code>string</code>
-        * [.getShortName()](#Location+getShortName) ⇒ <code>string</code>
-        * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
-        * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
-        * [.getTimeFormatter()](#Location+getTimeFormatter) ⇒ <code>Intl.DateTimeFormat</code>
-        * [.getGeoId()](#Location+getGeoId) ⇒ <code>string</code>
-        * ~~[.sunset(hdate)](#Location+sunset) ⇒ <code>Date</code>~~
-        * ~~[.tzeit(hdate, [angle])](#Location+tzeit) ⇒ <code>Date</code>~~
-        * [.toString()](#Location+toString) ⇒ <code>string</code>
-    * _static_
-        * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
-        * [.legacyTzToTzid(tz, dst)](#Location.legacyTzToTzid) ⇒ <code>string</code>
-        * [.getUsaTzid(state, tz, dst)](#Location.getUsaTzid) ⇒ <code>string</code>
-        * ~~[.geonameCityDescr(cityName, admin1, countryName)](#Location.geonameCityDescr) ⇒ <code>string</code>~~
-        * [.addLocation(cityName, location)](#Location.addLocation) ⇒ <code>boolean</code>
-
-<a name="new_Location_new"></a>
-
-### new Location(latitude, longitude, il, tzid, cityName, countryCode, geoid)
-Initialize a Location instance
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| latitude | <code>number</code> | Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003) |
-| longitude | <code>number</code> | Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005) |
-| il | <code>boolean</code> | in Israel (true) or Diaspora (false) |
-| tzid | <code>string</code> | Olson timezone ID, e.g. "America/Chicago" |
-| cityName | <code>string</code> | optional descriptive city name |
-| countryCode | <code>string</code> | ISO 3166 alpha-2 country code (e.g. "FR") |
-| geoid | <code>string</code> | optional string or numeric geographic ID |
-
-<a name="Location+getLatitude"></a>
-
-### location.getLatitude() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getLongitude"></a>
-
-### location.getLongitude() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getIsrael"></a>
-
-### location.getIsrael() ⇒ <code>boolean</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getName"></a>
-
-### location.getName() ⇒ <code>string</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getShortName"></a>
-
-### location.getShortName() ⇒ <code>string</code>
-Returns the location name, up to the first comma
-
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getCountryCode"></a>
-
-### location.getCountryCode() ⇒ <code>string</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getTzid"></a>
-
-### location.getTzid() ⇒ <code>string</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getTimeFormatter"></a>
-
-### location.getTimeFormatter() ⇒ <code>Intl.DateTimeFormat</code>
-Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
-
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+getGeoId"></a>
-
-### location.getGeoId() ⇒ <code>string</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location+sunset"></a>
-
-### ~~location.sunset(hdate) ⇒ <code>Date</code>~~
-***Deprecated***
-
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
-
-<a name="Location+tzeit"></a>
-
-### ~~location.tzeit(hdate, [angle]) ⇒ <code>Date</code>~~
-***Deprecated***
-
-**Kind**: instance method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| hdate | <code>Date</code> \| [<code>HDate</code>](#HDate) | 
-| [angle] | <code>number</code> | 
-
-<a name="Location+toString"></a>
-
-### location.toString() ⇒ <code>string</code>
-**Kind**: instance method of [<code>Location</code>](#Location)  
-<a name="Location.lookup"></a>
-
-### Location.lookup(name) ⇒ [<code>Location</code>](#Location)
-Creates a location object from one of 60 "classic" Hebcal city names.
-The following city names are supported:
-'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
-'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
-'Buenos Aires', 'Buffalo', 'Chicago', 'Cincinnati', 'Cleveland',
-'Dallas', 'Denver', 'Detroit', 'Eilat', 'Gibraltar', 'Haifa',
-'Hawaii', 'Helsinki', 'Houston', 'Jerusalem', 'Johannesburg',
-'Kiev', 'La Paz', 'Livingston', 'Las Vegas', 'London', 'Los Angeles',
-'Marseilles', 'Miami', 'Minneapolis', 'Melbourne', 'Mexico City',
-'Montreal', 'Moscow', 'New York', 'Omaha', 'Ottawa', 'Panama City',
-'Paris', 'Pawtucket', 'Petach Tikvah', 'Philadelphia', 'Phoenix',
-'Pittsburgh', 'Providence', 'Portland', 'Saint Louis', 'Saint Petersburg',
-'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
-'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
-'Washington DC', 'Worcester'
-
-**Kind**: static method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| name | <code>string</code> | 
-
-<a name="Location.legacyTzToTzid"></a>
-
-### Location.legacyTzToTzid(tz, dst) ⇒ <code>string</code>
-Converts legacy Hebcal timezone to a standard Olson tzid.
-
-**Kind**: static method of [<code>Location</code>](#Location)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| tz | <code>number</code> | integer, GMT offset in hours |
-| dst | <code>string</code> | 'none', 'eu', 'usa', or 'israel' |
-
-<a name="Location.getUsaTzid"></a>
-
-### Location.getUsaTzid(state, tz, dst) ⇒ <code>string</code>
-Converts timezone info from Zip-Codes.com to a standard Olson tzid.
-
-**Kind**: static method of [<code>Location</code>](#Location)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| state | <code>string</code> | two-letter all-caps US state abbreviation like 'CA' |
-| tz | <code>number</code> | positive number, 5=America/New_York, 8=America/Los_Angeles |
-| dst | <code>string</code> | single char 'Y' or 'N' |
-
-**Example**  
-```js
-Location.getUsaTzid('AZ', 7, 'Y') // 'America/Denver'
-```
-<a name="Location.geonameCityDescr"></a>
-
-### ~~Location.geonameCityDescr(cityName, admin1, countryName) ⇒ <code>string</code>~~
-***Deprecated***
-
-Builds a city description from geonameid string components
-
-**Kind**: static method of [<code>Location</code>](#Location)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| cityName | <code>string</code> | e.g. 'Tel Aviv' or 'Chicago' |
-| admin1 | <code>string</code> | e.g. 'England' or 'Massachusetts' |
-| countryName | <code>string</code> | full country name, e.g. 'Israel' or 'United States' |
-
-<a name="Location.addLocation"></a>
-
-### Location.addLocation(cityName, location) ⇒ <code>boolean</code>
-Adds a location name for `Location.lookup()` only if the name isn't
-already being used. Returns `false` if the name is already taken
-and `true` if successfully added.
-
-**Kind**: static method of [<code>Location</code>](#Location)  
-
-| Param | Type |
-| --- | --- |
-| cityName | <code>string</code> | 
-| location | [<code>Location</code>](#Location) | 
 
 <a name="TimedEvent"></a>
 
@@ -2572,6 +3137,19 @@ Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
 | hdate | [<code>HDate</code>](#HDate) | 
 | il | <code>boolean</code> | 
 
+<a name="greg"></a>
+
+## greg
+Gregorian date helper functions.
+
+**Kind**: global variable  
+<a name="greg.monthNames"></a>
+
+### greg.monthNames : <code>Array.&lt;string&gt;</code>
+Long names of the Gregorian months (1='January', 12='December')
+
+**Kind**: static property of [<code>greg</code>](#greg)  
+**Read only**: true  
 <a name="months"></a>
 
 ## months : <code>enum</code>
@@ -2635,102 +3213,6 @@ Holiday flags for Event
 | YERUSHALMI_YOMI | <code>number</code> | <code>16777216</code> | Daily page of Jerusalem Talmud (Yerushalmi) |
 | NACH_YOMI | <code>number</code> | <code>33554432</code> | Nach Yomi |
 
-<a name="greg"></a>
-
-## greg
-Gregorian date helper functions.
-
-**Kind**: global constant  
-
-* [greg](#greg)
-    * [.monthNames](#greg.monthNames) : <code>Array.&lt;string&gt;</code>
-    * [.isLeapYear(year)](#greg.isLeapYear) ⇒ <code>boolean</code>
-    * [.daysInMonth(month, year)](#greg.daysInMonth) ⇒ <code>number</code>
-    * [.isDate(obj)](#greg.isDate) ⇒ <code>boolean</code>
-    * ~~[.dayOfYear(date)](#greg.dayOfYear) ⇒ <code>number</code>~~
-    * [.greg2abs(date)](#greg.greg2abs) ⇒ <code>number</code>
-    * [.abs2greg(theDate)](#greg.abs2greg) ⇒ <code>Date</code>
-
-<a name="greg.monthNames"></a>
-
-### greg.monthNames : <code>Array.&lt;string&gt;</code>
-Long names of the Gregorian months (1='January', 12='December')
-
-**Kind**: static property of [<code>greg</code>](#greg)  
-**Read only**: true  
-<a name="greg.isLeapYear"></a>
-
-### greg.isLeapYear(year) ⇒ <code>boolean</code>
-Returns true if the Gregorian year is a leap year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| year | <code>number</code> | Gregorian year |
-
-<a name="greg.daysInMonth"></a>
-
-### greg.daysInMonth(month, year) ⇒ <code>number</code>
-Number of days in the Gregorian month for given year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| month | <code>number</code> | Gregorian month (1=January, 12=December) |
-| year | <code>number</code> | Gregorian year |
-
-<a name="greg.isDate"></a>
-
-### greg.isDate(obj) ⇒ <code>boolean</code>
-Returns true if the object is a Javascript Date
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type |
-| --- | --- |
-| obj | <code>Object</code> | 
-
-<a name="greg.dayOfYear"></a>
-
-### ~~greg.dayOfYear(date) ⇒ <code>number</code>~~
-***Deprecated***
-
-Returns number of days since January 1 of that year
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg.greg2abs"></a>
-
-### greg.greg2abs(date) ⇒ <code>number</code>
-Converts Gregorian date to absolute R.D. (Rata Die) days
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| date | <code>Date</code> | Gregorian date |
-
-<a name="greg.abs2greg"></a>
-
-### greg.abs2greg(theDate) ⇒ <code>Date</code>
-Converts from Rata Die (R.D. number) to Gregorian date.
-See the footnote on page 384 of ``Calendrical Calculations, Part II:
-Three Historical Calendars'' by E. M. Reingold,  N. Dershowitz, and S. M.
-Clamen, Software--Practice and Experience, Volume 23, Number 4
-(April, 1993), pages 383-404 for an explanation.
-
-**Kind**: static method of [<code>greg</code>](#greg)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| theDate | <code>number</code> | R.D. number of days |
-
 <a name="parshiot"></a>
 
 ## parshiot : <code>Array.&lt;string&gt;</code>
@@ -2776,32 +3258,202 @@ and vowels (nekudot).
 | --- | --- |
 | str | <code>string</code> | 
 
-<a name="ZmanimTimesResult"></a>
+<a name="hebrew2abs"></a>
 
-## ZmanimTimesResult : <code>Object</code>
-**Kind**: global typedef  
-**Properties**
+## hebrew2abs(year, month, day) ⇒ <code>number</code>
+Converts Hebrew date to R.D. (Rata Die) fixed days.
+R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
+Calendar.
 
-| Name | Type |
-| --- | --- |
-| dawn | <code>Date</code> | 
-| dusk | <code>Date</code> | 
-| goldenHour | <code>Date</code> | 
-| goldenHourEnd | <code>Date</code> | 
-| nauticalDawn | <code>Date</code> | 
-| nauticalDusk | <code>Date</code> | 
-| night | <code>Date</code> | 
-| nightEnd | <code>Date</code> | 
-| solarNoon | <code>Date</code> | 
-| sunrise | <code>Date</code> | 
-| sunriseEnd | <code>Date</code> | 
-| sunset | <code>Date</code> | 
-| sunsetStart | <code>Date</code> | 
-| alotHaShachar | <code>Date</code> | 
-| misheyakir | <code>Date</code> | 
-| misheyakirMachmir | <code>Date</code> | 
-| tzeit | <code>Date</code> | 
+**Kind**: global function  
 
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+| month | <code>number</code> | Hebrew month |
+| day | <code>number</code> | Hebrew date (1-30) |
+
+<a name="abs2hebrew"></a>
+
+## abs2hebrew(abs) ⇒ <code>SimpleHebrewDate</code>
+Converts absolute R.D. days to Hebrew date
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| abs | <code>number</code> | absolute R.D. days |
+
+<a name="isLeapYear"></a>
+
+## isLeapYear(year) ⇒ <code>boolean</code>
+Returns true if Hebrew year is a leap year
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="monthsInYear"></a>
+
+## monthsInYear(year) ⇒ <code>number</code>
+Number of months in this Hebrew year (either 12 or 13 depending on leap year)
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="daysInMonth"></a>
+
+## daysInMonth(month, year) ⇒ <code>number</code>
+Number of days in Hebrew month in a given year (29 or 30)
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> | Hebrew month (e.g. months.TISHREI) |
+| year | <code>number</code> | Hebrew year |
+
+<a name="getMonthName"></a>
+
+## getMonthName(month, year)
+Returns a transliterated string name of Hebrew month in year,
+for example 'Elul' or 'Cheshvan'.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| month | <code>number</code> | Hebrew month (e.g. months.TISHREI) |
+| year | <code>number</code> | Hebrew year |
+
+<a name="elapsedDays"></a>
+
+## elapsedDays(year) ⇒ <code>number</code>
+Days from sunday prior to start of Hebrew calendar to mean
+conjunction of Tishrei in Hebrew YEAR
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="daysInYear"></a>
+
+## daysInYear(year) ⇒ <code>number</code>
+Number of days in the hebrew YEAR.
+A common Hebrew calendar year can have a length of 353, 354 or 355 days
+A leap Hebrew calendar year can have a length of 383, 384 or 385 days
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="longCheshvan"></a>
+
+## longCheshvan(year) ⇒ <code>boolean</code>
+true if Cheshvan is long in Hebrew year
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="shortKislev"></a>
+
+## shortKislev(year) ⇒ <code>boolean</code>
+true if Kislev is short in Hebrew year
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| year | <code>number</code> | Hebrew year |
+
+<a name="getYahrzeit"></a>
+
+## getYahrzeit(hyear, date) ⇒ <code>Date</code>
+Calculates yahrzeit.
+`hyear` must be after original `date` of death.
+Returns `undefined` when requested year preceeds or is same as original year.
+
+Hebcal uses the algorithm defined in "Calendrical Calculations"
+by Edward M. Reingold and Nachum Dershowitz.
+
+The customary anniversary date of a death is more complicated and depends
+also on the character of the year in which the first anniversary occurs.
+There are several cases:
+
+* If the date of death is Marcheshvan 30, the anniversary in general depends
+  on the first anniversary; if that first anniversary was not Marcheshvan 30,
+  use the day before Kislev 1.
+* If the date of death is Kislev 30, the anniversary in general again depends
+  on the first anniversary — if that was not Kislev 30, use the day before
+  Tevet 1.
+* If the date of death is Adar II, the anniversary is the same day in the
+  last month of the Hebrew year (Adar or Adar II).
+* If the date of death is Adar I 30, the anniversary in a Hebrew year that
+  is not a leap year (in which Adar only has 29 days) is the last day in
+  Shevat.
+* In all other cases, use the normal (that is, same month number) anniversary
+  of the date of death. [Calendrical Calculations p. 113]
+
+**Kind**: global function  
+**Returns**: <code>Date</code> - anniversary occurring in `hyear`  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year |
+| date | <code>Date</code> \| <code>SimpleHebrewDate</code> \| <code>number</code> | Gregorian or Hebrew date of death |
+
+**Example**  
+```js
+import {getYahrzeit} from '@hebcal/hdate';
+const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+const anniversary = getYahrzeit(5780, dt); // '2/25/2020' == '30 Sh\'vat 5780'
+```
+<a name="getBirthdayOrAnniversary"></a>
+
+## getBirthdayOrAnniversary(hyear, date) ⇒ <code>Date</code>
+Calculates a birthday or anniversary (non-yahrzeit).
+`hyear` must be after original `date` of anniversary.
+Returns `undefined` when requested year preceeds or is same as original year.
+
+Hebcal uses the algorithm defined in "Calendrical Calculations"
+by Edward M. Reingold and Nachum Dershowitz.
+
+The birthday of someone born in Adar of an ordinary year or Adar II of
+a leap year is also always in the last month of the year, be that Adar
+or Adar II. The birthday in an ordinary year of someone born during the
+first 29 days of Adar I in a leap year is on the corresponding day of Adar;
+in a leap year, the birthday occurs in Adar I, as expected.
+
+Someone born on the thirtieth day of Marcheshvan, Kislev, or Adar I
+has his birthday postponed until the first of the following month in
+years where that day does not occur. [Calendrical Calculations p. 111]
+
+**Kind**: global function  
+**Returns**: <code>Date</code> - anniversary occurring in `hyear`  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year |
+| date | <code>Date</code> \| <code>SimpleHebrewDate</code> \| <code>number</code> | Gregorian or Hebrew date of event |
+
+**Example**  
+```js
+import {getBirthdayOrAnniversary} from '@hebcal/hdate';
+const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
+const anniversary = getBirthdayOrAnniversary(5780, dt); // '3/26/2020' == '1 Nisan 5780'
+```
 <a name="SedraResult"></a>
 
 ## SedraResult : <code>Object</code>
