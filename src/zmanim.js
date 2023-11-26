@@ -220,8 +220,8 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanShmaMGA() { // Magen Avraham
-    const alot72 = this.sunriseOffset(-72, false);
-    const tzeit72 = this.sunsetOffset(72, false);
+    const alot72 = this.sunriseOffset(-72, false, true);
+    const tzeit72 = this.sunsetOffset(72, false, true);
     const temporalHour = (tzeit72 - alot72) / 12; // ms in hour
     return new Date(alot72.getTime() + (3 * temporalHour));
   }
@@ -230,8 +230,8 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanTfillaMGA() { // Magen Avraham
-    const alot72 = this.sunriseOffset(-72, false);
-    const tzeit72 = this.sunsetOffset(72, false);
+    const alot72 = this.sunriseOffset(-72, false, true);
+    const tzeit72 = this.sunsetOffset(72, false, true);
     const temporalHour = (tzeit72 - alot72) / 12; // ms in hour
     return new Date(alot72.getTime() + (4 * temporalHour));
   }
@@ -346,10 +346,11 @@ export class Zmanim {
    * Returns sunrise + `offset` minutes (either positive or negative).
    * @param {number} offset minutes
    * @param {boolean} roundMinute round time to nearest minute (default true)
+   * @param {boolean} seaLevel use sea-level sunrise (default false)
    * @return {Date}
    */
-  sunriseOffset(offset, roundMinute=true) {
-    const sunrise = this.seaLevelSunrise();
+  sunriseOffset(offset, roundMinute=true, seaLevel=false) {
+    const sunrise = seaLevel ? this.seaLevelSunrise() : this.sunrise();
     if (isNaN(sunrise.getTime())) {
       return sunrise;
     }
@@ -367,10 +368,11 @@ export class Zmanim {
    * Returns sunset + `offset` minutes (either positive or negative).
    * @param {number} offset minutes
    * @param {boolean} roundMinute round time to nearest minute (default true)
+   * @param {boolean} seaLevel use sea-level sunset (default false)
    * @return {Date}
    */
-  sunsetOffset(offset, roundMinute=true) {
-    const sunset = this.seaLevelSunset();
+  sunsetOffset(offset, roundMinute=true, seaLevel=false) {
+    const sunset = seaLevel ? this.seaLevelSunset() : this.sunset();
     if (isNaN(sunset.getTime())) {
       return sunset;
     }

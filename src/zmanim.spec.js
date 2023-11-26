@@ -123,6 +123,30 @@ test('zmanim-denver', (t) => {
     timeZone: tzid,
   });
 
+  /*
+   * | Civil Date | Jun 5, 2020|
+   * | Jewish Date | 13 Sivan, 5780|
+   * | Day of Week | Fri|
+   * | Parshas Hashavua / Yom Tov | |
+   * | Alos 16.1° | 3:48:37 AM|
+   * | Alos 72 Minutes | 4:12:30 AM|
+   * | Misheyakir 10.2° | 4:32:14 AM|
+   * | Sunrise (1636.0 Meters) | 5:24:30 AM|
+   * | Sunrise (Sea Level) | 5:32:26 AM|
+   * | Sof Zman Shma MGA 72 Minutes | 8:35:37 AM|
+   * | Sof Zman Shma GRA | 9:11:37 AM|
+   * | Sof Zman Tfila MGA 72 Minutes | 10:03:19 AM|
+   * | Sof Zman Tfila GRA | 10:27:19 AM|
+   * | Chatzos Astronomical | 12:58:30 PM|
+   * | Mincha Gedola GRA | 1:36:35 PM|
+   * | Plag Hamincha | 6:58:19 PM|
+   * | Candle Lighting 18 Minutes | 8:07:01 PM|
+   * | Sunset (Sea Level) | 8:25:01 PM|
+   * | Sunset (1636.0 Meters) | 8:32:57 PM|
+   * | Tzais Geonim 8.5° | 9:13:45 PM|
+   * | Tzais 72 Minutes | 9:44:57 PM|
+   * | Tzais 16.1° | 10:09:05 PM
+   */
   const expected = {
     gregEve: '06/04/2020, 20:32:19',
     chatzotNight: '06/05/2020, 24:58:24',
@@ -137,21 +161,16 @@ test('zmanim-denver', (t) => {
     // "SeaLevelSunrise": "2020-06-05T05:32:26-06:00",
     seaLevelSunrise: '06/05/2020, 05:32:26',
     neitzHaChama: '06/05/2020, 05:24:30',
-    // @TODO "SofZmanShmaGRA": "2020-06-05T09:15:34-06:00",
     sofZmanShma: '06/05/2020, 09:11:37',
-    // "SofZmanShmaMGA": "2020-06-05T08:39:34-06:00",
-    sofZmanShmaMGA: '06/05/2020, 08:39:34',
-    // @TODO "SofZmanTfilaGRA": "2020-06-05T10:29:57-06:00",
-    sofZmanTfilla: '06/05/2020, 10:27:19',
+    sofZmanShmaMGA: '06/05/2020, 08:39:34', // 08:35:37 AM
+    sofZmanTfilla: '06/05/2020, 10:27:19', // 10:03:19 AM
     // "SofZmanTfilaMGA": "2020-06-05T10:05:57-06:00",
     sofZmanTfillaMGA: '06/05/2020, 10:05:57',
     // "Chatzos": "2020-06-05T12:58:43-06:00",
     chatzot: '06/05/2020, 12:58:43',
-    // @TODO "MinchaGedola": "2020-06-05T13:35:55-06:00",
     minchaGedola: '06/05/2020, 13:36:35',
     // @TODO "MinchaKetana": "2020-06-05T17:19:04-06:00",
     minchaKetana: '06/05/2020, 17:23:42',
-    // @TODO "PlagHamincha": "2020-06-05T18:52:02-06:00",
     plagHaMincha: '06/05/2020, 18:58:19',
     seaLevelSunset: '06/05/2020, 20:25:01',
     // "Sunset": "2020-06-05T20:32:57-06:00",
@@ -171,7 +190,7 @@ test('zmanim-denver', (t) => {
   t.deepEqual(actual, expected);
 
   // "Tzais72": "2020-06-05T21:37:01-06:00"
-  t.is(f.format(zman.sunsetOffset(72, false)), '06/05/2020, 21:37:01');
+  t.is(f.format(zman.sunsetOffset(72, false, true)), '06/05/2020, 21:37:01');
 });
 
 test('throws', (t) => {
@@ -374,6 +393,26 @@ test('sunsetOffset', (t) => {
   t.is(f.format(zman.sunsetOffset(10, false)), '20:32:29');
 });
 
+test('sunsetOffset-seaLevel', (t) => {
+  const zman = makeZmanWithElevation();
+  const tzid = 'America/Denver';
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: tzid,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+  t.is(f.format(zman.sunriseOffset(10, true, true)), '05:42:00');
+  t.is(f.format(zman.sunriseOffset(10, false, true)), '05:42:26');
+  t.is(f.format(zman.sunriseOffset(10, true, false)), '05:35:00');
+  t.is(f.format(zman.sunriseOffset(10, false, false)), '05:34:30');
+
+  t.is(f.format(zman.sunsetOffset(10, true, true)), '20:35:00');
+  t.is(f.format(zman.sunsetOffset(10, false, true)), '20:35:01');
+  t.is(f.format(zman.sunsetOffset(10, true, false)), '20:43:00');
+});
+
 test('timeAtAngle', (t) => {
   const zman = makeZman();
   const f = new Intl.DateTimeFormat('en-US', {
@@ -459,5 +498,6 @@ test('zmanim-UTC', (t) => {
   }
   t.deepEqual(actual, expected);
 
-  t.is(f.format(zman.sunsetOffset(72, false)), '19:14:15');
+  t.is(f.format(zman.sunsetOffset(72, false, false)), '19:14:53');
+  t.is(f.format(zman.sunsetOffset(72, false, true)), '19:14:15');
 });
