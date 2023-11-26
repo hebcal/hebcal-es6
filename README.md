@@ -1194,7 +1194,7 @@ GeoLocation constructor with parameters for all required fields.
 | --- | --- | --- |
 | name | <code>string</code> | The location name for display use such as &quot;Lakewood, NJ&quot; |
 | latitude | <code>number</code> | the latitude in a double format such as 40.095965 for Lakewood, NJ.            <b>Note: </b> For latitudes south of the equator, a negative value should be used. |
-| longitude | <code>number</code> | double the longitude in a double format such as -74.222130 for Lakewood, NJ.            <b>Note: </b> For longitudes east of the <a href="http://en.wikipedia.org/wiki/Prime_Meridian">Prime            Meridian </a> (Greenwich), a negative value should be used. |
+| longitude | <code>number</code> | double the longitude in a double format such as -74.222130 for Lakewood, NJ.            <b>Note: </b> For longitudes west of the <a href="http://en.wikipedia.org/wiki/Prime_Meridian">Prime            Meridian </a> (Greenwich), a negative value should be used. |
 | elevation | <code>number</code> | the elevation above sea level in Meters. Elevation is not used in most algorithms used for calculating            sunrise and set. |
 | timeZoneId | <code>string</code> | the <code>TimeZone</code> for the location. |
 
@@ -1922,7 +1922,7 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
 **Kind**: global class  
 
 * [Zmanim](#Zmanim)
-    * [new Zmanim(gloc, date)](#new_Zmanim_new)
+    * [new Zmanim(gloc, date, useElevation)](#new_Zmanim_new)
     * _instance_
         * [.timeAtAngle(angle, rising)](#Zmanim+timeAtAngle) ⇒ <code>Date</code>
         * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
@@ -1947,8 +1947,8 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
         * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
         * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
         * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
-        * [.sunriseOffset(offset, roundMinute, seaLevel)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
-        * [.sunsetOffset(offset, roundMinute, seaLevel)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
+        * [.sunriseOffset(offset, roundMinute, forceSeaLevel)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
+        * [.sunsetOffset(offset, roundMinute, forceSeaLevel)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
     * _static_
         * [.formatTime(dt, timeFormat)](#Zmanim.formatTime) ⇒ <code>string</code>
         * [.roundTime(dt)](#Zmanim.roundTime) ⇒ <code>Date</code>
@@ -1957,7 +1957,7 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
 
 <a name="new_Zmanim_new"></a>
 
-### new Zmanim(gloc, date)
+### new Zmanim(gloc, date, useElevation)
 Initialize a Zmanim instance.
 
 
@@ -1965,6 +1965,7 @@ Initialize a Zmanim instance.
 | --- | --- | --- |
 | gloc | [<code>GeoLocation</code>](#GeoLocation) | GeoLocation including latitude, longitude, and timezone |
 | date | <code>Date</code> \| [<code>HDate</code>](#HDate) | Regular or Hebrew Date. If `date` is a regular `Date`,    hours, minutes, seconds and milliseconds are ignored. |
+| useElevation | <code>boolean</code> | use elevation for calculations (default `false`).    If `true`, use elevation to affect the calculation of all sunrise/sunset based    zmanim. Note: there are some zmanim such as degree-based zmanim that are driven    by the amount of light in the sky and are not impacted by elevation.    These zmanim intentionally do not support elevation adjustment. |
 
 **Example**  
 ```js
@@ -1974,7 +1975,7 @@ const longitude = -71.448292;
 const tzid = 'America/New_York';
 const friday = new Date(2023, 8, 8);
 const gloc = new GeoLocation(null, latitude, longitude, 0, tzid);
-const zmanim = new Zmanim(gloc, friday);
+const zmanim = new Zmanim(gloc, friday, false);
 const candleLighting = zmanim.sunsetOffset(-18, true);
 const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
 ```
@@ -2126,7 +2127,7 @@ Alias for sunset
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunriseOffset"></a>
 
-### zmanim.sunriseOffset(offset, roundMinute, seaLevel) ⇒ <code>Date</code>
+### zmanim.sunriseOffset(offset, roundMinute, forceSeaLevel) ⇒ <code>Date</code>
 Returns sunrise + `offset` minutes (either positive or negative).
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -2135,11 +2136,11 @@ Returns sunrise + `offset` minutes (either positive or negative).
 | --- | --- | --- | --- |
 | offset | <code>number</code> |  | minutes |
 | roundMinute | <code>boolean</code> | <code>true</code> | round time to nearest minute (default true) |
-| seaLevel | <code>boolean</code> | <code>false</code> | use sea-level sunrise (default false) |
+| forceSeaLevel | <code>boolean</code> | <code>false</code> | use sea-level sunrise (default false) |
 
 <a name="Zmanim+sunsetOffset"></a>
 
-### zmanim.sunsetOffset(offset, roundMinute, seaLevel) ⇒ <code>Date</code>
+### zmanim.sunsetOffset(offset, roundMinute, forceSeaLevel) ⇒ <code>Date</code>
 Returns sunset + `offset` minutes (either positive or negative).
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -2148,7 +2149,7 @@ Returns sunset + `offset` minutes (either positive or negative).
 | --- | --- | --- | --- |
 | offset | <code>number</code> |  | minutes |
 | roundMinute | <code>boolean</code> | <code>true</code> | round time to nearest minute (default true) |
-| seaLevel | <code>boolean</code> | <code>false</code> | use sea-level sunset (default false) |
+| forceSeaLevel | <code>boolean</code> | <code>false</code> | use sea-level sunset (default false) |
 
 <a name="Zmanim.formatTime"></a>
 
@@ -3492,6 +3493,7 @@ Options to configure which events are returned
 | havdalahMins | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are suppressed. |
 | havdalahDeg | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars      (observed by Dr. Baruch (Berthold) Cohn in his luach published in France in 1899).      If `0`, Havdalah times are suppressed. |
 | fastEndDeg | <code>number</code> | degrees for solar depression for end of fast days.      Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include      6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky. |
+| useElevation | <code>boolean</code> | use elevation for calculations (default `false`).      If `true`, use elevation to affect the calculation of all sunrise/sunset based zmanim.      Note: there are some zmanim such as degree-based zmanim that are driven by the amount      of light in the sky and are not impacted by elevation.      These zmanim intentionally do not support elevation adjustment. |
 | sedrot | <code>boolean</code> | calculate parashah hashavua on Saturdays |
 | il | <code>boolean</code> | Israeli holiday and sedra schedule |
 | noMinorFast | <code>boolean</code> | suppress minor fasts |

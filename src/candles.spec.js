@@ -35,7 +35,10 @@ test('makeCandleEvent-nosunset', (t) => {
   const events = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, {candleLightingMins: -18});
+    const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, {
+      candleLightingMins: -18,
+      useElevation: true,
+    });
     events.push(ev);
   }
   const result = events.map(eventDateDesc);
@@ -57,6 +60,7 @@ test('makeCandleEvent-nosunset', (t) => {
     const ev = makeCandleEvent(undefined, hd, hd.getDay(), location, {
       candleLightingMins: -18,
       havdalahMins: 72,
+      useElevation: true,
     });
     events2.push(ev);
   }
@@ -81,6 +85,7 @@ test('candles-only-diaspora', (t) => {
     noHolidays: true,
     location: Location.lookup('Chicago'),
     candlelighting: true,
+    useElevation: true,
   };
   const events = HebrewCalendar.calendar(options);
   t.is(events.length, 132);
@@ -229,6 +234,7 @@ test('candleLightingMins', (t) => {
     candlelighting: true,
     candleLightingMins: 30,
     havdalahMins: 0,
+    useElevation: true,
   };
   const events30 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
   const expected30 = [
@@ -454,6 +460,7 @@ test('no-chanukah-candles-when-noHolidays', (t) => {
     start: new Date(2020, 11, 9),
     end: new Date(2020, 11, 19),
     location: Location.lookup('Seattle'),
+    useElevation: true,
   };
   const events = HebrewCalendar.calendar(options);
   const expected = [
@@ -584,6 +591,7 @@ test('yk-candles-only', (t) => {
     noHolidays: true,
     location: Location.lookup('Boston'),
     candlelighting: true,
+    useElevation: true,
   });
   const actual = events.map(eventTitleDateTime);
   const expected = [

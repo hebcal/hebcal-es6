@@ -435,16 +435,18 @@ declare module '@hebcal/core' {
         shkiah(): Date;
         /**
          * Returns sunrise + `offset` minutes (either positive or negative).
-         * @param roundMinute round time to nearest minute (default true)
          * @param offset minutes
+         * @param roundMinute round time to nearest minute (default true)
+         * @param forceSeaLevel use sea-level sunrise (default false)
          */
-        sunriseOffset(offset: number, roundMinute?: boolean): Date;
+        sunriseOffset(offset: number, roundMinute?: boolean, forceSeaLevel?: boolean): Date;
         /**
          * Returns sunset + `offset` minutes (either positive or negative).
          * @param offset minutes
          * @param roundMinute round time to nearest minute (default true)
+         * @param forceSeaLevel use sea-level sunset (default false)
          */
-        sunsetOffset(offset: number, roundMinute?: boolean): Date;
+        sunsetOffset(offset: number, roundMinute?: boolean, forceSeaLevel?: boolean): Date;
     }
 
     export interface Headers {
@@ -566,6 +568,14 @@ declare module '@hebcal/core' {
          * Yechiel Michel Tucazinsky.
          */
         fastEndDeg?: number;
+        /**
+         * useElevation - use elevation for calculations (default `false`).
+         * If `true`, use elevation to affect the calculation of all sunrise/sunset based zmanim.
+         * Note: there are some zmanim such as degree-based zmanim that are driven by the amount
+         * of light in the sky and are not impacted by elevation.
+         * These zmanim intentionally do not support elevation adjustment.
+         */
+        useElevation?: boolean;
         /** calculate parashah hashavua on Saturdays */
         sedrot?: boolean;
         /** Israeli holiday and sedra schedule */

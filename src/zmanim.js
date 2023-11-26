@@ -2,7 +2,7 @@ import {HDate} from './hdate';
 import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
 import {greg} from '@hebcal/hdate';
 import {throwTypeError} from './throwTypeError';
-import {Temporal} from 'temporal-polyfill';
+import 'temporal-polyfill/global';
 import {NOAACalculator} from '@hebcal/noaa';
 
 /**
@@ -53,7 +53,7 @@ function zdtToDate(zdt) {
  * const tzid = 'America/New_York';
  * const friday = new Date(2023, 8, 8);
  * const gloc = new GeoLocation(null, latitude, longitude, 0, tzid);
- * const zmanim = new Zmanim(gloc, friday);
+ * const zmanim = new Zmanim(gloc, friday, false);
  * const candleLighting = zmanim.sunsetOffset(-18, true);
  * const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
  */
@@ -63,8 +63,13 @@ export class Zmanim {
    * @param {GeoLocation} gloc GeoLocation including latitude, longitude, and timezone
    * @param {Date|HDate} date Regular or Hebrew Date. If `date` is a regular `Date`,
    *    hours, minutes, seconds and milliseconds are ignored.
+   * @param {boolean} useElevation use elevation for calculations (default `false`).
+   *    If `true`, use elevation to affect the calculation of all sunrise/sunset based
+   *    zmanim. Note: there are some zmanim such as degree-based zmanim that are driven
+   *    by the amount of light in the sky and are not impacted by elevation.
+   *    These zmanim intentionally do not support elevation adjustment.
    */
-  constructor(gloc, date) {
+  constructor(gloc, date, useElevation) {
     const dt = greg.isDate(date) ? date :
         HDate.isHDate(date) ? date.greg() :
         throwTypeError(`invalid date: ${date}`);
@@ -75,6 +80,7 @@ export class Zmanim {
       month: dt.getMonth() + 1,
       day: dt.getDate()});
     this.noaa = new NOAACalculator(gloc, plainDate);
+    this.useElevation = Boolean(useElevation);
   }
   /**
    * Convenience function to get the time when sun is above or below the horizon
@@ -94,7 +100,7 @@ export class Zmanim {
    * @return {Date}
    */
   sunrise() {
-    const zdt = this.noaa.getSunrise();
+    const zdt = this.useElevation ? this.noaa.getSunrise() : this.noaa.getSeaLevelSunrise();
     return zdtToDate(zdt);
   }
   /**
@@ -110,7 +116,7 @@ export class Zmanim {
    * @return {Date}
    */
   sunset() {
-    const zdt = this.noaa.getSunset();
+    const zdt = this.useElevation ? this.noaa.getSunset() : this.noaa.getSeaLevelSunset();
     return zdtToDate(zdt);
   }
   /**
@@ -141,7 +147,7 @@ export class Zmanim {
   gregEve() {
     const prev = new Date(this.date);
     prev.setDate(prev.getDate() - 1);
-    const zman = new Zmanim(this.gloc, prev);
+    const zman = new Zmanim(this.gloc, prev, this.useElevation);
     return zman.sunset();
   }
   /**
@@ -346,11 +352,11 @@ export class Zmanim {
    * Returns sunrise + `offset` minutes (either positive or negative).
    * @param {number} offset minutes
    * @param {boolean} roundMinute round time to nearest minute (default true)
-   * @param {boolean} seaLevel use sea-level sunrise (default false)
+   * @param {boolean} forceSeaLevel use sea-level sunrise (default false)
    * @return {Date}
    */
-  sunriseOffset(offset, roundMinute=true, seaLevel=false) {
-    const sunrise = seaLevel ? this.seaLevelSunrise() : this.sunrise();
+  sunriseOffset(offset, roundMinute=true, forceSeaLevel=false) {
+    const sunrise = forceSeaLevel ? this.seaLevelSunrise() : this.sunrise();
     if (isNaN(sunrise.getTime())) {
       return sunrise;
     }
@@ -368,11 +374,11 @@ export class Zmanim {
    * Returns sunset + `offset` minutes (either positive or negative).
    * @param {number} offset minutes
    * @param {boolean} roundMinute round time to nearest minute (default true)
-   * @param {boolean} seaLevel use sea-level sunset (default false)
+   * @param {boolean} forceSeaLevel use sea-level sunset (default false)
    * @return {Date}
    */
-  sunsetOffset(offset, roundMinute=true, seaLevel=false) {
-    const sunset = seaLevel ? this.seaLevelSunset() : this.sunset();
+  sunsetOffset(offset, roundMinute=true, forceSeaLevel=false) {
+    const sunset = forceSeaLevel ? this.seaLevelSunset() : this.sunset();
     if (isNaN(sunset.getTime())) {
       return sunset;
     }

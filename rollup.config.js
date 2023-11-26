@@ -19,7 +19,12 @@ module.exports = [
   {
     input: 'src/index.js',
     output: [
-      {file: pkg.main, format: 'cjs', name: pkg.name, banner},
+      {file: pkg.main, format: 'cjs', name: pkg.name, banner,
+        inlineDynamicImports: true,
+        globals: {
+          'temporal-polyfill': 'Temporal',
+        },
+      },
     ],
     plugins: [
       json({compact: true, preferConst: true}),
@@ -38,11 +43,17 @@ module.exports = [
       nodeResolve(),
       commonjs(),
     ],
+    external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.js',
     output: [
-      {file: pkg.module, format: 'es', name: pkg.name, banner},
+      {file: pkg.module, format: 'es', name: pkg.name, banner,
+        inlineDynamicImports: true,
+        globals: {
+          'temporal-polyfill': 'Temporal',
+        },
+      },
     ],
     plugins: [
       json({compact: true, preferConst: true}),
@@ -61,6 +72,7 @@ module.exports = [
       nodeResolve(),
       commonjs(),
     ],
+    external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.js',
@@ -71,6 +83,10 @@ module.exports = [
         name: 'hebcal',
         indent: false,
         banner,
+        inlineDynamicImports: true,
+        globals: {
+          'temporal-polyfill': 'Temporal',
+        },
       },
       {
         file: 'dist/bundle.min.js',
@@ -78,6 +94,10 @@ module.exports = [
         name: 'hebcal',
         plugins: [terser()],
         banner,
+        inlineDynamicImports: true,
+        globals: {
+          'temporal-polyfill': 'Temporal',
+        },
       },
     ],
     plugins: [
@@ -97,5 +117,6 @@ module.exports = [
         exclude: ['node_modules/core-js/**'],
       }),
     ],
+    external: ['temporal-polyfill'],
   },
 ];

@@ -106,6 +106,7 @@ const RECOGNIZED_OPTIONS = {
   yomKippurKatan: 1,
   hour12: 1,
   dailyLearning: 1,
+  useElevation: 1,
 };
 
 /**
@@ -236,6 +237,11 @@ function checkCandleOptions(options) {
  * @property {number} fastEndDeg - degrees for solar depression for end of fast days.
  *      Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include
  *      6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky.
+ * @property {boolean} useElevation - use elevation for calculations (default `false`).
+ *      If `true`, use elevation to affect the calculation of all sunrise/sunset based zmanim.
+ *      Note: there are some zmanim such as degree-based zmanim that are driven by the amount
+ *      of light in the sky and are not impacted by elevation.
+ *      These zmanim intentionally do not support elevation adjustment.
  * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
  * @property {boolean} il - Israeli holiday and sedra schedule
  * @property {boolean} noMinorFast - suppress minor fasts
@@ -984,7 +990,7 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
       candlesEv = makeCandleEvent(ev, hd, dow, location, options);
       if (eFlags & CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
         const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
-          makeWeekdayChanukahCandleLighting(ev, hd, location);
+          makeWeekdayChanukahCandleLighting(ev, hd, options);
         const attrs = {
           eventTime: chanukahEv.eventTime,
           eventTimeStr: chanukahEv.eventTimeStr,
