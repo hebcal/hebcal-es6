@@ -266,7 +266,7 @@ declare module '@hebcal/core' {
          * Converts Hebrew month string name to numeric
          * @param c - monthName
          */
-        static monthFromName(c: string): number;
+        static monthFromName(c: string | number): number;
 
         /**
          * Construct a new instance of `HDate` from a Gematriya-formatted string
