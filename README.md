@@ -1947,8 +1947,8 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
         * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
         * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
         * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
-        * [.sunriseOffset(offset, roundMinute)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
-        * [.sunsetOffset(offset, roundMinute)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
+        * [.sunriseOffset(offset, roundMinute, seaLevel)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
+        * [.sunsetOffset(offset, roundMinute, seaLevel)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
     * _static_
         * [.formatTime(dt, timeFormat)](#Zmanim.formatTime) ⇒ <code>string</code>
         * [.roundTime(dt)](#Zmanim.roundTime) ⇒ <code>Date</code>
@@ -2126,7 +2126,7 @@ Alias for sunset
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunriseOffset"></a>
 
-### zmanim.sunriseOffset(offset, roundMinute) ⇒ <code>Date</code>
+### zmanim.sunriseOffset(offset, roundMinute, seaLevel) ⇒ <code>Date</code>
 Returns sunrise + `offset` minutes (either positive or negative).
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -2135,10 +2135,11 @@ Returns sunrise + `offset` minutes (either positive or negative).
 | --- | --- | --- | --- |
 | offset | <code>number</code> |  | minutes |
 | roundMinute | <code>boolean</code> | <code>true</code> | round time to nearest minute (default true) |
+| seaLevel | <code>boolean</code> | <code>false</code> | use sea-level sunrise (default false) |
 
 <a name="Zmanim+sunsetOffset"></a>
 
-### zmanim.sunsetOffset(offset, roundMinute) ⇒ <code>Date</code>
+### zmanim.sunsetOffset(offset, roundMinute, seaLevel) ⇒ <code>Date</code>
 Returns sunset + `offset` minutes (either positive or negative).
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -2147,6 +2148,7 @@ Returns sunset + `offset` minutes (either positive or negative).
 | --- | --- | --- | --- |
 | offset | <code>number</code> |  | minutes |
 | roundMinute | <code>boolean</code> | <code>true</code> | round time to nearest minute (default true) |
+| seaLevel | <code>boolean</code> | <code>false</code> | use sea-level sunset (default false) |
 
 <a name="Zmanim.formatTime"></a>
 
