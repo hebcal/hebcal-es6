@@ -20,8 +20,13 @@
     "zmanim"
   ],
   "description": "A perpetual Jewish Calendar API",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
   "typings": "hebcal.d.ts",
   "engines": {
     "node": ">= 16.0.0"
@@ -42,7 +47,7 @@
     "build:rollup": "rollup -c",
     "build": "npm run po2json && npm run build:rollup",
     "prepublish": "npm run build",
-    "po2json": "node ./po2json.js po/*.po",
+    "po2json": "node ./po2json.cjs po/*.po",
     "readme": "npx -p jsdoc-to-markdown jsdoc2md dist/index.js",
     "pretest": "npm run build",
     "lint": "eslint src",

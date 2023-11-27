@@ -1,11 +1,12 @@
-const {nodeResolve} = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
-const babel = require('@rollup/plugin-babel');
-const json = require('@rollup/plugin-json');
-const terser = require('@rollup/plugin-terser');
-const pkg = require('./package.json');
+import {nodeResolve} from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import json from '@rollup/plugin-json';
+import terser from '@rollup/plugin-terser';
+import MANIFEST from './package.json' assert { type: 'json' };
+const {name, version, main, module} = MANIFEST;
 
-const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
+const banner = `/*! ${name} v${version} */`;
 
 const TARGET_NODE_VER = '16.0.0';
 const TARGETS_BROWSER = {
@@ -15,11 +16,11 @@ const TARGETS_BROWSER = {
   safari: '15.6',
 };
 
-module.exports = [
+export default [
   {
     input: 'src/index.js',
     output: [
-      {file: pkg.main, format: 'cjs', name: pkg.name, banner,
+      {file: main, format: 'cjs', name, banner,
         inlineDynamicImports: true,
         globals: {
           'temporal-polyfill': 'Temporal',
@@ -48,7 +49,7 @@ module.exports = [
   {
     input: 'src/index.js',
     output: [
-      {file: pkg.module, format: 'es', name: pkg.name, banner,
+      {file: module, format: 'es', name, banner,
         inlineDynamicImports: true,
         globals: {
           'temporal-polyfill': 'Temporal',
