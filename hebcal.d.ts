@@ -819,7 +819,7 @@ declare module '@hebcal/core' {
     /**
      * Gregorian date helper functions.
      */
-    export declare namespace greg {
+    export namespace greg {
         /**
          * Long names of the Gregorian months (1='January', 12='December')
          * @readonly
