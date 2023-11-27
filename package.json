@@ -20,8 +20,13 @@
     "zmanim"
   ],
   "description": "A perpetual Jewish Calendar API",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
   "typings": "hebcal.d.ts",
   "engines": {
     "node": ">= 16.0.0"
