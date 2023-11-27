@@ -64,7 +64,7 @@
     "@babel/preset-env": "^7.23.3",
     "@babel/register": "^7.22.15",
     "@hebcal/hdate": "^0.8.2",
-    "@hebcal/noaa": "^0.8.7",
+    "@hebcal/noaa": "^0.8.10",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
