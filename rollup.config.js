@@ -43,7 +43,7 @@ module.exports = [
       nodeResolve(),
       commonjs(),
     ],
-    external: ['temporal-polyfill'],
+    // external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.js',
@@ -72,7 +72,7 @@ module.exports = [
       nodeResolve(),
       commonjs(),
     ],
-    external: ['temporal-polyfill'],
+    // external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.js',
@@ -117,6 +117,6 @@ module.exports = [
         exclude: ['node_modules/core-js/**'],
       }),
     ],
-    external: ['temporal-polyfill'],
+    // external: ['temporal-polyfill'],
   },
 ];
