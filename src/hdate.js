@@ -107,13 +107,15 @@ export class HDate {
       this.setDate(day);
     } else {
       // 0 arguments
-      if (typeof day === 'undefined') {
+      if (typeof day === 'undefined' || day === null) {
         day = new Date();
       }
       // 1 argument
       const abs0 = (typeof day === 'number' && !isNaN(day)) ? day :
         greg.isDate(day) ? greg.greg2abs(day) :
-        HDate.isHDate(day) ? day :
+        (typeof day.yy === 'number' &&
+         typeof day.mm === 'number' &&
+         typeof day.dd === 'number') ? day :
         throwTypeError(`HDate called with bad argument: ${day}`);
       const isNumber = typeof abs0 === 'number';
       const d = isNumber ? abs2hebrew(abs0) : abs0;

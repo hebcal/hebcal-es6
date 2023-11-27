@@ -26,7 +26,7 @@ import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays';
 import {flags} from './event';
 import {OmerEvent} from './omer';
 import {ParshaEvent} from './ParshaEvent';
-import {greg, getYahrzeit, getBirthdayOrAnniversary} from '@hebcal/hdate';
+import {greg, getYahrzeitHD, getBirthdayHD} from '@hebcal/hdate';
 import {DailyLearning} from './DailyLearning';
 import {Location} from './location';
 import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
@@ -754,7 +754,10 @@ export class HebrewCalendar {
    * @return {HDate} anniversary occurring in `hyear`
    */
   static getBirthdayOrAnniversary(hyear, gdate) {
-    const dt = getBirthdayOrAnniversary(hyear, gdate);
+    const dt = getBirthdayHD(hyear, gdate);
+    if (typeof dt === 'undefined') {
+      return dt;
+    }
     return new HDate(dt);
   }
 
@@ -793,7 +796,10 @@ export class HebrewCalendar {
    * @return {HDate} anniversary occurring in hyear
    */
   static getYahrzeit(hyear, gdate) {
-    const dt = getYahrzeit(hyear, gdate);
+    const dt = getYahrzeitHD(hyear, gdate);
+    if (typeof dt === 'undefined') {
+      return dt;
+    }
     return new HDate(dt);
   }
 
