@@ -139,7 +139,7 @@ export class HDate {
          * @private
          * @type {number}
          */
-        this.abs0 = abs0;
+        this.rd = abs0;
       }
     }
   }
@@ -240,10 +240,10 @@ export class HDate {
    * @return {number}
    */
   abs() {
-    if (typeof this.abs0 !== 'number') {
-      this.abs0 = hebrew2abs(this.yy, this.mm, this.dd);
+    if (typeof this.rd !== 'number') {
+      this.rd = hebrew2abs(this.yy, this.mm, this.dd);
     }
-    return this.abs0;
+    return this.rd;
   }
 
   /**
@@ -739,7 +739,7 @@ function fixMonth(date) {
     date.yy += 1;
     fix(date);
   }
-  delete date.abs0;
+  delete date.rd;
 }
 
 /**
