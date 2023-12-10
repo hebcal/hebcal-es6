@@ -114,24 +114,12 @@ const RECOGNIZED_OPTIONS = {
  * @param {CalOptions} options
  */
 function warnUnrecognizedOptions(options) {
-  Object.keys(options).forEach((k) => {
+  for (const k of Object.keys(options)) {
     if (typeof RECOGNIZED_OPTIONS[k] === 'undefined' && !unrecognizedAlreadyWarned.has(k)) {
       console.warn(`Ignoring unrecognized HebrewCalendar option: ${k}`);
       unrecognizedAlreadyWarned.add(k);
     }
-  });
-}
-
-/**
- * A bit like Object.assign(), but just a shallow copy
- * @private
- * @param {any} target
- * @param {any} source
- * @return {any}
- */
-function shallowCopy(target, source) {
-  Object.keys(source).forEach((k) => target[k] = source[k]);
-  return target;
+  }
 }
 
 const israelCityOffset = {
@@ -613,7 +601,7 @@ export class HebrewCalendar {
    * @return {Event[]}
    */
   static calendar(options={}) {
-    options = shallowCopy({}, options); // so we can modify freely
+    options = Object.assign({}, options); // so we can modify freely
     checkCandleOptions(options);
     const location = options.location = options.location || defaultLocation;
     const il = options.il = options.il || location.il || false;
@@ -660,9 +648,9 @@ export class HebrewCalendar {
       const dow = hd.getDay();
       let candlesEv;
       const ev = holidaysYear.get(hd.toString()) || [];
-      ev.forEach((e) => {
+      for (const e of ev) {
         candlesEv = appendHolidayAndRelated(evts, e, options, candlesEv, dow);
-      });
+      }
       if (options.sedrot && dow === SAT) {
         const parsha0 = sedra.lookup(abs);
         if (!parsha0.chag) {
@@ -671,8 +659,7 @@ export class HebrewCalendar {
       }
       const dailyLearning = options.dailyLearning;
       if (typeof dailyLearning === 'object') {
-        Object.keys(dailyLearning).forEach((key) => {
-          const val = dailyLearning[key];
+        for (const [key, val] of Object.entries(dailyLearning)) {
           if (val) {
             const name = key === 'yerushalmi' ?
               (val === 2 ? 'yerushalmi-schottenstein' : 'yerushalmi-vilna') :
@@ -682,7 +669,7 @@ export class HebrewCalendar {
               evts.push(learningEv);
             }
           }
-        });
+        }
       }
       if (options.omer && abs >= beginOmer && abs <= endOmer) {
         const omer = abs - beginOmer + 1;

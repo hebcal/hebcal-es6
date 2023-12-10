@@ -90,7 +90,7 @@ export class Event {
     this.desc = desc;
     this.mask = +mask;
     if (typeof attrs === 'object' && attrs !== null) {
-      Object.keys(attrs).forEach((k) => this[k] = attrs[k]);
+      Object.assign(this, attrs);
     }
   }
   /**
