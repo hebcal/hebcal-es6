@@ -484,6 +484,7 @@ function observedInDiaspora(ev) {
 }
 
 const yearArrayCache = new Map();
+const holidaysOnDate = new Map();
 
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
@@ -832,20 +833,30 @@ export class HebrewCalendar {
   }
 
   /**
-   * Returns an array of Events on this date (or undefined if no events)
+   * Returns an array of Events on this date (or `undefined` if no events)
    * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute R.D. day number
    * @param {boolean} [il] use the Israeli schedule for holidays
    * @return {Event[]}
    */
   static getHolidaysOnDate(date, il) {
     const hd = HDate.isHDate(date) ? date : new HDate(date);
+    const hdStr = hd.toString();
+    const cacheKey = hdStr + '/' +
+      (typeof il === 'undefined' ? 2 : il ? 1 : 0);
+    if (holidaysOnDate.has(cacheKey)) {
+      return holidaysOnDate.get(cacheKey);
+    }
     const yearMap = getHolidaysForYear_(hd.getFullYear());
-    const events = yearMap.get(hd.toString());
+    const events = yearMap.get(hdStr);
+    // if il isn't a boolean return both diaspora + IL for day
     if (typeof il === 'undefined' || typeof events === 'undefined') {
+      holidaysOnDate.set(cacheKey, events);
       return events;
     }
     const myFilter = il ? observedInIsrael : observedInDiaspora;
-    return events.filter(myFilter);
+    const filtered = events.filter(myFilter);
+    holidaysOnDate.set(cacheKey, filtered);
+    return filtered;
   }
 
   /**

@@ -733,3 +733,29 @@ test('getCategories', (t) => {
       'Erev Yom Kippur', flags.EREV | flags.LIGHT_CANDLES);
   t.deepEqual(ev3.getCategories(), ['holiday', 'major']);
 });
+
+test('getHolidaysOnDate-cacheHit', (t) => {
+  const dt = new Date(2023, 11, 13);
+  const hd = new HDate(dt);
+  const ev1 = HebrewCalendar.getHolidaysOnDate(dt, false);
+  const ev2 = HebrewCalendar.getHolidaysOnDate(hd, false);
+  const ev3 = HebrewCalendar.getHolidaysOnDate(dt, true);
+  const ev4 = HebrewCalendar.getHolidaysOnDate(hd, true);
+  const ev5 = HebrewCalendar.getHolidaysOnDate(dt);
+  const ev6 = HebrewCalendar.getHolidaysOnDate(hd);
+  t.deepEqual(ev1, ev2);
+  t.deepEqual(ev1, ev3);
+  t.deepEqual(ev1, ev4);
+  t.deepEqual(ev1, ev5);
+  t.deepEqual(ev1, ev6);
+});
+
+test('getHolidaysOnDate-neg-cacheHit', (t) => {
+  const hd = new HDate(3, 'Cheshvan', 5771);
+  const ev1 = HebrewCalendar.getHolidaysOnDate(hd, false);
+  const ev2 = HebrewCalendar.getHolidaysOnDate(hd, false);
+  const ev3 = HebrewCalendar.getHolidaysOnDate(hd.greg(), false);
+  t.is(ev1, undefined);
+  t.is(ev2, undefined);
+  t.is(ev3, undefined);
+});
