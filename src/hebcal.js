@@ -18,25 +18,25 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {Locale} from './locale';
-import {HDate, months} from './hdate';
-import {HebrewDateEvent} from './HebrewDateEvent';
-import {MoladEvent} from './molad';
-import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays';
-import {flags} from './event';
-import {OmerEvent} from './omer';
-import {ParshaEvent} from './ParshaEvent';
+import {Locale} from './locale.js';
+import {HDate, months} from './hdate.js';
+import {HebrewDateEvent} from './HebrewDateEvent.js';
+import {MoladEvent} from './molad.js';
+import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays.js';
+import {flags} from './event.js';
+import {OmerEvent} from './omer.js';
+import {ParshaEvent} from './ParshaEvent.js';
 import {greg, getYahrzeitHD, getBirthdayHD} from '@hebcal/hdate';
-import {DailyLearning} from './DailyLearning';
-import {Location} from './location';
+import {DailyLearning} from './DailyLearning.js';
+import {Location} from './location.js';
 import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
-  makeWeekdayChanukahCandleLighting} from './candles';
-import {version as pkgVersion} from '../package.json';
-import './locale-ashkenazi';
-import './locale-he';
-import {Zmanim} from './zmanim';
-import {hallel_} from './hallel';
-import {tachanun_} from './tachanun';
+  makeWeekdayChanukahCandleLighting} from './candles.js';
+import {version as pkgVersion} from '../package.json' with { type: 'json' };
+import './locale-ashkenazi.js';
+import './locale-he.js';
+import {Zmanim} from './zmanim.js';
+import {hallel_} from './hallel.js';
+import {tachanun_} from './tachanun.js';
 
 const FRI = 5;
 const SAT = 6;

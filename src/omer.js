@@ -1,6 +1,6 @@
-import {flags, Event} from './event';
-import {Locale} from './locale';
-import {gematriya} from './gematriya';
+import {flags, Event} from './event.js';
+import {Locale} from './locale.js';
+import {gematriya} from './gematriya.js';
 
 const sefirot = [
   null,

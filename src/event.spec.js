@@ -1,6 +1,6 @@
 import test from 'ava';
-import {HDate} from './hdate';
-import {Event, flags} from './event';
+import {HDate} from './hdate.js';
+import {Event, flags} from './event.js';
 
 const hd = new HDate(23, 'Sivan', 5735);
 const ev = new Event(hd, 'Foo Bar', flags.USER_EVENT | flags.CHUL_ONLY, {quux: 123});

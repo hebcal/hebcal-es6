@@ -1,9 +1,9 @@
 import test from 'ava';
-import {HDate, months} from './hdate';
-import {Locale} from './locale';
-import {Sedra} from './sedra';
-import './locale-he';
-import './locale-ashkenazi';
+import {HDate, months} from './hdate.js';
+import {Locale} from './locale.js';
+import {Sedra} from './sedra.js';
+import './locale-he.js';
+import './locale-ashkenazi.js';
 
 /**
  * @private

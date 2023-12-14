@@ -1,5 +1,5 @@
 import test from 'ava';
-import {Location} from './location';
+import {Location} from './location.js';
 
 test('lookup', (t) => {
   const loc1 = Location.lookup('San Francisco');

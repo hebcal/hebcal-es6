@@ -31,8 +31,8 @@
  * The routines were included in the emacs 19 distribution.
  *
  */
-import {Locale} from './locale';
-import {HDate, months} from './hdate';
+import {Locale} from './locale.js';
+import {HDate, months} from './hdate.js';
 
 const INCOMPLETE = 0;
 const REGULAR = 1;
@@ -493,4 +493,3 @@ types['1311'] = types['1221'];
 /* Hebrew year that starts on Saturday, is `complete' (Heshvan and
  * Kislev each have 30 days), and has Passover start on Thursday. */
 types['1721'] = types['170'];
-

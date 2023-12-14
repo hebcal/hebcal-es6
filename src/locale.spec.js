@@ -1,7 +1,7 @@
 import test from 'ava';
-import {Locale} from './locale';
-import './locale-ashkenazi';
-import './locale-he';
+import {Locale} from './locale.js';
+import './locale-ashkenazi.js';
+import './locale-he.js';
 
 test('getLocaleNames', (t) => {
   const expected = ['', 'a', 'ashkenazi', 'en', 'h', 'he', 'he-x-nonikud', 's'];

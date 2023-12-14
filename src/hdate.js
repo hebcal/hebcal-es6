@@ -21,9 +21,9 @@
 import {greg, abs2hebrew, daysInMonth, daysInYear, getMonthName,
   hebrew2abs, isLeapYear, longCheshvan, months, monthFromName,
   monthsInYear, shortKislev} from '@hebcal/hdate';
-import {gematriya, gematriyaStrToNum} from './gematriya';
-import {Locale} from './locale';
-import {throwTypeError} from './throwTypeError';
+import {gematriya, gematriyaStrToNum} from './gematriya.js';
+import {Locale} from './locale.js';
+import {throwTypeError} from './throwTypeError.js';
 export {months};
 
 // eslint-disable-next-line require-jsdoc

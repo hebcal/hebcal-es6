@@ -1,12 +1,11 @@
-export {gematriya} from './gematriya';
-import {greg} from '@hebcal/hdate';
-export {greg};
-import {Locale} from './locale';
+export {gematriya} from './gematriya.js';
+export {greg} from '@hebcal/hdate';
+import {Locale} from './locale.js';
 export {Locale};
-export {HDate, months} from './hdate';
-export {getYahrzeit_ as getYahrzeit} from './anniversary';
-export {getBirthdayOrAnniversary_ as getBirthdayOrAnniversary} from './anniversary';
-export {version} from '../package.json';
+export {HDate, months} from './hdate.js';
+export {getYahrzeit_ as getYahrzeit} from './anniversary.js';
+export {getBirthdayOrAnniversary_ as getBirthdayOrAnniversary} from './anniversary.js';
+export {version} from '../package.json' with { type: 'json' };
 
 import poHeMin from './he.min.po.json';
 Locale.addLocale('he', poHeMin);

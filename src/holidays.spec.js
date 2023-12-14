@@ -1,8 +1,8 @@
 import test from 'ava';
-import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays';
-import {HebrewCalendar} from './hebcal';
-import {HDate, months} from './hdate';
-import {flags, Event} from './event';
+import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays.js';
+import {HebrewCalendar} from './hebcal.js';
+import {HDate, months} from './hdate.js';
+import {flags, Event} from './event.js';
 
 test('basename-and-url', (t) => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),

@@ -1,5 +1,5 @@
 import test from 'ava';
-import {gematriya, gematriyaStrToNum} from './gematriya';
+import {gematriya, gematriyaStrToNum} from './gematriya.js';
 
 test('gematriya', (t) => {
   t.is(gematriya(5749), 'תשמ״ט');

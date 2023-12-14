@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
-import {Locale} from './locale';
-import {flags, Event} from './event';
-import {Zmanim} from './zmanim';
+import {Locale} from './locale.js';
+import {flags, Event} from './event.js';
+import {Zmanim} from './zmanim.js';
 import {months} from '@hebcal/hdate';
 
 const days = {

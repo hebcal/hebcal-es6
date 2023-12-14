@@ -1,12 +1,12 @@
 import test from 'ava';
-import {Location} from './location';
+import {Location} from './location.js';
 import {makeCandleEvent, CandleLightingEvent, HavdalahEvent, TimedEvent,
-  makeFastStartEnd} from './candles';
-import {HolidayEvent} from './holidays';
-import {HDate} from './hdate';
-import {flags} from './event';
-import {HebrewCalendar} from './hebcal';
-import {Zmanim} from './zmanim';
+  makeFastStartEnd} from './candles.js';
+import {HolidayEvent} from './holidays.js';
+import {HDate} from './hdate.js';
+import {flags} from './event.js';
+import {HebrewCalendar} from './hebcal.js';
+import {Zmanim} from './zmanim.js';
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {

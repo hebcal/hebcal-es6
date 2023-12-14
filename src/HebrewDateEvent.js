@@ -1,7 +1,7 @@
-import {Event, flags} from './event';
-import {months} from './hdate';
-import {gematriya} from './gematriya';
-import {Locale} from './locale';
+import {Event, flags} from './event.js';
+import {months} from './hdate.js';
+import {gematriya} from './gematriya.js';
+import {Locale} from './locale.js';
 
 /** Daily Hebrew date ("11th of Sivan, 5780") */
 export class HebrewDateEvent extends Event {

@@ -1,4 +1,4 @@
-import {Locale} from './locale';
+import {Locale} from './locale.js';
 import poHe from './he.po.json';
 
 Locale.addLocale('he', poHe);

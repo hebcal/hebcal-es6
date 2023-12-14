@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import {HDate} from './hdate';
-import {Event, flags} from './event';
-import {Locale} from './locale';
+import {HDate} from './hdate.js';
+import {Event, flags} from './event.js';
+import {Locale} from './locale.js';
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const heDayNames = ['רִאשׁוֹן', 'שֵׁנִי', 'שְׁלִישִׁי', 'רְבִיעִי', 'חֲמִישִׁי', 'שִׁישִּׁי', 'שַׁבָּת'];

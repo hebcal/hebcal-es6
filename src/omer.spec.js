@@ -1,7 +1,7 @@
 import test from 'ava';
-import {OmerEvent} from './omer';
-import {HDate} from './hdate';
-import './locale-he';
+import {OmerEvent} from './omer.js';
+import {HDate} from './hdate.js';
+import './locale-he.js';
 
 test('render', (t) => {
   const o1 = new OmerEvent(new HDate(16, 'Nisan', 5770), 1);

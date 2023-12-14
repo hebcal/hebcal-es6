@@ -1,5 +1,5 @@
-import {HDate, months} from './hdate';
-import {dateYomHaZikaron} from './modern';
+import {HDate, months} from './hdate.js';
+import {dateYomHaZikaron} from './modern.js';
 
 /**
  * @private

@@ -1,5 +1,5 @@
-import {flags} from './event';
-import {months} from './hdate';
+import {flags} from './event.js';
+import {months} from './hdate.js';
 
 const NONE = 0;
 const HALF = 1;

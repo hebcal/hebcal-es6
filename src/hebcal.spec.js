@@ -1,8 +1,8 @@
 import test from 'ava';
-import {HebrewCalendar, getStartAndEnd} from './hebcal';
-import {HDate, months} from './hdate';
-import {flags} from './event';
-import {Location} from './location';
+import {HebrewCalendar, getStartAndEnd} from './hebcal.js';
+import {HDate, months} from './hdate.js';
+import {flags} from './event.js';
+import {Location} from './location.js';
 
 /**
  * @param {Event} ev

@@ -1,8 +1,8 @@
 import test from 'ava';
-import {HDate} from './hdate';
-import {Locale} from './locale';
-import {ParshaEvent} from './ParshaEvent';
-import './locale-he';
+import {HDate} from './hdate.js';
+import {Locale} from './locale.js';
+import {ParshaEvent} from './ParshaEvent.js';
+import './locale-he.js';
 
 test('ParshaEvent-url', (t) => {
   const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai'], false, [32, 33]);
