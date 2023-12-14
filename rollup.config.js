@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
 import json from '@rollup/plugin-json';
 import terser from '@rollup/plugin-terser';
-import MANIFEST from './package.json' assert { type: 'json' };
+import MANIFEST from './package.json' with { type: 'json' };
 const {name, version, main, module} = MANIFEST;
 
 const banner = `/*! ${name} v${version} */`;

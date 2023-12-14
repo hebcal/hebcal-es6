@@ -5,9 +5,10 @@ export {Locale};
 export {HDate, months} from './hdate.js';
 export {getYahrzeit_ as getYahrzeit} from './anniversary.js';
 export {getBirthdayOrAnniversary_ as getBirthdayOrAnniversary} from './anniversary.js';
-export {version} from '../package.json' with { type: 'json' };
+import manifest from '../package.json' with { type: 'json' };
+export const {version} = manifest;
 
-import poHeMin from './he.min.po.json';
+import poHeMin from './he.min.po.json' with { type: 'json' };
 Locale.addLocale('he', poHeMin);
 Locale.addLocale('h', poHeMin);
 

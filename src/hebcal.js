@@ -31,7 +31,8 @@ import {DailyLearning} from './DailyLearning.js';
 import {Location} from './location.js';
 import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
   makeWeekdayChanukahCandleLighting} from './candles.js';
-import {version as pkgVersion} from '../package.json' with { type: 'json' };
+import manifest from '../package.json' with { type: 'json' };
+const {version: pkgVersion} = manifest;
 import './locale-ashkenazi.js';
 import './locale-he.js';
 import {Zmanim} from './zmanim.js';
