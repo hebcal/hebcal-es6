@@ -107,13 +107,15 @@ export class HDate {
       this.setDate(day);
     } else {
       // 0 arguments
-      if (typeof day === 'undefined') {
+      if (typeof day === 'undefined' || day === null) {
         day = new Date();
       }
       // 1 argument
       const abs0 = (typeof day === 'number' && !isNaN(day)) ? day :
         greg.isDate(day) ? greg.greg2abs(day) :
-        HDate.isHDate(day) ? day :
+        (typeof day.yy === 'number' &&
+         typeof day.mm === 'number' &&
+         typeof day.dd === 'number') ? day :
         throwTypeError(`HDate called with bad argument: ${day}`);
       const isNumber = typeof abs0 === 'number';
       const d = isNumber ? abs2hebrew(abs0) : abs0;
@@ -137,7 +139,7 @@ export class HDate {
          * @private
          * @type {number}
          */
-        this.abs0 = abs0;
+        this.rd = abs0;
       }
     }
   }
@@ -238,10 +240,10 @@ export class HDate {
    * @return {number}
    */
   abs() {
-    if (typeof this.abs0 !== 'number') {
-      this.abs0 = hebrew2abs(this.yy, this.mm, this.dd);
+    if (typeof this.rd !== 'number') {
+      this.rd = hebrew2abs(this.yy, this.mm, this.dd);
     }
-    return this.abs0;
+    return this.rd;
   }
 
   /**
@@ -737,7 +739,7 @@ function fixMonth(date) {
     date.yy += 1;
     fix(date);
   }
-  delete date.abs0;
+  delete date.rd;
 }
 
 /**

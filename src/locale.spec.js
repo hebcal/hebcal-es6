@@ -90,6 +90,7 @@ test('addTranslation', (t) => {
 
 test('addTranslations', (t) => {
   t.is(Locale.lookupTranslation('Hello world', 'a'), undefined);
+  t.is(Locale.lookupTranslation('Goodbye', 'a'), undefined);
   const localeData = {
     headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
     contexts: {'': {
@@ -100,4 +101,5 @@ test('addTranslations', (t) => {
   };
   Locale.addTranslations('a', localeData);
   t.is(Locale.lookupTranslation('Hello world', 'a'), 'Quux');
+  t.is(Locale.lookupTranslation('Goodbye', 'a'), 'World');
 });

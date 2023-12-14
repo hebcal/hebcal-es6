@@ -44,7 +44,7 @@ export default [
       nodeResolve(),
       commonjs(),
     ],
-    external: ['temporal-polyfill'],
+    // external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.js',
@@ -73,7 +73,7 @@ export default [
       nodeResolve(),
       commonjs(),
     ],
-    external: ['temporal-polyfill'],
+    // external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.js',
@@ -118,6 +118,6 @@ export default [
         exclude: ['node_modules/core-js/**'],
       }),
     ],
-    external: ['temporal-polyfill'],
+    // external: ['temporal-polyfill'],
   },
 ];

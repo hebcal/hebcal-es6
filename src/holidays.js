@@ -270,41 +270,7 @@ const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
 // const CHOL_HAMOED = flags.CHOL_HAMOED;
 
-/**
- * Avoid dependency on ES6 Map object
- * @private
- */
-class SimpleMap {
-  /**
-   * @param {string} key
-   * @return {boolean}
-   */
-  has(key) {
-    return typeof this[key] !== 'undefined';
-  }
-  /**
-   * @param {string} key
-   * @return {any}
-   */
-  get(key) {
-    return this[key];
-  }
-  /**
-   * @param {string} key
-   * @param {any} val
-   */
-  set(key, val) {
-    this[key] = val;
-  }
-  /**
-   * @return {string[]}
-   */
-  keys() {
-    return Object.keys(this);
-  }
-}
-
-const sedraCache = new SimpleMap();
+const sedraCache = new Map();
 
 /**
  * @private
@@ -353,13 +319,12 @@ export function getHolidaysForYear_(year) {
   const RH = new HDate(1, TISHREI, year);
   const pesach = new HDate(15, NISAN, year);
 
-  const h = new SimpleMap();
+  const map = new Map();
   // eslint-disable-next-line require-jsdoc
   function add(...events) {
-    // for (const ev of events) {
-    events.forEach((ev) => {
+    for (const ev of events) {
       const key = ev.date.toString();
-      const arr = h.get(key);
+      const arr = map.get(key);
       if (typeof arr === 'object') {
         if (arr[0].getFlags() & flags.EREV) {
           arr.unshift(ev);
@@ -367,18 +332,18 @@ export function getHolidaysForYear_(year) {
           arr.push(ev);
         }
       } else {
-        h.set(key, [ev]);
+        map.set(key, [ev]);
       }
-    });
+    }
   }
 
-  staticHolidays.forEach((h) => {
+  for (const h of staticHolidays) {
     const hd = new HDate(h.dd, h.mm, year);
     const ev = new HolidayEvent(hd, h.desc, h.flags);
     if (h.emoji) ev.emoji = h.emoji;
     if (h.chmDay) ev.cholHaMoedDay = h.chmDay;
     add(ev);
-  });
+  }
 
   // standard holidays that don't shift based on year
   add(new RoshHashanaEvent(RH, year, CHAG | LIGHT_CANDLES_TZEIS));
@@ -450,7 +415,7 @@ export function getHolidaysForYear_(year) {
     );
   }
 
-  staticModernHolidays.forEach((h) => {
+  for (const h of staticModernHolidays) {
     if (year >= h.firstYear) {
       let hd = new HDate(h.dd, h.mm, year);
       const dow = hd.getDay();
@@ -468,7 +433,7 @@ export function getHolidaysForYear_(year) {
       }
       add(ev);
     }
-  });
+  }
 
   let tamuz17 = new HDate(17, TAMUZ, year);
   let tamuz17attrs;
@@ -547,8 +512,8 @@ export function getHolidaysForYear_(year) {
     add(new HolidayEvent(hd, 'Birkat Hachamah', MINOR_HOLIDAY, {emoji: '☀️'}));
   }
 
-  yearCache.set(year, h);
-  return h;
+  yearCache.set(year, map);
+  return map;
 }
 
 /**

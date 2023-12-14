@@ -26,10 +26,9 @@ const heb2num = {
   'ת': 400,
 };
 const num2heb = new Map();
-Object.keys(heb2num).forEach((key) => {
-  const val = heb2num[key];
+for (const [key, val] of Object.entries(heb2num)) {
   num2heb.set(val, key);
-});
+}
 
 /**
  * @private

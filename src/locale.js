@@ -118,9 +118,7 @@ export class Locale {
       throw new TypeError(`Locale '${locale}' invalid compact format`);
     }
     const ctx = data.contexts[''];
-    Object.keys(ctx).forEach((id) => {
-      loc[id] = ctx[id];
-    });
+    Object.assign(loc, ctx);
   }
   /**
    * Activates a locale. Throws an error if the locale has not been previously added.

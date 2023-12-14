@@ -307,7 +307,7 @@ export class Location extends GeoLocation {
   }
 }
 
-classicCities0.forEach((city) => {
+for (const city of classicCities0) {
   const location = new Location(city[2], city[3], city[1] == 'IL', city[4], city[0], city[1], undefined, city[5]);
   Location.addLocation(location.getName(), location);
-});
+}

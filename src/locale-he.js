@@ -6,9 +6,9 @@ Locale.addLocale('h', poHe);
 
 const heStrs = poHe.contexts[''];
 const heNoNikud = {};
-Object.keys(heStrs).forEach((key) => {
-  heNoNikud[key] = [Locale.hebrewStripNikkud(heStrs[key][0])];
-});
+for (const [key, val] of Object.entries(heStrs)) {
+  heNoNikud[key] = [Locale.hebrewStripNikkud(val[0])];
+}
 const poHeNoNikud = {
   headers: poHe.headers,
   contexts: {'': heNoNikud},
