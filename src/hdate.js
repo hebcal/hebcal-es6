@@ -20,8 +20,8 @@
  */
 import {greg, abs2hebrew, daysInMonth, daysInYear, getMonthName,
   hebrew2abs, isLeapYear, longCheshvan, months, monthFromName,
-  monthsInYear, shortKislev} from '@hebcal/hdate';
-import {gematriya, gematriyaStrToNum} from './gematriya';
+  monthsInYear, shortKislev,
+  gematriya, gematriyaStrToNum} from '@hebcal/hdate';
 import {Locale} from './locale';
 import {throwTypeError} from './throwTypeError';
 export {months};

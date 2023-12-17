@@ -1,6 +1,6 @@
 import {Event, flags} from './event';
 import {months} from './hdate';
-import {gematriya} from './gematriya';
+import {gematriya} from '@hebcal/hdate';
 import {Locale} from './locale';
 
 /** Daily Hebrew date ("11th of Sivan, 5780") */

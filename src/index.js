@@ -1,4 +1,4 @@
-export {gematriya, gematriyaStrToNum} from './gematriya';
+export {gematriya, gematriyaStrToNum} from '@hebcal/hdate';
 export {Locale} from './locale';
 export {greg} from '@hebcal/hdate';
 export {HDate, months} from './hdate';
