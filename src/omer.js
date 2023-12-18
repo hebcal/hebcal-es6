@@ -44,23 +44,39 @@ export class OmerEvent extends Event {
    * @return {string}
    */
   sefira(lang='en') {
-    const week = sefirot[this.weekNumber];
-    const dayWithinWeek = sefirot[this.daysWithinWeeks];
-    switch (lang) {
-      case 'he':
-        const heWeek = Locale.gettext(week, 'he');
-        const heDayWithinWeek = Locale.gettext(dayWithinWeek, 'he');
-        const hePrefix = this.weekNumber === 2 || this.weekNumber === 6 ? 'שֶׁבִּ' : 'שֶׁבְּ';
-        return `${heDayWithinWeek} ${hePrefix}${heWeek}`.normalize();
-      case 'translit':
-        const translitWeek = sefirotTranslit[this.weekNumber];
-        const translitDayWithinWeek = sefirotTranslit[this.daysWithinWeeks];
-        const translitPrefix = this.weekNumber === 2 || this.weekNumber === 6 ? 'shebi' : `sheb'`;
-        return `${translitDayWithinWeek} ${translitPrefix}${translitWeek}`;
-      case 'en':
-      default:
-        return `${dayWithinWeek} within ${week}`;
+    if (lang === 'he') {
+      return this.sefiraHe();
+    } else if (lang === 'translit') {
+      return this.sefiraTranslit();
+    } else {
+      const week = sefirot[this.weekNumber];
+      const dayWithinWeek = sefirot[this.daysWithinWeeks];
+      return `${dayWithinWeek} within ${week}`;
     }
+  }
+  /**
+   * @private
+   * @return {string}
+   */
+  sefiraTranslit() {
+    const weekNum = this.weekNumber;
+    const translitWeek = sefirotTranslit[weekNum];
+    const translitDayWithinWeek = sefirotTranslit[this.daysWithinWeeks];
+    const translitPrefix = weekNum === 2 || weekNum === 6 ? 'shebi' : `sheb'`;
+    return `${translitDayWithinWeek} ${translitPrefix}${translitWeek}`;
+  }
+  /**
+   * @private
+   * @return {string}
+   */
+  sefiraHe() {
+    const weekNum = this.weekNumber;
+    const week = sefirot[weekNum];
+    const dayWithinWeek = sefirot[this.daysWithinWeeks];
+    const heWeek = Locale.gettext(week, 'he');
+    const heDayWithinWeek = Locale.gettext(dayWithinWeek, 'he');
+    const hePrefix = weekNum === 2 || weekNum === 6 ? 'שֶׁבִּ' : 'שֶׁבְּ';
+    return `${heDayWithinWeek} ${hePrefix}${heWeek}`.normalize();
   }
   /**
    * @todo use gettext()

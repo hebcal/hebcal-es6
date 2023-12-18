@@ -28,14 +28,23 @@ export class HebrewDateEvent extends Event {
     switch (locale0) {
       case 'h':
       case 'he':
+        return hd.renderGematriya(false);
       case 'he-x-nonikud':
-        const dd = hd.getDate();
-        const mm = Locale.gettext(hd.getMonthName(), locale0);
-        const yy = hd.getFullYear();
-        return gematriya(dd) + ' ' + mm + ' ' + gematriya(yy);
+        return hd.renderGematriya(true);
       default:
         return hd.render(locale0, true);
     }
+  }
+  /**
+   * @private
+   * @param {string} locale
+   * @return {string}
+   */
+  renderBriefHebrew(locale) {
+    const hd = this.getDate();
+    const dd = hd.getDate();
+    const mm = Locale.gettext(hd.getMonthName(), locale);
+    return gematriya(dd) + ' ' + mm;
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).
@@ -59,9 +68,7 @@ export class HebrewDateEvent extends Event {
       case 'h':
       case 'he':
       case 'he-x-nonikud':
-        const dd = hd.getDate();
-        const mm = Locale.gettext(hd.getMonthName(), locale0);
-        return gematriya(dd) + ' ' + mm;
+        return this.renderBriefHebrew(locale0);
       default:
         return hd.render(locale0, false);
     }
