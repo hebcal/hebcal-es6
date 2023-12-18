@@ -18,12 +18,19 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {greg, abs2hebrew, daysInMonth, daysInYear, getMonthName,
-  hebrew2abs, isLeapYear, longCheshvan, months, monthFromName,
+import {
+  abs2hebrew, daysInMonth, daysInYear,
+  gematriya, gematriyaStrToNum,
+  getMonthName,
+  greg,
+  hebrew2abs, isLeapYear, longCheshvan,
+  monthFromName,
+  months,
   monthsInYear, shortKislev,
-  gematriya, gematriyaStrToNum} from '@hebcal/hdate';
-import {Locale} from './locale';
-import {throwTypeError} from './throwTypeError';
+} from '@hebcal/hdate';
+import {Locale} from './locale.js';
+import {throwTypeError} from './throwTypeError.js';
+
 export {months};
 
 // eslint-disable-next-line require-jsdoc

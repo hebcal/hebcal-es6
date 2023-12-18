@@ -18,25 +18,29 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {Locale} from './locale';
-import {HDate, months} from './hdate';
-import {HebrewDateEvent} from './HebrewDateEvent';
-import {MoladEvent} from './molad';
-import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays';
-import {flags} from './event';
-import {OmerEvent} from './omer';
-import {ParshaEvent} from './ParshaEvent';
-import {greg, getYahrzeitHD, getBirthdayHD} from '@hebcal/hdate';
-import {DailyLearning} from './DailyLearning';
-import {Location} from './location';
-import {makeCandleEvent, HavdalahEvent, makeFastStartEnd,
-  makeWeekdayChanukahCandleLighting} from './candles';
+import {getBirthdayHD, getYahrzeitHD, greg, months} from '@hebcal/hdate';
 import {version as pkgVersion} from '../package.json';
+import {DailyLearning} from './DailyLearning.js';
+import {HebrewDateEvent} from './HebrewDateEvent.js';
+import {ParshaEvent} from './ParshaEvent.js';
+import {
+  HavdalahEvent,
+  makeCandleEvent,
+  makeFastStartEnd,
+  makeWeekdayChanukahCandleLighting,
+} from './candles.js';
+import {flags} from './event.js';
+import {hallel_} from './hallel.js';
+import {HDate} from './hdate.js';
+import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays.js';
 import './locale-ashkenazi';
 import './locale-he';
-import {Zmanim} from './zmanim';
-import {hallel_} from './hallel';
-import {tachanun_} from './tachanun';
+import {Locale} from './locale.js';
+import {Location} from './location.js';
+import {MoladEvent} from './molad.js';
+import {OmerEvent} from './omer.js';
+import {tachanun_} from './tachanun.js';
+import {Zmanim} from './zmanim.js';
 
 const FRI = 5;
 const SAT = 6;

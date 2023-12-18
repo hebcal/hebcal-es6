@@ -1,7 +1,8 @@
 import test from 'ava';
-import {HDate, months} from './hdate';
-import {HebrewCalendar} from './hebcal';
-import {hallel_} from './hallel';
+import {months} from '@hebcal/hdate';
+import {HDate} from './hdate.js';
+import {HebrewCalendar} from './hebcal.js';
+import {hallel_} from './hallel.js';
 
 test('hallel', (t) => {
   const ev1 = HebrewCalendar.getHolidaysForYearArray(5781, false);

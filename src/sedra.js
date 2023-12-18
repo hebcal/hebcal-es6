@@ -31,8 +31,9 @@
  * The routines were included in the emacs 19 distribution.
  *
  */
-import {Locale} from './locale';
-import {HDate, months} from './hdate';
+import {months} from '@hebcal/hdate';
+import {HDate} from './hdate.js';
+import {Locale} from './locale.js';
 
 const INCOMPLETE = 0;
 const REGULAR = 1;

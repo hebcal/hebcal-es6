@@ -1,5 +1,5 @@
 import test from 'ava';
-import {Locale} from './locale';
+import {Locale} from './locale.js';
 import './locale-ashkenazi';
 import './locale-he';
 

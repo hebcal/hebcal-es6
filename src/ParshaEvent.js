@@ -1,5 +1,5 @@
-import {Locale} from './locale';
-import {Event, flags} from './event';
+import {Event, flags} from './event.js';
+import {Locale} from './locale.js';
 
 /**
  * Represents one of 54 weekly Torah portions, always on a Saturday

@@ -18,13 +18,14 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {Locale} from './locale';
-import {HDate, months} from './hdate';
-import {Event, flags} from './event';
-import {MoladEvent} from './molad';
-import {Sedra} from './sedra';
-import {dateYomHaZikaron, dateYomHaShoah} from './modern';
-import {staticHolidays, staticModernHolidays} from './staticHolidays';
+import {months} from '@hebcal/hdate';
+import {Event, flags} from './event.js';
+import {HDate} from './hdate.js';
+import {Locale} from './locale.js';
+import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
+import {MoladEvent} from './molad.js';
+import {Sedra} from './sedra.js';
+import {staticHolidays, staticModernHolidays} from './staticHolidays.js';
 
 /** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
 export class HolidayEvent extends Event {

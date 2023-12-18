@@ -1,6 +1,6 @@
 import test from 'ava';
-import {OmerEvent} from './omer';
-import {HDate} from './hdate';
+import {OmerEvent} from './omer.js';
+import {HDate} from './hdate.js';
 import './locale-he';
 
 test('render', (t) => {

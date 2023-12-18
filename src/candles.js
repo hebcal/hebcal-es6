@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
-import {Locale} from './locale';
-import {flags, Event} from './event';
-import {Zmanim} from './zmanim';
 import {months} from '@hebcal/hdate';
+import {Event, flags} from './event.js';
+import {Locale} from './locale.js';
+import {Zmanim} from './zmanim.js';
 
 const days = {
   FRI: 5,

@@ -1,6 +1,7 @@
 import test from 'ava';
-import {HDate, months} from './hdate';
-import {Sedra} from './sedra';
+import {months} from '@hebcal/hdate';
+import {HDate} from './hdate.js';
+import {Sedra} from './sedra.js';
 
 /**
  * @private

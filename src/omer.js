@@ -1,6 +1,6 @@
-import {flags, Event} from './event';
-import {Locale} from './locale';
 import {gematriya} from '@hebcal/hdate';
+import {Event, flags} from './event.js';
+import {Locale} from './locale.js';
 
 const sefirot = [
   null,

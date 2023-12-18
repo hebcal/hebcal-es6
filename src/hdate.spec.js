@@ -1,5 +1,6 @@
 import test from 'ava';
-import {HDate, months} from './hdate';
+import {months} from '@hebcal/hdate';
+import {HDate} from './hdate.js';
 import './locale-he';
 import './locale-ashkenazi';
 

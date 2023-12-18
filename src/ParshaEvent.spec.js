@@ -1,7 +1,7 @@
 import test from 'ava';
-import {HDate} from './hdate';
-import {Locale} from './locale';
-import {ParshaEvent} from './ParshaEvent';
+import {HDate} from './hdate.js';
+import {Locale} from './locale.js';
+import {ParshaEvent} from './ParshaEvent.js';
 import './locale-he';
 
 test('ParshaEvent-url', (t) => {

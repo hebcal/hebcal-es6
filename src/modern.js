@@ -1,4 +1,5 @@
-import {HDate, months} from './hdate';
+import {months} from '@hebcal/hdate';
+import {HDate} from './hdate.js';
 
 const SUN = 0;
 const TUE = 2;

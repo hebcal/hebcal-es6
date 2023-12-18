@@ -1,6 +1,6 @@
 import test from 'ava';
-import {HDate} from './hdate';
-import {HebrewDateEvent} from './HebrewDateEvent';
+import {HDate} from './hdate.js';
+import {HebrewDateEvent} from './HebrewDateEvent.js';
 import './locale-he';
 
 test('render', (t) => {

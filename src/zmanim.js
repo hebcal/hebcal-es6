@@ -1,7 +1,7 @@
-import {HDate} from './hdate';
-import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset';
+import {HDate} from './hdate.js';
+import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset.js';
 import {greg} from '@hebcal/hdate';
-import {throwTypeError} from './throwTypeError';
+import {throwTypeError} from './throwTypeError.js';
 import 'temporal-polyfill/global';
 import {NOAACalculator} from '@hebcal/noaa';
 

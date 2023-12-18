@@ -1,5 +1,5 @@
-import {months} from './hdate';
-import {flags} from './event';
+import {months} from '@hebcal/hdate';
+import {flags} from './event.js';
 
 const Nisan = months.NISAN;
 const Iyyar = months.IYYAR;

@@ -1,6 +1,7 @@
 import test from 'ava';
-import {Molad, MoladEvent} from './molad';
-import {HDate, months} from './hdate';
+import {months} from '@hebcal/hdate';
+import {Molad, MoladEvent} from './molad.js';
+import {HDate} from './hdate.js';
 import './locale-he';
 
 test('molad', (t) => {
