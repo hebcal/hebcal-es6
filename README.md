@@ -3122,13 +3122,6 @@ Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
 Gregorian date helper functions.
 
 **Kind**: global variable  
-<a name="greg.monthNames"></a>
-
-### greg.monthNames : <code>Array.&lt;string&gt;</code>
-Long names of the Gregorian months (1='January', 12='December')
-
-**Kind**: static property of [<code>greg</code>](#greg)  
-**Read only**: true  
 <a name="months"></a>
 
 ## months : <code>enum</code>

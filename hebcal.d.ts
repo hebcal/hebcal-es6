@@ -821,12 +821,6 @@ declare module '@hebcal/core' {
      */
     export namespace greg {
         /**
-         * Long names of the Gregorian months (1='January', 12='December')
-         * @readonly
-         * @type {string[]}
-         */
-        const monthNames: string[];
-        /**
          * Returns true if the Gregorian year is a leap year
          * @param {number} year Gregorian year
          * @return {boolean}

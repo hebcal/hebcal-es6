@@ -73,7 +73,7 @@
     "@babel/core": "^7.23.6",
     "@babel/preset-env": "^7.23.6",
     "@babel/register": "^7.22.15",
-    "@hebcal/hdate": "^0.9.0",
+    "@hebcal/hdate": "^0.9.1",
     "@hebcal/noaa": "^0.8.11",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
