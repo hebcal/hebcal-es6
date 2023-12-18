@@ -10,9 +10,7 @@ const Elul = months.ELUL;
 const Tishrei = months.TISHREI;
 const Cheshvan = months.CHESHVAN;
 const Kislev = months.KISLEV;
-// const Tevet = months.TEVET;
 const Shvat = months.SHVAT;
-// const Adar1 = months.ADAR_I;
 const Adar2 = months.ADAR_II;
 
 const CHAG = flags.CHAG;
@@ -22,7 +20,6 @@ const CHUL_ONLY = flags.CHUL_ONLY;
 const IL_ONLY = flags.IL_ONLY;
 const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
 const CHANUKAH_CANDLES = flags.CHANUKAH_CANDLES;
-// const MINOR_FAST = flags.MINOR_FAST;
 const MAJOR_FAST = flags.MAJOR_FAST;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
