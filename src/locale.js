@@ -36,7 +36,7 @@ export class Locale {
     const locale0 = locale?.toLowerCase();
     const loc = (typeof locale == 'string' && locales.get(locale0)) || activeLocale;
     const array = loc[id];
-    if (array && array.length && array[0].length) {
+    if (array?.length && array[0].length) {
       return array[0];
     }
     return undefined;

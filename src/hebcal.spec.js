@@ -639,7 +639,7 @@ test('omer-alarm-alaska', (t) => {
     noHolidays: true,
   }).filter((ev) => ev.getFlags() & flags.OMER_COUNT);
   const alarms = events.map((ev) => {
-    return {dt: gregDtString(ev), alarm: ev.alarm && ev.alarm.toISOString()};
+    return {dt: gregDtString(ev), alarm: ev.alarm?.toISOString()};
   });
   const expected = [
     {dt: '5/13/2022', alarm: '2022-05-13T08:41:45.000Z'},
