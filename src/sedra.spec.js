@@ -3,8 +3,8 @@ import {months} from '@hebcal/hdate';
 import {HDate} from './hdate.js';
 import {Locale} from './locale.js';
 import {Sedra} from './sedra.js';
-import './locale-he';
-import './locale-ashkenazi';
+import './locale-he.js';
+import './locale-ashkenazi.js';
 
 /**
  * @private

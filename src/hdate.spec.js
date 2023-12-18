@@ -1,8 +1,8 @@
 import test from 'ava';
 import {months} from '@hebcal/hdate';
 import {HDate} from './hdate.js';
-import './locale-he';
-import './locale-ashkenazi';
+import './locale-he.js';
+import './locale-ashkenazi.js';
 
 const NISAN = months.NISAN;
 const IYYAR = months.IYYAR;

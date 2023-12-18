@@ -2,7 +2,7 @@ import test from 'ava';
 import {months} from '@hebcal/hdate';
 import {Molad, MoladEvent} from './molad.js';
 import {HDate} from './hdate.js';
-import './locale-he';
+import './locale-he.js';
 
 test('molad', (t) => {
   const items = [
