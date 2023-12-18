@@ -42,7 +42,7 @@
     "build:rollup": "rollup -c",
     "build": "npm run po2json && npm run build:rollup",
     "prepublish": "npm run build",
-    "po2json": "node ./po2json.js po/*.po",
+    "po2json": "node ./po2json.cjs po/*.po",
     "readme": "npx -p jsdoc-to-markdown jsdoc2md dist/index.js",
     "pretest": "npm run build",
     "lint": "eslint src",
