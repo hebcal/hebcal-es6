@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {getBirthdayHD, getYahrzeitHD, greg, months} from '@hebcal/hdate';
-import {version as pkgVersion} from '../package.json';
+import {version as pkgVersion} from './pkgVersion.js';
 import {DailyLearning} from './DailyLearning.js';
 import {HebrewDateEvent} from './HebrewDateEvent.js';
 import {ParshaEvent} from './ParshaEvent.js';

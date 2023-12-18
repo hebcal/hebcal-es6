@@ -4,10 +4,8 @@ import {Event, flags} from './event.js';
 import {Locale} from './locale.js';
 import {Zmanim} from './zmanim.js';
 
-const days = {
-  FRI: 5,
-  SAT: 6,
-};
+const FRI = 5;
+const SAT = 6;
 
 /**
  * @private
@@ -20,11 +18,11 @@ const days = {
  */
 export function makeCandleEvent(e, hd, dow, location, options) {
   let havdalahTitle = false;
-  let useHavdalahOffset = dow == days.SAT;
+  let useHavdalahOffset = dow === SAT;
   let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
   if (typeof e !== 'undefined') {
     // if linked event && dow == FRI, use Candle lighting time & title
-    if (dow != days.FRI) {
+    if (dow !== FRI) {
       if (mask & (flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
         useHavdalahOffset = true;
       } else if (mask & flags.YOM_TOV_ENDS) {
@@ -32,7 +30,7 @@ export function makeCandleEvent(e, hd, dow, location, options) {
         useHavdalahOffset = true;
       }
     }
-  } else if (dow == days.SAT) {
+  } else if (dow === SAT) {
     havdalahTitle = true;
     mask = flags.LIGHT_CANDLES_TZEIS;
   }

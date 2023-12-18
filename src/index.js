@@ -16,4 +16,4 @@ export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays.js';
 export {DailyLearning} from './DailyLearning.js';
 export {HebrewCalendar} from './hebcal.js';
-export {version} from '../package.json';
+export {version} from './pkgVersion.js';

@@ -1,10 +1,11 @@
 {
   "name": "@hebcal/core",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
-    "Danny Sadinoff (https://github.com/dsadinoff)"
+    "Danny Sadinoff (https://github.com/dsadinoff)",
+    "Benny Powers (https://github.com/bennypowers)"
   ],
   "keywords": [
     "hebcal",
@@ -20,8 +21,13 @@
     "zmanim"
   ],
   "description": "A perpetual Jewish Calendar API",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
   "typings": "hebcal.d.ts",
   "engines": {
     "node": ">= 16.0.0"
@@ -40,9 +46,10 @@
   ],
   "scripts": {
     "build:rollup": "rollup -c",
-    "build": "npm run po2json && npm run build:rollup",
+    "build": "npm run po2json && npm run version && npm run build:rollup",
     "prepublish": "npm run build",
     "po2json": "node ./po2json.cjs po/*.po",
+    "version": "node ./version.cjs package.json src/pkgVersion.js",
     "readme": "npx -p jsdoc-to-markdown jsdoc2md dist/index.js",
     "pretest": "npm run build",
     "lint": "eslint src",
