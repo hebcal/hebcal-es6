@@ -31,8 +31,6 @@ import {
 import {Locale} from './locale.js';
 import {throwTypeError} from './throwTypeError.js';
 
-export {months};
-
 // eslint-disable-next-line require-jsdoc
 function mod(x, y) {
   return x - y * Math.floor(x / y);
