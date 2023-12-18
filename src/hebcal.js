@@ -46,10 +46,7 @@ const FRI = 5;
 const SAT = 6;
 
 const NISAN = months.NISAN;
-// const IYYAR = months.IYYAR;
 const SIVAN = months.SIVAN;
-// const TAMUZ = months.TAMUZ;
-// const AV = months.AV;
 const ELUL = months.ELUL;
 const TISHREI = months.TISHREI;
 
