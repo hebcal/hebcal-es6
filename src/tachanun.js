@@ -16,8 +16,6 @@ function range(start, end) {
   return arr;
 }
 
-const cache = new Map();
-
 const NONE = {
   shacharit: false,
   mincha: false,
@@ -43,12 +41,7 @@ export function tachanun_(hdate, il) {
  */
 function tachanun0(hdate, il, checkNext) {
   const year = hdate.getFullYear();
-  const key = `${year}-${il ? 1 : 0}`;
-  const cached = cache.get(key);
-  const dates = cached || tachanunYear(year, il);
-  if (!cached) {
-    cache.set(key, dates);
-  }
+  const dates = tachanunYear(year, il);
   const abs = hdate.abs();
   if (dates.none.indexOf(abs) > -1) {
     return NONE;

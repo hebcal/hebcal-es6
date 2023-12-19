@@ -19,6 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {months} from '@hebcal/hdate';
+import QuickLRU from 'quick-lru';
 import {Event, flags} from './event.js';
 import {HDate} from './hdate.js';
 import {Locale} from './locale.js';
@@ -263,7 +264,7 @@ const ADAR_II = months.ADAR_II;
 
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';
-const yearCache = new Map();
+const yearCache = new QuickLRU({maxSize: 400});
 
 const KEYCAP_DIGITS = [
   '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣',

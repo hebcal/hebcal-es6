@@ -34,6 +34,7 @@
 import {months} from '@hebcal/hdate';
 import {HDate} from './hdate.js';
 import {Locale} from './locale.js';
+import QuickLRU from 'quick-lru';
 
 const INCOMPLETE = 0;
 const REGULAR = 1;
@@ -494,7 +495,7 @@ types['1311'] = types['1221'];
  * Kislev each have 30 days), and has Passover start on Thursday. */
 types['1721'] = types['170'];
 
-export const sedraCache = new Map();
+const sedraCache = new QuickLRU({maxSize: 400});
 
 /**
  * @private
