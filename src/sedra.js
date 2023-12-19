@@ -183,7 +183,6 @@ export class Sedra {
   }
 
   /**
-   * @private
    * @return {Object[]}
    */
   getSedraArray() {
@@ -220,7 +219,7 @@ export class Sedra {
     const index = this.theSedraArray[weekNum];
 
     if (typeof index === 'undefined') {
-      const sedra = new Sedra(this.year + 1, this.il);
+      const sedra = getSedra_(this.year + 1, this.il);
       return sedra.lookup(saturday); // must be next year
     }
     if (typeof index === 'string') {
@@ -495,3 +494,20 @@ types['1311'] = types['1221'];
  * Kislev each have 30 days), and has Passover start on Thursday. */
 types['1721'] = types['170'];
 
+export const sedraCache = new Map();
+
+/**
+ * @private
+ * @param {number} hyear
+ * @param {boolean} il
+ * @return {Sedra}
+ */
+export function getSedra_(hyear, il) {
+  const cacheKey = `${hyear}-${il ? 1 : 0}`;
+  let sedra = sedraCache.get(cacheKey);
+  if (!sedra) {
+    sedra = new Sedra(hyear, il);
+    sedraCache.set(cacheKey, sedra);
+  }
+  return sedra;
+}

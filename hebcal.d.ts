@@ -977,6 +977,7 @@ declare module '@hebcal/core' {
          */
         find(parsha: number | string | string[]): HDate;
         getYear(): number;
+        getSedraArray(): any[];
         /**
          * R.D. date of the first Saturday on or after Rosh Hashana
          */

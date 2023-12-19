@@ -23,8 +23,8 @@ import {Event, flags} from './event.js';
 import {HDate} from './hdate.js';
 import {Locale} from './locale.js';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
+import {getSedra_} from './sedra.js';
 import {MoladEvent} from './molad.js';
-import {Sedra} from './sedra.js';
 import {staticHolidays, staticModernHolidays} from './staticHolidays.js';
 
 const CHAG = flags.CHAG;
@@ -260,24 +260,6 @@ const KISLEV = months.KISLEV;
 const TEVET = months.TEVET;
 const ADAR_I = months.ADAR_I;
 const ADAR_II = months.ADAR_II;
-
-const sedraCache = new Map();
-
-/**
- * @private
- * @param {number} hyear
- * @param {boolean} il
- * @return {Sedra}
- */
-export function getSedra_(hyear, il) {
-  const cacheKey = `${hyear}-${il ? 1 : 0}`;
-  let sedra = sedraCache.get(cacheKey);
-  if (!sedra) {
-    sedra = new Sedra(hyear, il);
-    sedraCache.set(cacheKey, sedra);
-  }
-  return sedra;
-}
 
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';

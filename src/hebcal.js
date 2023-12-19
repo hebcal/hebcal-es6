@@ -30,9 +30,10 @@ import {
   makeWeekdayChanukahCandleLighting,
 } from './candles.js';
 import {flags} from './event.js';
+import {getSedra_} from './sedra.js';
 import {hallel_} from './hallel.js';
 import {HDate} from './hdate.js';
-import {HolidayEvent, getHolidaysForYear_, getSedra_} from './holidays.js';
+import {HolidayEvent, getHolidaysForYear_} from './holidays.js';
 import './locale-ashkenazi.js';
 import './locale-he.js';
 import {Locale} from './locale.js';
@@ -484,9 +485,6 @@ function observedInDiaspora(ev) {
   return ev.observedInDiaspora();
 }
 
-const yearArrayCache = new Map();
-const holidaysOnDate = new Map();
-
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.
  * This namespace is used to calculate holidays, rosh chodesh, candle lighting & havdalah times,
@@ -811,15 +809,10 @@ export class HebrewCalendar {
    * @return {Event[]}
    */
   static getHolidaysForYearArray(year, il) {
-    const cacheKey = `${year}-${il ? 1 : 0}`;
-    let events = yearArrayCache.get(cacheKey);
-    if (events) {
-      return events;
-    }
     const yearMap = getHolidaysForYear_(year);
     const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
     const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
-    events = [];
+    let events = [];
     const myFilter = il ? observedInIsrael : observedInDiaspora;
     for (let absDt = startAbs; absDt <= endAbs; absDt++) {
       const hd = new HDate(absDt);
@@ -829,7 +822,6 @@ export class HebrewCalendar {
         events = events.concat(filtered);
       }
     }
-    yearArrayCache.set(cacheKey, events);
     return events;
   }
 
@@ -842,21 +834,14 @@ export class HebrewCalendar {
   static getHolidaysOnDate(date, il) {
     const hd = HDate.isHDate(date) ? date : new HDate(date);
     const hdStr = hd.toString();
-    const cacheKey = hdStr + '/' +
-      (typeof il === 'undefined' ? 2 : il ? 1 : 0);
-    if (holidaysOnDate.has(cacheKey)) {
-      return holidaysOnDate.get(cacheKey);
-    }
     const yearMap = getHolidaysForYear_(hd.getFullYear());
     const events = yearMap.get(hdStr);
     // if il isn't a boolean return both diaspora + IL for day
     if (typeof il === 'undefined' || typeof events === 'undefined') {
-      holidaysOnDate.set(cacheKey, events);
       return events;
     }
     const myFilter = il ? observedInIsrael : observedInDiaspora;
     const filtered = events.filter(myFilter);
-    holidaysOnDate.set(cacheKey, filtered);
     return filtered;
   }
 
