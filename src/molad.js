@@ -2,6 +2,7 @@
 import {Event, flags} from './event.js';
 import {HDate} from './hdate.js';
 import {Locale} from './locale.js';
+import {reformatTimeStr} from './reformatTimeStr.js';
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const heDayNames = ['רִאשׁוֹן', 'שֵׁנִי', 'שְׁלִישִׁי', 'רְבִיעִי', 'חֲמִישִׁי', 'שִׁישִּׁי', 'שַׁבָּת'];
@@ -92,38 +93,23 @@ export class Molad {
   getChalakim() {
     return this.chalakim;
   }
-}
-
-/** Represents a Molad announcement on Shabbat Mevarchim */
-export class MoladEvent extends Event {
   /**
-   * @param {HDate} date Hebrew date event occurs
-   * @param {number} hyear molad year
-   * @param {number} hmonth molad month
-   */
-  constructor(date, hyear, hmonth) {
-    const m = new Molad(hyear, hmonth);
-    const monthName = m.getMonthName();
-    super(date, `Molad ${monthName} ${hyear}`, flags.MOLAD);
-    this.molad = m;
-  }
-  /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @param {string} [locale] Optional locale name (defaults to active locale)
+   * @param {CalOptions} options
    * @return {string}
    */
-  render(locale) {
-    const m = this.molad;
+  render(locale, options) {
     locale = locale || Locale.getLocaleName();
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }
     const isHebrewLocale = locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
-    const monthName = Locale.gettext(m.getMonthName(), locale);
+    const monthName = Locale.gettext(this.getMonthName(), locale);
     const dayNames = isHebrewLocale ? heDayNames : shortDayNames;
-    const dow = dayNames[m.getDow()];
-    const minutes = m.getMinutes();
-    const hour = m.getHour();
-    const chalakim = m.getChalakim();
+    const dow = dayNames[this.getDow()];
+    const minutes = this.getMinutes();
+    const hour = this.getHour();
+    const chalakim = this.getChalakim();
     const moladStr = Locale.gettext('Molad', locale);
     const minutesStr = Locale.lookupTranslation('min', locale) || 'minutes';
     const chalakimStr = Locale.gettext('chalakim', locale);
@@ -135,6 +121,31 @@ export class MoladEvent extends Event {
         `ו-${minutes} ${minutesStr} ` +
         `ו-${chalakim} ${chalakimStr}`;
     }
-    return `${moladStr} ${monthName}: ${dow}, ${minutes} ${minutesStr} and ${chalakim} ${chalakimStr} after ${hour}:00`;
+    const fmtTime = reformatTimeStr(`${hour}:00`, 'pm', options);
+    return `${moladStr} ${monthName}: ${dow}, ${minutes} ${minutesStr} and ${chalakim} ${chalakimStr} after ${fmtTime}`;
+  }
+}
+
+/** Represents a Molad announcement on Shabbat Mevarchim */
+export class MoladEvent extends Event {
+  /**
+   * @param {HDate} date Hebrew date event occurs
+   * @param {number} hyear molad year
+   * @param {number} hmonth molad month
+   * @param {CalOptions} options
+   */
+  constructor(date, hyear, hmonth, options) {
+    const m = new Molad(hyear, hmonth);
+    const monthName = m.getMonthName();
+    super(date, `Molad ${monthName} ${hyear}`, flags.MOLAD);
+    this.molad = m;
+    this.options = options;
+  }
+  /**
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    return this.molad.render(locale, this.options);
   }
 }

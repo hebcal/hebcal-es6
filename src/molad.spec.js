@@ -30,15 +30,24 @@ test('molad', (t) => {
   }
 });
 
+test('Molad.render', (t) => {
+  const m = new Molad(5787, months.SIVAN);
+  t.is(m.render('en', {hour12: false}), 'Molad Sivan: Fri, 35 minutes and 10 chalakim after 15:00');
+  t.is(m.render('en', {hour12: true}), 'Molad Sivan: Fri, 35 minutes and 10 chalakim after 3:00pm');
+  // eslint-disable-next-line max-len
+  t.is(m.render('he', {hour12: false}), 'מוֹלָד הָלְּבָנָה סִיוָן יִהְיֶה בַּיּוֹם שִׁישִּׁי בשָׁבוּעַ, בְּשָׁעָה 15 בַּצׇּהֳרַיִים, ו-35 דַּקּוֹת ו-10 חֲלָקִים');
+});
+
 test('MoladEvent', (t) => {
-  const ev = new MoladEvent(new HDate(23, months.KISLEV, 5769), 5769, months.TEVET);
+  const ev = new MoladEvent(new HDate(23, months.KISLEV, 5769),
+      5769, months.TEVET, {location: {cc: 'CA'}});
   t.is(ev.getDesc(), 'Molad Tevet 5769');
-  t.is(ev.render('en'), 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
+  t.is(ev.render('en'), 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 4:00pm');
 });
 
 test('MoladEvent-he', (t) => {
   const hd = new HDate(new Date(2023, 10, 11));
-  const ev = new MoladEvent(hd, hd.getFullYear(), months.KISLEV);
+  const ev = new MoladEvent(hd, hd.getFullYear(), months.KISLEV, {hour12: false});
   t.is(ev.getDesc(), 'Molad Kislev 5784');
   t.is(ev.render('en'), 'Molad Kislev: Mon, 17 minutes and 2 chalakim after 7:00');
   // eslint-disable-next-line max-len

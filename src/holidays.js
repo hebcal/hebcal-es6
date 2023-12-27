@@ -25,7 +25,7 @@ import {HDate} from './hdate.js';
 import {Locale} from './locale.js';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
 import {getSedra_} from './sedra.js';
-import {MoladEvent} from './molad.js';
+import {Molad} from './molad.js';
 import {staticHolidays, staticModernHolidays} from './staticHolidays.js';
 
 const CHAG = flags.CHAG;
@@ -165,8 +165,8 @@ export class MevarchimChodeshEvent extends Event {
     const hyear = date.getFullYear();
     const hmonth = date.getMonth();
     const monNext = (hmonth == HDate.monthsInYear(hyear) ? NISAN : hmonth + 1);
-    const molad = new MoladEvent(date, hyear, monNext);
-    this.memo = molad.render('en');
+    const molad = new Molad(hyear, monNext);
+    this.memo = molad.render('en', {hour12: false});
   }
   /** @return {string} */
   basename() {

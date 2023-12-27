@@ -683,7 +683,7 @@ export class HebrewCalendar {
       const hmonth = hd.getMonth();
       if (options.molad && dow == SAT && hmonth != ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
         const monNext = (hmonth == HDate.monthsInYear(hyear) ? NISAN : hmonth + 1);
-        evts.push(new MoladEvent(hd, hyear, monNext));
+        evts.push(new MoladEvent(hd, hyear, monNext, options));
       }
       if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
         candlesEv = makeCandleEvent(undefined, hd, dow, options);

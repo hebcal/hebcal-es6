@@ -814,6 +814,7 @@ declare module '@hebcal/core' {
          * @return parts of a minute (0-17)
          */
         getChalakim(): number;
+        render(locale?: string, options?: CalOptions): string;
     }
 
     /**
@@ -1044,7 +1045,7 @@ declare module '@hebcal/core' {
         readonly monthName: string;
     }
     export class MoladEvent extends Event {
-        constructor(date: HDate, hyear: number, hmonth: number);
+        constructor(date: HDate, hyear: number, hmonth: number, options?: CalOptions);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         readonly molad: Molad;
