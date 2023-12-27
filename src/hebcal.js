@@ -40,6 +40,7 @@ import {Locale} from './locale.js';
 import {Location} from './location.js';
 import {MoladEvent} from './molad.js';
 import {OmerEvent} from './omer.js';
+import {reformatTimeStr} from './reformatTimeStr.js';
 import {tachanun_} from './tachanun.js';
 import {Zmanim} from './zmanim.js';
 
@@ -429,10 +430,6 @@ const MASK_LIGHT_CANDLES =
 
 const defaultLocation = new Location(0, 0, false, 'UTC');
 
-const hour12cc = {
-  US: 1, CA: 1, BR: 1, AU: 1, NZ: 1, DO: 1, PR: 1, GR: 1, IN: 1, KR: 1, NP: 1, ZA: 1,
-};
-
 /**
  * @private
  * @param {CalOptions} options
@@ -689,7 +686,7 @@ export class HebrewCalendar {
         evts.push(new MoladEvent(hd, hyear, monNext));
       }
       if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
-        candlesEv = makeCandleEvent(undefined, hd, dow, location, options);
+        candlesEv = makeCandleEvent(undefined, hd, dow, options);
         if (dow === FRI && candlesEv && sedra) {
           candlesEv.memo = sedra.getString(abs);
         }
@@ -857,27 +854,7 @@ export class HebrewCalendar {
    * @return {string}
    */
   static reformatTimeStr(timeStr, suffix, options) {
-    if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);
-    const cc = options.location?.cc || (options.il ? 'IL' : 'US');
-    if (typeof options.hour12 !== 'undefined' && !options.hour12) {
-      return timeStr;
-    }
-    if (!options.hour12 && typeof hour12cc[cc] === 'undefined') {
-      return timeStr;
-    }
-    const hm = timeStr.split(':');
-    let hour = parseInt(hm[0], 10);
-    if (hour < 12 && suffix) {
-      suffix = suffix.replace('p', 'a').replace('P', 'A');
-      if (hour === 0) {
-        hour = 12;
-      }
-    } else if (hour > 12) {
-      hour = hour % 12;
-    } else if (hour === 0) {
-      hour = '00';
-    }
-    return `${hour}:${hm[1]}${suffix}`;
+    return reformatTimeStr(timeStr, suffix, options);
   }
 
   /** @return {string} */
@@ -977,7 +954,7 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
   if ((eFlags & options.mask) || (!eFlags && !options.userMask)) {
     if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
       const hd = ev.getDate();
-      candlesEv = makeCandleEvent(ev, hd, dow, location, options);
+      candlesEv = makeCandleEvent(ev, hd, dow, options);
       if (eFlags & CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
         const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
           makeWeekdayChanukahCandleLighting(ev, hd, options);

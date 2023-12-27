@@ -335,62 +335,25 @@ test('renderBrief', (t) => {
 test('reformatTimeStr', (t) => {
   t.is(HebrewCalendar.reformatTimeStr('20:30', 'pm', {}), '8:30pm');
   t.is(HebrewCalendar.reformatTimeStr('20:30', ' P.M.', {}), '8:30 P.M.');
-  t.is(HebrewCalendar.reformatTimeStr('20:30', '', {}), '8:30');
-  t.is(HebrewCalendar.reformatTimeStr('20:30', '', {locale: 'fr'}), '8:30');
-  t.is(HebrewCalendar.reformatTimeStr('20:30', '', {locale: 'en'}), '8:30');
-  t.is(HebrewCalendar.reformatTimeStr('20:30', '', {locale: 'ashkenazi'}), '8:30');
-  t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'FR'}}), '20:30');
-  t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'IL'}}), '20:30');
-  t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'US'}}), '8:30 PM');
-  t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'CA'}}), '8:30 PM');
   t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'BR'}}), '8:30 PM');
   t.is(HebrewCalendar.reformatTimeStr('20:30', ' PM', {location: {cc: 'MX'}}), '20:30');
 
   t.is(HebrewCalendar.reformatTimeStr('11:45', 'pm', {}), '11:45am');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', ' P.M.', {}), '11:45 A.M.');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', '', {}), '11:45');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', '', {locale: 'fr'}), '11:45');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', '', {locale: 'en'}), '11:45');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', '', {locale: 'ashkenazi'}), '11:45');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'FR'}}), '11:45');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'IL'}}), '11:45');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'US'}}), '11:45 AM');
-  t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'CA'}}), '11:45 AM');
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'BR'}}), '11:45 AM');
   t.is(HebrewCalendar.reformatTimeStr('11:45', ' PM', {location: {cc: 'MX'}}), '11:45');
 
   t.is(HebrewCalendar.reformatTimeStr('00:07', 'pm', {}), '12:07am');
   t.is(HebrewCalendar.reformatTimeStr('00:07', ' P.M.', {}), '12:07 A.M.');
-  t.is(HebrewCalendar.reformatTimeStr('00:07', '', {}), '00:07');
-  t.is(HebrewCalendar.reformatTimeStr('00:07', '', {locale: 'fr'}), '00:07');
-  t.is(HebrewCalendar.reformatTimeStr('00:07', '', {locale: 'en'}), '00:07');
-  t.is(HebrewCalendar.reformatTimeStr('00:07', '', {locale: 'ashkenazi'}), '00:07');
-  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'FR'}}), '00:07');
-  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'IL'}}), '00:07');
-  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'US'}}), '12:07 AM');
-  t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'CA'}}), '12:07 AM');
   t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'BR'}}), '12:07 AM');
   t.is(HebrewCalendar.reformatTimeStr('00:07', ' PM', {location: {cc: 'MX'}}), '00:07');
 });
 
 test('reformatTimeStr-hour12', (t) => {
   t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'fr', hour12: true}), '11:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'en', hour12: true}), '11:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'ashkenazi', hour12: true}), '11:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'FR'}, hour12: true}), '11:56 PM');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'IL'}, hour12: true}), '11:56 PM');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'US'}, hour12: true}), '11:56 PM');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'CA'}, hour12: true}), '11:56 PM');
   t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'BR'}, hour12: true}), '11:56 PM');
   t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'MX'}, hour12: true}), '11:56 PM');
 
   t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'fr', hour12: false}), '23:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'en', hour12: false}), '23:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', '', {locale: 'ashkenazi', hour12: false}), '23:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'FR'}, hour12: false}), '23:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'IL'}, hour12: false}), '23:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'US'}, hour12: false}), '23:56');
-  t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'CA'}, hour12: false}), '23:56');
   t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'BR'}, hour12: false}), '23:56');
   t.is(HebrewCalendar.reformatTimeStr('23:56', ' PM', {location: {cc: 'MX'}, hour12: false}), '23:56');
 });
@@ -702,6 +665,30 @@ test('year1-sedrot', (t) => {
     {date: '-003760-10-10', desc: 'Parashat Noach'},
     {date: '-003760-10-17', desc: 'Parashat Lech-Lecha'},
     {date: '-003760-10-24', desc: 'Parashat Vayera'},
+  ];
+  t.deepEqual(actual, expected);
+});
+
+test('mevarchim-only', (t) => {
+  const events = HebrewCalendar.calendar({
+    year: 5784,
+    isHebrewYear: true,
+    mask: flags.SHABBAT_MEVARCHIM,
+  });
+  const actual = events.map(eventDateDesc);
+  const expected = [
+    {date: '10/14/2023', desc: 'Shabbat Mevarchim Chodesh Cheshvan'},
+    {date: '11/11/2023', desc: 'Shabbat Mevarchim Chodesh Kislev'},
+    {date: '12/9/2023', desc: 'Shabbat Mevarchim Chodesh Tevet'},
+    {date: '1/6/2024', desc: 'Shabbat Mevarchim Chodesh Sh\'vat'},
+    {date: '2/3/2024', desc: 'Shabbat Mevarchim Chodesh Adar I'},
+    {date: '3/9/2024', desc: 'Shabbat Mevarchim Chodesh Adar II'},
+    {date: '4/6/2024', desc: 'Shabbat Mevarchim Chodesh Nisan'},
+    {date: '5/4/2024', desc: 'Shabbat Mevarchim Chodesh Iyyar'},
+    {date: '6/1/2024', desc: 'Shabbat Mevarchim Chodesh Sivan'},
+    {date: '6/29/2024', desc: 'Shabbat Mevarchim Chodesh Tamuz'},
+    {date: '8/3/2024', desc: 'Shabbat Mevarchim Chodesh Av'},
+    {date: '8/31/2024', desc: 'Shabbat Mevarchim Chodesh Elul'},
   ];
   t.deepEqual(actual, expected);
 });

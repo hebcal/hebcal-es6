@@ -989,7 +989,7 @@ declare module '@hebcal/core' {
      * @param desc - Description (not translated)
      */
     export class TimedEvent extends Event {
-        constructor(date: HDate, desc: string, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
+        constructor(date: HDate, desc: string, mask: number, eventTime: Date, location: Location, linkedEvent?: Event, options?: CalOptions);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         getCategories(): string[];
@@ -999,11 +999,11 @@ declare module '@hebcal/core' {
         readonly linkedEvent?: Event;
     }
     export class CandleLightingEvent extends TimedEvent {
-        constructor(date: HDate, mask: number, eventTime: Date, location: Location, linkedEvent?: Event);
+        constructor(date: HDate, mask: number, eventTime: Date, location: Location, linkedEvent?: Event, options?: CalOptions);
         getEmoji(): string;
     }
     export class HavdalahEvent extends TimedEvent {
-        constructor(date: HDate, mask: number, eventTime: Date, location: Location, havdalahMins?: number, linkedEvent?: Event);
+        constructor(date: HDate, mask: number, eventTime: Date, location: Location, havdalahMins?: number, linkedEvent?: Event, options?: CalOptions);
         render(locale?: string): string;
         renderBrief(locale?: string): string;
         getEmoji(): string;
