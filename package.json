@@ -71,9 +71,9 @@
     "temporal-polyfill": "^0.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.6",
-    "@babel/preset-env": "^7.23.6",
-    "@babel/register": "^7.22.15",
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.7",
+    "@babel/register": "^7.23.7",
     "@hebcal/hdate": "^0.9.1",
     "@hebcal/noaa": "^0.8.11",
     "@rollup/plugin-babel": "^6.0.4",
@@ -82,14 +82,14 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "ava": "^6.0.1",
-    "core-js": "^3.34.0",
+    "core-js": "^3.35.0",
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
     "nyc": "^15.1.0",
     "quick-lru": "^7.0.0",
-    "rollup": "^4.9.1",
+    "rollup": "^4.9.2",
     "ttag-cli": "^1.10.10"
   }
 }

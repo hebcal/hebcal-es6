@@ -222,24 +222,65 @@ export class Zmanim {
     return this.getShaahZmanisBasedZman(4);
   }
   /**
-   * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham
+   * Returns an array with alot (Date) and ms in hour (number)
+   * @private
+   * @return {any[]}
+   */
+  getTemporalHour72() {
+    const alot72 = this.sunriseOffset(-72, false, true);
+    const tzeit72 = this.sunsetOffset(72, false, true);
+    const temporalHour = (tzeit72 - alot72) / 12;
+    return [alot72, temporalHour];
+  }
+  /**
+   * Returns an array with alot (Date) and ms in hour (number)
+   * @private
+   * @return {any[]}
+   */
+  getTemporalHour16Point1() {
+    const alot16one = this.alotHaShachar();
+    const tzeit16one = this.tzeit(16.1);
+    const temporalHour = (tzeit16one - alot16one) / 12;
+    return [alot16one, temporalHour];
+  }
+  /**
+   * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+   * Based on the opinion of the MGA that the day is calculated from
+   * dawn being fixed 72 minutes before sea-level sunrise, and nightfall is fixed
+   * 72 minutes after sea-level sunset.
    * @return {Date}
    */
   sofZmanShmaMGA() { // Magen Avraham
-    const alot72 = this.sunriseOffset(-72, false, true);
-    const tzeit72 = this.sunsetOffset(72, false, true);
-    const temporalHour = (tzeit72 - alot72) / 12; // ms in hour
+    const [alot72, temporalHour] = this.getTemporalHour72();
     return new Date(alot72.getTime() + (3 * temporalHour));
+  }
+  /**
+   * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+   * Based on the opinion of the MGA that the day is calculated from
+   * dawn to nightfall with both being 16.1° below the horizon.
+   * @return {Date}
+   */
+  sofZmanShmaMGA16Point1() {
+    const [alot, temporalHour] = this.getTemporalHour16Point1();
+    return new Date(alot.getTime() + (3 * temporalHour));
   }
   /**
    * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham
    * @return {Date}
    */
   sofZmanTfillaMGA() { // Magen Avraham
-    const alot72 = this.sunriseOffset(-72, false, true);
-    const tzeit72 = this.sunsetOffset(72, false, true);
-    const temporalHour = (tzeit72 - alot72) / 12; // ms in hour
+    const [alot72, temporalHour] = this.getTemporalHour72();
     return new Date(alot72.getTime() + (4 * temporalHour));
+  }
+  /**
+   * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
+   * Based on the opinion of the MGA that the day is calculated from
+   * dawn to nightfall with both being 16.1° below the horizon.
+   * @return {Date}
+   */
+  sofZmanTfillaMGA16Point1() {
+    const [alot, temporalHour] = this.getTemporalHour16Point1();
+    return new Date(alot.getTime() + (4 * temporalHour));
   }
   /**
    * Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours
