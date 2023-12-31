@@ -167,17 +167,6 @@ parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[53] 
 ## Functions
 
 <dl>
-<dt><a href="#gematriya">gematriya(number)</a> ⇒ <code>string</code></dt>
-<dd><p>Converts a numerical value to a string of Hebrew letters.</p>
-<p>When specifying years of the Hebrew calendar in the present millennium,
-we omit the thousands (which is presently 5 [ה]).</p>
-</dd>
-<dt><a href="#gematriyaStrToNum">gematriyaStrToNum(str)</a> ⇒ <code>number</code></dt>
-<dd><p>Converts a string of Hebrew letters to a numerical value.</p>
-<p>Only considers the value of Hebrew letters <code>א</code> through <code>ת</code>.
-Ignores final Hebrew letters such as <code>ך</code> (kaf sofit) or <code>ם</code> (mem sofit)
-and vowels (nekudot).</p>
-</dd>
 <dt><a href="#hebrew2abs">hebrew2abs(year, month, day)</a> ⇒ <code>number</code></dt>
 <dd><p>Converts Hebrew date to R.D. (Rata Die) fixed days.
 R.D. 1 is the imaginary date Monday, January 1, 1 on the Gregorian
@@ -216,6 +205,17 @@ A leap Hebrew calendar year can have a length of 383, 384 or 385 days</p>
 </dd>
 <dt><a href="#monthFromName">monthFromName(monthName)</a> ⇒ <code>number</code></dt>
 <dd><p>Converts Hebrew month string name to numeric</p>
+</dd>
+<dt><a href="#gematriya">gematriya(num)</a> ⇒ <code>string</code></dt>
+<dd><p>Converts a numerical value to a string of Hebrew letters.</p>
+<p>When specifying years of the Hebrew calendar in the present millennium,
+we omit the thousands (which is presently 5 [ה]).</p>
+</dd>
+<dt><a href="#gematriyaStrToNum">gematriyaStrToNum(str)</a> ⇒ <code>number</code></dt>
+<dd><p>Converts a string of Hebrew letters to a numerical value.</p>
+<p>Only considers the value of Hebrew letters <code>א</code> through <code>ת</code>.
+Ignores final Hebrew letters such as <code>ך</code> (kaf sofit) or <code>ם</code> (mem sofit)
+and vowels (nekudot).</p>
 </dd>
 </dl>
 
@@ -1916,7 +1916,9 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
         * [.sofZmanShma()](#Zmanim+sofZmanShma) ⇒ <code>Date</code>
         * [.sofZmanTfilla()](#Zmanim+sofZmanTfilla) ⇒ <code>Date</code>
         * [.sofZmanShmaMGA()](#Zmanim+sofZmanShmaMGA) ⇒ <code>Date</code>
+        * [.sofZmanShmaMGA16Point1()](#Zmanim+sofZmanShmaMGA16Point1) ⇒ <code>Date</code>
         * [.sofZmanTfillaMGA()](#Zmanim+sofZmanTfillaMGA) ⇒ <code>Date</code>
+        * [.sofZmanTfillaMGA16Point1()](#Zmanim+sofZmanTfillaMGA16Point1) ⇒ <code>Date</code>
         * [.minchaGedola()](#Zmanim+minchaGedola) ⇒ <code>Date</code>
         * [.minchaKetana()](#Zmanim+minchaKetana) ⇒ <code>Date</code>
         * [.plagHaMincha()](#Zmanim+plagHaMincha) ⇒ <code>Date</code>
@@ -2053,13 +2055,32 @@ Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra
 <a name="Zmanim+sofZmanShmaMGA"></a>
 
 ### zmanim.sofZmanShmaMGA() ⇒ <code>Date</code>
-Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham
+Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+Based on the opinion of the MGA that the day is calculated from
+dawn being fixed 72 minutes before sea-level sunrise, and nightfall is fixed
+72 minutes after sea-level sunset.
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sofZmanShmaMGA16Point1"></a>
+
+### zmanim.sofZmanShmaMGA16Point1() ⇒ <code>Date</code>
+Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+Based on the opinion of the MGA that the day is calculated from
+dawn to nightfall with both being 16.1° below the horizon.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sofZmanTfillaMGA"></a>
 
 ### zmanim.sofZmanTfillaMGA() ⇒ <code>Date</code>
 Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sofZmanTfillaMGA16Point1"></a>
+
+### zmanim.sofZmanTfillaMGA16Point1() ⇒ <code>Date</code>
+Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
+Based on the opinion of the MGA that the day is calculated from
+dawn to nightfall with both being 16.1° below the horizon.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+minchaGedola"></a>
@@ -2182,14 +2203,14 @@ An event that has an `eventTime` and `eventTimeStr`
 **Kind**: global class  
 
 * [TimedEvent](#TimedEvent)
-    * [new TimedEvent(date, desc, mask, eventTime, location, linkedEvent)](#new_TimedEvent_new)
+    * [new TimedEvent(date, desc, mask, eventTime, location, linkedEvent, options)](#new_TimedEvent_new)
     * [.render([locale])](#TimedEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#TimedEvent+renderBrief) ⇒ <code>string</code>
     * [.getCategories()](#TimedEvent+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
 
 <a name="new_TimedEvent_new"></a>
 
-### new TimedEvent(date, desc, mask, eventTime, location, linkedEvent)
+### new TimedEvent(date, desc, mask, eventTime, location, linkedEvent, options)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -2199,6 +2220,7 @@ An event that has an `eventTime` and `eventTimeStr`
 | eventTime | <code>Date</code> |  |
 | location | [<code>Location</code>](#Location) |  |
 | linkedEvent | [<code>Event</code>](#Event) |  |
+| options | [<code>CalOptions</code>](#CalOptions) |  |
 
 <a name="TimedEvent+render"></a>
 
@@ -2232,14 +2254,14 @@ Havdalah after Shabbat or holiday
 **Kind**: global class  
 
 * [HavdalahEvent](#HavdalahEvent)
-    * [new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent)](#new_HavdalahEvent_new)
+    * [new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent, options)](#new_HavdalahEvent_new)
     * [.render([locale])](#HavdalahEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#HavdalahEvent+renderBrief) ⇒ <code>string</code>
     * [.getEmoji()](#HavdalahEvent+getEmoji) ⇒ <code>string</code>
 
 <a name="new_HavdalahEvent_new"></a>
 
-### new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent)
+### new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent, options)
 
 | Param | Type |
 | --- | --- |
@@ -2249,6 +2271,7 @@ Havdalah after Shabbat or holiday
 | location | [<code>Location</code>](#Location) | 
 | havdalahMins | <code>number</code> | 
 | linkedEvent | [<code>Event</code>](#Event) | 
+| options | [<code>CalOptions</code>](#CalOptions) | 
 
 <a name="HavdalahEvent+render"></a>
 
@@ -2282,12 +2305,12 @@ Candle lighting before Shabbat or holiday
 **Kind**: global class  
 
 * [CandleLightingEvent](#CandleLightingEvent)
-    * [new CandleLightingEvent(date, mask, eventTime, location, linkedEvent)](#new_CandleLightingEvent_new)
+    * [new CandleLightingEvent(date, mask, eventTime, location, linkedEvent, options)](#new_CandleLightingEvent_new)
     * [.getEmoji()](#CandleLightingEvent+getEmoji) ⇒ <code>string</code>
 
 <a name="new_CandleLightingEvent_new"></a>
 
-### new CandleLightingEvent(date, mask, eventTime, location, linkedEvent)
+### new CandleLightingEvent(date, mask, eventTime, location, linkedEvent, options)
 
 | Param | Type |
 | --- | --- |
@@ -2296,6 +2319,7 @@ Candle lighting before Shabbat or holiday
 | eventTime | <code>Date</code> | 
 | location | [<code>Location</code>](#Location) | 
 | linkedEvent | [<code>Event</code>](#Event) | 
+| options | [<code>CalOptions</code>](#CalOptions) | 
 
 <a name="CandleLightingEvent+getEmoji"></a>
 
@@ -2317,6 +2341,7 @@ Represents a molad, the moment when the new moon is "born"
     * [.getHour()](#Molad+getHour) ⇒ <code>number</code>
     * [.getMinutes()](#Molad+getMinutes) ⇒ <code>number</code>
     * [.getChalakim()](#Molad+getChalakim) ⇒ <code>number</code>
+    * [.render([locale], options)](#Molad+render) ⇒ <code>string</code>
 
 <a name="new_Molad_new"></a>
 
@@ -2361,6 +2386,16 @@ Calculates the molad for a Hebrew month
 ### molad.getChalakim() ⇒ <code>number</code>
 **Kind**: instance method of [<code>Molad</code>](#Molad)  
 **Returns**: <code>number</code> - parts of a minute (0-17)  
+<a name="Molad+render"></a>
+
+### molad.render([locale], options) ⇒ <code>string</code>
+**Kind**: instance method of [<code>Molad</code>](#Molad)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale) |
+| options | [<code>CalOptions</code>](#CalOptions) |  |
+
 <a name="MoladEvent"></a>
 
 ## MoladEvent
@@ -2369,18 +2404,19 @@ Represents a Molad announcement on Shabbat Mevarchim
 **Kind**: global class  
 
 * [MoladEvent](#MoladEvent)
-    * [new MoladEvent(date, hyear, hmonth)](#new_MoladEvent_new)
+    * [new MoladEvent(date, hyear, hmonth, options)](#new_MoladEvent_new)
     * [.render([locale])](#MoladEvent+render) ⇒ <code>string</code>
 
 <a name="new_MoladEvent_new"></a>
 
-### new MoladEvent(date, hyear, hmonth)
+### new MoladEvent(date, hyear, hmonth, options)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
 | hyear | <code>number</code> | molad year |
 | hmonth | <code>number</code> | molad month |
+| options | [<code>CalOptions</code>](#CalOptions) |  |
 
 <a name="MoladEvent+render"></a>
 
@@ -2489,6 +2525,7 @@ Represents Parashah HaShavua for an entire Hebrew year
     * [.getString(hDate, [locale])](#Sedra+getString) ⇒ <code>string</code>
     * [.isParsha(hDate)](#Sedra+isParsha) ⇒ <code>boolean</code>
     * [.find(parsha)](#Sedra+find) ⇒ [<code>HDate</code>](#HDate)
+    * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;Object&gt;</code>
     * [.getFirstSaturday()](#Sedra+getFirstSaturday) ⇒ <code>number</code>
     * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
     * [.lookup(hDate)](#Sedra+lookup) ⇒ [<code>SedraResult</code>](#SedraResult)
@@ -2550,6 +2587,10 @@ Returns the date that a parsha occurs
 | --- | --- |
 | parsha | <code>number</code> \| <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 
+<a name="Sedra+getSedraArray"></a>
+
+### sedra.getSedraArray() ⇒ <code>Array.&lt;Object&gt;</code>
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
 <a name="Sedra+getFirstSaturday"></a>
 
 ### sedra.getFirstSaturday() ⇒ <code>number</code>
@@ -3025,7 +3066,7 @@ Returns an array of holidays for the year
 <a name="HebrewCalendar.getHolidaysOnDate"></a>
 
 ### HebrewCalendar.getHolidaysOnDate(date, [il]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-Returns an array of Events on this date (or undefined if no events)
+Returns an array of Events on this date (or `undefined` if no events)
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
 
@@ -3193,43 +3234,6 @@ parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[53] == "Ha'azinu".
 
 **Kind**: global constant  
 **Read only**: true  
-<a name="gematriya"></a>
-
-## gematriya(number) ⇒ <code>string</code>
-Converts a numerical value to a string of Hebrew letters.
-
-When specifying years of the Hebrew calendar in the present millennium,
-we omit the thousands (which is presently 5 [ה]).
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| number | <code>number</code> | 
-
-**Example**  
-```js
-gematriya(5774) // 'תשע״ד' - cropped to 774
-gematriya(25) // 'כ״ה'
-gematriya(60) // 'ס׳'
-gematriya(3761) // 'ג׳תשס״א'
-gematriya(1123) // 'א׳קכ״ג'
-```
-<a name="gematriyaStrToNum"></a>
-
-## gematriyaStrToNum(str) ⇒ <code>number</code>
-Converts a string of Hebrew letters to a numerical value.
-
-Only considers the value of Hebrew letters `א` through `ת`.
-Ignores final Hebrew letters such as `ך` (kaf sofit) or `ם` (mem sofit)
-and vowels (nekudot).
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| str | <code>string</code> | 
-
 <a name="hebrew2abs"></a>
 
 ## hebrew2abs(year, month, day) ⇒ <code>number</code>
@@ -3360,6 +3364,43 @@ Converts Hebrew month string name to numeric
 | Param | Type | Description |
 | --- | --- | --- |
 | monthName | <code>string</code> | monthName |
+
+<a name="gematriya"></a>
+
+## gematriya(num) ⇒ <code>string</code>
+Converts a numerical value to a string of Hebrew letters.
+
+When specifying years of the Hebrew calendar in the present millennium,
+we omit the thousands (which is presently 5 [ה]).
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| num | <code>number</code> | 
+
+**Example**  
+```js
+gematriya(5774) // 'תשע״ד' - cropped to 774
+gematriya(25) // 'כ״ה'
+gematriya(60) // 'ס׳'
+gematriya(3761) // 'ג׳תשס״א'
+gematriya(1123) // 'א׳קכ״ג'
+```
+<a name="gematriyaStrToNum"></a>
+
+## gematriyaStrToNum(str) ⇒ <code>number</code>
+Converts a string of Hebrew letters to a numerical value.
+
+Only considers the value of Hebrew letters `א` through `ת`.
+Ignores final Hebrew letters such as `ך` (kaf sofit) or `ם` (mem sofit)
+and vowels (nekudot).
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
 
 <a name="SedraResult"></a>
 
