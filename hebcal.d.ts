@@ -28,7 +28,7 @@ declare module '@hebcal/core' {
         observedIn(il: boolean): boolean;
         clone(): Event;
         getCategories(): string[];
-        readonly date: Date;
+        readonly date: HDate;
         readonly desc: string;
         readonly mask: number;
         readonly emoji?: string;
@@ -414,11 +414,28 @@ declare module '@hebcal/core' {
         sofZmanShma(): Date;
         /** Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra */
         sofZmanTfilla(): Date;
-        /** Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham */
+        /**
+         * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+         * Based on the opinion of the MGA that the day is calculated from
+         * dawn being fixed 72 minutes before sea-level sunrise, and nightfall is fixed
+         * 72 minutes after sea-level sunset.
+         */
         sofZmanShmaMGA(): Date;
+        /**
+         * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+         * Based on the opinion of the MGA that the day is calculated from
+         * dawn to nightfall with both being 16.1° below the horizon.
+         */
+        sofZmanShmaMGA16Point1(): Date;
         /** Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham */
         sofZmanTfillaMGA(): Date;
         /** Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours */
+        /**
+         * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
+         * Based on the opinion of the MGA that the day is calculated from
+         * dawn to nightfall with both being 16.1° below the horizon.
+         */
+        sofZmanTfillaMGA16Point1(): Date;
         minchaGedola(): Date;
         /** Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours */
         minchaKetana(): Date;
