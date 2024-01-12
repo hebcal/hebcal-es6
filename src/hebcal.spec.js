@@ -308,7 +308,7 @@ test('renderBrief', (t) => {
     ['Parashat Tetzaveh', 'פָּרָשַׁת תְּצַוֶּה'],
     ['Havdalah', 'הַבְדָּלָה'],
     ['Fast begins', 'תחילת הַצוֹם'],
-    ['Ta\'anit Esther', 'תַּעֲנִית אֶסְתֵּר'],
+    ['Ta’anit Esther', 'תַּעֲנִית אֶסְתֵּר'],
     ['Fast ends', 'סִיּוּם הַצוֹם'],
     ['Erev Purim', 'עֶרֶב פּוּרִים'],
     ['Purim', 'פּוּרִים'],

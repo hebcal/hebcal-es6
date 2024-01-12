@@ -57,7 +57,7 @@ test('lookupTranslation-he-x-NoNikud', (t) => {
 
 test('gettext-ashkenazi', (t) => {
   t.is(Locale.gettext('Sukkot', 'a'), 'Sukkos');
-  t.is(Locale.gettext('Asara B\'Tevet', 'a'), 'Asara B\'Teves');
+  t.is(Locale.gettext('Asara B\'Tevet', 'a'), 'Asara B’Teves');
   t.is(Locale.gettext('Tevet', 'a'), 'Teves');
   t.is(Locale.gettext('Tevet', 'ashkenazi'), 'Teves');
 });

@@ -29,7 +29,7 @@ msgid "Bechukotai"
 msgstr "Bechukosai"
 
 msgid "Beha'alotcha"
-msgstr "Beha'aloscha"
+msgstr "Beha’aloscha"
 
 msgid "Bereshit"
 msgstr "Bereshis"
@@ -110,28 +110,28 @@ msgid "Sukkot II"
 msgstr "Sukkos II"
 
 msgid "Sukkot II (CH''M)"
-msgstr "Sukkos II (CH''M)"
+msgstr "Sukkos II (CH’’M)"
 
 msgid "Sukkot III (CH''M)"
-msgstr "Sukkos III (CH''M)"
+msgstr "Sukkos III (CH’’M)"
 
 msgid "Sukkot IV (CH''M)"
-msgstr "Sukkos IV (CH''M)"
+msgstr "Sukkos IV (CH’’M)"
 
 msgid "Sukkot V (CH''M)"
-msgstr "Sukkos V (CH''M)"
+msgstr "Sukkos V (CH’’M)"
 
 msgid "Sukkot VI (CH''M)"
-msgstr "Sukkos VI (CH''M)"
+msgstr "Sukkos VI (CH’’M)"
 
 msgid "Sukkot VII (Hoshana Raba)"
 msgstr "Sukkos VII (Hoshana Raba)"
 
 msgid "Ta'anit Bechorot"
-msgstr "Ta'anis Bechoros"
+msgstr "Ta’anis Bechoros"
 
 msgid "Ta'anit Esther"
-msgstr "Ta'anis Esther"
+msgstr "Ta’anis Esther"
 
 msgid "Toldot"
 msgstr "Toldos"
@@ -161,7 +161,7 @@ msgid "Tevet"
 msgstr "Teves"
 
 msgid "Asara B'Tevet"
-msgstr "Asara B'Teves"
+msgstr "Asara B’Teves"
 
 # hebcal/hebcal zmanim (unused by hebcal/hebcal-es6)
 msgid "Alot HaShachar"

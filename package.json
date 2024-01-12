@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.0.7",
+  "version": "5.0.8",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",
-    "@babel/preset-env": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
     "@babel/register": "^7.23.7",
     "@hebcal/hdate": "^0.9.1",
     "@hebcal/noaa": "^0.8.11",
@@ -89,7 +89,7 @@
     "jsdoc-to-markdown": "^8.0.0",
     "nyc": "^15.1.0",
     "quick-lru": "^7.0.0",
-    "rollup": "^4.9.2",
+    "rollup": "^4.9.5",
     "ttag-cli": "^1.10.10"
   }
 }

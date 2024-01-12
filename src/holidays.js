@@ -104,6 +104,26 @@ export class HolidayEvent extends Event {
         return ['holiday', 'major'];
     }
   }
+  /**
+   * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale) {
+    const str = super.render(locale);
+    return str.replace(/'/g, '’');
+  }
+  /**
+   * Returns a brief (translated) description of this event.
+   * For most events, this is the same as render(). For some events, it procudes
+   * a shorter text (e.g. without a time or added description).
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  renderBrief(locale) {
+    const str = super.renderBrief(locale);
+    return str.replace(/'/g, '’');
+  }
 }
 
 const roshChodeshStr = 'Rosh Chodesh';
@@ -125,7 +145,9 @@ export class RoshChodeshEvent extends HolidayEvent {
    */
   render(locale) {
     const monthName = this.getDesc().substring(roshChodeshStr.length + 1);
-    return Locale.gettext(roshChodeshStr, locale) + ' ' + Locale.gettext(monthName, locale);
+    const monthName0 = Locale.gettext(monthName, locale);
+    const monthName1 = monthName0.replace(/'/g, '’');
+    return Locale.gettext(roshChodeshStr, locale) + ' ' + monthName1;
   }
   /** @return {string} */
   basename() {
@@ -178,7 +200,19 @@ export class MevarchimChodeshEvent extends Event {
    * @return {string}
    */
   render(locale) {
-    return Locale.gettext(mevarchimChodeshStr, locale) + ' ' + Locale.gettext(this.monthName, locale);
+    const monthName0 = Locale.gettext(this.monthName, locale);
+    const monthName = monthName0.replace(/'/g, '’');
+    return Locale.gettext(mevarchimChodeshStr, locale) + ' ' + monthName;
+  }
+  /**
+   * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  renderBrief(locale) {
+    const str = this.render(locale);
+    const space = str.indexOf(' ');
+    return str.substring(space + 1);
   }
 }
 
@@ -231,7 +265,9 @@ export class YomKippurKatanEvent extends HolidayEvent {
    * @return {string}
    */
   render(locale) {
-    return Locale.gettext(ykk, locale) + ' ' + Locale.gettext(this.nextMonthName, locale);
+    const monthName0 = Locale.gettext(this.nextMonthName, locale);
+    const monthName = monthName0.replace(/'/g, '’');
+    return Locale.gettext(ykk, locale) + ' ' + monthName;
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale).

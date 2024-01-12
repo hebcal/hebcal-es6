@@ -36,6 +36,8 @@ test('Molad.render', (t) => {
   t.is(m.render('en', {hour12: true}), 'Molad Sivan: Fri, 35 minutes and 10 chalakim after 3:00pm');
   // eslint-disable-next-line max-len
   t.is(m.render('he', {hour12: false}), 'מוֹלָד הָלְּבָנָה סִיוָן יִהְיֶה בַּיּוֹם שִׁישִּׁי בשָׁבוּעַ, בְּשָׁעָה 15 בַּצׇּהֳרַיִים, ו-35 דַּקּוֹת ו-10 חֲלָקִים');
+  const m2 = new Molad(5787, months.SHVAT);
+  t.is(m2.render('en', {hour12: false}), 'Molad Sh’vat: Thu, 55 minutes and 5 chalakim after 23:00');
 });
 
 test('MoladEvent', (t) => {

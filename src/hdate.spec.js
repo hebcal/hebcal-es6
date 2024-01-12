@@ -188,6 +188,21 @@ test('render', (t) => {
   t.is(hd.render('he', false), '15 חֶשְׁוָן');
 });
 
+test('render-shvat', (t) => {
+  const hd = new HDate(15, months.SHVAT, 5789);
+  t.is(hd.render(''), '15th of Sh’vat, 5789');
+  t.is(hd.render('en'), '15th of Sh’vat, 5789');
+  t.is(hd.render('s'), '15th of Sh’vat, 5789');
+  t.is(hd.render('ashkenazi'), '15th of Sh’vat, 5789');
+
+  t.is(hd.render('en', true), '15th of Sh’vat, 5789');
+  t.is(hd.render('ashkenazi', true), '15th of Sh’vat, 5789');
+
+  t.is(hd.render('en', false), '15th of Sh’vat');
+  t.is(hd.render('ashkenazi', false), '15th of Sh’vat');
+});
+
+
 test('render-tevet-ashkenazi', (t) => {
   const hd = new HDate(3, months.TEVET, 5769);
   t.is(hd.render('en', false), '3rd of Tevet');

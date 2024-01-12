@@ -288,7 +288,8 @@ export class HDate {
   render(locale=null, showYear=true) {
     const locale0 = locale || Locale.getLocaleName();
     const day = this.getDate();
-    const monthName = Locale.gettext(this.getMonthName(), locale0);
+    const monthName0 = Locale.gettext(this.getMonthName(), locale0);
+    const monthName = monthName0.replace(/'/g, '’');
     const nth = Locale.ordinal(day, locale0);
     const dayOf = HDate.getDayOfTranslation(locale0);
     const dateStr = `${nth}${dayOf} ${monthName}`;

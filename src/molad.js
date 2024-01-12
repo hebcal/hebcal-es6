@@ -122,7 +122,8 @@ export class Molad {
         `ו-${chalakim} ${chalakimStr}`;
     }
     const fmtTime = reformatTimeStr(`${hour}:00`, 'pm', options);
-    return `${moladStr} ${monthName}: ${dow}, ${minutes} ${minutesStr} and ${chalakim} ${chalakimStr} after ${fmtTime}`;
+    const month = monthName.replace(/'/g, '’');
+    return `${moladStr} ${month}: ${dow}, ${minutes} ${minutesStr} and ${chalakim} ${chalakimStr} after ${fmtTime}`;
   }
 }
 

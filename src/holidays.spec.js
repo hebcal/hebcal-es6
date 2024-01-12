@@ -9,8 +9,8 @@ test('basename-and-url', (t) => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
       'Pesach IV (CH\'\'M)', flags.CHUL_ONLY, {cholHaMoedDay: 2});
   t.is(ev.getDesc(), 'Pesach IV (CH\'\'M)');
-  t.is(ev.render('en'), 'Pesach IV (CH\'\'M)');
-  t.is(ev.renderBrief('en'), 'Pesach IV (CH\'\'M)');
+  t.is(ev.render('en'), 'Pesach IV (CH’’M)');
+  t.is(ev.renderBrief('en'), 'Pesach IV (CH’’M)');
   t.is(ev.basename(), 'Pesach');
   t.is(ev.url(), 'https://www.hebcal.com/holidays/pesach-2003');
 
@@ -25,8 +25,8 @@ test('basename-and-url', (t) => {
   const ev3 = new HolidayEvent(new HDate(8, months.AV, 5783),
       'Erev Tish\'a B\'Av', flags.MAJOR_FAST);
   t.is(ev3.getDesc(), 'Erev Tish\'a B\'Av');
-  t.is(ev3.render('en'), 'Erev Tish\'a B\'Av');
-  t.is(ev3.renderBrief('en'), 'Erev Tish\'a B\'Av');
+  t.is(ev3.render('en'), 'Erev Tish’a B’Av');
+  t.is(ev3.renderBrief('en'), 'Erev Tish’a B’Av');
   t.is(ev3.basename(), 'Tish\'a B\'Av');
   t.is(ev3.url(), 'https://www.hebcal.com/holidays/tisha-bav-2023');
 
@@ -40,7 +40,7 @@ test('basename-and-url', (t) => {
   const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
   t.is(mvch.getDesc(), 'Shabbat Mevarchim Chodesh Tevet');
   t.is(mvch.render('en'), 'Shabbat Mevarchim Chodesh Tevet');
-  t.is(mvch.renderBrief('en'), 'Shabbat Mevarchim Chodesh Tevet');
+  t.is(mvch.renderBrief('en'), 'Mevarchim Chodesh Tevet');
   t.is(mvch.url(), undefined);
 });
 
