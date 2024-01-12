@@ -365,8 +365,13 @@ declare module '@hebcal/core' {
          * @param gloc GeoLocation including latitude, longitude, and timezone
          * @param date Regular or Hebrew Date. If `date` is a regular `Date`,
          *    hours, minutes, seconds and milliseconds are ignored
+         * @param useElevation use elevation for calculations (default `false`).
+         *    If `true`, use elevation to affect the calculation of all sunrise/sunset based
+         *    zmanim. Note: there are some zmanim such as degree-based zmanim that are driven
+         *    by the amount of light in the sky and are not impacted by elevation.
+         *    These zmanim intentionally do not support elevation adjustment.
          */
-        constructor(gloc: GeoLocation, date: Date | HDate);
+        constructor(gloc: GeoLocation, date: Date | HDate, useElevation?: boolean);
 
         /**
          * Returns a string like "2022-04-01T13:06:00-11:00"
