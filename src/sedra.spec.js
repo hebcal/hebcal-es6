@@ -37,6 +37,7 @@ test('getString-locale', (t) => {
   t.is(sedra.getString(hd, 'ashkenazi'), 'Parshas Achrei Mos-Kedoshim');
 });
 
+const sep24 = new HDate(new Date(1988, 8, 24));
 const oct1 = new HDate(new Date(1988, 9, 1));
 const nov5 = new HDate(new Date(1988, 10, 5));
 const jul15 = new HDate(new Date(1989, 6, 15));
@@ -53,6 +54,7 @@ test('getString', (t) => {
   t.is(sedra.getString(oct1, 'en'), 'Parashat Sukkot Shabbat Chol ha-Moed');
   t.is(sedra.getString(nov5, 'en'), 'Parashat Chayei Sara');
   t.is(sedra.getString(jul15, 'en'), 'Parashat Chukat-Balak');
+  t.is(sedra.getString(sep24, 'ashkenazi'), 'Parshas Ha’azinu');
 });
 
 test('lookup', (t) => {

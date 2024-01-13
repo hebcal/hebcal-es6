@@ -122,6 +122,7 @@ export class Sedra {
       const hyphen = locale0 == 'he' ? '־' : '-';
       name += hyphen + Locale.gettext(parsha[1], locale0);
     }
+    name = name.replace(/'/g, '’');
     return Locale.gettext('Parashat', locale0) + ' ' + name;
   }
 
