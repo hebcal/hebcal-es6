@@ -34,6 +34,7 @@ export class ParshaEvent extends Event {
       const hyphen = locale0 == 'he' ? '־' : '-';
       name += hyphen + Locale.gettext(parsha[1], locale);
     }
+    name = name.replace(/'/g, '’');
     const str = Locale.gettext('Parashat', locale) + ' ' + name;
     return str.normalize();
   }

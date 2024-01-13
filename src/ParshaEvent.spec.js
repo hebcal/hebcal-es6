@@ -2,6 +2,7 @@ import test from 'ava';
 import {HDate} from './hdate.js';
 import {Locale} from './locale.js';
 import {ParshaEvent} from './ParshaEvent.js';
+import './locale-ashkenazi.js';
 import './locale-he.js';
 
 test('ParshaEvent-url', (t) => {
@@ -40,4 +41,15 @@ test('early-ce-url', (t) => {
 test('bce-url', (t) => {
   const ev = new ParshaEvent(new HDate(new Date(-428, 8, 30)), ['Bereshit']);
   t.is(ev.url(), undefined);
+});
+
+test('render', (t) => {
+  const ev = new ParshaEvent(new HDate(8, 'Tishrei', 5784), ['Ha\'azinu']);
+  t.is(ev.getDesc(), 'Parashat Ha\'azinu');
+  t.is(ev.render('en'), 'Parashat Ha’azinu');
+  t.is(ev.render('a'), 'Parshas Ha’azinu');
+  t.is(ev.render('he-x-NoNikud'), 'פרשת האזינו');
+  t.is(ev.renderBrief('en'), 'Parashat Ha’azinu');
+  t.is(ev.renderBrief('a'), 'Parshas Ha’azinu');
+  t.is(ev.renderBrief('he-x-NoNikud'), 'פרשת האזינו');
 });
