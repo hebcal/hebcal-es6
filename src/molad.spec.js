@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import test from 'ava';
 import {months} from '@hebcal/hdate';
 import {Molad, MoladEvent} from './molad.js';
@@ -34,7 +35,6 @@ test('Molad.render', (t) => {
   const m = new Molad(5787, months.SIVAN);
   t.is(m.render('en', {hour12: false}), 'Molad Sivan: Fri, 35 minutes and 10 chalakim after 15:00');
   t.is(m.render('en', {hour12: true}), 'Molad Sivan: Fri, 35 minutes and 10 chalakim after 3:00pm');
-  // eslint-disable-next-line max-len
   t.is(m.render('he', {hour12: false}), 'מוֹלָד הָלְּבָנָה סִיוָן יִהְיֶה בַּיּוֹם שִׁישִּׁי בשָׁבוּעַ, בְּשָׁעָה 15 בַּצׇּהֳרַיִים, ו-35 דַּקּוֹת ו-10 חֲלָקִים');
   const m2 = new Molad(5787, months.SHVAT);
   t.is(m2.render('en', {hour12: false}), 'Molad Sh’vat: Thu, 55 minutes and 5 chalakim after 23:00');
@@ -52,6 +52,10 @@ test('MoladEvent-he', (t) => {
   const ev = new MoladEvent(hd, hd.getFullYear(), months.KISLEV, {hour12: false});
   t.is(ev.getDesc(), 'Molad Kislev 5784');
   t.is(ev.render('en'), 'Molad Kislev: Mon, 17 minutes and 2 chalakim after 7:00');
-  // eslint-disable-next-line max-len
   t.is(ev.render('he'), 'מוֹלָד הָלְּבָנָה כִּסְלֵו יִהְיֶה בַּיּוֹם שֵׁנִי בשָׁבוּעַ, בְּשָׁעָה 7 בַּבֹּקֶר, ו-17 דַּקּוֹת ו-2 חֲלָקִים');
+});
+
+test('Molad-no-nikud', (t) => {
+  const m = new Molad(5787, months.SIVAN);
+  t.is(m.render('he-x-NoNikud', {hour12: false}), 'מולד הלבנה סיון יהיה ביום שישי בשבוע, בשעה 15 בצהריים, ו-35 דקות ו-10 חלקים');
 });

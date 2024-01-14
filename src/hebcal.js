@@ -33,12 +33,12 @@ import {flags} from './event.js';
 import {getSedra_} from './sedra.js';
 import {hallel_} from './hallel.js';
 import {HDate} from './hdate.js';
-import {HolidayEvent, getHolidaysForYear_} from './holidays.js';
+import {HolidayEvent, getHolidaysForYear_, MevarchimChodeshEvent} from './holidays.js';
 import './locale-ashkenazi.js';
 import './locale-he.js';
 import {Locale} from './locale.js';
 import {Location} from './location.js';
-import {MoladEvent} from './molad.js';
+import {Molad, MoladEvent} from './molad.js';
 import {OmerEvent} from './omer.js';
 import {reformatTimeStr} from './reformatTimeStr.js';
 import {tachanun_} from './tachanun.js';
@@ -643,12 +643,14 @@ export class HebrewCalendar {
       }
       const prevEventsLength = evts.length;
       const dow = hd.getDay();
+      const isFriday = dow === FRI;
+      const isSaturday = dow === SAT;
       let candlesEv;
       const ev = holidaysYear.get(hd.toString()) || [];
       for (const e of ev) {
-        candlesEv = appendHolidayAndRelated(evts, e, options, candlesEv, dow);
+        candlesEv = appendHolidayAndRelated(candlesEv, evts, e, options, isFriday, isSaturday);
       }
-      if (options.sedrot && dow === SAT) {
+      if (options.sedrot && isSaturday) {
         const parsha0 = sedra.lookup(abs);
         if (!parsha0.chag) {
           evts.push(new ParshaEvent(hd, parsha0.parsha, il, parsha0.num));
@@ -681,14 +683,24 @@ export class HebrewCalendar {
         evts.push(omerEv);
       }
       const hmonth = hd.getMonth();
-      if (options.molad && dow == SAT && hmonth != ELUL && hd.getDate() >= 23 && hd.getDate() <= 29) {
+      const hdate = hd.getDate();
+      if (isSaturday && (options.molad || options.shabbatMevarchim) &&
+          hmonth != ELUL && hdate >= 23 && hdate <= 29) {
         const monNext = (hmonth == HDate.monthsInYear(hyear) ? NISAN : hmonth + 1);
-        evts.push(new MoladEvent(hd, hyear, monNext, options));
+        if (options.molad) {
+          evts.push(new MoladEvent(hd, hyear, monNext, options));
+        }
+        if (options.shabbatMevarchim) {
+          const nextMonthName = HDate.getMonthName(monNext, hyear);
+          const molad = new Molad(hyear, monNext);
+          const memo = molad.render(options.locale || 'en', options);
+          evts.push(new MevarchimChodeshEvent(hd, nextMonthName, memo));
+        }
       }
-      if (!candlesEv && options.candlelighting && (dow == FRI || dow == SAT)) {
-        candlesEv = makeCandleEvent(undefined, hd, dow, options);
-        if (dow === FRI && candlesEv && sedra) {
-          candlesEv.memo = sedra.getString(abs);
+      if (!candlesEv && options.candlelighting && (isFriday || isSaturday)) {
+        candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);
+        if (isFriday && candlesEv && sedra) {
+          candlesEv.memo = sedra.getString(abs, options.locale);
         }
       }
       // suppress Havdalah when options.havdalahMins=0 or options.havdalahDeg=0
@@ -925,14 +937,15 @@ export class HebrewCalendar {
  * Appends the Event `ev` to the `events` array. Also may add related
  * timed events like candle-lighting or fast start/end
  * @private
+ * @param {Event} candlesEv
  * @param {Event[]} events
  * @param {Event} ev
  * @param {CalOptions} options
- * @param {Event} candlesEv
- * @param {number} dow
+ * @param {boolean} isFriday
+ * @param {boolean} isSaturday
  * @return {Event}
  */
-function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
+function appendHolidayAndRelated(candlesEv, events, ev, options, isFriday, isSaturday) {
   const il = options.il;
   if (!ev.observedIn(il)) {
     return candlesEv; // holiday isn't observed here; bail out early
@@ -954,9 +967,9 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
   if ((eFlags & options.mask) || (!eFlags && !options.userMask)) {
     if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
       const hd = ev.getDate();
-      candlesEv = makeCandleEvent(ev, hd, dow, options);
+      candlesEv = makeCandleEvent(ev, hd, options, isFriday, isSaturday);
       if (eFlags & CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
-        const chanukahEv = (dow === FRI || dow === SAT) ? candlesEv :
+        const chanukahEv = (isFriday || isSaturday) ? candlesEv :
           makeWeekdayChanukahCandleLighting(ev, hd, options);
         const attrs = {
           eventTime: chanukahEv.eventTime,
@@ -967,7 +980,7 @@ function appendHolidayAndRelated(events, ev, options, candlesEv, dow) {
         if (ev.emoji) attrs.emoji = ev.emoji;
         // Replace Chanukah event with a clone that includes candle lighting time.
         // For clarity, allow a "duplicate" candle lighting event to remain for Shabbat
-        ev = new HolidayEvent(ev.getDate(), ev.getDesc(), eFlags, attrs);
+        ev = new HolidayEvent(hd, ev.getDesc(), eFlags, attrs);
         candlesEv = undefined;
       }
     }

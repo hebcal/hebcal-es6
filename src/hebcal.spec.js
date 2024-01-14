@@ -692,3 +692,33 @@ test('mevarchim-only', (t) => {
   ];
   t.deepEqual(actual, expected);
 });
+
+test('Shabbat Mevarchim follows hour12 and locale', (t) => {
+  const dt = new Date(2011, 4, 28);
+  const events = HebrewCalendar.calendar({
+    start: dt,
+    end: dt,
+    shabbatMevarchim: true,
+    hour12: true,
+  });
+  t.is(events.length, 1);
+  t.is(events[0].memo, 'Molad Sivan: Wed, 12 minutes and 10 chalakim after 2:00pm');
+
+  const events2 = HebrewCalendar.calendar({
+    start: dt,
+    end: dt,
+    shabbatMevarchim: true,
+    hour12: false,
+  });
+  t.is(events2.length, 1);
+  t.is(events2[0].memo, 'Molad Sivan: Wed, 12 minutes and 10 chalakim after 14:00');
+
+  const events3 = HebrewCalendar.calendar({
+    start: dt,
+    end: dt,
+    shabbatMevarchim: true,
+    locale: 'he-x-NoNikud',
+  });
+  t.is(events3.length, 1);
+  t.is(events3[0].memo, 'מולד הלבנה סיון יהיה ביום רביעי בשבוע, בשעה 14 בצהריים, ו-12 דקות ו-10 חלקים');
+});

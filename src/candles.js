@@ -5,24 +5,22 @@ import {Locale} from './locale.js';
 import {reformatTimeStr} from './reformatTimeStr.js';
 import {Zmanim} from './zmanim.js';
 
-const FRI = 5;
-const SAT = 6;
-
 /**
  * @private
  * @param {Event} e
  * @param {HDate} hd
- * @param {number} dow
  * @param {CalOptions} options
+ * @param {boolean} isFriday
+ * @param {boolean} isSaturday
  * @return {Event}
  */
-export function makeCandleEvent(e, hd, dow, options) {
+export function makeCandleEvent(e, hd, options, isFriday, isSaturday) {
   let havdalahTitle = false;
-  let useHavdalahOffset = dow === SAT;
+  let useHavdalahOffset = isSaturday;
   let mask = e ? e.getFlags() : flags.LIGHT_CANDLES;
   if (typeof e !== 'undefined') {
     // if linked event && dow == FRI, use Candle lighting time & title
-    if (dow !== FRI) {
+    if (!isFriday) {
       if (mask & (flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
         useHavdalahOffset = true;
       } else if (mask & flags.YOM_TOV_ENDS) {
@@ -30,7 +28,7 @@ export function makeCandleEvent(e, hd, dow, options) {
         useHavdalahOffset = true;
       }
     }
-  } else if (dow === SAT) {
+  } else if (isSaturday) {
     havdalahTitle = true;
     mask = flags.LIGHT_CANDLES_TZEIS;
   }

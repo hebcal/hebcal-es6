@@ -42,7 +42,10 @@ test('makeCandleEvent-nosunset', (t) => {
   const events = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), options);
+    const dow = hd.getDay();
+    const isFri = dow === 5;
+    const isSat = dow === 6;
+    const ev = makeCandleEvent(undefined, hd, options, isFri, isSat);
     events.push(ev);
   }
   const result = events.map(eventDateDesc);
@@ -62,7 +65,10 @@ test('makeCandleEvent-nosunset', (t) => {
   const events2 = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
-    const ev = makeCandleEvent(undefined, hd, hd.getDay(), options);
+    const dow = hd.getDay();
+    const isFri = dow === 5;
+    const isSat = dow === 6;
+    const ev = makeCandleEvent(undefined, hd, options, isFri, isSat);
     events2.push(ev);
   }
   const result2 = events2.map(eventDateDesc);
@@ -508,16 +514,18 @@ test('renderBrief', (t) => {
 test('havdalahDeg', (t) => {
   const hd = new HDate(new Date(2020, 4, 16));
   const dow = hd.getDay();
+  const isFri = dow === 5;
+  const isSat = dow === 6;
   const location = new Location(0, 0, false, 'UTC', undefined, 'GB');
   const events = [
-    makeCandleEvent(undefined, hd, dow, {location}),
-    makeCandleEvent(undefined, hd, dow, {location, havdalahDeg: 6.5}),
-    makeCandleEvent(undefined, hd, dow, {location, havdalahDeg: 7.0833}),
-    makeCandleEvent(undefined, hd, dow, {location, havdalahDeg: 7.5}),
-    makeCandleEvent(undefined, hd, dow, {location, havdalahDeg: 8.5}),
-    makeCandleEvent(undefined, hd, dow, {location, havdalahMins: 42}),
-    makeCandleEvent(undefined, hd, dow, {location, havdalahMins: 50}),
-    makeCandleEvent(undefined, hd, dow, {location, havdalahMins: 72}),
+    makeCandleEvent(undefined, hd, {location}, isFri, isSat),
+    makeCandleEvent(undefined, hd, {location, havdalahDeg: 6.5}, isFri, isSat),
+    makeCandleEvent(undefined, hd, {location, havdalahDeg: 7.0833}, isFri, isSat),
+    makeCandleEvent(undefined, hd, {location, havdalahDeg: 7.5}, isFri, isSat),
+    makeCandleEvent(undefined, hd, {location, havdalahDeg: 8.5}, isFri, isSat),
+    makeCandleEvent(undefined, hd, {location, havdalahMins: 42}, isFri, isSat),
+    makeCandleEvent(undefined, hd, {location, havdalahMins: 50}, isFri, isSat),
+    makeCandleEvent(undefined, hd, {location, havdalahMins: 72}, isFri, isSat),
   ];
   const results = events.map(eventDateDesc);
   const expected = [

@@ -116,10 +116,14 @@ export class Molad {
     if (isHebrewLocale) {
       const ampm = hour < 5 ? night : hour < 12 ? morning :
         hour < 17 ? afternoon : hour < 21 ? evening : night;
-      return `${moladStr} ${monthName} יִהְיֶה בַּיּוֹם ${dow} בשָׁבוּעַ, ` +
+      const result = `${moladStr} ${monthName} יִהְיֶה בַּיּוֹם ${dow} בשָׁבוּעַ, ` +
         `בְּשָׁעָה ${hour} ${ampm}, ` +
         `ו-${minutes} ${minutesStr} ` +
         `ו-${chalakim} ${chalakimStr}`;
+      if (locale === 'he-x-nonikud') {
+        return Locale.hebrewStripNikkud(result);
+      }
+      return result;
     }
     const fmtTime = reformatTimeStr(`${hour}:00`, 'pm', options);
     const month = monthName.replace(/'/g, '’');

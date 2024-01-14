@@ -180,15 +180,20 @@ export class MevarchimChodeshEvent extends Event {
    * Constructs Mevarchim haChodesh event
    * @param {HDate} date Hebrew date event occurs
    * @param {string} monthName Hebrew month name (not translated)
+   * @param {string} [memo]
    */
-  constructor(date, monthName) {
+  constructor(date, monthName, memo) {
     super(date, `${mevarchimChodeshStr} ${monthName}`, flags.SHABBAT_MEVARCHIM);
     this.monthName = monthName;
-    const hyear = date.getFullYear();
-    const hmonth = date.getMonth();
-    const monNext = (hmonth == HDate.monthsInYear(hyear) ? NISAN : hmonth + 1);
-    const molad = new Molad(hyear, monNext);
-    this.memo = molad.render('en', {hour12: false});
+    if (memo) {
+      this.memo = memo;
+    } else {
+      const hyear = date.getFullYear();
+      const hmonth = date.getMonth();
+      const monNext = (hmonth == HDate.monthsInYear(hyear) ? NISAN : hmonth + 1);
+      const molad = new Molad(hyear, monNext);
+      this.memo = molad.render('en', {hour12: false});
+    }
   }
   /** @return {string} */
   basename() {
@@ -291,7 +296,6 @@ const SAT = 6;
 const NISAN = months.NISAN;
 const TAMUZ = months.TAMUZ;
 const AV = months.AV;
-const ELUL = months.ELUL;
 const TISHREI = months.TISHREI;
 const KISLEV = months.KISLEV;
 const TEVET = months.TEVET;
@@ -480,14 +484,6 @@ export function getHolidaysForYear_(year) {
     } else if (month !== TISHREI) {
       add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
     }
-
-    if (month == ELUL) {
-      continue;
-    }
-
-    // Don't worry about month overrun; will get "Nisan" for month=14
-    const nextMonthName = HDate.getMonthName(month + 1, year);
-    add(new MevarchimChodeshEvent(new HDate(29, month, year).onOrBefore(SAT), nextMonthName));
   }
 
   // Begin: Yom Kippur Katan
