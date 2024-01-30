@@ -52,6 +52,7 @@ test('zmanim', (t) => {
     plagHaMincha: '18:48',
     sunset: '20:22',
     shkiah: '20:22',
+    beinHaShmashos: '20:50',
     dusk: '20:56',
     tzeit: '21:13',
   };
@@ -97,6 +98,7 @@ test('zmanim-tlv', (t) => {
     plagHaMincha: '03/06/2021, 16:29:26',
     sunset: '03/06/2021, 17:42:22',
     shkiah: '03/06/2021, 17:42:22',
+    beinHaShmashos: '03/06/2021, 17:58:27',
     dusk: '03/06/2021, 18:06:50',
     tzeit: '03/06/2021, 18:18:39',
   };
@@ -490,6 +492,7 @@ test('zmanim-UTC', (t) => {
     plagHaMincha: '16:47:00',
     seaLevelSunset: '18:02:15',
     sunset: '18:02:53',
+    beinHaShmashos: '18:15:51',
     dusk: '18:24:39',
     tzeit: '18:35:31',
   };

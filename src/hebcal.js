@@ -556,7 +556,8 @@ export class HebrewCalendar {
    *
    * If both `options.candlelighting=true` and `options.location` is specified,
    * Chanukah candle-lighting times and minor fast start/end times will also be generated.
-   * Chanukah candle-lighting is at dusk (when the sun is 6.0° below the horizon in the evening)
+   * Chanukah candle-lighting is at Bein HaShmashos (13.5 minutes before
+   * the sun is 7.083° below the horizon in the evening)
    * on weekdays, at regular candle-lighting time on Fridays, and at regular Havdalah time on
    * Saturday night (see above).
    *

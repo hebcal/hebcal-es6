@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -51,7 +51,7 @@
     "prepublish": "npm run build",
     "po2json": "node ./po2json.cjs po/*.po",
     "version": "node ./version.cjs package.json src/pkgVersion.js",
-    "readme": "npx -p jsdoc-to-markdown jsdoc2md dist/index.js",
+    "readme": "cp dist/index.mjs tmp.js && npx -p jsdoc-to-markdown jsdoc2md tmp.js && rm -f tmp.js",
     "pretest": "npm run build",
     "lint": "eslint src",
     "coverage": "nyc --concurrency 2 ava",

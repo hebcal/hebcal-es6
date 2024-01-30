@@ -217,7 +217,9 @@ function makeTimedEvent(hd, time, desc, ev, options) {
 
 
 /**
- * Makes a candle-lighting event for Chankah (not on Friday/Saturday)
+ * Makes a candle-lighting event for Chankah (not on Friday/Saturday).
+ * At one point this used civil dusk (6 degrees below horizon).
+ * Another source suggests 4.6667 degrees below horizon.
  * @private
  * @param {Event} ev
  * @param {HDate} hd
@@ -227,7 +229,6 @@ function makeTimedEvent(hd, time, desc, ev, options) {
 export function makeWeekdayChanukahCandleLighting(ev, hd, options) {
   const location = options.location;
   const zmanim = new Zmanim(location, hd.greg(), options.useElevation);
-  const candleLightingTime = zmanim.dusk();
-  // const candleLightingTime = zmanim.tzeit(4.6667);
+  const candleLightingTime = zmanim.beinHaShmashos();
   return makeTimedEvent(hd, candleLightingTime, ev.getDesc(), ev, options);
 }

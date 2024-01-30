@@ -456,6 +456,13 @@ declare module '@hebcal/core' {
         /** Alias for sunset */
         shkiah(): Date;
         /**
+         * Rabbeinu Tam holds that bein hashmashos is a specific time
+         * between sunset and tzeis hakochavim.
+         * One opinion on how to calculate this time is that
+         * it is 13.5 minutes before tzies 7.083
+         */
+        beinHaShmashos(): Date;
+        /**
          * Returns sunrise + `offset` minutes (either positive or negative).
          * @param offset minutes
          * @param roundMinute round time to nearest minute (default true)

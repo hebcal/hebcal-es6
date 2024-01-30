@@ -1925,6 +1925,7 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
         * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
         * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
         * [.shkiah()](#Zmanim+shkiah) ⇒ <code>Date</code>
+        * [.beinHaShmashos()](#Zmanim+beinHaShmashos) ⇒ <code>Date</code>
         * [.sunriseOffset(offset, roundMinute, forceSeaLevel)](#Zmanim+sunriseOffset) ⇒ <code>Date</code>
         * [.sunsetOffset(offset, roundMinute, forceSeaLevel)](#Zmanim+sunsetOffset) ⇒ <code>Date</code>
     * _static_
@@ -2120,6 +2121,15 @@ Alias for sunrise
 
 ### zmanim.shkiah() ⇒ <code>Date</code>
 Alias for sunset
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+beinHaShmashos"></a>
+
+### zmanim.beinHaShmashos() ⇒ <code>Date</code>
+Rabbeinu Tam holds that bein hashmashos is a specific time
+between sunset and tzeis hakochavim.
+One opinion on how to calculate this time is that
+it is 13.5 minutes before tzies 7.083
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunriseOffset"></a>
@@ -2671,6 +2681,8 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
     * [.urlDateSuffix()](#HolidayEvent+urlDateSuffix) ⇒ <code>string</code>
     * [.getEmoji()](#HolidayEvent+getEmoji) ⇒ <code>string</code>
     * [.getCategories()](#HolidayEvent+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
+    * [.render([locale])](#HolidayEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#HolidayEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="HolidayEvent+basename"></a>
 
@@ -2692,6 +2704,30 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
 
 ### holidayEvent.getCategories() ⇒ <code>Array.&lt;string&gt;</code>
 **Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+<a name="HolidayEvent+render"></a>
+
+### holidayEvent.render([locale]) ⇒ <code>string</code>
+Returns (translated) description of this event
+
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="HolidayEvent+renderBrief"></a>
+
+### holidayEvent.renderBrief([locale]) ⇒ <code>string</code>
+Returns a brief (translated) description of this event.
+For most events, this is the same as render(). For some events, it procudes
+a shorter text (e.g. without a time or added description).
+
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
 <a name="RoshChodeshEvent"></a>
 
 ## RoshChodeshEvent
@@ -2754,13 +2790,14 @@ Represents Mevarchim haChodesh, the announcement of the new month
 **Kind**: global class  
 
 * [MevarchimChodeshEvent](#MevarchimChodeshEvent)
-    * [new MevarchimChodeshEvent(date, monthName)](#new_MevarchimChodeshEvent_new)
+    * [new MevarchimChodeshEvent(date, monthName, [memo])](#new_MevarchimChodeshEvent_new)
     * [.basename()](#MevarchimChodeshEvent+basename) ⇒ <code>string</code>
     * [.render([locale])](#MevarchimChodeshEvent+render) ⇒ <code>string</code>
+    * [.renderBrief([locale])](#MevarchimChodeshEvent+renderBrief) ⇒ <code>string</code>
 
 <a name="new_MevarchimChodeshEvent_new"></a>
 
-### new MevarchimChodeshEvent(date, monthName)
+### new MevarchimChodeshEvent(date, monthName, [memo])
 Constructs Mevarchim haChodesh event
 
 
@@ -2768,6 +2805,7 @@ Constructs Mevarchim haChodesh event
 | --- | --- | --- |
 | date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
 | monthName | <code>string</code> | Hebrew month name (not translated) |
+| [memo] | <code>string</code> |  |
 
 <a name="MevarchimChodeshEvent+basename"></a>
 
@@ -2776,6 +2814,17 @@ Constructs Mevarchim haChodesh event
 <a name="MevarchimChodeshEvent+render"></a>
 
 ### mevarchimChodeshEvent.render([locale]) ⇒ <code>string</code>
+Returns (translated) description of this event
+
+**Kind**: instance method of [<code>MevarchimChodeshEvent</code>](#MevarchimChodeshEvent)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
+
+<a name="MevarchimChodeshEvent+renderBrief"></a>
+
+### mevarchimChodeshEvent.renderBrief([locale]) ⇒ <code>string</code>
 Returns (translated) description of this event
 
 **Kind**: instance method of [<code>MevarchimChodeshEvent</code>](#MevarchimChodeshEvent)  
@@ -2914,7 +2963,8 @@ These defaults can be changed using these options:
 
 If both `options.candlelighting=true` and `options.location` is specified,
 Chanukah candle-lighting times and minor fast start/end times will also be generated.
-Chanukah candle-lighting is at dusk (when the sun is 6.0° below the horizon in the evening)
+Chanukah candle-lighting is at Bein HaShmashos (13.5 minutes before
+the sun is 7.083° below the horizon in the evening)
 on weekdays, at regular candle-lighting time on Fridays, and at regular Havdalah time on
 Saturday night (see above).
 

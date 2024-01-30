@@ -325,7 +325,21 @@ export class Zmanim {
   shkiah() {
     return this.sunset();
   }
-
+  /**
+   * Rabbeinu Tam holds that bein hashmashos is a specific time
+   * between sunset and tzeis hakochavim.
+   * One opinion on how to calculate this time is that
+   * it is 13.5 minutes before tzies 7.083
+   * @return {Date}
+   */
+  beinHaShmashos() {
+    const tzeit = this.tzeit(7.083);
+    const millis = tzeit.getTime();
+    if (isNaN(millis)) {
+      return tzeit;
+    }
+    return new Date(millis - (13.5 * 60 * 1000));
+  }
   /**
    * Uses timeFormat to return a date like '20:34'
    * @param {Date} dt
