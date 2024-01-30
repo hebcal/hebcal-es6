@@ -471,3 +471,47 @@ test('fromGematriyaString', (t) => {
   t.is(HDate.fromGematriyaString('ה׳ אִיָיר ח׳תשס״ה', 4000).toString(), '5 Iyyar 8765');
   t.is(HDate.fromGematriyaString('ה׳ אִיָיר ח׳תשס״ה').toString(), '5 Iyyar 8765');
 });
+
+test('HDate-rollover-leap', (t) => {
+  const hd = new HDate(30, IYYAR, 5784);
+  t.is(hd.getFullYear(), 5784);
+  t.is(hd.getMonth(), SIVAN);
+  t.is(hd.getDate(), 1);
+
+  const hd2 = new HDate(30, ADAR_I, 5784);
+  t.is(hd2.getFullYear(), 5784);
+  t.is(hd2.getMonth(), ADAR_I);
+  t.is(hd2.getDate(), 30);
+
+  const hd3 = new HDate(36, ADAR_I, 5784);
+  t.is(hd3.getFullYear(), 5784);
+  t.is(hd3.getMonth(), ADAR_II);
+  t.is(hd3.getDate(), 6);
+
+  const hd4 = new HDate(36, ADAR_II, 5784);
+  t.is(hd4.getFullYear(), 5784);
+  t.is(hd4.getMonth(), NISAN);
+  t.is(hd4.getDate(), 7);
+});
+
+test('HDate-rollover-nonleap', (t) => {
+  const hd = new HDate(30, IYYAR, 5783);
+  t.is(hd.getFullYear(), 5783);
+  t.is(hd.getMonth(), SIVAN);
+  t.is(hd.getDate(), 1);
+
+  const hd0 = new HDate(30, ADAR_I, 5783);
+  t.is(hd0.getFullYear(), 5783);
+  t.is(hd0.getMonth(), NISAN);
+  t.is(hd0.getDate(), 1);
+
+  const hd2 = new HDate(30, ADAR_II, 5783);
+  t.is(hd2.getFullYear(), 5783);
+  t.is(hd2.getMonth(), NISAN);
+  t.is(hd2.getDate(), 1);
+
+  const hd3 = new HDate(36, ADAR_II, 5783);
+  t.is(hd3.getFullYear(), 5783);
+  t.is(hd3.getMonth(), NISAN);
+  t.is(hd3.getDate(), 7);
+});

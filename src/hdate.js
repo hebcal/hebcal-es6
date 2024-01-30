@@ -722,7 +722,11 @@ function fixDate(date) {
       date.yy += 1;
     }
     date.dd -= daysInMonth(date.mm, date.yy);
-    date.mm += 1;
+    if (date.mm === monthsInYear(date.yy)) {
+      date.mm = 1; // rollover to NISAN
+    } else {
+      date.mm += 1;
+    }
     fix(date);
   }
   fixMonth(date);
