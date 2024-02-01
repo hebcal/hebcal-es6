@@ -3275,6 +3275,7 @@ Holiday flags for Event
 | YOM_KIPPUR_KATAN | <code>number</code> | <code>8388608</code> | Yom Kippur Katan, minor day of atonement on the day preceeding each Rosh Chodesh |
 | YERUSHALMI_YOMI | <code>number</code> | <code>16777216</code> | Daily page of Jerusalem Talmud (Yerushalmi) |
 | NACH_YOMI | <code>number</code> | <code>33554432</code> | Nach Yomi |
+| DAILY_LEARNING | <code>number</code> | <code>67108864</code> | Daily Learning |
 
 <a name="parshiot"></a>
 

@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -86,7 +86,7 @@
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^4.0.2",
-    "jsdoc-to-markdown": "^8.0.0",
+    "jsdoc-to-markdown": "^8.0.1",
     "nyc": "^15.1.0",
     "quick-lru": "^7.0.0",
     "rollup": "^4.9.6",

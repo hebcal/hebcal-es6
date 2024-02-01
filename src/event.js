@@ -58,6 +58,8 @@ export const flags = {
   YERUSHALMI_YOMI: 0x1000000,
   /** Nach Yomi */
   NACH_YOMI: 0x2000000,
+  /** Daily Learning */
+  DAILY_LEARNING: 0x4000000,
 };
 
 const flagToCategory = [

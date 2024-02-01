@@ -91,6 +91,8 @@ declare module '@hebcal/core' {
         YERUSHALMI_YOMI = 0x1000000,
         /** Nach Yomi */
         NACH_YOMI = 0x2000000,
+        /** Daily Learning */
+        DAILY_LEARNING = 0x4000000,
     }
 
     export type UnitTypeShort = 'd' | 'w' | 'M' | 'y';
@@ -504,7 +506,7 @@ declare module '@hebcal/core' {
          * @param id - Message ID to translate
          * @param [locale] - Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
          */
-        static lookupTranslation(id: string, locale?: string): string;
+        static lookupTranslation(id: string, locale?: string): string | undefined;
         /**
          * By default, if no translation was found, returns `id`.
          * @param id - Message ID to translate
@@ -707,7 +709,7 @@ declare module '@hebcal/core' {
          * @param date - Hebrew Date, Gregorian date, or absolute R.D. day number
          * @param il - use the Israeli schedule for holidays
          */
-        static getHolidaysOnDate(date: HDate | Date | number, il?: boolean): Event[];
+        static getHolidaysOnDate(date: HDate | Date | number, il?: boolean): Event[] | undefined;
 
         /**
          * Calculates a birthday or anniversary (non-yahrzeit).
@@ -730,7 +732,7 @@ declare module '@hebcal/core' {
          * @param gdate - Gregorian or Hebrew date of event
          * @returns anniversary occurring in hyear
          */
-        static getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate;
+        static getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate | undefined;
 
         /**
          * Calculates yahrzeit.
@@ -761,7 +763,7 @@ declare module '@hebcal/core' {
          * @param gdate - Gregorian or Hebrew date of death
          * @returns anniversary occurring in hyear
          */
-        static getYahrzeit(hyear: number, gdate: Date | HDate): HDate;
+        static getYahrzeit(hyear: number, gdate: Date | HDate): HDate | undefined;
 
         /**
          * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
