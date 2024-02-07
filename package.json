@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.2.1",
+  "version": "5.2.2",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -68,14 +68,14 @@
     "verbose": true
   },
   "peerDependencies": {
-    "temporal-polyfill": "^0.1.1"
+    "temporal-polyfill": "^0.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/register": "^7.23.7",
     "@hebcal/hdate": "^0.9.1",
-    "@hebcal/noaa": "^0.8.11",
+    "@hebcal/noaa": "^0.8.12",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",

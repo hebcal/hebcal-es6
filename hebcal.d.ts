@@ -1,5 +1,3 @@
-import { GeoLocation } from '@hebcal/noaa';
-
 declare module '@hebcal/core' {
     export const version: string;
 
@@ -278,6 +276,54 @@ declare module '@hebcal/core' {
          *  HDate.fromGematriyaString('ה׳ אִיָיר תש״ח') // 5 Iyyar 5708
          */
         static fromGematriyaString(str: string, currentThousands?: number): HDate;
+    }
+
+    /**
+     * A class that contains location information such as latitude and longitude required for astronomical calculations. The
+     * elevation field may not be used by some calculation engines and would be ignored if set.
+     *
+     * @author &copy; Eliyahu Hershfeld 2004 - 2016
+     * @version 1.1
+     */
+    export class GeoLocation {
+        /**
+         * GeoLocation constructor with parameters for all required fields.
+         *
+         * @param name
+         *            The location name for display use such as &quot;Lakewood, NJ&quot;
+         * @param latitude
+         *            the latitude in a double format such as 40.095965 for Lakewood, NJ.
+         *            <b>Note: </b> For latitudes south of the equator, a negative value should be used.
+         * @param longitude
+         *            longitude in a double format such as -74.222130 for Lakewood, NJ.
+         *            <b>Note: </b> For longitudes west of the <a href="http://en.wikipedia.org/wiki/Prime_Meridian">Prime
+         *            Meridian </a> (Greenwich), a negative value should be used.
+         * @param elevation
+         *            the elevation above sea level in Meters. Elevation is not used in most algorithms used for calculating
+         *            sunrise and set.
+         * @param timeZoneId
+         *            the <code>TimeZone</code> for the location.
+         */
+        constructor(name: string | null, latitude: number, longitude: number, elevation: number, timeZoneId: string);
+        /**
+         * get the elevation in Meters
+         * @return {number} Returns the elevation in Meters
+         */
+        getElevation(): number;
+        /**
+         * set the elevation in Meters <b>above </b> sea level
+         * @param elevation
+         *            The elevation to set in Meters. An Error will be thrown if the value is a negative.
+         */
+        setElevation(elevation: number): void;
+        setLatitude(latitude: number): void;
+        getLatitude(): number;
+        setLongitude(longitude: number): void;
+        getLongitude(): number;
+        getLocationName(): string | null;
+        setLocationName(name: string | null): void;
+        getTimeZone(): string;
+        setTimeZone(timeZoneId: string): void;
     }
 
     /**
