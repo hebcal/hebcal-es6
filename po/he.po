@@ -777,6 +777,9 @@ msgstr "יוֹם הרצל"
 msgid "Ben-Gurion Day"
 msgstr "יוֹם בן־גוריון"
 
+msgid "Hebrew Language Day"
+msgstr "יוֹם הַשָׂפָה הַעִברִית"
+
 msgid "Birkat Hachamah"
 msgstr "בִרְכַּת הַחַמָּה"
 
