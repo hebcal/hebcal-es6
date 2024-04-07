@@ -446,8 +446,12 @@ declare module '@hebcal/core' {
 
         /** Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon) */
         sunrise(): Date;
+        /** Same as `sunrise()` but ignores elevation */
+        seaLevelSunrise(): Date;
         /** When the upper edge of the Sun disappears below the horizon (0.833° below horizon) */
         sunset(): Date;
+        /** Same as `sunset()` but ignores elevation */
+        seaLevelSunset(): Date;
         /** Civil dawn; Sun is 6° below the horizon in the morning */
         dawn(): Date;
         /** Civil dusk; Sun is 6° below the horizon in the evening */
