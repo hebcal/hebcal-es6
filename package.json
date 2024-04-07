@@ -68,14 +68,14 @@
     "verbose": true
   },
   "peerDependencies": {
-    "temporal-polyfill": "^0.2.1"
+    "temporal-polyfill": "^0.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
     "@babel/register": "^7.23.7",
     "@hebcal/hdate": "^0.9.1",
-    "@hebcal/noaa": "^0.8.12",
+    "@hebcal/noaa": "^0.8.13",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",
