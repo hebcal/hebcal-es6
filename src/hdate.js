@@ -684,10 +684,16 @@ export class HDate {
    * @return {HDate}
    */
   static fromGematriyaString(str, currentThousands=5000) {
-    const parts = str.split(' ');
+    const parts = str.split(' ').filter((x) => x.length !== 0);
+    const numParts = parts.length;
+    if (numParts !== 3 && numParts !== 4) {
+      throw new RangeError(`Unable to parse gematriya string: "${str}"`);
+    }
     const day = gematriyaStrToNum(parts[0]);
-    const month = HDate.monthFromName(parts[1]);
-    let year = gematriyaStrToNum(parts[2]);
+    const monthStr = numParts === 3 ? parts[1] : parts[1] + ' ' + parts[2];
+    const month = HDate.monthFromName(monthStr);
+    const yearStr = numParts === 3 ? parts[2] : parts[3];
+    let year = gematriyaStrToNum(yearStr);
     if (year < 1000) {
       year += currentThousands;
     }

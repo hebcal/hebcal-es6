@@ -472,6 +472,15 @@ test('fromGematriyaString', (t) => {
   t.is(HDate.fromGematriyaString('ה׳ אִיָיר ח׳תשס״ה').toString(), '5 Iyyar 8765');
 });
 
+test('fromGematriyaString Adar I', (t) => {
+  t.is(HDate.fromGematriyaString(' ה באדר א תשי"ט ').toString(), '5 Adar I 5719');
+});
+
+test('fromGematriyaString whitespace', (t) => {
+  t.is(HDate.fromGematriyaString(' ה׳     אִיָיר   תש״ח').toString(), '5 Iyyar 5708');
+  t.is(HDate.fromGematriyaString('ה  באדר   א תשי"ט ').toString(), '5 Adar I 5719');
+});
+
 test('HDate-rollover-leap', (t) => {
   const hd = new HDate(30, IYYAR, 5784);
   t.is(hd.getFullYear(), 5784);
