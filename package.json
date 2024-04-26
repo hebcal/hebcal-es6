@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.3.2",
+  "version": "5.3.3",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -75,7 +75,7 @@
     "@babel/preset-env": "^7.24.4",
     "@babel/register": "^7.23.7",
     "@hebcal/hdate": "^0.9.1",
-    "@hebcal/noaa": "^0.8.13",
+    "@hebcal/noaa": "^0.8.14",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",
