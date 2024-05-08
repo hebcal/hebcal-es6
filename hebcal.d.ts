@@ -420,6 +420,15 @@ declare module '@hebcal/core' {
          *    These zmanim intentionally do not support elevation adjustment.
          */
         constructor(gloc: GeoLocation, date: Date | HDate, useElevation?: boolean);
+        /**
+         * Returns `true` if elevation adjustment is enabled
+         * for zmanim support elevation adjustment
+         */
+        getUseElevation(): boolean;
+        /**
+         * Enables or disables elevation adjustment for zmanim support elevation adjustment
+         */
+        setUseElevation(useElevation: boolean): void;
 
         /**
          * Returns a string like "2022-04-01T13:06:00-11:00"

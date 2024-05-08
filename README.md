@@ -1913,6 +1913,8 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
 * [Zmanim](#Zmanim)
     * [new Zmanim(gloc, date, useElevation)](#new_Zmanim_new)
     * _instance_
+        * [.getUseElevation()](#Zmanim+getUseElevation) ⇒ <code>boolean</code>
+        * [.setUseElevation(useElevation)](#Zmanim+setUseElevation)
         * [.timeAtAngle(angle, rising)](#Zmanim+timeAtAngle) ⇒ <code>Date</code>
         * [.sunrise()](#Zmanim+sunrise) ⇒ <code>Date</code>
         * [.seaLevelSunrise()](#Zmanim+seaLevelSunrise) ⇒ <code>Date</code>
@@ -1973,6 +1975,24 @@ const zmanim = new Zmanim(gloc, friday, false);
 const candleLighting = zmanim.sunsetOffset(-18, true);
 const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
 ```
+<a name="Zmanim+getUseElevation"></a>
+
+### zmanim.getUseElevation() ⇒ <code>boolean</code>
+Returns `true` if elevation adjustment is enabled
+for zmanim support elevation adjustment
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+setUseElevation"></a>
+
+### zmanim.setUseElevation(useElevation)
+Enables or disables elevation adjustment for zmanim support elevation adjustment
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+
+| Param | Type |
+| --- | --- |
+| useElevation | <code>boolean</code> | 
+
 <a name="Zmanim+timeAtAngle"></a>
 
 ### zmanim.timeAtAngle(angle, rising) ⇒ <code>Date</code>

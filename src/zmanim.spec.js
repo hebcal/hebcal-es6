@@ -550,3 +550,19 @@ test('zmanim-Beitar Ilit', (t) => {
   }
   t.deepEqual(actual, expected);
 });
+
+test('useElevation', (t) => {
+  const zman = makeZmanWithElevation(); // with useElevation=true
+  t.is(zman.getUseElevation(), true);
+  zman.setUseElevation(false);
+  t.is(zman.getUseElevation(), false);
+  zman.setUseElevation(true);
+  t.is(zman.getUseElevation(), true);
+
+  const zman2 = makeZman(); // with useElevation=false
+  t.is(zman2.getUseElevation(), false);
+  zman2.setUseElevation(true);
+  t.is(zman2.getUseElevation(), true);
+  zman2.setUseElevation(false);
+  t.is(zman2.getUseElevation(), false);
+});

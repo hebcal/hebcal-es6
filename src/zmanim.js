@@ -83,6 +83,21 @@ export class Zmanim {
     this.useElevation = Boolean(useElevation);
   }
   /**
+   * Returns `true` if elevation adjustment is enabled
+   * for zmanim support elevation adjustment
+   * @return {boolean}
+   */
+  getUseElevation() {
+    return this.useElevation;
+  }
+  /**
+   * Enables or disables elevation adjustment for zmanim support elevation adjustment
+   * @param {boolean} useElevation
+   */
+  setUseElevation(useElevation) {
+    this.useElevation = useElevation;
+  }
+  /**
    * Convenience function to get the time when sun is above or below the horizon
    * for a certain angle (in degrees).
    * @param {number} angle
