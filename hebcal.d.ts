@@ -484,15 +484,35 @@ declare module '@hebcal/core' {
          * dawn to nightfall with both being 16.1° below the horizon.
          */
         sofZmanShmaMGA16Point1(): Date;
+        /**
+         * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+         * Based on the opinion of the MGA that the day is calculated from
+         * dawn to nightfall with both being 19.8° below the horizon.
+         *
+         * This calculation is based on the position of the sun 90 minutes after sunset in Jerusalem
+         * around the equinox / equilux which calculates to 19.8° below geometric zenith.
+         * https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
+         */
+        sofZmanShmaMGA19Point8(): Date;
         /** Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham */
         sofZmanTfillaMGA(): Date;
-        /** Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours */
         /**
          * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
          * Based on the opinion of the MGA that the day is calculated from
          * dawn to nightfall with both being 16.1° below the horizon.
          */
         sofZmanTfillaMGA16Point1(): Date;
+        /**
+         * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
+         * Based on the opinion of the MGA that the day is calculated from
+         * dawn to nightfall with both being 19.8° below the horizon.
+         *
+         * This calculation is based on the position of the sun 90 minutes after sunset in Jerusalem
+         * around the equinox / equilux which calculates to 19.8° below geometric zenith.
+         * https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
+         */
+        sofZmanTfillaMGA19Point8(): Date;
+        /** Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours */
         minchaGedola(): Date;
         /** Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours */
         minchaKetana(): Date;

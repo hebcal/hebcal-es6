@@ -42,9 +42,13 @@ test('zmanim', (t) => {
     dawn: '04:42',
     sunrise: '05:16',
     neitzHaChama: '05:16',
-    sofZmanShma: '09:02',
+    sofZmanShmaMGA19Point8: '07:49',
+    sofZmanShmaMGA16Point1: '08:07',
     sofZmanShmaMGA: '08:26',
+    sofZmanShma: '09:02',
     sofZmanTfilla: '10:18',
+    sofZmanTfillaMGA19Point8: '09:29',
+    sofZmanTfillaMGA16Point1: '09:41',
     sofZmanTfillaMGA: '09:54',
     chatzot: '12:49',
     minchaGedola: '13:27',
@@ -163,9 +167,13 @@ test('zmanim-denver', (t) => {
     // "SeaLevelSunrise": "2020-06-05T05:32:26-06:00",
     seaLevelSunrise: '06/05/2020, 05:32:26',
     neitzHaChama: '06/05/2020, 05:24:30',
+    sofZmanShmaMGA19Point8: '06/05/2020, 08:07:51',
+    sofZmanShmaMGA16Point1: '06/05/2020, 08:23:44',
     sofZmanShma: '06/05/2020, 09:11:37',
     sofZmanShmaMGA: '06/05/2020, 08:39:34', // 08:35:37 AM
     sofZmanTfilla: '06/05/2020, 10:27:19', // 10:03:19 AM
+    sofZmanTfillaMGA19Point8: '06/05/2020, 09:44:53',
+    sofZmanTfillaMGA16Point1: '06/05/2020, 09:55:26',
     // "SofZmanTfilaMGA": "2020-06-05T10:05:57-06:00",
     sofZmanTfillaMGA: '06/05/2020, 10:05:57',
     // "Chatzos": "2020-06-05T12:58:43-06:00",
@@ -482,9 +490,11 @@ test('zmanim-UTC', (t) => {
     seaLevelSunrise: '05:54:56',
     sofZmanShma: '08:56:27',
     sofZmanShmaMGA: '08:20:45',
+    sofZmanShmaMGA19Point8: '08:15:32',
     sofZmanShmaMGA16Point1: '08:23:36',
     sofZmanTfilla: '09:57:10',
     sofZmanTfillaMGA: '09:33:22',
+    sofZmanTfillaMGA19Point8: '09:29:53',
     sofZmanTfillaMGA16Point1: '09:35:16',
     chatzot: '11:58:36',
     minchaGedola: '12:28:57',
@@ -506,4 +516,37 @@ test('zmanim-UTC', (t) => {
 
   t.is(f.format(zman.sunsetOffset(72, false, false)), '19:14:53');
   t.is(f.format(zman.sunsetOffset(72, false, true)), '19:14:15');
+});
+
+test('zmanim-Beitar Ilit', (t) => {
+  const latitude = 31.693;
+  const longitude = 35.108;
+  const elevation = 659.7;
+  const tzid = 'Asia/Jerusalem';
+  const gloc = new GeoLocation('Betar', latitude, longitude, elevation, tzid);
+  const zman = new Zmanim(gloc, new Date(2024, 3, 23), false);
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: tzid,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+
+  const expected = {
+    sofZmanShmaMGA19Point8: '04/23/2024, 08:31:46',
+    sofZmanShmaMGA16Point1: '04/23/2024, 08:41:36',
+    sofZmanShmaMGA: '04/23/2024, 08:43:57',
+    sofZmanShma: '04/23/2024, 09:19:58',
+  };
+
+  const actual = {};
+  for (const func of Object.keys(expected)) {
+    const dt = zman[func]();
+    actual[func] = f.format(dt);
+  }
+  t.deepEqual(actual, expected);
 });

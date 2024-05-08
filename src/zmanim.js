@@ -200,8 +200,8 @@ export class Zmanim {
    * @return {Date}
    */
   getShaahZmanisBasedZman(hours) {
-    const startOfDay = this.noaa.getSunrise();
-    const endOfDay = this.noaa.getSunset();
+    const startOfDay = this.useElevation ? this.noaa.getSunrise() : this.noaa.getSeaLevelSunrise();
+    const endOfDay = this.useElevation ? this.noaa.getSunset() : this.noaa.getSeaLevelSunset();
     const temporalHour = this.noaa.getTemporalHour(startOfDay, endOfDay);
     const offset = Math.round(temporalHour * hours);
     const zdt = NOAACalculator.getTimeOffset(startOfDay, offset);
@@ -235,13 +235,14 @@ export class Zmanim {
   /**
    * Returns an array with alot (Date) and ms in hour (number)
    * @private
+   * @param {number} angle
    * @return {any[]}
    */
-  getTemporalHour16Point1() {
-    const alot16one = this.alotHaShachar();
-    const tzeit16one = this.tzeit(16.1);
-    const temporalHour = (tzeit16one - alot16one) / 12;
-    return [alot16one, temporalHour];
+  getTemporalHourByDeg(angle) {
+    const alot = this.timeAtAngle(angle, true);
+    const tzeit = this.timeAtAngle(angle, false);
+    const temporalHour = (tzeit - alot) / 12;
+    return [alot, temporalHour];
   }
   /**
    * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
@@ -261,7 +262,21 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanShmaMGA16Point1() {
-    const [alot, temporalHour] = this.getTemporalHour16Point1();
+    const [alot, temporalHour] = this.getTemporalHourByDeg(16.1);
+    return new Date(alot.getTime() + (3 * temporalHour));
+  }
+  /**
+   * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+   * Based on the opinion of the MGA that the day is calculated from
+   * dawn to nightfall with both being 19.8° below the horizon.
+   *
+   * This calculation is based on the position of the sun 90 minutes after sunset in Jerusalem
+   * around the equinox / equilux which calculates to 19.8° below geometric zenith.
+   * https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
+   * @return {Date}
+   */
+  sofZmanShmaMGA19Point8() {
+    const [alot, temporalHour] = this.getTemporalHourByDeg(19.8);
     return new Date(alot.getTime() + (3 * temporalHour));
   }
   /**
@@ -279,7 +294,21 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanTfillaMGA16Point1() {
-    const [alot, temporalHour] = this.getTemporalHour16Point1();
+    const [alot, temporalHour] = this.getTemporalHourByDeg(16.1);
+    return new Date(alot.getTime() + (4 * temporalHour));
+  }
+  /**
+   * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
+   * Based on the opinion of the MGA that the day is calculated from
+   * dawn to nightfall with both being 19.8° below the horizon.
+   *
+   * This calculation is based on the position of the sun 90 minutes after sunset in Jerusalem
+   * around the equinox / equilux which calculates to 19.8° below geometric zenith.
+   * https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
+   * @return {Date}
+   */
+  sofZmanTfillaMGA19Point8() {
+    const [alot, temporalHour] = this.getTemporalHourByDeg(19.8);
     return new Date(alot.getTime() + (4 * temporalHour));
   }
   /**

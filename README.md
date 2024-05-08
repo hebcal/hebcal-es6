@@ -217,6 +217,19 @@ we omit the thousands (which is presently 5 [ה]).</p>
 Ignores final Hebrew letters such as <code>ך</code> (kaf sofit) or <code>ם</code> (mem sofit)
 and vowels (nekudot).</p>
 </dd>
+<dt><a href="#omerSefira">omerSefira(omerDay, lang)</a> ⇒</dt>
+<dd><p>Returns the sefira. For example, on day 8
+ חֶֽסֶד שֶׁבִּגְבוּרָה
+ Chesed shebiGevurah
+ Lovingkindness within Might</p>
+</dd>
+<dt><a href="#omerTodayIs">omerTodayIs(omerDay, lang)</a> ⇒</dt>
+<dd><p>Returns a sentence with that evening&#39;s omer count</p>
+</dd>
+<dt><a href="#omerEmoji">omerEmoji(omerDay)</a> ⇒</dt>
+<dd><p>Returns an emoji number symbol with a circle, for example <code>㊲</code>
+ from the “Enclosed CJK Letters and Months” block of the Unicode standard</p>
+</dd>
 </dl>
 
 ## Typedefs
@@ -1234,9 +1247,6 @@ href="http://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation<
 * [NOAACalculator](#NOAACalculator)
     * [new NOAACalculator(geoLocation, date)](#new_NOAACalculator_new)
     * _instance_
-        * [.CIVIL_ZENITH](#NOAACalculator+CIVIL_ZENITH)
-        * [.NAUTICAL_ZENITH](#NOAACalculator+NAUTICAL_ZENITH)
-        * [.ASTRONOMICAL_ZENITH](#NOAACalculator+ASTRONOMICAL_ZENITH)
         * [.getSunrise()](#NOAACalculator+getSunrise) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
         * [.getSeaLevelSunrise()](#NOAACalculator+getSeaLevelSunrise) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
         * [.getBeginCivilTwilight()](#NOAACalculator+getBeginCivilTwilight) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
@@ -1261,6 +1271,9 @@ href="http://en.wikipedia.org/wiki/Sunrise_equation">Wikipedia Sunrise Equation<
         * [.getSunTransit(startOfDay, endOfDay)](#NOAACalculator+getSunTransit) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
         * [.getDateFromTime(time, isSunrise)](#NOAACalculator+getDateFromTime) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
     * _static_
+        * [.CIVIL_ZENITH](#NOAACalculator.CIVIL_ZENITH)
+        * [.NAUTICAL_ZENITH](#NOAACalculator.NAUTICAL_ZENITH)
+        * [.ASTRONOMICAL_ZENITH](#NOAACalculator.ASTRONOMICAL_ZENITH)
         * [.getTimeOffset(time, offset)](#NOAACalculator.getTimeOffset) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
         * [.getSolarElevation(date, lat, lon)](#NOAACalculator.getSolarElevation) ⇒ <code>number</code>
         * [.getSolarAzimuth(date, latitude, lon)](#NOAACalculator.getSolarAzimuth) ⇒ <code>number</code>
@@ -1277,24 +1290,6 @@ parameter.
 | geoLocation | [<code>GeoLocation</code>](#GeoLocation) | The location information used for calculating astronomical sun times. |
 | date | <code>Temporal.PlainDate</code> |  |
 
-<a name="NOAACalculator+CIVIL_ZENITH"></a>
-
-### noaaCalculator.CIVIL\_ZENITH
-Sun's zenith at civil twilight (96&deg;).
-
-**Kind**: instance property of [<code>NOAACalculator</code>](#NOAACalculator)  
-<a name="NOAACalculator+NAUTICAL_ZENITH"></a>
-
-### noaaCalculator.NAUTICAL\_ZENITH
-Sun's zenith at nautical twilight (102&deg;).
-
-**Kind**: instance property of [<code>NOAACalculator</code>](#NOAACalculator)  
-<a name="NOAACalculator+ASTRONOMICAL_ZENITH"></a>
-
-### noaaCalculator.ASTRONOMICAL\_ZENITH
-Sun's zenith at astronomical twilight (108&deg;).
-
-**Kind**: instance property of [<code>NOAACalculator</code>](#NOAACalculator)  
 <a name="NOAACalculator+getSunrise"></a>
 
 ### noaaCalculator.getSunrise() ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
@@ -1686,6 +1681,24 @@ A method that returns a `Date` from the time passed in as a parameter.
 | time | <code>number</code> | The time to be set as the time for the `Date`. The time expected is in the format: 18.75            for 6:45:00 PM. |
 | isSunrise | <code>boolean</code> | true if the time is sunrise, and false if it is sunset |
 
+<a name="NOAACalculator.CIVIL_ZENITH"></a>
+
+### NOAACalculator.CIVIL\_ZENITH
+Sun's zenith at civil twilight (96&deg;).
+
+**Kind**: static property of [<code>NOAACalculator</code>](#NOAACalculator)  
+<a name="NOAACalculator.NAUTICAL_ZENITH"></a>
+
+### NOAACalculator.NAUTICAL\_ZENITH
+Sun's zenith at nautical twilight (102&deg;).
+
+**Kind**: static property of [<code>NOAACalculator</code>](#NOAACalculator)  
+<a name="NOAACalculator.ASTRONOMICAL_ZENITH"></a>
+
+### NOAACalculator.ASTRONOMICAL\_ZENITH
+Sun's zenith at astronomical twilight (108&deg;).
+
+**Kind**: static property of [<code>NOAACalculator</code>](#NOAACalculator)  
 <a name="NOAACalculator.getTimeOffset"></a>
 
 ### NOAACalculator.getTimeOffset(time, offset) ⇒ <code>Temporal.ZonedDateTime</code> \| <code>null</code>
@@ -1917,8 +1930,10 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
         * [.sofZmanTfilla()](#Zmanim+sofZmanTfilla) ⇒ <code>Date</code>
         * [.sofZmanShmaMGA()](#Zmanim+sofZmanShmaMGA) ⇒ <code>Date</code>
         * [.sofZmanShmaMGA16Point1()](#Zmanim+sofZmanShmaMGA16Point1) ⇒ <code>Date</code>
+        * [.sofZmanShmaMGA19Point8()](#Zmanim+sofZmanShmaMGA19Point8) ⇒ <code>Date</code>
         * [.sofZmanTfillaMGA()](#Zmanim+sofZmanTfillaMGA) ⇒ <code>Date</code>
         * [.sofZmanTfillaMGA16Point1()](#Zmanim+sofZmanTfillaMGA16Point1) ⇒ <code>Date</code>
+        * [.sofZmanTfillaMGA19Point8()](#Zmanim+sofZmanTfillaMGA19Point8) ⇒ <code>Date</code>
         * [.minchaGedola()](#Zmanim+minchaGedola) ⇒ <code>Date</code>
         * [.minchaKetana()](#Zmanim+minchaKetana) ⇒ <code>Date</code>
         * [.plagHaMincha()](#Zmanim+plagHaMincha) ⇒ <code>Date</code>
@@ -2070,6 +2085,18 @@ Based on the opinion of the MGA that the day is calculated from
 dawn to nightfall with both being 16.1° below the horizon.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sofZmanShmaMGA19Point8"></a>
+
+### zmanim.sofZmanShmaMGA19Point8() ⇒ <code>Date</code>
+Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
+Based on the opinion of the MGA that the day is calculated from
+dawn to nightfall with both being 19.8° below the horizon.
+
+This calculation is based on the position of the sun 90 minutes after sunset in Jerusalem
+around the equinox / equilux which calculates to 19.8° below geometric zenith.
+https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sofZmanTfillaMGA"></a>
 
 ### zmanim.sofZmanTfillaMGA() ⇒ <code>Date</code>
@@ -2082,6 +2109,18 @@ Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraha
 Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
 Based on the opinion of the MGA that the day is calculated from
 dawn to nightfall with both being 16.1° below the horizon.
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+sofZmanTfillaMGA19Point8"></a>
+
+### zmanim.sofZmanTfillaMGA19Point8() ⇒ <code>Date</code>
+Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
+Based on the opinion of the MGA that the day is calculated from
+dawn to nightfall with both being 19.8° below the horizon.
+
+This calculation is based on the position of the sun 90 minutes after sunset in Jerusalem
+around the equinox / equilux which calculates to 19.8° below geometric zenith.
+https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+minchaGedola"></a>
@@ -3452,6 +3491,49 @@ and vowels (nekudot).
 | Param | Type |
 | --- | --- |
 | str | <code>string</code> | 
+
+<a name="omerSefira"></a>
+
+## omerSefira(omerDay, lang) ⇒
+Returns the sefira. For example, on day 8
+ חֶֽסֶד שֶׁבִּגְבוּרָה
+ Chesed shebiGevurah
+ Lovingkindness within Might
+
+**Kind**: global function  
+**Returns**: a string such as `Lovingkindness within Might` or `חֶֽסֶד שֶׁבִּגְבוּרָה`  
+
+| Param | Description |
+| --- | --- |
+| omerDay | the day of the omer, 1-49 inclusive |
+| lang | `en` (English), `he` (Hebrew with nikud), or `translit` (Hebrew in Sephardic transliteration) |
+
+<a name="omerTodayIs"></a>
+
+## omerTodayIs(omerDay, lang) ⇒
+Returns a sentence with that evening's omer count
+
+**Kind**: global function  
+**Returns**: a string such as `Today is 10 days, which is 1 week and 3 days of the Omer`
+ or `הַיוֹם עֲשָׂרָה יָמִים, שְׁהֵם שָׁבוּעַ אֶחָד וְשְׁלוֹשָׁה יָמִים לָעוֹמֶר`  
+
+| Param | Description |
+| --- | --- |
+| omerDay | the day of the omer, 1-49 inclusive |
+| lang | `en` (English), `he` (Hebrew with nikud) |
+
+<a name="omerEmoji"></a>
+
+## omerEmoji(omerDay) ⇒
+Returns an emoji number symbol with a circle, for example `㊲`
+ from the “Enclosed CJK Letters and Months” block of the Unicode standard
+
+**Kind**: global function  
+**Returns**: a single Unicode character from `①` through `㊾`  
+
+| Param | Description |
+| --- | --- |
+| omerDay | the day of the omer, 1-49 inclusive |
 
 <a name="SedraResult"></a>
 
