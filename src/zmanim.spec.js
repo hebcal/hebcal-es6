@@ -155,7 +155,7 @@ test('zmanim-denver', (t) => {
    */
   const expected = {
     gregEve: '06/04/2020, 20:32:19',
-    chatzotNight: '06/05/2020, 24:58:24',
+    chatzotNight: '06/05/2020, 00:58:24',
     // "AlosHashachar": "2020-06-05T03:48:37-06:00",
     alotHaShachar: '06/05/2020, 03:48:37',
     misheyakir: '06/05/2020, 04:23:08',
@@ -195,7 +195,7 @@ test('zmanim-denver', (t) => {
   const actual = {};
   for (const func of Object.keys(expected)) {
     const dt = zman[func]();
-    actual[func] = f.format(dt).replace(/^24:/, '00:');
+    actual[func] = f.format(dt).replace(/, 24:/, ', 00:');
   }
   t.deepEqual(actual, expected);
 
