@@ -790,7 +790,7 @@ msgid "Purim Meshulash"
 msgstr "פּוּרִים מְשׁוּלָּשׁ"
 
 msgid "after sunset"
-msgstr "אחרי השקיעה"
+msgstr "לְאַחַר הַשְׁקִיעָה"
 
 msgid "Yerushalmi"
 msgstr "יְרוּשַׁלְמִי"

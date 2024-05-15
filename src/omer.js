@@ -34,8 +34,12 @@ export class OmerEvent extends Event {
    */
   render(locale) {
     locale = locale || Locale.getLocaleName();
+    if (typeof locale === 'string') {
+      locale = locale.toLowerCase();
+    }
+    const isHebrewLocale = locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
     const omer = this.omer;
-    const nth = (locale == 'he') ? gematriya(omer) : Locale.ordinal(omer, locale);
+    const nth = isHebrewLocale ? gematriya(omer) : Locale.ordinal(omer, locale);
     return nth + ' ' + Locale.gettext('day of the Omer', locale);
   }
   /**
