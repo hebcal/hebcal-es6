@@ -85,7 +85,7 @@ export const staticHolidays = [
   {
     mm: Tishrei,
     dd: 19,
-    desc: holidayDescs.SUKKO_V_CHM,
+    desc: holidayDescs.SUKKOT_V_CHM,
     flags: CHUL_ONLY | CHOL_HAMOED,
     chmDay: 3,
     emoji: emojiSukkot,
@@ -391,7 +391,7 @@ export const staticModernHolidays = [
     satPostponeToSun: true,
     friPostponeToSun: true,
   },
-  { firstYear: 5750, mm: Shvat, dd: 30, desc: holidayDescs.FAMILY_DAY, chul: true},
+  { firstYear: 5750, mm: Shvat, dd: 30, desc: holidayDescs.FAMILY_DAY },
   {
     firstYear: 5758,
     mm: Cheshvan,
