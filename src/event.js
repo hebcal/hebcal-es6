@@ -1,3 +1,4 @@
+import {HDate} from './hdate.js';
 import {Locale} from './locale.js';
 
 /**
@@ -88,6 +89,11 @@ export class Event {
    * @param {Object} [attrs={}] optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
    */
   constructor(date, desc, mask, attrs) {
+    if (!HDate.isHDate(date)) {
+      throw new TypeError(`Invalid Event date: ${date}`);
+    } else if (typeof desc !== 'string') {
+      throw new TypeError(`Invalid Event description: ${desc}`);
+    }
     this.date = date;
     this.desc = desc;
     this.mask = +mask;
@@ -208,7 +214,7 @@ export class Event {
    * @return {Event}
    */
   clone() {
-    const ev = new this.constructor();
+    const ev = new this.constructor(this.date, this.desc, this.mask);
     for (const property in this) {
       if (this.hasOwnProperty(property)) {
         ev[property] = this[property];
