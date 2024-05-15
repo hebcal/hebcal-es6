@@ -396,7 +396,7 @@ export const staticModernHolidays = [
     firstYear: 5758,
     mm: Cheshvan,
     dd: 12,
-    descAlt: holidayDescs.YITZHAK_RABIN_MEMORIAL_DAY,
+    desc: holidayDescs.YITZHAK_RABIN_MEMORIAL_DAY,
     friSatMovetoThu: true,
   },
   {
