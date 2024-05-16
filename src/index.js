@@ -13,7 +13,7 @@ export {OmerEvent} from './omer.js';
 export {Sedra, parshiot} from './sedra.js';
 export {ParshaEvent} from './ParshaEvent.js';
 export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
-  RoshChodeshEvent, RoshHashanaEvent} from './holidays.js';
+  RoshChodeshEvent, RoshHashanaEvent, holidayDesc} from './holidays.js';
 export {DailyLearning} from './DailyLearning.js';
 export {HebrewCalendar} from './hebcal.js';
 export {version} from './pkgVersion.js';
