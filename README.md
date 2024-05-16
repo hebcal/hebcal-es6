@@ -3336,6 +3336,92 @@ Holiday flags for Event
 | NACH_YOMI | <code>number</code> | <code>33554432</code> | Nach Yomi |
 | DAILY_LEARNING | <code>number</code> | <code>67108864</code> | Daily Learning |
 
+<a name="holidayDesc"></a>
+
+## holidayDesc : <code>enum</code>
+Transliterated names of holidays, used by `Event.getDesc()`
+
+**Kind**: global enum  
+**Read only**: true  
+**Properties**
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ASARA_BTEVET | <code>string</code> | <code>&quot;Asara B&#x27;Tevet&quot;</code> | Asara B'Tevet |
+| BIRKAT_HACHAMAH | <code>string</code> | <code>&quot;Birkat Hachamah&quot;</code> | Birkat Hachamah |
+| CHAG_HABANOT | <code>string</code> | <code>&quot;Chag HaBanot&quot;</code> | Chag HaBanot |
+| CHANUKAH_8TH_DAY | <code>string</code> | <code>&quot;Chanukah: 8th Day&quot;</code> | Chanukah: 8th Day |
+| EREV_TISHA_BAV | <code>string</code> | <code>&quot;Erev Tish&#x27;a B&#x27;Av&quot;</code> | Erev Tish'a B'Av |
+| LEIL_SELICHOT | <code>string</code> | <code>&quot;Leil Selichot&quot;</code> | Leil Selichot |
+| PURIM_KATAN | <code>string</code> | <code>&quot;Purim Katan&quot;</code> | Purim Katan |
+| PURIM_MESHULASH | <code>string</code> | <code>&quot;Purim Meshulash&quot;</code> | Purim Meshulash |
+| SHABBAT_CHAZON | <code>string</code> | <code>&quot;Shabbat Chazon&quot;</code> | Shabbat Chazon |
+| SHABBAT_HACHODESH | <code>string</code> | <code>&quot;Shabbat HaChodesh&quot;</code> | Shabbat HaChodesh |
+| SHABBAT_HAGADOL | <code>string</code> | <code>&quot;Shabbat HaGadol&quot;</code> | Shabbat HaGadol |
+| SHABBAT_NACHAMU | <code>string</code> | <code>&quot;Shabbat Nachamu&quot;</code> | Shabbat Nachamu |
+| SHABBAT_PARAH | <code>string</code> | <code>&quot;Shabbat Parah&quot;</code> | Shabbat Parah |
+| SHABBAT_SHEKALIM | <code>string</code> | <code>&quot;Shabbat Shekalim&quot;</code> | Shabbat Shekalim |
+| SHABBAT_SHIRAH | <code>string</code> | <code>&quot;Shabbat Shirah&quot;</code> | Shabbat Shirah |
+| SHABBAT_SHUVA | <code>string</code> | <code>&quot;Shabbat Shuva&quot;</code> | Shabbat Shuva |
+| SHABBAT_ZACHOR | <code>string</code> | <code>&quot;Shabbat Zachor&quot;</code> | Shabbat Zachor |
+| SHUSHAN_PURIM_KATAN | <code>string</code> | <code>&quot;Shushan Purim Katan&quot;</code> | Shushan Purim Katan |
+| TAANIT_BECHOROT | <code>string</code> | <code>&quot;Ta&#x27;anit Bechorot&quot;</code> | Ta'anit Bechorot |
+| TAANIT_ESTHER | <code>string</code> | <code>&quot;Ta&#x27;anit Esther&quot;</code> | Ta'anit Esther |
+| TISHA_BAV | <code>string</code> | <code>&quot;Tish&#x27;a B&#x27;Av&quot;</code> | Tish'a B'Av |
+| TZOM_GEDALIAH | <code>string</code> | <code>&quot;Tzom Gedaliah&quot;</code> | Tzom Gedaliah |
+| TZOM_TAMMUZ | <code>string</code> | <code>&quot;Tzom Tammuz&quot;</code> | Tzom Tammuz |
+| YOM_HAATZMA_UT | <code>string</code> | <code>&quot;Yom HaAtzma&#x27;ut&quot;</code> | Yom HaAtzma'ut |
+| YOM_HASHOAH | <code>string</code> | <code>&quot;Yom HaShoah&quot;</code> | Yom HaShoah |
+| YOM_HAZIKARON | <code>string</code> | <code>&quot;Yom HaZikaron&quot;</code> | Yom HaZikaron |
+| BEN_GURION_DAY | <code>string</code> | <code>&quot;BEN_GURION_DAY&quot;</code> | Ben-Gurion Day |
+| CHANUKAH_1_CANDLE | <code>string</code> | <code>&quot;CHANUKAH_1_CANDLE&quot;</code> | Chanukah: 1 Candle |
+| EREV_PESACH | <code>string</code> | <code>&quot;EREV_PESACH&quot;</code> | Erev Pesach |
+| EREV_PURIM | <code>string</code> | <code>&quot;EREV_PURIM&quot;</code> | Erev Purim |
+| EREV_ROSH_HASHANA | <code>string</code> | <code>&quot;EREV_ROSH_HASHANA&quot;</code> | Erev Rosh Hashana |
+| EREV_SHAVUOT | <code>string</code> | <code>&quot;EREV_SHAVUOT&quot;</code> | Erev Shavuot |
+| EREV_SUKKOT | <code>string</code> | <code>&quot;EREV_SUKKOT&quot;</code> | Erev Sukkot |
+| EREV_YOM_KIPPUR | <code>string</code> | <code>&quot;EREV_YOM_KIPPUR&quot;</code> | Erev Yom Kippur |
+| FAMILY_DAY | <code>string</code> | <code>&quot;FAMILY_DAY&quot;</code> | Family Day |
+| HEBREW_LANGUAGE_DAY | <code>string</code> | <code>&quot;HEBREW_LANGUAGE_DAY&quot;</code> | Hebrew Language Day |
+| HERZL_DAY | <code>string</code> | <code>&quot;HERZL_DAY&quot;</code> | Herzl Day |
+| JABOTINSKY_DAY | <code>string</code> | <code>&quot;JABOTINSKY_DAY&quot;</code> | Jabotinsky Day |
+| LAG_BAOMER | <code>string</code> | <code>&quot;LAG_BAOMER&quot;</code> | Lag BaOmer |
+| PESACH_I | <code>string</code> | <code>&quot;PESACH_I&quot;</code> | Pesach I |
+| PESACH_II | <code>string</code> | <code>&quot;PESACH_II&quot;</code> | Pesach II |
+| PESACH_III_CHM | <code>string</code> | <code>&quot;PESACH_III_CHM&quot;</code> | Pesach III (CH''M) |
+| PESACH_II_CHM | <code>string</code> | <code>&quot;PESACH_II_CHM&quot;</code> | Pesach II (CH''M) |
+| PESACH_IV_CHM | <code>string</code> | <code>&quot;PESACH_IV_CHM&quot;</code> | Pesach IV (CH''M) |
+| PESACH_SHENI | <code>string</code> | <code>&quot;PESACH_SHENI&quot;</code> | Pesach Sheni |
+| PESACH_VII | <code>string</code> | <code>&quot;PESACH_VII&quot;</code> | Pesach VII |
+| PESACH_VIII | <code>string</code> | <code>&quot;PESACH_VIII&quot;</code> | Pesach VIII |
+| PESACH_VI_CHM | <code>string</code> | <code>&quot;PESACH_VI_CHM&quot;</code> | Pesach VI (CH''M) |
+| PESACH_V_CHM | <code>string</code> | <code>&quot;PESACH_V_CHM&quot;</code> | Pesach V (CH''M) |
+| PURIM | <code>string</code> | <code>&quot;PURIM&quot;</code> | Purim |
+| ROSH_HASHANA_II | <code>string</code> | <code>&quot;ROSH_HASHANA_II&quot;</code> | Rosh Hashana II |
+| ROSH_HASHANA_LABEHEMOT | <code>string</code> | <code>&quot;ROSH_HASHANA_LABEHEMOT&quot;</code> | Rosh Hashana LaBehemot |
+| SHAVUOT | <code>string</code> | <code>&quot;SHAVUOT&quot;</code> | Shavuot |
+| SHAVUOT_I | <code>string</code> | <code>&quot;SHAVUOT_I&quot;</code> | Shavuot I |
+| SHAVUOT_II | <code>string</code> | <code>&quot;SHAVUOT_II&quot;</code> | Shavuot II |
+| SHMINI_ATZERET | <code>string</code> | <code>&quot;SHMINI_ATZERET&quot;</code> | Shmini Atzeret |
+| SHUSHAN_PURIM | <code>string</code> | <code>&quot;SHUSHAN_PURIM&quot;</code> | Shushan Purim |
+| SIGD | <code>string</code> | <code>&quot;SIGD&quot;</code> | Sigd |
+| SIMCHAT_TORAH | <code>string</code> | <code>&quot;SIMCHAT_TORAH&quot;</code> | Simchat Torah |
+| SUKKOT_I | <code>string</code> | <code>&quot;SUKKOT_I&quot;</code> | Sukkot I |
+| SUKKOT_II | <code>string</code> | <code>&quot;SUKKOT_II&quot;</code> | Sukkot II |
+| SUKKOT_III_CHM | <code>string</code> | <code>&quot;SUKKOT_III_CHM&quot;</code> | Sukkot III (CH''M) |
+| SUKKOT_II_CHM | <code>string</code> | <code>&quot;SUKKOT_II_CHM&quot;</code> | Sukkot II (CH''M) |
+| SUKKOT_IV_CHM | <code>string</code> | <code>&quot;SUKKOT_IV_CHM&quot;</code> | Sukkot IV (CH''M) |
+| SUKKOT_VII_HOSHANA_RABA | <code>string</code> | <code>&quot;SUKKOT_VII_HOSHANA_RABA&quot;</code> | Sukkot VII (Hoshana Raba) |
+| SUKKOT_VI_CHM | <code>string</code> | <code>&quot;SUKKOT_VI_CHM&quot;</code> | Sukkot VI (CH''M) |
+| SUKKOT_V_CHM | <code>string</code> | <code>&quot;SUKKOT_V_CHM&quot;</code> | Sukkot V (CH''M) |
+| TU_BAV | <code>string</code> | <code>&quot;TU_BAV&quot;</code> | Tu B\'Av |
+| TU_BISHVAT | <code>string</code> | <code>&quot;TU_BISHVAT&quot;</code> | Tu BiShvat |
+| YITZHAK_RABIN_MEMORIAL_DAY | <code>string</code> | <code>&quot;YITZHAK_RABIN_MEMORIAL_DAY&quot;</code> | Yitzhak Rabin Memorial Day |
+| YOM_HAALIYAH | <code>string</code> | <code>&quot;YOM_HAALIYAH&quot;</code> | Yom HaAliyah |
+| YOM_HAALIYAH_SCHOOL_OBSERVANCE | <code>string</code> | <code>&quot;YOM_HAALIYAH_SCHOOL_OBSERVANCE&quot;</code> | Yom HaAliyah School Observance |
+| YOM_KIPPUR | <code>string</code> | <code>&quot;YOM_KIPPUR&quot;</code> | Yom Kippur |
+| YOM_YERUSHALAYIM | <code>string</code> | <code>&quot;YOM_YERUSHALAYIM&quot;</code> | Yom Yerushalayim |
+
 <a name="parshiot"></a>
 
 ## parshiot : <code>Array.&lt;string&gt;</code>

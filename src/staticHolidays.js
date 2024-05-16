@@ -77,55 +77,161 @@ const YOM_HAALIYAH = 'Yom HaAliyah';
 const YOM_HAALIYAH_SCHOOL_OBSERVANCE = 'Yom HaAliyah School Observance';
 const HEBREW_LANGUAGE_DAY = 'Hebrew Language Day';
 
+/**
+ * Transliterated names of holidays, used by `Event.getDesc()`
+ * @readonly
+ * @enum {string}
+ */
 export const holidayDesc = {
-  ROSH_HASHANA_II,
-  EREV_YOM_KIPPUR,
-  YOM_KIPPUR,
-  EREV_SUKKOT,
-  SUKKOT_I,
-  SUKKOT_II,
-  SUKKOT_III_CHM,
-  SUKKOT_IV_CHM,
-  SUKKOT_V_CHM,
-  SUKKOT_VI_CHM,
-  SHMINI_ATZERET,
-  SIMCHAT_TORAH,
-  SUKKOT_II_CHM,
-  SUKKOT_VII_HOSHANA_RABA,
-  CHANUKAH_1_CANDLE,
-  TU_BISHVAT,
-  EREV_PURIM,
-  PURIM,
-  SHUSHAN_PURIM,
-  EREV_PESACH,
-  PESACH_I,
-  PESACH_II,
-  PESACH_II_CHM,
-  PESACH_III_CHM,
-  PESACH_IV_CHM,
-  PESACH_V_CHM,
-  PESACH_VI_CHM,
-  PESACH_VII,
-  PESACH_VIII,
-  PESACH_SHENI,
-  LAG_BAOMER,
-  EREV_SHAVUOT,
-  SHAVUOT,
-  SHAVUOT_I,
-  SHAVUOT_II,
-  TU_BAV,
-  ROSH_HASHANA_LABEHEMOT,
-  EREV_ROSH_HASHANA,
-  YOM_YERUSHALAYIM,
+  /** Asara B'Tevet */
+  ASARA_BTEVET: 'Asara B\'Tevet',
+  /** Birkat Hachamah */
+  BIRKAT_HACHAMAH: 'Birkat Hachamah',
+  /** Chag HaBanot */
+  CHAG_HABANOT: 'Chag HaBanot',
+  /** Chanukah: 8th Day */
+  CHANUKAH_8TH_DAY: 'Chanukah: 8th Day',
+  /** Erev Tish'a B'Av */
+  EREV_TISHA_BAV: 'Erev Tish\'a B\'Av',
+  /** Leil Selichot */
+  LEIL_SELICHOT: 'Leil Selichot',
+  /** Purim Katan */
+  PURIM_KATAN: 'Purim Katan',
+  /** Purim Meshulash */
+  PURIM_MESHULASH: 'Purim Meshulash',
+  /** Shabbat Chazon */
+  SHABBAT_CHAZON: 'Shabbat Chazon',
+  /** Shabbat HaChodesh */
+  SHABBAT_HACHODESH: 'Shabbat HaChodesh',
+  /** Shabbat HaGadol */
+  SHABBAT_HAGADOL: 'Shabbat HaGadol',
+  /** Shabbat Nachamu */
+  SHABBAT_NACHAMU: 'Shabbat Nachamu',
+  /** Shabbat Parah */
+  SHABBAT_PARAH: 'Shabbat Parah',
+  /** Shabbat Shekalim */
+  SHABBAT_SHEKALIM: 'Shabbat Shekalim',
+  /** Shabbat Shirah */
+  SHABBAT_SHIRAH: 'Shabbat Shirah',
+  /** Shabbat Shuva */
+  SHABBAT_SHUVA: 'Shabbat Shuva',
+  /** Shabbat Zachor */
+  SHABBAT_ZACHOR: 'Shabbat Zachor',
+  /** Shushan Purim Katan */
+  SHUSHAN_PURIM_KATAN: 'Shushan Purim Katan',
+  /** Ta'anit Bechorot */
+  TAANIT_BECHOROT: 'Ta\'anit Bechorot',
+  /** Ta'anit Esther */
+  TAANIT_ESTHER: 'Ta\'anit Esther',
+  /** Tish'a B'Av */
+  TISHA_BAV: 'Tish\'a B\'Av',
+  /** Tzom Gedaliah */
+  TZOM_GEDALIAH: 'Tzom Gedaliah',
+  /** Tzom Tammuz */
+  TZOM_TAMMUZ: 'Tzom Tammuz',
+  /** Yom HaAtzma'ut */
+  YOM_HAATZMA_UT: 'Yom HaAtzma\'ut',
+  /** Yom HaShoah */
+  YOM_HASHOAH: 'Yom HaShoah',
+  /** Yom HaZikaron */
+  YOM_HAZIKARON: 'Yom HaZikaron',
+
+  /** Ben-Gurion Day */
   BEN_GURION_DAY,
+  /** Chanukah: 1 Candle */
+  CHANUKAH_1_CANDLE,
+  /** Erev Pesach */
+  EREV_PESACH,
+  /** Erev Purim */
+  EREV_PURIM,
+  /** Erev Rosh Hashana */
+  EREV_ROSH_HASHANA,
+  /** Erev Shavuot */
+  EREV_SHAVUOT,
+  /** Erev Sukkot */
+  EREV_SUKKOT,
+  /** Erev Yom Kippur */
+  EREV_YOM_KIPPUR,
+  /** Family Day */
   FAMILY_DAY,
-  YITZHAK_RABIN_MEMORIAL_DAY,
-  HERZL_DAY,
-  JABOTINSKY_DAY,
-  SIGD,
-  YOM_HAALIYAH,
-  YOM_HAALIYAH_SCHOOL_OBSERVANCE,
+  /** Hebrew Language Day */
   HEBREW_LANGUAGE_DAY,
+  /** Herzl Day */
+  HERZL_DAY,
+  /** Jabotinsky Day */
+  JABOTINSKY_DAY,
+  /** Lag BaOmer */
+  LAG_BAOMER,
+  /** Pesach I */
+  PESACH_I,
+  /** Pesach II */
+  PESACH_II,
+  /** Pesach III (CH''M) */
+  PESACH_III_CHM,
+  /** Pesach II (CH''M) */
+  PESACH_II_CHM,
+  /** Pesach IV (CH''M) */
+  PESACH_IV_CHM,
+  /** Pesach Sheni */
+  PESACH_SHENI,
+  /** Pesach VII */
+  PESACH_VII,
+  /** Pesach VIII */
+  PESACH_VIII,
+  /** Pesach VI (CH''M) */
+  PESACH_VI_CHM,
+  /** Pesach V (CH''M) */
+  PESACH_V_CHM,
+  /** Purim */
+  PURIM,
+  /** Rosh Hashana II */
+  ROSH_HASHANA_II,
+  /** Rosh Hashana LaBehemot */
+  ROSH_HASHANA_LABEHEMOT,
+  /** Shavuot */
+  SHAVUOT,
+  /** Shavuot I */
+  SHAVUOT_I,
+  /** Shavuot II */
+  SHAVUOT_II,
+  /** Shmini Atzeret */
+  SHMINI_ATZERET,
+  /** Shushan Purim */
+  SHUSHAN_PURIM,
+  /** Sigd */
+  SIGD,
+  /** Simchat Torah */
+  SIMCHAT_TORAH,
+  /** Sukkot I */
+  SUKKOT_I,
+  /** Sukkot II */
+  SUKKOT_II,
+  /** Sukkot III (CH''M) */
+  SUKKOT_III_CHM,
+  /** Sukkot II (CH''M) */
+  SUKKOT_II_CHM,
+  /** Sukkot IV (CH''M) */
+  SUKKOT_IV_CHM,
+  /** Sukkot VII (Hoshana Raba) */
+  SUKKOT_VII_HOSHANA_RABA,
+  /** Sukkot VI (CH''M) */
+  SUKKOT_VI_CHM,
+  /** Sukkot V (CH''M) */
+  SUKKOT_V_CHM,
+  /** Tu B\'Av */
+  TU_BAV,
+  /** Tu BiShvat */
+  TU_BISHVAT,
+  /** Yitzhak Rabin Memorial Day */
+  YITZHAK_RABIN_MEMORIAL_DAY,
+  /** Yom HaAliyah */
+  YOM_HAALIYAH,
+  /** Yom HaAliyah School Observance */
+  YOM_HAALIYAH_SCHOOL_OBSERVANCE,
+  /** Yom Kippur */
+  YOM_KIPPUR,
+  /** Yom Yerushalayim */
+  YOM_YERUSHALAYIM,
 };
 
 export const staticHolidays = [

@@ -27,7 +27,7 @@ import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
 import {getSedra_} from './sedra.js';
 import {Molad} from './molad.js';
 import {staticHolidays, staticModernHolidays,
-  holidayDesc as staticHolidayDesc} from './staticHolidays.js';
+  holidayDesc as hdesc} from './staticHolidays.js';
 
 const CHAG = flags.CHAG;
 const IL_ONLY = flags.IL_ONLY;
@@ -40,67 +40,32 @@ const MAJOR_FAST = flags.MAJOR_FAST;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
 
-const SHABBAT_SHUVA = 'Shabbat Shuva';
-const CHAG_HABANOT = 'Chag HaBanot';
-const SHABBAT_SHEKALIM = 'Shabbat Shekalim';
-const SHABBAT_ZACHOR = 'Shabbat Zachor';
-const TAANIT_ESTHER = 'Ta\'anit Esther';
-const SHABBAT_PARAH = 'Shabbat Parah';
-const SHABBAT_HACHODESH = 'Shabbat HaChodesh';
-const SHABBAT_HAGADOL = 'Shabbat HaGadol';
-const TAANIT_BECHOROT = 'Ta\'anit Bechorot';
-const LEIL_SELICHOT = 'Leil Selichot';
-const PURIM_MESHULASH = 'Purim Meshulash';
-const PURIM_KATAN = 'Purim Katan';
-const SHUSHAN_PURIM_KATAN = 'Shushan Purim Katan';
-const YOM_HASHOAH = 'Yom HaShoah';
-const YOM_HAZIKARON = 'Yom HaZikaron';
-const YOM_HAATZMA_UT = 'Yom HaAtzma\'ut';
-const TZOM_GEDALIAH = 'Tzom Gedaliah';
-const TZOM_TAMMUZ = 'Tzom Tammuz';
-const SHABBAT_CHAZON = 'Shabbat Chazon';
-const EREV_TISHA_BAV = 'Erev Tish\'a B\'Av';
-const TISHA_BAV = 'Tish\'a B\'Av';
-const SHABBAT_NACHAMU = 'Shabbat Nachamu';
-const SHABBAT_SHIRAH = 'Shabbat Shirah';
-const BIRKAT_HACHAMAH = 'Birkat Hachamah';
-const CHANUKAH_8TH_DAY = 'Chanukah: 8th Day';
-const ASARA_BTEVET = 'Asara B\'Tevet';
-
-/**
- * Transliterated names of holidays, used by `Event.getDesc()`
- * @readonly
- * @enum {string}
- */
-export const holidayDesc = {
-  ...staticHolidayDesc,
-  SHABBAT_SHUVA,
-  CHAG_HABANOT,
-  SHABBAT_SHEKALIM,
-  SHABBAT_ZACHOR,
-  TAANIT_ESTHER,
-  SHABBAT_PARAH,
-  SHABBAT_HACHODESH,
-  SHABBAT_HAGADOL,
-  TAANIT_BECHOROT,
-  LEIL_SELICHOT,
-  PURIM_MESHULASH,
-  PURIM_KATAN,
-  SHUSHAN_PURIM_KATAN,
-  YOM_HASHOAH,
-  YOM_HAZIKARON,
-  YOM_HAATZMA_UT,
-  TZOM_GEDALIAH,
-  TZOM_TAMMUZ,
-  SHABBAT_CHAZON,
-  EREV_TISHA_BAV,
-  TISHA_BAV,
-  SHABBAT_NACHAMU,
-  SHABBAT_SHIRAH,
-  BIRKAT_HACHAMAH,
-  CHANUKAH_8TH_DAY,
-  ASARA_BTEVET,
-};
+const SHABBAT_SHUVA = hdesc.SHABBAT_SHUVA;
+const CHAG_HABANOT = hdesc.CHAG_HABANOT;
+const SHABBAT_SHEKALIM = hdesc.SHABBAT_SHEKALIM;
+const SHABBAT_ZACHOR = hdesc.SHABBAT_ZACHOR;
+const TAANIT_ESTHER = hdesc.TAANIT_ESTHER;
+const SHABBAT_PARAH = hdesc.SHABBAT_PARAH;
+const SHABBAT_HACHODESH = hdesc.SHABBAT_HACHODESH;
+const SHABBAT_HAGADOL = hdesc.SHABBAT_HAGADOL;
+const TAANIT_BECHOROT = hdesc.TAANIT_BECHOROT;
+const LEIL_SELICHOT = hdesc.LEIL_SELICHOT;
+const PURIM_MESHULASH = hdesc.PURIM_MESHULASH;
+const PURIM_KATAN = hdesc.PURIM_KATAN;
+const SHUSHAN_PURIM_KATAN = hdesc.SHUSHAN_PURIM_KATAN;
+const YOM_HASHOAH = hdesc.YOM_HASHOAH;
+const YOM_HAZIKARON = hdesc.YOM_HAZIKARON;
+const YOM_HAATZMA_UT = hdesc.YOM_HAATZMA_UT;
+const TZOM_GEDALIAH = hdesc.TZOM_GEDALIAH;
+const TZOM_TAMMUZ = hdesc.TZOM_TAMMUZ;
+const SHABBAT_CHAZON = hdesc.SHABBAT_CHAZON;
+const EREV_TISHA_BAV = hdesc.EREV_TISHA_BAV;
+const TISHA_BAV = hdesc.TISHA_BAV;
+const SHABBAT_NACHAMU = hdesc.SHABBAT_NACHAMU;
+const SHABBAT_SHIRAH = hdesc.SHABBAT_SHIRAH;
+const BIRKAT_HACHAMAH = hdesc.BIRKAT_HACHAMAH;
+const CHANUKAH_8TH_DAY = hdesc.CHANUKAH_8TH_DAY;
+const ASARA_BTEVET = hdesc.ASARA_BTEVET;
 
 /** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
 export class HolidayEvent extends Event {
@@ -153,15 +118,15 @@ export class HolidayEvent extends Event {
     const desc = this.getDesc();
     // Don't depend on flags.MINOR_HOLIDAY always being set
     switch (desc) {
-      case staticHolidayDesc.LAG_BAOMER:
-      case LEIL_SELICHOT:
-      case staticHolidayDesc.PESACH_SHENI:
-      case staticHolidayDesc.EREV_PURIM:
-      case PURIM_KATAN:
-      case staticHolidayDesc.SHUSHAN_PURIM:
-      case staticHolidayDesc.TU_BAV:
-      case staticHolidayDesc.TU_BISHVAT:
-      case staticHolidayDesc.ROSH_HASHANA_LABEHEMOT:
+      case hdesc.LAG_BAOMER:
+      case hdesc.LEIL_SELICHOT:
+      case hdesc.PESACH_SHENI:
+      case hdesc.EREV_PURIM:
+      case hdesc.PURIM_KATAN:
+      case hdesc.SHUSHAN_PURIM:
+      case hdesc.TU_BAV:
+      case hdesc.TU_BISHVAT:
+      case hdesc.ROSH_HASHANA_LABEHEMOT:
         return ['holiday', 'minor'];
       default:
         return ['holiday', 'major'];
