@@ -6,6 +6,10 @@
     "extends": [
         "google"
     ],
+    "ignorePatterns": [
+        "src/*.po.js",
+        "dist"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
