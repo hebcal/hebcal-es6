@@ -119,6 +119,9 @@ declare module '@hebcal/core' {
          * Gets the Hebrew month (1=NISAN, 7=TISHREI) of this Hebrew date
          */
         getMonth(): number;
+        /**
+         * The Tishrei-based month of the date. 1 is Tishrei, 7 is Nisan, 13 is Elul in a leap year
+         */
         getTishreiMonth(): number;
         /**
          * Number of days in the month of this Hebrew date
@@ -160,12 +163,51 @@ declare module '@hebcal/core' {
          */
         renderGematriya(suppressNikud?: boolean): string;
 
+        /**
+         * Returns an `HDate` representing the a dayNumber before the current date.
+         * @example
+         * new HDate(new Date('Wednesday February 19, 2014')).before(6).greg() // Sat Feb 15 2014
+         * @param {number} day day of week (Sunday=0, Saturday=6)
+         */
         before(day: number): HDate;
+        /**
+         * Returns an `HDate` representing the a dayNumber on or before the current date.
+         * @example
+         * new HDate(new Date('Wednesday February 19, 2014')).onOrBefore(6).greg() // Sat Feb 15 2014
+         * new HDate(new Date('Saturday February 22, 2014')).onOrBefore(6).greg() // Sat Feb 22 2014
+         * new HDate(new Date('Sunday February 23, 2014')).onOrBefore(6).greg() // Sat Feb 22 2014
+         * @param {number} day day of week (Sunday=0, Saturday=6)
+         */
         onOrBefore(day: number): HDate;
+        /**
+         * Returns an `HDate` representing the nearest dayNumber to the current date
+         * @example
+         * new HDate(new Date('Wednesday February 19, 2014')).nearest(6).greg() // Sat Feb 22 2014
+         * new HDate(new Date('Tuesday February 18, 2014')).nearest(6).greg() // Sat Feb 15 2014
+         * @param {number} day day of week (Sunday=0, Saturday=6)
+         */
         nearest(day: number): HDate;
+        /**
+         * Returns an `HDate` representing the a dayNumber on or after the current date.
+         * @example
+         * new HDate(new Date('Wednesday February 19, 2014')).onOrAfter(6).greg() // Sat Feb 22 2014
+         * new HDate(new Date('Saturday February 22, 2014')).onOrAfter(6).greg() // Sat Feb 22 2014
+         * new HDate(new Date('Sunday February 23, 2014')).onOrAfter(6).greg() // Sat Mar 01 2014
+         * @param {number} day day of week (Sunday=0, Saturday=6)
+         */
         onOrAfter(day: number): HDate;
+        /**
+         * Returns an `HDate` representing the a dayNumber after the current date.
+         * @example
+         * new HDate(new Date('Wednesday February 19, 2014')).after(6).greg() // Sat Feb 22 2014
+         * new HDate(new Date('Saturday February 22, 2014')).after(6).greg() // Sat Mar 01 2014
+         * new HDate(new Date('Sunday February 23, 2014')).after(6).greg() // Sat Mar 01 2014
+         * @param {number} day day of week (Sunday=0, Saturday=6)
+         */
         after(day: number): HDate;
+        /** Returns the next Hebrew date */
         next(): HDate;
+        /** Returns the previous Hebrew date */
         prev(): HDate;
         /**
          * Returns a cloned HDate object with a specified amount of time added
@@ -188,6 +230,9 @@ declare module '@hebcal/core' {
          */
         deltaDays(other: HDate): number;
 
+        /**
+         * Compares this date to another date, returning `true` if the dates match.
+         */
         isSameDate(other: HDate): boolean;
 
         /**
@@ -267,6 +312,16 @@ declare module '@hebcal/core' {
          * @param c - monthName
          */
         static monthFromName(c: string | number): number;
+
+        /**
+         * Note: Applying this function to d+6 gives us the DAYNAME on or after an
+         * absolute day d. Similarly, applying it to d+3 gives the DAYNAME nearest to
+         * absolute date d, applying it to d-1 gives the DAYNAME previous to absolute
+         * date d, and applying it to d+7 gives the DAYNAME following absolute date d.
+         * @param {number} dayOfWeek - Day of Week (0=Sunday, 6=Saturday)
+         * @param {number} abs - R.D. number of days
+         */
+        static dayOnOrBefore(dayOfWeek: number, abs: number): number;
 
         /**
          * Construct a new instance of `HDate` from a Gematriya-formatted string
