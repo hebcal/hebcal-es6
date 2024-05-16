@@ -42,7 +42,7 @@ const SHMINI_ATZERET = 'Shmini Atzeret';
 const SIMCHAT_TORAH = 'Simchat Torah';
 const SUKKOT_II_CHM = 'Sukkot II (CH\'\'M)';
 const SUKKOT_VII_HOSHANA_RABA = 'Sukkot VII (Hoshana Raba)';
-const CHANUKAH_CANDLE = 'Chanukah: 1 Candle';
+const CHANUKAH_1_CANDLE = 'Chanukah: 1 Candle';
 const TU_BISHVAT = 'Tu BiShvat';
 const EREV_PURIM = 'Erev Purim';
 const PURIM = 'Purim';
@@ -92,7 +92,7 @@ export const holidayDesc = {
   SIMCHAT_TORAH,
   SUKKOT_II_CHM,
   SUKKOT_VII_HOSHANA_RABA,
-  CHANUKAH_CANDLE,
+  CHANUKAH_1_CANDLE,
   TU_BISHVAT,
   EREV_PURIM,
   PURIM,
@@ -157,7 +157,7 @@ export const staticHolidays = [
 
   {mm: Tishrei, dd: 21, desc: SUKKOT_VII_HOSHANA_RABA,
     flags: LIGHT_CANDLES | CHOL_HAMOED, chmDay: -1, emoji: emojiSukkot},
-  {mm: Kislev, dd: 24, desc: CHANUKAH_CANDLE,
+  {mm: Kislev, dd: 24, desc: CHANUKAH_1_CANDLE,
     flags: EREV | MINOR_HOLIDAY | CHANUKAH_CANDLES, emoji: '🕎1️⃣'},
   {mm: Shvat, dd: 15, desc: TU_BISHVAT, flags: MINOR_HOLIDAY, emoji: '🌳'},
   {mm: Adar2, dd: 13, desc: EREV_PURIM, flags: EREV | MINOR_HOLIDAY, emoji: '🎭️📜'},
