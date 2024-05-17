@@ -2,6 +2,7 @@ import test from 'ava';
 import {months} from '@hebcal/hdate';
 import {HDate} from './hdate.js';
 import {Sedra} from './sedra.js';
+import {isoDateString} from './dateFormat.js';
 
 /**
  * @private
@@ -9,8 +10,7 @@ import {Sedra} from './sedra.js';
  * @return {string}
  */
 function dt(hd) {
-  const s = hd.greg().toISOString();
-  return s.substring(0, s.indexOf('T'));
+  return isoDateString(hd.greg());
 }
 
 test('diaspora-5701', (t) => {

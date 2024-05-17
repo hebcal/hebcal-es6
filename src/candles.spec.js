@@ -9,6 +9,7 @@ import {HebrewCalendar} from './hebcal.js';
 import {HolidayEvent} from './holidays.js';
 import {Location} from './location.js';
 import {Zmanim} from './zmanim.js';
+import {isoDateString} from './dateFormat.js';
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {
@@ -16,7 +17,7 @@ function eventDateDesc(ev) {
     return null;
   }
   return {
-    date: ev.getDate().greg().toISOString().substring(0, 10),
+    date: isoDateString(ev.getDate().greg()),
     desc: ev.render('en'),
   };
 }
@@ -115,7 +116,7 @@ test('candles-only-diaspora', (t) => {
 function eventTitleDateTime(ev) {
   const timeStr = ev.eventTime ?
     Zmanim.formatISOWithTimeZone(ev.location.getTzid(), ev.eventTime) :
-    ev.getDate().greg().toISOString().substring(0, 10);
+    isoDateString(ev.getDate().greg());
   return {
     dt: timeStr,
     desc: ev.getDesc(),

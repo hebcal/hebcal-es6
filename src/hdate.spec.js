@@ -3,6 +3,7 @@ import {months} from '@hebcal/hdate';
 import {HDate} from './hdate.js';
 import './locale-he.js';
 import './locale-ashkenazi.js';
+import {isoDateString} from './dateFormat.js';
 
 const NISAN = months.NISAN;
 const IYYAR = months.IYYAR;
@@ -280,7 +281,7 @@ test('adar2-nonleap', (t) => {
 
 // eslint-disable-next-line require-jsdoc
 function hd2iso(hd) {
-  return hd.greg().toISOString().substring(0, 10);
+  return isoDateString(hd.greg());
 }
 
 test('before', (t) => {

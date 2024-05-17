@@ -57,7 +57,7 @@ export function getTimezoneOffset(tzid, date) {
  * @param {number} number
  * @return {string}
  */
-function pad4(number) {
+export function pad4(number) {
   if (number < 0) {
     return '-00' + pad4(-number);
   } else if (number < 10) {
@@ -68,4 +68,28 @@ function pad4(number) {
     return '0' + number;
   }
   return String(number);
+}
+
+/**
+ * @private
+ * @param {number} number
+ * @return {string}
+ */
+export function pad2(number) {
+  if (number < 10) {
+    return '0' + number;
+  }
+  return String(number);
+}
+
+/**
+ * Returns YYYY-MM-DD in the local timezone
+ * @private
+ * @param {Date} dt
+ * @return {string}
+ */
+export function isoDateString(dt) {
+  return pad4(dt.getFullYear()) + '-' +
+    pad2(dt.getMonth() + 1) + '-' +
+    pad2(dt.getDate());
 }

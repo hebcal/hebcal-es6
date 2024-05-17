@@ -1,21 +1,9 @@
 import {HDate} from './hdate.js';
-import {getTimezoneOffset, getPseudoISO} from './getTimezoneOffset.js';
+import {getTimezoneOffset, getPseudoISO, pad2} from './dateFormat.js';
 import {greg} from '@hebcal/hdate';
 import {throwTypeError} from './throwTypeError.js';
 import 'temporal-polyfill/global';
 import {NOAACalculator} from '@hebcal/noaa';
-
-/**
- * @private
- * @param {number} number
- * @return {string}
- */
-function pad2(number) {
-  if (number < 10) {
-    return '0' + number;
-  }
-  return String(number);
-}
 
 /**
  * @private

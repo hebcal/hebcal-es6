@@ -1,5 +1,6 @@
 import {Event, flags} from './event.js';
 import {Locale} from './locale.js';
+import {isoDateString} from './dateFormat.js';
 
 /**
  * Represents one of 54 weekly Torah portions, always on a Saturday
@@ -56,8 +57,7 @@ export class ParshaEvent extends Event {
 
   /** @return {string} */
   urlDateSuffix() {
-    const isoDateTime = this.getDate().greg().toISOString();
-    const isoDate = isoDateTime.substring(0, isoDateTime.indexOf('T'));
+    const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');
   }
 }

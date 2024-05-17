@@ -28,6 +28,7 @@ import {getSedra_} from './sedra.js';
 import {Molad} from './molad.js';
 import {staticHolidays, staticModernHolidays,
   holidayDesc as hdesc} from './staticHolidays.js';
+import {isoDateString} from './dateFormat.js';
 
 const CHAG = flags.CHAG;
 const IL_ONLY = flags.IL_ONLY;
@@ -167,8 +168,7 @@ export class RoshChodeshEvent extends HolidayEvent {
 export class AsaraBTevetEvent extends HolidayEvent {
   /** @return {string} */
   urlDateSuffix() {
-    const isoDateTime = this.getDate().greg().toISOString();
-    const isoDate = isoDateTime.substring(0, isoDateTime.indexOf('T'));
+    const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');
   }
 }

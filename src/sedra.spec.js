@@ -5,6 +5,7 @@ import {Locale} from './locale.js';
 import {Sedra} from './sedra.js';
 import './locale-he.js';
 import './locale-ashkenazi.js';
+import {isoDateString} from './dateFormat.js';
 
 /**
  * @private
@@ -12,7 +13,7 @@ import './locale-ashkenazi.js';
  * @return {string}
  */
 function dt(hd) {
-  return hd.greg().toISOString().substring(0, 10);
+  return isoDateString(hd.greg());
 }
 
 test('3762', (t) => {

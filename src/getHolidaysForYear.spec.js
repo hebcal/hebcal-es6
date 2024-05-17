@@ -1,10 +1,10 @@
 import test from 'ava';
 import {HebrewCalendar} from './hebcal.js';
+import {isoDateString} from './dateFormat.js';
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {
-  const isoDateString = ev.getDate().greg().toISOString();
-  const date = isoDateString.substring(0, isoDateString.indexOf('T'));
+  const date = isoDateString(ev.getDate().greg());
   return {date, desc: ev.getDesc()};
 }
 

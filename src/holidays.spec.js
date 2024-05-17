@@ -4,6 +4,7 @@ import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays.
 import {HebrewCalendar} from './hebcal.js';
 import {HDate} from './hdate.js';
 import {flags} from './event.js';
+import {isoDateString} from './dateFormat.js';
 
 test('basename-and-url', (t) => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
@@ -108,8 +109,7 @@ test('Purim Meshulash', (t) => {
 
 // eslint-disable-next-line require-jsdoc
 function eventDateBasenameDesc(ev) {
-  const isoDateString = ev.getDate().greg().toISOString();
-  const date = isoDateString.substring(0, isoDateString.indexOf('T'));
+  const date = isoDateString(ev.getDate().greg());
   return {
     date,
     basename: ev.basename(),
@@ -119,8 +119,7 @@ function eventDateBasenameDesc(ev) {
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {
-  const isoDateString = ev.getDate().greg().toISOString();
-  const date = isoDateString.substring(0, isoDateString.indexOf('T'));
+  const date = isoDateString(ev.getDate().greg());
   return {date, desc: ev.getDesc()};
 }
 

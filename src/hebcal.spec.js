@@ -4,6 +4,7 @@ import {HebrewCalendar, getStartAndEnd} from './hebcal.js';
 import {HDate} from './hdate.js';
 import {flags} from './event.js';
 import {Location} from './location.js';
+import {isoDateString} from './dateFormat.js';
 
 /**
  * @param {Event} ev
@@ -533,8 +534,7 @@ test('getStartAndEnd-throw', (t) => {
  * @return {any}
  */
 function eventISODateDesc(ev) {
-  const isoDateString = ev.getDate().greg().toISOString();
-  const date = isoDateString.substring(0, isoDateString.indexOf('T'));
+  const date = isoDateString(ev.getDate().greg());
   return {date, desc: ev.getDesc()};
 }
 
