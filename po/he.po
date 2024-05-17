@@ -926,3 +926,6 @@ msgstr "מוֹלָד הָלְּבָנָה"
 
 msgid "chalakim"
 msgstr "חֲלָקִים"
+
+msgid "Pirkei Avot"
+msgstr "פִּרְקֵי אָבוֹת"
