@@ -1998,6 +1998,7 @@ Enables or disables elevation adjustment for zmanim support elevation adjustment
 ### zmanim.timeAtAngle(angle, rising) ⇒ <code>Date</code>
 Convenience function to get the time when sun is above or below the horizon
 for a certain angle (in degrees).
+This function does not support elevation adjustment.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 
@@ -2010,41 +2011,52 @@ for a certain angle (in degrees).
 
 ### zmanim.sunrise() ⇒ <code>Date</code>
 Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
+If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+seaLevelSunrise"></a>
 
 ### zmanim.seaLevelSunrise() ⇒ <code>Date</code>
-Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
+Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon).
+This function does not support elevation adjustment.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunset"></a>
 
 ### zmanim.sunset() ⇒ <code>Date</code>
-When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
+When the upper edge of the Sun disappears below the horizon (0.833° below horizon).
+If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+seaLevelSunset"></a>
 
 ### zmanim.seaLevelSunset() ⇒ <code>Date</code>
-When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
+When the upper edge of the Sun disappears below the horizon (0.833° below horizon).
+This function does not support elevation adjustment.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+dawn"></a>
 
 ### zmanim.dawn() ⇒ <code>Date</code>
-Civil dawn; Sun is 6° below the horizon in the morning
+Civil dawn; Sun is 6° below the horizon in the morning.
+Because degree-based functions estimate the amount of light in the sky,
+the result is not impacted by elevation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+dusk"></a>
 
 ### zmanim.dusk() ⇒ <code>Date</code>
-Civil dusk; Sun is 6° below the horizon in the evening
+Civil dusk; Sun is 6° below the horizon in the evening.
+Because degree-based functions estimate the amount of light in the sky,
+the result is not impacted by elevation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+gregEve"></a>
 
 ### zmanim.gregEve() ⇒ <code>Date</code>
+Returns sunset for the previous day.
+If elevation is enabled, this function will include elevation in the calculation.
+
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+chatzot"></a>
 
@@ -2055,37 +2067,46 @@ Midday – Chatzot; Sunrise plus 6 halachic hours
 <a name="Zmanim+chatzotNight"></a>
 
 ### zmanim.chatzotNight() ⇒ <code>Date</code>
-Midnight – Chatzot; Sunset plus 6 halachic hours
+Midnight – Chatzot; Sunset plus 6 halachic hours.
+If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+alotHaShachar"></a>
 
 ### zmanim.alotHaShachar() ⇒ <code>Date</code>
-Dawn – Alot haShachar; Sun is 16.1° below the horizon in the morning
+Dawn – Alot haShachar; Sun is 16.1° below the horizon in the morning.
+Because degree-based functions estimate the amount of light in the sky,
+the result is not impacted by elevation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+misheyakir"></a>
 
 ### zmanim.misheyakir() ⇒ <code>Date</code>
-Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning
+Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning.
+Because degree-based functions estimate the amount of light in the sky,
+the result is not impacted by elevation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+misheyakirMachmir"></a>
 
 ### zmanim.misheyakirMachmir() ⇒ <code>Date</code>
-Earliest talis & tefillin – Misheyakir Machmir; Sun is 10.2° below the horizon in the morning
+Earliest talis & tefillin – Misheyakir Machmir; Sun is 10.2° below the horizon in the morning.
+Because degree-based functions estimate the amount of light in the sky,
+the result is not impacted by elevation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sofZmanShma"></a>
 
 ### zmanim.sofZmanShma() ⇒ <code>Date</code>
-Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra
+Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra.
+If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sofZmanTfilla"></a>
 
 ### zmanim.sofZmanTfilla() ⇒ <code>Date</code>
-Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra
+Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra.
+If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sofZmanShmaMGA"></a>
@@ -2146,19 +2167,22 @@ https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
 <a name="Zmanim+minchaGedola"></a>
 
 ### zmanim.minchaGedola() ⇒ <code>Date</code>
-Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours
+Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours.
+If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+minchaKetana"></a>
 
 ### zmanim.minchaKetana() ⇒ <code>Date</code>
-Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours
+Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours.
+If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+plagHaMincha"></a>
 
 ### zmanim.plagHaMincha() ⇒ <code>Date</code>
-Plag haMincha; Sunrise plus 10.75 halachic hours
+Plag haMincha; Sunrise plus 10.75 halachic hours.
+If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+tzeit"></a>
@@ -2168,7 +2192,7 @@ Plag haMincha; Sunrise plus 10.75 halachic hours
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| [angle] | <code>number</code> | <code>8.5</code> | optional time for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars. |
+| [angle] | <code>number</code> | <code>8.5</code> | optional time for solar depression.   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars. Because degree-based functions estimate the amount of light in the sky, the result is not impacted by elevation. |
 
 <a name="Zmanim+neitzHaChama"></a>
 
@@ -2188,13 +2212,17 @@ Alias for sunset
 Rabbeinu Tam holds that bein hashmashos is a specific time
 between sunset and tzeis hakochavim.
 One opinion on how to calculate this time is that
-it is 13.5 minutes before tzies 7.083
+it is 13.5 minutes before tzies 7.083.
+Because degree-based functions estimate the amount of light in the sky,
+the result is not impacted by elevation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+sunriseOffset"></a>
 
 ### zmanim.sunriseOffset(offset, roundMinute, forceSeaLevel) ⇒ <code>Date</code>
 Returns sunrise + `offset` minutes (either positive or negative).
+If elevation is enabled, this function will include elevation in the calculation
+ unless `forceSeaLevel` is `true`.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 
@@ -2208,6 +2236,8 @@ Returns sunrise + `offset` minutes (either positive or negative).
 
 ### zmanim.sunsetOffset(offset, roundMinute, forceSeaLevel) ⇒ <code>Date</code>
 Returns sunset + `offset` minutes (either positive or negative).
+If elevation is enabled, this function will include elevation in the calculation
+ unless `forceSeaLevel` is `true`.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 

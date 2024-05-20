@@ -88,6 +88,7 @@ export class Zmanim {
   /**
    * Convenience function to get the time when sun is above or below the horizon
    * for a certain angle (in degrees).
+   * This function does not support elevation adjustment.
    * @param {number} angle
    * @param {boolean} rising
    * @return {Date}
@@ -100,6 +101,7 @@ export class Zmanim {
   }
   /**
    * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
+   * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
   sunrise() {
@@ -107,7 +109,8 @@ export class Zmanim {
     return zdtToDate(zdt);
   }
   /**
-   * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
+   * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon).
+   * This function does not support elevation adjustment.
    * @return {Date}
    */
   seaLevelSunrise() {
@@ -115,7 +118,8 @@ export class Zmanim {
     return zdtToDate(zdt);
   }
   /**
-   * When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
+   * When the upper edge of the Sun disappears below the horizon (0.833° below horizon).
+   * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
   sunset() {
@@ -123,7 +127,8 @@ export class Zmanim {
     return zdtToDate(zdt);
   }
   /**
-   * When the upper edge of the Sun disappears below the horizon (0.833° below horizon)
+   * When the upper edge of the Sun disappears below the horizon (0.833° below horizon).
+   * This function does not support elevation adjustment.
    * @return {Date}
    */
   seaLevelSunset() {
@@ -131,7 +136,9 @@ export class Zmanim {
     return zdtToDate(zdt);
   }
   /**
-   * Civil dawn; Sun is 6° below the horizon in the morning
+   * Civil dawn; Sun is 6° below the horizon in the morning.
+   * Because degree-based functions estimate the amount of light in the sky,
+   * the result is not impacted by elevation.
    * @return {Date}
    */
   dawn() {
@@ -139,14 +146,20 @@ export class Zmanim {
     return zdtToDate(zdt);
   }
   /**
-   * Civil dusk; Sun is 6° below the horizon in the evening
+   * Civil dusk; Sun is 6° below the horizon in the evening.
+   * Because degree-based functions estimate the amount of light in the sky,
+   * the result is not impacted by elevation.
    * @return {Date}
    */
   dusk() {
     const zdt = this.noaa.getEndCivilTwilight();
     return zdtToDate(zdt);
   }
-  /** @return {Date} */
+  /**
+   * Returns sunset for the previous day.
+   * If elevation is enabled, this function will include elevation in the calculation.
+   * @return {Date}
+   */
   gregEve() {
     const prev = new Date(this.date);
     prev.setDate(prev.getDate() - 1);
@@ -165,32 +178,41 @@ export class Zmanim {
    * @return {Date}
    */
   chatzot() {
-    const zdt = this.noaa.getSunTransit();
+    const startOfDay = this.noaa.getSeaLevelSunrise();
+    const endOfDay = this.noaa.getSeaLevelSunset();
+    const zdt = this.noaa.getSunTransit(startOfDay, endOfDay);
     return zdtToDate(zdt);
   }
   /**
-   * Midnight – Chatzot; Sunset plus 6 halachic hours
+   * Midnight – Chatzot; Sunset plus 6 halachic hours.
+   * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
   chatzotNight() {
     return new Date(this.sunrise().getTime() - (this.nightHour() * 6));
   }
   /**
-   * Dawn – Alot haShachar; Sun is 16.1° below the horizon in the morning
+   * Dawn – Alot haShachar; Sun is 16.1° below the horizon in the morning.
+   * Because degree-based functions estimate the amount of light in the sky,
+   * the result is not impacted by elevation.
    * @return {Date}
    */
   alotHaShachar() {
     return this.timeAtAngle(16.1, true);
   }
   /**
-   * Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning
+   * Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning.
+   * Because degree-based functions estimate the amount of light in the sky,
+   * the result is not impacted by elevation.
    * @return {Date}
    */
   misheyakir() {
     return this.timeAtAngle(11.5, true);
   }
   /**
-   * Earliest talis & tefillin – Misheyakir Machmir; Sun is 10.2° below the horizon in the morning
+   * Earliest talis & tefillin – Misheyakir Machmir; Sun is 10.2° below the horizon in the morning.
+   * Because degree-based functions estimate the amount of light in the sky,
+   * the result is not impacted by elevation.
    * @return {Date}
    */
   misheyakirMachmir() {
@@ -211,14 +233,16 @@ export class Zmanim {
     return zdtToDate(zdt);
   }
   /**
-   * Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra
+   * Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra.
+   * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
   sofZmanShma() { // Gra
     return this.getShaahZmanisBasedZman(3);
   }
   /**
-   * Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra
+   * Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra.
+   * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
   sofZmanTfilla() { // Gra
@@ -315,21 +339,24 @@ export class Zmanim {
     return new Date(alot.getTime() + (4 * temporalHour));
   }
   /**
-   * Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours
+   * Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours.
+   * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
   minchaGedola() {
     return this.getShaahZmanisBasedZman(6.5);
   }
   /**
-   * Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours
+   * Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours.
+   * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
   minchaKetana() {
     return this.getShaahZmanisBasedZman(9.5);
   }
   /**
-   * Plag haMincha; Sunrise plus 10.75 halachic hours
+   * Plag haMincha; Sunrise plus 10.75 halachic hours.
+   * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
   plagHaMincha() {
@@ -338,6 +365,8 @@ export class Zmanim {
   /**
    * @param {number} [angle=8.5] optional time for solar depression.
    *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
+   * Because degree-based functions estimate the amount of light in the sky,
+   * the result is not impacted by elevation.
    * @return {Date}
    */
   tzeit(angle=8.5) {
@@ -361,7 +390,9 @@ export class Zmanim {
    * Rabbeinu Tam holds that bein hashmashos is a specific time
    * between sunset and tzeis hakochavim.
    * One opinion on how to calculate this time is that
-   * it is 13.5 minutes before tzies 7.083
+   * it is 13.5 minutes before tzies 7.083.
+   * Because degree-based functions estimate the amount of light in the sky,
+   * the result is not impacted by elevation.
    * @return {Date}
    */
   beinHaShmashos() {
@@ -437,6 +468,8 @@ export class Zmanim {
 
   /**
    * Returns sunrise + `offset` minutes (either positive or negative).
+   * If elevation is enabled, this function will include elevation in the calculation
+   *  unless `forceSeaLevel` is `true`.
    * @param {number} offset minutes
    * @param {boolean} roundMinute round time to nearest minute (default true)
    * @param {boolean} forceSeaLevel use sea-level sunrise (default false)
@@ -459,6 +492,8 @@ export class Zmanim {
 
   /**
    * Returns sunset + `offset` minutes (either positive or negative).
+   * If elevation is enabled, this function will include elevation in the calculation
+   *  unless `forceSeaLevel` is `true`.
    * @param {number} offset minutes
    * @param {boolean} roundMinute round time to nearest minute (default true)
    * @param {boolean} forceSeaLevel use sea-level sunset (default false)
