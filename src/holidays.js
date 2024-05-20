@@ -89,22 +89,37 @@ export class HolidayEvent extends Event {
     if (cats[0] !== 'unknown') {
       return cats;
     }
+    // Don't depend on flags.MINOR_HOLIDAY always being set. Look for minor holidays.
     const desc = this.getDesc();
-    // Don't depend on flags.MINOR_HOLIDAY always being set
-    switch (desc) {
-      case hdesc.LAG_BAOMER:
-      case hdesc.LEIL_SELICHOT:
-      case hdesc.PESACH_SHENI:
-      case hdesc.EREV_PURIM:
-      case hdesc.PURIM_KATAN:
-      case hdesc.SHUSHAN_PURIM:
-      case hdesc.TU_BAV:
-      case hdesc.TU_BISHVAT:
-      case hdesc.ROSH_HASHANA_LABEHEMOT:
-        return ['holiday', 'minor'];
-      default:
-        return ['holiday', 'major'];
+    const {
+      LAG_BAOMER,
+      LEIL_SELICHOT,
+      PESACH_SHENI,
+      EREV_PURIM,
+      PURIM_KATAN,
+      SHUSHAN_PURIM,
+      TU_BAV,
+      TU_BISHVAT,
+      ROSH_HASHANA_LABEHEMOT,
+    } = hdesc;
+
+    const minorHolidays = [
+      LAG_BAOMER,
+      LEIL_SELICHOT,
+      PESACH_SHENI,
+      EREV_PURIM,
+      PURIM_KATAN,
+      SHUSHAN_PURIM,
+      TU_BAV,
+      TU_BISHVAT,
+      ROSH_HASHANA_LABEHEMOT,
+    ];
+
+    if (minorHolidays.includes(desc)) {
+      return ['holiday', 'minor'];
     }
+
+    return ['holiday', 'major'];
   }
   /**
    * Returns (translated) description of this event
