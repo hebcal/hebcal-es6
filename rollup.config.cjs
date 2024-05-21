@@ -3,6 +3,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const babel = require('@rollup/plugin-babel');
 const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
+const typescript = require('@rollup/plugin-typescript');
 const pkg = require('./package.json');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
@@ -27,6 +28,7 @@ module.exports = [
       },
     ],
     plugins: [
+      typescript(),
       json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
@@ -56,6 +58,8 @@ module.exports = [
       },
     ],
     plugins: [
+
+      typescript(),
       json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
@@ -101,6 +105,7 @@ module.exports = [
       },
     ],
     plugins: [
+      typescript(),
       json({compact: true, preferConst: true}),
       nodeResolve(),
       commonjs(),

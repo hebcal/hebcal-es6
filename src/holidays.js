@@ -27,7 +27,7 @@ import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
 import {getSedra_} from './sedra.js';
 import {Molad} from './molad.js';
 import {staticHolidays, staticModernHolidays,
-  holidayDesc as hdesc} from './staticHolidays.js';
+  HolidayDesc as hdesc} from './dist/staticHolidays.js';
 import {isoDateString} from './dateFormat.js';
 
 const CHAG = flags.CHAG;
