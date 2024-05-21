@@ -1282,80 +1282,80 @@ declare module '@hebcal/core' {
         static lookup(name: string, hd: HDate): Event;
     }
 
-    export const enum holidayDesc {
-        ASARA_BTEVET = "Asara B'Tevet",
-        BIRKAT_HACHAMAH = 'Birkat Hachamah',
-        CHAG_HABANOT = 'Chag HaBanot',
-        CHANUKAH_8TH_DAY = 'Chanukah: 8th Day',
-        EREV_TISHA_BAV = "Erev Tish'a B'Av",
-        LEIL_SELICHOT = 'Leil Selichot',
-        PURIM_KATAN = 'Purim Katan',
-        PURIM_MESHULASH = 'Purim Meshulash',
-        SHABBAT_CHAZON = 'Shabbat Chazon',
-        SHABBAT_HACHODESH = 'Shabbat HaChodesh',
-        SHABBAT_HAGADOL = 'Shabbat HaGadol',
-        SHABBAT_NACHAMU = 'Shabbat Nachamu',
-        SHABBAT_PARAH = 'Shabbat Parah',
-        SHABBAT_SHEKALIM = 'Shabbat Shekalim',
-        SHABBAT_SHIRAH = 'Shabbat Shirah',
-        SHABBAT_SHUVA = 'Shabbat Shuva',
-        SHABBAT_ZACHOR = 'Shabbat Zachor',
-        SHUSHAN_PURIM_KATAN = 'Shushan Purim Katan',
-        TAANIT_BECHOROT = "Ta'anit Bechorot",
-        TAANIT_ESTHER = "Ta'anit Esther",
-        TISHA_BAV = "Tish'a B'Av",
-        TZOM_GEDALIAH = 'Tzom Gedaliah',
-        TZOM_TAMMUZ = 'Tzom Tammuz',
-        YOM_HAATZMA_UT = "Yom HaAtzma'ut",
-        YOM_HASHOAH = 'Yom HaShoah',
-        YOM_HAZIKARON = 'Yom HaZikaron',
-        BEN_GURION_DAY = 'Ben-Gurion Day',
-        CHANUKAH_1_CANDLE = 'Chanukah: 1 Candle',
-        EREV_PESACH = 'Erev Pesach',
-        EREV_PURIM = 'Erev Purim',
-        EREV_ROSH_HASHANA = 'Erev Rosh Hashana',
-        EREV_SHAVUOT = 'Erev Shavuot',
-        EREV_SUKKOT = 'Erev Sukkot',
-        EREV_YOM_KIPPUR = 'Erev Yom Kippur',
-        FAMILY_DAY = 'Family Day',
-        HEBREW_LANGUAGE_DAY = 'Hebrew Language Day',
-        HERZL_DAY = 'Herzl Day',
-        JABOTINSKY_DAY = 'Jabotinsky Day',
-        LAG_BAOMER = 'Lag BaOmer',
-        PESACH_I = 'Pesach I',
-        PESACH_II = 'Pesach II',
-        PESACH_III_CHM = "Pesach III (CH''M)",
-        PESACH_II_CHM = "Pesach II (CH''M)",
-        PESACH_IV_CHM = "Pesach IV (CH''M)",
-        PESACH_SHENI = 'Pesach Sheni',
-        PESACH_VII = 'Pesach VII',
-        PESACH_VIII = 'Pesach VIII',
-        PESACH_VI_CHM = "Pesach VI (CH''M)",
-        PESACH_V_CHM = "Pesach V (CH''M)",
-        PURIM = 'Purim',
-        ROSH_HASHANA_II = 'Rosh Hashana II',
-        ROSH_HASHANA_LABEHEMOT = 'Rosh Hashana LaBehemot',
-        SHAVUOT = 'Shavuot',
-        SHAVUOT_I = 'Shavuot I',
-        SHAVUOT_II = 'Shavuot II',
-        SHMINI_ATZERET = 'Shmini Atzeret',
-        SHUSHAN_PURIM = 'Shushan Purim',
-        SIGD = 'Sigd',
-        SIMCHAT_TORAH = 'Simchat Torah',
-        SUKKOT_I = 'Sukkot I',
-        SUKKOT_II = 'Sukkot II',
-        SUKKOT_III_CHM = "Sukkot III (CH''M)",
-        SUKKOT_II_CHM = "Sukkot II (CH''M)",
-        SUKKOT_IV_CHM = "Sukkot IV (CH''M)",
-        SUKKOT_VII_HOSHANA_RABA = 'Sukkot VII (Hoshana Raba)',
-        SUKKOT_VI_CHM = "Sukkot VI (CH''M)",
-        SUKKOT_V_CHM = "Sukkot V (CH''M)",
-        TU_BAV = "Tu B'Av",
-        TU_BISHVAT = 'Tu BiShvat',
-        YITZHAK_RABIN_MEMORIAL_DAY = 'Yitzhak Rabin Memorial Day',
-        YOM_HAALIYAH = 'Yom HaAliyah',
-        YOM_HAALIYAH_SCHOOL_OBSERVANCE = 'Yom HaAliyah School Observance',
-        YOM_KIPPUR = 'Yom Kippur',
-        YOM_YERUSHALAYIM = 'Yom Yerushalayim'
-    }
+    export declare const holidayDesc: {
+        ASARA_BTEVET: string;
+        BIRKAT_HACHAMAH: string;
+        CHAG_HABANOT: string;
+        CHANUKAH_8TH_DAY: string;
+        EREV_TISHA_BAV: string;
+        LEIL_SELICHOT: string;
+        PURIM_KATAN: string;
+        PURIM_MESHULASH: string;
+        SHABBAT_CHAZON: string;
+        SHABBAT_HACHODESH: string;
+        SHABBAT_HAGADOL: string;
+        SHABBAT_NACHAMU: string;
+        SHABBAT_PARAH: string;
+        SHABBAT_SHEKALIM: string;
+        SHABBAT_SHIRAH: string;
+        SHABBAT_SHUVA: string;
+        SHABBAT_ZACHOR: string;
+        SHUSHAN_PURIM_KATAN: string;
+        TAANIT_BECHOROT: string;
+        TAANIT_ESTHER: string;
+        TISHA_BAV: string;
+        TZOM_GEDALIAH: string;
+        TZOM_TAMMUZ: string;
+        YOM_HAATZMA_UT: string;
+        YOM_HASHOAH: string;
+        YOM_HAZIKARON: string;
+        BEN_GURION_DAY: string;
+        CHANUKAH_1_CANDLE: string;
+        EREV_PESACH: string;
+        EREV_PURIM: string;
+        EREV_ROSH_HASHANA: string;
+        EREV_SHAVUOT: string;
+        EREV_SUKKOT: string;
+        EREV_YOM_KIPPUR: string;
+        FAMILY_DAY: string;
+        HEBREW_LANGUAGE_DAY: string;
+        HERZL_DAY: string;
+        JABOTINSKY_DAY: string;
+        LAG_BAOMER: string;
+        PESACH_I: string;
+        PESACH_II: string;
+        PESACH_III_CHM: string;
+        PESACH_II_CHM: string;
+        PESACH_IV_CHM: string;
+        PESACH_SHENI: string;
+        PESACH_VII: string;
+        PESACH_VIII: string;
+        PESACH_VI_CHM: string;
+        PESACH_V_CHM: string;
+        PURIM: string;
+        ROSH_HASHANA_II: string;
+        ROSH_HASHANA_LABEHEMOT: string;
+        SHAVUOT: string;
+        SHAVUOT_I: string;
+        SHAVUOT_II: string;
+        SHMINI_ATZERET: string;
+        SHUSHAN_PURIM: string;
+        SIGD: string;
+        SIMCHAT_TORAH: string;
+        SUKKOT_I: string;
+        SUKKOT_II: string;
+        SUKKOT_III_CHM: string;
+        SUKKOT_II_CHM: string;
+        SUKKOT_IV_CHM: string;
+        SUKKOT_VII_HOSHANA_RABA: string;
+        SUKKOT_VI_CHM: string;
+        SUKKOT_V_CHM: string;
+        TU_BAV: string;
+        TU_BISHVAT: string;
+        YITZHAK_RABIN_MEMORIAL_DAY: string;
+        YOM_HAALIYAH: string;
+        YOM_HAALIYAH_SCHOOL_OBSERVANCE: string;
+        YOM_KIPPUR: string;
+        YOM_YERUSHALAYIM: string;
+    };
 }
