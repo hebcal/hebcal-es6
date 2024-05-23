@@ -14,7 +14,7 @@ export {Sedra, parshiot} from './sedra.js';
 export {ParshaEvent} from './ParshaEvent.js';
 export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays.js';
-export {HolidayDesc as holidayDesc} from './staticHolidays.tsTemp';
+export {holidayDesc} from './staticHolidays.js';
 export {DailyLearning} from './DailyLearning.js';
 export {HebrewCalendar} from './hebcal.js';
 export {version} from './pkgVersion.js';
