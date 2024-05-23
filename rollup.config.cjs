@@ -79,7 +79,7 @@ module.exports = [
     // external: ['temporal-polyfill'],
   },
   {
-    input: 'src/index.js',
+    input: 'src/index.ts',
     output: [
       {
         file: 'dist/bundle.js',
