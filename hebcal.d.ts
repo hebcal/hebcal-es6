@@ -1,4 +1,4 @@
-import { HebrewDesc } from './src/staticHolidays'
+import { HebrewDesc } from './src/staticHolidays.tsTemp'
 
 declare module '@hebcal/core' {
     export const version: string;

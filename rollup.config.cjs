@@ -18,7 +18,7 @@ const TARGETS_BROWSER = {
 
 module.exports = [
   {
-    input: 'src/index.js',
+    input: 'src/index.ts',
     output: [
       {file: pkg.main, format: 'cjs', name: pkg.name, banner,
         inlineDynamicImports: true,
@@ -48,7 +48,7 @@ module.exports = [
     // external: ['temporal-polyfill'],
   },
   {
-    input: 'src/index.js',
+    input: 'src/index.ts',
     output: [
       {file: pkg.module, format: 'es', name: pkg.name, banner,
         inlineDynamicImports: true,
