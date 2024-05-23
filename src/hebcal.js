@@ -18,6 +18,10 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @typedef {import('./event').Event} Event
+ */
 import {getBirthdayHD, getYahrzeitHD, greg, months} from '@hebcal/hdate';
 import {version as pkgVersion} from './pkgVersion.js';
 import {DailyLearning} from './DailyLearning.js';
@@ -208,59 +212,59 @@ function checkCandleOptions(options) {
 /**
  * Options to configure which events are returned
  * @typedef {Object} CalOptions
- * @property {Location} location - latitude/longitude/tzid used for candle-lighting
- * @property {number} year - Gregorian or Hebrew year
- * @property {boolean} isHebrewYear - to interpret year as Hebrew year
- * @property {number} month - Gregorian or Hebrew month (to filter results to a single month)
- * @property {number} numYears - generate calendar for multiple years (default 1)
- * @property {Date|HDate|number} start - use specific start date (requires end date)
- * @property {Date|HDate|number} end - use specific end date (requires start date)
- * @property {boolean} candlelighting - calculate candle-lighting and havdalah times
- * @property {number} candleLightingMins - minutes before sundown to light candles (default 18)
- * @property {number} havdalahMins - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
+ * @property {Location} [location] - latitude/longitude/tzid used for candle-lighting
+ * @property {number} [year] - Gregorian or Hebrew year
+ * @property {boolean} [isHebrewYear] - to interpret year as Hebrew year
+ * @property {number} [month] - Gregorian or Hebrew month (to filter results to a single month)
+ * @property {number} [numYears] - generate calendar for multiple years (default 1)
+ * @property {Date|HDate|number} [start] - use specific start date (requires end date)
+ * @property {Date|HDate|number} [end] - use specific end date (requires start date)
+ * @property {boolean} [candlelighting] - calculate candle-lighting and havdalah times
+ * @property {number} [candleLightingMins] - minutes before sundown to light candles (default 18)
+ * @property {number} [havdalahMins] - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
  *      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
  *      Nightfall (the point when 3 small stars are observable in the night time sky with
  *      the naked eye). If `0`, Havdalah times are suppressed.
- * @property {number} havdalahDeg - degrees for solar depression for Havdalah.
+ * @property {number} [havdalahDeg] - degrees for solar depression for Havdalah.
  *      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars
  *      (observed by Dr. Baruch (Berthold) Cohn in his luach published in France in 1899).
  *      If `0`, Havdalah times are suppressed.
- * @property {number} fastEndDeg - degrees for solar depression for end of fast days.
+ * @property {number} [fastEndDeg] - degrees for solar depression for end of fast days.
  *      Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include
  *      6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky.
- * @property {boolean} useElevation - use elevation for calculations (default `false`).
+ * @property {boolean} [useElevation] - use elevation for calculations (default `false`).
  *      If `true`, use elevation to affect the calculation of all sunrise/sunset based zmanim.
  *      Note: there are some zmanim such as degree-based zmanim that are driven by the amount
  *      of light in the sky and are not impacted by elevation.
  *      These zmanim intentionally do not support elevation adjustment.
- * @property {boolean} sedrot - calculate parashah hashavua on Saturdays
- * @property {boolean} il - Israeli holiday and sedra schedule
- * @property {boolean} noMinorFast - suppress minor fasts
- * @property {boolean} noModern - suppress modern holidays
- * @property {boolean} noRoshChodesh - suppress Rosh Chodesh
- * @property {boolean} shabbatMevarchim - add Shabbat Mevarchim
- * @property {boolean} noSpecialShabbat - suppress Special Shabbat
- * @property {boolean} noHolidays - suppress regular holidays
- * @property {boolean} omer - include Days of the Omer
- * @property {boolean} molad - include event announcing the molad
- * @property {boolean} ashkenazi - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
- * @property {string} locale - translate event titles according to a locale
+ * @property {boolean} [sedrot] - calculate parashah hashavua on Saturdays
+ * @property {boolean} [il] - Israeli holiday and sedra schedule
+ * @property {boolean} [noMinorFast] - suppress minor fasts
+ * @property {boolean} [noModern] - suppress modern holidays
+ * @property {boolean} [noRoshChodesh] - suppress Rosh Chodesh
+ * @property {boolean} [shabbatMevarchim] - add Shabbat Mevarchim
+ * @property {boolean} [noSpecialShabbat] - suppress Special Shabbat
+ * @property {boolean} [noHolidays] - suppress regular holidays
+ * @property {boolean} [omer] - include Days of the Omer
+ * @property {boolean} [molad] - include event announcing the molad
+ * @property {boolean} [ashkenazi] - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
+ * @property {string} [locale] - translate event titles according to a locale
  *      Default value is `en`, also built-in are `he` and `ashkenazi`.
  *      Additional locales (such as `ru` or `fr`) are provided by the
  *      {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
- * @property {boolean} addHebrewDates - print the Hebrew date for the entire date range
- * @property {boolean} addHebrewDatesForEvents - print the Hebrew date for dates with some events
- * @property {number} mask - use bitmask from `flags` to filter events
- * @property {boolean} yomKippurKatan - include Yom Kippur Katan (default `false`).
+ * @property {boolean} [addHebrewDates] - print the Hebrew date for the entire date range
+ * @property {boolean} [addHebrewDatesForEvents] - print the Hebrew date for dates with some events
+ * @property {number} [mask] - use bitmask from `flags` to filter events
+ * @property {boolean} [yomKippurKatan] - include Yom Kippur Katan (default `false`).
  *      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.
  *      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),
  *      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)
  *      and Nisan (fasting not permitted during Nisan).
  *      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.
  *      See {@link https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices Wikipedia Yom Kippur Katan practices}
- * @property {boolean} hour12 - Whether to use 12-hour time (as opposed to 24-hour time).
+ * @property {boolean} [hour12] - Whether to use 12-hour time (as opposed to 24-hour time).
  *      Possible values are `true` and `false`; the default is locale dependent.
- * @property {Object<string,any>} dailyLearning - map of options to enable daily study calendars
+ * @property {Object<string,any>} [dailyLearning] - map of options to enable daily study calendars
  *      such as `dafYomi`, `mishnaYomi`, `nachYomi` with value `true`. For `yerushalmi`
  *      the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein).
  */
