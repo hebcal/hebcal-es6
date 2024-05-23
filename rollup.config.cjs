@@ -3,6 +3,7 @@ const commonjs = require('@rollup/plugin-commonjs');
 const babel = require('@rollup/plugin-babel');
 const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
+const typescript = require('@rollup/plugin-typescript');
 const pkg = require('./package.json');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
@@ -17,7 +18,7 @@ const TARGETS_BROWSER = {
 
 module.exports = [
   {
-    input: 'src/index.js',
+    input: 'src/index.ts',
     output: [
       {file: pkg.main, format: 'cjs', name: pkg.name, banner,
         inlineDynamicImports: true,
@@ -27,6 +28,7 @@ module.exports = [
       },
     ],
     plugins: [
+      typescript(),
       json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
@@ -46,7 +48,7 @@ module.exports = [
     // external: ['temporal-polyfill'],
   },
   {
-    input: 'src/index.js',
+    input: 'src/index.ts',
     output: [
       {file: pkg.module, format: 'es', name: pkg.name, banner,
         inlineDynamicImports: true,
@@ -56,6 +58,8 @@ module.exports = [
       },
     ],
     plugins: [
+
+      typescript(),
       json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
@@ -75,7 +79,7 @@ module.exports = [
     // external: ['temporal-polyfill'],
   },
   {
-    input: 'src/index.js',
+    input: 'src/index.ts',
     output: [
       {
         file: 'dist/bundle.js',
@@ -101,6 +105,7 @@ module.exports = [
       },
     ],
     plugins: [
+      typescript(),
       json({compact: true, preferConst: true}),
       nodeResolve(),
       commonjs(),
