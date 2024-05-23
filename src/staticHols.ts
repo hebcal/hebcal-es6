@@ -50,56 +50,6 @@ const CHOL_HAMOED = flags.CHOL_HAMOED;
 const emojiPesach = '🫓';
 const emojiSukkot = '🌿🍋';
 
-// const ROSH_HASHANA_II = 'Rosh Hashana II';
-// const EREV_YOM_KIPPUR = 'Erev Yom Kippur';
-// const YOM_KIPPUR = 'Yom Kippur';
-// const EREV_SUKKOT = 'Erev Sukkot';
-// const SUKKOT_I = 'Sukkot I';
-// const SUKKOT_II = 'Sukkot II';
-// const SUKKOT_III_CHM = 'Sukkot III (CH\'\'M)';
-// const SUKKOT_IV_CHM = 'Sukkot IV (CH\'\'M)';
-// const SUKKOT_V_CHM = 'Sukkot V (CH\'\'M)';
-// const SUKKOT_VI_CHM = 'Sukkot VI (CH\'\'M)';
-// const SHMINI_ATZERET = 'Shmini Atzeret';
-// const SIMCHAT_TORAH = 'Simchat Torah';
-// const SUKKOT_II_CHM = 'Sukkot II (CH\'\'M)';
-// const SUKKOT_VII_HOSHANA_RABA = 'Sukkot VII (Hoshana Raba)';
-// const CHANUKAH_1_CANDLE = 'Chanukah: 1 Candle';
-// const TU_BISHVAT = 'Tu BiShvat';
-// const EREV_PURIM = 'Erev Purim';
-// const PURIM = 'Purim';
-// const SHUSHAN_PURIM = 'Shushan Purim';
-// const EREV_PESACH = 'Erev Pesach';
-// const PESACH_I = 'Pesach I';
-// const PESACH_II = 'Pesach II';
-// const PESACH_II_CHM = 'Pesach II (CH\'\'M)';
-// const PESACH_III_CHM = 'Pesach III (CH\'\'M)';
-// const PESACH_IV_CHM = 'Pesach IV (CH\'\'M)';
-// const PESACH_V_CHM = 'Pesach V (CH\'\'M)';
-// const PESACH_VI_CHM = 'Pesach VI (CH\'\'M)';
-// const PESACH_VII = 'Pesach VII';
-// const PESACH_VIII = 'Pesach VIII';
-// const PESACH_SHENI = 'Pesach Sheni';
-// const LAG_BAOMER = 'Lag BaOmer';
-// const EREV_SHAVUOT = 'Erev Shavuot';
-// const SHAVUOT = 'Shavuot';
-// const SHAVUOT_I = 'Shavuot I';
-// const SHAVUOT_II = 'Shavuot II';
-// const TU_BAV = 'Tu B\'Av';
-// const ROSH_HASHANA_LABEHEMOT = 'Rosh Hashana LaBehemot';
-// const EREV_ROSH_HASHANA = 'Erev Rosh Hashana';
-// const YOM_YERUSHALAYIM = 'Yom Yerushalayim';
-// const BEN_GURION_DAY = 'Ben-Gurion Day';
-// const temp = 'foo' ;
-// const FAMILY_DAY = 'Family Day';
-// const YITZHAK_RABIN_MEMORIAL_DAY = 'Yitzhak Rabin Memorial Day';
-// const HERZL_DAY = 'Herzl Day';
-// const JABOTINSKY_DAY = 'Jabotinsky Day';
-// const SIGD = 'Sigd';
-// const YOM_HAALIYAH = 'Yom HaAliyah';
-// const YOM_HAALIYAH_SCHOOL_OBSERVANCE = 'Yom HaAliyah School Observance';
-// const HEBREW_LANGUAGE_DAY = 'Hebrew Language Day';
-
 /**
  * Transliterated names of holidays, used by `Event.getDesc()`
  * @readonly
