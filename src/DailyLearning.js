@@ -24,12 +24,13 @@ export class DailyLearning {
    * is no learning from this calendar on this date.
    * @param {string} name
    * @param {HDate} hd
-   * @return {Event}
+   * @param {boolean} il
+   * @return {Event | null}
    */
-  static lookup(name, hd) {
+  static lookup(name, hd, il) {
     const fn = cals.get(name);
     if (typeof fn === 'function') {
-      return fn(hd);
+      return fn(hd, il);
     }
     return null;
   }

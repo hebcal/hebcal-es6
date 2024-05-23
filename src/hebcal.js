@@ -668,7 +668,7 @@ export class HebrewCalendar {
             const name = key === 'yerushalmi' ?
               (val === 2 ? 'yerushalmi-schottenstein' : 'yerushalmi-vilna') :
               key;
-            const learningEv = DailyLearning.lookup(name, hd);
+            const learningEv = DailyLearning.lookup(name, hd, il);
             if (learningEv) {
               evts.push(learningEv);
             }

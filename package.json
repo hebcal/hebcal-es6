@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.3.12",
+  "version": "5.3.13",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -42,7 +42,6 @@
   },
   "files": [
     "dist",
-    "hebcal.d.ts",
     "po"
   ],
   "scripts": {
@@ -74,10 +73,10 @@
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",
     "@babel/register": "^7.23.7",
-    "@hebcal/hdate": "^0.9.3",
+    "@hebcal/hdate": "^0.9.6",
     "@hebcal/noaa": "^0.8.14",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
@@ -90,7 +89,7 @@
     "jsdoc-to-markdown": "^8.0.1",
     "nyc": "^15.1.0",
     "quick-lru": "^7.0.0",
-    "rollup": "^4.17.2",
+    "rollup": "^4.18.0",
     "ttag-cli": "^1.10.12",
     "typescript": "^5.4.5"
   },
