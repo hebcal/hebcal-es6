@@ -4,12 +4,11 @@ import {
   makeCandleEvent, makeFastStartEnd,
 } from './candles.js';
 import {flags} from './event.js';
-import {HDate} from '@hebcal/hdate';
+import {HDate, isoDateString} from '@hebcal/hdate';
 import {HebrewCalendar} from './hebcal.js';
 import {HolidayEvent} from './holidays.js';
 import {Location} from './location.js';
 import {Zmanim} from './zmanim.js';
-import {isoDateString} from '@hebcal/hdate';
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {

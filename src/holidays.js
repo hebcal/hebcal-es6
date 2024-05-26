@@ -18,16 +18,14 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {months} from '@hebcal/hdate';
+import {HDate, Locale, isoDateString, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 import {Event, flags} from './event.js';
-import {HDate, Locale} from '@hebcal/hdate';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
 import {getSedra_} from './sedra.js';
 import {Molad} from './molad.js';
 import {staticHolidays, staticModernHolidays,
   holidayDesc as hdesc} from './staticHolidays.js';
-import {isoDateString} from '@hebcal/hdate';
 
 const CHAG = flags.CHAG;
 const IL_ONLY = flags.IL_ONLY;

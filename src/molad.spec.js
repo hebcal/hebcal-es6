@@ -1,8 +1,7 @@
 /* eslint-disable max-len */
 import test from 'ava';
-import {months} from '@hebcal/hdate';
+import {HDate, months} from '@hebcal/hdate';
 import {Molad, MoladEvent} from './molad.js';
-import {HDate} from '@hebcal/hdate';
 
 test('molad', (t) => {
   const items = [
