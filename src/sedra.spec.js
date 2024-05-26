@@ -1,9 +1,8 @@
 import test from 'ava';
 import {months} from '@hebcal/hdate';
-import {HDate} from '@hebcal/hdate';
-import {Locale} from '@hebcal/hdate';
+import {HDate, Locale} from '@hebcal/hdate';
 import {Sedra} from './sedra.js';
-import {isoDateString} from './dateFormat.js';
+import {isoDateString} from '@hebcal/hdate';
 
 /**
  * @private

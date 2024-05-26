@@ -1,5 +1,4 @@
-import {HDate} from '@hebcal/hdate';
-import {Locale} from '@hebcal/hdate';
+import {HDate, Locale} from '@hebcal/hdate';
 
 /**
  * Holiday flags for Event
@@ -97,7 +96,7 @@ export class Event {
     this.date = date;
     this.desc = desc;
     this.mask = +mask;
-    if (typeof attrs === 'object' && attrs !== null) {
+    if (typeof attrs === 'object' && attrs != null) {
       Object.assign(this, attrs);
     }
   }

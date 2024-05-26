@@ -1,5 +1,5 @@
 import {HDate} from '@hebcal/hdate';
-import {getTimezoneOffset, getPseudoISO, pad2} from './dateFormat.js';
+import {getTimezoneOffset, getPseudoISO, pad2} from '@hebcal/hdate';
 import {greg} from '@hebcal/hdate';
 import {throwTypeError} from './throwTypeError.js';
 import 'temporal-polyfill/global';

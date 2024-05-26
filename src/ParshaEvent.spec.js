@@ -1,6 +1,5 @@
 import test from 'ava';
-import {HDate} from '@hebcal/hdate';
-import {Locale} from '@hebcal/hdate';
+import {HDate, Locale} from '@hebcal/hdate';
 import {ParshaEvent} from './ParshaEvent.js';
 
 test('ParshaEvent-url', (t) => {

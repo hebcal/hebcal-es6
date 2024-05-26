@@ -1,6 +1,6 @@
 import test from 'ava';
 import {HebrewCalendar} from './hebcal.js';
-import {isoDateString} from './dateFormat.js';
+import {isoDateString} from '@hebcal/hdate';
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {

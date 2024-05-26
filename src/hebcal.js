@@ -22,7 +22,10 @@
 /**
  * @typedef {import('./event').Event} Event
  */
-import {getBirthdayHD, getYahrzeitHD, greg, months} from '@hebcal/hdate';
+import {
+  getBirthdayHD, getYahrzeitHD, greg, months,
+  HDate, Locale,
+} from '@hebcal/hdate';
 import {version as pkgVersion} from './pkgVersion.js';
 import {DailyLearning} from './DailyLearning.js';
 import {HebrewDateEvent} from './HebrewDateEvent.js';
@@ -36,9 +39,7 @@ import {
 import {flags} from './event.js';
 import {getSedra_} from './sedra.js';
 import {hallel_} from './hallel.js';
-import {HDate} from '@hebcal/hdate';
 import {HolidayEvent, getHolidaysForYear_, MevarchimChodeshEvent} from './holidays.js';
-import {Locale} from '@hebcal/hdate';
 import {Location} from './location.js';
 import {Molad, MoladEvent} from './molad.js';
 import {OmerEvent} from './omer.js';

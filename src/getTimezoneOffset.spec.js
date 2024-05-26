@@ -1,5 +1,5 @@
 import test from 'ava';
-import {getPseudoISO} from './dateFormat.js';
+import {getPseudoISO} from '@hebcal/hdate';
 
 test('getPseudoISO-2021', (t) => {
   const dt = new Date(Date.UTC(2021, 0, 31, 7, 30, 50, 551));

@@ -1,6 +1,5 @@
 import {Event, flags} from './event.js';
-import {Locale} from '@hebcal/hdate';
-import {isoDateString} from './dateFormat.js';
+import {Locale, isoDateString} from '@hebcal/hdate';
 
 /**
  * Represents one of 54 weekly Torah portions, always on a Saturday

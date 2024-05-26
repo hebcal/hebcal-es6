@@ -9,7 +9,7 @@ import {HebrewCalendar} from './hebcal.js';
 import {HolidayEvent} from './holidays.js';
 import {Location} from './location.js';
 import {Zmanim} from './zmanim.js';
-import {isoDateString} from './dateFormat.js';
+import {isoDateString} from '@hebcal/hdate';
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {

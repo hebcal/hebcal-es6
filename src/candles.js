@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
-import {months} from '@hebcal/hdate';
+import {months, Locale} from '@hebcal/hdate';
 import {Event, flags} from './event.js';
-import {Locale} from '@hebcal/hdate';
 import {reformatTimeStr} from './reformatTimeStr.js';
 import {Zmanim} from './zmanim.js';
 

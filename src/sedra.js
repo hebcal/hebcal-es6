@@ -32,8 +32,7 @@
  *
  */
 import {months} from '@hebcal/hdate';
-import {HDate} from '@hebcal/hdate';
-import {Locale} from '@hebcal/hdate';
+import {HDate, Locale} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 
 const INCOMPLETE = 0;

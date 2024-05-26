@@ -4,7 +4,7 @@ import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays.
 import {HebrewCalendar} from './hebcal.js';
 import {HDate} from '@hebcal/hdate';
 import {flags} from './event.js';
-import {isoDateString} from './dateFormat.js';
+import {isoDateString} from '@hebcal/hdate';
 
 test('basename-and-url', (t) => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),

@@ -1,10 +1,8 @@
 import test from 'ava';
-import {months} from '@hebcal/hdate';
+import {HDate, isoDateString, months} from '@hebcal/hdate';
 import {HebrewCalendar, getStartAndEnd} from './hebcal.js';
-import {HDate} from '@hebcal/hdate';
 import {flags} from './event.js';
 import {Location} from './location.js';
-import {isoDateString} from './dateFormat.js';
 
 /**
  * @param {Event} ev
