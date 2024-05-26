@@ -2,7 +2,7 @@ import test from 'ava';
 import {months} from '@hebcal/hdate';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays.js';
 import {HebrewCalendar} from './hebcal.js';
-import {HDate} from './hdate.js';
+import {HDate} from '@hebcal/hdate';
 import {flags} from './event.js';
 import {isoDateString} from './dateFormat.js';
 

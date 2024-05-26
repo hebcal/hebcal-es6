@@ -1,7 +1,6 @@
 import test from 'ava';
-import {HDate} from './hdate.js';
+import {HDate} from '@hebcal/hdate';
 import {HebrewDateEvent} from './HebrewDateEvent.js';
-import './locale-he.js';
 
 test('render', (t) => {
   const elul29 = new HDate(29, 'Elul', 5779);

@@ -1,6 +1,6 @@
 import test from 'ava';
 import {HebrewCalendar} from './hebcal.js';
-import {HDate} from './hdate.js';
+import {HDate} from '@hebcal/hdate';
 import {Event} from './event.js';
 
 test('getHolidaysOnDate', (t) => {

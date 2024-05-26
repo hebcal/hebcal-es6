@@ -1,5 +1,5 @@
-import {HDate} from './hdate.js';
-import {Locale} from './locale.js';
+import {HDate} from '@hebcal/hdate';
+import {Locale} from '@hebcal/hdate';
 
 /**
  * Holiday flags for Event

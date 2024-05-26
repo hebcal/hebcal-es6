@@ -36,11 +36,9 @@ import {
 import {flags} from './event.js';
 import {getSedra_} from './sedra.js';
 import {hallel_} from './hallel.js';
-import {HDate} from './hdate.js';
+import {HDate} from '@hebcal/hdate';
 import {HolidayEvent, getHolidaysForYear_, MevarchimChodeshEvent} from './holidays.js';
-import './locale-ashkenazi.js';
-import './locale-he.js';
-import {Locale} from './locale.js';
+import {Locale} from '@hebcal/hdate';
 import {Location} from './location.js';
 import {Molad, MoladEvent} from './molad.js';
 import {OmerEvent} from './omer.js';

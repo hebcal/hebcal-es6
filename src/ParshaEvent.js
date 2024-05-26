@@ -1,5 +1,5 @@
 import {Event, flags} from './event.js';
-import {Locale} from './locale.js';
+import {Locale} from '@hebcal/hdate';
 import {isoDateString} from './dateFormat.js';
 
 /**

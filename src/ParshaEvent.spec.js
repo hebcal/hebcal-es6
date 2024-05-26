@@ -1,9 +1,7 @@
 import test from 'ava';
-import {HDate} from './hdate.js';
-import {Locale} from './locale.js';
+import {HDate} from '@hebcal/hdate';
+import {Locale} from '@hebcal/hdate';
 import {ParshaEvent} from './ParshaEvent.js';
-import './locale-ashkenazi.js';
-import './locale-he.js';
 
 test('ParshaEvent-url', (t) => {
   const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai'], false, [32, 33]);

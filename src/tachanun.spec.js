@@ -1,6 +1,6 @@
 import test from 'ava';
 import {months} from '@hebcal/hdate';
-import {HDate} from './hdate.js';
+import {HDate} from '@hebcal/hdate';
 import {tachanun_} from './tachanun.js';
 
 test('tachanun', (t) => {

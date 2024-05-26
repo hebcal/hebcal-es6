@@ -1,7 +1,5 @@
 export {gematriya, gematriyaStrToNum} from '@hebcal/hdate';
-export {Locale} from './locale.js';
-export {greg, months} from '@hebcal/hdate';
-export {HDate} from './hdate.js';
+export {greg, months, HDate, Locale} from '@hebcal/hdate';
 export {HebrewDateEvent} from './HebrewDateEvent.js';
 export {Event, flags} from './event.js';
 export {GeoLocation, NOAACalculator} from '@hebcal/noaa';

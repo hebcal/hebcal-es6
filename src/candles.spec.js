@@ -4,7 +4,7 @@ import {
   makeCandleEvent, makeFastStartEnd,
 } from './candles.js';
 import {flags} from './event.js';
-import {HDate} from './hdate.js';
+import {HDate} from '@hebcal/hdate';
 import {HebrewCalendar} from './hebcal.js';
 import {HolidayEvent} from './holidays.js';
 import {Location} from './location.js';

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import {Event, flags} from './event.js';
-import {HDate} from './hdate.js';
-import {Locale} from './locale.js';
+import {HDate} from '@hebcal/hdate';
+import {Locale} from '@hebcal/hdate';
 import {reformatTimeStr} from './reformatTimeStr.js';
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];

@@ -1,5 +1,5 @@
 import test from 'ava';
-import {HDate} from './hdate.js';
+import {HDate} from '@hebcal/hdate';
 import {Event, flags} from './event.js';
 
 const hd = new HDate(23, 'Sivan', 5735);

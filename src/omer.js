@@ -1,6 +1,6 @@
 import {gematriya, omerSefira, omerTodayIs, omerEmoji} from '@hebcal/hdate';
 import {Event, flags} from './event.js';
-import {Locale} from './locale.js';
+import {Locale} from '@hebcal/hdate';
 
 /** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
 export class OmerEvent extends Event {
