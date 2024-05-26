@@ -30,7 +30,7 @@ export class Locale {
    * Otherwise, returns `undefined`.
    * @param {string} id Message ID to translate
    * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
-   * @return {string}
+   * @return {string | undefined}
    */
   static lookupTranslation(id, locale) {
     const locale0 = locale?.toLowerCase();

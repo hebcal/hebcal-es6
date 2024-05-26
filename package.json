@@ -70,11 +70,9 @@
     "temporal-polyfill": "^0.2.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.5",
-    "@babel/preset-env": "^7.24.5",
-    "@babel/register": "^7.23.7",
-    "@hebcal/hdate": "^0.9.6",
-    "@hebcal/noaa": "^0.8.14",
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@babel/register": "^7.24.6",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-json": "^6.1.0",
@@ -94,6 +92,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@hebcal/hdate": "^0.9.6",
+    "@hebcal/noaa": "^0.8.14",
     "tslib": "^2.6.2"
   }
 }
