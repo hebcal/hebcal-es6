@@ -720,3 +720,24 @@ test('Shabbat Mevarchim follows hour12 and locale', (t) => {
   t.is(events3.length, 1);
   t.is(events3[0].memo, 'מולד הלבנה סיון יהיה ביום רביעי בשבוע, בשעה 14 בצהריים, ו-12 דקות ו-10 חלקים');
 });
+
+test('Eruv Tavshilin', (t) => {
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(13, 'Nisan', 5782), false), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(14, 'Nisan', 5782), false), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(15, 'Nisan', 5782), false), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(20, 'Nisan', 5782), false), true);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(20, 'Nisan', 5782), true), true);
+
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(13, 'Nisan', 5785), true), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(14, 'Nisan', 5785), true), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(15, 'Nisan', 5785), true), false);
+
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(20, 'Nisan', 5783), false), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(20, 'Nisan', 5783), true), false);
+
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(5, 'Sivan', 5785), false), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(5, 'Sivan', 5785), true), false);
+
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(5, 'Sivan', 5786), false), true);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(5, 'Sivan', 5786), true), true);
+});

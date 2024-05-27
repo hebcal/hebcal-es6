@@ -859,6 +859,25 @@ export class HebrewCalendar {
   }
 
   /**
+   * Eruv Tavshilin
+   * @param {Date | HDate} date
+   * @param {boolean} il
+   * @return {boolean}
+   */
+  static eruvTavshilin(date, il) {
+    if (date.getDay() < 3 || date.getDay() > 4) {
+      return false;
+    }
+    const today = new HDate(date);
+    const friday = today.after(5);
+    const tomorrow = today.next();
+    if (!isChag(friday, il) || isChag(today, il) || !isChag(tomorrow, il)) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
    * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
    * keep as "20:13" for any other locale/country. Uses {@link CalOptions} to determine
    * locale.
@@ -935,6 +954,18 @@ export class HebrewCalendar {
   static tachanun(hdate, il) {
     return tachanun_(hdate, il);
   }
+}
+
+/**
+ * @private
+ * @param {HDate} date
+ * @param {boolean} il
+ * @return {boolean}
+ */
+function isChag(date, il) {
+  const events = HebrewCalendar.getHolidaysOnDate(date, il);
+  const chag = events.filter((ev) => ev.getFlags() & flags.CHAG);
+  return chag.length !== 0;
 }
 
 /**
