@@ -8,7 +8,7 @@ export {Zmanim} from './zmanim.js';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './candles.js';
 export {Molad, MoladEvent} from './molad.js';
 export {OmerEvent} from './omer.js';
-export {Sedra, parshiot} from './sedra.js';
+export {Sedra, parshiot} from '@hebcal/hdate';
 export {ParshaEvent} from './ParshaEvent.js';
 export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,
   RoshChodeshEvent, RoshHashanaEvent} from './holidays.js';

@@ -91,7 +91,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@hebcal/hdate": "^0.9.9",
+    "@hebcal/hdate": "^0.9.10",
     "@hebcal/noaa": "^0.8.14",
     "tslib": "^2.6.2"
   }
