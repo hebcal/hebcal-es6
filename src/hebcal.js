@@ -963,7 +963,7 @@ export class HebrewCalendar {
  * @return {boolean}
  */
 function isChag(date, il) {
-  const events = HebrewCalendar.getHolidaysOnDate(date, il);
+  const events = HebrewCalendar.getHolidaysOnDate(date, il) || [];
   const chag = events.filter((ev) => ev.getFlags() & flags.CHAG);
   return chag.length !== 0;
 }

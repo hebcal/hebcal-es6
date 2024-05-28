@@ -740,4 +740,9 @@ test('Eruv Tavshilin', (t) => {
 
   t.is(HebrewCalendar.eruvTavshilin(new HDate(5, 'Sivan', 5786), false), true);
   t.is(HebrewCalendar.eruvTavshilin(new HDate(5, 'Sivan', 5786), true), true);
+
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(19, 'Cheshvan', 5785), false), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(19, 'Cheshvan', 5785), true), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(20, 'Cheshvan', 5785), false), false);
+  t.is(HebrewCalendar.eruvTavshilin(new HDate(20, 'Cheshvan', 5785), true), false);
 });
