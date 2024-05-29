@@ -1,53 +1,52 @@
-import test from 'ava';
 import {Location} from './location.js';
 
-test('lookup', (t) => {
+test('lookup', () => {
   const loc1 = Location.lookup('San Francisco');
-  t.is(loc1.getCountryCode(), 'US');
-  t.is(loc1.getIsrael(), false);
-  t.is(loc1.getTzid(), 'America/Los_Angeles');
+  expect(loc1.getCountryCode()).toBe('US');
+  expect(loc1.getIsrael()).toBe(false);
+  expect(loc1.getTzid()).toBe('America/Los_Angeles');
 
   const loc2 = Location.lookup('Jerusalem');
-  t.is(loc2.getCountryCode(), 'IL');
-  t.is(loc2.getIsrael(), true);
-  t.is(loc2.getTzid(), 'Asia/Jerusalem');
-  t.is(loc2.elevation, 786);
+  expect(loc2.getCountryCode()).toBe('IL');
+  expect(loc2.getIsrael()).toBe(true);
+  expect(loc2.getTzid()).toBe('Asia/Jerusalem');
+  expect(loc2.elevation).toBe(786);
 
   const providence = Location.lookup('Providence');
-  t.is(providence.getLatitude(), 41.82399);
-  t.is(providence.getLongitude(), -71.41283);
-  t.is(providence.getTzid(), 'America/New_York');
+  expect(providence.getLatitude()).toBe(41.82399);
+  expect(providence.getLongitude()).toBe(-71.41283);
+  expect(providence.getTzid()).toBe('America/New_York');
 
   const melbourne = Location.lookup('Melbourne');
-  t.is(melbourne.getLatitude(), -37.814);
-  t.is(melbourne.getLongitude(), 144.96332);
-  t.is(melbourne.getTzid(), 'Australia/Melbourne');
-  t.is(melbourne.cc, 'AU');
+  expect(melbourne.getLatitude()).toBe(-37.814);
+  expect(melbourne.getLongitude()).toBe(144.96332);
+  expect(melbourne.getTzid()).toBe('Australia/Melbourne');
+  expect(melbourne.cc).toBe('AU');
 });
 
-test('lookup-notfound', (t) => {
+test('lookup-notfound', () => {
   const city = Location.lookup('**does not exist**');
-  t.is(city, undefined);
+  expect(city).toBe(undefined);
 });
 
-test('Location.addLocation', (t) => {
+test('Location.addLocation', () => {
   const cityName = 'Ra\'anana';
   const missing = Location.lookup(cityName);
-  t.is(missing, undefined);
+  expect(missing).toBe(undefined);
   const success = Location.addLocation(cityName, new Location(
       32.1836, 34.87386, true, 'Asia/Jerusalem', cityName, 'IL', 999888777666));
-  t.is(success, true);
+  expect(success).toBe(true);
   const found = Location.lookup(cityName);
-  t.is(found.getLatitude(), 32.1836);
-  t.is(found.getGeoId(), 999888777666);
+  expect(found.getLatitude()).toBe(32.1836);
+  expect(found.getGeoId()).toBe(999888777666);
 
   const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
-  t.is(Location.addLocation(cityName, loc), false);
-  t.is(Location.addLocation('Boston', loc), false);
-  t.is(Location.addLocation('(bogus)', loc), true);
+  expect(Location.addLocation(cityName, loc)).toBe(false);
+  expect(Location.addLocation('Boston', loc)).toBe(false);
+  expect(Location.addLocation('(bogus)', loc)).toBe(true);
 });
 
-test('classic-cities', (t) => {
+test('classic-cities', () => {
   const classic = [
     'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
     'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
@@ -65,68 +64,65 @@ test('classic-cities', (t) => {
   ];
   for (const s of classic) {
     const city = Location.lookup(s);
-    t.is(typeof city, 'object', s);
+    expect(typeof city).toBe('object');
   }
 });
 
-test('getUsaTzid', (t) => {
-  t.is(Location.getUsaTzid('CA', 8, 'Y'), 'America/Los_Angeles');
-  t.is(Location.getUsaTzid('IL', 6, 'Y'), 'America/Chicago');
-  t.is(Location.getUsaTzid('AZ', 7, 'Y'), 'America/Denver');
-  t.is(Location.getUsaTzid('AZ', 7, 'N'), 'America/Phoenix');
-  t.is(Location.getUsaTzid('AK', 10, 'N'), 'America/Adak');
-  t.is(Location.getUsaTzid('HI', 10, 'N'), 'Pacific/Honolulu');
+test('getUsaTzid', () => {
+  expect(Location.getUsaTzid('CA', 8, 'Y')).toBe('America/Los_Angeles');
+  expect(Location.getUsaTzid('IL', 6, 'Y')).toBe('America/Chicago');
+  expect(Location.getUsaTzid('AZ', 7, 'Y')).toBe('America/Denver');
+  expect(Location.getUsaTzid('AZ', 7, 'N')).toBe('America/Phoenix');
+  expect(Location.getUsaTzid('AK', 10, 'N')).toBe('America/Adak');
+  expect(Location.getUsaTzid('HI', 10, 'N')).toBe('Pacific/Honolulu');
 });
 
-test('legacyTzToTzid', (t) => {
-  t.is(Location.legacyTzToTzid(-8, 'usa'), 'America/Los_Angeles');
-  t.is(Location.legacyTzToTzid(-6, 'usa'), 'America/Chicago');
-  t.is(Location.legacyTzToTzid(-5, 'usa'), 'America/New_York');
-  t.is(Location.legacyTzToTzid(0, 'eu'), 'Europe/London');
-  t.is(Location.legacyTzToTzid(1, 'eu'), 'Europe/Paris');
-  t.is(Location.legacyTzToTzid(2, 'eu'), 'Europe/Athens');
-  t.is(Location.legacyTzToTzid(2, 'israel'), 'Asia/Jerusalem');
-  t.is(Location.legacyTzToTzid(0, 'none'), 'UTC');
-  t.is(Location.legacyTzToTzid(-1, 'eu'), 'Atlantic/Azores');
-  t.is(Location.legacyTzToTzid(-3, 'none'), 'Etc/GMT-3');
-  t.is(Location.legacyTzToTzid(3, 'none'), 'Etc/GMT+3');
-  t.is(Location.legacyTzToTzid(9, 'usa'), undefined);
-  t.is(Location.legacyTzToTzid(9, 'eu'), undefined);
-  t.is(Location.legacyTzToTzid(9, 'israel'), undefined);
-  t.is(Location.legacyTzToTzid(9, 'bogus'), undefined);
+test('legacyTzToTzid', () => {
+  expect(Location.legacyTzToTzid(-8, 'usa')).toBe('America/Los_Angeles');
+  expect(Location.legacyTzToTzid(-6, 'usa')).toBe('America/Chicago');
+  expect(Location.legacyTzToTzid(-5, 'usa')).toBe('America/New_York');
+  expect(Location.legacyTzToTzid(0, 'eu')).toBe('Europe/London');
+  expect(Location.legacyTzToTzid(1, 'eu')).toBe('Europe/Paris');
+  expect(Location.legacyTzToTzid(2, 'eu')).toBe('Europe/Athens');
+  expect(Location.legacyTzToTzid(2, 'israel')).toBe('Asia/Jerusalem');
+  expect(Location.legacyTzToTzid(0, 'none')).toBe('UTC');
+  expect(Location.legacyTzToTzid(-1, 'eu')).toBe('Atlantic/Azores');
+  expect(Location.legacyTzToTzid(-3, 'none')).toBe('Etc/GMT-3');
+  expect(Location.legacyTzToTzid(3, 'none')).toBe('Etc/GMT+3');
+  expect(Location.legacyTzToTzid(9, 'usa')).toBe(undefined);
+  expect(Location.legacyTzToTzid(9, 'eu')).toBe(undefined);
+  expect(Location.legacyTzToTzid(9, 'israel')).toBe(undefined);
+  expect(Location.legacyTzToTzid(9, 'bogus')).toBe(undefined);
 });
 
-test('shortName', (t) => {
+test('shortName', () => {
   const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
-  t.is(loc.getName(), 'Foo Bar, Baaz, Quux');
-  t.is(loc.getShortName(), 'Foo Bar');
+  expect(loc.getName()).toBe('Foo Bar, Baaz, Quux');
+  expect(loc.getShortName()).toBe('Foo Bar');
 });
 
-test('shortName-DC', (t) => {
+test('shortName-DC', () => {
   const loc = new Location(38.908089, -76.976663, false, 'America/New_York', 'Washington, DC 20002', 'US', '20002');
-  t.is(loc.getName(), 'Washington, DC 20002');
-  t.is(loc.getShortName(), 'Washington, DC');
+  expect(loc.getName()).toBe('Washington, DC 20002');
+  expect(loc.getShortName()).toBe('Washington, DC');
 
   const loc2 = new Location(38.908089, -76.976663, false, 'America/New_York', 'Washington, D.C.', 'US', 4140963);
-  t.is(loc2.getShortName(), 'Washington, D.C.');
+  expect(loc2.getShortName()).toBe('Washington, D.C.');
 
   const loc3 = new Location(38.908089, -76.976663, false, 'America/New_York', 'Dover, DE 19901', 'US', '19901');
-  t.is(loc3.getShortName(), 'Dover');
+  expect(loc3.getShortName()).toBe('Dover');
 });
 
-test('throws', (t) => {
-  const error3 = t.throws(() => {
+test('throws', () => {
+  expect(() => {
     new Location(100, 123.0, false, 'UTC', 'Foo', 'XX');
-  }, {instanceOf: RangeError});
-  t.is(error3.message, 'Latitude 100 out of range [-90,90]');
+  }).toThrow('Latitude 100 out of range [-90,90]');
 
-  const error4 = t.throws(() => {
+  expect(() => {
     new Location(37.0, -200, false, 'UTC', 'Foo', 'XX');
-  }, {instanceOf: RangeError});
-  t.is(error4.message, 'Longitude -200 out of range [-180,180]');
+  }).toThrow('Longitude -200 out of range [-180,180]');
 
-  const err5 = t.throws(() => {
+  expect(() => {
     new Location('bogus', -200, false, 'UTC', 'Foo', 'XX');
-  }, {instanceOf: RangeError});
-  t.is(err5.message, 'Latitude bogus out of range [-90,90]');
+  }).toThrow('Latitude bogus out of range [-90,90]');
 });

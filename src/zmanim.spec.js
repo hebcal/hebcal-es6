@@ -1,4 +1,3 @@
-import test from 'ava';
 import {GeoLocation} from '@hebcal/noaa';
 import {Zmanim} from './zmanim.js';
 
@@ -24,7 +23,7 @@ function makeZmanWithElevation() {
   return zman;
 }
 
-test('zmanim', (t) => {
+test('zmanim', () => {
   const zman = makeZman();
   const tzid = 'America/Chicago';
   const f = new Intl.DateTimeFormat('en-US', {
@@ -66,10 +65,10 @@ test('zmanim', (t) => {
     const dt = zman[func]();
     actual[func] = f.format(dt).replace(/^24:/, '00:');
   }
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 });
 
-test('zmanim-tlv', (t) => {
+test('zmanim-tlv', () => {
   const dt = new Date(2021, 2, 6, 12); // March 6 2021
   const tzid = 'Asia/Jerusalem';
   const gloc = new GeoLocation(null, 32.08088, 34.78057, 0, tzid);
@@ -112,10 +111,10 @@ test('zmanim-tlv', (t) => {
     const dt = zman[func]();
     actual[func] = f.format(dt);
   }
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 });
 
-test('zmanim-denver', (t) => {
+test('zmanim-denver', () => {
   const zman = makeZmanWithElevation();
   const tzid = 'America/Denver';
   const f = new Intl.DateTimeFormat('en-US', {
@@ -197,53 +196,53 @@ test('zmanim-denver', (t) => {
     const dt = zman[func]();
     actual[func] = f.format(dt).replace(/, 24:/, ', 00:');
   }
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 
   // "Tzais72": "2020-06-05T21:37:01-06:00"
-  t.is(f.format(zman.sunsetOffset(72, false, true)), '06/05/2020, 21:37:01');
+  expect(f.format(zman.sunsetOffset(72, false, true)))
+      .toBe('06/05/2020, 21:37:01');
 });
 
-test('throws', (t) => {
+test('throws', () => {
   const gloc = new GeoLocation(null, 0, 0, 21, 'UTC');
-  const error = t.throws(() => {
+  expect(() => {
     new Zmanim(gloc, 123);
-  }, {instanceOf: TypeError});
-  t.is(error.message, 'invalid date: 123');
+  }).toThrow('invalid date: 123');
 });
 
-test('roundTime', (t) => {
+test('roundTime', () => {
   const dt50 = new Date(2021, 0, 31, 7, 30, 50, 551); // 2021-01-31T07:30:50.551Z
   const rounded50 = Zmanim.roundTime(dt50);
-  t.is(rounded50.getSeconds(), 0);
-  t.is(rounded50.getMinutes(), 31);
-  t.is(rounded50.getMilliseconds(), 0);
+  expect(rounded50.getSeconds()).toBe(0);
+  expect(rounded50.getMinutes()).toBe(31);
+  expect(rounded50.getMilliseconds()).toBe(0);
 
   const dt30 = new Date(2021, 0, 31, 7, 30, 30, 551); // 2021-01-31T07:30:30.551Z
   const rounded30 = Zmanim.roundTime(dt30);
-  t.is(rounded30.getSeconds(), 0);
-  t.is(rounded30.getMinutes(), 31);
-  t.is(rounded30.getMilliseconds(), 0);
+  expect(rounded30.getSeconds()).toBe(0);
+  expect(rounded30.getMinutes()).toBe(31);
+  expect(rounded30.getMilliseconds()).toBe(0);
 
   const dt17 = new Date(2021, 0, 31, 7, 30, 17, 551); // 2021-01-31T07:30:17.551Z
   const rounded17 = Zmanim.roundTime(dt17);
-  t.is(rounded17.getSeconds(), 0);
-  t.is(rounded17.getMinutes(), 30);
-  t.is(rounded17.getMilliseconds(), 0);
+  expect(rounded17.getSeconds()).toBe(0);
+  expect(rounded17.getMinutes()).toBe(30);
+  expect(rounded17.getMilliseconds()).toBe(0);
 
   const dt0 = new Date(2021, 0, 31, 7, 30, 0, 123); // 2021-01-31T07:30:00.123Z
   const rounded0 = Zmanim.roundTime(dt0);
-  t.is(rounded0.getSeconds(), 0);
-  t.is(rounded0.getMinutes(), 30);
-  t.is(rounded0.getMilliseconds(), 0);
+  expect(rounded0.getSeconds()).toBe(0);
+  expect(rounded0.getMinutes()).toBe(30);
+  expect(rounded0.getMilliseconds()).toBe(0);
 
   const dt299 = new Date(2021, 0, 31, 7, 45, 29, 997); // 2021-01-31T07:45:29.997Z
   const rounded299 = Zmanim.roundTime(dt299);
-  t.is(rounded299.getSeconds(), 0);
-  t.is(rounded299.getMinutes(), 45);
-  t.is(rounded299.getMilliseconds(), 0);
+  expect(rounded299.getSeconds()).toBe(0);
+  expect(rounded299.getMinutes()).toBe(45);
+  expect(rounded299.getMilliseconds()).toBe(0);
 });
 
-test('timeZoneOffset', (t) => {
+test('timeZoneOffset', () => {
   const winter = new Date(Date.UTC(2020, 1, 22, 0, 0, 0, 0));
   const summer = new Date(Date.UTC(2020, 6, 22, 0, 0, 0, 0));
   const tzids = [
@@ -281,12 +280,12 @@ test('timeZoneOffset', (t) => {
     ['Pacific/Honolulu', '-10:00', '-10:00'],
   ];
   for (const [tzid, wtz, stz] of tzids) {
-    t.is(Zmanim.timeZoneOffset(tzid, winter), wtz, `${tzid} winter`);
-    t.is(Zmanim.timeZoneOffset(tzid, summer), stz, `${tzid} summer`);
+    expect(Zmanim.timeZoneOffset(tzid, winter)).toBe(wtz);
+    expect(Zmanim.timeZoneOffset(tzid, summer)).toBe(stz);
   }
 });
 
-test.skip('timeZoneOffset-pacific', (t) => {
+test.skip('timeZoneOffset-pacific', () => {
   const winter = new Date(Date.UTC(2020, 1, 22, 0, 0, 0, 0));
   const summer = new Date(Date.UTC(2020, 6, 22, 0, 0, 0, 0));
   const tzids = [
@@ -295,12 +294,12 @@ test.skip('timeZoneOffset-pacific', (t) => {
     ['Pacific/Apia', '+14:00', '+13:00'],
   ];
   for (const [tzid, wtz, stz] of tzids) {
-    t.is(Zmanim.timeZoneOffset(tzid, winter), wtz, `${tzid} winter`);
-    t.is(Zmanim.timeZoneOffset(tzid, summer), stz, `${tzid} summer`);
+    expect(Zmanim.timeZoneOffset(tzid, winter)).toBe(wtz);
+    expect(Zmanim.timeZoneOffset(tzid, summer)).toBe(stz);
   }
 });
 
-test('formatISOWithTimeZone', (t) => {
+test('formatISOWithTimeZone', () => {
   const winter = new Date(Date.UTC(2020, 1, 22, 0, 0, 0, 0));
   const summer = new Date(Date.UTC(2020, 6, 22, 0, 0, 0, 0));
   const expected = {
@@ -343,52 +342,64 @@ test('formatISOWithTimeZone', (t) => {
     const summerISO = Zmanim.formatISOWithTimeZone(tzid, summer);
     actual[tzid] = [winterISO, summerISO];
   }
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 });
 
-test('nightHourMins-dst', (t) => {
+test('nightHourMins-dst', () => {
   const tzid = 'America/New_York';
   const gloc = new GeoLocation(null, 42.35843, -71.05977, 0, tzid); // Boston
 
   const dt0 = new Date(2022, 2, 12); // March 12, 2022 - before DST
   const zman0 = new Zmanim(gloc, dt0, false);
-  t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve()), '2022-03-11T17:46:05-05:00');
-  t.is(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset()), '2022-03-12T17:47:15-05:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve()))
+      .toBe('2022-03-11T17:46:05-05:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset()))
+      .toBe('2022-03-12T17:47:15-05:00');
 
   const dt1 = new Date(2022, 2, 13); // March 14, 2022
   const zman1 = new Zmanim(gloc, dt1, false);
-  t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.gregEve()), '2022-03-12T17:47:15-05:00');
-  t.is(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset()), '2022-03-13T18:48:25-04:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman1.gregEve()))
+      .toBe('2022-03-12T17:47:15-05:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset()))
+      .toBe('2022-03-13T18:48:25-04:00');
 
   const dt2 = new Date(2022, 2, 14); // March 14, 2022
   const zman2 = new Zmanim(gloc, dt2, false);
-  t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.gregEve()), '2022-03-13T18:48:25-04:00');
-  t.is(Zmanim.formatISOWithTimeZone(tzid, zman2.sunset()), '2022-03-14T18:49:35-04:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman2.gregEve()))
+      .toBe('2022-03-13T18:48:25-04:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman2.sunset()))
+      .toBe('2022-03-14T18:49:35-04:00');
 });
 
-test('bce', (t) => {
+test('bce', () => {
   const gloc = new GeoLocation(null, 41.85003, -87.65005, 0, 'UTC');
   const dt = new Date(-1234, 5, 5, 12, 0, 0);
   const zman = new Zmanim(gloc, dt, false);
-  t.deepEqual(zman.sunrise(), new Date('-001234-06-05 10:08:09 UTC'));
-  t.deepEqual(zman.sunset(), new Date('-001234-06-06 01:14:12 UTC'));
+  expect(zman.sunrise()).toEqual(new Date('-001234-06-05 10:08:09 UTC'));
+  expect(zman.sunset()).toEqual(new Date('-001234-06-06 01:14:12 UTC'));
 });
 
-test('Zmanim.formatISOWithTimeZone-2021', (t) => {
+test('Zmanim.formatISOWithTimeZone-2021', () => {
   const dt = new Date(Date.UTC(2021, 0, 31, 7, 30, 50, 551));
-  t.is(Zmanim.formatISOWithTimeZone('UTC', dt), '2021-01-31T07:30:50-00:00');
-  t.is(Zmanim.formatISOWithTimeZone('America/New_York', dt), '2021-01-31T02:30:50-05:00');
-  t.is(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt), '2021-01-30T23:30:50-08:00');
+  expect(Zmanim.formatISOWithTimeZone('UTC', dt))
+      .toBe('2021-01-31T07:30:50-00:00');
+  expect(Zmanim.formatISOWithTimeZone('America/New_York', dt))
+      .toBe('2021-01-31T02:30:50-05:00');
+  expect(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt))
+      .toBe('2021-01-30T23:30:50-08:00');
 });
 
-test('Zmanim.formatISOWithTimeZone-1948', (t) => {
+test('Zmanim.formatISOWithTimeZone-1948', () => {
   const dt = new Date(Date.UTC(1948, 0, 31, 7, 30, 50, 551));
-  t.is(Zmanim.formatISOWithTimeZone('UTC', dt), '1948-01-31T07:30:50-00:00');
-  t.is(Zmanim.formatISOWithTimeZone('America/New_York', dt), '1948-01-31T02:30:50-05:00');
-  t.is(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt), '1948-01-30T23:30:50-08:00');
+  expect(Zmanim.formatISOWithTimeZone('UTC', dt))
+      .toBe('1948-01-31T07:30:50-00:00');
+  expect(Zmanim.formatISOWithTimeZone('America/New_York', dt))
+      .toBe('1948-01-31T02:30:50-05:00');
+  expect(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt))
+      .toBe('1948-01-30T23:30:50-08:00');
 });
 
-test('sunsetOffset', (t) => {
+test('sunsetOffset', () => {
   const zman = makeZman();
   const f = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/Chicago',
@@ -397,13 +408,17 @@ test('sunsetOffset', (t) => {
     second: '2-digit',
     hour12: false,
   });
-  t.is(f.format(zman.sunriseOffset(10, true)), '05:26:00');
-  t.is(f.format(zman.sunriseOffset(10, false)), '05:26:18');
-  t.is(f.format(zman.sunsetOffset(10, true)), '20:32:00');
-  t.is(f.format(zman.sunsetOffset(10, false)), '20:32:29');
+  expect(f.format(zman.sunriseOffset(10, true)))
+      .toBe('05:26:00');
+  expect(f.format(zman.sunriseOffset(10, false)))
+      .toBe('05:26:18');
+  expect(f.format(zman.sunsetOffset(10, true)))
+      .toBe('20:32:00');
+  expect(f.format(zman.sunsetOffset(10, false)))
+      .toBe('20:32:29');
 });
 
-test('sunsetOffset-seaLevel', (t) => {
+test('sunsetOffset-seaLevel', () => {
   const zman = makeZmanWithElevation();
   const tzid = 'America/Denver';
   const f = new Intl.DateTimeFormat('en-US', {
@@ -413,18 +428,18 @@ test('sunsetOffset-seaLevel', (t) => {
     second: '2-digit',
     hour12: false,
   });
-  t.is(f.format(zman.sunriseOffset(10, true)), '05:35:00');
-  t.is(f.format(zman.sunriseOffset(10, false)), '05:34:30');
-  t.is(f.format(zman.sunsetOffset(10, true)), '20:43:00');
+  expect(f.format(zman.sunriseOffset(10, true))).toBe('05:35:00');
+  expect(f.format(zman.sunriseOffset(10, false))).toBe('05:34:30');
+  expect(f.format(zman.sunsetOffset(10, true))).toBe('20:43:00');
 
   zman.useElevation = false;
-  t.is(f.format(zman.sunriseOffset(10, true)), '05:42:00');
-  t.is(f.format(zman.sunriseOffset(10, false)), '05:42:26');
-  t.is(f.format(zman.sunsetOffset(10, true)), '20:35:00');
-  t.is(f.format(zman.sunsetOffset(10, false)), '20:35:01');
+  expect(f.format(zman.sunriseOffset(10, true))).toBe('05:42:00');
+  expect(f.format(zman.sunriseOffset(10, false))).toBe('05:42:26');
+  expect(f.format(zman.sunsetOffset(10, true))).toBe('20:35:00');
+  expect(f.format(zman.sunsetOffset(10, false))).toBe('20:35:01');
 });
 
-test('timeAtAngle', (t) => {
+test('timeAtAngle', () => {
   const zman = makeZman();
   const f = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/Chicago',
@@ -433,13 +448,13 @@ test('timeAtAngle', (t) => {
     second: '2-digit',
     hour12: false,
   });
-  t.is(f.format(zman.timeAtAngle(11.5, true)), '04:03:04');
-  t.is(f.format(zman.timeAtAngle(3.7, true)), '04:57:50');
-  t.is(f.format(zman.timeAtAngle(3.7, false)), '20:40:59');
-  t.is(f.format(zman.timeAtAngle(11.5, false)), '21:35:53');
+  expect(f.format(zman.timeAtAngle(11.5, true))).toBe('04:03:04');
+  expect(f.format(zman.timeAtAngle(3.7, true))).toBe('04:57:50');
+  expect(f.format(zman.timeAtAngle(3.7, false))).toBe('20:40:59');
+  expect(f.format(zman.timeAtAngle(11.5, false))).toBe('21:35:53');
 });
 
-test('jlem-sunset', (t) => {
+test('jlem-sunset', () => {
   const latitude = 31.76904;
   const longitude = 35.21633;
   const elevtion = 786;
@@ -461,12 +476,12 @@ test('jlem-sunset', (t) => {
     const zman = new Zmanim(gloc, dt, true);
     const sunset = zman.sunset();
     const actual = f.format(sunset);
-    t.is(actual, expected, dt.toDateString());
+    expect(actual).toBe(expected);
   }
 });
 
 
-test('zmanim-UTC', (t) => {
+test('zmanim-UTC', () => {
   const gloc = new GeoLocation(null, 0, 0, 21, 'UTC');
   const zman = new Zmanim(gloc, new Date(2020, 5, 5), true);
   const f = new Intl.DateTimeFormat('en-US', {
@@ -512,13 +527,13 @@ test('zmanim-UTC', (t) => {
     const dt = zman[func]();
     actual[func] = f.format(dt);
   }
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 
-  t.is(f.format(zman.sunsetOffset(72, false, false)), '19:14:53');
-  t.is(f.format(zman.sunsetOffset(72, false, true)), '19:14:15');
+  expect(f.format(zman.sunsetOffset(72, false, false))).toBe('19:14:53');
+  expect(f.format(zman.sunsetOffset(72, false, true))).toBe('19:14:15');
 });
 
-test('zmanim-Beitar Ilit', (t) => {
+test('zmanim-Beitar Ilit', () => {
   const latitude = 31.693;
   const longitude = 35.108;
   const elevation = 659.7;
@@ -548,21 +563,21 @@ test('zmanim-Beitar Ilit', (t) => {
     const dt = zman[func]();
     actual[func] = f.format(dt);
   }
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 });
 
-test('useElevation', (t) => {
+test('useElevation', () => {
   const zman = makeZmanWithElevation(); // with useElevation=true
-  t.is(zman.getUseElevation(), true);
+  expect(zman.getUseElevation()).toBe(true);
   zman.setUseElevation(false);
-  t.is(zman.getUseElevation(), false);
+  expect(zman.getUseElevation()).toBe(false);
   zman.setUseElevation(true);
-  t.is(zman.getUseElevation(), true);
+  expect(zman.getUseElevation()).toBe(true);
 
   const zman2 = makeZman(); // with useElevation=false
-  t.is(zman2.getUseElevation(), false);
+  expect(zman2.getUseElevation()).toBe(false);
   zman2.setUseElevation(true);
-  t.is(zman2.getUseElevation(), true);
+  expect(zman2.getUseElevation()).toBe(true);
   zman2.setUseElevation(false);
-  t.is(zman2.getUseElevation(), false);
+  expect(zman2.getUseElevation()).toBe(false);
 });

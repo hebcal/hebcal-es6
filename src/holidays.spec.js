@@ -1,81 +1,86 @@
-import test from 'ava';
 import {HDate, isoDateString, months} from '@hebcal/hdate';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays.js';
 import {HebrewCalendar} from './hebcal.js';
 import {} from '@hebcal/hdate';
 import {flags} from './event.js';
 
-test('basename-and-url', (t) => {
+jest.mock('quick-lru', () => {
+  return jest.fn().mockImplementation(() => {
+    return new Map();
+  });
+});
+
+test('basename-and-url', () => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
       'Pesach IV (CH\'\'M)', flags.CHUL_ONLY, {cholHaMoedDay: 2});
-  t.is(ev.getDesc(), 'Pesach IV (CH\'\'M)');
-  t.is(ev.render('en'), 'Pesach IV (CH’’M)');
-  t.is(ev.renderBrief('en'), 'Pesach IV (CH’’M)');
-  t.is(ev.basename(), 'Pesach');
-  t.is(ev.url(), 'https://www.hebcal.com/holidays/pesach-2003');
+  expect(ev.getDesc()).toBe('Pesach IV (CH\'\'M)');
+  expect(ev.render('en')).toBe('Pesach IV (CH’’M)');
+  expect(ev.renderBrief('en')).toBe('Pesach IV (CH’’M)');
+  expect(ev.basename()).toBe('Pesach');
+  expect(ev.url()).toBe('https://www.hebcal.com/holidays/pesach-2003');
 
   const ev2 = new HolidayEvent(new HDate(23, months.TISHREI, 5763),
       'Simchat Torah', flags.CHUL_ONLY);
-  t.is(ev2.getDesc(), 'Simchat Torah');
-  t.is(ev2.render('en'), 'Simchat Torah');
-  t.is(ev2.renderBrief('en'), 'Simchat Torah');
-  t.is(ev2.basename(), 'Simchat Torah');
-  t.is(ev2.url(), 'https://www.hebcal.com/holidays/simchat-torah-2002');
+  expect(ev2.getDesc()).toBe('Simchat Torah');
+  expect(ev2.render('en')).toBe('Simchat Torah');
+  expect(ev2.renderBrief('en')).toBe('Simchat Torah');
+  expect(ev2.basename()).toBe('Simchat Torah');
+  expect(ev2.url()).toBe('https://www.hebcal.com/holidays/simchat-torah-2002');
 
   const ev3 = new HolidayEvent(new HDate(8, months.AV, 5783),
       'Erev Tish\'a B\'Av', flags.MAJOR_FAST);
-  t.is(ev3.getDesc(), 'Erev Tish\'a B\'Av');
-  t.is(ev3.render('en'), 'Erev Tish’a B’Av');
-  t.is(ev3.renderBrief('en'), 'Erev Tish’a B’Av');
-  t.is(ev3.basename(), 'Tish\'a B\'Av');
-  t.is(ev3.url(), 'https://www.hebcal.com/holidays/tisha-bav-2023');
+  expect(ev3.getDesc()).toBe('Erev Tish\'a B\'Av');
+  expect(ev3.render('en')).toBe('Erev Tish’a B’Av');
+  expect(ev3.renderBrief('en')).toBe('Erev Tish’a B’Av');
+  expect(ev3.basename()).toBe('Tish\'a B\'Av');
+  expect(ev3.url()).toBe('https://www.hebcal.com/holidays/tisha-bav-2023');
 
   const rch = new RoshChodeshEvent(new HDate(30, months.ADAR_I, 5787), 'Adar II');
-  t.is(rch.getDesc(), 'Rosh Chodesh Adar II');
-  t.is(rch.render('en'), 'Rosh Chodesh Adar II');
-  t.is(rch.renderBrief('en'), 'Rosh Chodesh Adar II');
-  t.is(rch.basename(), 'Rosh Chodesh Adar II');
-  t.is(rch.url(), 'https://www.hebcal.com/holidays/rosh-chodesh-adar-ii-2027');
+  expect(rch.getDesc()).toBe('Rosh Chodesh Adar II');
+  expect(rch.render('en')).toBe('Rosh Chodesh Adar II');
+  expect(rch.renderBrief('en')).toBe('Rosh Chodesh Adar II');
+  expect(rch.basename()).toBe('Rosh Chodesh Adar II');
+  expect(rch.url()).toBe('https://www.hebcal.com/holidays/rosh-chodesh-adar-ii-2027');
 
   const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
-  t.is(mvch.getDesc(), 'Shabbat Mevarchim Chodesh Tevet');
-  t.is(mvch.render('en'), 'Shabbat Mevarchim Chodesh Tevet');
-  t.is(mvch.renderBrief('en'), 'Mevarchim Chodesh Tevet');
-  t.is(mvch.url(), undefined);
+  expect(mvch.getDesc()).toBe('Shabbat Mevarchim Chodesh Tevet');
+  expect(mvch.render('en')).toBe('Shabbat Mevarchim Chodesh Tevet');
+  expect(mvch.renderBrief('en')).toBe('Mevarchim Chodesh Tevet');
+  expect(mvch.url()).toBe(undefined);
 });
 
-test('observedInIsrael and url contains ?i=on', (t) => {
+test('observedInIsrael and url contains ?i=on', () => {
   const erev = new HolidayEvent(new HDate(5, months.SIVAN, 5777),
       'Erev Shavuot', flags.EREV | flags.LIGHT_CANDLES);
-  t.is(erev.observedInIsrael(), true);
-  t.is(erev.observedInDiaspora(), true);
-  t.is(erev.url(), 'https://www.hebcal.com/holidays/shavuot-2017');
+  expect(erev.observedInIsrael()).toBe(true);
+  expect(erev.observedInDiaspora()).toBe(true);
+  expect(erev.url()).toBe('https://www.hebcal.com/holidays/shavuot-2017');
 
   const shavuot = new HolidayEvent(new HDate(6, months.SIVAN, 5777),
       'Shavuot', flags.CHAG | flags.YOM_TOV_ENDS | flags.IL_ONLY);
-  t.is(shavuot.observedInIsrael(), true);
-  t.is(shavuot.observedInDiaspora(), false);
-  t.is(shavuot.url(), 'https://www.hebcal.com/holidays/shavuot-2017?i=on');
+  expect(shavuot.observedInIsrael()).toBe(true);
+  expect(shavuot.observedInDiaspora()).toBe(false);
+  expect(shavuot.url()).toBe('https://www.hebcal.com/holidays/shavuot-2017?i=on');
 
   const shavuotI = new HolidayEvent(new HDate(6, months.SIVAN, 5777),
       'Shavuot I', flags.CHAG | flags.LIGHT_CANDLES_TZEIS | flags.CHUL_ONLY);
-  t.is(shavuotI.observedInIsrael(), false);
-  t.is(shavuotI.observedInDiaspora(), true);
-  t.is(shavuotI.url(), 'https://www.hebcal.com/holidays/shavuot-2017');
+  expect(shavuotI.observedInIsrael()).toBe(false);
+  expect(shavuotI.observedInDiaspora()).toBe(true);
+  expect(shavuotI.url()).toBe('https://www.hebcal.com/holidays/shavuot-2017');
 
   const shavuotII = new HolidayEvent(new HDate(7, months.SIVAN, 5777),
       'Shavuot II', flags.CHAG | flags.YOM_TOV_ENDS | flags.CHUL_ONLY);
-  t.is(shavuotII.observedInIsrael(), false);
-  t.is(shavuotII.observedInDiaspora(), true);
-  t.is(shavuotII.url(), 'https://www.hebcal.com/holidays/shavuot-2017');
+  expect(shavuotII.observedInIsrael()).toBe(false);
+  expect(shavuotII.observedInDiaspora()).toBe(true);
+  expect(shavuotII.url()).toBe('https://www.hebcal.com/holidays/shavuot-2017');
 });
 
-test('MevarchimChodeshEvent', (t) => {
+test('MevarchimChodeshEvent', () => {
   const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
-  t.is(mvch.memo, 'Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
+  expect(mvch.memo).toBe('Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
 });
 
-test('Shushan Purim', (t) => {
+test('Shushan Purim', () => {
   const events = HebrewCalendar.calendar({
     start: new HDate(13, 'Adar2', 5782),
     end: new HDate(17, 'Adar2', 5782),
@@ -87,10 +92,10 @@ test('Shushan Purim', (t) => {
     {date: '2022-03-17', desc: 'Purim'},
     {date: '2022-03-18', desc: 'Shushan Purim'},
   ];
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 });
 
-test('Purim Meshulash', (t) => {
+test('Purim Meshulash', () => {
   const events = HebrewCalendar.calendar({
     start: new HDate(13, 'Adar2', 5785),
     end: new HDate(17, 'Adar2', 5785),
@@ -103,7 +108,7 @@ test('Purim Meshulash', (t) => {
     {date: '2025-03-15', desc: 'Shushan Purim'},
     {date: '2025-03-16', desc: 'Purim Meshulash'},
   ];
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 });
 
 // eslint-disable-next-line require-jsdoc
@@ -122,7 +127,7 @@ function eventDateDesc(ev) {
   return {date, desc: ev.getDesc()};
 }
 
-test('9av-observed', (t) => {
+test('9av-observed', () => {
   const events = HebrewCalendar.calendar({year: 2015, numYears: 10});
   const av9 = events.filter((ev) => ev.getDesc().startsWith('Tish\'a B\'Av'));
   const actual = av9.map(eventDateBasenameDesc);
@@ -138,12 +143,12 @@ test('9av-observed', (t) => {
     {date: '2023-07-27', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av'},
     {date: '2024-08-13', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av'},
   ];
-  t.deepEqual(actual, expected);
-  t.is(av9[0].render('he'), 'תִּשְׁעָה בְּאָב נִדחֶה');
-  t.is(av9[2].render('he'), 'תִּשְׁעָה בְּאָב');
+  expect(actual).toEqual(expected);
+  expect(av9[0].render('he')).toBe('תִּשְׁעָה בְּאָב נִדחֶה');
+  expect(av9[2].render('he')).toBe('תִּשְׁעָה בְּאָב');
 });
 
-test('asara-btevet-url', (t) => {
+test('asara-btevet-url', () => {
   const urls = HebrewCalendar.calendar({year: 2020})
       .filter((ev) => ev.getDesc() === 'Asara B\'Tevet')
       .map((ev) => ev.url());
@@ -151,19 +156,19 @@ test('asara-btevet-url', (t) => {
     'https://www.hebcal.com/holidays/asara-btevet-20200107',
     'https://www.hebcal.com/holidays/asara-btevet-20201225',
   ];
-  t.deepEqual(urls, expected);
+  expect(urls).toEqual(expected);
 });
 
-test('early-ce-url', (t) => {
+test('early-ce-url', () => {
   const ev = new HolidayEvent(new HDate(new Date(100, 8, 30)), 'Yom Kippur');
-  t.is(ev.url(), 'https://www.hebcal.com/holidays/yom-kippur-100');
+  expect(ev.url()).toBe('https://www.hebcal.com/holidays/yom-kippur-100');
   const dt = new Date(99, 8, 12);
   dt.setFullYear(99);
   const ev2 = new HolidayEvent(new HDate(dt), 'Yom Kippur');
-  t.is(ev2.url(), undefined);
+  expect(ev2.url()).toBe(undefined);
 });
 
-test('bce-url', (t) => {
+test('bce-url', () => {
   const urls = HebrewCalendar.calendar({year: -776})
       .filter((ev) => ev.getDesc() === 'Asara B\'Tevet' || ev.getDesc() === 'Yom Kippur')
       .map((ev) => ev.url());
@@ -171,19 +176,19 @@ test('bce-url', (t) => {
     undefined,
     undefined,
   ];
-  t.deepEqual(urls, expected);
+  expect(urls).toEqual(expected);
 });
 
-test('Rosh Hashana L\'Ma\'sar Behemah', (t) => {
+test('Rosh Hashana L\'Ma\'sar Behemah', () => {
   const events = HebrewCalendar.calendar({
     start: new Date(2011, 7, 31),
     end: new Date(2011, 7, 31),
     locale: 'he',
   });
-  t.is(events[0].render('he'), 'רֹאשׁ הַשָּׁנָה לְמַעְשַׂר בְּהֵמָה');
+  expect(events[0].render('he')).toBe('רֹאשׁ הַשָּׁנָה לְמַעְשַׂר בְּהֵמָה');
 });
 
-test('emoji', (t) => {
+test('emoji', () => {
   const expected = {
     '38th day of the Omer': '3️⃣8️⃣',
     'Asara B\'Tevet': '✡️',
@@ -251,31 +256,31 @@ test('emoji', (t) => {
     const desc = ev.getDesc();
     const emoji = ev.getEmoji();
     if (expected[desc]) {
-      t.is(emoji, expected[desc], desc);
+      expect(emoji).toBe(expected[desc]);
     } else if (expected[base]) {
-      t.is(emoji, expected[base], desc);
+      expect(emoji).toBe(expected[base]);
     }
   }
 });
 
-test('Yom HaAliyah', (t) => {
+test('Yom HaAliyah', () => {
   const events = HebrewCalendar.calendar({year: 2038, il: true});
   const aliyah = events.filter((ev) => ev.getDesc().startsWith('Yom HaAliyah'));
-  t.is(aliyah.length, 2);
-  t.is(aliyah[0].getDate().toString(), '10 Nisan 5798');
-  t.is(aliyah[0].getDesc(), 'Yom HaAliyah');
-  t.is(aliyah[1].getDate().toString(), '7 Cheshvan 5799');
-  t.is(aliyah[1].getDesc(), 'Yom HaAliyah School Observance');
+  expect(aliyah.length).toBe(2);
+  expect(aliyah[0].getDate().toString()).toBe('10 Nisan 5798');
+  expect(aliyah[0].getDesc()).toBe('Yom HaAliyah');
+  expect(aliyah[1].getDate().toString()).toBe('7 Cheshvan 5799');
+  expect(aliyah[1].getDesc()).toBe('Yom HaAliyah School Observance');
 });
 
-test('modern', (t) => {
+test('modern', () => {
   const eventsDiaspora = HebrewCalendar.calendar({
     year: 5801,
     isHebrewYear: true,
     il: false,
     mask: flags.MODERN_HOLIDAY,
   });
-  t.is(eventsDiaspora.length, 6);
+  expect(eventsDiaspora.length).toBe(6);
   const actual = eventsDiaspora.map((ev) => {
     const o = eventDateDesc(ev);
     if (ev.emoji) o.em = ev.emoji;
@@ -289,14 +294,14 @@ test('modern', (t) => {
     {date: '2041-05-07', desc: 'Yom HaAtzma\'ut', em: '🇮🇱'},
     {date: '2041-05-29', desc: 'Yom Yerushalayim', em: '🇮🇱'},
   ];
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
   const eventsIL = HebrewCalendar.calendar({
     year: 5801,
     isHebrewYear: true,
     il: true,
     mask: flags.MODERN_HOLIDAY,
   });
-  t.is(eventsIL.length, 13);
+  expect(eventsIL.length).toBe(13);
   const actualIL = eventsIL.map((ev) => {
     const o = eventDateDesc(ev);
     if (ev.emoji) o.em = ev.emoji;
@@ -317,32 +322,32 @@ test('modern', (t) => {
     {date: '2041-05-29', desc: 'Yom Yerushalayim', em: '🇮🇱'},
     {date: '2041-07-28', desc: 'Jabotinsky Day', em: '🇮🇱'},
   ];
-  t.deepEqual(actualIL, expectedIL);
+  expect(actualIL).toEqual(expectedIL);
 });
 
-test('modernFriSatMovetoThu', (t) => {
+test('modernFriSatMovetoThu', () => {
   const events = HebrewCalendar.calendar({year: 2020, il: true});
   const ev = events.find((ev) => ev.getDesc() === 'Yitzhak Rabin Memorial Day');
-  t.is(ev.getDate().toString(), '11 Cheshvan 5781');
-  t.is(ev.getDate().getDay(), 4);
+  expect(ev.getDate().toString()).toBe('11 Cheshvan 5781');
+  expect(ev.getDate().getDay()).toBe(4);
   const events2 = HebrewCalendar.calendar({year: 5786, isHebrewYear: true, il: true});
   const ev2 = events2.find((ev) => ev.getDesc() === 'Hebrew Language Day');
-  t.is(ev2.getDate().toString(), '19 Tevet 5786');
-  t.is(ev2.getDate().getDay(), 4);
+  expect(ev2.getDate().toString()).toBe('19 Tevet 5786');
+  expect(ev2.getDate().getDay()).toBe(4);
 });
 
-test('RoshChodeshEvent', (t) => {
+test('RoshChodeshEvent', () => {
   const hd = new HDate(1, 'Tevet', 5782);
   const ev = new RoshChodeshEvent(hd, 'Tevet');
-  t.is(ev.basename(), 'Rosh Chodesh Tevet');
-  t.is(ev.render('en'), 'Rosh Chodesh Tevet');
-  t.is(ev.renderBrief('en'), 'Rosh Chodesh Tevet');
-  t.is(ev.render('ashkenazi'), 'Rosh Chodesh Teves');
-  t.is(ev.render('he'), 'רֹאשׁ חוֹדֶשׁ טֵבֵת');
-  t.is(ev.render('he-x-NoNikud'), 'ראש חודש טבת');
+  expect(ev.basename()).toBe('Rosh Chodesh Tevet');
+  expect(ev.render('en')).toBe('Rosh Chodesh Tevet');
+  expect(ev.renderBrief('en')).toBe('Rosh Chodesh Tevet');
+  expect(ev.render('ashkenazi')).toBe('Rosh Chodesh Teves');
+  expect(ev.render('he')).toBe('רֹאשׁ חוֹדֶשׁ טֵבֵת');
+  expect(ev.render('he-x-NoNikud')).toBe('ראש חודש טבת');
 });
 
-test('fast days includes Yom Kippur Katan', (t) => {
+test('fast days includes Yom Kippur Katan', () => {
   const events0 = HebrewCalendar.calendar({
     year: 2021,
     yomKippurKatan: true,
@@ -400,19 +405,19 @@ test('fast days includes Yom Kippur Katan', (t) => {
     },
     {date: '2021-12-14', desc: 'Asara B\'Tevet'},
   ];
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 });
 
-test('getCategories', (t) => {
+test('getCategories', () => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
       'Pesach IV (CH\'\'M)', flags.CHUL_ONLY, {cholHaMoedDay: 2});
-  t.deepEqual(ev.getCategories(), ['holiday', 'major', 'cholhamoed']);
+  expect(ev.getCategories()).toEqual(['holiday', 'major', 'cholhamoed']);
 
   const ev2 = new HolidayEvent(new HDate(18, months.IYYAR, 5763),
       'Lag BaOmer', flags.MINOR_HOLIDAY);
-  t.deepEqual(ev2.getCategories(), ['holiday', 'minor']);
+  expect(ev2.getCategories()).toEqual(['holiday', 'minor']);
 
   const ev3 = new HolidayEvent(new HDate(9, months.TISHREI, 5763),
       'Erev Yom Kippur', flags.EREV | flags.LIGHT_CANDLES);
-  t.deepEqual(ev3.getCategories(), ['holiday', 'major']);
+  expect(ev3.getCategories()).toEqual(['holiday', 'major']);
 });

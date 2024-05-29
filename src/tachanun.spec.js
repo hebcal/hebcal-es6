@@ -1,9 +1,8 @@
-import test from 'ava';
 import {months} from '@hebcal/hdate';
 import {HDate} from '@hebcal/hdate';
 import {tachanun_} from './tachanun.js';
 
-test('tachanun', (t) => {
+test('tachanun', () => {
   const startAbs = HDate.hebrew2abs(5782, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(5783, months.TISHREI, 1);
   const actual = [];
@@ -399,8 +398,6 @@ test('tachanun', (t) => {
     [738423, {shacharit: false, mincha: false, allCongs: false}],
   ];
   for (let i = 0; i < actual.length; i++) {
-    const abs = actual[i][0];
-    const hd = new HDate(abs);
-    t.deepEqual(actual[i], expected[i], `${i} - ${abs} - ${hd.getDay()} - ${hd.toString()}`);
+    expect(actual[i]).toEqual(expected[i]);
   }
 });

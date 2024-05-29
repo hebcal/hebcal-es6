@@ -1,9 +1,14 @@
 /* eslint-disable max-len */
-import test from 'ava';
 import {HDate} from '@hebcal/hdate';
 import {HebrewCalendar} from './hebcal.js';
 
-test('yahrzeit', (t) => {
+jest.mock('quick-lru', () => {
+  return jest.fn().mockImplementation(() => {
+    return new Map();
+  });
+});
+
+test('yahrzeit', () => {
   // Gregorian YYYY, MM, DD
   const items = [
     [2017, 1, 13, 'General',
@@ -30,19 +35,18 @@ test('yahrzeit', (t) => {
   ];
   for (const item of items) {
     const gd = new Date(item[0], item[1] - 1, item[2]);
-    const name = item[3];
     const expected = item[4].split(' ');
     for (let i = 0; i < 25; i++) {
       const hyear = i + 5778;
       const yahrzeit = HebrewCalendar.getYahrzeit(hyear, gd);
       const greg = yahrzeit.greg();
       const dateStr = greg.toLocaleDateString('en-US');
-      t.is(dateStr, expected[i], `${name} ${i} ${hyear}`);
+      expect(dateStr).toBe(expected[i]);
     }
   }
 });
 
-test('birthday', (t) => {
+test('birthday', () => {
   const items = [
     [1948, 3, 11, 'Adar1-30',
       '3/23/1993 3/13/1994 3/2/1995 3/21/1996 3/9/1997 3/28/1998 3/18/1999 3/7/2000 3/25/2001 3/14/2002 3/4/2003 3/23/2004 3/11/2005 3/30/2006 3/20/2007 3/7/2008 3/26/2009 3/16/2010 3/6/2011 3/24/2012 3/12/2013',
@@ -65,38 +69,37 @@ test('birthday', (t) => {
   ];
   for (const item of items) {
     const gd = new Date(item[0], item[1] - 1, item[2]);
-    const name = item[3];
     const expected = item[4].split(' ');
     for (let i = 0; i < 21; i++) {
       const hyear = i + 5753;
       const birthday = HebrewCalendar.getBirthdayOrAnniversary(hyear, gd);
       const greg = birthday.greg();
       const dateStr = greg.toLocaleDateString('en-US');
-      t.is(dateStr, expected[i], `${name} ${i} ${hyear}`);
+      expect(dateStr).toBe(expected[i]);
     }
   }
 });
 
-test('before-original', (t) => {
+test('before-original', () => {
   let hd = HebrewCalendar.getYahrzeit(5769, new Date(2008, 10, 13));
-  t.is(hd, undefined, 'Hebrew year 5769 occurs on or before original date in 5769');
+  expect(hd).toBe(undefined); // Hebrew year 5769 occurs on or before original date in 5769
 
   hd = HebrewCalendar.getYahrzeit(5770, new Date(2008, 10, 13));
-  t.is(hd.getFullYear(), 5770);
+  expect(hd.getFullYear()).toBe(5770);
 
   hd = HebrewCalendar.getBirthdayOrAnniversary(5778, new Date(2018, 11, 13));
-  t.is(hd, undefined, 'Hebrew year 5778 occurs before original date in 5779');
+  expect(hd).toBe(undefined); // Hebrew year 5778 occurs before original date in 5779
 
   hd = HebrewCalendar.getBirthdayOrAnniversary(5780, new Date(2018, 11, 13));
-  t.is(hd.getFullYear(), 5780);
+  expect(hd.getFullYear()).toBe(5780);
 });
 
-test('ctor-hdate', (t) => {
+test('ctor-hdate', () => {
   const niftar = new HDate(15, 'Cheshvan', 5769);
   const yahrzeit = HebrewCalendar.getYahrzeit(5782, niftar);
-  t.is(yahrzeit.toString(), '15 Cheshvan 5782');
+  expect(yahrzeit.toString()).toBe('15 Cheshvan 5782');
 
   const birth = new HDate(23, 'Sivan', 5735);
   const anniversary = HebrewCalendar.getBirthdayOrAnniversary(5782, birth);
-  t.is(anniversary.toString(), '23 Sivan 5782');
+  expect(anniversary.toString()).toBe('23 Sivan 5782');
 });

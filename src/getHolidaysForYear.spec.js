@@ -1,6 +1,11 @@
-import test from 'ava';
 import {HebrewCalendar} from './hebcal.js';
 import {isoDateString} from '@hebcal/hdate';
+
+jest.mock('quick-lru', () => {
+  return jest.fn().mockImplementation(() => {
+    return new Map();
+  });
+});
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {
@@ -8,7 +13,7 @@ function eventDateDesc(ev) {
   return {date, desc: ev.getDesc()};
 }
 
-test('getHolidaysForYearArray-5771-diaspora', (t) => {
+test('getHolidaysForYearArray-5771-diaspora', () => {
   const events = HebrewCalendar.getHolidaysForYearArray(5771, false).map(eventDateDesc);
   const expected = [
     {date: '2010-09-09', desc: 'Rosh Hashana 5771'},
@@ -110,10 +115,10 @@ test('getHolidaysForYearArray-5771-diaspora', (t) => {
     {date: '2011-09-24', desc: 'Leil Selichot'},
     {date: '2011-09-28', desc: 'Erev Rosh Hashana'},
   ];
-  t.deepEqual(events, expected);
+  expect(events).toEqual(expected);
 });
 
-test('getHolidaysForYearArray-5720-il', (t) => {
+test('getHolidaysForYearArray-5720-il', () => {
   const events = HebrewCalendar.getHolidaysForYearArray(5720, true).map(eventDateDesc);
   const expected = [
     {date: '1959-10-03', desc: 'Rosh Hashana 5720'},
@@ -205,26 +210,26 @@ test('getHolidaysForYearArray-5720-il', (t) => {
     {date: '1960-09-17', desc: 'Leil Selichot'},
     {date: '1960-09-21', desc: 'Erev Rosh Hashana'},
   ];
-  t.deepEqual(events, expected);
+  expect(events).toEqual(expected);
 });
 
-test('getHolidaysForYear-ce', (t) => {
+test('getHolidaysForYear-ce', () => {
   const map = HebrewCalendar.getHolidaysForYear(5888);
   const rh = map.get('1 Tishrei 5888').map(eventDateDesc)[0];
   const pesach = map.get('15 Nisan 5888').map(eventDateDesc)[0];
-  t.deepEqual(rh, {date: '2127-09-08', desc: 'Rosh Hashana 5888'});
-  t.deepEqual(pesach, {date: '2128-04-15', desc: 'Pesach I'});
+  expect(rh).toEqual({date: '2127-09-08', desc: 'Rosh Hashana 5888'});
+  expect(pesach).toEqual({date: '2128-04-15', desc: 'Pesach I'});
 });
 
-test('getHolidaysForYear-bce', (t) => {
+test('getHolidaysForYear-bce', () => {
   const map = HebrewCalendar.getHolidaysForYear(3737);
   const rh = map.get('1 Tishrei 3737').map(eventDateDesc)[0];
   const pesach = map.get('15 Nisan 3737').map(eventDateDesc)[0];
-  t.deepEqual(rh, {date: '-000024-09-11', desc: 'Rosh Hashana 3737'});
-  t.deepEqual(pesach, {date: '-000023-03-22', desc: 'Pesach I'});
+  expect(rh).toEqual({date: '-000024-09-11', desc: 'Rosh Hashana 3737'});
+  expect(pesach).toEqual({date: '-000023-03-22', desc: 'Pesach I'});
 });
 
-test('getHolidaysForYearArray-bce', (t) => {
+test('getHolidaysForYearArray-bce', () => {
   const events = HebrewCalendar.getHolidaysForYearArray(3759, false).slice(0, 15);
   const actual = events.map(eventDateDesc);
   const expected = [
@@ -244,10 +249,10 @@ test('getHolidaysForYearArray-bce', (t) => {
     {date: '-000002-09-28', desc: 'Sukkot VII (Hoshana Raba)'},
     {date: '-000002-09-29', desc: 'Shmini Atzeret'},
   ];
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 });
 
-test('Birkat Hachamah', (t) => {
+test('Birkat Hachamah', () => {
   const actual = [];
   for (let year = 5650; year <= 5920; year++) {
     const events = HebrewCalendar.getHolidaysForYearArray(year, false);
@@ -257,16 +262,16 @@ test('Birkat Hachamah', (t) => {
     }
   }
   const expected = [5657, 5685, 5713, 5741, 5769, 5797, 5825, 5853, 5881, 5909];
-  t.deepEqual(actual, expected);
+  expect(actual).toEqual(expected);
 
   const events = HebrewCalendar.getHolidaysForYearArray(5965, false);
   const ev = events.find((ev) => ev.getDesc() === 'Birkat Hachamah');
-  t.is(typeof ev, 'object');
-  t.is(ev.getDate().toString(), '19 Nisan 5965');
+  expect(typeof ev).toBe('object');
+  expect(ev.getDate().toString()).toBe('19 Nisan 5965');
 
   const events2 = HebrewCalendar.getHolidaysForYearArray(5993, false);
   const ev2 = events2.find((ev) => ev.getDesc() === 'Birkat Hachamah');
-  t.is(typeof ev2, 'object');
-  t.is(ev2.getDate().toString(), '29 Adar II 5993');
+  expect(typeof ev2).toBe('object');
+  expect(ev2.getDate().toString()).toBe('29 Adar II 5993');
 });
 

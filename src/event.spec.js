@@ -1,68 +1,67 @@
-import test from 'ava';
 import {HDate} from '@hebcal/hdate';
 import {Event, flags} from './event.js';
 
 const hd = new HDate(23, 'Sivan', 5735);
 const ev = new Event(hd, 'Foo Bar', flags.USER_EVENT | flags.CHUL_ONLY, {quux: 123});
 
-test('getDate', (t) => {
-  t.is(ev.getDate(), hd);
+test('getDate', () => {
+  expect(ev.getDate()).toBe(hd);
 });
 
-test('getDesc', (t) => {
-  t.is(ev.getDesc(), 'Foo Bar');
+test('getDesc', () => {
+  expect(ev.getDesc()).toBe('Foo Bar');
 });
 
-test('getFlags', (t) => {
-  t.is(ev.getFlags(), flags.USER_EVENT | flags.CHUL_ONLY);
+test('getFlags', () => {
+  expect(ev.getFlags()).toBe(flags.USER_EVENT | flags.CHUL_ONLY);
 });
 
-test('render', (t) => {
-  t.is(ev.render('en'), 'Foo Bar');
+test('render', () => {
+  expect(ev.render('en')).toBe('Foo Bar');
 });
 
-test('renderBrief', (t) => {
-  t.is(ev.renderBrief('en'), 'Foo Bar');
+test('renderBrief', () => {
+  expect(ev.renderBrief('en')).toBe('Foo Bar');
 });
 
-test('emoji', (t) => {
-  t.is(ev.getEmoji(), null);
+test('emoji', () => {
+  expect(ev.getEmoji()).toBe(null);
 });
 
-test('basename', (t) => {
-  t.is(ev.basename(), 'Foo Bar');
+test('basename', () => {
+  expect(ev.basename()).toBe('Foo Bar');
 });
 
-test('url', (t) => {
-  t.is(ev.url(), undefined);
+test('url', () => {
+  expect(ev.url()).toBe(undefined);
 });
 
-test('observedInIsrael', (t) => {
-  t.is(ev.observedInIsrael(), false);
+test('observedInIsrael', () => {
+  expect(ev.observedInIsrael()).toBe(false);
   const ev2 = new Event(hd, 'Quux', 0);
-  t.is(ev2.observedInIsrael(), true);
+  expect(ev2.observedInIsrael()).toBe(true);
 });
 
-test('observedInDiaspora', (t) => {
-  t.is(ev.observedInDiaspora(), true);
+test('observedInDiaspora', () => {
+  expect(ev.observedInDiaspora()).toBe(true);
   const ev2 = new Event(hd, 'Quux', 0);
-  t.is(ev2.observedInDiaspora(), true);
+  expect(ev2.observedInDiaspora()).toBe(true);
 });
 
-test('observedIn', (t) => {
-  t.is(ev.observedIn(true), false);
-  t.is(ev.observedIn(false), true);
+test('observedIn', () => {
+  expect(ev.observedIn(true)).toBe(false);
+  expect(ev.observedIn(false)).toBe(true);
   const ev2 = new Event(hd, 'Quux', 0);
-  t.is(ev2.observedIn(false), true);
-  t.is(ev2.observedIn(true), true);
+  expect(ev2.observedIn(false)).toBe(true);
+  expect(ev2.observedIn(true)).toBe(true);
 });
 
-test('clone', (t) => {
+test('clone', () => {
   const ev2 = ev.clone();
-  t.is(ev2.getDate(), hd);
-  t.is(ev2.getFlags(), flags.USER_EVENT | flags.CHUL_ONLY);
-  t.is(ev2.getDesc(), 'Foo Bar');
-  t.is(ev2.observedInIsrael(), false);
-  t.is(ev2.observedInDiaspora(), true);
-  t.is(ev2.quux, 123);
+  expect(ev2.getDate()).toBe(hd);
+  expect(ev2.getFlags()).toBe(flags.USER_EVENT | flags.CHUL_ONLY);
+  expect(ev2.getDesc()).toBe('Foo Bar');
+  expect(ev2.observedInIsrael()).toBe(false);
+  expect(ev2.observedInDiaspora()).toBe(true);
+  expect(ev2.quux).toBe(123);
 });
