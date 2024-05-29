@@ -1,5 +1,5 @@
 import {HDate, Locale} from '@hebcal/hdate';
-import {ParshaEvent} from './ParshaEvent.js';
+import {ParshaEvent} from './ParshaEvent';
 
 test('ParshaEvent-url', () => {
   const ev1 = new ParshaEvent(new HDate(new Date(2020, 4, 16)), ['Behar', 'Bechukotai'], false, [32, 33]);

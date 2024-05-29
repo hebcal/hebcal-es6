@@ -1,6 +1,6 @@
 import {months} from '@hebcal/hdate';
 import {HDate} from '@hebcal/hdate';
-import {tachanun_} from './tachanun.js';
+import {tachanun_} from './tachanun';
 
 test('tachanun', () => {
   const startAbs = HDate.hebrew2abs(5782, months.TISHREI, 1);

@@ -21,7 +21,7 @@
 import {HDate, Locale, isoDateString, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 import {Event, flags} from './event.js';
-import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
+import {dateYomHaShoah, dateYomHaZikaron} from './modern';
 import {getSedra_} from './sedra.js';
 import {Molad} from './molad.js';
 import {staticHolidays, staticModernHolidays,

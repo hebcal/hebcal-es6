@@ -44,7 +44,7 @@ import {Location} from './location.js';
 import {Molad, MoladEvent} from './molad.js';
 import {OmerEvent} from './omer.js';
 import {reformatTimeStr} from './reformatTimeStr.js';
-import {tachanun_} from './tachanun.js';
+import {tachanun_} from './tachanun';
 import {Zmanim} from './zmanim.js';
 
 const FRI = 5;

@@ -19,7 +19,7 @@ const IYYAR = months.IYYAR;
  * @param {number} year
  * @return {HDate|null}
  */
-export function dateYomHaShoah(year) {
+export function dateYomHaShoah(year: number): HDate | null {
   if (year < 5711) {
     return null;
   }
@@ -38,7 +38,7 @@ export function dateYomHaShoah(year) {
  * @param {number} year
  * @return {HDate|null}
  */
-export function dateYomHaZikaron(year) {
+export function dateYomHaZikaron(year: number): HDate | null {
   if (year < 5708) {
     return null;
   }

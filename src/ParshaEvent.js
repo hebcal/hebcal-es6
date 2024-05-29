@@ -1,4 +1,4 @@
-import {Event, flags} from './event.js';
+import {Event, flags} from './event';
 import {Locale, isoDateString} from '@hebcal/hdate';
 
 /**
@@ -9,10 +9,10 @@ export class ParshaEvent extends Event {
    * @param {HDate} date
    * @param {string[]} parsha - untranslated name of single or double parsha,
    *   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim']
-   * @param {boolean} il
-   * @param {number|number[]} num
+   * @param {boolean} [il]
+   * @param {number|number[]} [num]
    */
-  constructor(date, parsha, il, num) {
+  constructor(date, parsha, il=false, num=-1) {
     if (!Array.isArray(parsha) || parsha.length === 0 || parsha.length > 2) {
       throw new TypeError('Bad parsha argument');
     }
