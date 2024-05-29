@@ -164,7 +164,7 @@ export class Event {
   /**
    * Returns a URL to hebcal.com or sefaria.org for more detail on the event.
    * Returns `undefined` for events with no detail page.
-   * @return {string}
+   * @return {string | undefined}
    */
   url() {
     return undefined;

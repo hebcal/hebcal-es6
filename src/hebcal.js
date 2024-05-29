@@ -28,8 +28,8 @@ import {
 } from '@hebcal/hdate';
 import {version as pkgVersion} from './pkgVersion.js';
 import {DailyLearning} from './DailyLearning.js';
-import {HebrewDateEvent} from './HebrewDateEvent.js';
-import {ParshaEvent} from './ParshaEvent.js';
+import {HebrewDateEvent} from './HebrewDateEvent';
+import {ParshaEvent} from './ParshaEvent';
 import {
   HavdalahEvent,
   makeCandleEvent,
