@@ -63,12 +63,19 @@
     "require": [
       "@babel/register"
     ],
+    "typescript": {
+      "compile": false,
+      "rewritePaths": {
+        "src/": "dist/src/"
+      }
+    },
     "verbose": true
   },
   "peerDependencies": {
     "temporal-polyfill": "^0.2.4"
   },
   "devDependencies": {
+    "@ava/typescript": "^5.0.0",
     "@babel/core": "^7.24.6",
     "@babel/preset-env": "^7.24.6",
     "@babel/register": "^7.24.6",

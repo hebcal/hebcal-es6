@@ -1,14 +1,7 @@
-import {months} from '@hebcal/hdate';
-import {HDate} from '@hebcal/hdate';
+import {HDate, months} from '@hebcal/hdate';
 import {dateYomHaZikaron} from './modern.js';
 
-/**
- * @private
- * @param {number} start
- * @param {number} end
- * @return {number[]}
- */
-function range(start, end) {
+function range(start: number, end: number): number[] {
   const arr = [];
   for (let i = start; i <= end; i++) {
     arr.push(i);
@@ -16,38 +9,34 @@ function range(start, end) {
   return arr;
 }
 
-const NONE = {
+export type TachanunResult = {
+  /** Tachanun is said at Shacharit */
+  shacharit: boolean;
+  /** Tachanun is said at Mincha */
+  mincha: boolean;
+  /** All congregations say Tachanun on the day */
+  allCongs: boolean;
+};
+
+const NONE: TachanunResult = {
   shacharit: false,
   mincha: false,
   allCongs: false,
 };
 
-/**
- * @private
- * @param {HDate} hdate
- * @param {boolean} il
- * @return {TachanunResult}
- */
-export function tachanun_(hdate, il) {
+export function tachanun_(hdate: HDate, il: boolean): TachanunResult {
   return tachanun0(hdate, il, true);
 }
 
-/**
- * @private
- * @param {HDate} hdate
- * @param {boolean} il
- * @param {boolean} checkNext
- * @return {TachanunResult}
- */
-function tachanun0(hdate, il, checkNext) {
-  const year = hdate.getFullYear();
+function tachanun0(hdate: HDate, il: boolean, checkNext: boolean): TachanunResult {
+  const year = hdate.yy;
   const dates = tachanunYear(year, il);
   const abs = hdate.abs();
   if (dates.none.indexOf(abs) > -1) {
     return NONE;
   }
   const dow = hdate.getDay();
-  const ret = {
+  const ret: TachanunResult = {
     shacharit: false,
     mincha: false,
     allCongs: false,
@@ -71,15 +60,9 @@ function tachanun0(hdate, il, checkNext) {
   return ret;
 }
 
-/**
- * @private
- * @param {number} year
- * @param {boolean} il
- * @return {*}
- */
-function tachanunYear(year, il) {
+function tachanunYear(year: number, il: boolean): any {
   const leap = HDate.isLeapYear(year);
-  const monthsInYear = 12 + leap;
+  const monthsInYear = HDate.monthsInYear(year);
   let av9dt = new HDate(9, months.AV, year);
   if (av9dt.getDay() === 6) {
     av9dt = av9dt.next();
@@ -88,7 +71,8 @@ function tachanunYear(year, il) {
   if (shushPurim.getDay() === 6) {
     shushPurim = shushPurim.next();
   }
-  const none = [].concat(
+  const empty: HDate[] = [];
+  const none: HDate[] = empty.concat(
       // Rosh Chodesh - 1st of every month. Also includes RH day 1 (1 Tishrei)
       range(1, monthsInYear)
           .map((month) => new HDate(1, month, year)),
@@ -118,7 +102,7 @@ function tachanunYear(year, il) {
       shushPurim,
       leap ? new HDate(14, months.ADAR_I, year) : [], // Purim Katan
   );
-  const some = [].concat(
+  const some: HDate[] = empty.concat(
       // Until 14 Sivan
       range(1, 13)
           .map((mday) => new HDate(mday, months.SIVAN, year)),
@@ -127,15 +111,15 @@ function tachanunYear(year, il) {
           .map((mday) => new HDate(mday, months.TISHREI, year)),
       new HDate(14, months.IYYAR, year), // Pesach Sheini
       // Yom HaAtzma'ut, which changes based on day of week
-      year >= 5708 ? dateYomHaZikaron(year).next() : [],
+      year >= 5708 ? (dateYomHaZikaron(year) as HDate).next() : [],
       // Yom Yerushalayim
       year >= 5727 ? new HDate(28, months.IYYAR, year) : [],
   );
-  const yesPrev = [].concat(
+  const yesPrev: HDate[] = [
       new HDate(29, months.ELUL, year - 1), // Erev Rosh Hashanah
       new HDate(9, months.TISHREI, year), // Erev Yom Kippur
       new HDate(14, months.IYYAR, year), // Pesach Sheini
-  );
+  ];
   return {
     none: none.map((hd) => hd.abs()).sort((a, b) => a - b),
     some: some.map((hd) => hd.abs()).sort((a, b) => a - b),
