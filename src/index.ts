@@ -1,13 +1,14 @@
 export {gematriya, gematriyaStrToNum} from '@hebcal/hdate';
 export {greg, months, HDate, Locale} from '@hebcal/hdate';
+export {CalOptions} from './CalOptions';
 export {HebrewDateEvent} from './HebrewDateEvent';
 export {Event, flags} from './event.js';
 export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 export {Location} from './location.js';
 export {Zmanim} from './zmanim.js';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './candles.js';
-export {Molad, MoladEvent} from './molad.js';
-export {OmerEvent} from './omer.js';
+export {Molad, MoladEvent} from './molad';
+export {OmerEvent} from './omer';
 export {Sedra, parshiot} from '@hebcal/hdate';
 export {ParshaEvent} from './ParshaEvent';
 export {HolidayEvent, AsaraBTevetEvent, MevarchimChodeshEvent,

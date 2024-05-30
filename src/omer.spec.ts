@@ -1,4 +1,4 @@
-import {OmerEvent} from './omer.js';
+import {OmerEvent} from './omer';
 import {HDate} from '@hebcal/hdate';
 
 test('render', () => {

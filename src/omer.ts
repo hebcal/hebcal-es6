@@ -1,14 +1,26 @@
-import {gematriya, omerSefira, omerTodayIs, omerEmoji} from '@hebcal/hdate';
+import {
+  HDate,
+  Locale,
+  OmerLang,
+  gematriya,
+  omerEmoji,
+  omerSefira,
+  omerTodayIs
+} from '@hebcal/hdate';
 import {Event, flags} from './event.js';
-import {Locale} from '@hebcal/hdate';
 
 /** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
 export class OmerEvent extends Event {
+  private readonly weekNumber: number;
+  private readonly daysWithinWeeks: number;
+  readonly omer: number;
+  emoji?: string;
+
   /**
    * @param {HDate} date
    * @param {number} omerDay
    */
-  constructor(date, omerDay) {
+  constructor(date: HDate, omerDay: number) {
     super(date, `Omer ${omerDay}`, flags.OMER_COUNT);
     if (omerDay < 1 || omerDay > 49) {
       throw new RangeError(`Invalid Omer day ${omerDay}`);
@@ -21,19 +33,19 @@ export class OmerEvent extends Event {
    * @param {string} lang
    * @return {string}
    */
-  sefira(lang='en') {
+  sefira(lang: string='en'): string {
     if (lang !== 'he' && lang !== 'translit') {
       lang = 'en';
     }
-    return omerSefira(this.omer, lang);
+    return omerSefira(this.omer, lang as OmerLang);
   }
   /**
    * @todo use gettext()
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  render(locale) {
-    locale = locale || Locale.getLocaleName();
+  render(locale: string): string {
+    locale = locale ?? Locale.getLocaleName();
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }
@@ -47,42 +59,41 @@ export class OmerEvent extends Event {
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  renderBrief(locale) {
+  renderBrief(locale: string): string {
     return Locale.gettext('Omer', locale) + ' ' + Locale.gettext('day', locale) + ' '+ this.omer;
   }
   /** @return {string} */
-  getEmoji() {
+  getEmoji(): string {
     if (typeof this.emoji === 'string') return this.emoji;
     return omerEmoji(this.omer);
   }
   /** @return {number} */
-  getWeeks() {
+  getWeeks(): number {
     const day7 = this.daysWithinWeeks === 7;
     return day7 ? this.weekNumber : this.weekNumber - 1;
   }
   /** @return {number} */
-  getDaysWithinWeeks() {
+  getDaysWithinWeeks(): number {
     return this.daysWithinWeeks;
   }
   /**
    * @param {string} locale
    * @return {string}
    */
-  getTodayIs(locale) {
-    locale = locale || Locale.getLocaleName();
+  getTodayIs(locale: string): string {
+    locale = locale ?? Locale.getLocaleName();
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }
-    if (locale === 'he') {
-      return omerTodayIs(this.omer, 'he');
-    } else if (locale === 'he-x-nonikud') {
-      const str = omerTodayIs(this.omer, 'he');
+    const omerLang = locale === 'he' || locale === 'he-x-nonikud' ? 'he' : 'en';
+    const str = omerTodayIs(this.omer, omerLang) as string;
+    if (locale === 'he-x-nonikud') {
       return Locale.hebrewStripNikkud(str);
     }
-    return omerTodayIs(this.omer, 'en');
+    return str;
   }
   /** @return {string} */
-  url() {
+  url(): string {
     return `https://www.hebcal.com/omer/${this.getDate().getFullYear()}/${this.omer}`;
   }
 }

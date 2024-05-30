@@ -23,7 +23,7 @@ import QuickLRU from 'quick-lru';
 import {Event, flags} from './event.js';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
 import {getSedra_} from './sedra.js';
-import {Molad} from './molad.js';
+import {Molad} from './molad';
 import {staticHolidays, staticModernHolidays,
   holidayDesc as hdesc} from './staticHolidays.js';
 
