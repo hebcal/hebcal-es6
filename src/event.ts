@@ -80,6 +80,12 @@ const flagToCategory = [
 
 /** Represents an Event with a title, date, and flags */
 export class Event {
+  readonly date: HDate;
+  readonly desc: string;
+  readonly mask: number;
+  emoji?: string;
+  memo?: string;
+  alarm?: Date;
   /**
    * Constructs Event
    * @param {HDate} date Hebrew date event occurs
@@ -87,7 +93,7 @@ export class Event {
    * @param {number} [mask=0] optional bitmask of holiday flags (see {@link flags})
    * @param {Object} [attrs={}] optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
    */
-  constructor(date, desc, mask, attrs) {
+  constructor(date: HDate, desc: string, mask: number = 0, attrs?: object) {
     if (!HDate.isHDate(date)) {
       throw new TypeError(`Invalid Event date: ${date}`);
     } else if (typeof desc !== 'string') {
@@ -96,7 +102,7 @@ export class Event {
     this.date = date;
     this.desc = desc;
     this.mask = +mask;
-    if (typeof attrs === 'object' && attrs != null) {
+    if (typeof attrs === 'object' && attrs !== null) {
       Object.assign(this, attrs);
     }
   }
@@ -104,21 +110,21 @@ export class Event {
    * Hebrew date of this event
    * @return {HDate}
    */
-  getDate() {
+  getDate(): HDate {
     return this.date;
   }
   /**
    * Untranslated description of this event
    * @return {string}
    */
-  getDesc() {
+  getDesc(): string {
     return this.desc;
   }
   /**
    * Bitmask of optional event flags. See {@link flags}
    * @return {number}
    */
-  getFlags() {
+  getFlags(): number {
     return this.mask;
   }
   /**
@@ -131,7 +137,7 @@ export class Event {
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  render(locale) {
+  render(locale?: string): string {
     return Locale.gettext(this.desc, locale);
   }
   /**
@@ -141,14 +147,14 @@ export class Event {
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  renderBrief(locale) {
+  renderBrief(locale?: string): string {
     return this.render(locale);
   }
   /**
    * Optional holiday-specific Emoji or `null`.
-   * @return {string}
+   * @return {string | null}
    */
-  getEmoji() {
+  getEmoji(): string | null {
     return this.emoji || null;
   }
   /**
@@ -158,7 +164,7 @@ export class Event {
    * For many holidays the basename and the event description are the same.
    * @return {string}
    */
-  basename() {
+  basename(): string {
     return this.getDesc();
   }
   /**
@@ -166,7 +172,7 @@ export class Event {
    * Returns `undefined` for events with no detail page.
    * @return {string | undefined}
    */
-  url() {
+  url(): string | undefined {
     return undefined;
   }
   /**
@@ -178,7 +184,7 @@ export class Event {
    * ev2.observedInIsrael(); // true
    * @return {boolean}
    */
-  observedInIsrael() {
+  observedInIsrael(): boolean {
     return !(this.mask & flags.CHUL_ONLY);
   }
   /**
@@ -190,7 +196,7 @@ export class Event {
    * ev2.observedInDiaspora(); // true
    * @return {boolean}
    */
-  observedInDiaspora() {
+  observedInDiaspora(): boolean {
     return !(this.mask & flags.IL_ONLY);
   }
   /**
@@ -205,18 +211,18 @@ export class Event {
    * @param {boolean} il
    * @return {boolean}
    */
-  observedIn(il) {
+  observedIn(il: boolean): boolean {
     return il ? this.observedInIsrael() : this.observedInDiaspora();
   }
   /**
    * Makes a clone of this Event object
    * @return {Event}
    */
-  clone() {
-    const ev = new this.constructor(this.date, this.desc, this.mask);
+  clone(): Event {
+    const ev = new Event(this.date, this.desc, this.mask);
     for (const property in this) {
       if (this.hasOwnProperty(property)) {
-        ev[property] = this[property];
+        Object.defineProperty(ev, property, {value: this[property]});
       }
     }
     return ev;
@@ -225,11 +231,12 @@ export class Event {
    * Returns a list of event categories
    * @return {string[]}
    */
-  getCategories() {
+  getCategories(): string[] {
     const mask = this.getFlags();
     for (const attrs of flagToCategory) {
-      if (mask & attrs[0]) {
-        return attrs.slice(1);
+      const attr0 = attrs[0] as number;
+      if (mask & attr0) {
+        return attrs.slice(1) as string[];
       }
     }
     return ['unknown'];

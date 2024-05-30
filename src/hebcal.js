@@ -31,21 +31,24 @@ import {DailyLearning} from './DailyLearning.js';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {ParshaEvent} from './ParshaEvent';
 import {
-  HavdalahEvent,
   makeCandleEvent,
   makeFastStartEnd,
   makeWeekdayChanukahCandleLighting,
-} from './candles.js';
-import {flags} from './event.js';
+} from './candles';
+import {HavdalahEvent} from './TimedEvent';
+import {flags} from './event';
 import {getSedra_} from './sedra.js';
 import {hallel_} from './hallel';
-import {HolidayEvent, getHolidaysForYear_, MevarchimChodeshEvent} from './holidays.js';
+import {getHolidaysForYear_} from './holidays.js';
+import {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
+import {HolidayEvent} from './HolidayEvent';
 import {Location} from './location.js';
 import {Molad, MoladEvent} from './molad';
 import {OmerEvent} from './omer';
-import {reformatTimeStr} from './reformatTimeStr.js';
+import {reformatTimeStr} from './reformatTimeStr';
 import {tachanun_} from './tachanun';
 import {Zmanim} from './zmanim.js';
+import {getStartAndEnd} from './getStartAndEnd';
 
 const FRI = 5;
 const SAT = 6;
@@ -209,63 +212,7 @@ function checkCandleOptions(options) {
 }
 
 /**
- * Options to configure which events are returned
- * @typedef {Object} CalOptions
- * @property {Location} [location] - latitude/longitude/tzid used for candle-lighting
- * @property {number} [year] - Gregorian or Hebrew year
- * @property {boolean} [isHebrewYear] - to interpret year as Hebrew year
- * @property {number} [month] - Gregorian or Hebrew month (to filter results to a single month)
- * @property {number} [numYears] - generate calendar for multiple years (default 1)
- * @property {Date|HDate|number} [start] - use specific start date (requires end date)
- * @property {Date|HDate|number} [end] - use specific end date (requires start date)
- * @property {boolean} [candlelighting] - calculate candle-lighting and havdalah times
- * @property {number} [candleLightingMins] - minutes before sundown to light candles (default 18)
- * @property {number} [havdalahMins] - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
- *      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -
- *      Nightfall (the point when 3 small stars are observable in the night time sky with
- *      the naked eye). If `0`, Havdalah times are suppressed.
- * @property {number} [havdalahDeg] - degrees for solar depression for Havdalah.
- *      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars
- *      (observed by Dr. Baruch (Berthold) Cohn in his luach published in France in 1899).
- *      If `0`, Havdalah times are suppressed.
- * @property {number} [fastEndDeg] - degrees for solar depression for end of fast days.
- *      Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include
- *      6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky.
- * @property {boolean} [useElevation] - use elevation for calculations (default `false`).
- *      If `true`, use elevation to affect the calculation of all sunrise/sunset based zmanim.
- *      Note: there are some zmanim such as degree-based zmanim that are driven by the amount
- *      of light in the sky and are not impacted by elevation.
- *      These zmanim intentionally do not support elevation adjustment.
- * @property {boolean} [sedrot] - calculate parashah hashavua on Saturdays
- * @property {boolean} [il] - Israeli holiday and sedra schedule
- * @property {boolean} [noMinorFast] - suppress minor fasts
- * @property {boolean} [noModern] - suppress modern holidays
- * @property {boolean} [noRoshChodesh] - suppress Rosh Chodesh
- * @property {boolean} [shabbatMevarchim] - add Shabbat Mevarchim
- * @property {boolean} [noSpecialShabbat] - suppress Special Shabbat
- * @property {boolean} [noHolidays] - suppress regular holidays
- * @property {boolean} [omer] - include Days of the Omer
- * @property {boolean} [molad] - include event announcing the molad
- * @property {boolean} [ashkenazi] - use Ashkenazi transliterations for event titles (default Sephardi transliterations)
- * @property {string} [locale] - translate event titles according to a locale
- *      Default value is `en`, also built-in are `he` and `ashkenazi`.
- *      Additional locales (such as `ru` or `fr`) are provided by the
- *      {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
- * @property {boolean} [addHebrewDates] - print the Hebrew date for the entire date range
- * @property {boolean} [addHebrewDatesForEvents] - print the Hebrew date for dates with some events
- * @property {number} [mask] - use bitmask from `flags` to filter events
- * @property {boolean} [yomKippurKatan] - include Yom Kippur Katan (default `false`).
- *      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.
- *      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),
- *      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)
- *      and Nisan (fasting not permitted during Nisan).
- *      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.
- *      See {@link https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices Wikipedia Yom Kippur Katan practices}
- * @property {boolean} [hour12] - Whether to use 12-hour time (as opposed to 24-hour time).
- *      Possible values are `true` and `false`; the default is locale dependent.
- * @property {Object<string,any>} [dailyLearning] - map of options to enable daily study calendars
- *      such as `dafYomi`, `mishnaYomi`, `nachYomi` with value `true`. For `yerushalmi`
- *      the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein).
+ * @typedef {import('./CalOptions').CalOptions} CalOptions
  */
 
 /**
@@ -274,83 +221,6 @@ function checkCandleOptions(options) {
  * @property {boolean} mincha Tachanun is said at Mincha
  * @property {boolean} allCongs All congregations say Tachanun on the day
  */
-
-/**
- * Gets the R.D. days for a number, Date, or HDate
- * @private
- * @param {Date|HDate|number} d
- * @return {number}
- */
-function getAbs(d) {
-  if (typeof d == 'number') return d;
-  if (greg.isDate(d)) return greg.greg2abs(d);
-  if (HDate.isHDate(d)) return d.abs();
-  throw new TypeError(`Invalid date type: ${d}`);
-}
-
-/**
- * Parse options object to determine start & end days
- * @private
- * @param {CalOptions} options
- * @return {number[]}
- */
-export function getStartAndEnd(options) {
-  if ((options.start && !options.end) || (options.end && !options.start)) {
-    throw new TypeError('Both options.start and options.end are required');
-  } else if (options.start && options.end) {
-    return [getAbs(options.start), getAbs(options.end)];
-  }
-  const isHebrewYear = Boolean(options.isHebrewYear);
-  const theYear = typeof options.year !== 'undefined' ? parseInt(options.year, 10) :
-    isHebrewYear ? new HDate().getFullYear() : new Date().getFullYear();
-  if (isNaN(theYear)) {
-    throw new RangeError(`Invalid year ${options.year}`);
-  } else if (isHebrewYear && theYear < 1) {
-    throw new RangeError(`Invalid Hebrew year ${theYear}`);
-  }
-  let theMonth = NaN;
-  if (options.month) {
-    if (isHebrewYear) {
-      theMonth = HDate.monthNum(options.month);
-    } else {
-      theMonth = options.month;
-    }
-  }
-  const numYears = parseInt(options.numYears, 10) || 1;
-  if (isHebrewYear) {
-    const startDate = new HDate(1, theMonth || TISHREI, theYear);
-    let startAbs = startDate.abs();
-    const endAbs = options.month ?
-        startAbs + startDate.daysInMonth() :
-        new HDate(1, TISHREI, theYear + numYears).abs() - 1;
-    // for full Hebrew year, start on Erev Rosh Hashana which
-    // is technically in the previous Hebrew year
-    // (but conveniently lets us get candle-lighting time for Erev)
-    if (!theMonth && theYear > 1) {
-      startAbs--;
-    }
-    return [startAbs, endAbs];
-  } else {
-    const gregMonth = options.month ? theMonth - 1 : 0;
-    const startGreg = new Date(theYear, gregMonth, 1);
-    if (theYear < 100) {
-      startGreg.setFullYear(theYear);
-    }
-    const startAbs = greg.greg2abs(startGreg);
-    let endAbs;
-    if (options.month) {
-      endAbs = startAbs + greg.daysInMonth(theMonth, theYear) - 1;
-    } else {
-      const endYear = theYear + numYears;
-      const endGreg = new Date(endYear, 0, 1);
-      if (endYear < 100) {
-        endGreg.setFullYear(endYear);
-      }
-      endAbs = greg.greg2abs(endGreg) - 1;
-    }
-    return [startAbs, endAbs];
-  }
-}
 
 /**
  * Mask to filter Holiday array
@@ -584,7 +454,7 @@ export class HebrewCalendar {
    *
    * @example
    * import {HebrewCalendar, HDate, Location, Event} from '@hebcal/core';
-   * const options = {
+   * const options: CalOptions = {
    *   year: 1981,
    *   isHebrewYear: false,
    *   candlelighting: true,

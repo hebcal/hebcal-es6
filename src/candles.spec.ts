@@ -1,11 +1,12 @@
 import {
-  CandleLightingEvent, HavdalahEvent, TimedEvent,
   makeCandleEvent, makeFastStartEnd,
-} from './candles.js';
-import {flags} from './event.js';
+} from './candles';
+import {TimedEvent} from './TimedEvent';
+import {CalOptions} from './CalOptions';
+import {Event, flags} from './event';
 import {HDate, isoDateString} from '@hebcal/hdate';
 import {HebrewCalendar} from './hebcal.js';
-import {HolidayEvent} from './holidays.js';
+import {HolidayEvent} from './HolidayEvent';
 import {Location} from './location.js';
 import {Zmanim} from './zmanim.js';
 
@@ -15,8 +16,7 @@ jest.mock('quick-lru', () => {
   });
 });
 
-// eslint-disable-next-line require-jsdoc
-function eventDateDesc(ev) {
+function eventDateDesc(ev: Event | null) {
   if (ev === null) {
     return null;
   }
@@ -28,7 +28,7 @@ function eventDateDesc(ev) {
 
 test('makeCandleEvent-nosunset', () => {
   const location = Location.lookup('Helsinki');
-  const options = {
+  const options: CalOptions = {
     location,
     candleLightingMins: -18,
     useElevation: true,
@@ -92,22 +92,22 @@ test('makeCandleEvent-nosunset', () => {
 
 
 test('candles-only-diaspora', () => {
-  const options = {
+  const options: CalOptions = {
     year: 1993,
     noHolidays: true,
     location: Location.lookup('Chicago'),
     candlelighting: true,
     useElevation: true,
-    hour12: 0,
+    hour12: false,
   };
   const events = HebrewCalendar.calendar(options);
   expect(events.length).toBe(132);
-  const ev0 = events[0];
+  const ev0 = events[0] as TimedEvent;
   expect(Boolean(ev0.getFlags() & flags.LIGHT_CANDLES)).toBe(true);
   expect(ev0.render('en')).toBe('Candle lighting: 16:16');
   expect(ev0.getDesc()).toBe('Candle lighting');
   expect(ev0.eventTimeStr).toBe('16:16');
-  const ev1 = events[1];
+  const ev1 = events[1] as TimedEvent;
   expect(Boolean(ev1.getFlags() & flags.LIGHT_CANDLES_TZEIS)).toBe(true);
   expect(ev1.render('en')).toBe('Havdalah: 17:18');
   expect(ev1.getDesc()).toBe('Havdalah');
@@ -117,9 +117,10 @@ test('candles-only-diaspora', () => {
 });
 
 // eslint-disable-next-line require-jsdoc
-function eventTitleDateTime(ev) {
-  const timeStr = ev.eventTime ?
-    Zmanim.formatISOWithTimeZone(ev.location.getTzid(), ev.eventTime) :
+function eventTitleDateTime(ev: Event) {
+  const obj = ev as any;
+  const timeStr = typeof obj.eventTime === 'object' ?
+    Zmanim.formatISOWithTimeZone(obj.location.getTzid(), obj.eventTime as Date) :
     isoDateString(ev.getDate().greg());
   return {
     dt: timeStr,
@@ -128,7 +129,7 @@ function eventTitleDateTime(ev) {
 }
 
 test('candle-lighting-at-tzeit-motzei-shabbat', () => {
-  const options = {
+  const options: CalOptions = {
     start: new Date(2022, 5, 3),
     end: new Date(2022, 5, 6),
     noHolidays: true,
@@ -147,7 +148,7 @@ test('candle-lighting-at-tzeit-motzei-shabbat', () => {
 });
 
 test('havdalah-mins', () => {
-  const options = {
+  const options: CalOptions = {
     year: 2020,
     month: 4,
     noSpecialShabbat: true,
@@ -157,7 +158,7 @@ test('havdalah-mins', () => {
   };
   const events = HebrewCalendar.calendar(options)
       .filter((ev) => ev.getDesc().startsWith('Havdalah'));
-  const ev = events[0];
+  const ev = events[0] as TimedEvent;
   expect(ev.getFlags()).toBe(flags.LIGHT_CANDLES_TZEIS);
   expect(ev.render('en')).toBe('Havdalah (47 min): 8:02pm');
   expect(ev.getDesc()).toBe('Havdalah');
@@ -173,7 +174,7 @@ test('havdalah-mins', () => {
 });
 
 test('havdalah-zero-suppressed', () => {
-  const options = {
+  const options: CalOptions = {
     year: 2020,
     month: 4,
     noHolidays: true,
@@ -191,7 +192,7 @@ test('havdalah-zero-suppressed', () => {
 });
 
 test('havdalah-fixed-st-petersburg', () => {
-  const options = {
+  const options: CalOptions = {
     year: 2020,
     month: 6,
     noHolidays: true,
@@ -208,7 +209,7 @@ test('havdalah-fixed-st-petersburg', () => {
 });
 
 test('havdalah-no-tzeit-st-petersburg', () => {
-  const options = {
+  const options: CalOptions = {
     year: 2020,
     month: 6,
     noHolidays: true,
@@ -224,7 +225,7 @@ test('havdalah-no-tzeit-st-petersburg', () => {
 });
 
 test('candles-only-israel', () => {
-  const options = {
+  const options: CalOptions = {
     year: 1993,
     noHolidays: true,
     location: new Location(32.1836, 34.87386, true, 'Asia/Jerusalem', 'Ra\'anana', 'IL', undefined, 1),
@@ -241,7 +242,7 @@ test('candles-only-israel', () => {
 });
 
 test('candleLightingMins', () => {
-  const options = {
+  const options: CalOptions = {
     year: 2020,
     month: 5,
     noHolidays: true,
@@ -278,7 +279,7 @@ const jerusalemSeaLevel = new Location(31.76904, 35.21633, true, 'Asia/Jerusalem
     'Jerusalem, Israel', 'IL', undefined, 0);
 
 test('jerusalem40', () => {
-  const options = {
+  const options: CalOptions = {
     start: new Date(2020, 0, 1),
     end: new Date(2020, 2, 31),
     location: jerusalemSeaLevel,
@@ -307,7 +308,7 @@ test('jerusalem40', () => {
 });
 
 test('jerusalem31', () => {
-  const options = {
+  const options: CalOptions = {
     start: new Date(2020, 2, 1),
     end: new Date(2020, 2, 31),
     location: jerusalemSeaLevel,
@@ -327,7 +328,7 @@ test('jerusalem31', () => {
 });
 
 test('jerusalem18-forced-to-40', () => {
-  const options = {
+  const options: CalOptions = {
     start: new Date(2020, 2, 1),
     end: new Date(2020, 2, 31),
     location: jerusalemSeaLevel,
@@ -347,7 +348,7 @@ test('jerusalem18-forced-to-40', () => {
 });
 
 test('chanukah-candles', () => {
-  const options = {
+  const options: CalOptions = {
     start: new Date(2020, 11, 9),
     end: new Date(2020, 11, 19),
     location: Location.lookup('Providence'),
@@ -388,8 +389,9 @@ test('fastStartEnd-TzomTammuz', () => {
     {dt: '2021-06-27T21:07:00-04:00', desc: 'Fast ends'},
   ];
   expect(events.map(eventTitleDateTime)).toEqual(expected);
-  expect(events[1].startEvent).toEqual(events[0]);
-  expect(events[1].endEvent).toEqual(events[2]);
+  const ev1 = events[1] as HolidayEvent;
+  expect(ev1.startEvent).toEqual(events[0]);
+  expect(ev1.endEvent).toEqual(events[2]);
 });
 
 test('fastStartEnd-withoutHoliday', () => {
@@ -469,7 +471,7 @@ test('fastStartEnd-9av', () => {
 });
 
 test('no-chanukah-candles-when-noHolidays', () => {
-  const options = {
+  const options: CalOptions = {
     candlelighting: true,
     noHolidays: true,
     start: new Date(2020, 11, 9),
@@ -486,36 +488,6 @@ test('no-chanukah-candles-when-noHolidays', () => {
   ];
   const actual = events.map(eventTitleDateTime);
   expect(actual).toEqual(expected);
-});
-
-test('renderBrief', () => {
-  const dt = new Date('2020-12-28T20:12:14.987Z');
-  const hd = new HDate(dt);
-  const location = new Location(0, 0, false, 'UTC', undefined, 'GB');
-  const timed = new TimedEvent(hd, 'Foo Bar', 0, dt, location);
-  const candleLighting = new CandleLightingEvent(hd, flags.LIGHT_CANDLES, dt, location);
-  const havdalah = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location, 42);
-  const havdalahTzeit = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location);
-
-  expect(timed.getDesc()).toBe('Foo Bar');
-  expect(timed.render('en')).toBe('Foo Bar: 20:12');
-  expect(timed.renderBrief('en')).toBe('Foo Bar');
-  expect(candleLighting.getDesc()).toBe('Candle lighting');
-  expect(candleLighting.render('en')).toBe('Candle lighting: 20:12');
-  expect(candleLighting.renderBrief('en')).toBe('Candle lighting');
-  expect(havdalah.getDesc()).toBe('Havdalah');
-  expect(havdalah.render('en')).toBe('Havdalah (42 min): 20:12');
-  expect(havdalah.renderBrief('en')).toBe('Havdalah (42 min)');
-  expect(havdalahTzeit.getDesc()).toBe('Havdalah');
-  expect(havdalahTzeit.render('en')).toBe('Havdalah: 20:12');
-  expect(havdalahTzeit.renderBrief('en')).toBe('Havdalah');
-
-  expect(candleLighting.render('he')).toBe('הַדְלָקַת נֵרוֹת: 20:12');
-  expect(candleLighting.renderBrief('he')).toBe('הַדְלָקַת נֵרוֹת');
-  expect(havdalah.render('he')).toBe('הַבְדָּלָה (42 דַּקּוֹת): 20:12');
-  expect(havdalah.renderBrief('he')).toBe('הַבְדָּלָה (42 דַּקּוֹת)');
-  expect(havdalahTzeit.render('he')).toBe('הַבְדָּלָה: 20:12');
-  expect(havdalahTzeit.renderBrief('he')).toBe('הַבְדָּלָה');
 });
 
 test('havdalahDeg', () => {
@@ -549,7 +521,7 @@ test('havdalahDeg', () => {
 });
 
 test.skip('candles-year101', () => {
-  const options = {
+  const options: CalOptions = {
     year: 101,
     noHolidays: true,
     location: Location.lookup('Boston'),
@@ -567,15 +539,14 @@ test.skip('candles-year101', () => {
 });
 
 test('candles-year99-empty', () => {
-  const options = {
+  const options: CalOptions = {
     year: 99,
     noHolidays: true,
     location: Location.lookup('Boston'),
     candlelighting: true,
   };
   const events = HebrewCalendar.calendar(options);
-  const expected = [];
-  expect(events).toEqual(expected);
+  expect(events.length).toBe(0);
 });
 
 test('sedra-memo', () => {
@@ -589,16 +560,6 @@ test('sedra-memo', () => {
     ashkenazi: true,
   });
   expect(events[0].memo).toBe('Parshas Bechukosai');
-});
-
-test('emoji', () => {
-  const dt = new Date('2020-12-28T20:12:14.987Z');
-  const hd = new HDate(dt);
-  const location = new Location(0, 0, false, 'UTC');
-  const candleLighting = new CandleLightingEvent(hd, flags.LIGHT_CANDLES, dt, location);
-  const havdalah = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location);
-  expect(candleLighting.getEmoji()).toBe('🕯️');
-  expect(havdalah.getEmoji()).toBe('✨');
 });
 
 test('yk-candles-only', () => {
@@ -619,7 +580,7 @@ test('yk-candles-only', () => {
 });
 
 test('fastEndDeg', () => {
-  const options = {
+  const options: CalOptions = {
     start: new Date(2021, 5, 27),
     end: new Date(2021, 5, 27),
     location: Location.lookup('Providence'),
@@ -646,13 +607,13 @@ test('makeFastStartEnd', () => {
   const location = Location.lookup('Providence');
   const hd = new HDate(8, 'Av', 5783);
   const ev = new HolidayEvent(hd, 'Erev Tish\'a B\'Av', flags.EREV | flags.MAJOR_FAST);
-  const options = {
+  const options: CalOptions = {
     location,
     candlelighting: true,
     fastEndDeg: 7.0833,
   };
   const ev2 = makeFastStartEnd(ev, options);
-  const startEvent = ev2.startEvent;
+  const startEvent = ev2.startEvent as TimedEvent;
   expect(startEvent).not.toBe(null);
   expect(startEvent.eventTime.toISOString()).toBe('2023-07-27T00:10:00.000Z');
   expect(startEvent.eventTimeStr).toBe('20:10');

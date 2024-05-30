@@ -1,5 +1,5 @@
 import {HDate, months} from '@hebcal/hdate';
-import {Event, flags} from './event.js';
+import {Event, flags} from './event';
 
 const NONE = 0;
 const HALF = 1;

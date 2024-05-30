@@ -137,8 +137,8 @@ export class Location extends GeoLocation {
    * @param {number} longitude - Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
    * @param {boolean} il - in Israel (true) or Diaspora (false)
    * @param {string} tzid - Olson timezone ID, e.g. "America/Chicago"
-   * @param {string} cityName - optional descriptive city name
-   * @param {string} countryCode - ISO 3166 alpha-2 country code (e.g. "FR")
+   * @param {string} [cityName] - optional descriptive city name
+   * @param {string} [countryCode] - ISO 3166 alpha-2 country code (e.g. "FR")
    * @param {string} [geoid] - optional string or numeric geographic ID
    * @param {number} [elevation] - in meters (default `0`)
    */

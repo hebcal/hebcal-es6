@@ -18,14 +18,15 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {HDate, Locale, isoDateString, months} from '@hebcal/hdate';
+import {HDate, Locale, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
-import {Event, flags} from './event.js';
+import {flags} from './event';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
 import {getSedra_} from './sedra.js';
-import {Molad} from './molad';
 import {staticHolidays, staticModernHolidays,
   holidayDesc as hdesc} from './staticHolidays.js';
+import {YomKippurKatanEvent} from './YomKippurKatanEvent';
+import {HolidayEvent, AsaraBTevetEvent} from './HolidayEvent';
 
 const CHAG = flags.CHAG;
 const IL_ONLY = flags.IL_ONLY;
@@ -37,108 +38,6 @@ const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
 const MAJOR_FAST = flags.MAJOR_FAST;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
-
-/** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
-export class HolidayEvent extends Event {
-  /** @return {string} */
-  basename() {
-    return this.getDesc().replace(/ \d{4}$/, '')
-        .replace(/ \(CH''M\)$/, '')
-        .replace(/ \(observed\)$/, '')
-        .replace(/ \(Hoshana Raba\)$/, '')
-        .replace(/ [IV]+$/, '')
-        .replace(/: \d Candles?$/, '')
-        .replace(/: 8th Day$/, '')
-        .replace(/^Erev /, '');
-  }
-  /** @return {string} */
-  url() {
-    const year = this.getDate().greg().getFullYear();
-    if (year < 100) {
-      return undefined;
-    }
-    const url = 'https://www.hebcal.com/holidays/' +
-      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' +
-      this.urlDateSuffix();
-    return (this.getFlags() & IL_ONLY) ? url + '?i=on' : url;
-  }
-  /** @return {string} */
-  urlDateSuffix() {
-    const year = this.getDate().greg().getFullYear();
-    return year;
-  }
-  /** @return {string} */
-  getEmoji() {
-    if (this.emoji) {
-      return this.emoji;
-    } else if (this.getFlags() & SPECIAL_SHABBAT) {
-      return '🕍';
-    } else {
-      return '✡️';
-    }
-  }
-  /** @return {string[]} */
-  getCategories() {
-    if (this.cholHaMoedDay) {
-      return ['holiday', 'major', 'cholhamoed'];
-    }
-    const cats = super.getCategories();
-    if (cats[0] !== 'unknown') {
-      return cats;
-    }
-    // Don't depend on flags.MINOR_HOLIDAY always being set. Look for minor holidays.
-    const desc = this.getDesc();
-    const {
-      LAG_BAOMER,
-      LEIL_SELICHOT,
-      PESACH_SHENI,
-      EREV_PURIM,
-      PURIM_KATAN,
-      SHUSHAN_PURIM,
-      TU_BAV,
-      TU_BISHVAT,
-      ROSH_HASHANA_LABEHEMOT,
-    } = hdesc;
-
-    const minorHolidays = [
-      LAG_BAOMER,
-      LEIL_SELICHOT,
-      PESACH_SHENI,
-      EREV_PURIM,
-      PURIM_KATAN,
-      SHUSHAN_PURIM,
-      TU_BAV,
-      TU_BISHVAT,
-      ROSH_HASHANA_LABEHEMOT,
-    ];
-
-    if (minorHolidays.includes(desc)) {
-      return ['holiday', 'minor'];
-    }
-
-    return ['holiday', 'major'];
-  }
-  /**
-   * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  render(locale) {
-    const str = super.render(locale);
-    return str.replace(/'/g, '’');
-  }
-  /**
-   * Returns a brief (translated) description of this event.
-   * For most events, this is the same as render(). For some events, it procudes
-   * a shorter text (e.g. without a time or added description).
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  renderBrief(locale) {
-    const str = super.renderBrief(locale);
-    return str.replace(/'/g, '’');
-  }
-}
 
 const roshChodeshStr = 'Rosh Chodesh';
 
@@ -173,67 +72,6 @@ export class RoshChodeshEvent extends HolidayEvent {
   }
 }
 
-/**
- * Because Asara B'Tevet often occurs twice in the same Gregorian year,
- * we subclass HolidayEvent to override the `url()` method.
- */
-export class AsaraBTevetEvent extends HolidayEvent {
-  /** @return {string} */
-  urlDateSuffix() {
-    const isoDate = isoDateString(this.getDate().greg());
-    return isoDate.replace(/-/g, '');
-  }
-}
-
-const mevarchimChodeshStr = 'Shabbat Mevarchim Chodesh';
-
-/** Represents Mevarchim haChodesh, the announcement of the new month */
-export class MevarchimChodeshEvent extends Event {
-  /**
-   * Constructs Mevarchim haChodesh event
-   * @param {HDate} date Hebrew date event occurs
-   * @param {string} monthName Hebrew month name (not translated)
-   * @param {string} [memo]
-   */
-  constructor(date, monthName, memo) {
-    super(date, `${mevarchimChodeshStr} ${monthName}`, flags.SHABBAT_MEVARCHIM);
-    this.monthName = monthName;
-    if (memo) {
-      this.memo = memo;
-    } else {
-      const hyear = date.getFullYear();
-      const hmonth = date.getMonth();
-      const monNext = (hmonth == HDate.monthsInYear(hyear) ? NISAN : hmonth + 1);
-      const molad = new Molad(hyear, monNext);
-      this.memo = molad.render('en', {hour12: false});
-    }
-  }
-  /** @return {string} */
-  basename() {
-    return this.getDesc();
-  }
-  /**
-   * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  render(locale) {
-    const monthName0 = Locale.gettext(this.monthName, locale);
-    const monthName = monthName0.replace(/'/g, '’');
-    return Locale.gettext(mevarchimChodeshStr, locale) + ' ' + monthName;
-  }
-  /**
-   * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  renderBrief(locale) {
-    const str = this.render(locale);
-    const space = str.indexOf(' ');
-    return str.substring(space + 1);
-  }
-}
-
 /** Represents Rosh Hashana, the Jewish New Year */
 export class RoshHashanaEvent extends HolidayEvent {
   /**
@@ -260,53 +98,13 @@ export class RoshHashanaEvent extends HolidayEvent {
   }
 }
 
-const ykk = 'Yom Kippur Katan';
-
-/** YKK is minor day of atonement on the day preceeding each Rosh Chodesh */
-export class YomKippurKatanEvent extends HolidayEvent {
-  /**
-   * @private
-   * @param {HDate} date Hebrew date event occurs
-   * @param {string} nextMonthName name of the upcoming month
-   */
-  constructor(date, nextMonthName) {
-    super(date, `${ykk} ${nextMonthName}`, MINOR_FAST | flags.YOM_KIPPUR_KATAN);
-    this.nextMonthName = nextMonthName;
-    this.memo = `Minor Day of Atonement on the day preceeding Rosh Chodesh ${nextMonthName}`;
-  }
-  /** @return {string} */
-  basename() {
-    return this.getDesc();
-  }
-  /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  render(locale) {
-    const monthName0 = Locale.gettext(this.nextMonthName, locale);
-    const monthName = monthName0.replace(/'/g, '’');
-    return Locale.gettext(ykk, locale) + ' ' + monthName;
-  }
-  /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  renderBrief(locale) {
-    return Locale.gettext(ykk, locale);
-  }
-  /** @return {string} */
-  url() {
-    return undefined;
-  }
-}
-
 const SUN = 0;
 const TUE = 2;
 const THU = 4;
 const FRI = 5;
 const SAT = 6;
 
-const NISAN = months.NISAN;
+export const NISAN = months.NISAN;
 const TAMUZ = months.TAMUZ;
 const AV = months.AV;
 const TISHREI = months.TISHREI;

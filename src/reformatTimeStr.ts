@@ -1,4 +1,6 @@
-const hour12cc = {
+import {CalOptions} from './CalOptions';
+
+const hour12cc: {[key: string]: number} = {
   US: 1, CA: 1, BR: 1, AU: 1, NZ: 1, DO: 1, PR: 1, GR: 1, IN: 1, KR: 1, NP: 1, ZA: 1,
 };
 
@@ -9,7 +11,7 @@ const hour12cc = {
  * @param {CalOptions} options
  * @return {string}
  */
-export function reformatTimeStr(timeStr, suffix, options) {
+export function reformatTimeStr(timeStr: string, suffix: string, options?: CalOptions): string {
   if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);
   const cc = options?.location?.cc || (options?.il ? 'IL' : 'US');
   const hour12 = options?.hour12;
@@ -20,7 +22,7 @@ export function reformatTimeStr(timeStr, suffix, options) {
     return timeStr;
   }
   const hm = timeStr.split(':');
-  let hour = parseInt(hm[0], 10);
+  let hour: string | number = parseInt(hm[0], 10);
   if (hour < 12 && suffix) {
     suffix = suffix.replace('p', 'a').replace('P', 'A');
     if (hour === 0) {

@@ -28,7 +28,7 @@ $ npm install @hebcal/core
 ```javascript
 import {HebrewCalendar, HDate, Location, Event} from '@hebcal/core';
 
-const options = {
+const options: CalOptions = {
   year: 1981,
   isHebrewYear: false,
   candlelighting: true,
@@ -3105,7 +3105,7 @@ Additional locales (such as `ru` or `fr`) are supported by the
 **Example**  
 ```js
 import {HebrewCalendar, HDate, Location, Event} from '@hebcal/core';
-const options = {
+const options: CalOptions = {
   year: 1981,
   isHebrewYear: false,
   candlelighting: true,

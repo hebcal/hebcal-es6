@@ -7,7 +7,7 @@ import {
   omerSefira,
   omerTodayIs
 } from '@hebcal/hdate';
-import {Event, flags} from './event.js';
+import {Event, flags} from './event';
 
 /** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
 export class OmerEvent extends Event {
@@ -44,7 +44,7 @@ export class OmerEvent extends Event {
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  render(locale: string): string {
+  render(locale?: string): string {
     locale = locale ?? Locale.getLocaleName();
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
@@ -59,7 +59,7 @@ export class OmerEvent extends Event {
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  renderBrief(locale: string): string {
+  renderBrief(locale?: string): string {
     return Locale.gettext('Omer', locale) + ' ' + Locale.gettext('day', locale) + ' '+ this.omer;
   }
   /** @return {string} */

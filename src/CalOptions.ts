@@ -20,7 +20,7 @@ export type CalOptions = {
     /**
      * Gregorian or Hebrew month (to filter results to a single month)
      */
-    month?: number;
+    month?: number | string;
     /**
      * generate calendar for multiple years (default 1)
      */

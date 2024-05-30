@@ -1,11 +1,11 @@
 // import {months} from '@hebcal/hdate';
-import {flags} from './event.js';
+import {flags} from './event';
 
 export interface Holiday {
   mm: number; // This should be an enum `Month` eventually
   dd: number;
   desc: HolidayDesc;
-  flags: flags;
+  flags: number;
   chmDay?: number;
   emoji?: string;
 }

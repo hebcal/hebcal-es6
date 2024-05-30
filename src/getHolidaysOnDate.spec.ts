@@ -1,6 +1,6 @@
 import {HebrewCalendar} from './hebcal.js';
 import {HDate} from '@hebcal/hdate';
-import {Event} from './event.js';
+import {Event} from './event';
 
 jest.mock('quick-lru', () => {
   return jest.fn().mockImplementation(() => {
@@ -18,7 +18,7 @@ test('getHolidaysOnDate', () => {
     new Date(2010, 11, 7), ['Chag HaBanot', 'Chanukah: 7 Candles', 'Rosh Chodesh Tevet'],
   ];
   for (let i = 0; i < expected.length; i += 2) {
-    const dt = expected[i];
+    const dt = expected[i] as Date | HDate;
     const desc = expected[i + 1];
     const ev = HebrewCalendar.getHolidaysOnDate(dt);
     if (typeof desc === 'undefined') {
@@ -51,7 +51,7 @@ test('getHolidaysOnDate-il', () => {
   expect(events2d[0].getDesc()).toBe('Shavuot II');
 
   const events2il = HebrewCalendar.getHolidaysOnDate(dtShavuot2, true);
-  expect(events2il.length).toBe(0, 'expected no Shavuot II in Israel');
+  expect(events2il.length).toBe(0); // expected no Shavuot II in Israel
 });
 
 test('getHolidaysOnDate-cacheHit', () => {

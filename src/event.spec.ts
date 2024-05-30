@@ -1,5 +1,5 @@
 import {HDate} from '@hebcal/hdate';
-import {Event, flags} from './event.js';
+import {Event, flags} from './event';
 
 const hd = new HDate(23, 'Sivan', 5735);
 const ev = new Event(hd, 'Foo Bar', flags.USER_EVENT | flags.CHUL_ONLY, {quux: 123});
@@ -63,5 +63,5 @@ test('clone', () => {
   expect(ev2.getDesc()).toBe('Foo Bar');
   expect(ev2.observedInIsrael()).toBe(false);
   expect(ev2.observedInDiaspora()).toBe(true);
-  expect(ev2.quux).toBe(123);
+  expect((ev2 as any).quux).toBe(123);
 });

@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import {Event, flags} from './event.js';
+import {Event, flags} from './event';
 import {CalOptions} from './CalOptions';
 import {HDate, Locale, molad, Molad as MoladBase} from '@hebcal/hdate';
-import {reformatTimeStr} from './reformatTimeStr.js';
+import {reformatTimeStr} from './reformatTimeStr';
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const heDayNames = ['רִאשׁוֹן', 'שֵׁנִי', 'שְׁלִישִׁי', 'רְבִיעִי', 'חֲמִישִׁי', 'שִׁישִּׁי', 'שַׁבָּת'];
@@ -72,7 +72,7 @@ export class Molad {
    * @param {CalOptions} options
    * @return {string}
    */
-  render(locale: string, options: CalOptions): string {
+  render(locale?: string, options?: CalOptions): string {
     locale = locale ?? Locale.getLocaleName();
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
@@ -107,7 +107,7 @@ export class Molad {
 
 /** Represents a Molad announcement on Shabbat Mevarchim */
 export class MoladEvent extends Event {
-  private readonly molad: Molad;
+  readonly molad: Molad;
   private readonly options: CalOptions;
   /**
    * @param {HDate} date Hebrew date event occurs
@@ -126,7 +126,7 @@ export class MoladEvent extends Event {
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  render(locale: string): string {
+  render(locale?: string): string {
     return this.molad.render(locale, this.options);
   }
 }
