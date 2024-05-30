@@ -1,5 +1,5 @@
 import {GeoLocation} from '@hebcal/noaa';
-import {Zmanim} from './zmanim.js';
+import {Zmanim} from '../src/zmanim.js';
 
 // eslint-disable-next-line require-jsdoc
 function makeZman() {

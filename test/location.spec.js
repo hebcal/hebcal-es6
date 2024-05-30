@@ -1,4 +1,4 @@
-import {Location} from './location.js';
+import {Location} from '../src/location.js';
 
 test('lookup', () => {
   const loc1 = Location.lookup('San Francisco');

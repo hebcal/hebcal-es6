@@ -1,5 +1,5 @@
 import {HDate} from '@hebcal/hdate';
-import {HebrewDateEvent} from './HebrewDateEvent';
+import {HebrewDateEvent} from '../src/HebrewDateEvent';
 
 test('render', () => {
   const elul29 = new HDate(29, 'Elul', 5779);

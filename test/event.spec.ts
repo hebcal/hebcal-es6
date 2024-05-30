@@ -1,5 +1,5 @@
 import {HDate} from '@hebcal/hdate';
-import {Event, flags} from './event';
+import {Event, flags} from '../src/event';
 
 const hd = new HDate(23, 'Sivan', 5735);
 const ev = new Event(hd, 'Foo Bar', flags.USER_EVENT | flags.CHUL_ONLY, {quux: 123});

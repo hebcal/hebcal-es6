@@ -1,14 +1,14 @@
 import {
   makeCandleEvent, makeFastStartEnd,
-} from './candles';
-import {TimedEvent} from './TimedEvent';
-import {CalOptions} from './CalOptions';
-import {Event, flags} from './event';
+} from '../src/candles';
+import {TimedEvent} from '../src/TimedEvent';
+import {CalOptions} from '../src/CalOptions';
+import {Event, flags} from '../src/event';
 import {HDate, isoDateString} from '@hebcal/hdate';
-import {HebrewCalendar} from './hebcal.js';
-import {HolidayEvent} from './HolidayEvent';
-import {Location} from './location.js';
-import {Zmanim} from './zmanim.js';
+import {HebrewCalendar} from '../src/hebcal.js';
+import {HolidayEvent} from '../src/HolidayEvent';
+import {Location} from '../src/location.js';
+import {Zmanim} from '../src/zmanim.js';
 
 jest.mock('quick-lru', () => {
   return jest.fn().mockImplementation(() => {

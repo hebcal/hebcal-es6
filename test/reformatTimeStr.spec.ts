@@ -1,5 +1,5 @@
-import {reformatTimeStr} from './reformatTimeStr';
-import {Location} from './location';
+import {reformatTimeStr} from '../src/reformatTimeStr';
+import {Location} from '../src/location';
 
 function makeLocation(countryCode: string): Location {
   return new Location(0, 0, false, 'UTC', undefined, countryCode);

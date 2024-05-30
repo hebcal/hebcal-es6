@@ -1,4 +1,4 @@
-import {getStartAndEnd} from './getStartAndEnd';
+import {getStartAndEnd} from '../src/getStartAndEnd';
 
 test('getStartAndEnd-2digit', () => {
   const [start, end] = getStartAndEnd({year: 88});

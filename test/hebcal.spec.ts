@@ -1,9 +1,9 @@
 import {HDate, isoDateString, months} from '@hebcal/hdate';
-import {CalOptions} from './CalOptions';
-import {HebrewCalendar} from './hebcal.js';
-import {Event, flags} from './event';
-import {Location} from './location.js';
-import { OmerEvent } from './omer';
+import {CalOptions} from '../src/CalOptions';
+import {HebrewCalendar} from '../src/hebcal.js';
+import {Event, flags} from '../src/event';
+import {Location} from '../src/location.js';
+import { OmerEvent } from '../src/omer';
 
 jest.mock('quick-lru', () => {
   return jest.fn().mockImplementation(() => {
