@@ -1,7 +1,6 @@
 import {HDate, isoDateString, months} from '@hebcal/hdate';
 import {HolidayEvent, RoshChodeshEvent, MevarchimChodeshEvent} from './holidays.js';
 import {HebrewCalendar} from './hebcal.js';
-import {} from '@hebcal/hdate';
 import {flags} from './event.js';
 
 jest.mock('quick-lru', () => {

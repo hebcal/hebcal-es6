@@ -1,6 +1,6 @@
 import {HDate, months} from '@hebcal/hdate';
 import {HebrewCalendar} from './hebcal.js';
-import {hallel_} from './hallel.js';
+import {hallel_} from './hallel';
 
 jest.mock('quick-lru', () => {
   return jest.fn().mockImplementation(() => {

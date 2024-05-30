@@ -38,7 +38,7 @@ import {
 } from './candles.js';
 import {flags} from './event.js';
 import {getSedra_} from './sedra.js';
-import {hallel_} from './hallel.js';
+import {hallel_} from './hallel';
 import {HolidayEvent, getHolidaysForYear_, MevarchimChodeshEvent} from './holidays.js';
 import {Location} from './location.js';
 import {Molad, MoladEvent} from './molad.js';

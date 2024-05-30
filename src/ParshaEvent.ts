@@ -30,7 +30,7 @@ export class ParshaEvent extends Event {
    * @return {string}
    */
   render(locale?: string): string {
-    const locale0 = locale || Locale.getLocaleName();
+    const locale0 = locale ?? Locale.getLocaleName();
     const parsha = this.parsha;
     let name = Locale.gettext(parsha[0], locale);
     if (parsha.length == 2) {

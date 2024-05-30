@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import {HDate, months} from '@hebcal/hdate';
-import {Molad, MoladEvent} from './molad.js';
+import {Molad, MoladEvent} from './molad';
+import { Location } from './location';
 
 test('molad', () => {
   const items = [
@@ -42,8 +43,9 @@ test('Molad.render', () => {
 });
 
 test('MoladEvent', () => {
+  const loc = new Location(0, 0, false, 'UTC', 'Unknown', 'CA');
   const ev = new MoladEvent(new HDate(23, months.KISLEV, 5769),
-      5769, months.TEVET, {location: {cc: 'CA'}});
+      5769, months.TEVET, {location: loc});
   expect(ev.getDesc()).toBe('Molad Tevet 5769');
   expect(ev.render('en'))
       .toBe('Molad Tevet: Sat, 10 minutes and 16 chalakim after 4:00pm');

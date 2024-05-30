@@ -1,5 +1,5 @@
-import {months} from '@hebcal/hdate';
-import {flags} from './event.js';
+import {HDate, months} from '@hebcal/hdate';
+import {Event, flags} from './event.js';
 
 const NONE = 0;
 const HALF = 1;
@@ -11,12 +11,10 @@ const WHOLE = 2;
  * @param {HDate} hdate
  * @return {number}
  */
-export function hallel_(events, hdate) {
+export function hallel_(events: Event[], hdate: HDate): number {
   const whole = events.filter((ev) => {
-    /** @type {string} */
-    const desc = ev.getDesc();
-    /** @type {HDate} */
-    const hd = ev.getDate();
+    const desc: string = ev.getDesc();
+    const hd: HDate = ev.getDate();
     const month = hd.getMonth();
     const mday = hd.getDate();
     return desc.startsWith('Chanukah') ||

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import {Event, flags} from './event.js';
-import {HDate, Locale} from '@hebcal/hdate';
+import {CalOptions} from './CalOptions';
+import {HDate, Locale, molad, Molad as MoladBase} from '@hebcal/hdate';
 import {reformatTimeStr} from './reformatTimeStr.js';
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -15,90 +16,64 @@ const evening = 'בָּעֶרֶב';
  * Represents a molad, the moment when the new moon is "born"
  */
 export class Molad {
+  private readonly m: MoladBase;
   /**
    * Calculates the molad for a Hebrew month
    * @param {number} year
    * @param {number} month
    */
-  constructor(year, month) {
-    let m_adj = month - 7;
-    if (m_adj < 0) {
-      m_adj += HDate.monthsInYear(year);
-    }
-
-    const m_elapsed = (235 * Math.floor((year - 1) / 19)) + // Months in complete 19 year lunar (Metonic) cycles so far
-          (12 * ((year - 1) % 19)) + // Regular months in this cycle
-          Math.floor((7 * ((year - 1) % 19) + 1) / 19) + // Leap months this cycle
-          m_adj; // add elapsed months till the start of the molad of the month
-
-    const p_elapsed = 204 + Math.floor(793 * (m_elapsed % 1080));
-
-    const h_elapsed = 5 + (12 * m_elapsed) + (793 * Math.floor(m_elapsed / 1080)) + Math.floor(p_elapsed / 1080) - 6;
-
-    const parts = (p_elapsed % 1080) + (1080 * (h_elapsed % 24));
-
-    const chalakim = parts % 1080;
-
-    const day = 1 + (29 * m_elapsed) + Math.floor(h_elapsed / 24);
-
-    const dow = day % 7;
-
-    this.year = year;
-    this.month = month;
-    this.dow = dow;
-    this.hour = h_elapsed % 24;
-    this.minutes = Math.floor(chalakim / 18);
-    this.chalakim = chalakim % 18;
+  constructor(year: number, month: number) {
+    this.m = molad(year, month);
   }
   /**
    * @return {number}
    */
-  getYear() {
-    return this.year;
+  getYear(): number {
+    return this.m.year;
   }
   /**
    * @return {number}
    */
-  getMonth() {
-    return this.month;
+  getMonth(): number {
+    return this.m.month;
   }
   /**
    * @return {string}
    */
-  getMonthName() {
-    return HDate.getMonthName(this.month, this.year);
+  getMonthName(): string {
+    return HDate.getMonthName(this.m.month, this.m.year);
   }
   /**
    * @return {number} Day of Week (0=Sunday, 6=Saturday)
    */
-  getDow() {
-    return this.dow;
+  getDow(): number {
+    return this.m.dayOfWeek;
   }
   /**
    * @return {number} hour of day (0-23)
    */
-  getHour() {
-    return this.hour;
+  getHour(): number {
+    return this.m.hour;
   }
   /**
    * @return {number} minutes past hour (0-59)
    */
-  getMinutes() {
-    return this.minutes;
+  getMinutes(): number {
+    return this.m.minutes;
   }
   /**
    * @return {number} parts of a minute (0-17)
    */
-  getChalakim() {
-    return this.chalakim;
+  getChalakim(): number {
+    return this.m.chalakim;
   }
   /**
    * @param {string} [locale] Optional locale name (defaults to active locale)
    * @param {CalOptions} options
    * @return {string}
    */
-  render(locale, options) {
-    locale = locale || Locale.getLocaleName();
+  render(locale: string, options: CalOptions): string {
+    locale = locale ?? Locale.getLocaleName();
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }
@@ -132,13 +107,15 @@ export class Molad {
 
 /** Represents a Molad announcement on Shabbat Mevarchim */
 export class MoladEvent extends Event {
+  private readonly molad: Molad;
+  private readonly options: CalOptions;
   /**
    * @param {HDate} date Hebrew date event occurs
    * @param {number} hyear molad year
    * @param {number} hmonth molad month
    * @param {CalOptions} options
    */
-  constructor(date, hyear, hmonth, options) {
+  constructor(date: HDate, hyear: number, hmonth: number, options: CalOptions) {
     const m = new Molad(hyear, hmonth);
     const monthName = m.getMonthName();
     super(date, `Molad ${monthName} ${hyear}`, flags.MOLAD);
@@ -149,7 +126,7 @@ export class MoladEvent extends Event {
    * @param {string} [locale] Optional locale name (defaults to active locale).
    * @return {string}
    */
-  render(locale) {
+  render(locale: string): string {
     return this.molad.render(locale, this.options);
   }
 }
