@@ -3,7 +3,7 @@ import { CalOptions } from './CalOptions';
 import { Location } from './location';
 import { Event } from './event';
 import { reformatTimeStr } from './reformatTimeStr';
-import { Zmanim } from './zmanim.js';
+import { Zmanim } from './zmanim';
 
 /** An event that has an `eventTime` and `eventTimeStr` */
 export class TimedEvent extends Event {

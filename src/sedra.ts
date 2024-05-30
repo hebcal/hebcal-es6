@@ -1,7 +1,7 @@
 import {Sedra} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 
-const sedraCache = new QuickLRU({maxSize: 400});
+const sedraCache = new QuickLRU<string, Sedra>({maxSize: 400});
 
 /**
  * @private
@@ -9,7 +9,7 @@ const sedraCache = new QuickLRU({maxSize: 400});
  * @param {boolean} il
  * @return {Sedra}
  */
-export function getSedra_(hyear, il) {
+export function getSedra_(hyear: number, il: boolean): Sedra {
   const cacheKey = `${hyear}-${il ? 1 : 0}`;
   let sedra = sedraCache.get(cacheKey);
   if (!sedra) {

@@ -8,7 +8,7 @@ import {HDate, isoDateString} from '@hebcal/hdate';
 import {HebrewCalendar} from '../src/hebcal.js';
 import {HolidayEvent} from '../src/HolidayEvent';
 import {Location} from '../src/location.js';
-import {Zmanim} from '../src/zmanim.js';
+import {Zmanim} from '../src/zmanim';
 
 jest.mock('quick-lru', () => {
   return jest.fn().mockImplementation(() => {

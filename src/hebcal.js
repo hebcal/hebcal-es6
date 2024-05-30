@@ -27,7 +27,7 @@ import {
   HDate, Locale,
 } from '@hebcal/hdate';
 import {version as pkgVersion} from './pkgVersion.js';
-import {DailyLearning} from './DailyLearning.js';
+import {DailyLearning} from './DailyLearning';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {ParshaEvent} from './ParshaEvent';
 import {
@@ -37,7 +37,7 @@ import {
 } from './candles';
 import {HavdalahEvent} from './TimedEvent';
 import {flags} from './event';
-import {getSedra_} from './sedra.js';
+import {getSedra_} from './sedra';
 import {hallel_} from './hallel';
 import {getHolidaysForYear_} from './holidays.js';
 import {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
@@ -47,7 +47,7 @@ import {Molad, MoladEvent} from './molad';
 import {OmerEvent} from './omer';
 import {reformatTimeStr} from './reformatTimeStr';
 import {tachanun_} from './tachanun';
-import {Zmanim} from './zmanim.js';
+import {Zmanim} from './zmanim';
 import {getStartAndEnd} from './getStartAndEnd';
 
 const FRI = 5;

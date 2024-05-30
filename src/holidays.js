@@ -22,7 +22,7 @@ import {HDate, Locale, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 import {flags} from './event';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
-import {getSedra_} from './sedra.js';
+import {getSedra_} from './sedra';
 import {staticHolidays, staticModernHolidays,
   holidayDesc as hdesc} from './staticHolidays.js';
 import {YomKippurKatanEvent} from './YomKippurKatanEvent';

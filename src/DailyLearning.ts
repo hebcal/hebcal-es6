@@ -1,5 +1,7 @@
+import {HDate} from '@hebcal/hdate';
+
 /** @private */
-const cals = new Map();
+const cals = new Map<string, Function>();
 
 /**
  * Plug-ins for daily learning calendars such as Daf Yomi, Mishna Yomi, Nach Yomi, etc.
@@ -12,7 +14,7 @@ export class DailyLearning {
    * @param {string} name
    * @param {Function} calendar
    */
-  static addCalendar(name, calendar) {
+  static addCalendar(name: string, calendar: Function) {
     if (typeof calendar !== 'function') {
       throw new TypeError(`Invalid calendar function: ${calendar}`);
     }
@@ -27,7 +29,7 @@ export class DailyLearning {
    * @param {boolean} il
    * @return {Event | null}
    */
-  static lookup(name, hd, il) {
+  static lookup(name: string, hd: HDate, il: boolean): Event | null {
     const fn = cals.get(name);
     if (typeof fn === 'function') {
       return fn(hd, il);

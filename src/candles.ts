@@ -4,8 +4,8 @@ import {CalOptions} from './CalOptions';
 import {Location} from './location';
 import {Event, flags} from './event';
 import {HolidayEvent} from './HolidayEvent';
-import {Zmanim} from './zmanim.js';
-import { TimedEvent, CandleLightingEvent, HavdalahEvent } from './TimedEvent';
+import {Zmanim} from './zmanim';
+import {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
 
 /**
  * @private
@@ -61,7 +61,7 @@ export function makeFastStartEnd(ev: HolidayEvent, options: CalOptions): Holiday
   ev = ev.clone();
   const hd = ev.getDate();
   const dt = hd.greg();
-  const location = options.location;
+  const location = options.location as Location;
   const fastEndDeg = options.fastEndDeg;
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, dt, useElevation);
