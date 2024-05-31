@@ -18,15 +18,16 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import {HDate, Locale, months} from '@hebcal/hdate';
+import {HDate, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
-import {flags} from './event';
+import {Event, flags} from './event';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
 import {getSedra_} from './sedra';
 import {staticHolidays, staticModernHolidays,
   holidayDesc as hdesc} from './staticHolidays';
 import {YomKippurKatanEvent} from './YomKippurKatanEvent';
-import {HolidayEvent, AsaraBTevetEvent} from './HolidayEvent';
+import {HolidayEvent, AsaraBTevetEvent, RoshHashanaEvent,
+  RoshChodeshEvent} from './HolidayEvent';
 
 const CHAG = flags.CHAG;
 const IL_ONLY = flags.IL_ONLY;
@@ -39,64 +40,6 @@ const MAJOR_FAST = flags.MAJOR_FAST;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
 
-const roshChodeshStr = 'Rosh Chodesh';
-
-/** Represents Rosh Chodesh, the beginning of a new month */
-export class RoshChodeshEvent extends HolidayEvent {
-  /**
-   * Constructs Rosh Chodesh event
-   * @param {HDate} date Hebrew date event occurs
-   * @param {string} monthName Hebrew month name (not translated)
-   */
-  constructor(date, monthName) {
-    super(date, `${roshChodeshStr} ${monthName}`, flags.ROSH_CHODESH);
-  }
-  /**
-   * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  render(locale) {
-    const monthName = this.getDesc().substring(roshChodeshStr.length + 1);
-    const monthName0 = Locale.gettext(monthName, locale);
-    const monthName1 = monthName0.replace(/'/g, '’');
-    return Locale.gettext(roshChodeshStr, locale) + ' ' + monthName1;
-  }
-  /** @return {string} */
-  basename() {
-    return this.getDesc();
-  }
-  /** @return {string} */
-  getEmoji() {
-    return this.emoji || '🌒';
-  }
-}
-
-/** Represents Rosh Hashana, the Jewish New Year */
-export class RoshHashanaEvent extends HolidayEvent {
-  /**
-   * @private
-   * @param {HDate} date Hebrew date event occurs
-   * @param {number} hyear Hebrew year
-   * @param {number} mask optional holiday flags
-   */
-  constructor(date, hyear, mask) {
-    super(date, `Rosh Hashana ${hyear}`, mask);
-    this.hyear = hyear;
-  }
-  /**
-   * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
-   */
-  render(locale) {
-    return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
-  }
-  /** @return {string} */
-  getEmoji() {
-    return '🍏🍯';
-  }
-}
 
 const SUN = 0;
 const TUE = 2;
@@ -104,7 +47,7 @@ const THU = 4;
 const FRI = 5;
 const SAT = 6;
 
-export const NISAN = months.NISAN;
+const NISAN = months.NISAN;
 const TAMUZ = months.TAMUZ;
 const AV = months.AV;
 const TISHREI = months.TISHREI;
@@ -115,7 +58,8 @@ const ADAR_II = months.ADAR_II;
 
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';
-const yearCache = new QuickLRU({maxSize: 400});
+export type HolidayYearMap = Map<string,HolidayEvent[]>;
+const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 400});
 
 const KEYCAP_DIGITS = [
   '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣',
@@ -127,10 +71,8 @@ const KEYCAP_DIGITS = [
  * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
  * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
  * @private
- * @param {number} year Hebrew year
- * @return {Map<string,Event[]>}
  */
-export function getHolidaysForYear_(year) {
+export function getHolidaysForYear_(year: number): HolidayYearMap {
   if (typeof year !== 'number') {
     throw new TypeError(`bad Hebrew year: ${year}`);
   } else if (year < 1 || year > 32658) {
@@ -144,9 +86,8 @@ export function getHolidaysForYear_(year) {
   const RH = new HDate(1, TISHREI, year);
   const pesach = new HDate(15, NISAN, year);
 
-  const map = new Map();
-  // eslint-disable-next-line require-jsdoc
-  function add(...events) {
+  const map = new Map<string,HolidayEvent[]>();
+  function add(...events: HolidayEvent[]) {
     for (const ev of events) {
       const key = ev.date.toString();
       const arr = map.get(key);
@@ -174,7 +115,8 @@ export function getHolidaysForYear_(year) {
   add(new RoshHashanaEvent(RH, year, CHAG | LIGHT_CANDLES_TZEIS));
 
   // Variable date holidays
-  add(new HolidayEvent(new HDate(3 + (RH.getDay() == THU), TISHREI, year),
+  const tzomGedaliahDay: number = RH.getDay() === THU ? 4 : 3;
+  add(new HolidayEvent(new HDate(tzomGedaliahDay, TISHREI, year),
       hdesc.TZOM_GEDALIAH, MINOR_FAST));
   // first SAT after RH
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())),
@@ -202,7 +144,7 @@ export function getHolidaysForYear_(year) {
           hdesc.SHABBAT_SHEKALIM, SPECIAL_SHABBAT),
       new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 30)),
           hdesc.SHABBAT_ZACHOR, SPECIAL_SHABBAT),
-      new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() == TUE ? 33 : 31)),
+      new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() === TUE ? 33 : 31)),
           hdesc.TAANIT_ESTHER, MINOR_FAST),
   );
   const haChodeshAbs = HDate.dayOnOrBefore(SAT, pesachAbs - 14);
@@ -213,7 +155,7 @@ export function getHolidaysForYear_(year) {
           hdesc.SHABBAT_HAGADOL, SPECIAL_SHABBAT),
       new HolidayEvent(
         // if the fast falls on Shabbat, move to Thursday
-        pesach.prev().getDay() == SAT ?
+        pesach.prev().getDay() === SAT ?
           pesach.onOrBefore(THU) :
           new HDate(14, NISAN, year),
         hdesc.TAANIT_BECHOROT,
@@ -223,7 +165,7 @@ export function getHolidaysForYear_(year) {
   add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
       hdesc.LEIL_SELICHOT, MINOR_HOLIDAY, {emoji: '🕍'}));
 
-  if (pesach.getDay() == SUN) {
+  if (pesach.getDay() === SUN) {
     add(new HolidayEvent(new HDate(16, ADAR_II, year),
         hdesc.PURIM_MESHULASH, MINOR_HOLIDAY));
   }
@@ -270,7 +212,7 @@ export function getHolidaysForYear_(year) {
 
   let tamuz17 = new HDate(17, TAMUZ, year);
   let tamuz17attrs;
-  if (tamuz17.getDay() == SAT) {
+  if (tamuz17.getDay() === SAT) {
     tamuz17 = new HDate(18, TAMUZ, year);
     tamuz17attrs = {observed: true};
   }
@@ -279,7 +221,7 @@ export function getHolidaysForYear_(year) {
   let av9dt = new HDate(9, AV, year);
   let av9title = hdesc.TISHA_BAV;
   let av9attrs;
-  if (av9dt.getDay() == SAT) {
+  if (av9dt.getDay() === SAT) {
     av9dt = av9dt.next();
     av9attrs = {observed: true};
     av9title += ' (observed)';
@@ -297,9 +239,9 @@ export function getHolidaysForYear_(year) {
   const monthsInYear = HDate.monthsInYear(year);
   for (let month = 1; month <= monthsInYear; month++) {
     const monthName = HDate.getMonthName(month, year);
-    if ((month == NISAN ?
+    if ((month === NISAN ?
         HDate.daysInMonth(HDate.monthsInYear(year - 1), year - 1) :
-        HDate.daysInMonth(month - 1, year)) == 30) {
+        HDate.daysInMonth(month - 1, year)) === 30) {
       add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
       add(new RoshChodeshEvent(new HDate(30, month - 1, year), monthName));
     } else if (month !== TISHREI) {
@@ -329,7 +271,7 @@ export function getHolidaysForYear_(year) {
   }
 
   const sedra = getSedra_(year, false);
-  const beshalachHd = sedra.find(15);
+  const beshalachHd = sedra.find(15) as HDate;
   add(new HolidayEvent(beshalachHd, hdesc.SHABBAT_SHIRAH, SPECIAL_SHABBAT));
 
   // Birkat Hachamah appears only once every 28 years
@@ -352,10 +294,8 @@ export function getHolidaysForYear_(year) {
  * Due to drift, this will eventually slip into Iyyar
  *   - 2 Iyyar 7141 (Gregorian year 3381)
  * @private
- * @param {number} year
- * @return {number}
  */
-function getBirkatHaChama(year) {
+function getBirkatHaChama(year: number): number {
   const leap = HDate.isLeapYear(year);
   const startMonth = leap ? ADAR_II : NISAN;
   const startDay = leap ? 20 : 1;
@@ -363,7 +303,7 @@ function getBirkatHaChama(year) {
   for (let day = 0; day <= 40; day++) {
     const abs = baseRd + day;
     const elapsed = abs + 1373429;
-    if (elapsed % 10227 == 172) {
+    if (elapsed % 10227 === 172) {
       return abs;
     }
   }

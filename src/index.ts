@@ -11,10 +11,10 @@ export {Molad, MoladEvent} from './molad';
 export {OmerEvent} from './omer';
 export {Sedra, parshiot} from '@hebcal/hdate';
 export {ParshaEvent} from './ParshaEvent';
-export {HolidayEvent, AsaraBTevetEvent} from './HolidayEvent';
+export {HolidayEvent, AsaraBTevetEvent,
+  RoshChodeshEvent, RoshHashanaEvent} from './HolidayEvent';
 export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
-export {RoshChodeshEvent, RoshHashanaEvent} from './holidays.js';
 export {holidayDesc} from './staticHolidays';
 export {DailyLearning} from './DailyLearning';
-export {HebrewCalendar} from './hebcal.js';
-export {version} from './pkgVersion.js';
+export {HebrewCalendar} from './hebcal';
+export {version} from './pkgVersion';

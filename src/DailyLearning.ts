@@ -1,4 +1,5 @@
 import {HDate} from '@hebcal/hdate';
+import {Event} from './event';
 
 /** @private */
 const cals = new Map<string, Function>();

@@ -1,4 +1,4 @@
-import {isoDateString} from '@hebcal/hdate';
+import {HDate, Locale, isoDateString} from '@hebcal/hdate';
 import {Event, flags} from './event';
 import {TimedEvent} from './TimedEvent';
 import {holidayDesc as hdesc} from './staticHolidays';
@@ -17,9 +17,19 @@ const minorHolidays = [
 
 /** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
 export class HolidayEvent extends Event {
-  readonly cholHaMoedDay?: number;
-  startEvent?: TimedEvent | null;
-  endEvent?: TimedEvent | null;
+  /** During Sukkot or Pesach */
+  cholHaMoedDay?: number;
+  chanukahDay?: number;
+  /**
+   * `true` if the fast day was postponed a day to avoid Shabbat.
+   * - Tish'a B'Av postponed from the 9th to the 10th
+   * - Tzom Tammuz postponed from the 17th to the 18th
+   */
+  observed?: boolean;
+  /** For a Fast day, this will be a "Fast begins" event */
+  startEvent?: TimedEvent;
+  /** For a Fast day, this will be a "Fast ends" event */
+  endEvent?: TimedEvent;
   /** @return {string} */
   basename(): string {
     return this.getDesc().replace(/ \d{4}$/, '')
@@ -119,5 +129,65 @@ export class AsaraBTevetEvent extends HolidayEvent {
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');
+  }
+}
+
+/** Represents Rosh Hashana, the Jewish New Year */
+export class RoshHashanaEvent extends HolidayEvent {
+  private readonly hyear: number;
+  /**
+   * @private
+   * @param {HDate} date Hebrew date event occurs
+   * @param {number} hyear Hebrew year
+   * @param {number} mask optional holiday flags
+   */
+  constructor(date: HDate, hyear: number, mask: number) {
+    super(date, `Rosh Hashana ${hyear}`, mask);
+    this.hyear = hyear;
+  }
+  /**
+   * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale?: string): string {
+    return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
+  }
+  /** @return {string} */
+  getEmoji(): string {
+    return '🍏🍯';
+  }
+}
+
+const roshChodeshStr = 'Rosh Chodesh';
+
+/** Represents Rosh Chodesh, the beginning of a new month */
+export class RoshChodeshEvent extends HolidayEvent {
+  /**
+   * Constructs Rosh Chodesh event
+   * @param {HDate} date Hebrew date event occurs
+   * @param {string} monthName Hebrew month name (not translated)
+   */
+  constructor(date: HDate, monthName: string) {
+    super(date, `${roshChodeshStr} ${monthName}`, flags.ROSH_CHODESH);
+  }
+  /**
+   * Returns (translated) description of this event
+   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @return {string}
+   */
+  render(locale?: string): string {
+    const monthName = this.getDesc().substring(roshChodeshStr.length + 1);
+    const monthName0 = Locale.gettext(monthName, locale);
+    const monthName1 = monthName0.replace(/'/g, '’');
+    return Locale.gettext(roshChodeshStr, locale) + ' ' + monthName1;
+  }
+  /** @return {string} */
+  basename(): string {
+    return this.getDesc();
+  }
+  /** @return {string} */
+  getEmoji(): string {
+    return this.emoji || '🌒';
   }
 }

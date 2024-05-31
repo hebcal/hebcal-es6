@@ -1,6 +1,6 @@
 import {HDate, isoDateString, months} from '@hebcal/hdate';
 import {CalOptions} from '../src/CalOptions';
-import {HebrewCalendar} from '../src/hebcal.js';
+import {HebrewCalendar} from '../src/hebcal';
 import {Event, flags} from '../src/event';
 import {Location} from '../src/location.js';
 import { OmerEvent } from '../src/omer';

@@ -15,7 +15,7 @@ export function makeCandleEvent(
   hd: HDate,
   options: CalOptions,
   isFriday: boolean,
-  isSaturday: boolean): Event | null {
+  isSaturday: boolean): TimedEvent | undefined {
   let havdalahTitle = false;
   let useHavdalahOffset = isSaturday;
   let mask = ev ? ev.getFlags() : flags.LIGHT_CANDLES;
@@ -40,7 +40,7 @@ export function makeCandleEvent(
   const zmanim = new Zmanim(location, hd, useElevation);
   const time = offset ? zmanim.sunsetOffset(offset, true) : zmanim.tzeit(options.havdalahDeg);
   if (isNaN(time.getTime())) {
-    return null; // no sunset
+    return undefined; // no sunset
   }
   if (havdalahTitle) {
     return new HavdalahEvent(hd, mask, time, location, options.havdalahMins, ev, options);
@@ -48,6 +48,9 @@ export function makeCandleEvent(
     return new CandleLightingEvent(hd, mask, time, location, ev, options);
   }
 }
+
+const FAST_BEGINS = 'Fast begins';
+const FAST_ENDS = 'Fast ends';
 
 /**
  * Makes a pair of events representing fast start and end times
@@ -67,14 +70,24 @@ export function makeFastStartEnd(ev: HolidayEvent, options: CalOptions): Holiday
   const zmanim = new Zmanim(location, dt, useElevation);
   if (desc === 'Erev Tish\'a B\'Av') {
     const sunset = zmanim.sunset();
-    ev.startEvent = makeTimedEvent(hd, sunset, 'Fast begins', ev, options);
+    if (!isNaN(sunset.getTime())) {
+      ev.startEvent = makeTimedEvent(ev, sunset, FAST_BEGINS, options);
+    }
   } else if (desc.startsWith('Tish\'a B\'Av')) {
-    ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(fastEndDeg), 'Fast ends', ev, options);
+    const tzeit = zmanim.tzeit(fastEndDeg);
+    if (!isNaN(tzeit.getTime())) {
+      ev.endEvent = makeTimedEvent(ev, tzeit, FAST_ENDS, options);
+    }
   } else {
     const dawn = zmanim.alotHaShachar();
-    ev.startEvent = makeTimedEvent(hd, dawn, 'Fast begins', ev, options);
+    if (!isNaN(dawn.getTime())) {
+      ev.startEvent = makeTimedEvent(ev, dawn, FAST_BEGINS, options);
+    }
     if (dt.getDay() !== 5 && !(hd.getDate() === 14 && hd.getMonth() === months.NISAN)) {
-      ev.endEvent = makeTimedEvent(hd, zmanim.tzeit(fastEndDeg), 'Fast ends', ev, options);
+      const tzeit = zmanim.tzeit(fastEndDeg);
+      if (!isNaN(tzeit.getTime())) {
+        ev.endEvent = makeTimedEvent(ev, tzeit, FAST_ENDS, options);
+      }
     }
   }
   return ev;
@@ -83,19 +96,18 @@ export function makeFastStartEnd(ev: HolidayEvent, options: CalOptions): Holiday
 /**
  * @private
  */
-function makeTimedEvent(hd: HDate, time: Date, desc: string, ev: Event, options: CalOptions): TimedEvent | null {
-  if (isNaN(time.getTime())) {
-    return null;
-  }
+function makeTimedEvent(ev: Event, time: Date, desc: string, options: CalOptions): TimedEvent {
   const location = options.location as Location;
+  const hd = ev.getDate();
   return new TimedEvent(hd, desc, ev.getFlags(), time, location, ev, options);
 }
 
-export class ChanukahEvent extends HolidayEvent {
-  readonly eventTime: Date;
-  readonly eventTimeStr: string;
+export class TimedChanukahEvent extends HolidayEvent {
+  eventTime: Date;
+  eventTimeStr: string;
   readonly location: Location;
-  constructor(date: HDate, desc: string, mask: number, eventTime: Date, location: Location) {
+  constructor(date: HDate, desc: string, mask: number,
+    eventTime: Date, location: Location) {
     super(date, desc, mask);
     this.eventTime = Zmanim.roundTime(eventTime);
     const timeFormat = location.getTimeFormatter();
@@ -110,7 +122,7 @@ export class ChanukahEvent extends HolidayEvent {
  * Another source suggests 4.6667 degrees below horizon.
  * @private
  */
-export function makeWeekdayChanukahCandleLighting(ev: Event, hd: HDate, options: CalOptions): ChanukahEvent | null {
+export function makeWeekdayChanukahCandleLighting(ev: HolidayEvent, hd: HDate, options: CalOptions): TimedChanukahEvent | null {
   const location = options.location as Location;
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, hd.greg(), useElevation);
@@ -118,5 +130,9 @@ export function makeWeekdayChanukahCandleLighting(ev: Event, hd: HDate, options:
   if (isNaN(candleLightingTime.getTime())) {
     return null;
   }
-  return new ChanukahEvent(hd, ev.getDesc(), ev.getFlags(), candleLightingTime, location);
+  const ev2 = new TimedChanukahEvent(hd, ev.getDesc(), ev.getFlags(),
+    candleLightingTime, location);
+  ev2.emoji = ev.emoji;
+  ev2.chanukahDay = ev.chanukahDay;
+  return ev2;
 }

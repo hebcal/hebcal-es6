@@ -48,7 +48,7 @@
     "build:rollup": "rollup -c",
     "build": "npm run version && npm run build:rollup --production",
     "prepublish": "npm run build",
-    "version": "node ./version.cjs package.json src/pkgVersion.js",
+    "version": "node ./version.cjs package.json src/pkgVersion.ts",
     "readme": "cp dist/index.mjs tmp.js && npx -p jsdoc-to-markdown jsdoc2md tmp.js && rm -f tmp.js",
     "pretest": "npm run build",
     "lint": "eslint src",

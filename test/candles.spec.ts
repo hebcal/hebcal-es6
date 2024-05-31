@@ -5,7 +5,7 @@ import {TimedEvent} from '../src/TimedEvent';
 import {CalOptions} from '../src/CalOptions';
 import {Event, flags} from '../src/event';
 import {HDate, isoDateString} from '@hebcal/hdate';
-import {HebrewCalendar} from '../src/hebcal.js';
+import {HebrewCalendar} from '../src/hebcal';
 import {HolidayEvent} from '../src/HolidayEvent';
 import {Location} from '../src/location.js';
 import {Zmanim} from '../src/zmanim';
@@ -16,8 +16,8 @@ jest.mock('quick-lru', () => {
   });
 });
 
-function eventDateDesc(ev: Event | null) {
-  if (ev === null) {
+function eventDateDesc(ev: Event | undefined) {
+  if (ev === undefined) {
     return null;
   }
   return {

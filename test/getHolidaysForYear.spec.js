@@ -1,4 +1,4 @@
-import {HebrewCalendar} from '../src/hebcal.js';
+import {HebrewCalendar} from '../src/hebcal';
 import {isoDateString} from '@hebcal/hdate';
 
 jest.mock('quick-lru', () => {

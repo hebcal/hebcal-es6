@@ -1,4 +1,4 @@
-import {HebrewCalendar} from '../src/hebcal.js';
+import {HebrewCalendar} from '../src/hebcal';
 import {HDate} from '@hebcal/hdate';
 import {Event} from '../src/event';
 
@@ -36,6 +36,7 @@ test('getHolidaysOnDate-il', () => {
   const dtShavuot1 = new Date(2021, 4, 17);
   const dtShavuot2 = new Date(2021, 4, 18);
   const events0 = HebrewCalendar.getHolidaysOnDate(dtShavuot1);
+  expect(events0).toBeDefined();
   expect(events0.length).toBe(2);
 
   const events1il = HebrewCalendar.getHolidaysOnDate(dtShavuot1, true);

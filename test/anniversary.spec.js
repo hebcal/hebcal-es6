@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {HDate} from '@hebcal/hdate';
-import {HebrewCalendar} from '../src/hebcal.js';
+import {HebrewCalendar} from '../src/hebcal';
 
 jest.mock('quick-lru', () => {
   return jest.fn().mockImplementation(() => {
