@@ -1,7 +1,7 @@
 import {isoDateString} from '@hebcal/hdate';
 import {Event, flags} from './event';
 import {TimedEvent} from './TimedEvent';
-import {holidayDesc as hdesc} from './staticHolidays.js';
+import {holidayDesc as hdesc} from './staticHolidays';
 
 const minorHolidays = [
   hdesc.LAG_BAOMER,

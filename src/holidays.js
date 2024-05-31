@@ -24,7 +24,7 @@ import {flags} from './event';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
 import {getSedra_} from './sedra';
 import {staticHolidays, staticModernHolidays,
-  holidayDesc as hdesc} from './staticHolidays.js';
+  holidayDesc as hdesc} from './staticHolidays';
 import {YomKippurKatanEvent} from './YomKippurKatanEvent';
 import {HolidayEvent, AsaraBTevetEvent} from './HolidayEvent';
 

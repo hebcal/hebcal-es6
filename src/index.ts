@@ -14,7 +14,7 @@ export {ParshaEvent} from './ParshaEvent';
 export {HolidayEvent, AsaraBTevetEvent} from './HolidayEvent';
 export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 export {RoshChodeshEvent, RoshHashanaEvent} from './holidays.js';
-export {holidayDesc} from './staticHolidays.js';
+export {holidayDesc} from './staticHolidays';
 export {DailyLearning} from './DailyLearning';
 export {HebrewCalendar} from './hebcal.js';
 export {version} from './pkgVersion.js';

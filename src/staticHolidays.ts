@@ -234,7 +234,16 @@ export const holidayDesc = {
   YOM_YERUSHALAYIM,
 };
 
-export const staticHolidays = [
+export interface Holiday {
+  mm: number; // This should be an enum `Month` eventually
+  dd: number;
+  desc: string;
+  flags: number;
+  chmDay?: number;
+  emoji?: string;
+}
+
+export const staticHolidays: Holiday[] = [
   {mm: Tishrei, dd: 2, desc: ROSH_HASHANA_II, flags: CHAG | YOM_TOV_ENDS, emoji: '🍏🍯'},
   {mm: Tishrei, dd: 9, desc: EREV_YOM_KIPPUR, flags: EREV | LIGHT_CANDLES},
   {mm: Tishrei, dd: 10, desc: YOM_KIPPUR, flags: CHAG | MAJOR_FAST | YOM_TOV_ENDS},
@@ -324,7 +333,19 @@ export const staticHolidays = [
     flags: EREV | LIGHT_CANDLES, emoji: '🍏🍯'},
 ];
 
-export const staticModernHolidays = [
+export interface ModernHoliday {
+  firstYear: number;
+  mm: number; // This should be an enum `Month` eventually
+  dd: number;
+  desc: string;
+  chul?: boolean;
+  suppressEmoji?: boolean;
+  satPostponeToSun?: boolean;
+  friPostponeToSun?: boolean;
+  friSatMovetoThu?: boolean;
+}
+
+export const staticModernHolidays: ModernHoliday[] = [
   {firstYear: 5727, mm: Iyyar, dd: 28, desc: YOM_YERUSHALAYIM,
     chul: true},
   {firstYear: 5737, mm: Kislev, dd: 6, desc: BEN_GURION_DAY,
