@@ -34,7 +34,7 @@ import {
   makeFastStartEnd,
   makeWeekdayChanukahCandleLighting,
 } from './candles';
-import {HavdalahEvent} from './TimedEvent';
+import {TimedEvent, HavdalahEvent} from './TimedEvent';
 import {Event, flags} from './event';
 import {getSedra_} from './sedra';
 import {hallel_} from './hallel';
@@ -48,7 +48,6 @@ import {reformatTimeStr} from './reformatTimeStr';
 import {TachanunResult, tachanun_} from './tachanun';
 import {Zmanim} from './zmanim';
 import {getStartAndEnd} from './getStartAndEnd';
-import { TimedEvent } from './TimedEvent';
 
 const FRI = 5;
 const SAT = 6;
@@ -828,7 +827,6 @@ function appendHolidayAndRelated(
     (options.noModern && (eFlags & MODERN_HOLIDAY))) {
     return candlesEv; // bail out early
   }
-  const location = options.location;
   const isMajorFast = Boolean(eFlags & MAJOR_FAST);
   const isMinorFast = Boolean(eFlags & MINOR_FAST);
   if (options.candlelighting && (isMajorFast || isMinorFast)) {
@@ -885,13 +883,18 @@ function makeMoladAndMevarchimChodesh(hd: HDate, options: CalOptions): Event[] {
   return evts;
 }
 
+function dailyLearningName(key: string, val: any): string {
+  if (key === 'yerushalmi') {
+    return val === 2 ? 'yerushalmi-schottenstein' : 'yerushalmi-vilna';
+  }
+  return key;
+}
+
 function makeDailyLearning(hd: HDate, dailyLearning: {[x: string]: any}, il: boolean): Event[] {
   const evts: Event[] = [];
   for (const [key, val] of Object.entries(dailyLearning)) {
     if (val) {
-      const name = key === 'yerushalmi' ?
-        (val === 2 ? 'yerushalmi-schottenstein' : 'yerushalmi-vilna') :
-        key;
+      const name = dailyLearningName(key, val);
       const learningEv = DailyLearning.lookup(name, hd, il);
       if (learningEv) {
         evts.push(learningEv);
