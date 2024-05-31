@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -82,7 +82,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@hebcal/hdate": "^0.9.10",
+    "@hebcal/hdate": "^0.9.13",
     "@hebcal/noaa": "^0.8.14",
     "tslib": "^2.6.2"
   }

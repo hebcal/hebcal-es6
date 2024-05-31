@@ -18,4 +18,3 @@ export {holidayDesc} from './staticHolidays';
 export {DailyLearning} from './DailyLearning';
 export {HebrewCalendar} from './hebcal.js';
 export {version} from './pkgVersion.js';
-export {HolidayDesc} from './staticHols';

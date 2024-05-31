@@ -48,7 +48,7 @@ export function getStartAndEnd(options: CalOptions): number[] {
   }
 }
 
-function getMonth(options: CalOptions) {
+function getMonth(options: CalOptions): number {
   if (options.month) {
     if (options.isHebrewYear) {
       return HDate.monthNum(options.month);
@@ -59,7 +59,7 @@ function getMonth(options: CalOptions) {
   return NaN;
 }
 
-function startEndGregorian(theMonth: number, theYear: number, numYears: number) {
+function startEndGregorian(theMonth: number, theYear: number, numYears: number): number[] {
   const gregMonth = theMonth ? theMonth - 1 : 0;
   const startGreg = new Date(theYear, gregMonth, 1);
   if (theYear < 100) {
@@ -80,7 +80,7 @@ function startEndGregorian(theMonth: number, theYear: number, numYears: number) 
   return [startAbs, endAbs];
 }
 
-function startEndHebrew(theMonth: number, theYear: number, numYears: number) {
+function startEndHebrew(theMonth: number, theYear: number, numYears: number): number[] {
   const startDate = new HDate(1, theMonth || TISHREI, theYear);
   let startAbs = startDate.abs();
   const endAbs = theMonth ?
