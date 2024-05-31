@@ -39,46 +39,58 @@ export function getStartAndEnd(options: CalOptions): number[] {
   } else if (isHebrewYear && theYear < 1) {
     throw new RangeError(`Invalid Hebrew year ${theYear}`);
   }
-  let theMonth = NaN;
-  if (options.month) {
-    if (isHebrewYear) {
-      theMonth = HDate.monthNum(options.month);
-    } else if (typeof options.month === 'number') {
-      theMonth = options.month;
-    }
-  }
+  const theMonth = getMonth(options);
   const numYears = Number(options.numYears) || 1;
   if (isHebrewYear) {
-    const startDate = new HDate(1, theMonth || TISHREI, theYear);
-    let startAbs = startDate.abs();
-    const endAbs = options.month ?
-      startAbs + startDate.daysInMonth() :
-      new HDate(1, TISHREI, theYear + numYears).abs() - 1;
-    // for full Hebrew year, start on Erev Rosh Hashana which
-    // is technically in the previous Hebrew year
-    // (but conveniently lets us get candle-lighting time for Erev)
-    if (!theMonth && theYear > 1) {
-      startAbs--;
-    }
-    return [startAbs, endAbs];
+    return startEndHebrew(theMonth, theYear, numYears);
   } else {
-    const gregMonth = options.month ? theMonth - 1 : 0;
-    const startGreg = new Date(theYear, gregMonth, 1);
-    if (theYear < 100) {
-      startGreg.setFullYear(theYear);
-    }
-    const startAbs = greg.greg2abs(startGreg);
-    let endAbs;
-    if (options.month) {
-      endAbs = startAbs + greg.daysInMonth(theMonth, theYear) - 1;
-    } else {
-      const endYear = theYear + numYears;
-      const endGreg = new Date(endYear, 0, 1);
-      if (endYear < 100) {
-        endGreg.setFullYear(endYear);
-      }
-      endAbs = greg.greg2abs(endGreg) - 1;
-    }
-    return [startAbs, endAbs];
+    return startEndGregorian(theMonth, theYear, numYears);
   }
+}
+
+function getMonth(options: CalOptions) {
+  if (options.month) {
+    if (options.isHebrewYear) {
+      return HDate.monthNum(options.month);
+    } else if (typeof options.month === 'number') {
+      return options.month;
+    }
+  }
+  return NaN;
+}
+
+function startEndGregorian(theMonth: number, theYear: number, numYears: number) {
+  const gregMonth = theMonth ? theMonth - 1 : 0;
+  const startGreg = new Date(theYear, gregMonth, 1);
+  if (theYear < 100) {
+    startGreg.setFullYear(theYear);
+  }
+  const startAbs = greg.greg2abs(startGreg);
+  let endAbs;
+  if (theMonth) {
+    endAbs = startAbs + greg.daysInMonth(theMonth, theYear) - 1;
+  } else {
+    const endYear = theYear + numYears;
+    const endGreg = new Date(endYear, 0, 1);
+    if (endYear < 100) {
+      endGreg.setFullYear(endYear);
+    }
+    endAbs = greg.greg2abs(endGreg) - 1;
+  }
+  return [startAbs, endAbs];
+}
+
+function startEndHebrew(theMonth: number, theYear: number, numYears: number) {
+  const startDate = new HDate(1, theMonth || TISHREI, theYear);
+  let startAbs = startDate.abs();
+  const endAbs = theMonth ?
+    startAbs + startDate.daysInMonth() :
+    new HDate(1, TISHREI, theYear + numYears).abs() - 1;
+  // for full Hebrew year, start on Erev Rosh Hashana which
+  // is technically in the previous Hebrew year
+  // (but conveniently lets us get candle-lighting time for Erev)
+  if (!theMonth && theYear > 1) {
+    startAbs--;
+  }
+  return [startAbs, endAbs];
 }
