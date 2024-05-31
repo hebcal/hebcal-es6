@@ -14,6 +14,14 @@ function getAbs(d: Date | HDate | number): number {
   throw new TypeError(`Invalid date type: ${d}`);
 }
 
+function getYear(options: CalOptions): number {
+  if (typeof options.year !== 'undefined') {
+    return Number(options.year);
+  }
+  return options.isHebrewYear ? new HDate().getFullYear() :
+    new Date().getFullYear();
+}
+
 /**
  * Parse options object to determine start & end days
  * @private
@@ -25,8 +33,7 @@ export function getStartAndEnd(options: CalOptions): number[] {
     return [getAbs(options.start), getAbs(options.end)];
   }
   const isHebrewYear = Boolean(options.isHebrewYear);
-  const theYear = typeof options.year !== 'undefined' ? Number(options.year) :
-    isHebrewYear ? new HDate().getFullYear() : new Date().getFullYear();
+  const theYear = getYear(options);
   if (isNaN(theYear)) {
     throw new RangeError(`Invalid year ${options.year}`);
   } else if (isHebrewYear && theYear < 1) {

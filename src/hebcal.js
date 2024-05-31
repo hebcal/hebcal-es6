@@ -472,7 +472,7 @@ export class HebrewCalendar {
    * @return {Event[]}
    */
   static calendar(options={}) {
-    options = Object.assign({}, options); // so we can modify freely
+    options = {...options}; // so we can modify freely
     checkCandleOptions(options);
     const location = options.location = options.location || defaultLocation;
     const il = options.il = options.il || location.il || false;

@@ -11,15 +11,15 @@ jest.mock('quick-lru', () => {
 test('getHolidaysOnDate', () => {
   const hyear = 5771;
   const expected = [
-    new HDate(1, 'Tishrei', hyear).abs() - 1, ['Erev Rosh Hashana'],
-    new HDate(1, 'Tishrei', hyear), ['Rosh Hashana 5771'],
-    new HDate(10, 'Tishrei', hyear), ['Yom Kippur'],
-    new HDate(3, 'Cheshvan', hyear), undefined,
-    new Date(2010, 11, 7), ['Chag HaBanot', 'Chanukah: 7 Candles', 'Rosh Chodesh Tevet'],
+    {dt: new HDate(1, 'Tishrei', hyear).abs() - 1, desc: ['Erev Rosh Hashana']},
+    {dt: new HDate(1, 'Tishrei', hyear), desc: ['Rosh Hashana 5771']},
+    {dt: new HDate(10, 'Tishrei', hyear), desc: ['Yom Kippur']},
+    {dt: new HDate(3, 'Cheshvan', hyear), desc: undefined},
+    {dt: new Date(2010, 11, 7), desc: ['Chag HaBanot', 'Chanukah: 7 Candles', 'Rosh Chodesh Tevet']},
   ];
-  for (let i = 0; i < expected.length; i += 2) {
-    const dt = expected[i] as Date | HDate;
-    const desc = expected[i + 1];
+  for (const item of expected) {
+    const dt = item.dt;
+    const desc = item.desc;
     const ev = HebrewCalendar.getHolidaysOnDate(dt);
     if (typeof desc === 'undefined') {
       expect(ev).toBe(undefined);

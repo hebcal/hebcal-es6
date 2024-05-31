@@ -20,6 +20,12 @@ function zdtToDate(zdt: Temporal.ZonedDateTime | null): Date {
   return res;
 }
 
+function getDate(date: Date | HDate): Date {
+  if (greg.isDate(date)) return date as Date;
+  if (HDate.isHDate(date)) return (date as HDate).greg();
+  throw new TypeError(`invalid date: ${date}`);
+}
+
 /**
  * Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
  * Calculations are available for tzeit / tzais (nightfall),
@@ -63,12 +69,7 @@ export class Zmanim {
    *    These zmanim intentionally do not support elevation adjustment.
    */
   constructor(gloc: GeoLocation, date: Date | HDate, useElevation: boolean) {
-    const dt: Date = greg.isDate(date) ? (date as Date) :
-        HDate.isHDate(date) ? (date as HDate).greg() :
-        new Date(NaN);
-    if (isNaN(dt.getTime())) {
-      throw new TypeError(`invalid date: ${date}`);
-    }
+    const dt = getDate(date);
     this.date = dt;
     this.gloc = gloc;
     const plainDate = Temporal.PlainDate.from({
