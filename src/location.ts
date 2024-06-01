@@ -20,7 +20,7 @@
  */
 import {GeoLocation} from '@hebcal/noaa';
 
-const classicCities0 = [
+const classicCities0: [string, string, number, number, string, number][] = [
   ['Ashdod', 'IL', 31.79213, 34.64966, 'Asia/Jerusalem', 27],
   ['Atlanta', 'US', 33.749, -84.38798, 'America/New_York', 336],
   ['Austin', 'US', 30.26715, -97.74306, 'America/Chicago', 165],
@@ -87,10 +87,10 @@ const classicCities0 = [
   ['Washington DC', 'US', 38.89511, -77.03637, 'America/New_York', 6],
   ['Worcester', 'US', 42.26259, -71.80229, 'America/New_York', 164],
 ];
-const classicCities = new Map();
+const classicCities = new Map<string,Location>();
 
 // Zip-Codes.com TimeZone IDs
-const ZIPCODES_TZ_MAP = {
+const ZIPCODES_TZ_MAP: {[x: string]: string} = {
   '0': 'UTC',
   '4': 'America/Puerto_Rico', // Atlantic (GMT -04:00)
   '5': 'America/New_York', //    Eastern  (GMT -05:00)
@@ -113,10 +113,8 @@ const timeFormatCache = new Map();
  * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) from cache
  * or makes a new one if needed
  * @private
- * @param {string} tzid
- * @return {Intl.DateTimeFormat}
  */
-function getFormatter(tzid) {
+function getFormatter(tzid: string): Intl.DateTimeFormat {
   const fmt = timeFormatCache.get(tzid);
   if (fmt) return fmt;
   const f = new Intl.DateTimeFormat('en-US', {
@@ -131,6 +129,9 @@ function getFormatter(tzid) {
 
 /** Class representing Location */
 export class Location extends GeoLocation {
+  private readonly il: boolean;
+  private readonly cc?: string;
+  private readonly geoid?: string | number;
   /**
    * Initialize a Location instance
    * @param {number} latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
@@ -139,10 +140,10 @@ export class Location extends GeoLocation {
    * @param {string} tzid - Olson timezone ID, e.g. "America/Chicago"
    * @param {string} [cityName] - optional descriptive city name
    * @param {string} [countryCode] - ISO 3166 alpha-2 country code (e.g. "FR")
-   * @param {string} [geoid] - optional string or numeric geographic ID
+   * @param {string|number} [geoid] - optional string or numeric geographic ID
    * @param {number} [elevation] - in meters (default `0`)
    */
-  constructor(latitude, longitude, il, tzid, cityName, countryCode, geoid, elevation) {
+  constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: string | number, elevation?: number) {
     const lat = typeof latitude === 'number' ? latitude : parseFloat(latitude);
     if (isNaN(lat) || lat < -90 || lat > 90) {
       throw new RangeError(`Latitude ${latitude} out of range [-90,90]`);
@@ -152,27 +153,27 @@ export class Location extends GeoLocation {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
     const elev = (typeof elevation === 'number' && elevation > 0) ? elevation : 0;
-    super(cityName, lat, long, elev, tzid);
+    super(cityName || null, lat, long, elev, tzid);
     this.il = Boolean(il);
     this.cc = countryCode;
     this.geoid = geoid;
   }
 
   /** @return {boolean} */
-  getIsrael() {
+  getIsrael(): boolean {
     return this.il;
   }
 
-  /** @return {string} */
-  getName() {
+  /** @return {string | null} */
+  getName(): string | null {
     return this.getLocationName();
   }
 
   /**
    * Returns the location name, up to the first comma
-   * @return {string}
+   * @return {string | null}
    */
-  getShortName() {
+  getShortName(): string | null {
     const name = this.getLocationName();
     if (!name) return name;
     const comma = name.indexOf(', ');
@@ -187,13 +188,13 @@ export class Location extends GeoLocation {
     return name.substring(0, comma);
   }
 
-  /** @return {string} */
-  getCountryCode() {
+  /** @return {string | undefined} */
+  getCountryCode(): string | undefined{
     return this.cc;
   }
 
   /** @return {string} */
-  getTzid() {
+  getTzid(): string {
     return this.getTimeZone();
   }
 
@@ -201,12 +202,12 @@ export class Location extends GeoLocation {
    * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
    * @return {Intl.DateTimeFormat}
    */
-  getTimeFormatter() {
+  getTimeFormatter(): Intl.DateTimeFormat {
     return getFormatter(this.getTimeZone());
   }
 
-  /** @return {string} */
-  getGeoId() {
+  /** @return {string | number | undefined} */
+  getGeoId(): string | number | undefined {
     return this.geoid;
   }
 
@@ -227,14 +228,14 @@ export class Location extends GeoLocation {
    * 'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
    * 'Washington DC', 'Worcester'
    * @param {string} name
-   * @return {Location}
+   * @return {Location|undefined}
    */
-  static lookup(name) {
+  static lookup(name: string): Location | undefined {
     return classicCities.get(name.toLowerCase());
   }
 
   /** @return {string} */
-  toString() {
+  toString(): string {
     return JSON.stringify(this);
   }
 
@@ -242,9 +243,9 @@ export class Location extends GeoLocation {
    * Converts legacy Hebcal timezone to a standard Olson tzid.
    * @param {number} tz integer, GMT offset in hours
    * @param {string} dst 'none', 'eu', 'usa', or 'israel'
-   * @return {string}
+   * @return {string | undefined}
    */
-  static legacyTzToTzid(tz, dst) {
+  static legacyTzToTzid(tz: number, dst: string): string | undefined {
     tz = +tz;
     if (dst == 'none') {
       if (tz == 0) {
@@ -279,7 +280,7 @@ export class Location extends GeoLocation {
    * @param {string} dst single char 'Y' or 'N'
    * @return {string}
    */
-  static getUsaTzid(state, tz, dst) {
+  static getUsaTzid(state: string, tz: number, dst: string): string {
     if (tz == 10 && state == 'AK') {
       return 'America/Adak';
     } else if (tz == 7 && state == 'AZ') {
@@ -297,7 +298,7 @@ export class Location extends GeoLocation {
    * @param {Location} location
    * @return {boolean}
    */
-  static addLocation(cityName, location) {
+  static addLocation(cityName: string, location: Location): boolean {
     const name = cityName.toLowerCase();
     if (classicCities.has(name)) {
       return false;
@@ -309,5 +310,5 @@ export class Location extends GeoLocation {
 
 for (const city of classicCities0) {
   const location = new Location(city[2], city[3], city[1] == 'IL', city[4], city[0], city[1], undefined, city[5]);
-  Location.addLocation(location.getName(), location);
+  Location.addLocation(city[0], location);
 }

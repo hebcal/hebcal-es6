@@ -13,7 +13,7 @@ const hour12cc: {[key: string]: number} = {
  */
 export function reformatTimeStr(timeStr: string, suffix: string, options?: CalOptions): string {
   if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);
-  const cc = options?.location?.cc || (options?.il ? 'IL' : 'US');
+  const cc = options?.location?.getCountryCode() || (options?.il ? 'IL' : 'US');
   const hour12 = options?.hour12;
   if (typeof hour12 !== 'undefined' && !hour12) {
     return timeStr;

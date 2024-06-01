@@ -1,27 +1,35 @@
-import {Location} from '../src/location.js';
+import {Location} from '../src/location';
 
 test('lookup', () => {
-  const loc1 = Location.lookup('San Francisco');
+  const sanFrancisco = Location.lookup('San Francisco');
+  expect(sanFrancisco).toBeDefined();
+  const loc1 = sanFrancisco as Location;
   expect(loc1.getCountryCode()).toBe('US');
   expect(loc1.getIsrael()).toBe(false);
   expect(loc1.getTzid()).toBe('America/Los_Angeles');
 
-  const loc2 = Location.lookup('Jerusalem');
+  const jlem = Location.lookup('Jerusalem');
+  expect(jlem).toBeDefined();
+  const loc2 = jlem as Location;
   expect(loc2.getCountryCode()).toBe('IL');
   expect(loc2.getIsrael()).toBe(true);
   expect(loc2.getTzid()).toBe('Asia/Jerusalem');
-  expect(loc2.elevation).toBe(786);
+  expect(loc2.getElevation()).toBe(786);
 
-  const providence = Location.lookup('Providence');
+  const providence0 = Location.lookup('Providence');
+  expect(providence0).toBeDefined();
+  const providence = providence0 as Location;
   expect(providence.getLatitude()).toBe(41.82399);
   expect(providence.getLongitude()).toBe(-71.41283);
   expect(providence.getTzid()).toBe('America/New_York');
 
-  const melbourne = Location.lookup('Melbourne');
+  const melbourne0 = Location.lookup('Melbourne');
+  expect(melbourne0).toBeDefined();
+  const melbourne = melbourne0 as Location;
   expect(melbourne.getLatitude()).toBe(-37.814);
   expect(melbourne.getLongitude()).toBe(144.96332);
   expect(melbourne.getTzid()).toBe('Australia/Melbourne');
-  expect(melbourne.cc).toBe('AU');
+  expect(melbourne.getCountryCode()).toBe('AU');
 });
 
 test('lookup-notfound', () => {
@@ -37,8 +45,10 @@ test('Location.addLocation', () => {
       32.1836, 34.87386, true, 'Asia/Jerusalem', cityName, 'IL', 999888777666));
   expect(success).toBe(true);
   const found = Location.lookup(cityName);
-  expect(found.getLatitude()).toBe(32.1836);
-  expect(found.getGeoId()).toBe(999888777666);
+  expect(found).toBeDefined();
+  const found1 = found as Location;
+  expect(found1.getLatitude()).toBe(32.1836);
+  expect(found1.getGeoId()).toBe(999888777666);
 
   const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
   expect(Location.addLocation(cityName, loc)).toBe(false);
@@ -123,6 +133,6 @@ test('throws', () => {
   }).toThrow('Longitude -200 out of range [-180,180]');
 
   expect(() => {
-    new Location('bogus', -200, false, 'UTC', 'Foo', 'XX');
-  }).toThrow('Latitude bogus out of range [-90,90]');
+    new Location(NaN, -200, false, 'UTC', 'Foo', 'XX');
+  }).toThrow('Latitude NaN out of range [-90,90]');
 });

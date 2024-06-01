@@ -4,7 +4,7 @@ export {CalOptions} from './CalOptions';
 export {HebrewDateEvent} from './HebrewDateEvent';
 export {Event, flags} from './event';
 export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
-export {Location} from './location.js';
+export {Location} from './location';
 export {Zmanim} from './zmanim';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
 export {Molad, MoladEvent} from './molad';

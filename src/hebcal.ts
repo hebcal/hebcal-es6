@@ -41,7 +41,7 @@ import {hallel_} from './hallel';
 import {getHolidaysForYear_, HolidayYearMap} from './holidays';
 import {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 import {HolidayEvent} from './HolidayEvent';
-import {Location} from './location.js';
+import {Location} from './location';
 import {Molad, MoladEvent} from './molad';
 import {OmerEvent} from './omer';
 import {reformatTimeStr} from './reformatTimeStr';
@@ -188,13 +188,18 @@ function checkCandleOptions(options: CalOptions) {
   let min = Number(options.candleLightingMins) || 18;
   if (location.getIsrael() && Math.abs(min) === 18) {
     const geoid = location.getGeoId();
-    const offset0 = geoIdCandleOffset[geoid];
-    if (typeof offset0 === 'number') {
-      min = offset0;
+    if (geoid) {
+      const offset = geoIdCandleOffset[geoid];
+      if (typeof offset === 'number') {
+        min = offset;
+      }
     }
-    const offset = israelCityOffset[location.getShortName()];
-    if (typeof offset === 'number') {
-      min = offset;
+    const shortName = location.getShortName();
+    if (shortName) {
+      const offset = israelCityOffset[shortName];
+      if (typeof offset === 'number') {
+        min = offset;
+      }
     }
   }
   options.candleLightingMins = -1 * Math.abs(min);
@@ -221,7 +226,7 @@ function getMaskFromOptions(options: CalOptions): number {
   if (typeof options.mask === 'number') {
     return setOptionsFromMask(options);
   }
-  const il = options.il || options.location?.il || false;
+  const il = options.il || options.location?.getIsrael() || false;
   let mask = 0;
 
   // default options
@@ -463,7 +468,7 @@ export class HebrewCalendar {
     options = {...options}; // so we can modify freely
     checkCandleOptions(options);
     const location = options.location = options.location || defaultLocation;
-    const il = options.il = options.il || location.il || false;
+    const il = options.il = options.il || location.getIsrael() || false;
     const hasUserMask = typeof options.mask === 'number';
     options.mask = getMaskFromOptions(options);
     if (options.ashkenazi || options.locale) {

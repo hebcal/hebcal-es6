@@ -1,7 +1,7 @@
 import {TimedEvent, CandleLightingEvent, HavdalahEvent} from '../src/TimedEvent';
 import {flags} from '../src/event';
 import {HDate} from '@hebcal/hdate';
-import {Location} from '../src/location.js';
+import {Location} from '../src/location';
 
 test('renderBrief', () => {
   const dt = new Date('2020-12-28T20:12:14.987Z');
