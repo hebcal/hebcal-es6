@@ -1,6 +1,7 @@
 import {HDate, Locale} from '@hebcal/hdate';
 import {flags} from './event';
 import {HolidayEvent} from './HolidayEvent';
+import '../src/locale'; // Adds Hebrew and Ashkenazic translations
 
 export const ykk = 'Yom Kippur Katan';
 

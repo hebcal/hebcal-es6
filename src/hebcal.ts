@@ -22,10 +22,11 @@
 import {
   getBirthdayHD, getYahrzeitHD, greg, months,
   HDate, Locale,
-  Sedra,
 } from '@hebcal/hdate';
+import '../src/locale'; // Adds Hebrew and Ashkenazic translations
 import {CalOptions} from './CalOptions';
 import {version as pkgVersion} from './pkgVersion';
+import {Sedra} from './sedra';
 import {DailyLearning} from './DailyLearning';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {ParshaEvent} from './ParshaEvent';

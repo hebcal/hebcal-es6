@@ -1,4 +1,5 @@
 import {HDate, Locale} from '@hebcal/hdate';
+import '../src/locale'; // Adds Hebrew and Ashkenazic translations
 import {ParshaEvent} from '../src/ParshaEvent';
 
 test('ParshaEvent-url', () => {

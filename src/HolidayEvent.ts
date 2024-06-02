@@ -2,6 +2,7 @@ import {HDate, Locale, isoDateString} from '@hebcal/hdate';
 import {Event, flags} from './event';
 import {TimedEvent} from './TimedEvent';
 import {holidayDesc as hdesc} from './staticHolidays';
+import '../src/locale'; // Adds Hebrew and Ashkenazic translations
 
 const minorHolidays = [
   hdesc.LAG_BAOMER,

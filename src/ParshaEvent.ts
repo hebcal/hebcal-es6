@@ -1,5 +1,6 @@
 import {Event, flags} from './event';
 import {HDate, Locale, isoDateString} from '@hebcal/hdate';
+import '../src/locale'; // Adds Hebrew and Ashkenazic translations
 
 /**
  * Represents one of 54 weekly Torah portions, always on a Saturday
