@@ -32,7 +32,7 @@
  */
 import {HDate, Locale, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
-import '../src/locale'; // Adds Hebrew and Ashkenazic translations
+import './locale'; // Adds Hebrew and Ashkenazic translations
 
 
 const INCOMPLETE = 0;

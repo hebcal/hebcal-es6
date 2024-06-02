@@ -1,5 +1,5 @@
 import {HDate, Locale} from '@hebcal/hdate';
-import '../src/locale'; // Adds Hebrew and Ashkenazic translations
+import './locale'; // Adds Hebrew and Ashkenazic translations
 
 /**
  * Holiday flags for Event

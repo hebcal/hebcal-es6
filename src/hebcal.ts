@@ -23,7 +23,7 @@ import {
   getBirthdayHD, getYahrzeitHD, greg, months,
   HDate, Locale,
 } from '@hebcal/hdate';
-import '../src/locale'; // Adds Hebrew and Ashkenazic translations
+import './locale'; // Adds Hebrew and Ashkenazic translations
 import {CalOptions} from './CalOptions';
 import {version as pkgVersion} from './pkgVersion';
 import {DailyLearning} from './DailyLearning';

@@ -4,7 +4,7 @@ import { Location } from './location';
 import { Event } from './event';
 import { reformatTimeStr } from './reformatTimeStr';
 import { Zmanim } from './zmanim';
-import '../src/locale'; // Adds Hebrew and Ashkenazic translations
+import './locale'; // Adds Hebrew and Ashkenazic translations
 
 /** An event that has an `eventTime` and `eventTimeStr` */
 export class TimedEvent extends Event {

@@ -3,7 +3,7 @@ import {Event, flags} from './event';
 import {CalOptions} from './CalOptions';
 import {HDate, Locale, molad, Molad as MoladBase} from '@hebcal/hdate';
 import {reformatTimeStr} from './reformatTimeStr';
-import '../src/locale'; // Adds Hebrew and Ashkenazic translations
+import './locale'; // Adds Hebrew and Ashkenazic translations
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const heDayNames = ['רִאשׁוֹן', 'שֵׁנִי', 'שְׁלִישִׁי', 'רְבִיעִי', 'חֲמִישִׁי', 'שִׁישִּׁי', 'שַׁבָּת'];
