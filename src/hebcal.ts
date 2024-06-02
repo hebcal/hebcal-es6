@@ -26,7 +26,6 @@ import {
 import '../src/locale'; // Adds Hebrew and Ashkenazic translations
 import {CalOptions} from './CalOptions';
 import {version as pkgVersion} from './pkgVersion';
-import {Sedra} from './sedra';
 import {DailyLearning} from './DailyLearning';
 import {HebrewDateEvent} from './HebrewDateEvent';
 import {ParshaEvent} from './ParshaEvent';
@@ -37,7 +36,7 @@ import {
 } from './candles';
 import {TimedEvent, HavdalahEvent} from './TimedEvent';
 import {Event, flags} from './event';
-import {getSedra_} from './sedra';
+import {Sedra, getSedra_} from './sedra';
 import {hallel_} from './hallel';
 import {getHolidaysForYear_, HolidayYearMap} from './holidays';
 import {MevarchimChodeshEvent} from './MevarchimChodeshEvent';

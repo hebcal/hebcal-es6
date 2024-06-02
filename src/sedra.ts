@@ -233,7 +233,7 @@ export class Sedra {
     const index = this.theSedraArray[weekNum];
 
     if (typeof index === 'undefined') {
-      const sedra = new Sedra(this.year + 1, this.il);
+      const sedra = getSedra_(this.year + 1, this.il);
       return sedra.lookup(saturday); // must be next year
     }
     if (typeof index === 'string') {

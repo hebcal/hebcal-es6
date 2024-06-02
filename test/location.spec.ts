@@ -125,14 +125,17 @@ test('shortName-DC', () => {
 
 test('throws', () => {
   expect(() => {
-    new Location(100, 123.0, false, 'UTC', 'Foo', 'XX');
+    const location = new Location(100, 123.0, false, 'UTC', 'Foo', 'XX');
+    console.log(location);
   }).toThrow('Latitude 100 out of range [-90,90]');
 
   expect(() => {
-    new Location(37.0, -200, false, 'UTC', 'Foo', 'XX');
+    const location = new Location(37.0, -200, false, 'UTC', 'Foo', 'XX');
+    console.log(location);
   }).toThrow('Longitude -200 out of range [-180,180]');
 
   expect(() => {
-    new Location(NaN, -200, false, 'UTC', 'Foo', 'XX');
+    const location = new Location(NaN, -200, false, 'UTC', 'Foo', 'XX');
+    console.log(location);
   }).toThrow('Latitude NaN out of range [-90,90]');
 });
