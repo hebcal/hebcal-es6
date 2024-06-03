@@ -25,8 +25,9 @@ test('getHolidaysOnDate', () => {
       expect(ev).toBe(undefined);
     } else {
       expect(Array.isArray(ev)).toBe(true);
-      expect(ev[0] instanceof Event).toBe(true);
-      const d = ev.map((e) => e.getDesc());
+      const events = ev as Event[];
+      expect(events[0] instanceof Event).toBe(true);
+      const d = events.map((e) => e.getDesc());
       expect(d).toEqual(desc);
     }
   }
@@ -37,22 +38,26 @@ test('getHolidaysOnDate-il', () => {
   const dtShavuot2 = new Date(2021, 4, 18);
   const events0 = HebrewCalendar.getHolidaysOnDate(dtShavuot1);
   expect(events0).toBeDefined();
-  expect(events0.length).toBe(2);
+  expect((events0 as Event[]).length).toBe(2);
 
   const events1il = HebrewCalendar.getHolidaysOnDate(dtShavuot1, true);
-  expect(events1il.length).toBe(1);
-  expect(events1il[0].getDesc()).toBe('Shavuot');
+  expect(events1il).toBeDefined();
+  expect((events1il as Event[]).length).toBe(1);
+  expect((events1il as Event[])[0].getDesc()).toBe('Shavuot');
 
   const events1diaspora = HebrewCalendar.getHolidaysOnDate(dtShavuot1, false);
-  expect(events1diaspora.length).toBe(1);
-  expect(events1diaspora[0].getDesc()).toBe('Shavuot I');
+  expect(events1diaspora).toBeDefined();
+  expect((events1diaspora as Event[]).length).toBe(1);
+  expect((events1diaspora as Event[])[0].getDesc()).toBe('Shavuot I');
 
   const events2d = HebrewCalendar.getHolidaysOnDate(dtShavuot2, false);
-  expect(events2d.length).toBe(1);
-  expect(events2d[0].getDesc()).toBe('Shavuot II');
+  expect(events2d).toBeDefined();
+  expect((events2d as Event[]).length).toBe(1);
+  expect((events2d as Event[])[0].getDesc()).toBe('Shavuot II');
 
   const events2il = HebrewCalendar.getHolidaysOnDate(dtShavuot2, true);
-  expect(events2il.length).toBe(0); // expected no Shavuot II in Israel
+  expect(events2il).toBeDefined();
+  expect((events2il as Event[]).length).toBe(0); // expected no Shavuot II in Israel
 });
 
 test('getHolidaysOnDate-cacheHit', () => {
