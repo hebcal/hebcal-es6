@@ -187,20 +187,7 @@ function checkCandleOptions(options: CalOptions) {
 
   let min = Number(options.candleLightingMins) || 18;
   if (location.getIsrael() && Math.abs(min) === 18) {
-    const geoid = location.getGeoId();
-    if (geoid) {
-      const offset = geoIdCandleOffset[geoid];
-      if (typeof offset === 'number') {
-        min = offset;
-      }
-    }
-    const shortName = location.getShortName();
-    if (shortName) {
-      const offset = israelCityOffset[shortName];
-      if (typeof offset === 'number') {
-        min = offset;
-      }
-    }
+    min = overrideIsraelCandleMins(location, min);
   }
   options.candleLightingMins = -1 * Math.abs(min);
 
@@ -214,6 +201,24 @@ function checkCandleOptions(options: CalOptions) {
   if (typeof options.fastEndDeg !== 'number') {
     options.fastEndDeg = TZEIT_3MEDIUM_STARS;
   }
+}
+
+function overrideIsraelCandleMins(location: Location, min: number) {
+  const geoid = location.getGeoId();
+  if (geoid) {
+    const offset = geoIdCandleOffset[geoid];
+    if (typeof offset === 'number') {
+      return offset;
+    }
+  }
+  const shortName = location.getShortName();
+  if (shortName) {
+    const offset = israelCityOffset[shortName];
+    if (typeof offset === 'number') {
+      return offset;
+    }
+  }
+  return min;
 }
 
 /**
