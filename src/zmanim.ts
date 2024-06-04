@@ -251,6 +251,12 @@ export class Zmanim {
   }
   /**
    * Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra.
+   *
+   * This method returns the latest *zman tfila* (time to recite shema in the morning)
+   * that is 4 *shaos zmaniyos* (solar hours) after sunrise or sea level sunrise
+   * (depending on the `useElevation` setting), according
+   * to the [GRA](https://en.wikipedia.org/wiki/Vilna_Gaon).
+   *
    * If elevation is enabled, this function will include elevation in the calculation.
    * @return {Date}
    */
@@ -260,21 +266,18 @@ export class Zmanim {
   /**
    * Returns an array with alot (Date) and ms in hour (number)
    * @private
-   * @return {any[]}
    */
-  getTemporalHour72(): any[] {
-    const alot72 = this.sunriseOffset(-72, false, true);
-    const tzeit72 = this.sunsetOffset(72, false, true);
+  getTemporalHour72(forceSeaLevel: boolean): [Date, number] {
+    const alot72 = this.sunriseOffset(-72, false, forceSeaLevel);
+    const tzeit72 = this.sunsetOffset(72, false, forceSeaLevel);
     const temporalHour = (tzeit72.getTime() - alot72.getTime()) / 12;
     return [alot72, temporalHour];
   }
   /**
    * Returns an array with alot (Date) and ms in hour (number)
    * @private
-   * @param {number} angle
-   * @return {any[]}
    */
-  getTemporalHourByDeg(angle: number): any[] {
+  getTemporalHourByDeg(angle: number): [Date, number] {
     const alot = this.timeAtAngle(angle, true);
     const tzeit = this.timeAtAngle(angle, false);
     const temporalHour = (tzeit.getTime() - alot.getTime()) / 12;
@@ -288,8 +291,9 @@ export class Zmanim {
    * @return {Date}
    */
   sofZmanShmaMGA(): Date { // Magen Avraham
-    const [alot72, temporalHour] = this.getTemporalHour72();
-    return new Date(alot72.getTime() + (3 * temporalHour));
+    const [alot72, temporalHour] = this.getTemporalHour72(true);
+    const offset = Math.floor(3 * temporalHour);
+    return new Date(alot72.getTime() + offset);
   }
   /**
    * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
@@ -299,7 +303,8 @@ export class Zmanim {
    */
   sofZmanShmaMGA16Point1(): Date {
     const [alot, temporalHour] = this.getTemporalHourByDeg(16.1);
-    return new Date(alot.getTime() + (3 * temporalHour));
+    const offset = Math.floor(3 * temporalHour);
+    return new Date(alot.getTime() + offset);
   }
   /**
    * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
@@ -313,15 +318,17 @@ export class Zmanim {
    */
   sofZmanShmaMGA19Point8(): Date {
     const [alot, temporalHour] = this.getTemporalHourByDeg(19.8);
-    return new Date(alot.getTime() + (3 * temporalHour));
+    const offset = Math.floor(3 * temporalHour);
+    return new Date(alot.getTime() + offset);
   }
   /**
    * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham
    * @return {Date}
    */
   sofZmanTfillaMGA(): Date { // Magen Avraham
-    const [alot72, temporalHour] = this.getTemporalHour72();
-    return new Date(alot72.getTime() + (4 * temporalHour));
+    const [alot72, temporalHour] = this.getTemporalHour72(true);
+    const offset = Math.floor(4 * temporalHour);
+    return new Date(alot72.getTime() + offset);
   }
   /**
    * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
@@ -331,7 +338,8 @@ export class Zmanim {
    */
   sofZmanTfillaMGA16Point1(): Date {
     const [alot, temporalHour] = this.getTemporalHourByDeg(16.1);
-    return new Date(alot.getTime() + (4 * temporalHour));
+    const offset = Math.floor(4 * temporalHour);
+    return new Date(alot.getTime() + offset);
   }
   /**
    * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
@@ -345,23 +353,66 @@ export class Zmanim {
    */
   sofZmanTfillaMGA19Point8(): Date {
     const [alot, temporalHour] = this.getTemporalHourByDeg(19.8);
-    return new Date(alot.getTime() + (4 * temporalHour));
+    const offset = Math.floor(4 * temporalHour);
+    return new Date(alot.getTime() + offset);
   }
   /**
-   * Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours.
+   * Earliest Mincha – Mincha Gedola (GRA); Sunrise plus 6.5 halachic hours.
    * If elevation is enabled, this function will include elevation in the calculation.
+   *
+   * This method returns the latest mincha gedola, the earliest time one can pray mincha
+   * that is 6.5 shaos zmaniyos (solar hours) after sunrise or sea level sunrise
+   * (depending on the `useElevation` setting), according
+   * to the [GRA](https://en.wikipedia.org/wiki/Vilna_Gaon).
+   *
+   * The Ramba"m is of the opinion that it is better to delay *mincha* until
+   * *mincha ketana* while the Ra"sh, Tur, GRA and others are of the
+   * opinion that *mincha* can be prayed *lechatchila* starting at *mincha gedola*.
    * @return {Date}
    */
   minchaGedola(): Date {
     return this.getShaahZmanisBasedZman(6.5);
   }
   /**
+   * Earliest Mincha – Mincha Gedola (MGA); Sunrise plus 6.5 halachic hours.
+   * If elevation is enabled, this function will include elevation in the calculation.
+   *
+   * This method returns the time of *mincha gedola* according to the Magen Avraham
+   * with the day starting 72 minutes before sunrise and ending 72 minutes after sunset.
+   * This is the earliest time to pray *mincha*.
+   * @return {Date}
+   */
+  minchaGedolaMGA(): Date {
+    const [alot72, temporalHour] = this.getTemporalHour72(false);
+    const offset = Math.floor(6.5 * temporalHour);
+    return new Date(alot72.getTime() + offset);
+  }
+  /**
    * Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours.
    * If elevation is enabled, this function will include elevation in the calculation.
+   *
+   * This method returns *mincha ketana*, the preferred earliest time to pray *mincha* in the
+   * opinion of the [Rambam](https://en.wikipedia.org/wiki/Maimonides) and others,
+   * that is 9.5 *shaos zmaniyos* (solar hours) after sunrise or sea level sunrise
+   * (depending on the `useElevation` setting), according
+   * to the [GRA](https://en.wikipedia.org/wiki/Vilna_Gaon).
    * @return {Date}
    */
   minchaKetana(): Date {
     return this.getShaahZmanisBasedZman(9.5);
+  }
+  /**
+   * This method returns the time of *mincha ketana* according to the Magen Avraham
+   * with the day starting 72 minutes before sunrise and ending 72 minutes after sunset.
+   * This is the preferred earliest time to pray *mincha* according to the opinion of
+   * the [Rambam](https://en.wikipedia.org/wiki/Maimonides) and others.
+   *
+   * If elevation is enabled, this function will include elevation in the calculation.
+   * @return {Date}
+   */
+  minchaKetanaMGA(): Date {
+    const [alot72, temporalHour] = this.getTemporalHour72(false);
+    return new Date(alot72.getTime() + Math.floor(9.5 * temporalHour));
   }
   /**
    * Plag haMincha; Sunrise plus 10.75 halachic hours.

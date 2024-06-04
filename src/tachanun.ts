@@ -9,6 +9,9 @@ function range(start: number, end: number): number[] {
   return arr;
 }
 
+/**
+ * Is *tachanun* said today?
+ */
 export type TachanunResult = {
   /** Tachanun is said at Shacharit */
   shacharit: boolean;

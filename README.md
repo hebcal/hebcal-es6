@@ -61,9 +61,6 @@ holidays. <code>@hebcal/hdate</code> supports four locales by default</p>
 <dt><a href="#HDate">HDate</a></dt>
 <dd><p>Represents a Hebrew date</p>
 </dd>
-<dt><a href="#Sedra">Sedra</a></dt>
-<dd><p>Represents Parashah HaShavua for an entire Hebrew year</p>
-</dd>
 <dt><a href="#Event">Event</a></dt>
 <dd><p>Represents an Event with a title, date, and flags</p>
 </dd>
@@ -104,11 +101,11 @@ conditions, observed values may vary from calculations.
 <dt><a href="#TimedEvent">TimedEvent</a></dt>
 <dd><p>An event that has an <code>eventTime</code> and <code>eventTimeStr</code></p>
 </dd>
-<dt><a href="#HavdalahEvent">HavdalahEvent</a></dt>
-<dd><p>Havdalah after Shabbat or holiday</p>
-</dd>
 <dt><a href="#CandleLightingEvent">CandleLightingEvent</a></dt>
 <dd><p>Candle lighting before Shabbat or holiday</p>
+</dd>
+<dt><a href="#HavdalahEvent">HavdalahEvent</a></dt>
+<dd><p>Havdalah after Shabbat or holiday</p>
 </dd>
 <dt><a href="#Molad">Molad</a></dt>
 <dd><p>Represents a molad, the moment when the new moon is &quot;born&quot;</p>
@@ -119,18 +116,21 @@ conditions, observed values may vary from calculations.
 <dt><a href="#OmerEvent">OmerEvent</a></dt>
 <dd><p>Represents a day 1-49 of counting the Omer from Pesach to Shavuot</p>
 </dd>
+<dt><a href="#Sedra">Sedra</a></dt>
+<dd><p>Represents Parashah HaShavua for an entire Hebrew year</p>
+</dd>
 <dt><a href="#ParshaEvent">ParshaEvent</a></dt>
 <dd><p>Represents one of 54 weekly Torah portions, always on a Saturday</p>
 </dd>
 <dt><a href="#HolidayEvent">HolidayEvent</a></dt>
 <dd><p>Represents a built-in holiday like Pesach, Purim or Tu BiShvat</p>
 </dd>
-<dt><a href="#RoshChodeshEvent">RoshChodeshEvent</a></dt>
-<dd><p>Represents Rosh Chodesh, the beginning of a new month</p>
-</dd>
 <dt><a href="#AsaraBTevetEvent">AsaraBTevetEvent</a></dt>
 <dd><p>Because Asara B&#39;Tevet often occurs twice in the same Gregorian year,
 we subclass HolidayEvent to override the <code>url()</code> method.</p>
+</dd>
+<dt><a href="#RoshChodeshEvent">RoshChodeshEvent</a></dt>
+<dd><p>Represents Rosh Chodesh, the beginning of a new month</p>
 </dd>
 <dt><a href="#MevarchimChodeshEvent">MevarchimChodeshEvent</a></dt>
 <dd><p>Represents Mevarchim haChodesh, the announcement of the new month</p>
@@ -161,6 +161,9 @@ Event names can be rendered in several languges using the <code>locale</code> op
 <dt><a href="#parshiot">parshiot</a> : <code>Array.&lt;string&gt;</code></dt>
 <dd><p>The 54 parshiyot of the Torah as transilterated strings
 parshiot[0] == &#39;Bereshit&#39;, parshiot[1] == &#39;Noach&#39;, parshiot[52] == &quot;Ha&#39;azinu&quot;.</p>
+</dd>
+<dt><a href="#version">version</a></dt>
+<dd><p>DO NOT EDIT THIS AUTO-GENERATED FILE!</p>
 </dd>
 </dl>
 
@@ -230,6 +233,9 @@ and vowels (nekudot).</p>
 <dd><p>Returns an emoji number symbol with a circle, for example <code>㊲</code>
  from the “Enclosed CJK Letters and Months” block of the Unicode standard</p>
 </dd>
+<dt><a href="#molad">molad()</a></dt>
+<dd><p>Calculates the molad for a Hebrew month</p>
+</dd>
 <dt><a href="#getPseudoISO">getPseudoISO(tzid, date)</a> ⇒ <code>string</code></dt>
 <dd><p>Returns a string similar to <code>Date.toISOString()</code> but in the
 timezone <code>tzid</code>. Contrary to the typical meaning of <code>Z</code> at the end
@@ -248,16 +254,6 @@ negative year numbers (e.g. <code>-37</code> is formatted as <code>-000037</code
 <dd><p>Formats a number with leading zeros so the resulting string is 2 digits long.
 Similar to <code>string.padStart(2, &#39;0&#39;)</code>.</p>
 </dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#CalOptions">CalOptions</a> : <code>Object</code></dt>
-<dd><p>Options to configure which events are returned</p>
-</dd>
-<dt><a href="#TachanunResult">TachanunResult</a> : <code>Object</code></dt>
-<dd></dd>
 </dl>
 
 <a name="Locale"></a>
@@ -332,7 +328,7 @@ Adds a translation to `locale`, replacing any previous translation.
 | --- | --- | --- |
 | locale | <code>string</code> | Locale name (i.e: `'he'`, `'fr'`). |
 | id | <code>string</code> | Message ID to translate |
-| translation | <code>string</code> | Translation text |
+| translation | <code>string</code> \| <code>Array.&lt;string&gt;</code> | Translation text |
 
 <a name="Locale.addTranslations"></a>
 
@@ -929,110 +925,6 @@ HDate.fromGematriyaString('כ״ז בְּתַמּוּז תשפ״ג') // 27 Tamuz 
  HDate.fromGematriyaString('כ׳ סיון תש״ד') // 20 Sivan 5704
  HDate.fromGematriyaString('ה׳ אִיָיר תש״ח') // 5 Iyyar 5708
 ```
-<a name="Sedra"></a>
-
-## Sedra
-Represents Parashah HaShavua for an entire Hebrew year
-
-**Kind**: global class  
-
-* [Sedra](#Sedra)
-    * [new Sedra(hyear, il)](#new_Sedra_new)
-    * [.get(hd)](#Sedra+get) ⇒ <code>Array.&lt;string&gt;</code>
-    * [.getString(hd, [locale])](#Sedra+getString) ⇒ <code>string</code>
-    * [.isParsha(hd)](#Sedra+isParsha) ⇒ <code>boolean</code>
-    * [.find(parsha)](#Sedra+find) ⇒ [<code>HDate</code>](#HDate) \| <code>null</code>
-    * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;NumberOrString&gt;</code>
-    * [.getFirstSaturday()](#Sedra+getFirstSaturday) ⇒ <code>number</code>
-    * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
-    * [.lookup(hd)](#Sedra+lookup) ⇒ <code>SedraResult</code>
-
-<a name="new_Sedra_new"></a>
-
-### new Sedra(hyear, il)
-Caculates the Parashah HaShavua for an entire Hebrew year
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hyear | <code>number</code> | Hebrew year (e.g. 5749) |
-| il | <code>boolean</code> | Use Israel sedra schedule (false for Diaspora) |
-
-<a name="Sedra+get"></a>
-
-### sedra.get(hd) ⇒ <code>Array.&lt;string&gt;</code>
-Returns the parsha (or parshiyot) read on Hebrew date
-
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hd | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
-
-<a name="Sedra+getString"></a>
-
-### sedra.getString(hd, [locale]) ⇒ <code>string</code>
-Looks up parsha for the date, then returns a translated or transliterated string
-
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hd | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
-| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale |
-
-<a name="Sedra+isParsha"></a>
-
-### sedra.isParsha(hd) ⇒ <code>boolean</code>
-Checks to see if this day would be a regular parasha HaShavua
-Torah reading or special holiday reading
-
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hd | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
-
-<a name="Sedra+find"></a>
-
-### sedra.find(parsha) ⇒ [<code>HDate</code>](#HDate) \| <code>null</code>
-Returns the date that a parsha occurs
-or `null` if the parsha doesn't occur this year
-
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-
-| Param | Type |
-| --- | --- |
-| parsha | <code>number</code> \| <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
-
-<a name="Sedra+getSedraArray"></a>
-
-### sedra.getSedraArray() ⇒ <code>Array.&lt;NumberOrString&gt;</code>
-Returns the underlying annual sedra schedule.
-Used by `@hebcal/triennial`
-
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-<a name="Sedra+getFirstSaturday"></a>
-
-### sedra.getFirstSaturday() ⇒ <code>number</code>
-R.D. date of the first Saturday on or after Rosh Hashana
-
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-<a name="Sedra+getYear"></a>
-
-### sedra.getYear() ⇒ <code>number</code>
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-<a name="Sedra+lookup"></a>
-
-### sedra.lookup(hd) ⇒ <code>SedraResult</code>
-Returns an object describing the parsha on the first Saturday on or after `hd`
-
-**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| hd | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
-
 <a name="Event"></a>
 
 ## Event
@@ -1047,9 +939,9 @@ Represents an Event with a title, date, and flags
     * [.getFlags()](#Event+getFlags) ⇒ <code>number</code>
     * [.render([locale])](#Event+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#Event+renderBrief) ⇒ <code>string</code>
-    * [.getEmoji()](#Event+getEmoji) ⇒ <code>string</code>
+    * [.getEmoji()](#Event+getEmoji) ⇒ <code>string</code> \| <code>null</code>
     * [.basename()](#Event+basename) ⇒ <code>string</code>
-    * [.url()](#Event+url) ⇒ <code>string</code>
+    * [.url()](#Event+url) ⇒ <code>string</code> \| <code>undefined</code>
     * [.observedInIsrael()](#Event+observedInIsrael) ⇒ <code>boolean</code>
     * [.observedInDiaspora()](#Event+observedInDiaspora) ⇒ <code>boolean</code>
     * [.observedIn(il)](#Event+observedIn) ⇒ <code>boolean</code>
@@ -1120,7 +1012,7 @@ a shorter text (e.g. without a time or added description).
 
 <a name="Event+getEmoji"></a>
 
-### event.getEmoji() ⇒ <code>string</code>
+### event.getEmoji() ⇒ <code>string</code> \| <code>null</code>
 Optional holiday-specific Emoji or `null`.
 
 **Kind**: instance method of [<code>Event</code>](#Event)  
@@ -1135,7 +1027,7 @@ For many holidays the basename and the event description are the same.
 **Kind**: instance method of [<code>Event</code>](#Event)  
 <a name="Event+url"></a>
 
-### event.url() ⇒ <code>string</code>
+### event.url() ⇒ <code>string</code> \| <code>undefined</code>
 Returns a URL to hebcal.com or sefaria.org for more detail on the event.
 Returns `undefined` for events with no detail page.
 
@@ -1873,25 +1765,25 @@ Class representing Location
 **Kind**: global class  
 
 * [Location](#Location)
-    * [new Location(latitude, longitude, il, tzid, cityName, countryCode, [geoid], [elevation])](#new_Location_new)
+    * [new Location(latitude, longitude, il, tzid, [cityName], [countryCode], [geoid], [elevation])](#new_Location_new)
     * _instance_
         * [.getIsrael()](#Location+getIsrael) ⇒ <code>boolean</code>
-        * [.getName()](#Location+getName) ⇒ <code>string</code>
-        * [.getShortName()](#Location+getShortName) ⇒ <code>string</code>
-        * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code>
+        * [.getName()](#Location+getName) ⇒ <code>string</code> \| <code>null</code>
+        * [.getShortName()](#Location+getShortName) ⇒ <code>string</code> \| <code>null</code>
+        * [.getCountryCode()](#Location+getCountryCode) ⇒ <code>string</code> \| <code>undefined</code>
         * [.getTzid()](#Location+getTzid) ⇒ <code>string</code>
         * [.getTimeFormatter()](#Location+getTimeFormatter) ⇒ <code>Intl.DateTimeFormat</code>
-        * [.getGeoId()](#Location+getGeoId) ⇒ <code>string</code>
+        * [.getGeoId()](#Location+getGeoId) ⇒ <code>string</code> \| <code>number</code> \| <code>undefined</code>
         * [.toString()](#Location+toString) ⇒ <code>string</code>
     * _static_
-        * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location)
-        * [.legacyTzToTzid(tz, dst)](#Location.legacyTzToTzid) ⇒ <code>string</code>
+        * [.lookup(name)](#Location.lookup) ⇒ [<code>Location</code>](#Location) \| <code>undefined</code>
+        * [.legacyTzToTzid(tz, dst)](#Location.legacyTzToTzid) ⇒ <code>string</code> \| <code>undefined</code>
         * [.getUsaTzid(state, tz, dst)](#Location.getUsaTzid) ⇒ <code>string</code>
         * [.addLocation(cityName, location)](#Location.addLocation) ⇒ <code>boolean</code>
 
 <a name="new_Location_new"></a>
 
-### new Location(latitude, longitude, il, tzid, cityName, countryCode, [geoid], [elevation])
+### new Location(latitude, longitude, il, tzid, [cityName], [countryCode], [geoid], [elevation])
 Initialize a Location instance
 
 
@@ -1901,9 +1793,9 @@ Initialize a Location instance
 | longitude | <code>number</code> | Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005) |
 | il | <code>boolean</code> | in Israel (true) or Diaspora (false) |
 | tzid | <code>string</code> | Olson timezone ID, e.g. "America/Chicago" |
-| cityName | <code>string</code> | optional descriptive city name |
-| countryCode | <code>string</code> | ISO 3166 alpha-2 country code (e.g. "FR") |
-| [geoid] | <code>string</code> | optional string or numeric geographic ID |
+| [cityName] | <code>string</code> | optional descriptive city name |
+| [countryCode] | <code>string</code> | ISO 3166 alpha-2 country code (e.g. "FR") |
+| [geoid] | <code>string</code> \| <code>number</code> | optional string or numeric geographic ID |
 | [elevation] | <code>number</code> | in meters (default `0`) |
 
 <a name="Location+getIsrael"></a>
@@ -1912,17 +1804,17 @@ Initialize a Location instance
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+getName"></a>
 
-### location.getName() ⇒ <code>string</code>
+### location.getName() ⇒ <code>string</code> \| <code>null</code>
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+getShortName"></a>
 
-### location.getShortName() ⇒ <code>string</code>
+### location.getShortName() ⇒ <code>string</code> \| <code>null</code>
 Returns the location name, up to the first comma
 
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+getCountryCode"></a>
 
-### location.getCountryCode() ⇒ <code>string</code>
+### location.getCountryCode() ⇒ <code>string</code> \| <code>undefined</code>
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+getTzid"></a>
 
@@ -1936,7 +1828,7 @@ Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+getGeoId"></a>
 
-### location.getGeoId() ⇒ <code>string</code>
+### location.getGeoId() ⇒ <code>string</code> \| <code>number</code> \| <code>undefined</code>
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location+toString"></a>
 
@@ -1944,7 +1836,7 @@ Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
 **Kind**: instance method of [<code>Location</code>](#Location)  
 <a name="Location.lookup"></a>
 
-### Location.lookup(name) ⇒ [<code>Location</code>](#Location)
+### Location.lookup(name) ⇒ [<code>Location</code>](#Location) \| <code>undefined</code>
 Creates a location object from one of 60 "classic" Hebcal city names.
 The following city names are supported:
 'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
@@ -1969,7 +1861,7 @@ The following city names are supported:
 
 <a name="Location.legacyTzToTzid"></a>
 
-### Location.legacyTzToTzid(tz, dst) ⇒ <code>string</code>
+### Location.legacyTzToTzid(tz, dst) ⇒ <code>string</code> \| <code>undefined</code>
 Converts legacy Hebcal timezone to a standard Olson tzid.
 
 **Kind**: static method of [<code>Location</code>](#Location)  
@@ -2056,7 +1948,9 @@ https://gml.noaa.gov/grad/solcalc/calcdetails.html
         * [.sofZmanTfillaMGA16Point1()](#Zmanim+sofZmanTfillaMGA16Point1) ⇒ <code>Date</code>
         * [.sofZmanTfillaMGA19Point8()](#Zmanim+sofZmanTfillaMGA19Point8) ⇒ <code>Date</code>
         * [.minchaGedola()](#Zmanim+minchaGedola) ⇒ <code>Date</code>
+        * [.minchaGedolaMGA()](#Zmanim+minchaGedolaMGA) ⇒ <code>Date</code>
         * [.minchaKetana()](#Zmanim+minchaKetana) ⇒ <code>Date</code>
+        * [.minchaKetanaMGA()](#Zmanim+minchaKetanaMGA) ⇒ <code>Date</code>
         * [.plagHaMincha()](#Zmanim+plagHaMincha) ⇒ <code>Date</code>
         * [.tzeit([angle])](#Zmanim+tzeit) ⇒ <code>Date</code>
         * [.neitzHaChama()](#Zmanim+neitzHaChama) ⇒ <code>Date</code>
@@ -2225,6 +2119,12 @@ If elevation is enabled, this function will include elevation in the calculation
 
 ### zmanim.sofZmanTfilla() ⇒ <code>Date</code>
 Latest Shacharit (Gra); Sunrise plus 4 halachic hours, according to the Gra.
+
+This method returns the latest *zman tfila* (time to recite shema in the morning)
+that is 4 *shaos zmaniyos* (solar hours) after sunrise or sea level sunrise
+(depending on the `useElevation` setting), according
+to the [GRA](https://en.wikipedia.org/wiki/Vilna_Gaon).
+
 If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -2286,14 +2186,51 @@ https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
 <a name="Zmanim+minchaGedola"></a>
 
 ### zmanim.minchaGedola() ⇒ <code>Date</code>
-Earliest Mincha – Mincha Gedola; Sunrise plus 6.5 halachic hours.
+Earliest Mincha – Mincha Gedola (GRA); Sunrise plus 6.5 halachic hours.
 If elevation is enabled, this function will include elevation in the calculation.
+
+This method returns the latest mincha gedola, the earliest time one can pray mincha
+that is 6.5 shaos zmaniyos (solar hours) after sunrise or sea level sunrise
+(depending on the `useElevation` setting), according
+to the [GRA](https://en.wikipedia.org/wiki/Vilna_Gaon).
+
+The Ramba"m is of the opinion that it is better to delay *mincha* until
+*mincha ketana* while the Ra"sh, Tur, GRA and others are of the
+opinion that *mincha* can be prayed *lechatchila* starting at *mincha gedola*.
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+minchaGedolaMGA"></a>
+
+### zmanim.minchaGedolaMGA() ⇒ <code>Date</code>
+Earliest Mincha – Mincha Gedola (MGA); Sunrise plus 6.5 halachic hours.
+If elevation is enabled, this function will include elevation in the calculation.
+
+This method returns the time of *mincha gedola* according to the Magen Avraham
+with the day starting 72 minutes before sunrise and ending 72 minutes after sunset.
+This is the earliest time to pray *mincha*.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
 <a name="Zmanim+minchaKetana"></a>
 
 ### zmanim.minchaKetana() ⇒ <code>Date</code>
 Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours.
+If elevation is enabled, this function will include elevation in the calculation.
+
+This method returns *mincha ketana*, the preferred earliest time to pray *mincha* in the
+opinion of the [Rambam](https://en.wikipedia.org/wiki/Maimonides) and others,
+that is 9.5 *shaos zmaniyos* (solar hours) after sunrise or sea level sunrise
+(depending on the `useElevation` setting), according
+to the [GRA](https://en.wikipedia.org/wiki/Vilna_Gaon).
+
+**Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
+<a name="Zmanim+minchaKetanaMGA"></a>
+
+### zmanim.minchaKetanaMGA() ⇒ <code>Date</code>
+This method returns the time of *mincha ketana* according to the Magen Avraham
+with the day starting 72 minutes before sunrise and ending 72 minutes after sunset.
+This is the preferred earliest time to pray *mincha* according to the opinion of
+the [Rambam](https://en.wikipedia.org/wiki/Maimonides) and others.
+
 If elevation is enabled, this function will include elevation in the calculation.
 
 **Kind**: instance method of [<code>Zmanim</code>](#Zmanim)  
@@ -2421,24 +2358,18 @@ An event that has an `eventTime` and `eventTimeStr`
 **Kind**: global class  
 
 * [TimedEvent](#TimedEvent)
-    * [new TimedEvent(date, desc, mask, eventTime, location, linkedEvent, options)](#new_TimedEvent_new)
+    * [new TimedEvent(desc)](#new_TimedEvent_new)
     * [.render([locale])](#TimedEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#TimedEvent+renderBrief) ⇒ <code>string</code>
     * [.getCategories()](#TimedEvent+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
 
 <a name="new_TimedEvent_new"></a>
 
-### new TimedEvent(date, desc, mask, eventTime, location, linkedEvent, options)
+### new TimedEvent(desc)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  |
 | desc | <code>string</code> | Description (not translated) |
-| mask | <code>number</code> |  |
-| eventTime | <code>Date</code> |  |
-| location | [<code>Location</code>](#Location) |  |
-| linkedEvent | [<code>Event</code>](#Event) |  |
-| options | [<code>CalOptions</code>](#CalOptions) |  |
 
 <a name="TimedEvent+render"></a>
 
@@ -2464,6 +2395,16 @@ Returns translation of "Candle lighting" without the time.
 
 ### timedEvent.getCategories() ⇒ <code>Array.&lt;string&gt;</code>
 **Kind**: instance method of [<code>TimedEvent</code>](#TimedEvent)  
+<a name="CandleLightingEvent"></a>
+
+## CandleLightingEvent
+Candle lighting before Shabbat or holiday
+
+**Kind**: global class  
+<a name="CandleLightingEvent+getEmoji"></a>
+
+### candleLightingEvent.getEmoji() ⇒ <code>string</code>
+**Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
 <a name="HavdalahEvent"></a>
 
 ## HavdalahEvent
@@ -2472,24 +2413,9 @@ Havdalah after Shabbat or holiday
 **Kind**: global class  
 
 * [HavdalahEvent](#HavdalahEvent)
-    * [new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent, options)](#new_HavdalahEvent_new)
     * [.render([locale])](#HavdalahEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#HavdalahEvent+renderBrief) ⇒ <code>string</code>
     * [.getEmoji()](#HavdalahEvent+getEmoji) ⇒ <code>string</code>
-
-<a name="new_HavdalahEvent_new"></a>
-
-### new HavdalahEvent(date, mask, eventTime, location, havdalahMins, linkedEvent, options)
-
-| Param | Type |
-| --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
-| mask | <code>number</code> | 
-| eventTime | <code>Date</code> | 
-| location | [<code>Location</code>](#Location) | 
-| havdalahMins | <code>number</code> | 
-| linkedEvent | [<code>Event</code>](#Event) | 
-| options | [<code>CalOptions</code>](#CalOptions) | 
 
 <a name="HavdalahEvent+render"></a>
 
@@ -2515,34 +2441,6 @@ Returns translation of "Havdalah" without the time.
 
 ### havdalahEvent.getEmoji() ⇒ <code>string</code>
 **Kind**: instance method of [<code>HavdalahEvent</code>](#HavdalahEvent)  
-<a name="CandleLightingEvent"></a>
-
-## CandleLightingEvent
-Candle lighting before Shabbat or holiday
-
-**Kind**: global class  
-
-* [CandleLightingEvent](#CandleLightingEvent)
-    * [new CandleLightingEvent(date, mask, eventTime, location, linkedEvent, options)](#new_CandleLightingEvent_new)
-    * [.getEmoji()](#CandleLightingEvent+getEmoji) ⇒ <code>string</code>
-
-<a name="new_CandleLightingEvent_new"></a>
-
-### new CandleLightingEvent(date, mask, eventTime, location, linkedEvent, options)
-
-| Param | Type |
-| --- | --- |
-| date | [<code>HDate</code>](#HDate) | 
-| mask | <code>number</code> | 
-| eventTime | <code>Date</code> | 
-| location | [<code>Location</code>](#Location) | 
-| linkedEvent | [<code>Event</code>](#Event) | 
-| options | [<code>CalOptions</code>](#CalOptions) | 
-
-<a name="CandleLightingEvent+getEmoji"></a>
-
-### candleLightingEvent.getEmoji() ⇒ <code>string</code>
-**Kind**: instance method of [<code>CandleLightingEvent</code>](#CandleLightingEvent)  
 <a name="Molad"></a>
 
 ## Molad
@@ -2612,7 +2510,7 @@ Calculates the molad for a Hebrew month
 | Param | Type | Description |
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale) |
-| options | [<code>CalOptions</code>](#CalOptions) |  |
+| options | <code>CalOptions</code> |  |
 
 <a name="MoladEvent"></a>
 
@@ -2634,7 +2532,7 @@ Represents a Molad announcement on Shabbat Mevarchim
 | date | [<code>HDate</code>](#HDate) | Hebrew date event occurs |
 | hyear | <code>number</code> | molad year |
 | hmonth | <code>number</code> | molad month |
-| options | [<code>CalOptions</code>](#CalOptions) |  |
+| options | <code>CalOptions</code> |  |
 
 <a name="MoladEvent+render"></a>
 
@@ -2730,6 +2628,110 @@ Returns translation of "Omer day 22" without ordinal numbers.
 
 ### omerEvent.url() ⇒ <code>string</code>
 **Kind**: instance method of [<code>OmerEvent</code>](#OmerEvent)  
+<a name="Sedra"></a>
+
+## Sedra
+Represents Parashah HaShavua for an entire Hebrew year
+
+**Kind**: global class  
+
+* [Sedra](#Sedra)
+    * [new Sedra(hyear, il)](#new_Sedra_new)
+    * [.get(hd)](#Sedra+get) ⇒ <code>Array.&lt;string&gt;</code>
+    * [.getString(hd, [locale])](#Sedra+getString) ⇒ <code>string</code>
+    * [.isParsha(hd)](#Sedra+isParsha) ⇒ <code>boolean</code>
+    * [.find(parsha)](#Sedra+find) ⇒ [<code>HDate</code>](#HDate) \| <code>null</code>
+    * [.getSedraArray()](#Sedra+getSedraArray) ⇒ <code>Array.&lt;NumberOrString&gt;</code>
+    * [.getFirstSaturday()](#Sedra+getFirstSaturday) ⇒ <code>number</code>
+    * [.getYear()](#Sedra+getYear) ⇒ <code>number</code>
+    * [.lookup(hd)](#Sedra+lookup) ⇒ <code>SedraResult</code>
+
+<a name="new_Sedra_new"></a>
+
+### new Sedra(hyear, il)
+Caculates the Parashah HaShavua for an entire Hebrew year
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hyear | <code>number</code> | Hebrew year (e.g. 5749) |
+| il | <code>boolean</code> | Use Israel sedra schedule (false for Diaspora) |
+
+<a name="Sedra+get"></a>
+
+### sedra.get(hd) ⇒ <code>Array.&lt;string&gt;</code>
+Returns the parsha (or parshiyot) read on Hebrew date
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hd | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+
+<a name="Sedra+getString"></a>
+
+### sedra.getString(hd, [locale]) ⇒ <code>string</code>
+Looks up parsha for the date, then returns a translated or transliterated string
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hd | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+| [locale] | <code>string</code> | Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale |
+
+<a name="Sedra+isParsha"></a>
+
+### sedra.isParsha(hd) ⇒ <code>boolean</code>
+Checks to see if this day would be a regular parasha HaShavua
+Torah reading or special holiday reading
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hd | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+
+<a name="Sedra+find"></a>
+
+### sedra.find(parsha) ⇒ [<code>HDate</code>](#HDate) \| <code>null</code>
+Returns the date that a parsha occurs
+or `null` if the parsha doesn't occur this year
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+
+| Param | Type |
+| --- | --- |
+| parsha | <code>number</code> \| <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
+
+<a name="Sedra+getSedraArray"></a>
+
+### sedra.getSedraArray() ⇒ <code>Array.&lt;NumberOrString&gt;</code>
+Returns the underlying annual sedra schedule.
+Used by `@hebcal/triennial`
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+<a name="Sedra+getFirstSaturday"></a>
+
+### sedra.getFirstSaturday() ⇒ <code>number</code>
+R.D. date of the first Saturday on or after Rosh Hashana
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+<a name="Sedra+getYear"></a>
+
+### sedra.getYear() ⇒ <code>number</code>
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+<a name="Sedra+lookup"></a>
+
+### sedra.lookup(hd) ⇒ <code>SedraResult</code>
+Returns an object describing the parsha on the first Saturday on or after `hd`
+
+**Kind**: instance method of [<code>Sedra</code>](#Sedra)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hd | [<code>HDate</code>](#HDate) \| <code>number</code> | Hebrew date or R.D. days |
+
 <a name="ParshaEvent"></a>
 
 ## ParshaEvent
@@ -2738,22 +2740,22 @@ Represents one of 54 weekly Torah portions, always on a Saturday
 **Kind**: global class  
 
 * [ParshaEvent](#ParshaEvent)
-    * [new ParshaEvent(date, parsha, il, num)](#new_ParshaEvent_new)
+    * [new ParshaEvent(date, parsha, [il], [num])](#new_ParshaEvent_new)
     * [.render([locale])](#ParshaEvent+render) ⇒ <code>string</code>
     * [.basename()](#ParshaEvent+basename) ⇒ <code>string</code>
-    * [.url()](#ParshaEvent+url) ⇒ <code>string</code>
+    * [.url()](#ParshaEvent+url) ⇒ <code>string</code> \| <code>undefined</code>
     * [.urlDateSuffix()](#ParshaEvent+urlDateSuffix) ⇒ <code>string</code>
 
 <a name="new_ParshaEvent_new"></a>
 
-### new ParshaEvent(date, parsha, il, num)
+### new ParshaEvent(date, parsha, [il], [num])
 
-| Param | Type | Description |
-| --- | --- | --- |
-| date | [<code>HDate</code>](#HDate) |  |
-| parsha | <code>Array.&lt;string&gt;</code> | untranslated name of single or double parsha,   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim'] |
-| il | <code>boolean</code> |  |
-| num | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| date | [<code>HDate</code>](#HDate) |  |  |
+| parsha | <code>Array.&lt;string&gt;</code> |  | untranslated name of single or double parsha,   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim'] |
+| [il] | <code>boolean</code> | <code>false</code> |  |
+| [num] | <code>number</code> \| <code>Array.&lt;number&gt;</code> |  |  |
 
 <a name="ParshaEvent+render"></a>
 
@@ -2770,7 +2772,7 @@ Represents one of 54 weekly Torah portions, always on a Saturday
 **Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
 <a name="ParshaEvent+url"></a>
 
-### parshaEvent.url() ⇒ <code>string</code>
+### parshaEvent.url() ⇒ <code>string</code> \| <code>undefined</code>
 **Kind**: instance method of [<code>ParshaEvent</code>](#ParshaEvent)  
 <a name="ParshaEvent+urlDateSuffix"></a>
 
@@ -2785,12 +2787,13 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
 
 * [HolidayEvent](#HolidayEvent)
     * [.basename()](#HolidayEvent+basename) ⇒ <code>string</code>
-    * [.url()](#HolidayEvent+url) ⇒ <code>string</code>
+    * [.url()](#HolidayEvent+url) ⇒ <code>string</code> \| <code>undefined</code>
     * [.urlDateSuffix()](#HolidayEvent+urlDateSuffix) ⇒ <code>string</code>
     * [.getEmoji()](#HolidayEvent+getEmoji) ⇒ <code>string</code>
     * [.getCategories()](#HolidayEvent+getCategories) ⇒ <code>Array.&lt;string&gt;</code>
     * [.render([locale])](#HolidayEvent+render) ⇒ <code>string</code>
     * [.renderBrief([locale])](#HolidayEvent+renderBrief) ⇒ <code>string</code>
+    * [.clone()](#HolidayEvent+clone) ⇒ [<code>Event</code>](#Event)
 
 <a name="HolidayEvent+basename"></a>
 
@@ -2798,7 +2801,7 @@ Represents a built-in holiday like Pesach, Purim or Tu BiShvat
 **Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
 <a name="HolidayEvent+url"></a>
 
-### holidayEvent.url() ⇒ <code>string</code>
+### holidayEvent.url() ⇒ <code>string</code> \| <code>undefined</code>
 **Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
 <a name="HolidayEvent+urlDateSuffix"></a>
 
@@ -2836,6 +2839,23 @@ a shorter text (e.g. without a time or added description).
 | --- | --- | --- |
 | [locale] | <code>string</code> | Optional locale name (defaults to active locale). |
 
+<a name="HolidayEvent+clone"></a>
+
+### holidayEvent.clone() ⇒ [<code>Event</code>](#Event)
+Makes a clone of this Event object
+
+**Kind**: instance method of [<code>HolidayEvent</code>](#HolidayEvent)  
+<a name="AsaraBTevetEvent"></a>
+
+## AsaraBTevetEvent
+Because Asara B'Tevet often occurs twice in the same Gregorian year,
+we subclass HolidayEvent to override the `url()` method.
+
+**Kind**: global class  
+<a name="AsaraBTevetEvent+urlDateSuffix"></a>
+
+### asaraBTevetEvent.urlDateSuffix() ⇒ <code>string</code>
+**Kind**: instance method of [<code>AsaraBTevetEvent</code>](#AsaraBTevetEvent)  
 <a name="RoshChodeshEvent"></a>
 
 ## RoshChodeshEvent
@@ -2879,17 +2899,6 @@ Returns (translated) description of this event
 
 ### roshChodeshEvent.getEmoji() ⇒ <code>string</code>
 **Kind**: instance method of [<code>RoshChodeshEvent</code>](#RoshChodeshEvent)  
-<a name="AsaraBTevetEvent"></a>
-
-## AsaraBTevetEvent
-Because Asara B'Tevet often occurs twice in the same Gregorian year,
-we subclass HolidayEvent to override the `url()` method.
-
-**Kind**: global class  
-<a name="AsaraBTevetEvent+urlDateSuffix"></a>
-
-### asaraBTevetEvent.urlDateSuffix() ⇒ <code>string</code>
-**Kind**: instance method of [<code>AsaraBTevetEvent</code>](#AsaraBTevetEvent)  
 <a name="MevarchimChodeshEvent"></a>
 
 ## MevarchimChodeshEvent
@@ -2992,22 +3001,22 @@ Event names can be rendered in several languges using the `locale` option.
 
 * [HebrewCalendar](#HebrewCalendar)
     * [.calendar([options])](#HebrewCalendar.calendar) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-    * [.getBirthdayOrAnniversary(hyear, gdate)](#HebrewCalendar.getBirthdayOrAnniversary) ⇒ [<code>HDate</code>](#HDate)
-    * [.getYahrzeit(hyear, gdate)](#HebrewCalendar.getYahrzeit) ⇒ [<code>HDate</code>](#HDate)
-    * [.getHolidaysForYear(year)](#HebrewCalendar.getHolidaysForYear) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
-    * [.getHolidaysForYearArray(year, il)](#HebrewCalendar.getHolidaysForYearArray) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-    * [.getHolidaysOnDate(date, [il])](#HebrewCalendar.getHolidaysOnDate) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+    * [.getBirthdayOrAnniversary(hyear, gdate)](#HebrewCalendar.getBirthdayOrAnniversary) ⇒ [<code>HDate</code>](#HDate) \| <code>undefined</code>
+    * [.getYahrzeit(hyear, gdate)](#HebrewCalendar.getYahrzeit) ⇒ [<code>HDate</code>](#HDate) \| <code>undefined</code>
+    * [.getHolidaysForYear(year)](#HebrewCalendar.getHolidaysForYear) ⇒ <code>HolidayYearMap</code>
+    * [.getHolidaysForYearArray(year, il)](#HebrewCalendar.getHolidaysForYearArray) ⇒ [<code>Array.&lt;HolidayEvent&gt;</code>](#HolidayEvent)
+    * [.getHolidaysOnDate(date, [il])](#HebrewCalendar.getHolidaysOnDate) ⇒ [<code>Array.&lt;HolidayEvent&gt;</code>](#HolidayEvent) \| <code>undefined</code>
     * [.eruvTavshilin(date, il)](#HebrewCalendar.eruvTavshilin) ⇒ <code>boolean</code>
     * [.reformatTimeStr(timeStr, suffix, options)](#HebrewCalendar.reformatTimeStr) ⇒ <code>string</code>
     * [.version()](#HebrewCalendar.version) ⇒ <code>string</code>
     * [.getSedra(hyear, il)](#HebrewCalendar.getSedra) ⇒ [<code>Sedra</code>](#Sedra)
     * [.hallel(hdate, il)](#HebrewCalendar.hallel) ⇒ <code>number</code>
-    * [.tachanun(hdate, il)](#HebrewCalendar.tachanun) ⇒ [<code>TachanunResult</code>](#TachanunResult)
+    * [.tachanun(hdate, il)](#HebrewCalendar.tachanun) ⇒ <code>TachanunResult</code>
 
 <a name="HebrewCalendar.calendar"></a>
 
 ### HebrewCalendar.calendar([options]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
-Calculates holidays and other Hebrew calendar events based on [CalOptions](#CalOptions).
+Calculates holidays and other Hebrew calendar events based on [CalOptions](CalOptions).
 
 Each holiday is represented by an [Event](#Event) object which includes a date,
 a description, flags and optional attributes.
@@ -3100,7 +3109,7 @@ Additional locales (such as `ru` or `fr`) are supported by the
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [options] | [<code>CalOptions</code>](#CalOptions) | <code>{}</code> | 
+| [options] | <code>CalOptions</code> | <code>{}</code> | 
 
 **Example**  
 ```js
@@ -3122,7 +3131,7 @@ for (const ev of events) {
 ```
 <a name="HebrewCalendar.getBirthdayOrAnniversary"></a>
 
-### HebrewCalendar.getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+### HebrewCalendar.getBirthdayOrAnniversary(hyear, gdate) ⇒ [<code>HDate</code>](#HDate) \| <code>undefined</code>
 Calculates a birthday or anniversary (non-yahrzeit).
 `hyear` must be after original `gdate` of anniversary.
 Returns `undefined` when requested year preceeds or is same as original year.
@@ -3141,7 +3150,7 @@ has his birthday postponed until the first of the following month in
 years where that day does not occur. [Calendrical Calculations p. 111]
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in `hyear`  
+**Returns**: [<code>HDate</code>](#HDate) \| <code>undefined</code> - anniversary occurring in `hyear`  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -3157,7 +3166,7 @@ console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
 ```
 <a name="HebrewCalendar.getYahrzeit"></a>
 
-### HebrewCalendar.getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate)
+### HebrewCalendar.getYahrzeit(hyear, gdate) ⇒ [<code>HDate</code>](#HDate) \| <code>undefined</code>
 Calculates yahrzeit.
 `hyear` must be after original `gdate` of death.
 Returns `undefined` when requested year preceeds or is same as original year.
@@ -3184,7 +3193,7 @@ There are several cases:
   of the date of death. [Calendrical Calculations p. 113]
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
-**Returns**: [<code>HDate</code>](#HDate) - anniversary occurring in hyear  
+**Returns**: [<code>HDate</code>](#HDate) \| <code>undefined</code> - anniversary occurring in hyear  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -3200,7 +3209,7 @@ console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
 ```
 <a name="HebrewCalendar.getHolidaysForYear"></a>
 
-### HebrewCalendar.getHolidaysForYear(year) ⇒ <code>Map.&lt;string, Array.&lt;Event&gt;&gt;</code>
+### HebrewCalendar.getHolidaysForYear(year) ⇒ <code>HolidayYearMap</code>
 Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
 `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
 or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
@@ -3213,7 +3222,7 @@ or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
 
 <a name="HebrewCalendar.getHolidaysForYearArray"></a>
 
-### HebrewCalendar.getHolidaysForYearArray(year, il) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+### HebrewCalendar.getHolidaysForYearArray(year, il) ⇒ [<code>Array.&lt;HolidayEvent&gt;</code>](#HolidayEvent)
 Returns an array of holidays for the year
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
@@ -3225,7 +3234,7 @@ Returns an array of holidays for the year
 
 <a name="HebrewCalendar.getHolidaysOnDate"></a>
 
-### HebrewCalendar.getHolidaysOnDate(date, [il]) ⇒ [<code>Array.&lt;Event&gt;</code>](#Event)
+### HebrewCalendar.getHolidaysOnDate(date, [il]) ⇒ [<code>Array.&lt;HolidayEvent&gt;</code>](#HolidayEvent) \| <code>undefined</code>
 Returns an array of Events on this date (or `undefined` if no events)
 
 **Kind**: static method of [<code>HebrewCalendar</code>](#HebrewCalendar)  
@@ -3251,7 +3260,7 @@ Eruv Tavshilin
 
 ### HebrewCalendar.reformatTimeStr(timeStr, suffix, options) ⇒ <code>string</code>
 Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-keep as "20:13" for any other locale/country. Uses [CalOptions](#CalOptions) to determine
+keep as "20:13" for any other locale/country. Uses [CalOptions](CalOptions) to determine
 locale.
 If `options.hour12` is `false`, locale is ignored and always returns 24-hour time.
 If `options.hour12` is `true`, locale is ignored and always returns 12-hour time.
@@ -3262,7 +3271,7 @@ If `options.hour12` is `true`, locale is ignored and always returns 12-hour time
 | --- | --- | --- |
 | timeStr | <code>string</code> | original time like "20:30" |
 | suffix | <code>string</code> | "p" or "pm" or " P.M.". Add leading space if you want it |
-| options | [<code>CalOptions</code>](#CalOptions) |  |
+| options | <code>CalOptions</code> |  |
 
 <a name="HebrewCalendar.version"></a>
 
@@ -3306,7 +3315,7 @@ The number is one of the following values:
 
 <a name="HebrewCalendar.tachanun"></a>
 
-### HebrewCalendar.tachanun(hdate, il) ⇒ [<code>TachanunResult</code>](#TachanunResult)
+### HebrewCalendar.tachanun(hdate, il) ⇒ <code>TachanunResult</code>
 Return details on what Tachanun (or Tzidchatcha on Shabbat) is said on `hdate`.
 
 Tachanun is not said on Rosh Chodesh, the month of Nisan, Lag Baomer,
@@ -3485,13 +3494,6 @@ Transliterated names of holidays, used by `Event.getDesc()`
 | YOM_KIPPUR | <code>string</code> | <code>&quot;YOM_KIPPUR&quot;</code> | Yom Kippur |
 | YOM_YERUSHALAYIM | <code>string</code> | <code>&quot;YOM_YERUSHALAYIM&quot;</code> | Yom Yerushalayim |
 
-<a name="HolidayDesc"></a>
-
-## HolidayDesc : <code>enum</code>
-Transliterated names of holidays, used by `Event.getDesc()`
-
-**Kind**: global enum  
-**Read only**: true  
 <a name="parshiot"></a>
 
 ## parshiot : <code>Array.&lt;string&gt;</code>
@@ -3500,6 +3502,12 @@ parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[52] == "Ha'azinu".
 
 **Kind**: global constant  
 **Read only**: true  
+<a name="version"></a>
+
+## version
+DO NOT EDIT THIS AUTO-GENERATED FILE!
+
+**Kind**: global constant  
 <a name="hebrew2abs"></a>
 
 ## hebrew2abs(year, month, day) ⇒ <code>number</code>
@@ -3711,6 +3719,12 @@ Returns an emoji number symbol with a circle, for example `㊲`
 | --- | --- |
 | omerDay | the day of the omer, 1-49 inclusive |
 
+<a name="molad"></a>
+
+## molad()
+Calculates the molad for a Hebrew month
+
+**Kind**: global function  
 <a name="getPseudoISO"></a>
 
 ## getPseudoISO(tzid, date) ⇒ <code>string</code>
@@ -3762,58 +3776,4 @@ Similar to `string.padStart(2, '0')`.
 | Param | Type |
 | --- | --- |
 | number | <code>number</code> | 
-
-<a name="CalOptions"></a>
-
-## CalOptions : <code>Object</code>
-Options to configure which events are returned
-
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| [location] | [<code>Location</code>](#Location) | latitude/longitude/tzid used for candle-lighting |
-| [year] | <code>number</code> | Gregorian or Hebrew year |
-| [isHebrewYear] | <code>boolean</code> | to interpret year as Hebrew year |
-| [month] | <code>number</code> | Gregorian or Hebrew month (to filter results to a single month) |
-| [numYears] | <code>number</code> | generate calendar for multiple years (default 1) |
-| [start] | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific start date (requires end date) |
-| [end] | <code>Date</code> \| [<code>HDate</code>](#HDate) \| <code>number</code> | use specific end date (requires start date) |
-| [candlelighting] | <code>boolean</code> | calculate candle-lighting and havdalah times |
-| [candleLightingMins] | <code>number</code> | minutes before sundown to light candles (default 18) |
-| [havdalahMins] | <code>number</code> | minutes after sundown for Havdalah (typical values are 42, 50, or 72).      If `undefined` (the default), calculate Havdalah according to Tzeit Hakochavim -      Nightfall (the point when 3 small stars are observable in the night time sky with      the naked eye). If `0`, Havdalah times are suppressed. |
-| [havdalahDeg] | <code>number</code> | degrees for solar depression for Havdalah.      Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars      (observed by Dr. Baruch (Berthold) Cohn in his luach published in France in 1899).      If `0`, Havdalah times are suppressed. |
-| [fastEndDeg] | <code>number</code> | degrees for solar depression for end of fast days.      Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include      6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky. |
-| [useElevation] | <code>boolean</code> | use elevation for calculations (default `false`).      If `true`, use elevation to affect the calculation of all sunrise/sunset based zmanim.      Note: there are some zmanim such as degree-based zmanim that are driven by the amount      of light in the sky and are not impacted by elevation.      These zmanim intentionally do not support elevation adjustment. |
-| [sedrot] | <code>boolean</code> | calculate parashah hashavua on Saturdays |
-| [il] | <code>boolean</code> | Israeli holiday and sedra schedule |
-| [noMinorFast] | <code>boolean</code> | suppress minor fasts |
-| [noModern] | <code>boolean</code> | suppress modern holidays |
-| [noRoshChodesh] | <code>boolean</code> | suppress Rosh Chodesh |
-| [shabbatMevarchim] | <code>boolean</code> | add Shabbat Mevarchim |
-| [noSpecialShabbat] | <code>boolean</code> | suppress Special Shabbat |
-| [noHolidays] | <code>boolean</code> | suppress regular holidays |
-| [omer] | <code>boolean</code> | include Days of the Omer |
-| [molad] | <code>boolean</code> | include event announcing the molad |
-| [ashkenazi] | <code>boolean</code> | use Ashkenazi transliterations for event titles (default Sephardi transliterations) |
-| [locale] | <code>string</code> | translate event titles according to a locale      Default value is `en`, also built-in are `he` and `ashkenazi`.      Additional locales (such as `ru` or `fr`) are provided by the      [@hebcal/locales](https://github.com/hebcal/hebcal-locales) package |
-| [addHebrewDates] | <code>boolean</code> | print the Hebrew date for the entire date range |
-| [addHebrewDatesForEvents] | <code>boolean</code> | print the Hebrew date for dates with some events |
-| [mask] | <code>number</code> | use bitmask from `flags` to filter events |
-| [yomKippurKatan] | <code>boolean</code> | include Yom Kippur Katan (default `false`).      יוֹם כִּפּוּר קָטָן is a minor day of atonement occurring monthly on the day preceeding each Rosh Chodesh.      Yom Kippur Katan is omitted in Elul (on the day before Rosh Hashanah),      Tishrei (Yom Kippur has just passed), Kislev (due to Chanukah)      and Nisan (fasting not permitted during Nisan).      When Rosh Chodesh occurs on Shabbat or Sunday, Yom Kippur Katan is observed on the preceding Thursday.      See [Wikipedia Yom Kippur Katan practices](https://en.wikipedia.org/wiki/Yom_Kippur_Katan#Practices) |
-| [hour12] | <code>boolean</code> | Whether to use 12-hour time (as opposed to 24-hour time).      Possible values are `true` and `false`; the default is locale dependent. |
-| [dailyLearning] | <code>Object.&lt;string, any&gt;</code> | map of options to enable daily study calendars      such as `dafYomi`, `mishnaYomi`, `nachYomi` with value `true`. For `yerushalmi`      the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein). |
-
-<a name="TachanunResult"></a>
-
-## TachanunResult : <code>Object</code>
-**Kind**: global typedef  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| shacharit | <code>boolean</code> | Tachanun is said at Shacharit |
-| mincha | <code>boolean</code> | Tachanun is said at Mincha |
-| allCongs | <code>boolean</code> | All congregations say Tachanun on the day |
 

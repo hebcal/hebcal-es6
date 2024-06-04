@@ -10,6 +10,7 @@ export {Zmanim} from './zmanim';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
 export {Molad, MoladEvent} from './molad';
 export {OmerEvent} from './omer';
+export {TachanunResult} from './tachanun';
 export {Sedra, parshiot} from './sedra';
 export {ParshaEvent} from './ParshaEvent';
 export {HolidayEvent, AsaraBTevetEvent,
