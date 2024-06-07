@@ -41,8 +41,7 @@
     "url": "https://github.com/hebcal/hebcal-es6/issues"
   },
   "files": [
-    "dist",
-    "po"
+    "dist"
   ],
   "scripts": {
     "build:rollup": "rollup -c",
