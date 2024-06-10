@@ -74,8 +74,9 @@ function tachanunYear(year: number, il: boolean): any {
   if (shushPurim.getDay() === 6) {
     shushPurim = shushPurim.next();
   }
-  const empty: HDate[] = [];
-  const none: HDate[] = empty.concat(
+  const none: HDate[] = [
+    new HDate(2, months.TISHREI, year), // Rosh Hashana II
+  ].concat(
       // Rosh Chodesh - 1st of every month. Also includes RH day 1 (1 Tishrei)
       range(1, monthsInYear)
           .map((month) => new HDate(1, month, year)),
@@ -83,7 +84,6 @@ function tachanunYear(year: number, il: boolean): any {
       range(1, monthsInYear)
           .filter((month) => HDate.daysInMonth(month, year) === 30)
           .map((month) => new HDate(30, month, year)),
-      new HDate(2, months.TISHREI, year), // Rosh Hashana II
       // entire month of Nisan
       range(1, HDate.daysInMonth(months.NISAN, year))
           .map((mday) => new HDate(mday, months.NISAN, year)),
@@ -105,14 +105,15 @@ function tachanunYear(year: number, il: boolean): any {
       shushPurim,
       leap ? new HDate(14, months.ADAR_I, year) : [], // Purim Katan
   );
-  const some: HDate[] = empty.concat(
+  const some: HDate[] = [
+    new HDate(14, months.IYYAR, year), // Pesach Sheini
+  ].concat(
       // Until 14 Sivan
       range(1, 13)
           .map((mday) => new HDate(mday, months.SIVAN, year)),
       // Until after Rosh Chodesh Cheshvan
       range(20, 31)
           .map((mday) => new HDate(mday, months.TISHREI, year)),
-      new HDate(14, months.IYYAR, year), // Pesach Sheini
       // Yom HaAtzma'ut, which changes based on day of week
       year >= 5708 ? (dateYomHaZikaron(year) as HDate).next() : [],
       // Yom Yerushalayim

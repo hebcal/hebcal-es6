@@ -9,9 +9,14 @@ const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const heDayNames = ['רִאשׁוֹן', 'שֵׁנִי', 'שְׁלִישִׁי', 'רְבִיעִי', 'חֲמִישִׁי', 'שִׁישִּׁי', 'שַׁבָּת'];
 
 const night = 'בַּלַּ֥יְלָה';
-const morning = 'בַּבֹּקֶר';
-const afternoon = 'בַּצׇּהֳרַיִים';
-const evening = 'בָּעֶרֶב';
+
+function getHebrewTimeOfDay(hour: number): string {
+  if (hour < 5) return night;
+  else if (hour < 12) return 'בַּבֹּקֶר';
+  else if (hour < 17) return 'בַּצׇּהֳרַיִים';
+  else if (hour < 21) return 'בָּעֶרֶב'
+  return night;
+}
 
 /**
  * Represents a molad, the moment when the new moon is "born"
@@ -86,11 +91,10 @@ export class Molad {
     const hour = this.getHour();
     const chalakim = this.getChalakim();
     const moladStr = Locale.gettext('Molad', locale);
-    const minutesStr = Locale.lookupTranslation('min', locale) || 'minutes';
+    const minutesStr = Locale.lookupTranslation('min', locale) ?? 'minutes';
     const chalakimStr = Locale.gettext('chalakim', locale);
     if (isHebrewLocale) {
-      const ampm = hour < 5 ? night : hour < 12 ? morning :
-        hour < 17 ? afternoon : hour < 21 ? evening : night;
+      const ampm = getHebrewTimeOfDay(hour);
       const result = `${moladStr} ${monthName} יִהְיֶה בַּיּוֹם ${dow} בשָׁבוּעַ, ` +
         `בְּשָׁעָה ${hour} ${ampm}, ` +
         `ו-${minutes} ${minutesStr} ` +
