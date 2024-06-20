@@ -736,7 +736,7 @@ msgid "Ben-Gurion Day"
 msgstr "יוֹם בן־גוריון"
 
 msgid "Hebrew Language Day"
-msgstr "יוֹם הַשָׂפָה הַעִברִית"
+msgstr "יוֹם הַשָׂפָה הַעִברִית"
 
 msgid "Birkat Hachamah"
 msgstr "בִרְכַּת הַחַמָּה"
@@ -748,7 +748,7 @@ msgid "Purim Meshulash"
 msgstr "פּוּרִים מְשׁוּלָּשׁ"
 
 msgid "after sunset"
-msgstr "לְאַחַר הַשְׁקִיעָה"
+msgstr "לְאַחַר הַשְׁקִיעָה"
 
 msgid "Yerushalmi"
 msgstr "יְרוּשַׁלְמִי"
