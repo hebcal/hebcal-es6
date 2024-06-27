@@ -6,9 +6,9 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
  * Represents one of 54 weekly Torah portions, always on a Saturday
  */
 export class ParshaEvent extends Event {
-  private readonly parsha: string[];
-  private readonly il: boolean;
-  private readonly num: number | number[];
+  readonly parsha: string[];
+  readonly il: boolean;
+  readonly num: number | number[];
   /**
    * @param {HDate} date
    * @param {string[]} parsha - untranslated name of single or double parsha,
