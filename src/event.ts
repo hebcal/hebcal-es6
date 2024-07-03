@@ -86,7 +86,7 @@ export class Event {
   readonly mask: number;
   emoji?: string;
   memo?: string;
-  alarm?: Date;
+  alarm?: Date | string | boolean;
   /**
    * Constructs Event
    * @param {HDate} date Hebrew date event occurs

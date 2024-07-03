@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.4.6",
+  "version": "5.4.7",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -85,7 +85,7 @@
     "quick-lru": "<=6.1.2",
     "rollup": "^4.18.0",
     "ttag-cli": "^1.10.12",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.3"
   },
   "dependencies": {
     "@hebcal/hdate": "^0.10.1",
