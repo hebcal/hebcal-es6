@@ -1,5 +1,5 @@
 export {gematriya, gematriyaStrToNum} from '@hebcal/hdate';
-export {greg, months, HDate, Locale} from '@hebcal/hdate';
+export {greg, months, HDate, Locale, Headers, StringArrayMap, LocaleData} from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 export {CalOptions} from './CalOptions';
 export {HebrewDateEvent} from './HebrewDateEvent';
