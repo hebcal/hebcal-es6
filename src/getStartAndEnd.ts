@@ -1,4 +1,4 @@
-import {greg, HDate, months} from '@hebcal/hdate';
+import {greg2abs, isDate, daysInGregMonth, HDate, months} from '@hebcal/hdate';
 import {CalOptions} from './CalOptions';
 
 const TISHREI = months.TISHREI;
@@ -8,8 +8,8 @@ const TISHREI = months.TISHREI;
  * @private
  */
 function getAbs(d: Date | HDate | number): number {
-  if (typeof d == 'number') return d;
-  if (greg.isDate(d)) return greg.greg2abs(d as Date);
+  if (typeof d === 'number') return d;
+  if (isDate(d)) return greg2abs(d as Date);
   if (HDate.isHDate(d)) return (d as HDate).abs();
   throw new TypeError(`Invalid date type: ${d}`);
 }
@@ -18,8 +18,9 @@ function getYear(options: CalOptions): number {
   if (typeof options.year !== 'undefined') {
     return Number(options.year);
   }
-  return options.isHebrewYear ? new HDate().getFullYear() :
-    new Date().getFullYear();
+  return options.isHebrewYear
+    ? new HDate().getFullYear()
+    : new Date().getFullYear();
 }
 
 /**
@@ -59,33 +60,41 @@ function getMonth(options: CalOptions): number {
   return NaN;
 }
 
-function startEndGregorian(theMonth: number, theYear: number, numYears: number): number[] {
+function startEndGregorian(
+  theMonth: number,
+  theYear: number,
+  numYears: number
+): number[] {
   const gregMonth = theMonth ? theMonth - 1 : 0;
   const startGreg = new Date(theYear, gregMonth, 1);
   if (theYear < 100) {
     startGreg.setFullYear(theYear);
   }
-  const startAbs = greg.greg2abs(startGreg);
+  const startAbs = greg2abs(startGreg);
   let endAbs;
   if (theMonth) {
-    endAbs = startAbs + greg.daysInMonth(theMonth, theYear) - 1;
+    endAbs = startAbs + daysInGregMonth(theMonth, theYear) - 1;
   } else {
     const endYear = theYear + numYears;
     const endGreg = new Date(endYear, 0, 1);
     if (endYear < 100) {
       endGreg.setFullYear(endYear);
     }
-    endAbs = greg.greg2abs(endGreg) - 1;
+    endAbs = greg2abs(endGreg) - 1;
   }
   return [startAbs, endAbs];
 }
 
-function startEndHebrew(theMonth: number, theYear: number, numYears: number): number[] {
+function startEndHebrew(
+  theMonth: number,
+  theYear: number,
+  numYears: number
+): number[] {
   const startDate = new HDate(1, theMonth || TISHREI, theYear);
   let startAbs = startDate.abs();
-  const endAbs = theMonth ?
-    startAbs + startDate.daysInMonth() :
-    new HDate(1, TISHREI, theYear + numYears).abs() - 1;
+  const endAbs = theMonth
+    ? startAbs + startDate.daysInMonth()
+    : new HDate(1, TISHREI, theYear + numYears).abs() - 1;
   // for full Hebrew year, start on Erev Rosh Hashana which
   // is technically in the previous Hebrew year
   // (but conveniently lets us get candle-lighting time for Erev)

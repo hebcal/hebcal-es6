@@ -1,5 +1,13 @@
 export {gematriya, gematriyaStrToNum} from '@hebcal/hdate';
-export {greg, months, HDate, Locale, Headers, StringArrayMap, LocaleData} from '@hebcal/hdate';
+export {
+  greg,
+  months,
+  HDate,
+  Locale,
+  Headers,
+  StringArrayMap,
+  LocaleData,
+} from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 export {CalOptions} from './CalOptions';
 export {HebrewDateEvent} from './HebrewDateEvent';
@@ -13,8 +21,12 @@ export {OmerEvent} from './omer';
 export {TachanunResult} from './tachanun';
 export {Sedra, SedraResult, parshiot} from './sedra';
 export {ParshaEvent} from './ParshaEvent';
-export {HolidayEvent, AsaraBTevetEvent,
-  RoshChodeshEvent, RoshHashanaEvent} from './HolidayEvent';
+export {
+  HolidayEvent,
+  AsaraBTevetEvent,
+  RoshChodeshEvent,
+  RoshHashanaEvent,
+} from './HolidayEvent';
 export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 export {holidayDesc} from './staticHolidays';
 export {DailyLearning} from './DailyLearning';

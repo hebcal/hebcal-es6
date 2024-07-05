@@ -4,8 +4,8 @@ import {
   HDate,
   getPseudoISO,
   getTimezoneOffset,
-  greg,
-  pad2
+  isDate,
+  pad2,
 } from '@hebcal/hdate';
 
 /**
@@ -21,7 +21,7 @@ function zdtToDate(zdt: Temporal.ZonedDateTime | null): Date {
 }
 
 function getDate(date: Date | HDate): Date {
-  if (greg.isDate(date)) return date as Date;
+  if (isDate(date)) return date as Date;
   if (HDate.isHDate(date)) return (date as HDate).greg();
   throw new TypeError(`invalid date: ${date}`);
 }
@@ -75,7 +75,8 @@ export class Zmanim {
     const plainDate = Temporal.PlainDate.from({
       year: dt.getFullYear(),
       month: dt.getMonth() + 1,
-      day: dt.getDate()});
+      day: dt.getDate(),
+    });
     this.noaa = new NOAACalculator(gloc, plainDate);
     this.useElevation = Boolean(useElevation);
   }
@@ -102,8 +103,9 @@ export class Zmanim {
    */
   timeAtAngle(angle: number, rising: boolean): Date {
     const offsetZenith = 90 + angle;
-    const zdt = rising ? this.noaa.getSunriseOffsetByDegrees(offsetZenith) :
-        this.noaa.getSunsetOffsetByDegrees(offsetZenith);
+    const zdt = rising
+      ? this.noaa.getSunriseOffsetByDegrees(offsetZenith)
+      : this.noaa.getSunsetOffsetByDegrees(offsetZenith);
     return zdtToDate(zdt);
   }
   /**
@@ -111,7 +113,9 @@ export class Zmanim {
    * If elevation is enabled, this function will include elevation in the calculation.
    */
   sunrise(): Date {
-    const zdt = this.useElevation ? this.noaa.getSunrise() : this.noaa.getSeaLevelSunrise();
+    const zdt = this.useElevation
+      ? this.noaa.getSunrise()
+      : this.noaa.getSeaLevelSunrise();
     return zdtToDate(zdt);
   }
   /**
@@ -127,7 +131,9 @@ export class Zmanim {
    * If elevation is enabled, this function will include elevation in the calculation.
    */
   sunset(): Date {
-    const zdt = this.useElevation ? this.noaa.getSunset() : this.noaa.getSeaLevelSunset();
+    const zdt = this.useElevation
+      ? this.noaa.getSunset()
+      : this.noaa.getSeaLevelSunset();
     return zdtToDate(zdt);
   }
   /**
@@ -186,7 +192,7 @@ export class Zmanim {
    * If elevation is enabled, this function will include elevation in the calculation.
    */
   chatzotNight(): Date {
-    return new Date(this.sunrise().getTime() - (this.nightHour() * 6));
+    return new Date(this.sunrise().getTime() - this.nightHour() * 6);
   }
   /**
    * Dawn – Alot haShachar; Sun is 16.1° below the horizon in the morning.
@@ -218,8 +224,12 @@ export class Zmanim {
    * @param hours
    */
   getShaahZmanisBasedZman(hours: number): Date {
-    const startOfDay = this.useElevation ? this.noaa.getSunrise() : this.noaa.getSeaLevelSunrise();
-    const endOfDay = this.useElevation ? this.noaa.getSunset() : this.noaa.getSeaLevelSunset();
+    const startOfDay = this.useElevation
+      ? this.noaa.getSunrise()
+      : this.noaa.getSeaLevelSunrise();
+    const endOfDay = this.useElevation
+      ? this.noaa.getSunset()
+      : this.noaa.getSeaLevelSunset();
     const temporalHour = this.noaa.getTemporalHour(startOfDay, endOfDay);
     const offset = Math.round(temporalHour * hours);
     const zdt = NOAACalculator.getTimeOffset(startOfDay, offset);
@@ -229,7 +239,8 @@ export class Zmanim {
    * Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra.
    * If elevation is enabled, this function will include elevation in the calculation.
    */
-  sofZmanShma(): Date { // Gra
+  sofZmanShma(): Date {
+    // Gra
     return this.getShaahZmanisBasedZman(3);
   }
   /**
@@ -242,7 +253,8 @@ export class Zmanim {
    *
    * If elevation is enabled, this function will include elevation in the calculation.
    */
-  sofZmanTfilla(): Date { // Gra
+  sofZmanTfilla(): Date {
+    // Gra
     return this.getShaahZmanisBasedZman(4);
   }
   /**
@@ -271,7 +283,8 @@ export class Zmanim {
    * dawn being fixed 72 minutes before sea-level sunrise, and nightfall is fixed
    * 72 minutes after sea-level sunset.
    */
-  sofZmanShmaMGA(): Date { // Magen Avraham
+  sofZmanShmaMGA(): Date {
+    // Magen Avraham
     const [alot72, temporalHour] = this.getTemporalHour72(true);
     const offset = Math.floor(3 * temporalHour);
     return new Date(alot72.getTime() + offset);
@@ -303,7 +316,8 @@ export class Zmanim {
   /**
    * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham
    */
-  sofZmanTfillaMGA(): Date { // Magen Avraham
+  sofZmanTfillaMGA(): Date {
+    // Magen Avraham
     const [alot72, temporalHour] = this.getTemporalHour72(true);
     const offset = Math.floor(4 * temporalHour);
     return new Date(alot72.getTime() + offset);
@@ -399,7 +413,7 @@ export class Zmanim {
    * Because degree-based functions estimate the amount of light in the sky,
    * the result is not impacted by elevation.
    */
-  tzeit(angle: number=8.5): Date {
+  tzeit(angle = 8.5): Date {
     return this.timeAtAngle(angle, false);
   }
   /**
@@ -428,7 +442,7 @@ export class Zmanim {
     if (isNaN(millis)) {
       return tzeit;
     }
-    return new Date(millis - (13.5 * 60 * 1000));
+    return new Date(millis - 13.5 * 60 * 1000);
   }
   /**
    * Uses timeFormat to return a date like '20:34'
@@ -457,8 +471,9 @@ export class Zmanim {
     if (seconds === 0 && millisOnly === 0) {
       return dt;
     }
-    const secAndMillis = (seconds * 1000) + millisOnly;
-    const delta = (secAndMillis >= 30000) ? 60000 - secAndMillis : -1 * secAndMillis;
+    const secAndMillis = seconds * 1000 + millisOnly;
+    const delta =
+      secAndMillis >= 30000 ? 60000 - secAndMillis : -1 * secAndMillis;
     return new Date(millis + delta);
   }
 
@@ -484,7 +499,10 @@ export class Zmanim {
     if (isNaN(date.getTime())) {
       return '0000-00-00T00:00:00Z';
     }
-    return getPseudoISO(tzid, date).substring(0, 19) + Zmanim.timeZoneOffset(tzid, date);
+    return (
+      getPseudoISO(tzid, date).substring(0, 19) +
+      Zmanim.timeZoneOffset(tzid, date)
+    );
   }
 
   /**
@@ -495,7 +513,11 @@ export class Zmanim {
    * @param roundMinute round time to nearest minute (default true)
    * @param forceSeaLevel use sea-level sunrise (default false)
    */
-  sunriseOffset(offset: number, roundMinute: boolean=true, forceSeaLevel: boolean=false): Date {
+  sunriseOffset(
+    offset: number,
+    roundMinute = true,
+    forceSeaLevel = false
+  ): Date {
     const sunrise = forceSeaLevel ? this.seaLevelSunrise() : this.sunrise();
     if (isNaN(sunrise.getTime())) {
       return sunrise;
@@ -507,7 +529,7 @@ export class Zmanim {
       }
       sunrise.setSeconds(0, 0);
     }
-    return new Date(sunrise.getTime() + (offset * 60 * 1000));
+    return new Date(sunrise.getTime() + offset * 60 * 1000);
   }
 
   /**
@@ -518,7 +540,11 @@ export class Zmanim {
    * @param roundMinute round time to nearest minute (default true)
    * @param forceSeaLevel use sea-level sunset (default false)
    */
-  sunsetOffset(offset: number, roundMinute: boolean=true, forceSeaLevel: boolean=false): Date {
+  sunsetOffset(
+    offset: number,
+    roundMinute = true,
+    forceSeaLevel = false
+  ): Date {
     const sunset = forceSeaLevel ? this.seaLevelSunset() : this.sunset();
     if (isNaN(sunset.getTime())) {
       return sunset;
@@ -530,6 +556,6 @@ export class Zmanim {
       }
       sunset.setSeconds(0, 0);
     }
-    return new Date(sunset.getTime() + (offset * 60 * 1000));
+    return new Date(sunset.getTime() + offset * 60 * 1000);
   }
 }

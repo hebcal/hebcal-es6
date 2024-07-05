@@ -20,8 +20,12 @@
  */
 
 import {
-  getBirthdayHD, getYahrzeitHD, greg, months,
-  HDate, Locale,
+  getBirthdayHD,
+  getYahrzeitHD,
+  abs2greg,
+  months,
+  HDate,
+  Locale,
 } from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 import {CalOptions} from './CalOptions';
@@ -82,7 +86,7 @@ const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
 
 const unrecognizedAlreadyWarned = new Set();
 type StringIntMap = {
-  [x: string]: number
+  [x: string]: number;
 };
 const RECOGNIZED_OPTIONS: StringIntMap = {
   location: 1,
@@ -124,7 +128,10 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
  */
 function warnUnrecognizedOptions(options: CalOptions) {
   for (const k of Object.keys(options)) {
-    if (typeof RECOGNIZED_OPTIONS[k] === 'undefined' && !unrecognizedAlreadyWarned.has(k)) {
+    if (
+      typeof RECOGNIZED_OPTIONS[k] === 'undefined' &&
+      !unrecognizedAlreadyWarned.has(k)
+    ) {
       console.warn(`Ignoring unrecognized HebrewCalendar option: ${k}`);
       unrecognizedAlreadyWarned.add(k);
     }
@@ -132,12 +139,12 @@ function warnUnrecognizedOptions(options: CalOptions) {
 }
 
 const israelCityOffset: StringIntMap = {
-  'Jerusalem': 40,
-  'Haifa': 30,
-  'Zikhron Ya\'aqov': 30,
-  'Zikhron Ya\'akov': 30,
+  Jerusalem: 40,
+  Haifa: 30,
+  "Zikhron Ya'aqov": 30,
+  "Zikhron Ya'akov": 30,
   'Zikhron Yaakov': 30,
-  'Zichron Ya\'akov': 30,
+  "Zichron Ya'akov": 30,
   'Zichron Yaakov': 30,
 };
 
@@ -178,10 +185,17 @@ function checkCandleOptions(options: CalOptions) {
   }
   const location = options.location;
   if (typeof location === 'undefined' || !(location instanceof Location)) {
-    throw new TypeError('options.candlelighting requires valid options.location');
+    throw new TypeError(
+      'options.candlelighting requires valid options.location'
+    );
   }
-  if (typeof options.havdalahMins === 'number' && typeof options.havdalahDeg === 'number') {
-    throw new TypeError('options.havdalahMins and options.havdalahDeg are mutually exclusive');
+  if (
+    typeof options.havdalahMins === 'number' &&
+    typeof options.havdalahDeg === 'number'
+  ) {
+    throw new TypeError(
+      'options.havdalahMins and options.havdalahDeg are mutually exclusive'
+    );
   }
 
   let min = Number(options.candleLightingMins) || 18;
@@ -233,9 +247,19 @@ function getMaskFromOptions(options: CalOptions): number {
 
   // default options
   if (!options.noHolidays) {
-    mask |= ROSH_CHODESH | YOM_TOV_ENDS | MINOR_FAST | SPECIAL_SHABBAT | MODERN_HOLIDAY | MAJOR_FAST |
-            MINOR_HOLIDAY | EREV | CHOL_HAMOED |
-            LIGHT_CANDLES | LIGHT_CANDLES_TZEIS | CHANUKAH_CANDLES;
+    mask |=
+      ROSH_CHODESH |
+      YOM_TOV_ENDS |
+      MINOR_FAST |
+      SPECIAL_SHABBAT |
+      MODERN_HOLIDAY |
+      MAJOR_FAST |
+      MINOR_HOLIDAY |
+      EREV |
+      CHOL_HAMOED |
+      LIGHT_CANDLES |
+      LIGHT_CANDLES_TZEIS |
+      CHANUKAH_CANDLES;
   }
   if (options.candlelighting) {
     mask |= LIGHT_CANDLES | LIGHT_CANDLES_TZEIS | YOM_TOV_ENDS;
@@ -292,10 +316,7 @@ function getMaskFromOptions(options: CalOptions): number {
 }
 
 const MASK_LIGHT_CANDLES =
-  LIGHT_CANDLES |
-  LIGHT_CANDLES_TZEIS |
-  CHANUKAH_CANDLES |
-  YOM_TOV_ENDS;
+  LIGHT_CANDLES | LIGHT_CANDLES_TZEIS | CHANUKAH_CANDLES | YOM_TOV_ENDS;
 
 const defaultLocation = new Location(0, 0, false, 'UTC');
 
@@ -458,21 +479,25 @@ export class HebrewCalendar {
    *   console.log(date.toLocaleDateString(), ev.render('en'), hd.toString());
    * }
    */
-  static calendar(options: CalOptions={}): Event[] {
+  static calendar(options: CalOptions = {}): Event[] {
     options = {...options}; // so we can modify freely
     checkCandleOptions(options);
-    const location = options.location = options.location || defaultLocation;
-    const il = options.il = options.il || location.getIsrael() || false;
+    const location = (options.location = options.location || defaultLocation);
+    const il = (options.il = options.il || location.getIsrael() || false);
     const hasUserMask = typeof options.mask === 'number';
     options.mask = getMaskFromOptions(options);
     if (options.ashkenazi || options.locale) {
       if (options.locale && typeof options.locale !== 'string') {
         throw new TypeError(`Invalid options.locale: ${options.locale}`);
       }
-      const locale = options.ashkenazi ? 'ashkenazi' : options.locale as string;
+      const locale = options.ashkenazi
+        ? 'ashkenazi'
+        : (options.locale as string);
       const translationObj = Locale.useLocale(locale);
       if (!translationObj) {
-        throw new TypeError(`Locale '${locale}' not found; did you forget to import @hebcal/locales?`);
+        throw new TypeError(
+          `Locale '${locale}' not found; did you forget to import @hebcal/locales?`
+        );
       }
     } else {
       Locale.useLocale('en');
@@ -488,14 +513,14 @@ export class HebrewCalendar {
     warnUnrecognizedOptions(options);
     const startAbs = startAndEnd[0];
     const endAbs = startAndEnd[1];
-    const startGreg = greg.abs2greg(startAbs);
+    const startGreg = abs2greg(startAbs);
     if (startGreg.getFullYear() < 100) {
       options.candlelighting = false;
     }
     for (let abs = startAbs; abs <= endAbs; abs++) {
       const hd = new HDate(abs);
       const hyear = hd.getFullYear();
-      if (hyear != currentYear) {
+      if (hyear !== currentYear) {
         currentYear = hyear;
         holidaysYear = getHolidaysForYear_(currentYear);
         if (options.sedrot) {
@@ -511,10 +536,18 @@ export class HebrewCalendar {
       const isFriday = dow === FRI;
       const isSaturday = dow === SAT;
       let candlesEv: TimedEvent | undefined;
-      const holidays = (holidaysYear as HolidayYearMap).get(hd.toString()) || [];
+      const holidays =
+        (holidaysYear as HolidayYearMap).get(hd.toString()) || [];
       for (const ev of holidays) {
-        candlesEv = appendHolidayAndRelated(candlesEv, evts, ev, options,
-          isFriday, isSaturday, hasUserMask);
+        candlesEv = appendHolidayAndRelated(
+          candlesEv,
+          evts,
+          ev,
+          options,
+          isFriday,
+          isSaturday,
+          hasUserMask
+        );
       }
       if (options.sedrot && isSaturday) {
         const parsha0 = (sedra as Sedra).lookup(abs);
@@ -537,22 +570,33 @@ export class HebrewCalendar {
         evts.push(...events);
       }
       if (!candlesEv && options.candlelighting && (isFriday || isSaturday)) {
-        candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);
+        candlesEv = makeCandleEvent(
+          undefined,
+          hd,
+          options,
+          isFriday,
+          isSaturday
+        );
         if (isFriday && candlesEv && sedra) {
           candlesEv.memo = sedra.getString(abs, options.locale);
         }
       }
       // suppress Havdalah when options.havdalahMins=0 or options.havdalahDeg=0
-      if (candlesEv instanceof HavdalahEvent && (options.havdalahMins === 0 || options.havdalahDeg === 0)) {
+      if (
+        candlesEv instanceof HavdalahEvent &&
+        (options.havdalahMins === 0 || options.havdalahDeg === 0)
+      ) {
         candlesEv = undefined;
       }
       if (candlesEv) {
         evts.push(candlesEv);
       }
-      if (options.addHebrewDates ||
-        (options.addHebrewDatesForEvents && prevEventsLength != evts.length)) {
+      if (
+        options.addHebrewDates ||
+        (options.addHebrewDatesForEvents && prevEventsLength !== evts.length)
+      ) {
         const e2 = new HebrewDateEvent(hd);
-        if (prevEventsLength == evts.length) {
+        if (prevEventsLength === evts.length) {
           evts.push(e2);
         } else {
           evts.splice(prevEventsLength, 0, e2);
@@ -588,7 +632,10 @@ export class HebrewCalendar {
    * @param gdate Gregorian or Hebrew date of event
    * @returns anniversary occurring in `hyear`
    */
-  static getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate | undefined {
+  static getBirthdayOrAnniversary(
+    hyear: number,
+    gdate: Date | HDate
+  ): HDate | undefined {
     const dt = getBirthdayHD(hyear, gdate);
     if (typeof dt === 'undefined') {
       return dt;
@@ -675,8 +722,11 @@ export class HebrewCalendar {
    * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
    * @param [il] use the Israeli schedule for holidays
    */
-  static getHolidaysOnDate(date: HDate | Date | number, il?: boolean): HolidayEvent[] | undefined {
-    const hd = HDate.isHDate(date) ? date as HDate: new HDate(date);
+  static getHolidaysOnDate(
+    date: HDate | Date | number,
+    il?: boolean
+  ): HolidayEvent[] | undefined {
+    const hd = HDate.isHDate(date) ? (date as HDate) : new HDate(date);
     const hdStr = hd.toString();
     const yearMap = getHolidaysForYear_(hd.getFullYear());
     const events = yearMap.get(hdStr);
@@ -715,7 +765,11 @@ export class HebrewCalendar {
    * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
    * @param options
    */
-  static reformatTimeStr(timeStr: string, suffix: string, options: CalOptions): string {
+  static reformatTimeStr(
+    timeStr: string,
+    suffix: string,
+    options: CalOptions
+  ): string {
     return reformatTimeStr(timeStr, suffix, options);
   }
 
@@ -747,7 +801,10 @@ export class HebrewCalendar {
    * 2 - Whole Hallel
    */
   static hallel(hdate: HDate, il: boolean): number {
-    const events = HebrewCalendar.getHolidaysForYearArray(hdate.getFullYear(), il);
+    const events = HebrewCalendar.getHolidaysForYearArray(
+      hdate.getFullYear(),
+      il
+    );
     return hallel_(events, hdate);
   }
 
@@ -777,7 +834,7 @@ export class HebrewCalendar {
  */
 function isChag(date: HDate, il: boolean): boolean {
   const events = HebrewCalendar.getHolidaysOnDate(date, il) || [];
-  const chag = events.filter((ev) => ev.getFlags() & flags.CHAG);
+  const chag = events.filter(ev => ev.getFlags() & flags.CHAG);
   return chag.length !== 0;
 }
 
@@ -800,19 +857,24 @@ function appendHolidayAndRelated(
     return candlesEv; // holiday isn't observed here; bail out early
   }
   const eFlags = ev.getFlags();
-  if ((!options.yomKippurKatan && (eFlags & YOM_KIPPUR_KATAN)) ||
-    (options.noModern && (eFlags & MODERN_HOLIDAY))) {
+  if (
+    (!options.yomKippurKatan && eFlags & YOM_KIPPUR_KATAN) ||
+    (options.noModern && eFlags & MODERN_HOLIDAY)
+  ) {
     return candlesEv; // bail out early
   }
   const isMajorFast = Boolean(eFlags & MAJOR_FAST);
   const isMinorFast = Boolean(eFlags & MINOR_FAST);
   if (options.candlelighting && (isMajorFast || isMinorFast)) {
     ev = makeFastStartEnd(ev, options);
-    if (ev.startEvent && (isMajorFast || (isMinorFast && !options.noMinorFast))) {
+    if (
+      ev.startEvent &&
+      (isMajorFast || (isMinorFast && !options.noMinorFast))
+    ) {
       events.push(ev.startEvent);
     }
   }
-  if ((eFlags & Number(options.mask)) || (!eFlags && !hasUserMask)) {
+  if (eFlags & Number(options.mask) || (!eFlags && !hasUserMask)) {
     if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
       const hd = ev.getDate();
       candlesEv = makeCandleEvent(ev, hd, options, isFriday, isSaturday);
@@ -830,7 +892,10 @@ function appendHolidayAndRelated(
         candlesEv = undefined;
       }
     }
-    if (!options.noHolidays || (options.yomKippurKatan && (eFlags & YOM_KIPPUR_KATAN))) {
+    if (
+      !options.noHolidays ||
+      (options.yomKippurKatan && eFlags & YOM_KIPPUR_KATAN)
+    ) {
       events.push(ev); // the original event itself
     }
   }
@@ -844,9 +909,9 @@ function makeMoladAndMevarchimChodesh(hd: HDate, options: CalOptions): Event[] {
   const evts: Event[] = [];
   const hmonth = hd.getMonth();
   const hdate = hd.getDate();
-  if (hmonth != ELUL && hdate >= 23 && hdate <= 29) {
+  if (hmonth !== ELUL && hdate >= 23 && hdate <= 29) {
     const hyear = hd.getFullYear();
-    const monNext = (hmonth == HDate.monthsInYear(hyear) ? NISAN : hmonth + 1);
+    const monNext = hmonth === HDate.monthsInYear(hyear) ? NISAN : hmonth + 1;
     if (options.molad) {
       evts.push(new MoladEvent(hd, hyear, monNext, options));
     }
@@ -867,7 +932,11 @@ function dailyLearningName(key: string, val: any): string {
   return key;
 }
 
-function makeDailyLearning(hd: HDate, dailyLearning: {[x: string]: any}, il: boolean): Event[] {
+function makeDailyLearning(
+  hd: HDate,
+  dailyLearning: {[x: string]: any},
+  il: boolean
+): Event[] {
   const evts: Event[] = [];
   for (const [key, val] of Object.entries(dailyLearning)) {
     if (val) {
