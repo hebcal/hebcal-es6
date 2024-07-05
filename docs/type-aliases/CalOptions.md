@@ -228,4 +228,4 @@ See [Wikipedia Yom Kippur Katan practices](https://en.wikipedia.org/wiki/Yom_Kip
 
 ## Defined in
 
-[src/CalOptions.ts:7](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/CalOptions.ts#L7)
+[src/CalOptions.ts:7](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/CalOptions.ts#L7)

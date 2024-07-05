@@ -13,4 +13,4 @@ parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[52] == "Ha'azinu".
 
 ## Defined in
 
-[src/sedra.ts:262](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L262)
+[src/sedra.ts:262](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L262)

@@ -49,7 +49,7 @@ optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
 
 #### Defined in
 
-[src/event.ts:97](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L97)
+[src/event.ts:97](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L97)
 
 ## Properties
 
@@ -63,7 +63,7 @@ optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
 
 #### Defined in
 
-[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L89)
+[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L89)
 
 ***
 
@@ -77,7 +77,7 @@ optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
 
 #### Defined in
 
-[src/HolidayEvent.ts:23](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L23)
+[src/HolidayEvent.ts:23](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L23)
 
 ***
 
@@ -93,7 +93,7 @@ During Sukkot or Pesach
 
 #### Defined in
 
-[src/HolidayEvent.ts:22](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L22)
+[src/HolidayEvent.ts:22](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L22)
 
 ***
 
@@ -107,7 +107,7 @@ During Sukkot or Pesach
 
 #### Defined in
 
-[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L84)
+[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L84)
 
 ***
 
@@ -121,7 +121,7 @@ During Sukkot or Pesach
 
 #### Defined in
 
-[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L85)
+[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L85)
 
 ***
 
@@ -135,7 +135,7 @@ During Sukkot or Pesach
 
 #### Defined in
 
-[src/event.ts:87](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L87)
+[src/event.ts:87](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L87)
 
 ***
 
@@ -151,7 +151,7 @@ For a Fast day, this will be a "Fast ends" event
 
 #### Defined in
 
-[src/HolidayEvent.ts:33](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L33)
+[src/HolidayEvent.ts:33](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L33)
 
 ***
 
@@ -165,7 +165,7 @@ For a Fast day, this will be a "Fast ends" event
 
 #### Defined in
 
-[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L86)
+[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L86)
 
 ***
 
@@ -179,7 +179,7 @@ For a Fast day, this will be a "Fast ends" event
 
 #### Defined in
 
-[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L88)
+[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L88)
 
 ***
 
@@ -197,7 +197,7 @@ For a Fast day, this will be a "Fast ends" event
 
 #### Defined in
 
-[src/HolidayEvent.ts:29](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L29)
+[src/HolidayEvent.ts:29](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L29)
 
 ***
 
@@ -213,7 +213,7 @@ For a Fast day, this will be a "Fast begins" event
 
 #### Defined in
 
-[src/HolidayEvent.ts:31](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L31)
+[src/HolidayEvent.ts:31](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L31)
 
 ## Methods
 
@@ -231,7 +231,7 @@ For a Fast day, this will be a "Fast begins" event
 
 #### Defined in
 
-[src/HolidayEvent.ts:35](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L35)
+[src/HolidayEvent.ts:35](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L35)
 
 ***
 
@@ -251,7 +251,7 @@ Makes a clone of this Event object
 
 #### Defined in
 
-[src/HolidayEvent.ts:110](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L110)
+[src/HolidayEvent.ts:110](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L110)
 
 ***
 
@@ -269,7 +269,7 @@ Makes a clone of this Event object
 
 #### Defined in
 
-[src/HolidayEvent.ts:72](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L72)
+[src/HolidayEvent.ts:72](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L72)
 
 ***
 
@@ -289,7 +289,7 @@ Hebrew date of this event
 
 #### Defined in
 
-[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L113)
+[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L113)
 
 ***
 
@@ -309,7 +309,7 @@ Untranslated description of this event
 
 #### Defined in
 
-[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L119)
+[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L119)
 
 ***
 
@@ -327,7 +327,7 @@ Untranslated description of this event
 
 #### Defined in
 
-[src/HolidayEvent.ts:62](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L62)
+[src/HolidayEvent.ts:62](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L62)
 
 ***
 
@@ -347,7 +347,7 @@ Bitmask of optional event flags. See [flags](../enumerations/flags.md)
 
 #### Defined in
 
-[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L125)
+[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L125)
 
 ***
 
@@ -382,7 +382,7 @@ ev2.observedIn(true); // true
 
 #### Defined in
 
-[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L204)
+[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L204)
 
 ***
 
@@ -411,7 +411,7 @@ ev2.observedInDiaspora(); // true
 
 #### Defined in
 
-[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L190)
+[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L190)
 
 ***
 
@@ -440,7 +440,7 @@ ev2.observedInIsrael(); // true
 
 #### Defined in
 
-[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L179)
+[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L179)
 
 ***
 
@@ -466,7 +466,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/HolidayEvent.ts:93](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L93)
+[src/HolidayEvent.ts:93](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L93)
 
 ***
 
@@ -494,7 +494,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/HolidayEvent.ts:103](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L103)
+[src/HolidayEvent.ts:103](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L103)
 
 ***
 
@@ -512,7 +512,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/HolidayEvent.ts:46](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L46)
+[src/HolidayEvent.ts:46](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L46)
 
 ***
 
@@ -530,4 +530,4 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/HolidayEvent.ts:127](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HolidayEvent.ts#L127)
+[src/HolidayEvent.ts:127](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HolidayEvent.ts#L127)

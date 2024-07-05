@@ -51,7 +51,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/TimedEvent.ts:19](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L19)
+[src/TimedEvent.ts:19](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L19)
 
 ## Properties
 
@@ -65,7 +65,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L89)
+[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L89)
 
 ***
 
@@ -79,7 +79,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L84)
+[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L84)
 
 ***
 
@@ -93,7 +93,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L85)
+[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L85)
 
 ***
 
@@ -107,7 +107,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/event.ts:87](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L87)
+[src/event.ts:87](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L87)
 
 ***
 
@@ -117,7 +117,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/TimedEvent.ts:11](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L11)
+[src/TimedEvent.ts:11](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L11)
 
 ***
 
@@ -127,7 +127,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/TimedEvent.ts:13](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L13)
+[src/TimedEvent.ts:13](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L13)
 
 ***
 
@@ -137,7 +137,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/TimedEvent.ts:14](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L14)
+[src/TimedEvent.ts:14](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L14)
 
 ***
 
@@ -147,7 +147,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/TimedEvent.ts:15](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L15)
+[src/TimedEvent.ts:15](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L15)
 
 ***
 
@@ -157,7 +157,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/TimedEvent.ts:12](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L12)
+[src/TimedEvent.ts:12](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L12)
 
 ***
 
@@ -171,7 +171,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L86)
+[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L86)
 
 ***
 
@@ -185,7 +185,7 @@ Description (not translated)
 
 #### Defined in
 
-[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L88)
+[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L88)
 
 ## Methods
 
@@ -208,7 +208,7 @@ For many holidays the basename and the event description are the same.
 
 #### Defined in
 
-[src/event.ts:161](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L161)
+[src/event.ts:161](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L161)
 
 ***
 
@@ -228,7 +228,7 @@ Makes a clone of this Event object
 
 #### Defined in
 
-[src/event.ts:210](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L210)
+[src/event.ts:210](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L210)
 
 ***
 
@@ -246,7 +246,7 @@ Makes a clone of this Event object
 
 #### Defined in
 
-[src/TimedEvent.ts:51](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L51)
+[src/TimedEvent.ts:51](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L51)
 
 ***
 
@@ -266,7 +266,7 @@ Hebrew date of this event
 
 #### Defined in
 
-[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L113)
+[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L113)
 
 ***
 
@@ -286,7 +286,7 @@ Untranslated description of this event
 
 #### Defined in
 
-[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L119)
+[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L119)
 
 ***
 
@@ -306,7 +306,7 @@ Optional holiday-specific Emoji or `null`.
 
 #### Defined in
 
-[src/event.ts:152](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L152)
+[src/event.ts:152](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L152)
 
 ***
 
@@ -326,7 +326,7 @@ Bitmask of optional event flags. See [flags](../enumerations/flags.md)
 
 #### Defined in
 
-[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L125)
+[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L125)
 
 ***
 
@@ -361,7 +361,7 @@ ev2.observedIn(true); // true
 
 #### Defined in
 
-[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L204)
+[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L204)
 
 ***
 
@@ -390,7 +390,7 @@ ev2.observedInDiaspora(); // true
 
 #### Defined in
 
-[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L190)
+[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L190)
 
 ***
 
@@ -419,7 +419,7 @@ ev2.observedInIsrael(); // true
 
 #### Defined in
 
-[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L179)
+[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L179)
 
 ***
 
@@ -443,7 +443,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/TimedEvent.ts:40](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L40)
+[src/TimedEvent.ts:40](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L40)
 
 ***
 
@@ -469,7 +469,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/TimedEvent.ts:47](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/TimedEvent.ts#L47)
+[src/TimedEvent.ts:47](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/TimedEvent.ts#L47)
 
 ***
 
@@ -490,4 +490,4 @@ Returns `undefined` for events with no detail page.
 
 #### Defined in
 
-[src/event.ts:168](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L168)
+[src/event.ts:168](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L168)

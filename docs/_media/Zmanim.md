@@ -67,7 +67,7 @@ use elevation for calculations (default `false`).
 
 #### Defined in
 
-[src/zmanim.ts:71](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L71)
+[src/zmanim.ts:71](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L71)
 
 ## Methods
 
@@ -85,7 +85,7 @@ the result is not impacted by elevation.
 
 #### Defined in
 
-[src/zmanim.ts:196](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L196)
+[src/zmanim.ts:196](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L196)
 
 ***
 
@@ -106,7 +106,7 @@ the result is not impacted by elevation.
 
 #### Defined in
 
-[src/zmanim.ts:425](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L425)
+[src/zmanim.ts:425](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L425)
 
 ***
 
@@ -122,7 +122,7 @@ Midday – Chatzot; Sunrise plus 6 halachic hours
 
 #### Defined in
 
-[src/zmanim.ts:178](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L178)
+[src/zmanim.ts:178](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L178)
 
 ***
 
@@ -139,7 +139,7 @@ If elevation is enabled, this function will include elevation in the calculation
 
 #### Defined in
 
-[src/zmanim.ts:188](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L188)
+[src/zmanim.ts:188](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L188)
 
 ***
 
@@ -157,7 +157,7 @@ the result is not impacted by elevation.
 
 #### Defined in
 
-[src/zmanim.ts:146](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L146)
+[src/zmanim.ts:146](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L146)
 
 ***
 
@@ -175,7 +175,7 @@ the result is not impacted by elevation.
 
 #### Defined in
 
-[src/zmanim.ts:155](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L155)
+[src/zmanim.ts:155](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L155)
 
 ***
 
@@ -192,7 +192,7 @@ for zmanim support elevation adjustment
 
 #### Defined in
 
-[src/zmanim.ts:86](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L86)
+[src/zmanim.ts:86](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L86)
 
 ***
 
@@ -209,7 +209,7 @@ If elevation is enabled, this function will include elevation in the calculation
 
 #### Defined in
 
-[src/zmanim.ts:163](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L163)
+[src/zmanim.ts:163](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L163)
 
 ***
 
@@ -235,7 +235,7 @@ opinion that *mincha* can be prayed *lechatchila* starting at *mincha gedola*.
 
 #### Defined in
 
-[src/zmanim.ts:348](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L348)
+[src/zmanim.ts:348](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L348)
 
 ***
 
@@ -256,7 +256,7 @@ This is the earliest time to pray *mincha*.
 
 #### Defined in
 
-[src/zmanim.ts:359](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L359)
+[src/zmanim.ts:359](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L359)
 
 ***
 
@@ -279,7 +279,7 @@ to the [GRA](https://en.wikipedia.org/wiki/Vilna_Gaon).
 
 #### Defined in
 
-[src/zmanim.ts:374](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L374)
+[src/zmanim.ts:374](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L374)
 
 ***
 
@@ -300,7 +300,7 @@ If elevation is enabled, this function will include elevation in the calculation
 
 #### Defined in
 
-[src/zmanim.ts:385](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L385)
+[src/zmanim.ts:385](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L385)
 
 ***
 
@@ -318,7 +318,7 @@ the result is not impacted by elevation.
 
 #### Defined in
 
-[src/zmanim.ts:204](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L204)
+[src/zmanim.ts:204](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L204)
 
 ***
 
@@ -336,7 +336,7 @@ the result is not impacted by elevation.
 
 #### Defined in
 
-[src/zmanim.ts:212](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L212)
+[src/zmanim.ts:212](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L212)
 
 ***
 
@@ -352,7 +352,7 @@ Alias for sunrise
 
 #### Defined in
 
-[src/zmanim.ts:408](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L408)
+[src/zmanim.ts:408](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L408)
 
 ***
 
@@ -369,7 +369,7 @@ If elevation is enabled, this function will include elevation in the calculation
 
 #### Defined in
 
-[src/zmanim.ts:393](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L393)
+[src/zmanim.ts:393](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L393)
 
 ***
 
@@ -386,7 +386,7 @@ This function does not support elevation adjustment.
 
 #### Defined in
 
-[src/zmanim.ts:121](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L121)
+[src/zmanim.ts:121](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L121)
 
 ***
 
@@ -403,7 +403,7 @@ This function does not support elevation adjustment.
 
 #### Defined in
 
-[src/zmanim.ts:137](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L137)
+[src/zmanim.ts:137](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L137)
 
 ***
 
@@ -423,7 +423,7 @@ Enables or disables elevation adjustment for zmanim support elevation adjustment
 
 #### Defined in
 
-[src/zmanim.ts:93](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L93)
+[src/zmanim.ts:93](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L93)
 
 ***
 
@@ -439,7 +439,7 @@ Alias for sunset
 
 #### Defined in
 
-[src/zmanim.ts:414](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L414)
+[src/zmanim.ts:414](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L414)
 
 ***
 
@@ -456,7 +456,7 @@ If elevation is enabled, this function will include elevation in the calculation
 
 #### Defined in
 
-[src/zmanim.ts:232](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L232)
+[src/zmanim.ts:232](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L232)
 
 ***
 
@@ -475,7 +475,7 @@ dawn being fixed 72 minutes before sea-level sunrise, and nightfall is fixed
 
 #### Defined in
 
-[src/zmanim.ts:274](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L274)
+[src/zmanim.ts:274](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L274)
 
 ***
 
@@ -493,7 +493,7 @@ dawn to nightfall with both being 16.1° below the horizon.
 
 #### Defined in
 
-[src/zmanim.ts:284](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L284)
+[src/zmanim.ts:284](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L284)
 
 ***
 
@@ -515,7 +515,7 @@ https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
 
 #### Defined in
 
-[src/zmanim.ts:298](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L298)
+[src/zmanim.ts:298](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L298)
 
 ***
 
@@ -538,7 +538,7 @@ If elevation is enabled, this function will include elevation in the calculation
 
 #### Defined in
 
-[src/zmanim.ts:245](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L245)
+[src/zmanim.ts:245](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L245)
 
 ***
 
@@ -554,7 +554,7 @@ Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraha
 
 #### Defined in
 
-[src/zmanim.ts:306](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L306)
+[src/zmanim.ts:306](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L306)
 
 ***
 
@@ -572,7 +572,7 @@ dawn to nightfall with both being 16.1° below the horizon.
 
 #### Defined in
 
-[src/zmanim.ts:316](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L316)
+[src/zmanim.ts:316](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L316)
 
 ***
 
@@ -594,7 +594,7 @@ https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/
 
 #### Defined in
 
-[src/zmanim.ts:330](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L330)
+[src/zmanim.ts:330](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L330)
 
 ***
 
@@ -611,7 +611,7 @@ If elevation is enabled, this function will include elevation in the calculation
 
 #### Defined in
 
-[src/zmanim.ts:113](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L113)
+[src/zmanim.ts:113](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L113)
 
 ***
 
@@ -643,7 +643,7 @@ use sea-level sunrise (default false)
 
 #### Defined in
 
-[src/zmanim.ts:498](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L498)
+[src/zmanim.ts:498](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L498)
 
 ***
 
@@ -660,7 +660,7 @@ If elevation is enabled, this function will include elevation in the calculation
 
 #### Defined in
 
-[src/zmanim.ts:129](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L129)
+[src/zmanim.ts:129](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L129)
 
 ***
 
@@ -692,7 +692,7 @@ use sea-level sunset (default false)
 
 #### Defined in
 
-[src/zmanim.ts:521](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L521)
+[src/zmanim.ts:521](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L521)
 
 ***
 
@@ -716,7 +716,7 @@ This function does not support elevation adjustment.
 
 #### Defined in
 
-[src/zmanim.ts:103](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L103)
+[src/zmanim.ts:103](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L103)
 
 ***
 
@@ -739,7 +739,7 @@ the result is not impacted by elevation.
 
 #### Defined in
 
-[src/zmanim.ts:402](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L402)
+[src/zmanim.ts:402](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L402)
 
 ***
 
@@ -761,7 +761,7 @@ Returns a string like "2022-04-01T13:06:00-11:00"
 
 #### Defined in
 
-[src/zmanim.ts:483](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L483)
+[src/zmanim.ts:483](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L483)
 
 ***
 
@@ -783,7 +783,7 @@ Uses timeFormat to return a date like '20:34'
 
 #### Defined in
 
-[src/zmanim.ts:436](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L436)
+[src/zmanim.ts:436](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L436)
 
 ***
 
@@ -803,7 +803,7 @@ Discards seconds, rounding to nearest minute.
 
 #### Defined in
 
-[src/zmanim.ts:449](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L449)
+[src/zmanim.ts:449](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L449)
 
 ***
 
@@ -825,4 +825,4 @@ Get offset string (like "+05:00" or "-08:00") from tzid (like "Europe/Moscow")
 
 #### Defined in
 
-[src/zmanim.ts:470](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/zmanim.ts#L470)
+[src/zmanim.ts:470](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/zmanim.ts#L470)

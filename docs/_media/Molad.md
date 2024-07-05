@@ -28,7 +28,7 @@ Calculates the molad for a Hebrew month
 
 #### Defined in
 
-[src/molad.ts:31](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L31)
+[src/molad.ts:31](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L31)
 
 ## Methods
 
@@ -44,7 +44,7 @@ parts of a minute (0-17)
 
 #### Defined in
 
-[src/molad.ts:70](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L70)
+[src/molad.ts:70](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L70)
 
 ***
 
@@ -60,7 +60,7 @@ Day of Week (0=Sunday, 6=Saturday)
 
 #### Defined in
 
-[src/molad.ts:52](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L52)
+[src/molad.ts:52](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L52)
 
 ***
 
@@ -76,7 +76,7 @@ hour of day (0-23)
 
 #### Defined in
 
-[src/molad.ts:58](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L58)
+[src/molad.ts:58](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L58)
 
 ***
 
@@ -92,7 +92,7 @@ minutes past hour (0-59)
 
 #### Defined in
 
-[src/molad.ts:64](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L64)
+[src/molad.ts:64](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L64)
 
 ***
 
@@ -106,7 +106,7 @@ minutes past hour (0-59)
 
 #### Defined in
 
-[src/molad.ts:41](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L41)
+[src/molad.ts:41](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L41)
 
 ***
 
@@ -120,7 +120,7 @@ minutes past hour (0-59)
 
 #### Defined in
 
-[src/molad.ts:46](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L46)
+[src/molad.ts:46](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L46)
 
 ***
 
@@ -134,7 +134,7 @@ minutes past hour (0-59)
 
 #### Defined in
 
-[src/molad.ts:36](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L36)
+[src/molad.ts:36](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L36)
 
 ***
 
@@ -156,4 +156,4 @@ Optional locale name (defaults to active locale)
 
 #### Defined in
 
-[src/molad.ts:77](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/molad.ts#L77)
+[src/molad.ts:77](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/molad.ts#L77)

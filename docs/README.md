@@ -11,7 +11,7 @@ readings (Parashat HaShavua), Daf Yomi, and counting of the Omer can
 also be specified. Hebcal also includes algorithms to calculate
 yahrzeits, birthdays and anniversaries.
 
-[![Build Status](docs/https://github.com/hebcal/hebcal-es6/actions/workflows/node.js.yml/badge.svg)](docs/https://github.com/hebcal/hebcal-es6/actions/workflows/node.js.yml)
+[![Build Status](https://github.com/hebcal/hebcal-es6/actions/workflows/node.js.yml/badge.svg)](https://github.com/hebcal/hebcal-es6/actions/workflows/node.js.yml)
 
 Hebcal was created in 1994 by Danny Sadinoff as a Unix/Linux program
 written in C, inspired by similar functionality written in Emacs
@@ -20,8 +20,8 @@ Schachter (age 15). This ECMAScript 2015 implementation was released
 in 2020 by Michael J. Radwin. `@hebcal/core` targets both
 browser-based JavaScript and server-side Node.js.
 
-Many users of this library will utilize the [HebrewCalendar](docs/#HebrewCalendar)
-and [HDate](docs/#HDate) interfaces.
+Many users of this library will utilize the [HebrewCalendar](https://github.com/hebcal/hebcal-es6/blob/main/docs/classes/HebrewCalendar.md)
+and [HDate](https://github.com/hebcal/hebcal-es6/blob/main/docs/classes/HDate.md) interfaces.
 
 ## Installation
 ```bash

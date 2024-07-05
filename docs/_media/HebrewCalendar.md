@@ -146,7 +146,7 @@ for (const ev of events) {
 
 #### Defined in
 
-[src/hebcal.ts:461](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L461)
+[src/hebcal.ts:461](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L461)
 
 ***
 
@@ -168,7 +168,7 @@ Eruv Tavshilin
 
 #### Defined in
 
-[src/hebcal.ts:695](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L695)
+[src/hebcal.ts:695](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L695)
 
 ***
 
@@ -220,7 +220,7 @@ console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
 
 #### Defined in
 
-[src/hebcal.ts:591](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L591)
+[src/hebcal.ts:591](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L591)
 
 ***
 
@@ -244,7 +244,7 @@ Hebrew year
 
 #### Defined in
 
-[src/hebcal.ts:647](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L647)
+[src/hebcal.ts:647](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L647)
 
 ***
 
@@ -270,7 +270,7 @@ use the Israeli schedule for holidays
 
 #### Defined in
 
-[src/hebcal.ts:656](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L656)
+[src/hebcal.ts:656](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L656)
 
 ***
 
@@ -296,7 +296,7 @@ use the Israeli schedule for holidays
 
 #### Defined in
 
-[src/hebcal.ts:678](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L678)
+[src/hebcal.ts:678](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L678)
 
 ***
 
@@ -319,7 +319,7 @@ created and cached instance.
 
 #### Defined in
 
-[src/hebcal.ts:731](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L731)
+[src/hebcal.ts:731](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L731)
 
 ***
 
@@ -379,7 +379,7 @@ console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
 
 #### Defined in
 
-[src/hebcal.ts:633](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L633)
+[src/hebcal.ts:633](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L633)
 
 ***
 
@@ -412,7 +412,7 @@ The number is one of the following values:
 
 #### Defined in
 
-[src/hebcal.ts:749](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L749)
+[src/hebcal.ts:749](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L749)
 
 ***
 
@@ -444,7 +444,7 @@ original time like "20:30"
 
 #### Defined in
 
-[src/hebcal.ts:718](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L718)
+[src/hebcal.ts:718](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L718)
 
 ***
 
@@ -479,7 +479,7 @@ Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
 
 #### Defined in
 
-[src/hebcal.ts:770](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L770)
+[src/hebcal.ts:770](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L770)
 
 ***
 
@@ -493,4 +493,4 @@ Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
 
 #### Defined in
 
-[src/hebcal.ts:723](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/hebcal.ts#L723)
+[src/hebcal.ts:723](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/hebcal.ts#L723)

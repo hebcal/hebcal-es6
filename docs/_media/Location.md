@@ -64,7 +64,7 @@ in meters (default `0`)
 
 #### Defined in
 
-[src/location.ts:146](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L146)
+[src/location.ts:146](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L146)
 
 ## Methods
 
@@ -78,7 +78,7 @@ in meters (default `0`)
 
 #### Defined in
 
-[src/location.ts:191](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L191)
+[src/location.ts:191](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L191)
 
 ***
 
@@ -114,7 +114,7 @@ node\_modules/@hebcal/noaa/dist/index.d.ts:54
 
 #### Defined in
 
-[src/location.ts:208](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L208)
+[src/location.ts:208](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L208)
 
 ***
 
@@ -128,7 +128,7 @@ node\_modules/@hebcal/noaa/dist/index.d.ts:54
 
 #### Defined in
 
-[src/location.ts:163](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L163)
+[src/location.ts:163](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L163)
 
 ***
 
@@ -202,7 +202,7 @@ node\_modules/@hebcal/noaa/dist/index.d.ts:71
 
 #### Defined in
 
-[src/location.ts:168](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L168)
+[src/location.ts:168](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L168)
 
 ***
 
@@ -218,7 +218,7 @@ Returns the location name, up to the first comma
 
 #### Defined in
 
-[src/location.ts:175](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L175)
+[src/location.ts:175](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L175)
 
 ***
 
@@ -234,7 +234,7 @@ Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
 
 #### Defined in
 
-[src/location.ts:203](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L203)
+[src/location.ts:203](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L203)
 
 ***
 
@@ -268,7 +268,7 @@ node\_modules/@hebcal/noaa/dist/index.d.ts:84
 
 #### Defined in
 
-[src/location.ts:196](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L196)
+[src/location.ts:196](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L196)
 
 ***
 
@@ -402,7 +402,7 @@ node\_modules/@hebcal/noaa/dist/index.d.ts:90
 
 #### Defined in
 
-[src/location.ts:235](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L235)
+[src/location.ts:235](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L235)
 
 ***
 
@@ -426,7 +426,7 @@ and `true` if successfully added.
 
 #### Defined in
 
-[src/location.ts:293](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L293)
+[src/location.ts:293](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L293)
 
 ***
 
@@ -462,7 +462,7 @@ Location.getUsaTzid('AZ', 7, 'Y') // 'America/Denver'
 
 #### Defined in
 
-[src/location.ts:278](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L278)
+[src/location.ts:278](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L278)
 
 ***
 
@@ -488,7 +488,7 @@ integer, GMT offset in hours
 
 #### Defined in
 
-[src/location.ts:244](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L244)
+[src/location.ts:244](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L244)
 
 ***
 
@@ -522,4 +522,4 @@ The following city names are supported:
 
 #### Defined in
 
-[src/location.ts:230](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/location.ts#L230)
+[src/location.ts:230](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/location.ts#L230)

@@ -18,7 +18,7 @@ Asara B'Tevet
 
 #### Defined in
 
-[src/staticHolidays.ts:87](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L87)
+[src/staticHolidays.ts:87](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L87)
 
 ***
 
@@ -28,7 +28,7 @@ Asara B'Tevet
 
 #### Defined in
 
-[src/staticHolidays.ts:140](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L140)
+[src/staticHolidays.ts:140](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L140)
 
 ***
 
@@ -40,7 +40,7 @@ Birkat Hachamah
 
 #### Defined in
 
-[src/staticHolidays.ts:89](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L89)
+[src/staticHolidays.ts:89](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L89)
 
 ***
 
@@ -52,7 +52,7 @@ Chag HaBanot
 
 #### Defined in
 
-[src/staticHolidays.ts:91](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L91)
+[src/staticHolidays.ts:91](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L91)
 
 ***
 
@@ -62,7 +62,7 @@ Chag HaBanot
 
 #### Defined in
 
-[src/staticHolidays.ts:142](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L142)
+[src/staticHolidays.ts:142](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L142)
 
 ***
 
@@ -74,7 +74,7 @@ Chanukah: 8th Day
 
 #### Defined in
 
-[src/staticHolidays.ts:93](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L93)
+[src/staticHolidays.ts:93](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L93)
 
 ***
 
@@ -84,7 +84,7 @@ Chanukah: 8th Day
 
 #### Defined in
 
-[src/staticHolidays.ts:144](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L144)
+[src/staticHolidays.ts:144](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L144)
 
 ***
 
@@ -94,7 +94,7 @@ Chanukah: 8th Day
 
 #### Defined in
 
-[src/staticHolidays.ts:146](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L146)
+[src/staticHolidays.ts:146](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L146)
 
 ***
 
@@ -104,7 +104,7 @@ Chanukah: 8th Day
 
 #### Defined in
 
-[src/staticHolidays.ts:148](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L148)
+[src/staticHolidays.ts:148](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L148)
 
 ***
 
@@ -114,7 +114,7 @@ Chanukah: 8th Day
 
 #### Defined in
 
-[src/staticHolidays.ts:150](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L150)
+[src/staticHolidays.ts:150](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L150)
 
 ***
 
@@ -124,7 +124,7 @@ Chanukah: 8th Day
 
 #### Defined in
 
-[src/staticHolidays.ts:152](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L152)
+[src/staticHolidays.ts:152](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L152)
 
 ***
 
@@ -136,7 +136,7 @@ Erev Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:95](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L95)
+[src/staticHolidays.ts:95](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L95)
 
 ***
 
@@ -146,7 +146,7 @@ Erev Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:154](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L154)
+[src/staticHolidays.ts:154](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L154)
 
 ***
 
@@ -156,7 +156,7 @@ Erev Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:156](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L156)
+[src/staticHolidays.ts:156](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L156)
 
 ***
 
@@ -166,7 +166,7 @@ Erev Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:158](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L158)
+[src/staticHolidays.ts:158](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L158)
 
 ***
 
@@ -176,7 +176,7 @@ Erev Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:160](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L160)
+[src/staticHolidays.ts:160](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L160)
 
 ***
 
@@ -186,7 +186,7 @@ Erev Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:162](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L162)
+[src/staticHolidays.ts:162](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L162)
 
 ***
 
@@ -196,7 +196,7 @@ Erev Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:164](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L164)
+[src/staticHolidays.ts:164](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L164)
 
 ***
 
@@ -208,7 +208,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:97](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L97)
+[src/staticHolidays.ts:97](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L97)
 
 ***
 
@@ -218,7 +218,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:166](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L166)
+[src/staticHolidays.ts:166](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L166)
 
 ***
 
@@ -228,7 +228,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:168](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L168)
+[src/staticHolidays.ts:168](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L168)
 
 ***
 
@@ -238,7 +238,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:170](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L170)
+[src/staticHolidays.ts:170](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L170)
 
 ***
 
@@ -248,7 +248,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:172](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L172)
+[src/staticHolidays.ts:172](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L172)
 
 ***
 
@@ -258,7 +258,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:174](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L174)
+[src/staticHolidays.ts:174](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L174)
 
 ***
 
@@ -268,7 +268,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:176](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L176)
+[src/staticHolidays.ts:176](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L176)
 
 ***
 
@@ -278,7 +278,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:178](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L178)
+[src/staticHolidays.ts:178](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L178)
 
 ***
 
@@ -288,7 +288,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:180](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L180)
+[src/staticHolidays.ts:180](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L180)
 
 ***
 
@@ -298,7 +298,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:182](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L182)
+[src/staticHolidays.ts:182](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L182)
 
 ***
 
@@ -308,7 +308,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:184](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L184)
+[src/staticHolidays.ts:184](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L184)
 
 ***
 
@@ -318,7 +318,7 @@ Leil Selichot
 
 #### Defined in
 
-[src/staticHolidays.ts:186](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L186)
+[src/staticHolidays.ts:186](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L186)
 
 ***
 
@@ -330,7 +330,7 @@ Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:99](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L99)
+[src/staticHolidays.ts:99](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L99)
 
 ***
 
@@ -342,7 +342,7 @@ Purim Meshulash
 
 #### Defined in
 
-[src/staticHolidays.ts:101](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L101)
+[src/staticHolidays.ts:101](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L101)
 
 ***
 
@@ -352,7 +352,7 @@ Purim Meshulash
 
 #### Defined in
 
-[src/staticHolidays.ts:188](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L188)
+[src/staticHolidays.ts:188](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L188)
 
 ***
 
@@ -362,7 +362,7 @@ Purim Meshulash
 
 #### Defined in
 
-[src/staticHolidays.ts:190](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L190)
+[src/staticHolidays.ts:190](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L190)
 
 ***
 
@@ -374,7 +374,7 @@ Shabbat Chazon
 
 #### Defined in
 
-[src/staticHolidays.ts:103](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L103)
+[src/staticHolidays.ts:103](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L103)
 
 ***
 
@@ -386,7 +386,7 @@ Shabbat HaChodesh
 
 #### Defined in
 
-[src/staticHolidays.ts:105](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L105)
+[src/staticHolidays.ts:105](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L105)
 
 ***
 
@@ -398,7 +398,7 @@ Shabbat HaGadol
 
 #### Defined in
 
-[src/staticHolidays.ts:107](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L107)
+[src/staticHolidays.ts:107](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L107)
 
 ***
 
@@ -410,7 +410,7 @@ Shabbat Nachamu
 
 #### Defined in
 
-[src/staticHolidays.ts:109](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L109)
+[src/staticHolidays.ts:109](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L109)
 
 ***
 
@@ -422,7 +422,7 @@ Shabbat Parah
 
 #### Defined in
 
-[src/staticHolidays.ts:111](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L111)
+[src/staticHolidays.ts:111](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L111)
 
 ***
 
@@ -434,7 +434,7 @@ Shabbat Shekalim
 
 #### Defined in
 
-[src/staticHolidays.ts:113](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L113)
+[src/staticHolidays.ts:113](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L113)
 
 ***
 
@@ -446,7 +446,7 @@ Shabbat Shirah
 
 #### Defined in
 
-[src/staticHolidays.ts:115](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L115)
+[src/staticHolidays.ts:115](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L115)
 
 ***
 
@@ -458,7 +458,7 @@ Shabbat Shuva
 
 #### Defined in
 
-[src/staticHolidays.ts:117](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L117)
+[src/staticHolidays.ts:117](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L117)
 
 ***
 
@@ -470,7 +470,7 @@ Shabbat Zachor
 
 #### Defined in
 
-[src/staticHolidays.ts:119](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L119)
+[src/staticHolidays.ts:119](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L119)
 
 ***
 
@@ -480,7 +480,7 @@ Shabbat Zachor
 
 #### Defined in
 
-[src/staticHolidays.ts:192](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L192)
+[src/staticHolidays.ts:192](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L192)
 
 ***
 
@@ -490,7 +490,7 @@ Shabbat Zachor
 
 #### Defined in
 
-[src/staticHolidays.ts:194](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L194)
+[src/staticHolidays.ts:194](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L194)
 
 ***
 
@@ -500,7 +500,7 @@ Shabbat Zachor
 
 #### Defined in
 
-[src/staticHolidays.ts:196](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L196)
+[src/staticHolidays.ts:196](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L196)
 
 ***
 
@@ -510,7 +510,7 @@ Shabbat Zachor
 
 #### Defined in
 
-[src/staticHolidays.ts:198](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L198)
+[src/staticHolidays.ts:198](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L198)
 
 ***
 
@@ -520,7 +520,7 @@ Shabbat Zachor
 
 #### Defined in
 
-[src/staticHolidays.ts:200](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L200)
+[src/staticHolidays.ts:200](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L200)
 
 ***
 
@@ -532,7 +532,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:121](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L121)
+[src/staticHolidays.ts:121](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L121)
 
 ***
 
@@ -542,7 +542,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:202](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L202)
+[src/staticHolidays.ts:202](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L202)
 
 ***
 
@@ -552,7 +552,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:204](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L204)
+[src/staticHolidays.ts:204](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L204)
 
 ***
 
@@ -562,7 +562,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:206](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L206)
+[src/staticHolidays.ts:206](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L206)
 
 ***
 
@@ -572,7 +572,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:208](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L208)
+[src/staticHolidays.ts:208](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L208)
 
 ***
 
@@ -582,7 +582,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:210](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L210)
+[src/staticHolidays.ts:210](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L210)
 
 ***
 
@@ -592,7 +592,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:212](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L212)
+[src/staticHolidays.ts:212](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L212)
 
 ***
 
@@ -602,7 +602,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:214](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L214)
+[src/staticHolidays.ts:214](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L214)
 
 ***
 
@@ -612,7 +612,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:216](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L216)
+[src/staticHolidays.ts:216](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L216)
 
 ***
 
@@ -622,7 +622,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:218](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L218)
+[src/staticHolidays.ts:218](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L218)
 
 ***
 
@@ -632,7 +632,7 @@ Shushan Purim Katan
 
 #### Defined in
 
-[src/staticHolidays.ts:220](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L220)
+[src/staticHolidays.ts:220](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L220)
 
 ***
 
@@ -644,7 +644,7 @@ Ta'anit Bechorot
 
 #### Defined in
 
-[src/staticHolidays.ts:123](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L123)
+[src/staticHolidays.ts:123](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L123)
 
 ***
 
@@ -656,7 +656,7 @@ Ta'anit Esther
 
 #### Defined in
 
-[src/staticHolidays.ts:125](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L125)
+[src/staticHolidays.ts:125](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L125)
 
 ***
 
@@ -668,7 +668,7 @@ Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:127](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L127)
+[src/staticHolidays.ts:127](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L127)
 
 ***
 
@@ -678,7 +678,7 @@ Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:222](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L222)
+[src/staticHolidays.ts:222](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L222)
 
 ***
 
@@ -688,7 +688,7 @@ Tish'a B'Av
 
 #### Defined in
 
-[src/staticHolidays.ts:224](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L224)
+[src/staticHolidays.ts:224](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L224)
 
 ***
 
@@ -700,7 +700,7 @@ Tzom Gedaliah
 
 #### Defined in
 
-[src/staticHolidays.ts:129](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L129)
+[src/staticHolidays.ts:129](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L129)
 
 ***
 
@@ -712,7 +712,7 @@ Tzom Tammuz
 
 #### Defined in
 
-[src/staticHolidays.ts:131](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L131)
+[src/staticHolidays.ts:131](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L131)
 
 ***
 
@@ -722,7 +722,7 @@ Tzom Tammuz
 
 #### Defined in
 
-[src/staticHolidays.ts:226](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L226)
+[src/staticHolidays.ts:226](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L226)
 
 ***
 
@@ -732,7 +732,7 @@ Tzom Tammuz
 
 #### Defined in
 
-[src/staticHolidays.ts:228](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L228)
+[src/staticHolidays.ts:228](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L228)
 
 ***
 
@@ -742,7 +742,7 @@ Tzom Tammuz
 
 #### Defined in
 
-[src/staticHolidays.ts:230](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L230)
+[src/staticHolidays.ts:230](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L230)
 
 ***
 
@@ -754,7 +754,7 @@ Yom HaAtzma'ut
 
 #### Defined in
 
-[src/staticHolidays.ts:133](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L133)
+[src/staticHolidays.ts:133](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L133)
 
 ***
 
@@ -766,7 +766,7 @@ Yom HaShoah
 
 #### Defined in
 
-[src/staticHolidays.ts:135](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L135)
+[src/staticHolidays.ts:135](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L135)
 
 ***
 
@@ -778,7 +778,7 @@ Yom HaZikaron
 
 #### Defined in
 
-[src/staticHolidays.ts:137](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L137)
+[src/staticHolidays.ts:137](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L137)
 
 ***
 
@@ -788,7 +788,7 @@ Yom HaZikaron
 
 #### Defined in
 
-[src/staticHolidays.ts:232](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L232)
+[src/staticHolidays.ts:232](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L232)
 
 ***
 
@@ -798,4 +798,4 @@ Yom HaZikaron
 
 #### Defined in
 
-[src/staticHolidays.ts:234](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/staticHolidays.ts#L234)
+[src/staticHolidays.ts:234](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/staticHolidays.ts#L234)

@@ -40,7 +40,7 @@ Register a new learning calendar.
 
 #### Defined in
 
-[src/DailyLearning.ts:16](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/DailyLearning.ts#L16)
+[src/DailyLearning.ts:16](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/DailyLearning.ts#L16)
 
 ***
 
@@ -65,4 +65,4 @@ is no learning from this calendar on this date.
 
 #### Defined in
 
-[src/DailyLearning.ts:30](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/DailyLearning.ts#L30)
+[src/DailyLearning.ts:30](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/DailyLearning.ts#L30)

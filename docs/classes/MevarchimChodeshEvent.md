@@ -42,7 +42,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/MevarchimChodeshEvent.ts:17](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/MevarchimChodeshEvent.ts#L17)
+[src/MevarchimChodeshEvent.ts:17](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/MevarchimChodeshEvent.ts#L17)
 
 ## Properties
 
@@ -56,7 +56,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L89)
+[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L89)
 
 ***
 
@@ -70,7 +70,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L84)
+[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L84)
 
 ***
 
@@ -84,7 +84,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L85)
+[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L85)
 
 ***
 
@@ -98,7 +98,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/event.ts:87](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L87)
+[src/event.ts:87](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L87)
 
 ***
 
@@ -112,7 +112,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L86)
+[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L86)
 
 ***
 
@@ -126,7 +126,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L88)
+[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L88)
 
 ***
 
@@ -136,7 +136,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/MevarchimChodeshEvent.ts:10](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/MevarchimChodeshEvent.ts#L10)
+[src/MevarchimChodeshEvent.ts:10](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/MevarchimChodeshEvent.ts#L10)
 
 ## Methods
 
@@ -154,7 +154,7 @@ Hebrew month name (not translated)
 
 #### Defined in
 
-[src/MevarchimChodeshEvent.ts:31](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/MevarchimChodeshEvent.ts#L31)
+[src/MevarchimChodeshEvent.ts:31](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/MevarchimChodeshEvent.ts#L31)
 
 ***
 
@@ -174,7 +174,7 @@ Makes a clone of this Event object
 
 #### Defined in
 
-[src/event.ts:210](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L210)
+[src/event.ts:210](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L210)
 
 ***
 
@@ -194,7 +194,7 @@ Returns a list of event categories
 
 #### Defined in
 
-[src/event.ts:222](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L222)
+[src/event.ts:222](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L222)
 
 ***
 
@@ -214,7 +214,7 @@ Hebrew date of this event
 
 #### Defined in
 
-[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L113)
+[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L113)
 
 ***
 
@@ -234,7 +234,7 @@ Untranslated description of this event
 
 #### Defined in
 
-[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L119)
+[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L119)
 
 ***
 
@@ -254,7 +254,7 @@ Optional holiday-specific Emoji or `null`.
 
 #### Defined in
 
-[src/event.ts:152](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L152)
+[src/event.ts:152](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L152)
 
 ***
 
@@ -274,7 +274,7 @@ Bitmask of optional event flags. See [flags](../enumerations/flags.md)
 
 #### Defined in
 
-[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L125)
+[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L125)
 
 ***
 
@@ -309,7 +309,7 @@ ev2.observedIn(true); // true
 
 #### Defined in
 
-[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L204)
+[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L204)
 
 ***
 
@@ -338,7 +338,7 @@ ev2.observedInDiaspora(); // true
 
 #### Defined in
 
-[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L190)
+[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L190)
 
 ***
 
@@ -367,7 +367,7 @@ ev2.observedInIsrael(); // true
 
 #### Defined in
 
-[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L179)
+[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L179)
 
 ***
 
@@ -393,7 +393,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/MevarchimChodeshEvent.ts:38](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/MevarchimChodeshEvent.ts#L38)
+[src/MevarchimChodeshEvent.ts:38](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/MevarchimChodeshEvent.ts#L38)
 
 ***
 
@@ -419,7 +419,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/MevarchimChodeshEvent.ts:47](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/MevarchimChodeshEvent.ts#L47)
+[src/MevarchimChodeshEvent.ts:47](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/MevarchimChodeshEvent.ts#L47)
 
 ***
 
@@ -440,4 +440,4 @@ Returns `undefined` for events with no detail page.
 
 #### Defined in
 
-[src/event.ts:168](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L168)
+[src/event.ts:168](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L168)

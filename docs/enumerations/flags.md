@@ -18,7 +18,7 @@ Chag, yontiff, yom tov
 
 #### Defined in
 
-[src/event.ts:11](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L11)
+[src/event.ts:11](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L11)
 
 ***
 
@@ -30,7 +30,7 @@ Candle-lighting for Chanukah
 
 #### Defined in
 
-[src/event.ts:23](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L23)
+[src/event.ts:23](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L23)
 
 ***
 
@@ -42,7 +42,7 @@ Chol haMoed, intermediate days of Pesach or Sukkot
 
 #### Defined in
 
-[src/event.ts:53](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L53)
+[src/event.ts:53](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L53)
 
 ***
 
@@ -54,7 +54,7 @@ Observed only in the Diaspora (chutz l'aretz)
 
 #### Defined in
 
-[src/event.ts:17](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L17)
+[src/event.ts:17](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L17)
 
 ***
 
@@ -66,7 +66,7 @@ Daily page of Talmud (Bavli)
 
 #### Defined in
 
-[src/event.ts:33](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L33)
+[src/event.ts:33](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L33)
 
 ***
 
@@ -78,7 +78,7 @@ Daily Learning
 
 #### Defined in
 
-[src/event.ts:63](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L63)
+[src/event.ts:63](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L63)
 
 ***
 
@@ -90,7 +90,7 @@ Evening before a major or minor holiday
 
 #### Defined in
 
-[src/event.ts:51](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L51)
+[src/event.ts:51](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L51)
 
 ***
 
@@ -102,7 +102,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 #### Defined in
 
-[src/event.ts:47](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L47)
+[src/event.ts:47](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L47)
 
 ***
 
@@ -114,7 +114,7 @@ Observed only in Israel
 
 #### Defined in
 
-[src/event.ts:19](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L19)
+[src/event.ts:19](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L19)
 
 ***
 
@@ -126,7 +126,7 @@ Light candles 18 minutes before sundown
 
 #### Defined in
 
-[src/event.ts:13](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L13)
+[src/event.ts:13](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L13)
 
 ***
 
@@ -138,7 +138,7 @@ Light candles in the evening at Tzeit time (3 small stars)
 
 #### Defined in
 
-[src/event.ts:21](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L21)
+[src/event.ts:21](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L21)
 
 ***
 
@@ -150,7 +150,7 @@ Yom Kippur and Tish'a B'Av
 
 #### Defined in
 
-[src/event.ts:39](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L39)
+[src/event.ts:39](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L39)
 
 ***
 
@@ -162,7 +162,7 @@ Minor fasts like Tzom Tammuz, Ta'anit Esther, ...
 
 #### Defined in
 
-[src/event.ts:27](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L27)
+[src/event.ts:27](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L27)
 
 ***
 
@@ -174,7 +174,7 @@ A holiday that's not major, modern, rosh chodesh, or a fast day
 
 #### Defined in
 
-[src/event.ts:49](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L49)
+[src/event.ts:49](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L49)
 
 ***
 
@@ -186,7 +186,7 @@ Mishna Yomi
 
 #### Defined in
 
-[src/event.ts:55](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L55)
+[src/event.ts:55](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L55)
 
 ***
 
@@ -198,7 +198,7 @@ Yom HaShoah, Yom HaAtzma'ut, ...
 
 #### Defined in
 
-[src/event.ts:37](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L37)
+[src/event.ts:37](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L37)
 
 ***
 
@@ -210,7 +210,7 @@ Molad
 
 #### Defined in
 
-[src/event.ts:43](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L43)
+[src/event.ts:43](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L43)
 
 ***
 
@@ -222,7 +222,7 @@ Nach Yomi
 
 #### Defined in
 
-[src/event.ts:61](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L61)
+[src/event.ts:61](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L61)
 
 ***
 
@@ -234,7 +234,7 @@ Days of the Omer
 
 #### Defined in
 
-[src/event.ts:35](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L35)
+[src/event.ts:35](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L35)
 
 ***
 
@@ -246,7 +246,7 @@ Weekly sedrot on Saturdays
 
 #### Defined in
 
-[src/event.ts:31](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L31)
+[src/event.ts:31](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L31)
 
 ***
 
@@ -258,7 +258,7 @@ Rosh Chodesh, beginning of a new Hebrew month
 
 #### Defined in
 
-[src/event.ts:25](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L25)
+[src/event.ts:25](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L25)
 
 ***
 
@@ -270,7 +270,7 @@ On the Saturday before Rosh Chodesh
 
 #### Defined in
 
-[src/event.ts:41](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L41)
+[src/event.ts:41](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L41)
 
 ***
 
@@ -282,7 +282,7 @@ Shabbat Shekalim, Zachor, ...
 
 #### Defined in
 
-[src/event.ts:29](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L29)
+[src/event.ts:29](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L29)
 
 ***
 
@@ -294,7 +294,7 @@ Yahrzeit or Hebrew Anniversary
 
 #### Defined in
 
-[src/event.ts:45](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L45)
+[src/event.ts:45](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L45)
 
 ***
 
@@ -306,7 +306,7 @@ Daily page of Jerusalem Talmud (Yerushalmi)
 
 #### Defined in
 
-[src/event.ts:59](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L59)
+[src/event.ts:59](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L59)
 
 ***
 
@@ -318,7 +318,7 @@ Yom Kippur Katan, minor day of atonement on the day preceeding each Rosh Chodesh
 
 #### Defined in
 
-[src/event.ts:57](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L57)
+[src/event.ts:57](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L57)
 
 ***
 
@@ -330,4 +330,4 @@ End of holiday (end of Yom Tov)
 
 #### Defined in
 
-[src/event.ts:15](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L15)
+[src/event.ts:15](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L15)

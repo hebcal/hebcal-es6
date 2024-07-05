@@ -32,7 +32,7 @@ Use Israel sedra schedule (false for Diaspora)
 
 #### Defined in
 
-[src/sedra.ts:89](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L89)
+[src/sedra.ts:89](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L89)
 
 ## Methods
 
@@ -53,7 +53,7 @@ or `null` if the parsha doesn't occur this year
 
 #### Defined in
 
-[src/sedra.ts:154](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L154)
+[src/sedra.ts:154](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L154)
 
 ***
 
@@ -75,7 +75,7 @@ Hebrew date or R.D. days
 
 #### Defined in
 
-[src/sedra.ts:120](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L120)
+[src/sedra.ts:120](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L120)
 
 ***
 
@@ -91,7 +91,7 @@ R.D. date of the first Saturday on or after Rosh Hashana
 
 #### Defined in
 
-[src/sedra.ts:208](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L208)
+[src/sedra.ts:208](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L208)
 
 ***
 
@@ -108,7 +108,7 @@ Used by `@hebcal/triennial`
 
 #### Defined in
 
-[src/sedra.ts:201](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L201)
+[src/sedra.ts:201](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L201)
 
 ***
 
@@ -134,7 +134,7 @@ Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
 
 #### Defined in
 
-[src/sedra.ts:129](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L129)
+[src/sedra.ts:129](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L129)
 
 ***
 
@@ -148,7 +148,7 @@ Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
 
 #### Defined in
 
-[src/sedra.ts:213](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L213)
+[src/sedra.ts:213](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L213)
 
 ***
 
@@ -171,7 +171,7 @@ Hebrew date or R.D. days
 
 #### Defined in
 
-[src/sedra.ts:146](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L146)
+[src/sedra.ts:146](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L146)
 
 ***
 
@@ -193,4 +193,4 @@ Hebrew date or R.D. days
 
 #### Defined in
 
-[src/sedra.ts:221](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/sedra.ts#L221)
+[src/sedra.ts:221](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/sedra.ts#L221)

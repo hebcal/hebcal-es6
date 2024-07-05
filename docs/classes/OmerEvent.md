@@ -34,7 +34,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 #### Defined in
 
-[src/omer.ts:24](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L24)
+[src/omer.ts:24](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L24)
 
 ## Properties
 
@@ -48,7 +48,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 #### Defined in
 
-[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L89)
+[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L89)
 
 ***
 
@@ -62,7 +62,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 #### Defined in
 
-[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L84)
+[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L84)
 
 ***
 
@@ -76,7 +76,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 #### Defined in
 
-[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L85)
+[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L85)
 
 ***
 
@@ -90,7 +90,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 #### Defined in
 
-[src/omer.ts:18](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L18)
+[src/omer.ts:18](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L18)
 
 ***
 
@@ -104,7 +104,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 #### Defined in
 
-[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L86)
+[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L86)
 
 ***
 
@@ -118,7 +118,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 #### Defined in
 
-[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L88)
+[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L88)
 
 ***
 
@@ -128,7 +128,7 @@ Represents a day 1-49 of counting the Omer from Pesach to Shavuot
 
 #### Defined in
 
-[src/omer.ts:17](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L17)
+[src/omer.ts:17](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L17)
 
 ## Methods
 
@@ -151,7 +151,7 @@ For many holidays the basename and the event description are the same.
 
 #### Defined in
 
-[src/event.ts:161](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L161)
+[src/event.ts:161](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L161)
 
 ***
 
@@ -171,7 +171,7 @@ Makes a clone of this Event object
 
 #### Defined in
 
-[src/event.ts:210](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L210)
+[src/event.ts:210](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L210)
 
 ***
 
@@ -191,7 +191,7 @@ Returns a list of event categories
 
 #### Defined in
 
-[src/event.ts:222](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L222)
+[src/event.ts:222](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L222)
 
 ***
 
@@ -211,7 +211,7 @@ Hebrew date of this event
 
 #### Defined in
 
-[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L113)
+[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L113)
 
 ***
 
@@ -225,7 +225,7 @@ Hebrew date of this event
 
 #### Defined in
 
-[src/omer.ts:74](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L74)
+[src/omer.ts:74](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L74)
 
 ***
 
@@ -245,7 +245,7 @@ Untranslated description of this event
 
 #### Defined in
 
-[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L119)
+[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L119)
 
 ***
 
@@ -263,7 +263,7 @@ Untranslated description of this event
 
 #### Defined in
 
-[src/omer.ts:64](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L64)
+[src/omer.ts:64](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L64)
 
 ***
 
@@ -283,7 +283,7 @@ Bitmask of optional event flags. See [flags](../enumerations/flags.md)
 
 #### Defined in
 
-[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L125)
+[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L125)
 
 ***
 
@@ -301,7 +301,7 @@ Bitmask of optional event flags. See [flags](../enumerations/flags.md)
 
 #### Defined in
 
-[src/omer.ts:80](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L80)
+[src/omer.ts:80](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L80)
 
 ***
 
@@ -315,7 +315,7 @@ Bitmask of optional event flags. See [flags](../enumerations/flags.md)
 
 #### Defined in
 
-[src/omer.ts:69](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L69)
+[src/omer.ts:69](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L69)
 
 ***
 
@@ -350,7 +350,7 @@ ev2.observedIn(true); // true
 
 #### Defined in
 
-[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L204)
+[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L204)
 
 ***
 
@@ -379,7 +379,7 @@ ev2.observedInDiaspora(); // true
 
 #### Defined in
 
-[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L190)
+[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L190)
 
 ***
 
@@ -408,7 +408,7 @@ ev2.observedInIsrael(); // true
 
 #### Defined in
 
-[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L179)
+[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L179)
 
 ***
 
@@ -436,7 +436,7 @@ use gettext()
 
 #### Defined in
 
-[src/omer.ts:46](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L46)
+[src/omer.ts:46](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L46)
 
 ***
 
@@ -462,7 +462,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/omer.ts:60](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L60)
+[src/omer.ts:60](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L60)
 
 ***
 
@@ -480,7 +480,7 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/omer.ts:36](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L36)
+[src/omer.ts:36](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L36)
 
 ***
 
@@ -498,4 +498,4 @@ Optional locale name (defaults to active locale).
 
 #### Defined in
 
-[src/omer.ts:93](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/omer.ts#L93)
+[src/omer.ts:93](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/omer.ts#L93)

@@ -32,4 +32,4 @@ Tachanun is said at Shacharit
 
 ## Defined in
 
-[src/tachanun.ts:15](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/tachanun.ts#L15)
+[src/tachanun.ts:15](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/tachanun.ts#L15)

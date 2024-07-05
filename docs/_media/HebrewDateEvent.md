@@ -32,7 +32,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 #### Defined in
 
-[src/HebrewDateEvent.ts:10](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HebrewDateEvent.ts#L10)
+[src/HebrewDateEvent.ts:10](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HebrewDateEvent.ts#L10)
 
 ## Properties
 
@@ -46,7 +46,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 #### Defined in
 
-[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L89)
+[src/event.ts:89](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L89)
 
 ***
 
@@ -60,7 +60,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 #### Defined in
 
-[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L84)
+[src/event.ts:84](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L84)
 
 ***
 
@@ -74,7 +74,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 #### Defined in
 
-[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L85)
+[src/event.ts:85](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L85)
 
 ***
 
@@ -88,7 +88,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 #### Defined in
 
-[src/event.ts:87](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L87)
+[src/event.ts:87](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L87)
 
 ***
 
@@ -102,7 +102,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 #### Defined in
 
-[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L86)
+[src/event.ts:86](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L86)
 
 ***
 
@@ -116,7 +116,7 @@ Daily Hebrew date ("11th of Sivan, 5780")
 
 #### Defined in
 
-[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L88)
+[src/event.ts:88](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L88)
 
 ## Methods
 
@@ -139,7 +139,7 @@ For many holidays the basename and the event description are the same.
 
 #### Defined in
 
-[src/event.ts:161](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L161)
+[src/event.ts:161](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L161)
 
 ***
 
@@ -159,7 +159,7 @@ Makes a clone of this Event object
 
 #### Defined in
 
-[src/event.ts:210](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L210)
+[src/event.ts:210](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L210)
 
 ***
 
@@ -179,7 +179,7 @@ Returns a list of event categories
 
 #### Defined in
 
-[src/event.ts:222](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L222)
+[src/event.ts:222](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L222)
 
 ***
 
@@ -199,7 +199,7 @@ Hebrew date of this event
 
 #### Defined in
 
-[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L113)
+[src/event.ts:113](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L113)
 
 ***
 
@@ -219,7 +219,7 @@ Untranslated description of this event
 
 #### Defined in
 
-[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L119)
+[src/event.ts:119](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L119)
 
 ***
 
@@ -239,7 +239,7 @@ Optional holiday-specific Emoji or `null`.
 
 #### Defined in
 
-[src/event.ts:152](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L152)
+[src/event.ts:152](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L152)
 
 ***
 
@@ -259,7 +259,7 @@ Bitmask of optional event flags. See [flags](../enumerations/flags.md)
 
 #### Defined in
 
-[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L125)
+[src/event.ts:125](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L125)
 
 ***
 
@@ -294,7 +294,7 @@ ev2.observedIn(true); // true
 
 #### Defined in
 
-[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L204)
+[src/event.ts:204](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L204)
 
 ***
 
@@ -323,7 +323,7 @@ ev2.observedInDiaspora(); // true
 
 #### Defined in
 
-[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L190)
+[src/event.ts:190](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L190)
 
 ***
 
@@ -352,7 +352,7 @@ ev2.observedInIsrael(); // true
 
 #### Defined in
 
-[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L179)
+[src/event.ts:179](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L179)
 
 ***
 
@@ -387,7 +387,7 @@ console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'
 
 #### Defined in
 
-[src/HebrewDateEvent.ts:23](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HebrewDateEvent.ts#L23)
+[src/HebrewDateEvent.ts:23](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HebrewDateEvent.ts#L23)
 
 ***
 
@@ -422,7 +422,7 @@ console.log(ev.renderBrief('he')); // 'ט״ו חֶשְׁוָן'
 
 #### Defined in
 
-[src/HebrewDateEvent.ts:57](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/HebrewDateEvent.ts#L57)
+[src/HebrewDateEvent.ts:57](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/HebrewDateEvent.ts#L57)
 
 ***
 
@@ -443,4 +443,4 @@ Returns `undefined` for events with no detail page.
 
 #### Defined in
 
-[src/event.ts:168](https://github.com/hebcal/hebcal-es6/blob/7a48c07548d61e9c93ae14253436cf206e280c87/src/event.ts#L168)
+[src/event.ts:168](https://github.com/hebcal/hebcal-es6/blob/3368d3d0f182fa8667ccf03cc5e03586ceb1661f/src/event.ts#L168)
