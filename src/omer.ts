@@ -18,8 +18,8 @@ export class OmerEvent extends Event {
   emoji?: string;
 
   /**
-   * @param {HDate} date
-   * @param {number} omerDay
+   * @param date
+   * @param omerDay
    */
   constructor(date: HDate, omerDay: number) {
     super(date, `Omer ${omerDay}`, flags.OMER_COUNT);
@@ -31,8 +31,7 @@ export class OmerEvent extends Event {
     this.omer = omerDay;
   }
   /**
-   * @param {string} lang
-   * @return {string}
+   * @param lang
    */
   sefira(lang: string='en'): string {
     if (lang !== 'he' && lang !== 'translit') {
@@ -42,8 +41,7 @@ export class OmerEvent extends Event {
   }
   /**
    * @todo use gettext()
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     locale = locale ?? Locale.getLocaleName();
@@ -57,29 +55,27 @@ export class OmerEvent extends Event {
   }
   /**
    * Returns translation of "Omer day 22" without ordinal numbers.
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   renderBrief(locale?: string): string {
     return Locale.gettext('Omer', locale) + ' ' + Locale.gettext('day', locale) + ' '+ this.omer;
   }
-  /** @return {string} */
+  /** @returns */
   getEmoji(): string {
     if (typeof this.emoji === 'string') return this.emoji;
     return omerEmoji(this.omer);
   }
-  /** @return {number} */
+  /** @returns */
   getWeeks(): number {
     const day7 = this.daysWithinWeeks === 7;
     return day7 ? this.weekNumber : this.weekNumber - 1;
   }
-  /** @return {number} */
+  /** @returns */
   getDaysWithinWeeks(): number {
     return this.daysWithinWeeks;
   }
   /**
-   * @param {string} locale
-   * @return {string}
+   * @param locale
    */
   getTodayIs(locale: string): string {
     locale = locale ?? Locale.getLocaleName();
@@ -93,7 +89,7 @@ export class OmerEvent extends Event {
     }
     return str;
   }
-  /** @return {string} */
+  /** @returns */
   url(): string {
     return `https://www.hebcal.com/omer/${this.getDate().getFullYear()}/${this.omer}`;
   }

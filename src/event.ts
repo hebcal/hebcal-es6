@@ -89,10 +89,10 @@ export class Event {
   alarm?: Date | string | boolean;
   /**
    * Constructs Event
-   * @param {HDate} date Hebrew date event occurs
-   * @param {string} desc Description (not translated)
-   * @param {number} [mask=0] optional bitmask of holiday flags (see {@link flags})
-   * @param {Object} [attrs={}] optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
+   * @param date Hebrew date event occurs
+   * @param desc Description (not translated)
+   * @param [mask=0] optional bitmask of holiday flags (see {@link flags})
+   * @param [attrs={}] optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
    */
   constructor(date: HDate, desc: string, mask: number = 0, attrs?: object) {
     if (!HDate.isHDate(date)) {
@@ -109,21 +109,18 @@ export class Event {
   }
   /**
    * Hebrew date of this event
-   * @return {HDate}
    */
   getDate(): HDate {
     return this.date;
   }
   /**
    * Untranslated description of this event
-   * @return {string}
    */
   getDesc(): string {
     return this.desc;
   }
   /**
    * Bitmask of optional event flags. See {@link flags}
-   * @return {number}
    */
   getFlags(): number {
     return this.mask;
@@ -135,8 +132,7 @@ export class Event {
    * ev.render('en'); // 'Shavuot'
    * ev.render('he'); // 'שָׁבוּעוֹת'
    * ev.render('ashkenazi'); // 'Shavuos'
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     return Locale.gettext(this.desc, locale);
@@ -145,15 +141,13 @@ export class Event {
    * Returns a brief (translated) description of this event.
    * For most events, this is the same as render(). For some events, it procudes
    * a shorter text (e.g. without a time or added description).
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   renderBrief(locale?: string): string {
     return this.render(locale);
   }
   /**
    * Optional holiday-specific Emoji or `null`.
-   * @return {string | null}
    */
   getEmoji(): string | null {
     return this.emoji || null;
@@ -163,7 +157,6 @@ export class Event {
    * the {@link HolidayEvent} class supports
    * "Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
    * For many holidays the basename and the event description are the same.
-   * @return {string}
    */
   basename(): string {
     return this.getDesc();
@@ -171,7 +164,6 @@ export class Event {
   /**
    * Returns a URL to hebcal.com or sefaria.org for more detail on the event.
    * Returns `undefined` for events with no detail page.
-   * @return {string | undefined}
    */
   url(): string | undefined {
     return undefined;
@@ -183,7 +175,6 @@ export class Event {
    * ev1.observedInIsrael(); // false
    * const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
    * ev2.observedInIsrael(); // true
-   * @return {boolean}
    */
   observedInIsrael(): boolean {
     return !(this.mask & flags.CHUL_ONLY);
@@ -195,7 +186,6 @@ export class Event {
    * ev1.observedInDiaspora(); // true
    * const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
    * ev2.observedInDiaspora(); // true
-   * @return {boolean}
    */
   observedInDiaspora(): boolean {
     return !(this.mask & flags.IL_ONLY);
@@ -209,15 +199,13 @@ export class Event {
    * const ev2 = new Event(new HDate(26, 'Kislev', 5749), 'Chanukah: 3 Candles', 0);
    * ev2.observedIn(false); // true
    * ev2.observedIn(true); // true
-   * @param {boolean} il
-   * @return {boolean}
+   * @param il
    */
   observedIn(il: boolean): boolean {
     return il ? this.observedInIsrael() : this.observedInDiaspora();
   }
   /**
    * Makes a clone of this Event object
-   * @return {Event}
    */
   clone(): Event {
     const ev = new Event(this.date, this.desc, this.mask);
@@ -230,7 +218,6 @@ export class Event {
   }
   /**
    * Returns a list of event categories
-   * @return {string[]}
    */
   getCategories(): string[] {
     const mask = this.getFlags();

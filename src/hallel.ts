@@ -7,9 +7,6 @@ const WHOLE = 2;
 
 /**
  * @private
- * @param {Event[]} events
- * @param {HDate} hdate
- * @return {number}
  */
 export function hallel_(events: Event[], hdate: HDate): number {
   const whole = events.filter((ev) => {

@@ -16,8 +16,7 @@ const IYYAR = months.IYYAR;
  * on the following Monday.
  * http://www.ushmm.org/remembrance/dor/calendar/
  * @private
- * @param {number} year
- * @return {HDate|null}
+ * @param year
  */
 export function dateYomHaShoah(year: number): HDate | null {
   if (year < 5711) {
@@ -35,8 +34,7 @@ export function dateYomHaShoah(year: number): HDate | null {
 /**
  * Yom HaAtzma'ut only celebrated after 1948
  * @private
- * @param {number} year
- * @return {HDate|null}
+ * @param year
  */
 export function dateYomHaZikaron(year: number): HDate | null {
   if (year < 5708) {

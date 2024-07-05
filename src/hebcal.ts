@@ -171,7 +171,6 @@ const TZEIT_3MEDIUM_STARS = 7.0833333;
 /**
  * Modifies options in-place
  * @private
- * @param {CalOptions} options
  */
 function checkCandleOptions(options: CalOptions) {
   if (!options.candlelighting) {
@@ -224,8 +223,6 @@ function overrideIsraelCandleMins(location: Location, min: number) {
 /**
  * Mask to filter Holiday array
  * @private
- * @param {CalOptions} options
- * @return {number}
  */
 function getMaskFromOptions(options: CalOptions): number {
   if (typeof options.mask === 'number') {
@@ -304,8 +301,6 @@ const defaultLocation = new Location(0, 0, false, 'UTC');
 
 /**
  * @private
- * @param {CalOptions} options
- * @return {number}
  */
 function setOptionsFromMask(options: CalOptions): number {
   const m = options.mask || 0;
@@ -337,8 +332,6 @@ function setOptionsFromMask(options: CalOptions): number {
 
 /**
  * @private
- * @param {Event} ev
- * @return {boolean}
  */
 function observedInIsrael(ev: Event): boolean {
   return ev.observedInIsrael();
@@ -346,8 +339,6 @@ function observedInIsrael(ev: Event): boolean {
 
 /**
  * @private
- * @param {Event} ev
- * @return {boolean}
  */
 function observedInDiaspora(ev: Event): boolean {
   return ev.observedInDiaspora();
@@ -466,8 +457,6 @@ export class HebrewCalendar {
    *   const date = hd.greg();
    *   console.log(date.toLocaleDateString(), ev.render('en'), hd.toString());
    * }
-   * @param {CalOptions} [options={}]
-   * @return {Event[]}
    */
   static calendar(options: CalOptions={}): Event[] {
     options = {...options}; // so we can modify freely
@@ -595,9 +584,9 @@ export class HebrewCalendar {
    * const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
    * const hd = HebrewCalendar.getBirthdayOrAnniversary(5780, dt); // '1 Nisan 5780'
    * console.log(hd.greg().toLocaleDateString('en-US')); // '3/26/2020'
-   * @param {number} hyear Hebrew year
-   * @param {Date|HDate} gdate Gregorian or Hebrew date of event
-   * @return {HDate | undefined} anniversary occurring in `hyear`
+   * @param hyear Hebrew year
+   * @param gdate Gregorian or Hebrew date of event
+   * @returns anniversary occurring in `hyear`
    */
   static getBirthdayOrAnniversary(hyear: number, gdate: Date | HDate): HDate | undefined {
     const dt = getBirthdayHD(hyear, gdate);
@@ -637,9 +626,9 @@ export class HebrewCalendar {
    * const dt = new Date(2014, 2, 2); // '2014-03-02' == '30 Adar I 5774'
    * const hd = HebrewCalendar.getYahrzeit(5780, dt); // '30 Sh\'vat 5780'
    * console.log(hd.greg().toLocaleDateString('en-US')); // '2/25/2020'
-   * @param {number} hyear Hebrew year
-   * @param {Date|HDate} gdate Gregorian or Hebrew date of death
-   * @return {HDate | undefined} anniversary occurring in hyear
+   * @param hyear Hebrew year
+   * @param gdate Gregorian or Hebrew date of death
+   * @returns anniversary occurring in hyear
    */
   static getYahrzeit(hyear: number, gdate: Date | HDate): HDate | undefined {
     const dt = getYahrzeitHD(hyear, gdate);
@@ -653,9 +642,7 @@ export class HebrewCalendar {
    * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
    * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
    * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
-   * @function
-   * @param {number} year Hebrew year
-   * @return {HolidayYearMap}
+   * @param year Hebrew year
    */
   static getHolidaysForYear(year: number): HolidayYearMap {
     return getHolidaysForYear_(year);
@@ -663,9 +650,8 @@ export class HebrewCalendar {
 
   /**
    * Returns an array of holidays for the year
-   * @param {number} year Hebrew year
-   * @param {boolean} il use the Israeli schedule for holidays
-   * @return {HolidayEvent[]}
+   * @param year Hebrew year
+   * @param il use the Israeli schedule for holidays
    */
   static getHolidaysForYearArray(year: number, il: boolean): HolidayEvent[] {
     const yearMap = getHolidaysForYear_(year);
@@ -686,9 +672,8 @@ export class HebrewCalendar {
 
   /**
    * Returns an array of Events on this date (or `undefined` if no events)
-   * @param {HDate|Date|number} date Hebrew Date, Gregorian date, or absolute R.D. day number
-   * @param {boolean} [il] use the Israeli schedule for holidays
-   * @return {HolidayEvent[] | undefined}
+   * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
+   * @param [il] use the Israeli schedule for holidays
    */
   static getHolidaysOnDate(date: HDate | Date | number, il?: boolean): HolidayEvent[] | undefined {
     const hd = HDate.isHDate(date) ? date as HDate: new HDate(date);
@@ -706,9 +691,6 @@ export class HebrewCalendar {
 
   /**
    * Eruv Tavshilin
-   * @param {Date | HDate} date
-   * @param {boolean} il
-   * @return {boolean}
    */
   static eruvTavshilin(date: Date | HDate, il: boolean): boolean {
     if (date.getDay() < 3 || date.getDay() > 4) {
@@ -729,16 +711,15 @@ export class HebrewCalendar {
    * locale.
    * If `options.hour12` is `false`, locale is ignored and always returns 24-hour time.
    * If `options.hour12` is `true`, locale is ignored and always returns 12-hour time.
-   * @param {string} timeStr - original time like "20:30"
-   * @param {string} suffix - "p" or "pm" or " P.M.". Add leading space if you want it
-   * @param {CalOptions} options
-   * @return {string}
+   * @param timeStr - original time like "20:30"
+   * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
+   * @param options
    */
   static reformatTimeStr(timeStr: string, suffix: string, options: CalOptions): string {
     return reformatTimeStr(timeStr, suffix, options);
   }
 
-  /** @return {string} */
+  /** @returns */
   static version(): string {
     return pkgVersion;
   }
@@ -746,10 +727,6 @@ export class HebrewCalendar {
   /**
    * Convenience function to create an instance of `Sedra` or reuse a previously
    * created and cached instance.
-   * @function
-   * @param {number} hyear
-   * @param {boolean} il
-   * @return {Sedra}
    */
   static getSedra(hyear: number, il: boolean): Sedra {
     return getSedra_(hyear, il);
@@ -768,10 +745,6 @@ export class HebrewCalendar {
    * 0 - No Hallel
    * 1 - Half Hallel
    * 2 - Whole Hallel
-   *
-   * @param {HDate} hdate
-   * @param {boolean} il
-   * @return {number}
    */
   static hallel(hdate: HDate, il: boolean): number {
     const events = HebrewCalendar.getHolidaysForYearArray(hdate.getFullYear(), il);
@@ -793,9 +766,6 @@ export class HebrewCalendar {
    * Tachanun is not said at Mincha on days before it is not said at Shacharit.
    *
    * Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
-   * @param {HDate} hdate
-   * @param {boolean} il
-   * @return {TachanunResult}
    */
   static tachanun(hdate: HDate, il: boolean): TachanunResult {
     return tachanun_(hdate, il);
@@ -804,9 +774,6 @@ export class HebrewCalendar {
 
 /**
  * @private
- * @param {HDate} date
- * @param {boolean} il
- * @return {boolean}
  */
 function isChag(date: HDate, il: boolean): boolean {
   const events = HebrewCalendar.getHolidaysOnDate(date, il) || [];

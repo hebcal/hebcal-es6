@@ -21,6 +21,7 @@ module.exports = [
     input: 'src/index.ts',
     output: [
       {file: pkg.main, format: 'cjs', name: pkg.name, banner,
+        sourcemap: true,
         inlineDynamicImports: true,
         globals: {
           'temporal-polyfill': 'Temporal',
@@ -51,6 +52,7 @@ module.exports = [
     input: 'src/index.ts',
     output: [
       {file: pkg.module, format: 'es', name: pkg.name, banner,
+        sourcemap: true,
         inlineDynamicImports: true,
         globals: {
           'temporal-polyfill': 'Temporal',
@@ -87,6 +89,7 @@ module.exports = [
         name: 'hebcal',
         indent: false,
         banner,
+        sourcemap: true,
         inlineDynamicImports: true,
         globals: {
           'temporal-polyfill': 'Temporal',
@@ -98,6 +101,7 @@ module.exports = [
         name: 'hebcal',
         plugins: [terser()],
         banner,
+        sourcemap: true,
         inlineDynamicImports: true,
         globals: {
           'temporal-polyfill': 'Temporal',

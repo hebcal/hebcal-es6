@@ -10,11 +10,8 @@ export class ParshaEvent extends Event {
   readonly il: boolean;
   readonly num: number | number[];
   /**
-   * @param {HDate} date
-   * @param {string[]} parsha - untranslated name of single or double parsha,
+   * @param parsha - untranslated name of single or double parsha,
    *   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim']
-   * @param {boolean} [il]
-   * @param {number|number[]} [num]
    */
   constructor(date: HDate, parsha: string[], il: boolean=false, num: number | number[]=-1) {
     if (!Array.isArray(parsha) || parsha.length === 0 || parsha.length > 2) {
@@ -27,8 +24,7 @@ export class ParshaEvent extends Event {
     this.num = num || -1;
   }
   /**
-   * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
-   * @return {string}
+   * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
    */
   render(locale?: string): string {
     const locale0 = locale ?? Locale.getLocaleName();
@@ -42,11 +38,11 @@ export class ParshaEvent extends Event {
     const str = Locale.gettext('Parashat', locale) + ' ' + name;
     return str.normalize();
   }
-  /** @return {string} */
+  /** @returns */
   basename(): string {
     return this.parsha.join('-');
   }
-  /** @return {string | undefined} */
+  /** @returns */
   url(): string | undefined {
     const year = this.getDate().greg().getFullYear();
     if (year < 100) {
@@ -58,7 +54,7 @@ export class ParshaEvent extends Event {
     return this.il ? url + '?i=on' : url;
   }
 
-  /** @return {string} */
+  /** @returns */
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');

@@ -10,9 +10,9 @@ export class MevarchimChodeshEvent extends Event {
   readonly monthName: string;
   /**
    * Constructs Mevarchim haChodesh event
-   * @param {HDate} date Hebrew date event occurs
-   * @param {string} monthName Hebrew month name (not translated)
-   * @param {string} [memo]
+   * @param date Hebrew date event occurs
+   * @param monthName Hebrew month name (not translated)
+   * @param [memo]
    */
   constructor(date: HDate, monthName: string, memo: string) {
     super(date, `${mevarchimChodeshStr} ${monthName}`, flags.SHABBAT_MEVARCHIM);
@@ -27,14 +27,13 @@ export class MevarchimChodeshEvent extends Event {
       this.memo = molad.render('en', {hour12: false});
     }
   }
-  /** @return {string} */
+  /** @returns */
   basename(): string {
     return this.getDesc();
   }
   /**
    * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     const monthName0 = Locale.gettext(this.monthName, locale);
@@ -43,8 +42,7 @@ export class MevarchimChodeshEvent extends Event {
   }
   /**
    * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   renderBrief(locale?: string): string {
     const str = this.render(locale);

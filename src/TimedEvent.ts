@@ -14,7 +14,7 @@ export class TimedEvent extends Event {
   readonly fmtTime: string;
   readonly linkedEvent?: Event;
   /**
-   * @param {string} desc Description (not translated)
+   * @param desc Description (not translated)
    */
   constructor(date: HDate,
     desc: string,
@@ -35,21 +35,19 @@ export class TimedEvent extends Event {
     }
   }
   /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     return Locale.gettext(this.getDesc(), locale) + ': ' + this.fmtTime;
   }
   /**
    * Returns translation of "Candle lighting" without the time.
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   renderBrief(locale?: string): string {
     return Locale.gettext(this.getDesc(), locale);
   }
-  /** @return {string[]} */
+  /** @returns */
   getCategories(): string[] {
     const desc = this.getDesc();
     switch (desc) {
@@ -79,7 +77,7 @@ export class CandleLightingEvent extends TimedEvent {
     options?: CalOptions) {
     super(date, 'Candle lighting', mask, eventTime, location, linkedEvent, options);
   }
-  /** @return {string} */
+  /** @returns */
   getEmoji(): string {
     return '🕯️';
   }
@@ -102,16 +100,14 @@ export class HavdalahEvent extends TimedEvent {
     }
   }
   /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     return this.renderBrief(locale) + ': ' + this.fmtTime;
   }
   /**
    * Returns translation of "Havdalah" without the time.
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   renderBrief(locale?: string): string {
     let str = Locale.gettext(this.getDesc(), locale);
@@ -121,7 +117,7 @@ export class HavdalahEvent extends TimedEvent {
     }
     return str;
   }
-  /** @return {string} */
+  /** @returns */
   getEmoji(): string {
     return '✨';
   }

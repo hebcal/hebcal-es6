@@ -31,7 +31,7 @@ export class HolidayEvent extends Event {
   startEvent?: TimedEvent;
   /** For a Fast day, this will be a "Fast ends" event */
   endEvent?: TimedEvent;
-  /** @return {string} */
+  /** @returns */
   basename(): string {
     return this.getDesc().replace(/ \d{4}$/, '')
         .replace(/ \(CH''M\)$/, '')
@@ -42,7 +42,7 @@ export class HolidayEvent extends Event {
         .replace(/: 8th Day$/, '')
         .replace(/^Erev /, '');
   }
-  /** @return {string | undefined} */
+  /** @returns */
   url(): string | undefined {
     const year = this.getDate().greg().getFullYear();
     if (year < 100) {
@@ -53,12 +53,12 @@ export class HolidayEvent extends Event {
       this.urlDateSuffix();
     return (this.getFlags() & flags.IL_ONLY) ? url + '?i=on' : url;
   }
-  /** @return {string} */
+  /** @returns */
   urlDateSuffix(): string {
     const year = this.getDate().greg().getFullYear();
     return String(year);
   }
-  /** @return {string} */
+  /** @returns */
   getEmoji(): string {
     if (this.emoji) {
       return this.emoji;
@@ -68,7 +68,7 @@ export class HolidayEvent extends Event {
       return '✡️';
     }
   }
-  /** @return {string[]} */
+  /** @returns */
   getCategories(): string[] {
     if (this.cholHaMoedDay) {
       return ['holiday', 'major', 'cholhamoed'];
@@ -88,8 +88,7 @@ export class HolidayEvent extends Event {
   }
   /**
    * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     const str = super.render(locale);
@@ -99,8 +98,7 @@ export class HolidayEvent extends Event {
    * Returns a brief (translated) description of this event.
    * For most events, this is the same as render(). For some events, it procudes
    * a shorter text (e.g. without a time or added description).
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   renderBrief(locale?: string): string {
     const str = super.renderBrief(locale);
@@ -108,7 +106,6 @@ export class HolidayEvent extends Event {
   }
   /**
    * Makes a clone of this Event object
-   * @return {Event}
    */
   clone(): HolidayEvent {
     const ev = new HolidayEvent(this.date, this.desc, this.mask);
@@ -126,7 +123,7 @@ export class HolidayEvent extends Event {
  * we subclass HolidayEvent to override the `url()` method.
  */
 export class AsaraBTevetEvent extends HolidayEvent {
-  /** @return {string} */
+  /** @returns */
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');
@@ -138,9 +135,9 @@ export class RoshHashanaEvent extends HolidayEvent {
   private readonly hyear: number;
   /**
    * @private
-   * @param {HDate} date Hebrew date event occurs
-   * @param {number} hyear Hebrew year
-   * @param {number} mask optional holiday flags
+   * @param date Hebrew date event occurs
+   * @param hyear Hebrew year
+   * @param mask optional holiday flags
    */
   constructor(date: HDate, hyear: number, mask: number) {
     super(date, `Rosh Hashana ${hyear}`, mask);
@@ -148,13 +145,12 @@ export class RoshHashanaEvent extends HolidayEvent {
   }
   /**
    * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
   }
-  /** @return {string} */
+  /** @returns */
   getEmoji(): string {
     return '🍏🍯';
   }
@@ -166,16 +162,15 @@ const roshChodeshStr = 'Rosh Chodesh';
 export class RoshChodeshEvent extends HolidayEvent {
   /**
    * Constructs Rosh Chodesh event
-   * @param {HDate} date Hebrew date event occurs
-   * @param {string} monthName Hebrew month name (not translated)
+   * @param date Hebrew date event occurs
+   * @param monthName Hebrew month name (not translated)
    */
   constructor(date: HDate, monthName: string) {
     super(date, `${roshChodeshStr} ${monthName}`, flags.ROSH_CHODESH);
   }
   /**
    * Returns (translated) description of this event
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     const monthName = this.getDesc().substring(roshChodeshStr.length + 1);
@@ -183,11 +178,11 @@ export class RoshChodeshEvent extends HolidayEvent {
     const monthName1 = monthName0.replace(/'/g, '’');
     return Locale.gettext(roshChodeshStr, locale) + ' ' + monthName1;
   }
-  /** @return {string} */
+  /** @returns */
   basename(): string {
     return this.getDesc();
   }
-  /** @return {string} */
+  /** @returns */
   getEmoji(): string {
     return this.emoji || '🌒';
   }

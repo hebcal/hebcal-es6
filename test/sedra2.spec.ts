@@ -9,8 +9,7 @@ jest.mock('quick-lru', () => {
 
 /**
  * @private
- * @param {HDate} hd
- * @return {string}
+ * @param hd
  */
 function dt(hd: HDate): string {
   return isoDateString(hd.greg());

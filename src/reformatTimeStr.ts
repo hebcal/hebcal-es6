@@ -6,10 +6,9 @@ const hour12cc: {[key: string]: number} = {
 
 /**
  * @private
- * @param {string} timeStr - original time like "20:30"
- * @param {string} suffix - "p" or "pm" or " P.M.". Add leading space if you want it
- * @param {CalOptions} options
- * @return {string}
+ * @param timeStr - original time like "20:30"
+ * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
+ * @param options
  */
 export function reformatTimeStr(timeStr: string, suffix: string, options?: CalOptions): string {
   if (typeof timeStr !== 'string') throw new TypeError(`Bad timeStr: ${timeStr}`);

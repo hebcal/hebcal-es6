@@ -10,8 +10,7 @@ jest.mock('quick-lru', () => {
 
 /**
  * @private
- * @param {HDate} hd
- * @return {string}
+ * @param hd
  */
 function dt(hd: HDate | null): string {
   const hd1 = hd as HDate;

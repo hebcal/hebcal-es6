@@ -5,13 +5,13 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
 /** Daily Hebrew date ("11th of Sivan, 5780") */
 export class HebrewDateEvent extends Event {
   /**
-   * @param {HDate} date
+   * @param date
    */
   constructor(date: HDate) {
     super(date, date.toString(), flags.HEBREW_DATE);
   }
   /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to active locale).
    * @example
    * import {HDate, HebrewDateEvent, months} from '@hebcal/core';
    *
@@ -19,7 +19,6 @@ export class HebrewDateEvent extends Event {
    * const ev = new HebrewDateEvent(hd);
    * console.log(ev.render('en')); // '15th of Cheshvan, 5769'
    * console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'
-   * @return {string}
    */
   render(locale?: string): string {
     const locale1 = locale?.toLowerCase();
@@ -37,8 +36,7 @@ export class HebrewDateEvent extends Event {
   }
   /**
    * @private
-   * @param {string} locale
-   * @return {string}
+   * @param locale
    */
   private renderBriefHebrew(locale: string): string {
     const hd = this.getDate();
@@ -47,7 +45,7 @@ export class HebrewDateEvent extends Event {
     return gematriya(dd) + ' ' + mm;
   }
   /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to active locale).
    * @example
    * import {HDate, HebrewDateEvent, months} from '@hebcal/core';
    *
@@ -55,7 +53,6 @@ export class HebrewDateEvent extends Event {
    * const ev = new HebrewDateEvent(hd);
    * console.log(ev.renderBrief()); // '15th of Cheshvan'
    * console.log(ev.renderBrief('he')); // 'ט״ו חֶשְׁוָן'
-   * @return {string}
    */
   renderBrief(locale?: string): string {
     const locale1 = locale?.toLowerCase();

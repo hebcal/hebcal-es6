@@ -83,8 +83,8 @@ export class Sedra {
   private readonly theSedraArray: NumberOrString[];
   /**
    * Caculates the Parashah HaShavua for an entire Hebrew year
-   * @param {number} hyear - Hebrew year (e.g. 5749)
-   * @param {boolean} il - Use Israel sedra schedule (false for Diaspora)
+   * @param hyear - Hebrew year (e.g. 5749)
+   * @param il - Use Israel sedra schedule (false for Diaspora)
    */
   constructor(hyear: number, il: boolean) {
     hyear = +hyear;
@@ -115,8 +115,7 @@ export class Sedra {
 
   /**
    * Returns the parsha (or parshiyot) read on Hebrew date
-   * @param {HDate|number} hd Hebrew date or R.D. days
-   * @return {string[]}
+   * @param hd Hebrew date or R.D. days
    */
   get(hd: HDate | number): string[] {
     return this.lookup(hd).parsha;
@@ -124,9 +123,8 @@ export class Sedra {
 
   /**
    * Looks up parsha for the date, then returns a translated or transliterated string
-   * @param {HDate|number} hd Hebrew date or R.D. days
-   * @param {string} [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
-   * @return {string}
+   * @param hd Hebrew date or R.D. days
+   * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
    */
   getString(hd: HDate | number, locale?: string): string {
     const parsha = this.get(hd);
@@ -143,8 +141,7 @@ export class Sedra {
   /**
    * Checks to see if this day would be a regular parasha HaShavua
    * Torah reading or special holiday reading
-   * @param {HDate|number} hd Hebrew date or R.D. days
-   * @return {boolean}
+   * @param hd Hebrew date or R.D. days
    */
   isParsha(hd: HDate | number): boolean {
     return !this.lookup(hd).chag;
@@ -153,8 +150,6 @@ export class Sedra {
   /**
    * Returns the date that a parsha occurs
    * or `null` if the parsha doesn't occur this year
-   * @param {number|string|string[]} parsha
-   * @return {HDate|null}
    */
   find(parsha: number | string | string[]): HDate | null {
     if (typeof parsha === 'number') {
@@ -202,7 +197,6 @@ export class Sedra {
   /**
    * Returns the underlying annual sedra schedule.
    * Used by `@hebcal/triennial`
-   * @return {NumberOrString[]}
    */
   getSedraArray(): NumberOrString[] {
     return this.theSedraArray;
@@ -210,21 +204,19 @@ export class Sedra {
 
   /**
    * R.D. date of the first Saturday on or after Rosh Hashana
-   * @return {number}
    */
   getFirstSaturday(): number {
     return this.firstSaturday;
   }
 
-  /** @return {number} */
+  /** @returns */
   getYear(): number {
     return this.year;
   }
 
   /**
    * Returns an object describing the parsha on the first Saturday on or after `hd`
-   * @param {HDate|number} hd Hebrew date or R.D. days
-   * @return {SedraResult}
+   * @param hd Hebrew date or R.D. days
    */
   lookup(hd: HDate | number): SedraResult {
     const abs = (typeof hd === 'number') ? hd :
@@ -331,8 +323,7 @@ for (let id = 0; id < parshiot.length; id++) {
 
 /**
  * @private
- * @param {number} id
- * @return {boolean}
+ * @param id
  */
 function isValidDouble(id: number): boolean {
   switch (id) {
@@ -351,8 +342,7 @@ function isValidDouble(id: number): boolean {
 /**
  * parsha doubler/undoubler
  * @private
- * @param {number} p
- * @return {number}
+ * @param p
  */
 function D(p: number): number {
   return -p;
@@ -375,9 +365,8 @@ const SHAVUOT = 'Shavuot'; // 33
 /**
  * Returns an array from start to end
  * @private
- * @param {number} start beginning number, inclusive
- * @param {number} stop ending number, inclusive
- * @return {number[]}
+ * @param start beginning number, inclusive
+ * @param stop ending number, inclusive
  */
 function range(start: number, stop: number): number[] {
   return Array.from({length: stop - start + 1}, (v, k) => k + start);
@@ -535,9 +524,8 @@ const sedraCache = new QuickLRU<string, Sedra>({maxSize: 400});
  * Convenience function to create an instance of `Sedra` or reuse a previously
  * created and cached instance.
  * @private
- * @param {number} hyear
- * @param {boolean} il
- * @return {Sedra}
+ * @param hyear
+ * @param il
  */
 export function getSedra_(hyear: number, il: boolean): Sedra {
   const cacheKey = `${hyear}-${il ? 1 : 0}`;

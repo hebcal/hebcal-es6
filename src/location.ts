@@ -134,14 +134,14 @@ export class Location extends GeoLocation {
   private readonly geoid?: string | number;
   /**
    * Initialize a Location instance
-   * @param {number} latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
-   * @param {number} longitude - Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
-   * @param {boolean} il - in Israel (true) or Diaspora (false)
-   * @param {string} tzid - Olson timezone ID, e.g. "America/Chicago"
-   * @param {string} [cityName] - optional descriptive city name
-   * @param {string} [countryCode] - ISO 3166 alpha-2 country code (e.g. "FR")
-   * @param {string|number} [geoid] - optional string or numeric geographic ID
-   * @param {number} [elevation] - in meters (default `0`)
+   * @param latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
+   * @param longitude - Longitude as a decimal, valid range -180 thru +180 (e.g. -87.65005)
+   * @param il - in Israel (true) or Diaspora (false)
+   * @param tzid - Olson timezone ID, e.g. "America/Chicago"
+   * @param [cityName] - optional descriptive city name
+   * @param [countryCode] - ISO 3166 alpha-2 country code (e.g. "FR")
+   * @param [geoid] - optional string or numeric geographic ID
+   * @param [elevation] - in meters (default `0`)
    */
   constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: string | number, elevation?: number) {
     const lat = typeof latitude === 'number' ? latitude : parseFloat(latitude);
@@ -159,19 +159,18 @@ export class Location extends GeoLocation {
     this.geoid = geoid;
   }
 
-  /** @return {boolean} */
+  /** @returns */
   getIsrael(): boolean {
     return this.il;
   }
 
-  /** @return {string | null} */
+  /** @returns */
   getName(): string | null {
     return this.getLocationName();
   }
 
   /**
    * Returns the location name, up to the first comma
-   * @return {string | null}
    */
   getShortName(): string | null {
     const name = this.getLocationName();
@@ -188,25 +187,24 @@ export class Location extends GeoLocation {
     return name.substring(0, comma);
   }
 
-  /** @return {string | undefined} */
+  /** @returns */
   getCountryCode(): string | undefined{
     return this.cc;
   }
 
-  /** @return {string} */
+  /** @returns */
   getTzid(): string {
     return this.getTimeZone();
   }
 
   /**
    * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
-   * @return {Intl.DateTimeFormat}
    */
   getTimeFormatter(): Intl.DateTimeFormat {
     return getFormatter(this.getTimeZone());
   }
 
-  /** @return {string | number | undefined} */
+  /** @returns */
   getGeoId(): string | number | undefined {
     return this.geoid;
   }
@@ -227,23 +225,21 @@ export class Location extends GeoLocation {
    * 'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
    * 'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
    * 'Washington DC', 'Worcester'
-   * @param {string} name
-   * @return {Location|undefined}
+   * @param name
    */
   static lookup(name: string): Location | undefined {
     return classicCities.get(name.toLowerCase());
   }
 
-  /** @return {string} */
+  /** @returns */
   toString(): string {
     return JSON.stringify(this);
   }
 
   /**
    * Converts legacy Hebcal timezone to a standard Olson tzid.
-   * @param {number} tz integer, GMT offset in hours
-   * @param {string} dst 'none', 'eu', 'usa', or 'israel'
-   * @return {string | undefined}
+   * @param tz integer, GMT offset in hours
+   * @param dst 'none', 'eu', 'usa', or 'israel'
    */
   static legacyTzToTzid(tz: number, dst: string): string | undefined {
     tz = +tz;
@@ -275,10 +271,9 @@ export class Location extends GeoLocation {
    * Converts timezone info from Zip-Codes.com to a standard Olson tzid.
    * @example
    * Location.getUsaTzid('AZ', 7, 'Y') // 'America/Denver'
-   * @param {string} state two-letter all-caps US state abbreviation like 'CA'
-   * @param {number} tz positive number, 5=America/New_York, 8=America/Los_Angeles
-   * @param {string} dst single char 'Y' or 'N'
-   * @return {string}
+   * @param state two-letter all-caps US state abbreviation like 'CA'
+   * @param tz positive number, 5=America/New_York, 8=America/Los_Angeles
+   * @param dst single char 'Y' or 'N'
    */
   static getUsaTzid(state: string, tz: number, dst: string): string {
     if (tz == 10 && state == 'AK') {
@@ -294,9 +289,6 @@ export class Location extends GeoLocation {
    * Adds a location name for `Location.lookup()` only if the name isn't
    * already being used. Returns `false` if the name is already taken
    * and `true` if successfully added.
-   * @param {string} cityName
-   * @param {Location} location
-   * @return {boolean}
    */
   static addLocation(cityName: string, location: Location): boolean {
     const name = cityName.toLowerCase();

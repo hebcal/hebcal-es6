@@ -502,8 +502,6 @@ test('havdalahDeg-havdalahMin-throw', () => {
 
 /**
  * @private
- * @param {Event} ev
- * @return {any}
  */
 function eventISODateDesc(ev: Event): any {
   const date = isoDateString(ev.getDate().greg());
@@ -574,7 +572,8 @@ test('omer-alarm-alaska', () => {
     noHolidays: true,
   }).filter((ev) => ev.getFlags() & flags.OMER_COUNT);
   const alarms = events.map((ev) => {
-    return {dt: gregDtString(ev), alarm: ev.alarm?.toISOString()};
+    const alarm = ev.alarm && ev.alarm instanceof Date && ev.alarm.toISOString();
+    return {dt: gregDtString(ev), alarm: alarm};
   });
   const expected = [
     {dt: '5/13/2022', alarm: '2022-05-13T08:41:45.000Z'},

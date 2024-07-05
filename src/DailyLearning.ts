@@ -12,8 +12,6 @@ const cals = new Map<string, Function>();
 export class DailyLearning {
   /**
    * Register a new learning calendar.
-   * @param {string} name
-   * @param {Function} calendar
    */
   static addCalendar(name: string, calendar: Function) {
     if (typeof calendar !== 'function') {
@@ -25,10 +23,9 @@ export class DailyLearning {
   /**
    * Returns an event from daily calendar for a given date. Returns `null` if there
    * is no learning from this calendar on this date.
-   * @param {string} name
-   * @param {HDate} hd
-   * @param {boolean} il
-   * @return {Event | null}
+   * @param name
+   * @param hd
+   * @param il
    */
   static lookup(name: string, hd: HDate, il: boolean): Event | null {
     const fn = cals.get(name);

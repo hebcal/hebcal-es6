@@ -25,58 +25,54 @@ export class Molad {
   private readonly m: MoladBase;
   /**
    * Calculates the molad for a Hebrew month
-   * @param {number} year
-   * @param {number} month
+   * @param year
+   * @param month
    */
   constructor(year: number, month: number) {
     this.m = molad(year, month);
   }
   /**
-   * @return {number}
    */
   getYear(): number {
     return this.m.year;
   }
   /**
-   * @return {number}
    */
   getMonth(): number {
     return this.m.month;
   }
   /**
-   * @return {string}
    */
   getMonthName(): string {
     return HDate.getMonthName(this.m.month, this.m.year);
   }
   /**
-   * @return {number} Day of Week (0=Sunday, 6=Saturday)
+   * @returns Day of Week (0=Sunday, 6=Saturday)
    */
   getDow(): number {
     return this.m.dayOfWeek;
   }
   /**
-   * @return {number} hour of day (0-23)
+   * @returns hour of day (0-23)
    */
   getHour(): number {
     return this.m.hour;
   }
   /**
-   * @return {number} minutes past hour (0-59)
+   * @returns minutes past hour (0-59)
    */
   getMinutes(): number {
     return this.m.minutes;
   }
   /**
-   * @return {number} parts of a minute (0-17)
+   * @returns parts of a minute (0-17)
    */
   getChalakim(): number {
     return this.m.chalakim;
   }
   /**
-   * @param {string} [locale] Optional locale name (defaults to active locale)
-   * @param {CalOptions} options
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale)
+   * @param options
    */
   render(locale?: string, options?: CalOptions): string {
     locale = locale ?? Locale.getLocaleName();
@@ -115,10 +111,10 @@ export class MoladEvent extends Event {
   readonly molad: Molad;
   private readonly options: CalOptions;
   /**
-   * @param {HDate} date Hebrew date event occurs
-   * @param {number} hyear molad year
-   * @param {number} hmonth molad month
-   * @param {CalOptions} options
+   * @param date Hebrew date event occurs
+   * @param hyear molad year
+   * @param hmonth molad month
+   * @param options
    */
   constructor(date: HDate, hyear: number, hmonth: number, options: CalOptions) {
     const m = new Molad(hyear, hmonth);
@@ -128,8 +124,7 @@ export class MoladEvent extends Event {
     this.options = options;
   }
   /**
-   * @param {string} [locale] Optional locale name (defaults to active locale).
-   * @return {string}
+   * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
     return this.molad.render(locale, this.options);

@@ -1,4 +1,5 @@
 {
+  // "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
@@ -105,5 +106,7 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  }
+  },
+  "exclude": ["node_modules", "dist", "test", "docs",
+    "version.cjs", "rollup.config.cjs", "jest.config.js", "po2json.cjs"]
 }
