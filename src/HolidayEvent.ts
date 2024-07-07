@@ -31,7 +31,7 @@ export class HolidayEvent extends Event {
   startEvent?: TimedEvent;
   /** For a Fast day, this will be a "Fast ends" event */
   endEvent?: TimedEvent;
-  /** @returns */
+
   basename(): string {
     return this.getDesc().replace(/ \d{4}$/, '')
         .replace(/ \(CH''M\)$/, '')
@@ -42,7 +42,7 @@ export class HolidayEvent extends Event {
         .replace(/: 8th Day$/, '')
         .replace(/^Erev /, '');
   }
-  /** @returns */
+
   url(): string | undefined {
     const year = this.getDate().greg().getFullYear();
     if (year < 100) {
@@ -53,12 +53,12 @@ export class HolidayEvent extends Event {
       this.urlDateSuffix();
     return (this.getFlags() & flags.IL_ONLY) ? url + '?i=on' : url;
   }
-  /** @returns */
+
   urlDateSuffix(): string {
     const year = this.getDate().greg().getFullYear();
     return String(year);
   }
-  /** @returns */
+
   getEmoji(): string {
     if (this.emoji) {
       return this.emoji;
@@ -68,7 +68,7 @@ export class HolidayEvent extends Event {
       return '✡️';
     }
   }
-  /** @returns */
+
   getCategories(): string[] {
     if (this.cholHaMoedDay) {
       return ['holiday', 'major', 'cholhamoed'];
@@ -123,7 +123,7 @@ export class HolidayEvent extends Event {
  * we subclass HolidayEvent to override the `url()` method.
  */
 export class AsaraBTevetEvent extends HolidayEvent {
-  /** @returns */
+
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');
@@ -150,7 +150,7 @@ export class RoshHashanaEvent extends HolidayEvent {
   render(locale?: string): string {
     return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
   }
-  /** @returns */
+
   getEmoji(): string {
     return '🍏🍯';
   }
@@ -178,11 +178,11 @@ export class RoshChodeshEvent extends HolidayEvent {
     const monthName1 = monthName0.replace(/'/g, '’');
     return Locale.gettext(roshChodeshStr, locale) + ' ' + monthName1;
   }
-  /** @returns */
+
   basename(): string {
     return this.getDesc();
   }
-  /** @returns */
+
   getEmoji(): string {
     return this.emoji || '🌒';
   }

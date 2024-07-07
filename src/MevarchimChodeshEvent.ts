@@ -27,7 +27,7 @@ export class MevarchimChodeshEvent extends Event {
       this.memo = molad.render('en', {hour12: false});
     }
   }
-  /** @returns */
+
   basename(): string {
     return this.getDesc();
   }

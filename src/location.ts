@@ -159,12 +159,12 @@ export class Location extends GeoLocation {
     this.geoid = geoid;
   }
 
-  /** @returns */
+
   getIsrael(): boolean {
     return this.il;
   }
 
-  /** @returns */
+
   getName(): string | null {
     return this.getLocationName();
   }
@@ -187,12 +187,12 @@ export class Location extends GeoLocation {
     return name.substring(0, comma);
   }
 
-  /** @returns */
+
   getCountryCode(): string | undefined{
     return this.cc;
   }
 
-  /** @returns */
+
   getTzid(): string {
     return this.getTimeZone();
   }
@@ -204,7 +204,7 @@ export class Location extends GeoLocation {
     return getFormatter(this.getTimeZone());
   }
 
-  /** @returns */
+
   getGeoId(): string | number | undefined {
     return this.geoid;
   }
@@ -231,7 +231,7 @@ export class Location extends GeoLocation {
     return classicCities.get(name.toLowerCase());
   }
 
-  /** @returns */
+
   toString(): string {
     return JSON.stringify(this);
   }

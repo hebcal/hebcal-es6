@@ -47,7 +47,7 @@ export class TimedEvent extends Event {
   renderBrief(locale?: string): string {
     return Locale.gettext(this.getDesc(), locale);
   }
-  /** @returns */
+
   getCategories(): string[] {
     const desc = this.getDesc();
     switch (desc) {
@@ -77,7 +77,7 @@ export class CandleLightingEvent extends TimedEvent {
     options?: CalOptions) {
     super(date, 'Candle lighting', mask, eventTime, location, linkedEvent, options);
   }
-  /** @returns */
+
   getEmoji(): string {
     return '🕯️';
   }
@@ -117,7 +117,7 @@ export class HavdalahEvent extends TimedEvent {
     }
     return str;
   }
-  /** @returns */
+
   getEmoji(): string {
     return '✨';
   }

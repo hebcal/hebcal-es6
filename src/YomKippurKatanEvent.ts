@@ -18,7 +18,7 @@ export class YomKippurKatanEvent extends HolidayEvent {
     this.nextMonthName = nextMonthName;
     this.memo = `Minor Day of Atonement on the day preceeding Rosh Chodesh ${nextMonthName}`;
   }
-  /** @returns */
+
   basename(): string {
     return this.getDesc();
   }
@@ -36,7 +36,7 @@ export class YomKippurKatanEvent extends HolidayEvent {
   renderBrief(locale?: string): string {
     return Locale.gettext(ykk, locale);
   }
-  /** @returns */
+
   url(): string | undefined {
     return undefined;
   }

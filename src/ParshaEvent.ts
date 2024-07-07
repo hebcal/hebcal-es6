@@ -38,11 +38,11 @@ export class ParshaEvent extends Event {
     const str = Locale.gettext('Parashat', locale) + ' ' + name;
     return str.normalize();
   }
-  /** @returns */
+
   basename(): string {
     return this.parsha.join('-');
   }
-  /** @returns */
+
   url(): string | undefined {
     const year = this.getDate().greg().getFullYear();
     if (year < 100) {
@@ -54,7 +54,7 @@ export class ParshaEvent extends Event {
     return this.il ? url + '?i=on' : url;
   }
 
-  /** @returns */
+
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');

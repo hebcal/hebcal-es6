@@ -16,8 +16,8 @@ Schachter (age 15). This ECMAScript 2015 implementation was released
 in 2020 by Michael J. Radwin. `@hebcal/core` targets both
 browser-based JavaScript and server-side Node.js.
 
-Many users of this library will utilize the [HebrewCalendar](https://github.com/hebcal/hebcal-es6/blob/main/docs/classes/HebrewCalendar.md)
-and [HDate](https://github.com/hebcal/hebcal-es6/blob/main/docs/classes/HDate.md) interfaces.
+Many users of this library will utilize the [HebrewCalendar](https://hebcal.github.io/api/core/classes/HebrewCalendar.html)
+and [HDate](https://hebcal.github.io/api/hdate/classes/HDate.html) interfaces.
 
 ## Installation
 ```bash

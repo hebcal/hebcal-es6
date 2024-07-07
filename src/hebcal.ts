@@ -773,7 +773,7 @@ export class HebrewCalendar {
     return reformatTimeStr(timeStr, suffix, options);
   }
 
-  /** @returns */
+
   static version(): string {
     return pkgVersion;
   }

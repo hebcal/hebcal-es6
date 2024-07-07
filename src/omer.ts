@@ -60,17 +60,17 @@ export class OmerEvent extends Event {
   renderBrief(locale?: string): string {
     return Locale.gettext('Omer', locale) + ' ' + Locale.gettext('day', locale) + ' '+ this.omer;
   }
-  /** @returns */
+
   getEmoji(): string {
     if (typeof this.emoji === 'string') return this.emoji;
     return omerEmoji(this.omer);
   }
-  /** @returns */
+
   getWeeks(): number {
     const day7 = this.daysWithinWeeks === 7;
     return day7 ? this.weekNumber : this.weekNumber - 1;
   }
-  /** @returns */
+
   getDaysWithinWeeks(): number {
     return this.daysWithinWeeks;
   }
@@ -89,7 +89,7 @@ export class OmerEvent extends Event {
     }
     return str;
   }
-  /** @returns */
+
   url(): string {
     return `https://www.hebcal.com/omer/${this.getDate().getFullYear()}/${this.omer}`;
   }

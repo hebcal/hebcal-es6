@@ -209,7 +209,7 @@ export class Sedra {
     return this.firstSaturday;
   }
 
-  /** @returns */
+
   getYear(): number {
     return this.year;
   }
