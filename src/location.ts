@@ -31,7 +31,14 @@ const classicCities0: [string, string, number, number, string, number][] = [
   ['Bogota', 'CO', 4.60971, -74.08175, 'America/Bogota', 2582],
   ['Boston', 'US', 42.35843, -71.05977, 'America/New_York', 38],
   ['Budapest', 'HU', 47.49801, 19.03991, 'Europe/Budapest', 104],
-  ['Buenos Aires', 'AR', -34.61315, -58.37723, 'America/Argentina/Buenos_Aires', 31],
+  [
+    'Buenos Aires',
+    'AR',
+    -34.61315,
+    -58.37723,
+    'America/Argentina/Buenos_Aires',
+    31,
+  ],
   ['Buffalo', 'US', 42.88645, -78.87837, 'America/New_York', 191],
   ['Chicago', 'US', 41.85003, -87.65005, 'America/Chicago', 180],
   ['Cincinnati', 'US', 39.162, -84.45689, 'America/New_York', 267],
@@ -87,7 +94,7 @@ const classicCities0: [string, string, number, number, string, number][] = [
   ['Washington DC', 'US', 38.89511, -77.03637, 'America/New_York', 6],
   ['Worcester', 'US', 42.26259, -71.80229, 'America/New_York', 164],
 ];
-const classicCities = new Map<string,Location>();
+const classicCities = new Map<string, Location>();
 
 // Zip-Codes.com TimeZone IDs
 const ZIPCODES_TZ_MAP: {[x: string]: string} = {
@@ -143,27 +150,35 @@ export class Location extends GeoLocation {
    * @param [geoid] - optional string or numeric geographic ID
    * @param [elevation] - in meters (default `0`)
    */
-  constructor(latitude: number, longitude: number, il: boolean, tzid: string, cityName?: string, countryCode?: string, geoid?: string | number, elevation?: number) {
+  constructor(
+    latitude: number,
+    longitude: number,
+    il: boolean,
+    tzid: string,
+    cityName?: string,
+    countryCode?: string,
+    geoid?: string | number,
+    elevation?: number
+  ) {
     const lat = typeof latitude === 'number' ? latitude : parseFloat(latitude);
     if (isNaN(lat) || lat < -90 || lat > 90) {
       throw new RangeError(`Latitude ${latitude} out of range [-90,90]`);
     }
-    const long = typeof longitude === 'number' ? longitude : parseFloat(longitude);
+    const long =
+      typeof longitude === 'number' ? longitude : parseFloat(longitude);
     if (isNaN(long) || long < -180 || long > 180) {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
-    const elev = (typeof elevation === 'number' && elevation > 0) ? elevation : 0;
+    const elev = typeof elevation === 'number' && elevation > 0 ? elevation : 0;
     super(cityName || null, lat, long, elev, tzid);
     this.il = Boolean(il);
     this.cc = countryCode;
     this.geoid = geoid;
   }
 
-
   getIsrael(): boolean {
     return this.il;
   }
-
 
   getName(): string | null {
     return this.getLocationName();
@@ -187,11 +202,9 @@ export class Location extends GeoLocation {
     return name.substring(0, comma);
   }
 
-
-  getCountryCode(): string | undefined{
+  getCountryCode(): string | undefined {
     return this.cc;
   }
-
 
   getTzid(): string {
     return this.getTimeZone();
@@ -203,7 +216,6 @@ export class Location extends GeoLocation {
   getTimeFormatter(): Intl.DateTimeFormat {
     return getFormatter(this.getTimeZone());
   }
-
 
   getGeoId(): string | number | undefined {
     return this.geoid;
@@ -231,7 +243,6 @@ export class Location extends GeoLocation {
     return classicCities.get(name.toLowerCase());
   }
 
-
   toString(): string {
     return JSON.stringify(this);
   }
@@ -243,25 +254,31 @@ export class Location extends GeoLocation {
    */
   static legacyTzToTzid(tz: number, dst: string): string | undefined {
     tz = +tz;
-    if (dst == 'none') {
-      if (tz == 0) {
+    if (dst === 'none') {
+      if (tz === 0) {
         return 'UTC';
       } else {
         const plus = tz > 0 ? '+' : '';
         return `Etc/GMT${plus}${tz}`;
       }
-    } else if (tz == 2 && dst == 'israel') {
+    } else if (tz === 2 && dst === 'israel') {
       return 'Asia/Jerusalem';
-    } else if (dst == 'eu') {
+    } else if (dst === 'eu') {
       switch (tz) {
-        case -2: return 'Atlantic/Cape_Verde';
-        case -1: return 'Atlantic/Azores';
-        case 0: return 'Europe/London';
-        case 1: return 'Europe/Paris';
-        case 2: return 'Europe/Athens';
-        default: break;
+        case -2:
+          return 'Atlantic/Cape_Verde';
+        case -1:
+          return 'Atlantic/Azores';
+        case 0:
+          return 'Europe/London';
+        case 1:
+          return 'Europe/Paris';
+        case 2:
+          return 'Europe/Athens';
+        default:
+          break;
       }
-    } else if (dst == 'usa') {
+    } else if (dst === 'usa') {
       return ZIPCODES_TZ_MAP[String(tz * -1)];
     }
     return undefined;
@@ -276,10 +293,10 @@ export class Location extends GeoLocation {
    * @param dst single char 'Y' or 'N'
    */
   static getUsaTzid(state: string, tz: number, dst: string): string {
-    if (tz == 10 && state == 'AK') {
+    if (tz === 10 && state === 'AK') {
       return 'America/Adak';
-    } else if (tz == 7 && state == 'AZ') {
-      return dst == 'Y' ? 'America/Denver' : 'America/Phoenix';
+    } else if (tz === 7 && state === 'AZ') {
+      return dst === 'Y' ? 'America/Denver' : 'America/Phoenix';
     } else {
       return ZIPCODES_TZ_MAP[tz];
     }
@@ -301,6 +318,15 @@ export class Location extends GeoLocation {
 }
 
 for (const city of classicCities0) {
-  const location = new Location(city[2], city[3], city[1] == 'IL', city[4], city[0], city[1], undefined, city[5]);
+  const location = new Location(
+    city[2],
+    city[3],
+    city[1] === 'IL',
+    city[4],
+    city[0],
+    city[1],
+    undefined,
+    city[5]
+  );
   Location.addLocation(city[0], location);
 }

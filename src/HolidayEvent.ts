@@ -33,14 +33,15 @@ export class HolidayEvent extends Event {
   endEvent?: TimedEvent;
 
   basename(): string {
-    return this.getDesc().replace(/ \d{4}$/, '')
-        .replace(/ \(CH''M\)$/, '')
-        .replace(/ \(observed\)$/, '')
-        .replace(/ \(Hoshana Raba\)$/, '')
-        .replace(/ [IV]+$/, '')
-        .replace(/: \d Candles?$/, '')
-        .replace(/: 8th Day$/, '')
-        .replace(/^Erev /, '');
+    return this.getDesc()
+      .replace(/ \d{4}$/, '')
+      .replace(/ \(CH''M\)$/, '')
+      .replace(/ \(observed\)$/, '')
+      .replace(/ \(Hoshana Raba\)$/, '')
+      .replace(/ [IV]+$/, '')
+      .replace(/: \d Candles?$/, '')
+      .replace(/: 8th Day$/, '')
+      .replace(/^Erev /, '');
   }
 
   url(): string | undefined {
@@ -48,10 +49,12 @@ export class HolidayEvent extends Event {
     if (year < 100) {
       return undefined;
     }
-    const url = 'https://www.hebcal.com/holidays/' +
-      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' +
+    const url =
+      'https://www.hebcal.com/holidays/' +
+      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') +
+      '-' +
       this.urlDateSuffix();
-    return (this.getFlags() & flags.IL_ONLY) ? url + '?i=on' : url;
+    return this.getFlags() & flags.IL_ONLY ? url + '?i=on' : url;
   }
 
   urlDateSuffix(): string {
@@ -110,6 +113,7 @@ export class HolidayEvent extends Event {
   clone(): HolidayEvent {
     const ev = new HolidayEvent(this.date, this.desc, this.mask);
     for (const property in this) {
+      // eslint-disable-next-line no-prototype-builtins
       if (this.hasOwnProperty(property)) {
         Object.defineProperty(ev, property, {value: this[property]});
       }
@@ -123,7 +127,6 @@ export class HolidayEvent extends Event {
  * we subclass HolidayEvent to override the `url()` method.
  */
 export class AsaraBTevetEvent extends HolidayEvent {
-
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');

@@ -5,7 +5,7 @@ import {
   gematriya,
   omerEmoji,
   omerSefira,
-  omerTodayIs
+  omerTodayIs,
 } from '@hebcal/hdate';
 import {Event, flags} from './event';
 import './locale'; // Adds Hebrew and Ashkenazic translations
@@ -27,13 +27,13 @@ export class OmerEvent extends Event {
       throw new RangeError(`Invalid Omer day ${omerDay}`);
     }
     this.weekNumber = Math.floor((omerDay - 1) / 7) + 1;
-    this.daysWithinWeeks = (omerDay % 7) || 7;
+    this.daysWithinWeeks = omerDay % 7 || 7;
     this.omer = omerDay;
   }
   /**
    * @param lang
    */
-  sefira(lang: string='en'): string {
+  sefira(lang = 'en'): string {
     if (lang !== 'he' && lang !== 'translit') {
       lang = 'en';
     }
@@ -48,7 +48,8 @@ export class OmerEvent extends Event {
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }
-    const isHebrewLocale = locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
+    const isHebrewLocale =
+      locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
     const omer = this.omer;
     const nth = isHebrewLocale ? gematriya(omer) : Locale.ordinal(omer, locale);
     return nth + ' ' + Locale.gettext('day of the Omer', locale);
@@ -58,7 +59,13 @@ export class OmerEvent extends Event {
    * @param [locale] Optional locale name (defaults to active locale).
    */
   renderBrief(locale?: string): string {
-    return Locale.gettext('Omer', locale) + ' ' + Locale.gettext('day', locale) + ' '+ this.omer;
+    return (
+      Locale.gettext('Omer', locale) +
+      ' ' +
+      Locale.gettext('day', locale) +
+      ' ' +
+      this.omer
+    );
   }
 
   getEmoji(): string {

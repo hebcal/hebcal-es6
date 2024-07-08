@@ -1,1 +1,6 @@
 build/
+test/
+docs/
+dist/
+src/*.json.ts
+src/*.po.ts

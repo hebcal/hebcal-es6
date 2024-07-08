@@ -2,7 +2,8 @@ import {HDate, Locale} from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 /**
- * Holiday flags for Event
+ * Holiday flags for Event. These flags are typically
+ * combined using bitwise arithmetic to form a mask.
  * @readonly
  * @enum {number}
  */
@@ -79,13 +80,32 @@ const flagToCategory = [
   [flags.USER_EVENT, 'user'],
 ];
 
-/** Represents an Event with a title, date, and flags */
+/**
+ * Represents an Event with a title, date, and flags.
+ *
+ * Events are used to represent holidays, candle-lighting times,
+ * Torah readings, and more.
+ *
+ * To get the title of the event a language other than English
+ * with Sephardic transliterations, use the `render()` method.
+ */
 export class Event {
+  /** Hebrew date of this event */
   readonly date: HDate;
+  /**
+   * Untranslated title of this event. Note that these description
+   * strings are always in English and will remain stable across releases.
+   * To get the title of the event in another language, use the
+   * `render()` method.
+   */
   readonly desc: string;
+  /** Bitmask of optional event flags. See {@link flags} */
   readonly mask: number;
+  /** Optional emoji character such as ✡️, 🕯️, 🕎, 🕍, 🌒 */
   emoji?: string;
+  /** Optional longer description or memo text */
   memo?: string;
+  /** Alarms are used by iCalendar feeds */
   alarm?: Date | string | boolean;
   /**
    * Constructs Event
@@ -94,7 +114,7 @@ export class Event {
    * @param [mask=0] optional bitmask of holiday flags (see {@link flags})
    * @param [attrs={}] optional additional attributes (e.g. `eventTimeStr`, `cholHaMoedDay`)
    */
-  constructor(date: HDate, desc: string, mask: number = 0, attrs?: object) {
+  constructor(date: HDate, desc: string, mask = 0, attrs?: object) {
     if (!HDate.isHDate(date)) {
       throw new TypeError(`Invalid Event date: ${date}`);
     } else if (typeof desc !== 'string') {
@@ -114,7 +134,10 @@ export class Event {
     return this.date;
   }
   /**
-   * Untranslated description of this event
+   * Untranslated title of this event. Note that these description
+   * strings are always in English and will remain stable across releases.
+   * To get the title of the event in another language, use the
+   * `render()` method.
    */
   getDesc(): string {
     return this.desc;
@@ -154,7 +177,7 @@ export class Event {
   }
   /**
    * Returns a simplified (untranslated) description for this event. For example,
-   * the {@link HolidayEvent} class supports
+   * the `HolidayEvent` class supports
    * "Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
    * For many holidays the basename and the event description are the same.
    */
@@ -210,6 +233,7 @@ export class Event {
   clone(): Event {
     const ev = new Event(this.date, this.desc, this.mask);
     for (const property in this) {
+      // eslint-disable-next-line no-prototype-builtins
       if (this.hasOwnProperty(property)) {
         Object.defineProperty(ev, property, {value: this[property]});
       }

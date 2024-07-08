@@ -34,7 +34,6 @@ import {HDate, Locale, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
-
 const INCOMPLETE = 0;
 const REGULAR = 1;
 const COMPLETE = 2;
@@ -71,7 +70,7 @@ export type SedraResult = {
    * *Matot-Masei* it would be `[42, 43]`
    */
   num?: number | number[];
-}
+};
 
 /**
  * Represents Parashah HaShavua for an entire Hebrew year
@@ -104,12 +103,14 @@ export class Sedra {
     if (types[key]) {
       this.theSedraArray = types[key];
     } else {
-      key = key + (+this.il); // cast to num, then concat
+      key = key + +this.il; // cast to num, then concat
       this.theSedraArray = types[key];
     }
 
     if (!this.theSedraArray) {
-      throw new Error(`improper sedra year type ${key} calculated for ${hyear}`);
+      throw new Error(
+        `improper sedra year type ${key} calculated for ${hyear}`
+      );
     }
   }
 
@@ -130,8 +131,8 @@ export class Sedra {
     const parsha = this.get(hd);
     const locale0 = locale || Locale.getLocaleName();
     let name = Locale.gettext(parsha[0], locale0);
-    if (parsha.length == 2) {
-      const hyphen = locale0 == 'he' ? '־' : '-';
+    if (parsha.length === 2) {
+      const hyphen = locale0 === 'he' ? '־' : '-';
       name += hyphen + Locale.gettext(parsha[1], locale0);
     }
     name = name.replace(/'/g, '’');
@@ -160,7 +161,7 @@ export class Sedra {
       if (idx === -1) {
         return null; // doesn't occur this year
       }
-      return new HDate(this.firstSaturday + (idx * 7));
+      return new HDate(this.firstSaturday + idx * 7);
     } else if (typeof parsha === 'string') {
       const num = parsha2id.get(parsha);
       if (typeof num === 'number') {
@@ -173,13 +174,20 @@ export class Sedra {
         if (idx === -1) {
           return null; // doesn't occur this year
         }
-        return new HDate(this.firstSaturday + (idx * 7));
+        return new HDate(this.firstSaturday + idx * 7);
       }
-    } else if (Array.isArray(parsha) && parsha.length === 1 &&
-               typeof parsha[0] === 'string') {
+    } else if (
+      Array.isArray(parsha) &&
+      parsha.length === 1 &&
+      typeof parsha[0] === 'string'
+    ) {
       return this.find(parsha[0]);
-    } else if (Array.isArray(parsha) && parsha.length === 2 &&
-               typeof parsha[0] === 'string' && typeof parsha[1] === 'string') {
+    } else if (
+      Array.isArray(parsha) &&
+      parsha.length === 2 &&
+      typeof parsha[0] === 'string' &&
+      typeof parsha[1] === 'string'
+    ) {
       const p1 = parsha[0];
       const p2 = parsha[1];
       const num1 = parsha2id.get(p1);
@@ -209,7 +217,6 @@ export class Sedra {
     return this.firstSaturday;
   }
 
-
   getYear(): number {
     return this.year;
   }
@@ -219,8 +226,8 @@ export class Sedra {
    * @param hd Hebrew date or R.D. days
    */
   lookup(hd: HDate | number): SedraResult {
-    const abs = (typeof hd === 'number') ? hd :
-      HDate.isHDate(hd) ? hd.abs() : NaN;
+    const abs =
+      typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
 
     if (isNaN(abs)) {
       throw new TypeError(`Bad date argument: ${hd}`);
@@ -247,7 +254,7 @@ export class Sedra {
     const p1 = D(index); // undouble the parsha
     return {
       parsha: [parshiot[p1], parshiot[p1 + 1]],
-      chag: false, 
+      chag: false,
       num: [p1 + 1, p1 + 2],
     };
   }
@@ -295,8 +302,8 @@ export const parshiot: string[] = [
   'Bechukotai',
   'Bamidbar',
   'Nasso',
-  'Beha\'alotcha',
-  'Sh\'lach',
+  "Beha'alotcha",
+  "Sh'lach",
   'Korach',
   'Chukat',
   'Balak',
@@ -306,13 +313,13 @@ export const parshiot: string[] = [
   'Devarim',
   'Vaetchanan',
   'Eikev',
-  'Re\'eh',
+  "Re'eh",
   'Shoftim',
   'Ki Teitzei',
   'Ki Tavo',
   'Nitzavim',
   'Vayeilech',
-  'Ha\'azinu',
+  "Ha'azinu",
 ];
 
 const parsha2id = new Map();
@@ -389,107 +396,224 @@ const r4350 = range(43, 50);
  * @private
  * @readonly
  */
-const types: { [s: string]: NumberOrString[] } = {
-
+const types: {[s: string]: NumberOrString[]} = {
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
-     * Kislev each have 29 days), and has Passover start on Tuesday. */
+   * Kislev each have 29 days), and has Passover start on Tuesday. */
   // e.g. 5753
-  '020': yearStartVayeilech.concat(r020, D(21), 23, 24, PESACH, 25,
-      D(26), D(28), 30, D(31), r3340, D(41), r4349, D(50),
+  '020': yearStartVayeilech.concat(
+    r020,
+    D(21),
+    23,
+    24,
+    PESACH,
+    25,
+    D(26),
+    D(28),
+    30,
+    D(31),
+    r3340,
+    D(41),
+    r4349,
+    D(50)
   ),
 
   /* Hebrew year that starts on Monday, is `complete' (Heshvan and
-     * Kislev each have 30 days), and has Passover start on Thursday. */
+   * Kislev each have 30 days), and has Passover start on Thursday. */
   // e.g. 5756
-  '0220': yearStartVayeilech.concat(r020, D(21), 23, 24, PESACH, 25, D(26), D(28),
-      30, D(31), 33, SHAVUOT, range(34, 37), D(38), 40, D(41), r4349, D(50),
+  '0220': yearStartVayeilech.concat(
+    r020,
+    D(21),
+    23,
+    24,
+    PESACH,
+    25,
+    D(26),
+    D(28),
+    30,
+    D(31),
+    33,
+    SHAVUOT,
+    range(34, 37),
+    D(38),
+    40,
+    D(41),
+    r4349,
+    D(50)
   ),
 
   /* Hebrew year that starts on Thursday, is `regular' (Heshvan has 29
-     * days and Kislev has 30 days), and has Passover start on Saturday. */
+   * days and Kislev has 30 days), and has Passover start on Saturday. */
   // e.g. 5701
-  '0510': yearStartHaazinu.concat(r020, D(21), 23, 24, PESACH1, PESACH8,
-      25, D(26), D(28), 30, D(31), r3340, D(41), r4350,
+  '0510': yearStartHaazinu.concat(
+    r020,
+    D(21),
+    23,
+    24,
+    PESACH1,
+    PESACH8,
+    25,
+    D(26),
+    D(28),
+    30,
+    D(31),
+    r3340,
+    D(41),
+    r4350
   ),
 
   /* Hebrew year that starts on Thursday, is `regular' (Heshvan has 29
-     * days and Kislev has 30 days), and has Passover start on Saturday. */
+   * days and Kislev has 30 days), and has Passover start on Saturday. */
   // e.g. 5745
-  '0511': yearStartHaazinu.concat(r020, D(21), 23, 24, PESACH,
-      25, D(26), D(28), range(30, 40), D(41), r4350,
+  '0511': yearStartHaazinu.concat(
+    r020,
+    D(21),
+    23,
+    24,
+    PESACH,
+    25,
+    D(26),
+    D(28),
+    range(30, 40),
+    D(41),
+    r4350
   ),
 
   /* Hebrew year that starts on Thursday, is `complete' (Heshvan and
-     * Kislev each have 30 days), and has Passover start on Sunday. */
+   * Kislev each have 30 days), and has Passover start on Sunday. */
   // e.g. 5754
-  '052': yearStartHaazinu.concat(range(0, 24), PESACH7, 25, D(26),
-      D(28), 30, D(31), r3340, D(41), r4350,
+  '052': yearStartHaazinu.concat(
+    range(0, 24),
+    PESACH7,
+    25,
+    D(26),
+    D(28),
+    30,
+    D(31),
+    r3340,
+    D(41),
+    r4350
   ),
 
   /* Hebrew year that starts on Saturday, is `incomplete' (Heshvan and Kislev
-     * each have 29 days), and has Passover start on Sunday. */
+   * each have 29 days), and has Passover start on Sunday. */
   // e.g. 5761
-  '070': yearStartRH.concat(r020, D(21), 23, 24, PESACH7,
-      25, D(26), D(28), 30, D(31), r3340, D(41), r4350,
+  '070': yearStartRH.concat(
+    r020,
+    D(21),
+    23,
+    24,
+    PESACH7,
+    25,
+    D(26),
+    D(28),
+    30,
+    D(31),
+    r3340,
+    D(41),
+    r4350
   ),
-
 
   /* Hebrew year that starts on Saturday, is `complete' (Heshvan and
-     * Kislev each have 30 days), and has Passover start on Tuesday. */
+   * Kislev each have 30 days), and has Passover start on Tuesday. */
   // e.g. 5716
-  '072': yearStartRH.concat(r020, D(21), 23, 24, CHMPESACH, 25,
-      D(26), D(28), 30, D(31), r3340, D(41), r4349, D(50),
+  '072': yearStartRH.concat(
+    r020,
+    D(21),
+    23,
+    24,
+    CHMPESACH,
+    25,
+    D(26),
+    D(28),
+    30,
+    D(31),
+    r3340,
+    D(41),
+    r4349,
+    D(50)
   ),
-
 
   /* --  The leap year types (keviot) -- */
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
-     * Kislev each have 29 days), and has Passover start on Thursday. */
+   * Kislev each have 29 days), and has Passover start on Thursday. */
   // e.g. 5746
-  '1200': yearStartVayeilech.concat(r027, CHMPESACH, range(28, 33),
-      SHAVUOT, range(34, 37), D(38), 40, D(41), r4349, D(50),
+  '1200': yearStartVayeilech.concat(
+    r027,
+    CHMPESACH,
+    range(28, 33),
+    SHAVUOT,
+    range(34, 37),
+    D(38),
+    40,
+    D(41),
+    r4349,
+    D(50)
   ),
 
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
-     * Kislev each have 29 days), and has Passover start on Thursday. */
+   * Kislev each have 29 days), and has Passover start on Thursday. */
   // e.g. 5746
-  '1201': yearStartVayeilech.concat(r027, CHMPESACH,
-      range(28, 40), D(41), r4349, D(50),
+  '1201': yearStartVayeilech.concat(
+    r027,
+    CHMPESACH,
+    range(28, 40),
+    D(41),
+    r4349,
+    D(50)
   ),
 
   /* Hebrew year that starts on Monday, is `complete' (Heshvan and
-     * Kislev each have 30 days), and has Passover start on Saturday. */
+   * Kislev each have 30 days), and has Passover start on Saturday. */
   // e.g.5752
-  '1220': yearStartVayeilech.concat(r027, PESACH1,
-      PESACH8, range(28, 40), D(41), r4350,
+  '1220': yearStartVayeilech.concat(
+    r027,
+    PESACH1,
+    PESACH8,
+    range(28, 40),
+    D(41),
+    r4350
   ),
 
   /* Hebrew year that starts on Monday, is `complete' (Heshvan and
-     * Kislev each have 30 days), and has Passover start on Saturday. */
+   * Kislev each have 30 days), and has Passover start on Saturday. */
   // e.g.5752
   '1221': yearStartVayeilech.concat(r027, PESACH, range(28, 50)),
 
   /* Hebrew year that starts on Thursday, is `incomplete' (Heshvan and
-     * Kislev both have 29 days), and has Passover start on Sunday. */
+   * Kislev both have 29 days), and has Passover start on Sunday. */
   // e.g. 5768
   '150': yearStartHaazinu.concat(range(0, 28), PESACH7, range(29, 50)),
 
   /* Hebrew year that starts on Thursday, is `complete' (Heshvan and
-     * Kislev both have 30 days), and has Passover start on Tuesday. */
+   * Kislev both have 30 days), and has Passover start on Tuesday. */
   // eg. 5771
   '152': yearStartHaazinu.concat(range(0, 28), CHMPESACH, range(29, 49), D(50)),
 
   /* Hebrew year that starts on Saturday, is `incomplete' (Heshvan and
-     * Kislev each have 29 days), and has Passover start on Tuesday. */
+   * Kislev each have 29 days), and has Passover start on Tuesday. */
   // e.g.5757
-  '170': yearStartRH.concat(r027, CHMPESACH,
-      range(28, 40), D(41), r4349, D(50),
+  '170': yearStartRH.concat(
+    r027,
+    CHMPESACH,
+    range(28, 40),
+    D(41),
+    r4349,
+    D(50)
   ),
 
   /* Hebrew year that starts on Saturday, is `complete' (Heshvan and
-     * Kislev each have 30 days), and has Passover start on Thursday. */
-  '1720': yearStartRH.concat(r027, CHMPESACH, range(28, 33),
-      SHAVUOT, range(34, 37), D(38), 40, D(41), r4349, D(50),
+   * Kislev each have 30 days), and has Passover start on Thursday. */
+  '1720': yearStartRH.concat(
+    r027,
+    CHMPESACH,
+    range(28, 33),
+    SHAVUOT,
+    range(34, 37),
+    D(38),
+    40,
+    D(41),
+    r4349,
+    D(50)
   ),
 };
 

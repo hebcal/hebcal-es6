@@ -13,7 +13,12 @@ export class ParshaEvent extends Event {
    * @param parsha - untranslated name of single or double parsha,
    *   such as ['Bereshit'] or ['Achrei Mot', 'Kedoshim']
    */
-  constructor(date: HDate, parsha: string[], il: boolean=false, num: number | number[]=-1) {
+  constructor(
+    date: HDate,
+    parsha: string[],
+    il = false,
+    num: number | number[] = -1
+  ) {
     if (!Array.isArray(parsha) || parsha.length === 0 || parsha.length > 2) {
       throw new TypeError('Bad parsha argument');
     }
@@ -30,8 +35,8 @@ export class ParshaEvent extends Event {
     const locale0 = locale ?? Locale.getLocaleName();
     const parsha = this.parsha;
     let name = Locale.gettext(parsha[0], locale);
-    if (parsha.length == 2) {
-      const hyphen = locale0 == 'he' ? '־' : '-';
+    if (parsha.length === 2) {
+      const hyphen = locale0 === 'he' ? '־' : '-';
       name += hyphen + Locale.gettext(parsha[1], locale);
     }
     name = name.replace(/'/g, '’');
@@ -49,11 +54,13 @@ export class ParshaEvent extends Event {
       return undefined;
     }
     const dt = this.urlDateSuffix();
-    const url = 'https://www.hebcal.com/sedrot/' +
-      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') + '-' + dt;
+    const url =
+      'https://www.hebcal.com/sedrot/' +
+      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') +
+      '-' +
+      dt;
     return this.il ? url + '?i=on' : url;
   }
-
 
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.getDate().greg());

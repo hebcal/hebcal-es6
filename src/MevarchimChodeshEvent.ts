@@ -22,7 +22,8 @@ export class MevarchimChodeshEvent extends Event {
     } else {
       const hyear = date.getFullYear();
       const hmonth = date.getMonth();
-      const monNext = (hmonth == HDate.monthsInYear(hyear) ? months.NISAN : hmonth + 1);
+      const monNext =
+        hmonth === HDate.monthsInYear(hyear) ? months.NISAN : hmonth + 1;
       const molad = new Molad(hyear, monNext);
       this.memo = molad.render('en', {hour12: false});
     }

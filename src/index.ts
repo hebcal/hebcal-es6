@@ -9,7 +9,7 @@ export {
   LocaleData,
 } from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
-export {CalOptions} from './CalOptions';
+export {CalOptions, DailyLearningValue} from './CalOptions';
 export {HebrewDateEvent} from './HebrewDateEvent';
 export {Event, flags} from './event';
 export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
@@ -27,6 +27,7 @@ export {
   RoshChodeshEvent,
   RoshHashanaEvent,
 } from './HolidayEvent';
+export {HolidayYearMap} from './holidays';
 export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 export {holidayDesc} from './staticHolidays';
 export {DailyLearning} from './DailyLearning';

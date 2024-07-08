@@ -23,11 +23,18 @@ import QuickLRU from 'quick-lru';
 import {flags} from './event';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
 import {getSedra_} from './sedra';
-import {staticHolidays, staticModernHolidays,
-  holidayDesc as hdesc} from './staticHolidays';
+import {
+  staticHolidays,
+  staticModernHolidays,
+  holidayDesc as hdesc,
+} from './staticHolidays';
 import {YomKippurKatanEvent} from './YomKippurKatanEvent';
-import {HolidayEvent, AsaraBTevetEvent, RoshHashanaEvent,
-  RoshChodeshEvent} from './HolidayEvent';
+import {
+  HolidayEvent,
+  AsaraBTevetEvent,
+  RoshHashanaEvent,
+  RoshChodeshEvent,
+} from './HolidayEvent';
 
 const CHAG = flags.CHAG;
 const IL_ONLY = flags.IL_ONLY;
@@ -39,7 +46,6 @@ const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
 const MAJOR_FAST = flags.MAJOR_FAST;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
-
 
 const SUN = 0;
 const TUE = 2;
@@ -58,12 +64,20 @@ const ADAR_II = months.ADAR_II;
 
 const emojiIsraelFlag = {emoji: '🇮🇱'};
 const chanukahEmoji = '🕎';
-export type HolidayYearMap = Map<string,HolidayEvent[]>;
+export type HolidayYearMap = Map<string, HolidayEvent[]>;
 const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 400});
 
 const KEYCAP_DIGITS = [
-  '0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣',
-  '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣',
+  '0️⃣',
+  '1️⃣',
+  '2️⃣',
+  '3️⃣',
+  '4️⃣',
+  '5️⃣',
+  '6️⃣',
+  '7️⃣',
+  '8️⃣',
+  '9️⃣',
 ];
 
 /**
@@ -86,7 +100,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
   const RH = new HDate(1, TISHREI, year);
   const pesach = new HDate(15, NISAN, year);
 
-  const map = new Map<string,HolidayEvent[]>();
+  const map = new Map<string, HolidayEvent[]>();
   function add(...events: HolidayEvent[]) {
     for (const ev of events) {
       const key = ev.date.toString();
@@ -116,65 +130,138 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
 
   // Variable date holidays
   const tzomGedaliahDay: number = RH.getDay() === THU ? 4 : 3;
-  add(new HolidayEvent(new HDate(tzomGedaliahDay, TISHREI, year),
-      hdesc.TZOM_GEDALIAH, MINOR_FAST));
+  add(
+    new HolidayEvent(
+      new HDate(tzomGedaliahDay, TISHREI, year),
+      hdesc.TZOM_GEDALIAH,
+      MINOR_FAST
+    )
+  );
   // first SAT after RH
-  add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())),
-      hdesc.SHABBAT_SHUVA, SPECIAL_SHABBAT));
-  const rchTevet = HDate.shortKislev(year) ?
-    new HDate(1, TEVET, year) : new HDate(30, KISLEV, year);
+  add(
+    new HolidayEvent(
+      new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())),
+      hdesc.SHABBAT_SHUVA,
+      SPECIAL_SHABBAT
+    )
+  );
+  const rchTevet = HDate.shortKislev(year)
+    ? new HDate(1, TEVET, year)
+    : new HDate(30, KISLEV, year);
   add(new HolidayEvent(rchTevet, hdesc.CHAG_HABANOT, MINOR_HOLIDAY));
   // yes, we know Kislev 30-32 are wrong
   // HDate() corrects the month automatically
   for (let candles = 2; candles <= 8; candles++) {
     const hd = new HDate(23 + candles, KISLEV, year);
-    add(new HolidayEvent(hd,
+    add(
+      new HolidayEvent(
+        hd,
         `Chanukah: ${candles} Candles`,
         MINOR_HOLIDAY | CHANUKAH_CANDLES,
-        {chanukahDay: candles - 1, emoji: chanukahEmoji + KEYCAP_DIGITS[candles]}));
+        {
+          chanukahDay: candles - 1,
+          emoji: chanukahEmoji + KEYCAP_DIGITS[candles],
+        }
+      )
+    );
   }
-  add(new HolidayEvent(new HDate(32, KISLEV, year),
-      hdesc.CHANUKAH_8TH_DAY, MINOR_HOLIDAY, {chanukahDay: 8, emoji: chanukahEmoji}));
   add(
-      new AsaraBTevetEvent(new HDate(10, TEVET, year), hdesc.ASARA_BTEVET, MINOR_FAST),
+    new HolidayEvent(
+      new HDate(32, KISLEV, year),
+      hdesc.CHANUKAH_8TH_DAY,
+      MINOR_HOLIDAY,
+      {chanukahDay: 8, emoji: chanukahEmoji}
+    )
+  );
+  add(
+    new AsaraBTevetEvent(
+      new HDate(10, TEVET, year),
+      hdesc.ASARA_BTEVET,
+      MINOR_FAST
+    )
   );
   const pesachAbs = pesach.abs();
   add(
-      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 43)),
-          hdesc.SHABBAT_SHEKALIM, SPECIAL_SHABBAT),
-      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 30)),
-          hdesc.SHABBAT_ZACHOR, SPECIAL_SHABBAT),
-      new HolidayEvent(new HDate(pesachAbs - (pesach.getDay() === TUE ? 33 : 31)),
-          hdesc.TAANIT_ESTHER, MINOR_FAST),
+    new HolidayEvent(
+      new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 43)),
+      hdesc.SHABBAT_SHEKALIM,
+      SPECIAL_SHABBAT
+    ),
+    new HolidayEvent(
+      new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 30)),
+      hdesc.SHABBAT_ZACHOR,
+      SPECIAL_SHABBAT
+    ),
+    new HolidayEvent(
+      new HDate(pesachAbs - (pesach.getDay() === TUE ? 33 : 31)),
+      hdesc.TAANIT_ESTHER,
+      MINOR_FAST
+    )
   );
   const haChodeshAbs = HDate.dayOnOrBefore(SAT, pesachAbs - 14);
   add(
-      new HolidayEvent(new HDate(haChodeshAbs - 7), hdesc.SHABBAT_PARAH, SPECIAL_SHABBAT),
-      new HolidayEvent(new HDate(haChodeshAbs), hdesc.SHABBAT_HACHODESH, SPECIAL_SHABBAT),
-      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 1)),
-          hdesc.SHABBAT_HAGADOL, SPECIAL_SHABBAT),
-      new HolidayEvent(
-        // if the fast falls on Shabbat, move to Thursday
-        pesach.prev().getDay() === SAT ?
-          pesach.onOrBefore(THU) :
-          new HDate(14, NISAN, year),
-        hdesc.TAANIT_BECHOROT,
-        MINOR_FAST,
-      ),
+    new HolidayEvent(
+      new HDate(haChodeshAbs - 7),
+      hdesc.SHABBAT_PARAH,
+      SPECIAL_SHABBAT
+    ),
+    new HolidayEvent(
+      new HDate(haChodeshAbs),
+      hdesc.SHABBAT_HACHODESH,
+      SPECIAL_SHABBAT
+    ),
+    new HolidayEvent(
+      new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 1)),
+      hdesc.SHABBAT_HAGADOL,
+      SPECIAL_SHABBAT
+    ),
+    new HolidayEvent(
+      // if the fast falls on Shabbat, move to Thursday
+      pesach.prev().getDay() === SAT
+        ? pesach.onOrBefore(THU)
+        : new HDate(14, NISAN, year),
+      hdesc.TAANIT_BECHOROT,
+      MINOR_FAST
+    )
   );
-  add(new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)),
-      hdesc.LEIL_SELICHOT, MINOR_HOLIDAY, {emoji: '🕍'}));
+  add(
+    new HolidayEvent(
+      new HDate(
+        HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)
+      ),
+      hdesc.LEIL_SELICHOT,
+      MINOR_HOLIDAY,
+      {emoji: '🕍'}
+    )
+  );
 
   if (pesach.getDay() === SUN) {
-    add(new HolidayEvent(new HDate(16, ADAR_II, year),
-        hdesc.PURIM_MESHULASH, MINOR_HOLIDAY));
+    add(
+      new HolidayEvent(
+        new HDate(16, ADAR_II, year),
+        hdesc.PURIM_MESHULASH,
+        MINOR_HOLIDAY
+      )
+    );
   }
 
   if (HDate.isLeapYear(year)) {
-    add(new HolidayEvent(new HDate(14, ADAR_I, year),
-        hdesc.PURIM_KATAN, MINOR_HOLIDAY, {emoji: '🎭️'}));
-    add(new HolidayEvent(new HDate(15, ADAR_I, year),
-        hdesc.SHUSHAN_PURIM_KATAN, MINOR_HOLIDAY, {emoji: '🎭️'}));
+    add(
+      new HolidayEvent(
+        new HDate(14, ADAR_I, year),
+        hdesc.PURIM_KATAN,
+        MINOR_HOLIDAY,
+        {emoji: '🎭️'}
+      )
+    );
+    add(
+      new HolidayEvent(
+        new HDate(15, ADAR_I, year),
+        hdesc.SHUSHAN_PURIM_KATAN,
+        MINOR_HOLIDAY,
+        {emoji: '🎭️'}
+      )
+    );
   }
 
   const nisan27dt = dateYomHaShoah(year);
@@ -185,8 +272,18 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
   const yomHaZikaronDt = dateYomHaZikaron(year);
   if (yomHaZikaronDt) {
     add(
-        new HolidayEvent(yomHaZikaronDt, hdesc.YOM_HAZIKARON, MODERN_HOLIDAY, emojiIsraelFlag),
-        new HolidayEvent(yomHaZikaronDt.next(), hdesc.YOM_HAATZMA_UT, MODERN_HOLIDAY, emojiIsraelFlag),
+      new HolidayEvent(
+        yomHaZikaronDt,
+        hdesc.YOM_HAZIKARON,
+        MODERN_HOLIDAY,
+        emojiIsraelFlag
+      ),
+      new HolidayEvent(
+        yomHaZikaronDt.next(),
+        hdesc.YOM_HAATZMA_UT,
+        MODERN_HOLIDAY,
+        emojiIsraelFlag
+      )
     );
   }
 
@@ -201,7 +298,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       } else if (h.satPostponeToSun && dow === SAT) {
         hd = hd.next();
       }
-      const mask = h.chul ? MODERN_HOLIDAY : (MODERN_HOLIDAY | IL_ONLY);
+      const mask = h.chul ? MODERN_HOLIDAY : MODERN_HOLIDAY | IL_ONLY;
       const ev = new HolidayEvent(hd, h.desc, mask);
       if (!h.suppressEmoji) {
         ev.emoji = '🇮🇱';
@@ -228,20 +325,33 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
   }
   const av9abs = av9dt.abs();
   add(
-      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9abs)),
-          hdesc.SHABBAT_CHAZON, SPECIAL_SHABBAT),
-      new HolidayEvent(av9dt.prev(), hdesc.EREV_TISHA_BAV, EREV | MAJOR_FAST, av9attrs),
-      new HolidayEvent(av9dt, av9title, MAJOR_FAST, av9attrs),
-      new HolidayEvent(new HDate(HDate.dayOnOrBefore(SAT, av9abs + 7)),
-          hdesc.SHABBAT_NACHAMU, SPECIAL_SHABBAT),
+    new HolidayEvent(
+      new HDate(HDate.dayOnOrBefore(SAT, av9abs)),
+      hdesc.SHABBAT_CHAZON,
+      SPECIAL_SHABBAT
+    ),
+    new HolidayEvent(
+      av9dt.prev(),
+      hdesc.EREV_TISHA_BAV,
+      EREV | MAJOR_FAST,
+      av9attrs
+    ),
+    new HolidayEvent(av9dt, av9title, MAJOR_FAST, av9attrs),
+    new HolidayEvent(
+      new HDate(HDate.dayOnOrBefore(SAT, av9abs + 7)),
+      hdesc.SHABBAT_NACHAMU,
+      SPECIAL_SHABBAT
+    )
   );
 
   const monthsInYear = HDate.monthsInYear(year);
   for (let month = 1; month <= monthsInYear; month++) {
     const monthName = HDate.getMonthName(month, year);
-    if ((month === NISAN ?
-        HDate.daysInMonth(HDate.monthsInYear(year - 1), year - 1) :
-        HDate.daysInMonth(month - 1, year)) === 30) {
+    if (
+      (month === NISAN
+        ? HDate.daysInMonth(HDate.monthsInYear(year - 1), year - 1)
+        : HDate.daysInMonth(month - 1, year)) === 30
+    ) {
       add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
       add(new RoshChodeshEvent(new HDate(30, month - 1, year), monthName));
     } else if (month !== TISHREI) {
@@ -256,7 +366,11 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
     // Yom Kippur Katan is not observed on the day before Rosh Hashanah.
     // Not observed prior to Rosh Chodesh Cheshvan because Yom Kippur has just passed.
     // Not observed before Rosh Chodesh Tevet, because that day is Hanukkah.
-    if (nextMonth === TISHREI || nextMonth === months.CHESHVAN || nextMonth === TEVET) {
+    if (
+      nextMonth === TISHREI ||
+      nextMonth === months.CHESHVAN ||
+      nextMonth === TEVET
+    ) {
       continue;
     }
     let ykk = new HDate(29, month, year);
@@ -278,7 +392,9 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
   const birkatHaChama = getBirkatHaChama(year);
   if (birkatHaChama) {
     const hd = new HDate(birkatHaChama);
-    add(new HolidayEvent(hd, hdesc.BIRKAT_HACHAMAH, MINOR_HOLIDAY, {emoji: '☀️'}));
+    add(
+      new HolidayEvent(hd, hdesc.BIRKAT_HACHAMAH, MINOR_HOLIDAY, {emoji: '☀️'})
+    );
   }
 
   yearCache.set(year, map);

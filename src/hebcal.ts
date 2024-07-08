@@ -28,7 +28,7 @@ import {
   Locale,
 } from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
-import {CalOptions} from './CalOptions';
+import {CalOptions, DailyLearningValue} from './CalOptions';
 import {version as pkgVersion} from './pkgVersion';
 import {DailyLearning} from './DailyLearning';
 import {HebrewDateEvent} from './HebrewDateEvent';
@@ -773,7 +773,6 @@ export class HebrewCalendar {
     return reformatTimeStr(timeStr, suffix, options);
   }
 
-
   static version(): string {
     return pkgVersion;
   }
@@ -925,7 +924,7 @@ function makeMoladAndMevarchimChodesh(hd: HDate, options: CalOptions): Event[] {
   return evts;
 }
 
-function dailyLearningName(key: string, val: any): string {
+function dailyLearningName(key: string, val: DailyLearningValue): string {
   if (key === 'yerushalmi') {
     return val === 2 ? 'yerushalmi-schottenstein' : 'yerushalmi-vilna';
   }
@@ -934,7 +933,7 @@ function dailyLearningName(key: string, val: any): string {
 
 function makeDailyLearning(
   hd: HDate,
-  dailyLearning: {[x: string]: any},
+  dailyLearning: {[x: string]: DailyLearningValue},
   il: boolean
 ): Event[] {
   const evts: Event[] = [];

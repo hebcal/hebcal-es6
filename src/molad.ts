@@ -6,7 +6,15 @@ import {reformatTimeStr} from './reformatTimeStr';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const heDayNames = ['רִאשׁוֹן', 'שֵׁנִי', 'שְׁלִישִׁי', 'רְבִיעִי', 'חֲמִישִׁי', 'שִׁישִּׁי', 'שַׁבָּת'];
+const heDayNames = [
+  'רִאשׁוֹן',
+  'שֵׁנִי',
+  'שְׁלִישִׁי',
+  'רְבִיעִי',
+  'חֲמִישִׁי',
+  'שִׁישִּׁי',
+  'שַׁבָּת',
+];
 
 const night = 'בַּלַּ֥יְלָה';
 
@@ -14,7 +22,7 @@ function getHebrewTimeOfDay(hour: number): string {
   if (hour < 5) return night;
   else if (hour < 12) return 'בַּבֹּקֶר';
   else if (hour < 17) return 'בַּצׇּהֳרַיִים';
-  else if (hour < 21) return 'בָּעֶרֶב'
+  else if (hour < 21) return 'בָּעֶרֶב';
   return night;
 }
 
@@ -79,7 +87,8 @@ export class Molad {
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }
-    const isHebrewLocale = locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
+    const isHebrewLocale =
+      locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
     const monthName = Locale.gettext(this.getMonthName(), locale);
     const dayNames = isHebrewLocale ? heDayNames : shortDayNames;
     const dow = dayNames[this.getDow()];
@@ -91,7 +100,8 @@ export class Molad {
     const chalakimStr = Locale.gettext('chalakim', locale);
     if (isHebrewLocale) {
       const ampm = getHebrewTimeOfDay(hour);
-      const result = `${moladStr} ${monthName} יִהְיֶה בַּיּוֹם ${dow} בשָׁבוּעַ, ` +
+      const result =
+        `${moladStr} ${monthName} יִהְיֶה בַּיּוֹם ${dow} בשָׁבוּעַ, ` +
         `בְּשָׁעָה ${hour} ${ampm}, ` +
         `ו-${minutes} ${minutesStr} ` +
         `ו-${chalakim} ${chalakimStr}`;

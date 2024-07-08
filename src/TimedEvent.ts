@@ -1,9 +1,9 @@
-import { HDate, Locale } from '@hebcal/hdate';
-import { CalOptions } from './CalOptions';
-import { Location } from './location';
-import { Event } from './event';
-import { reformatTimeStr } from './reformatTimeStr';
-import { Zmanim } from './zmanim';
+import {HDate, Locale} from '@hebcal/hdate';
+import {CalOptions} from './CalOptions';
+import {Location} from './location';
+import {Event} from './event';
+import {reformatTimeStr} from './reformatTimeStr';
+import {Zmanim} from './zmanim';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 /** An event that has an `eventTime` and `eventTimeStr` */
@@ -16,13 +16,15 @@ export class TimedEvent extends Event {
   /**
    * @param desc Description (not translated)
    */
-  constructor(date: HDate,
+  constructor(
+    date: HDate,
     desc: string,
     mask: number,
     eventTime: Date,
     location: Location,
     linkedEvent?: Event,
-    options?: CalOptions) {
+    options?: CalOptions
+  ) {
     super(date, desc, mask);
     this.eventTime = Zmanim.roundTime(eventTime);
     this.location = location;
@@ -69,13 +71,23 @@ export class TimedEvent extends Event {
 
 /** Candle lighting before Shabbat or holiday */
 export class CandleLightingEvent extends TimedEvent {
-  constructor(date: HDate,
+  constructor(
+    date: HDate,
     mask: number,
     eventTime: Date,
     location: Location,
     linkedEvent?: Event,
-    options?: CalOptions) {
-    super(date, 'Candle lighting', mask, eventTime, location, linkedEvent, options);
+    options?: CalOptions
+  ) {
+    super(
+      date,
+      'Candle lighting',
+      mask,
+      eventTime,
+      location,
+      linkedEvent,
+      options
+    );
   }
 
   getEmoji(): string {
@@ -83,17 +95,18 @@ export class CandleLightingEvent extends TimedEvent {
   }
 }
 
-
 /** Havdalah after Shabbat or holiday */
 export class HavdalahEvent extends TimedEvent {
   private readonly havdalahMins?: number;
-  constructor(date: HDate,
+  constructor(
+    date: HDate,
     mask: number,
     eventTime: Date,
     location: Location,
     havdalahMins?: number,
     linkedEvent?: Event,
-    options?: CalOptions) {
+    options?: CalOptions
+  ) {
     super(date, 'Havdalah', mask, eventTime, location, linkedEvent, options);
     if (havdalahMins) {
       this.havdalahMins = havdalahMins;
