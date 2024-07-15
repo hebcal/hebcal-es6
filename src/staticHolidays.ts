@@ -232,7 +232,7 @@ export const holidayDesc = {
   YOM_KIPPUR,
   /** Yom Yerushalayim */
   YOM_YERUSHALAYIM,
-};
+} as const;
 
 export interface Holiday {
   mm: number; // This should be an enum `Month` eventually
@@ -593,7 +593,7 @@ export const staticHolidays: Holiday[] = [
     flags: EREV | LIGHT_CANDLES,
     emoji: '🍏🍯',
   },
-];
+] as const;
 
 export interface ModernHoliday {
   firstYear: number;
@@ -651,4 +651,4 @@ export const staticModernHolidays: ModernHoliday[] = [
     desc: HEBREW_LANGUAGE_DAY,
     friSatMovetoThu: true,
   },
-];
+] as const;

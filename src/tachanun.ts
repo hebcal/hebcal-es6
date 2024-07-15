@@ -25,7 +25,7 @@ const NONE: TachanunResult = {
   shacharit: false,
   mincha: false,
   allCongs: false,
-};
+} as const;
 
 export function tachanun_(hdate: HDate, il: boolean): TachanunResult {
   return tachanun0(hdate, il, true);

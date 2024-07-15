@@ -13,7 +13,7 @@ const hour12cc: {[key: string]: number} = {
   KR: 1,
   NP: 1,
   ZA: 1,
-};
+} as const;
 
 /**
  * @private

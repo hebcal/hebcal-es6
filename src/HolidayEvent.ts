@@ -4,18 +4,6 @@ import {TimedEvent} from './TimedEvent';
 import {holidayDesc as hdesc} from './staticHolidays';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
-const minorHolidays = [
-  hdesc.LAG_BAOMER,
-  hdesc.LEIL_SELICHOT,
-  hdesc.PESACH_SHENI,
-  hdesc.EREV_PURIM,
-  hdesc.PURIM_KATAN,
-  hdesc.SHUSHAN_PURIM,
-  hdesc.TU_BAV,
-  hdesc.TU_BISHVAT,
-  hdesc.ROSH_HASHANA_LABEHEMOT,
-];
-
 /** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
 export class HolidayEvent extends Event {
   /** During Sukkot or Pesach */
@@ -82,9 +70,17 @@ export class HolidayEvent extends Event {
     }
     // Don't depend on flags.MINOR_HOLIDAY always being set. Look for minor holidays.
     const desc = this.getDesc();
-
-    if (minorHolidays.includes(desc)) {
-      return ['holiday', 'minor'];
+    switch (desc) {
+      case hdesc.LAG_BAOMER:
+      case hdesc.LEIL_SELICHOT:
+      case hdesc.PESACH_SHENI:
+      case hdesc.EREV_PURIM:
+      case hdesc.PURIM_KATAN:
+      case hdesc.SHUSHAN_PURIM:
+      case hdesc.TU_BAV:
+      case hdesc.TU_BISHVAT:
+      case hdesc.ROSH_HASHANA_LABEHEMOT:
+        return ['holiday', 'minor'];
     }
 
     return ['holiday', 'major'];

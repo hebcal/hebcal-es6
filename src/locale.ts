@@ -16,5 +16,5 @@ for (const [key, val] of Object.entries(heStrs)) {
 const poHeNoNikud: LocaleData = {
   headers: poHe.headers,
   contexts: {'': heNoNikud},
-};
+} as const;
 Locale.addTranslations('he-x-NoNikud', poHeNoNikud);

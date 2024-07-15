@@ -62,7 +62,7 @@ const TEVET = months.TEVET;
 const ADAR_I = months.ADAR_I;
 const ADAR_II = months.ADAR_II;
 
-const emojiIsraelFlag = {emoji: '🇮🇱'};
+const emojiIsraelFlag = {emoji: '🇮🇱'} as const;
 const chanukahEmoji = '🕎';
 export type HolidayYearMap = Map<string, HolidayEvent[]>;
 const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 400});
@@ -78,7 +78,7 @@ const KEYCAP_DIGITS = [
   '7️⃣',
   '8️⃣',
   '9️⃣',
-];
+] as const;
 
 /**
  * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by

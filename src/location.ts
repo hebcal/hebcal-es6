@@ -111,10 +111,10 @@ const ZIPCODES_TZ_MAP: {[x: string]: string} = {
   '14': 'Pacific/Guam', //       Guam     (GMT +10:00)
   '15': 'Pacific/Palau', //      Palau    (GMT +9:00)
   '16': 'Pacific/Chuuk', //      Micronesia (GMT +11:00)
-};
+} as const;
 
 /** @private */
-const timeFormatCache = new Map();
+const timeFormatCache = new Map<string, Intl.DateTimeFormat>();
 
 /**
  * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) from cache

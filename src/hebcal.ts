@@ -84,7 +84,7 @@ const EREV = flags.EREV;
 const CHOL_HAMOED = flags.CHOL_HAMOED;
 const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
 
-const unrecognizedAlreadyWarned = new Set();
+const unrecognizedAlreadyWarned = new Set<string>();
 type StringIntMap = {
   [x: string]: number;
 };
@@ -121,7 +121,7 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
   hour12: 1,
   dailyLearning: 1,
   useElevation: 1,
-};
+} as const;
 
 /**
  * @private
@@ -146,13 +146,13 @@ const israelCityOffset: StringIntMap = {
   'Zikhron Yaakov': 30,
   "Zichron Ya'akov": 30,
   'Zichron Yaakov': 30,
-};
+} as const;
 
 const geoIdCandleOffset: StringIntMap = {
   '281184': 40, // Jerusalem
   '294801': 30, // Haifa
   '293067': 30, // Zikhron Yaakov
-};
+} as const;
 
 /**
  * @private

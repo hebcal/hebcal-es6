@@ -62,7 +62,7 @@ export const flags = {
   NACH_YOMI: 0x2000000,
   /** Daily Learning */
   DAILY_LEARNING: 0x4000000,
-};
+} as const;
 
 const flagToCategory = [
   [flags.MAJOR_FAST, 'holiday', 'major', 'fast'],
@@ -78,7 +78,7 @@ const flagToCategory = [
   [flags.SHABBAT_MEVARCHIM, 'mevarchim'],
   [flags.SPECIAL_SHABBAT, 'holiday', 'shabbat'],
   [flags.USER_EVENT, 'user'],
-];
+] as const;
 
 /**
  * Represents an Event with a title, date, and flags.
