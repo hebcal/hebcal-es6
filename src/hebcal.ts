@@ -372,6 +372,7 @@ function observedInDiaspora(ev: Event): boolean {
  * Event names can be rendered in several languges using the `locale` option.
  */
 export class HebrewCalendar {
+  private constructor() {}
   /**
    * Calculates holidays and other Hebrew calendar events based on {@link CalOptions}.
    *
