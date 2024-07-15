@@ -154,7 +154,7 @@ export class Sedra {
    */
   find(parsha: number | string | string[]): HDate | null {
     if (typeof parsha === 'number') {
-      if (parsha > 53 || (parsha < 0 && !isValidDouble(parsha))) {
+      if (parsha >= parshiot.length || (parsha < 0 && !isValidDouble(parsha))) {
         throw new RangeError(`Invalid parsha number: ${parsha}`);
       }
       const idx = this.theSedraArray.indexOf(parsha);
@@ -176,30 +176,31 @@ export class Sedra {
         }
         return new HDate(this.firstSaturday + idx * 7);
       }
-    } else if (
-      Array.isArray(parsha) &&
-      parsha.length === 1 &&
-      typeof parsha[0] === 'string'
-    ) {
-      return this.find(parsha[0]);
-    } else if (
-      Array.isArray(parsha) &&
-      parsha.length === 2 &&
-      typeof parsha[0] === 'string' &&
-      typeof parsha[1] === 'string'
-    ) {
+    } else if (Array.isArray(parsha)) {
+      const plen = parsha.length;
+      if ((plen !== 1 && plen !== 2) || typeof parsha[0] !== 'string') {
+        throw new TypeError(
+          `Invalid parsha argument: ${JSON.stringify(parsha)}`
+        );
+      }
+      if (plen === 1) {
+        return this.find(parsha[0]);
+      }
       const p1 = parsha[0];
       const p2 = parsha[1];
       const num1 = parsha2id.get(p1);
       const num2 = parsha2id.get(p2);
-      if (num2 === num1 + 1) {
-        return this.find(-num1);
-      } else {
+      if (
+        typeof num1 !== 'number' ||
+        typeof num2 !== 'number' ||
+        num2 !== num1 + 1 ||
+        !isValidDouble(-num1)
+      ) {
         throw new RangeError(`Unrecognized parsha name: ${p1}-${p2}`);
       }
-    } else {
-      throw new TypeError(`Invalid parsha argument: ${parsha}`);
+      return this.find(-num1);
     }
+    return null; /* NOTREACHED */
   }
 
   /**
@@ -322,7 +323,7 @@ export const parshiot: string[] = [
   "Ha'azinu",
 ];
 
-const parsha2id = new Map();
+const parsha2id = new Map<string, number>();
 for (let id = 0; id < parshiot.length; id++) {
   const name = parshiot[id];
   parsha2id.set(name, id);

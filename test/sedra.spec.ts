@@ -66,6 +66,19 @@ test('lookup', () => {
   expect(sedra.lookup(jul15)).toEqual({parsha: ['Chukat', 'Balak'], chag: false, num: [39, 40]});
 });
 
+test('lookup-rollover', () => {
+  const sedra = new Sedra(5782, false);
+  const hd = new HDate(6, 'Tishrei', 5783);
+  expect(sedra.lookup(hd)).toEqual({parsha: ['Vayeilech'], chag: false, num: 52});
+});
+
+test('lookup-throws', () => {
+  const sedra = new Sedra(5781, false);
+  expect(() => {
+    sedra.lookup(NaN);
+  }).toThrow('Bad date argument: NaN');
+});
+
 test('isParsha', () => {
   const sedra = new Sedra(5749, false);
   expect(sedra.isParsha(oct1)).toBe(false);
@@ -78,10 +91,22 @@ test('getYear', () => {
   expect(sedra.getYear()).toBe(5749);
 });
 
+test('getFirstSaturday', () => {
+  const sedra = new Sedra(5749, false);
+  expect(sedra.getFirstSaturday()).toBe(725997);
+});
+
+test('getSedraArray', () => {
+  const sedra = new Sedra(5749, false);
+  const arr = sedra.getSedraArray();
+  expect(arr.length).toBe(54);
+});
+
 test('find', () => {
   const sedra = new Sedra(5781, false);
   expect(dt(sedra.find('Bereshit'))).toBe('2020-10-17');
   expect(dt(sedra.find('Noach'))).toBe('2020-10-24');
+  expect(dt(sedra.find(['Noach']))).toBe('2020-10-24');
   expect(dt(sedra.find('Lech-Lecha'))).toBe('2020-10-31');
   expect(dt(sedra.find('Bo'))).toBe('2021-01-23');
   expect(dt(sedra.find(['Tazria', 'Metzora']))).toBe('2021-04-17');
@@ -90,6 +115,39 @@ test('find', () => {
   expect(sedra.find('Metzora')).toBe(null);
   expect(dt(sedra.find('Chukat'))).toBe('2021-06-19');
   expect(sedra.find(['Chukat', 'Balak'])).toBe(null);
+  expect(sedra.find('Chukat-Balak')).toBe(null);
+});
+
+test('find-number', () => {
+  const sedra = new Sedra(5781, false);
+  expect(dt(sedra.find(0))).toBe('2020-10-17');
+  expect(dt(sedra.find(1))).toBe('2020-10-24');
+  expect(dt(sedra.find(2))).toBe('2020-10-31');
+});
+
+test('find-bad string returns null', () => {
+  const sedra = new Sedra(5781, false);
+  expect(sedra.find('Bogus')).toBe(null);
+});
+
+test('find-throws', () => {
+  const sedra = new Sedra(5781, false);
+  expect(() => {
+    sedra.find([]);
+  }).toThrow('Invalid parsha argument: []');
+  expect(() => {
+    sedra.find(['a', 'b', 'c']);
+  }).toThrow('Invalid parsha argument: ["a","b","c"]');
+  expect(() => {
+    sedra.find(54);
+  }).toThrow('Invalid parsha number: 54');
+  expect(() => {
+    sedra.find(['Tzav', 'Shmini']);
+  }).toThrow('Unrecognized parsha name: Tzav-Shmini');
+  expect(() => {
+    sedra.find(['Tzav', 'Foobar']);
+  }).toThrow('Unrecognized parsha name: Tzav-Foobar');
+
 });
 
 test('find-holiday', () => {
