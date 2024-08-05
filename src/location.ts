@@ -293,6 +293,7 @@ export class Location extends GeoLocation {
    * @param dst single char 'Y' or 'N'
    */
   static getUsaTzid(state: string, tz: number, dst: string): string {
+    tz = +tz;
     if (tz === 10 && state === 'AK') {
       return 'America/Adak';
     } else if (tz === 7 && state === 'AZ') {
