@@ -53,7 +53,7 @@ function getDate(date: Date | HDate): Date {
  * const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
  */
 export class Zmanim {
-  private readonly date: any;
+  private readonly date: Date;
   private readonly gloc: GeoLocation;
   private readonly noaa: NOAACalculator;
   private useElevation: boolean;

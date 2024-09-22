@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-env": "^7.25.4",
     "@babel/preset-typescript": "^7.24.7",
     "@babel/register": "^7.24.6",
     "@rollup/plugin-babel": "^6.0.4",
@@ -77,20 +77,20 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^22.4.1",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.5.5",
     "core-js": "^3.38.1",
     "gts": "^5.3.1",
     "jest": "^29.7.0",
     "quick-lru": "<=6.1.2",
-    "rollup": "^4.21.0",
+    "rollup": "^4.22.4",
     "ttag-cli": "^1.10.12",
-    "typedoc": "^0.26.6",
-    "typescript": "^5.5.4"
+    "typedoc": "^0.26.7",
+    "typescript": "^5.6.2"
   },
   "dependencies": {
     "@hebcal/hdate": "^0.11.4",
     "@hebcal/noaa": "^0.8.14",
-    "tslib": "^2.6.3"
+    "tslib": "^2.7.0"
   }
 }
