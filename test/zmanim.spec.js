@@ -589,3 +589,14 @@ test('useElevation', () => {
   zman2.setUseElevation(false);
   expect(zman2.getUseElevation()).toBe(false);
 });
+
+test('makeSunsetAwareHDate', () => {
+  const latitude = 48.85341;
+  const longitude = 2.3488;
+  const timezone = 'Europe/Paris';
+  const gloc = new GeoLocation(null, latitude, longitude, 0, timezone);
+  const before = Zmanim.makeSunsetAwareHDate(gloc, new Date('2024-09-22T17:38:46.123Z'), false);
+  expect(before.toString()).toBe('19 Elul 5784');
+  const after = Zmanim.makeSunsetAwareHDate(gloc, new Date('2024-09-22T23:45:18.345Z'), false);
+  expect(after.toString()).toBe('20 Elul 5784');
+});

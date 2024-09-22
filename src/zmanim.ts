@@ -558,4 +558,42 @@ export class Zmanim {
     }
     return new Date(sunset.getTime() + offset * 60 * 1000);
   }
+  /**
+   * Returns the Hebrew date relative to the specified location and Gregorian date,
+   * taking into consideration whether the time is before or after sunset.
+   *
+   * For example, if the given date and is `2024-09-22T10:35` (before sunset), and
+   * sunset for the specified location is **19:04**, then this function would
+   * return a Hebrew date of `19th of Elul, 5784`.
+   * If the given date is the same Gregorian day after sunset
+   * (for example `2024-09-22T20:07`), this function would return a
+   * Hebrew date of `20th of Elul, 5784`.
+   * @example
+   * const {GeoLocation, Zmanim, HDate} = require('@hebcal/core');
+   * const latitude = 48.85341;
+   * const longitude = 2.3488;
+   * const timezone = 'Europe/Paris';
+   * const gloc = new GeoLocation(null, latitude, longitude, 0, timezone);
+   * const before = Zmanim.makeSunsetAwareHDate(gloc, new Date('2024-09-22T17:38:46.123Z'), false);
+   * console.log(before.toString()); // '19 Elul 5784'
+   * const after = Zmanim.makeSunsetAwareHDate(gloc, new Date('2024-09-22T23:45:18.345Z'), false);
+   * console.log(after.toString()); // '20 Elul 5784'
+   */
+  static makeSunsetAwareHDate(
+    gloc: GeoLocation,
+    date: Date,
+    useElevation: boolean
+  ): HDate {
+    const zmanim = new Zmanim(gloc, date, useElevation);
+    const sunset = zmanim.sunset();
+    let hd = new HDate(date);
+    const sunsetMillis = sunset.getTime();
+    if (isNaN(sunsetMillis)) {
+      return hd;
+    }
+    if (date.getTime() >= sunsetMillis) {
+      hd = hd.next();
+    }
+    return hd;
+  }
 }
