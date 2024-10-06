@@ -173,3 +173,9 @@ test('complete-incomplete-types', () => {
     expect(sedraIL.find(0)).not.toEqual(null);
   }
 });
+
+test('weekday1', () => {
+  const sedra = new Sedra(5785, false);
+  const tishrei7 = new HDate(7, months.TISHREI, 5785);
+  expect(sedra.lookup(tishrei7)).toEqual({parsha: ['Yom Kippur'], chag: true});
+});
