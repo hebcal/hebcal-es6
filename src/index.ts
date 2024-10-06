@@ -1,3 +1,4 @@
+export {version} from './pkgVersion';
 export {gematriya, gematriyaStrToNum} from '@hebcal/hdate';
 export {
   greg,
@@ -32,4 +33,3 @@ export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 export {holidayDesc} from './staticHolidays';
 export {DailyLearning} from './DailyLearning';
 export {HebrewCalendar} from './hebcal';
-export {version} from './pkgVersion';

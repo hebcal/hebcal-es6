@@ -4,6 +4,7 @@ const babel = require('@rollup/plugin-babel');
 const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
 const typescript = require('@rollup/plugin-typescript');
+const {dts} = require('rollup-plugin-dts');
 const pkg = require('./package.json');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
@@ -127,5 +128,10 @@ module.exports = [
       }),
     ],
     // external: ['temporal-polyfill'],
+  },
+  {
+    input: 'dist/index.d.ts',
+    output: [{file: 'dist/module.d.ts', format: 'es'}],
+    plugins: [dts()],
   },
 ];

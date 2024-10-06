@@ -44,14 +44,14 @@ test('makeCandleEvent-nosunset', () => {
     [2020, 5, 5],
     [2020, 5, 6],
   ];
-  const events = [];
+  const events: Event[] = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
     const dow = hd.getDay();
     const isFri = dow === 5;
     const isSat = dow === 6;
     const ev = makeCandleEvent(undefined, hd, options, isFri, isSat);
-    events.push(ev);
+    events.push(ev!);
   }
   const result = events.map(eventDateDesc);
   const expected = [
@@ -67,14 +67,14 @@ test('makeCandleEvent-nosunset', () => {
   expect(result).toEqual(expected);
 
   options.havdalahMins = 72;
-  const events2 = [];
+  const events2: Event[] = [];
   for (const dt of dates) {
     const hd = new HDate(new Date(dt[0], dt[1], dt[2]));
     const dow = hd.getDay();
     const isFri = dow === 5;
     const isSat = dow === 6;
     const ev = makeCandleEvent(undefined, hd, options, isFri, isSat);
-    events2.push(ev);
+    events2.push(ev!);
   }
   const result2 = events2.map(eventDateDesc);
   const expected2 = [
