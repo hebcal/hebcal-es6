@@ -654,3 +654,17 @@ test('candles-hour12-false', () => {
   ];
   expect(actual).toEqual(expected);
 });
+
+test('friday has LIGHT_CANDLES after RH', () => {
+  const tishrei2 = new HDate(2, 'Tishrei', 5785);
+  const events = HebrewCalendar.calendar({
+    start: tishrei2,
+    end: tishrei2,
+    location: Location.lookup('Boston'),
+    candlelighting: true,
+  });
+  expect(events.length).toBe(2);
+  expect(events[0].getDesc()).toBe('Rosh Hashana II');
+  expect(events[1].getDesc()).toBe('Candle lighting');
+  expect(events[1].getFlags()).toBe(flags.CHAG | flags.LIGHT_CANDLES | flags.YOM_TOV_ENDS);
+});

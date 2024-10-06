@@ -7,6 +7,9 @@ import {HolidayEvent} from './HolidayEvent';
 import {Zmanim} from './zmanim';
 import {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
 
+const LIGHT_CANDLES = flags.LIGHT_CANDLES;
+const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
+
 /**
  * @private
  */
@@ -19,11 +22,11 @@ export function makeCandleEvent(
 ): TimedEvent | undefined {
   let havdalahTitle = false;
   let useHavdalahOffset = isSaturday;
-  let mask = ev ? ev.getFlags() : flags.LIGHT_CANDLES;
+  let mask = ev ? ev.getFlags() : LIGHT_CANDLES;
   if (typeof ev !== 'undefined') {
     // if linked event && dow == FRI, use Candle lighting time & title
     if (!isFriday) {
-      if (mask & (flags.LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
+      if (mask & (LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
         useHavdalahOffset = true;
       } else if (mask & flags.YOM_TOV_ENDS) {
         havdalahTitle = true;
@@ -32,7 +35,7 @@ export function makeCandleEvent(
     }
   } else if (isSaturday) {
     havdalahTitle = true;
-    mask = flags.LIGHT_CANDLES_TZEIS;
+    mask = LIGHT_CANDLES_TZEIS;
   }
   // if offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset
@@ -58,6 +61,7 @@ export function makeCandleEvent(
       options
     );
   } else {
+    mask |= LIGHT_CANDLES;
     return new CandleLightingEvent(hd, mask, time, location, ev, options);
   }
 }
