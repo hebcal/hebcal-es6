@@ -190,6 +190,16 @@ export class Sedra {
       const p2 = parsha[1];
       const num1 = parsha2id.get(p1);
       const num2 = parsha2id.get(p2);
+      //Attempt to find Holidays with dash such as Sukkot Shabbat Chol ha-Moed
+      if (
+        !num1 &&
+        !num2 &&
+        this.theSedraArray.indexOf(parsha.join('-')) !== -1
+      ) {
+        const rejoinedName = parsha.join('-');
+        const idx = this.theSedraArray.indexOf(rejoinedName);
+        return new HDate(this.firstSaturday + idx * 7);
+      }
       if (
         typeof num1 !== 'number' ||
         typeof num2 !== 'number' ||
