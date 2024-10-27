@@ -116,6 +116,8 @@ test('find', () => {
   expect(dt(sedra.find('Chukat'))).toBe('2021-06-19');
   expect(sedra.find(['Chukat', 'Balak'])).toBe(null);
   expect(sedra.find('Chukat-Balak')).toBe(null);
+  const sedra5785 = new Sedra(5785, false);
+  expect(dt(sedra5785.find('Sukkot Shabbat Chol ha-Moed'))).toBe('2024-10-19');
 });
 
 test('find-number', () => {
