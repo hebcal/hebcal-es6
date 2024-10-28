@@ -70,6 +70,8 @@ export type SedraResult = {
    * *Matot-Masei* it would be `[42, 43]`
    */
   num?: number | number[];
+  /** The date of the Shabbat this parsha is read */
+  hdate: HDate;
 };
 
 /**
@@ -116,6 +118,7 @@ export class Sedra {
 
   /**
    * Returns the parsha (or parshiyot) read on Hebrew date
+   * @deprecated Use {@link find} instead
    * @param hd Hebrew date or R.D. days
    */
   get(hd: HDate | number): string[] {
@@ -124,6 +127,7 @@ export class Sedra {
 
   /**
    * Looks up parsha for the date, then returns a translated or transliterated string
+   * @deprecated Use {@link find} instead
    * @param hd Hebrew date or R.D. days
    * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
    */
@@ -142,6 +146,7 @@ export class Sedra {
   /**
    * Checks to see if this day would be a regular parasha HaShavua
    * Torah reading or special holiday reading
+   * @deprecated Use {@link find} instead
    * @param hd Hebrew date or R.D. days
    */
   isParsha(hd: HDate | number): boolean {
@@ -254,12 +259,13 @@ export class Sedra {
       const sedra = getSedra_(this.year + 1, this.il);
       return sedra.lookup(saturday); // must be next year
     }
+    const hdate = new HDate(saturday);
     if (typeof index === 'string') {
       // Shabbat has a chag. Return a description
-      return {parsha: [index], chag: true};
+      return {parsha: [index], chag: true, hdate};
     }
     if (index >= 0) {
-      return {parsha: [parshiot[index]], chag: false, num: index + 1};
+      return {parsha: [parshiot[index]], chag: false, num: index + 1, hdate};
     }
 
     const p1 = D(index); // undouble the parsha
@@ -267,6 +273,7 @@ export class Sedra {
       parsha: [parshiot[p1], parshiot[p1 + 1]],
       chag: false,
       num: [p1 + 1, p1 + 2],
+      hdate,
     };
   }
 }

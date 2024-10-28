@@ -61,15 +61,29 @@ test('getString', () => {
 
 test('lookup', () => {
   const sedra = new Sedra(5749, false);
-  expect(sedra.lookup(oct1)).toEqual({parsha: ['Sukkot Shabbat Chol ha-Moed'], chag: true});
-  expect(sedra.lookup(nov5)).toEqual({parsha: ['Chayei Sara'], chag: false, num: 5});
-  expect(sedra.lookup(jul15)).toEqual({parsha: ['Chukat', 'Balak'], chag: false, num: [39, 40]});
+  expect(sedra.lookup(oct1)).toEqual({
+    parsha: ['Sukkot Shabbat Chol ha-Moed'],
+    chag: true,
+    hdate: new HDate(726011),
+  });
+  expect(sedra.lookup(nov5)).toEqual({
+    parsha: ['Chayei Sara'],
+    chag: false,
+    num: 5,
+    hdate: new HDate(726046),
+  });
+  expect(sedra.lookup(jul15)).toEqual({
+    parsha: ['Chukat', 'Balak'],
+    chag: false,
+    num: [39, 40],
+    hdate: new HDate(726298),
+  });
 });
 
 test('lookup-rollover', () => {
   const sedra = new Sedra(5782, false);
   const hd = new HDate(6, 'Tishrei', 5783);
-  expect(sedra.lookup(hd)).toEqual({parsha: ['Vayeilech'], chag: false, num: 52});
+  expect(sedra.lookup(hd)).toEqual({parsha: ['Vayeilech'], chag: false, num: 52, hdate: new HDate(738429)});
 });
 
 test('lookup-throws', () => {
@@ -179,5 +193,9 @@ test('complete-incomplete-types', () => {
 test('weekday1', () => {
   const sedra = new Sedra(5785, false);
   const tishrei7 = new HDate(7, months.TISHREI, 5785);
-  expect(sedra.lookup(tishrei7)).toEqual({parsha: ['Yom Kippur'], chag: true});
+  expect(sedra.lookup(tishrei7)).toEqual({
+    parsha: ['Yom Kippur'],
+    chag: true,
+    hdate: new HDate(739171),
+  });
 });
