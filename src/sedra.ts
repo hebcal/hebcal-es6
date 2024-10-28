@@ -118,7 +118,7 @@ export class Sedra {
 
   /**
    * Returns the parsha (or parshiyot) read on Hebrew date
-   * @deprecated Use {@link find} instead
+   * @deprecated Use {@link lookup} instead
    * @param hd Hebrew date or R.D. days
    */
   get(hd: HDate | number): string[] {
@@ -127,7 +127,7 @@ export class Sedra {
 
   /**
    * Looks up parsha for the date, then returns a translated or transliterated string
-   * @deprecated Use {@link find} instead
+   * @deprecated Use {@link lookup} instead
    * @param hd Hebrew date or R.D. days
    * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
    */
@@ -146,7 +146,7 @@ export class Sedra {
   /**
    * Checks to see if this day would be a regular parasha HaShavua
    * Torah reading or special holiday reading
-   * @deprecated Use {@link find} instead
+   * @deprecated Use {@link lookup} instead
    * @param hd Hebrew date or R.D. days
    */
   isParsha(hd: HDate | number): boolean {
