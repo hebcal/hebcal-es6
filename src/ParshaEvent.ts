@@ -1,5 +1,6 @@
 import {Event, flags} from './event';
-import {HDate, Locale, isoDateString} from '@hebcal/hdate';
+import {HDate, isoDateString} from '@hebcal/hdate';
+import {renderParshaName} from './parshaName';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 /**
@@ -32,16 +33,7 @@ export class ParshaEvent extends Event {
    * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
    */
   render(locale?: string): string {
-    const locale0 = locale ?? Locale.getLocaleName();
-    const parsha = this.parsha;
-    let name = Locale.gettext(parsha[0], locale);
-    if (parsha.length === 2) {
-      const hyphen = locale0 === 'he' ? '־' : '-';
-      name += hyphen + Locale.gettext(parsha[1], locale);
-    }
-    name = name.replace(/'/g, '’');
-    const str = Locale.gettext('Parashat', locale) + ' ' + name;
-    return str.normalize();
+    return renderParshaName(this.parsha, locale);
   }
 
   basename(): string {
