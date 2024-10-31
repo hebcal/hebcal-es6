@@ -18,6 +18,8 @@ const TARGETS_BROWSER = {
   safari: '15.6',
 };
 
+// Override tsconfig.json, which includes ./size-demo.
+const tsOptions = {rootDir: './src'};
 module.exports = [
   {
     input: 'src/index.ts',
@@ -35,7 +37,7 @@ module.exports = [
       },
     ],
     plugins: [
-      typescript(),
+      typescript(tsOptions),
       json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
@@ -74,7 +76,7 @@ module.exports = [
       },
     ],
     plugins: [
-      typescript(),
+      typescript(tsOptions),
       json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
@@ -127,7 +129,7 @@ module.exports = [
       },
     ],
     plugins: [
-      typescript(),
+      typescript(tsOptions),
       json({compact: true, preferConst: true}),
       nodeResolve(),
       commonjs(),
