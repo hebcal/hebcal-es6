@@ -1,4 +1,4 @@
-import {defineConfig} from 'rollup';
+import {defineConfig, InputPluginOption, OutputOptions} from 'rollup';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
@@ -18,112 +18,78 @@ const TARGETS_BROWSER = {
   safari: '15.6',
 };
 
+const pluginsTargettingNode: InputPluginOption = [
+  typescript(),
+  json({compact: true, preferConst: true}),
+  babel({
+    babelHelpers: 'bundled',
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          modules: false,
+          targets: {
+            node: TARGET_NODE_VER,
+          },
+        },
+      ],
+    ],
+    exclude: ['node_modules/**'],
+  }),
+  nodeResolve(),
+  commonjs(),
+  bundleSize(),
+];
+const baseOutputOptions: OutputOptions = {
+  name: pkg.name,
+  banner,
+  sourcemap: true,
+  inlineDynamicImports: true,
+  globals: {
+    'temporal-polyfill': 'Temporal',
+  },
+};
 export default defineConfig([
   {
     input: 'src/index.ts',
     output: [
       {
+        ...baseOutputOptions,
         file: pkg.main,
         format: 'cjs',
-        name: pkg.name,
-        banner,
-        sourcemap: true,
-        inlineDynamicImports: true,
-        globals: {
-          'temporal-polyfill': 'Temporal',
-        },
       },
     ],
-    plugins: [
-      typescript(),
-      json({compact: true, preferConst: true}),
-      babel({
-        babelHelpers: 'bundled',
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              modules: false,
-              targets: {
-                node: TARGET_NODE_VER,
-              },
-            },
-          ],
-        ],
-        exclude: ['node_modules/**'],
-      }),
-      nodeResolve(),
-      commonjs(),
-      bundleSize(),
-    ],
+    plugins: pluginsTargettingNode,
     // external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.ts',
     output: [
       {
+        ...baseOutputOptions,
         file: pkg.module,
         format: 'es',
-        name: pkg.name,
-        banner,
-        sourcemap: true,
-        inlineDynamicImports: true,
-        globals: {
-          'temporal-polyfill': 'Temporal',
-        },
       },
     ],
-    plugins: [
-      typescript(),
-      json({compact: true, preferConst: true}),
-      babel({
-        babelHelpers: 'bundled',
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              modules: false,
-              targets: {
-                node: TARGET_NODE_VER,
-              },
-            },
-          ],
-        ],
-        exclude: ['node_modules/**'],
-      }),
-      nodeResolve(),
-      commonjs(),
-      bundleSize(),
-    ],
+    plugins: pluginsTargettingNode,
     // external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.ts',
     output: [
       {
+        ...baseOutputOptions,
         file: 'dist/bundle.js',
         format: 'iife',
         name: 'hebcal',
         indent: false,
-        banner,
-        sourcemap: true,
-        inlineDynamicImports: true,
-        globals: {
-          'temporal-polyfill': 'Temporal',
-        },
       },
       {
+        ...baseOutputOptions,
         file: 'dist/bundle.min.js',
         format: 'iife',
         name: 'hebcal',
-
-        plugins: [terser(), bundleSize()],
-        banner,
-        sourcemap: true,
-        inlineDynamicImports: true,
-        globals: {
-          'temporal-polyfill': 'Temporal',
-        },
+        plugins: [terser()],
       },
     ],
     plugins: [
@@ -131,6 +97,7 @@ export default defineConfig([
       json({compact: true, preferConst: true}),
       nodeResolve(),
       commonjs(),
+      // This uses different options than the common array above.
       babel({
         babelHelpers: 'bundled',
         presets: [
