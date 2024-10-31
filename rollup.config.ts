@@ -1,13 +1,13 @@
-const {nodeResolve} = require('@rollup/plugin-node-resolve');
-const commonjs = require('@rollup/plugin-commonjs');
-const babel = require('@rollup/plugin-babel');
-const bundleSize = require('rollup-plugin-bundle-size');
-const json = require('@rollup/plugin-json');
-const terser = require('@rollup/plugin-terser');
-const typescript = require('@rollup/plugin-typescript');
-const {dts} = require('rollup-plugin-dts');
-const pkg = require('./package.json');
-
+import {defineConfig} from 'rollup';
+import {nodeResolve} from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import babel from '@rollup/plugin-babel';
+import bundleSize from 'rollup-plugin-bundle-size';
+import json from '@rollup/plugin-json';
+import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
+import {dts} from 'rollup-plugin-dts';
+import pkg from './package.json' with {type: 'json'};
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
 
 const TARGET_NODE_VER = '16.0.0';
@@ -18,7 +18,7 @@ const TARGETS_BROWSER = {
   safari: '15.6',
 };
 
-module.exports = [
+export default defineConfig([
   {
     input: 'src/index.ts',
     output: [
@@ -155,4 +155,4 @@ module.exports = [
     output: [{file: 'dist/module.d.ts', format: 'es'}],
     plugins: [dts()],
   },
-];
+]);

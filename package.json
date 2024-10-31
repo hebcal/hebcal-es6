@@ -44,7 +44,7 @@
     "dist"
   ],
   "scripts": {
-    "build:rollup": "rollup -c",
+    "build:rollup": "rollup -c --configPlugin typescript",
     "build": "npm run po2json && npm run version && npm run build:rollup --production",
     "prepublish": "npm run build",
     "version": "node ./version.cjs package.json src/pkgVersion.ts",
