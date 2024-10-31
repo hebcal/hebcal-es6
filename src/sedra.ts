@@ -150,7 +150,7 @@ export class Sedra {
   /**
    * Returns the date that a parsha occurs
    * or `null` if the parsha doesn't occur this year
-   * @param parsha if a `string`, specified with Ashkenazic transliterations
+   * @param parsha if a `string`, specified with Sephardic transliterations
    *  like `'Noach'` or `'Matot-Masei'`. If an array, must be a 1- or 2-element
    *  array such as `['Noach']` or `['Matot', 'Masei']`. If a `number`, should
    *  be a 0-based parsha index (`0` for Bereshit, `1` for Noach) or a negative
