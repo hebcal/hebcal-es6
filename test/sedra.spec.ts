@@ -134,11 +134,25 @@ test('find', () => {
   expect(dt(sedra5785.find('Sukkot Shabbat Chol ha-Moed'))).toBe('2024-10-19');
 });
 
+test('findContaining', () => {
+  const sedra = new Sedra(5781, false);
+  expect(dt(sedra.findContaining('Noach'))).toBe('2020-10-24');
+  expect(dt(sedra.findContaining('Lech-Lecha'))).toBe('2020-10-31');
+  expect(dt(sedra.findContaining('Bo'))).toBe('2021-01-23');
+  expect(dt(sedra.findContaining('Tazria-Metzora'))).toBe('2021-04-17');
+  expect(dt(sedra.findContaining('Tazria'))).toBe('2021-04-17');
+  expect(dt(sedra.findContaining('Metzora'))).toBe('2021-04-17');
+  expect(dt(sedra.findContaining('Chukat-Balak'))).toBe('2021-06-19');
+  expect(dt(sedra.findContaining('Chukat'))).toBe('2021-06-19');
+  expect(dt(sedra.findContaining('Balak'))).toBe('2021-06-26');
+});
+
 test('find-number', () => {
   const sedra = new Sedra(5781, false);
   expect(dt(sedra.find(0))).toBe('2020-10-17');
   expect(dt(sedra.find(1))).toBe('2020-10-24');
   expect(dt(sedra.find(2))).toBe('2020-10-31');
+  expect(dt(sedra.find(-26))).toBe('2021-04-17');
 });
 
 test('find-bad string returns null', () => {
@@ -158,12 +172,20 @@ test('find-throws', () => {
     sedra.find(54);
   }).toThrow('Invalid parsha number: 54');
   expect(() => {
+    sedra.find(-39);
+  }).toThrow('Invalid parsha number: -39');
+  expect(() => {
+    sedra.findContaining(-77);
+  }).toThrow('Invalid parsha number: -77');
+  expect(() => {
     sedra.find(['Tzav', 'Shmini']);
   }).toThrow('Unrecognized parsha name: Tzav-Shmini');
   expect(() => {
     sedra.find(['Tzav', 'Foobar']);
   }).toThrow('Unrecognized parsha name: Tzav-Foobar');
-
+  expect(() => {
+    sedra.findContaining('Foo-Bar');
+  }).toThrow('Unrecognized parsha name: Foo-Bar');
 });
 
 test('find-holiday', () => {

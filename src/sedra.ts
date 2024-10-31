@@ -30,7 +30,8 @@
  * The routines were included in the emacs 19 distribution.
  *
  */
-import {HDate, Locale, months} from '@hebcal/hdate';
+import {HDate, months} from '@hebcal/hdate';
+import {renderParshaName} from './parshaName';
 import QuickLRU from 'quick-lru';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
@@ -133,14 +134,7 @@ export class Sedra {
    */
   getString(hd: HDate | number, locale?: string): string {
     const parsha = this.get(hd);
-    const locale0 = locale || Locale.getLocaleName();
-    let name = Locale.gettext(parsha[0], locale0);
-    if (parsha.length === 2) {
-      const hyphen = locale0 === 'he' ? '־' : '-';
-      name += hyphen + Locale.gettext(parsha[1], locale0);
-    }
-    name = name.replace(/'/g, '’');
-    return Locale.gettext('Parashat', locale0) + ' ' + name;
+    return renderParshaName(parsha, locale);
   }
 
   /**
@@ -219,6 +213,47 @@ export class Sedra {
   }
 
   /**
+   * Returns the date that a parsha (or its doubled or undoubled counterpart)
+   * occurs, or `null` if the parsha doesn't occur this year
+   */
+  findContaining(parsha: number | string): HDate | null {
+    const hdate = this.find(parsha);
+    if (hdate) {
+      return hdate;
+    }
+    if (typeof parsha === 'number') {
+      // a valid negative number (double parsha in a year where they are
+      // combined) would've been found above, and a invalid negative number
+      // would've thrown an error, so this parsha must be a positive number
+      // representing either p1 or p2
+      const p1 = -parsha;
+      if (isValidDouble(p1)) {
+        return this.find(p1);
+      } else {
+        // this must be the second individual parsha of a doubled pair
+        // for example 29 for Kedoshim, so check for -28 for Achrei Mot-Kedoshim
+        return this.find(p1 + 1);
+      }
+    } else {
+      const num = parsha2id.get(parsha);
+      if (num) {
+        // parsha is either the first or second individual parsha of
+        // a pair that is doubled this year
+        const p1 = -num;
+        if (isValidDouble(p1)) {
+          return this.find(p1);
+        } else {
+          return this.find(p1 + 1);
+        }
+      } else {
+        // this was indeed a doubled parsha, so return date of the first half
+        const [p1] = parsha.split('-');
+        return this.find(p1);
+      }
+    }
+  }
+
+  /**
    * Returns the underlying annual sedra schedule.
    * Used by `@hebcal/triennial`
    */
@@ -279,7 +314,7 @@ export class Sedra {
 }
 
 /**
- * The 54 parshiyot of the Torah as transilterated strings
+ * The 54 parshiyot of the Torah as transilterated strings.
  * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[52] == "Ha'azinu".
  * @readonly
  * @type {string[]}
@@ -340,28 +375,30 @@ export const parshiot: string[] = [
   "Ha'azinu",
 ];
 
+// 0-based parsha IDs
 const parsha2id = new Map<string, number>();
 for (let id = 0; id < parshiot.length; id++) {
   const name = parshiot[id];
   parsha2id.set(name, id);
 }
 
+// 0-based parsha IDs
+const doubles = [
+  21, // Vayakhel-Pekudei
+  26, // Tazria-Metzora
+  28, // Achrei Mot-Kedoshim
+  31, // Behar-Bechukotai
+  38, // Chukat-Balak
+  41, // Matot-Masei
+  50, // Nitzavim-Vayeilech
+];
+
 /**
  * @private
- * @param id
+ * @param id a negative number
  */
 function isValidDouble(id: number): boolean {
-  switch (id) {
-    case -21: // Vayakhel-Pekudei
-    case -26: // Tazria-Metzora
-    case -28: // Achrei Mot-Kedoshim
-    case -31: // Behar-Bechukotai
-    case -38: // Chukat-Balak
-    case -41: // Matot-Masei
-    case -50: // Nitzavim-Vayeilech
-      return true;
-  }
-  return false;
+  return doubles.includes(-id);
 }
 
 /**
@@ -633,7 +670,7 @@ const types: {[s: string]: NumberOrString[]} = {
     r4349,
     D(50)
   ),
-};
+} as const;
 
 /* Hebrew year that starts on Monday, is `complete' (Heshvan and
  * Kislev each have 30 days), and has Passover start on Thursday. */
