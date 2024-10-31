@@ -537,8 +537,7 @@ export class HebrewCalendar {
       const isFriday = dow === FRI;
       const isSaturday = dow === SAT;
       let candlesEv: TimedEvent | undefined;
-      const holidays =
-        (holidaysYear as HolidayYearMap).get(hd.toString()) || [];
+      const holidays = holidaysYear!.get(hd.toString()) || [];
       for (const ev of holidays) {
         candlesEv = appendHolidayAndRelated(
           candlesEv,
@@ -551,7 +550,7 @@ export class HebrewCalendar {
         );
       }
       if (options.sedrot && isSaturday) {
-        const parsha0 = (sedra as Sedra).lookup(abs);
+        const parsha0 = sedra!.lookup(abs);
         if (!parsha0.chag) {
           evts.push(new ParshaEvent(hd, parsha0.parsha, il, parsha0.num));
         }
@@ -579,7 +578,9 @@ export class HebrewCalendar {
           isSaturday
         );
         if (isFriday && candlesEv && sedra) {
-          candlesEv.memo = sedra.getString(abs, options.locale);
+          const parsha = sedra!.lookup(abs);
+          const pe = new ParshaEvent(hd.next(), parsha.parsha, il, parsha.num);
+          candlesEv.memo = pe.render(options.locale);
         }
       }
       // suppress Havdalah when options.havdalahMins=0 or options.havdalahDeg=0
@@ -953,7 +954,7 @@ function makeDailyLearning(
 function makeOmerEvent(hd: HDate, omerDay: number, options: CalOptions) {
   const omerEv = new OmerEvent(hd, omerDay);
   if (options.candlelighting) {
-    const location = options.location as Location;
+    const location = options.location!;
     const zmanim = new Zmanim(location, hd.prev(), false);
     const tzeit = zmanim.tzeit(7.0833);
     if (!isNaN(tzeit.getTime())) {
