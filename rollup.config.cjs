@@ -1,6 +1,7 @@
 const {nodeResolve} = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const babel = require('@rollup/plugin-babel');
+const bundleSize = require('rollup-plugin-bundle-size');
 const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
 const typescript = require('@rollup/plugin-typescript');
@@ -21,7 +22,11 @@ module.exports = [
   {
     input: 'src/index.ts',
     output: [
-      {file: pkg.main, format: 'cjs', name: pkg.name, banner,
+      {
+        file: pkg.main,
+        format: 'cjs',
+        name: pkg.name,
+        banner,
         sourcemap: true,
         inlineDynamicImports: true,
         globals: {
@@ -35,24 +40,32 @@ module.exports = [
       babel({
         babelHelpers: 'bundled',
         presets: [
-          ['@babel/preset-env', {
-            modules: false,
-            targets: {
-              node: TARGET_NODE_VER,
+          [
+            '@babel/preset-env',
+            {
+              modules: false,
+              targets: {
+                node: TARGET_NODE_VER,
+              },
             },
-          }],
+          ],
         ],
         exclude: ['node_modules/**'],
       }),
       nodeResolve(),
       commonjs(),
+      bundleSize(),
     ],
     // external: ['temporal-polyfill'],
   },
   {
     input: 'src/index.ts',
     output: [
-      {file: pkg.module, format: 'es', name: pkg.name, banner,
+      {
+        file: pkg.module,
+        format: 'es',
+        name: pkg.name,
+        banner,
         sourcemap: true,
         inlineDynamicImports: true,
         globals: {
@@ -61,23 +74,26 @@ module.exports = [
       },
     ],
     plugins: [
-
       typescript(),
       json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'bundled',
         presets: [
-          ['@babel/preset-env', {
-            modules: false,
-            targets: {
-              node: TARGET_NODE_VER,
+          [
+            '@babel/preset-env',
+            {
+              modules: false,
+              targets: {
+                node: TARGET_NODE_VER,
+              },
             },
-          }],
+          ],
         ],
         exclude: ['node_modules/**'],
       }),
       nodeResolve(),
       commonjs(),
+      bundleSize(),
     ],
     // external: ['temporal-polyfill'],
   },
@@ -100,7 +116,8 @@ module.exports = [
         file: 'dist/bundle.min.js',
         format: 'iife',
         name: 'hebcal',
-        plugins: [terser()],
+
+        plugins: [terser(), bundleSize()],
         banner,
         sourcemap: true,
         inlineDynamicImports: true,
@@ -117,15 +134,19 @@ module.exports = [
       babel({
         babelHelpers: 'bundled',
         presets: [
-          ['@babel/preset-env', {
-            modules: false,
-            targets: TARGETS_BROWSER,
-            useBuiltIns: 'usage',
-            corejs: 3,
-          }],
+          [
+            '@babel/preset-env',
+            {
+              modules: false,
+              targets: TARGETS_BROWSER,
+              useBuiltIns: 'usage',
+              corejs: 3,
+            },
+          ],
         ],
         exclude: ['node_modules/core-js/**'],
       }),
+      bundleSize(),
     ],
     // external: ['temporal-polyfill'],
   },
