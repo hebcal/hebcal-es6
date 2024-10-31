@@ -48,7 +48,7 @@
     "build": "npm run po2json && npm run version && npm run build:rollup --production",
     "prepublish": "npm run build",
     "version": "node ./version.cjs package.json src/pkgVersion.ts",
-    "po2json": "node ./po2json.cjs po/*.po",
+    "po2json": "node ./po2json.cjs po/he.po po/ashkenazi.po",
     "docs": "typedoc",
     "pretest": "npm run build",
     "lint": "gts lint",
