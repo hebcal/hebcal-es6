@@ -9,6 +9,7 @@ import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import {appendFileSync, readdirSync, writeFileSync} from 'fs';
 import {basename} from 'path';
+import {visualizer} from 'rollup-plugin-visualizer';
 
 const TARGETS_BROWSER = {
   chrome: '103',
@@ -47,7 +48,6 @@ export default defineConfig(
           json({compact: true, preferConst: true}),
           nodeResolve(),
           commonjs(),
-          // This uses different options than the common array above.
           babel({
             babelHelpers: 'bundled',
             presets: [
@@ -75,6 +75,7 @@ export default defineConfig(
               );
             },
           } satisfies Plugin,
+          visualizer({filename: `size-demo/dist/${name}.stats.html`}),
         ],
       };
     })
