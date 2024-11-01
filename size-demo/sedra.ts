@@ -1,3 +1,3 @@
-import {HebrewCalendar} from '../dist/index';
-const sedra = HebrewCalendar.getSedra(5757, false);
+import {getSedra} from '../dist/index';
+const sedra = getSedra(5757, false);
 console.log(sedra.get(56));

@@ -40,7 +40,7 @@ import {
 } from './candles';
 import {TimedEvent, HavdalahEvent} from './TimedEvent';
 import {Event, flags} from './event';
-import {Sedra, getSedra_} from './sedra';
+import {Sedra, getSedra} from './sedra';
 import {hallel_} from './hallel';
 import {getHolidaysForYear_, HolidayYearMap} from './holidays';
 import {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
@@ -525,7 +525,7 @@ export class HebrewCalendar {
         currentYear = hyear;
         holidaysYear = getHolidaysForYear_(currentYear);
         if (options.sedrot) {
-          sedra = getSedra_(currentYear, il);
+          sedra = getSedra(currentYear, il);
         }
         if (options.omer) {
           beginOmer = HDate.hebrew2abs(currentYear, NISAN, 16);
@@ -784,7 +784,7 @@ export class HebrewCalendar {
    * created and cached instance.
    */
   static getSedra(hyear: number, il: boolean): Sedra {
-    return getSedra_(hyear, il);
+    return getSedra(hyear, il);
   }
 
   /**

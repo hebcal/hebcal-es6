@@ -289,7 +289,7 @@ export class Sedra {
     const index = this.theSedraArray[weekNum];
 
     if (typeof index === 'undefined') {
-      const sedra = getSedra_(this.year + 1, this.il);
+      const sedra = getSedra(this.year + 1, this.il);
       return sedra.lookup(saturday); // must be next year
     }
     const hdate = new HDate(saturday);
@@ -700,11 +700,10 @@ const sedraCache = new QuickLRU<string, Sedra>({maxSize: 400});
 /**
  * Convenience function to create an instance of `Sedra` or reuse a previously
  * created and cached instance.
- * @private
  * @param hyear
  * @param il
  */
-export function getSedra_(hyear: number, il: boolean): Sedra {
+export function getSedra(hyear: number, il: boolean): Sedra {
   const cacheKey = `${hyear}-${il ? 1 : 0}`;
   let sedra = sedraCache.get(cacheKey);
   if (!sedra) {

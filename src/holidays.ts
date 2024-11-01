@@ -22,7 +22,7 @@ import {HDate, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 import {flags} from './event';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
-import {getSedra_} from './sedra';
+import {getSedra} from './sedra';
 import {
   staticHolidays,
   staticModernHolidays,
@@ -384,7 +384,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
     add(ev);
   }
 
-  const sedra = getSedra_(year, false);
+  const sedra = getSedra(year, false);
   const beshalachHd = sedra.find(15) as HDate;
   add(new HolidayEvent(beshalachHd, hdesc.SHABBAT_SHIRAH, SPECIAL_SHABBAT));
 
