@@ -84,10 +84,11 @@ const EREV = flags.EREV;
 const CHOL_HAMOED = flags.CHOL_HAMOED;
 const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
 
-const unrecognizedAlreadyWarned = new Set<string>();
 type StringIntMap = {
   [x: string]: number;
 };
+
+const unrecognizedAlreadyWarned = new Set<string>();
 const RECOGNIZED_OPTIONS: StringIntMap = {
   location: 1,
   year: 1,
@@ -115,13 +116,12 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
   locale: 1,
   addHebrewDates: 1,
   addHebrewDatesForEvents: 1,
-  appendHebrewToSubject: 1,
   mask: 1,
   yomKippurKatan: 1,
   hour12: 1,
   dailyLearning: 1,
   useElevation: 1,
-} as const;
+} as const satisfies Record<keyof CalOptions, 1>;
 
 /**
  * @private
