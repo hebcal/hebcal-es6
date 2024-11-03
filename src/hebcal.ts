@@ -42,7 +42,12 @@ import {TimedEvent, HavdalahEvent} from './TimedEvent';
 import {Event, flags} from './event';
 import {Sedra, getSedra_} from './sedra';
 import {hallel_} from './hallel';
-import {getHolidaysForYear_, HolidayYearMap} from './holidays';
+import {
+  getHolidaysForYear_,
+  getHolidaysForYearArray,
+  getHolidaysOnDate,
+  HolidayYearMap,
+} from './holidays';
 import {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 import {HolidayEvent} from './HolidayEvent';
 import {Location} from './location';
@@ -349,20 +354,6 @@ function setOptionsFromMask(options: CalOptions): number {
   if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
   if (m & YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
   return m;
-}
-
-/**
- * @private
- */
-function observedInIsrael(ev: Event): boolean {
-  return ev.observedInIsrael();
-}
-
-/**
- * @private
- */
-function observedInDiaspora(ev: Event): boolean {
-  return ev.observedInDiaspora();
 }
 
 /**
@@ -703,20 +694,7 @@ export class HebrewCalendar {
    * @param il use the Israeli schedule for holidays
    */
   static getHolidaysForYearArray(year: number, il: boolean): HolidayEvent[] {
-    const yearMap = getHolidaysForYear_(year);
-    const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
-    const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
-    let events: HolidayEvent[] = [];
-    const myFilter = il ? observedInIsrael : observedInDiaspora;
-    for (let absDt = startAbs; absDt <= endAbs; absDt++) {
-      const hd = new HDate(absDt);
-      const holidays = yearMap.get(hd.toString());
-      if (holidays) {
-        const filtered: HolidayEvent[] = holidays.filter(myFilter);
-        events = events.concat(filtered);
-      }
-    }
-    return events;
+    return getHolidaysForYearArray(year, il);
   }
 
   /**
@@ -728,17 +706,7 @@ export class HebrewCalendar {
     date: HDate | Date | number,
     il?: boolean
   ): HolidayEvent[] | undefined {
-    const hd = HDate.isHDate(date) ? (date as HDate) : new HDate(date);
-    const hdStr = hd.toString();
-    const yearMap = getHolidaysForYear_(hd.getFullYear());
-    const events = yearMap.get(hdStr);
-    // if il isn't a boolean return both diaspora + IL for day
-    if (typeof il === 'undefined' || typeof events === 'undefined') {
-      return events;
-    }
-    const myFilter = il ? observedInIsrael : observedInDiaspora;
-    const filtered = events.filter(myFilter);
-    return filtered;
+    return getHolidaysOnDate(date, il);
   }
 
   /**
@@ -802,10 +770,7 @@ export class HebrewCalendar {
    * 2 - Whole Hallel
    */
   static hallel(hdate: HDate, il: boolean): number {
-    const events = HebrewCalendar.getHolidaysForYearArray(
-      hdate.getFullYear(),
-      il
-    );
+    const events = getHolidaysForYearArray(hdate.getFullYear(), il);
     return hallel_(events, hdate);
   }
 
@@ -834,7 +799,7 @@ export class HebrewCalendar {
  * @private
  */
 function isChag(date: HDate, il: boolean): boolean {
-  const events = HebrewCalendar.getHolidaysOnDate(date, il) || [];
+  const events = getHolidaysOnDate(date, il) || [];
   const chag = events.filter(ev => ev.getFlags() & flags.CHAG);
   return chag.length !== 0;
 }

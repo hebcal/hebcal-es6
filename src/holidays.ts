@@ -425,3 +425,58 @@ function getBirkatHaChama(year: number): number {
   }
   return 0;
 }
+
+function observedInIsrael(ev: HolidayEvent): boolean {
+  return ev.observedInIsrael();
+}
+
+function observedInDiaspora(ev: HolidayEvent): boolean {
+  return ev.observedInDiaspora();
+}
+
+/**
+ * Returns an array of Events on this date (or `undefined` if no events)
+ * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
+ * @param [il] use the Israeli schedule for holidays
+ */
+export function getHolidaysOnDate(
+  date: HDate | Date | number,
+  il?: boolean
+): HolidayEvent[] | undefined {
+  const hd = HDate.isHDate(date) ? (date as HDate) : new HDate(date);
+  const hdStr = hd.toString();
+  const yearMap = getHolidaysForYear_(hd.getFullYear());
+  const events = yearMap.get(hdStr);
+  // if il isn't a boolean return both diaspora + IL for day
+  if (typeof il === 'undefined' || typeof events === 'undefined') {
+    return events;
+  }
+  const myFilter = il ? observedInIsrael : observedInDiaspora;
+  const filtered = events.filter(myFilter);
+  return filtered;
+}
+
+/**
+ * Returns an array of holidays for the year
+ * @param year Hebrew year
+ * @param il use the Israeli schedule for holidays
+ */
+export function getHolidaysForYearArray(
+  year: number,
+  il: boolean
+): HolidayEvent[] {
+  const yearMap = getHolidaysForYear_(year);
+  const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
+  const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
+  let events: HolidayEvent[] = [];
+  const myFilter = il ? observedInIsrael : observedInDiaspora;
+  for (let absDt = startAbs; absDt <= endAbs; absDt++) {
+    const hd = new HDate(absDt);
+    const holidays = yearMap.get(hd.toString());
+    if (holidays) {
+      const filtered: HolidayEvent[] = holidays.filter(myFilter);
+      events = events.concat(filtered);
+    }
+  }
+  return events;
+}

@@ -1,4 +1,7 @@
-import {HebrewCalendar} from '../src/hebcal';
+import {
+  getHolidaysForYear_,
+  getHolidaysForYearArray,
+} from '../src/holidays';
 import {isoDateString} from '@hebcal/hdate';
 
 jest.mock('quick-lru', () => {
@@ -14,7 +17,7 @@ function eventDateDesc(ev) {
 }
 
 test('getHolidaysForYearArray-5771-diaspora', () => {
-  const events = HebrewCalendar.getHolidaysForYearArray(5771, false).map(eventDateDesc);
+  const events = getHolidaysForYearArray(5771, false).map(eventDateDesc);
   const expected = [
     {date: '2010-09-09', desc: 'Rosh Hashana 5771'},
     {date: '2010-09-10', desc: 'Rosh Hashana II'},
@@ -119,7 +122,7 @@ test('getHolidaysForYearArray-5771-diaspora', () => {
 });
 
 test('getHolidaysForYearArray-5720-il', () => {
-  const events = HebrewCalendar.getHolidaysForYearArray(5720, true).map(eventDateDesc);
+  const events = getHolidaysForYearArray(5720, true).map(eventDateDesc);
   const expected = [
     {date: '1959-10-03', desc: 'Rosh Hashana 5720'},
     {date: '1959-10-04', desc: 'Rosh Hashana II'},
@@ -214,7 +217,7 @@ test('getHolidaysForYearArray-5720-il', () => {
 });
 
 test('getHolidaysForYear-ce', () => {
-  const map = HebrewCalendar.getHolidaysForYear(5888);
+  const map = getHolidaysForYear_(5888);
   const rh = map.get('1 Tishrei 5888').map(eventDateDesc)[0];
   const pesach = map.get('15 Nisan 5888').map(eventDateDesc)[0];
   expect(rh).toEqual({date: '2127-09-08', desc: 'Rosh Hashana 5888'});
@@ -222,7 +225,7 @@ test('getHolidaysForYear-ce', () => {
 });
 
 test('getHolidaysForYear-bce', () => {
-  const map = HebrewCalendar.getHolidaysForYear(3737);
+  const map = getHolidaysForYear_(3737);
   const rh = map.get('1 Tishrei 3737').map(eventDateDesc)[0];
   const pesach = map.get('15 Nisan 3737').map(eventDateDesc)[0];
   expect(rh).toEqual({date: '-000024-09-11', desc: 'Rosh Hashana 3737'});
@@ -230,7 +233,7 @@ test('getHolidaysForYear-bce', () => {
 });
 
 test('getHolidaysForYearArray-bce', () => {
-  const events = HebrewCalendar.getHolidaysForYearArray(3759, false).slice(0, 15);
+  const events = getHolidaysForYearArray(3759, false).slice(0, 15);
   const actual = events.map(eventDateDesc);
   const expected = [
     {date: '-000002-09-08', desc: 'Rosh Hashana 3759'},
@@ -255,7 +258,7 @@ test('getHolidaysForYearArray-bce', () => {
 test('Birkat Hachamah', () => {
   const actual = [];
   for (let year = 5650; year <= 5920; year++) {
-    const events = HebrewCalendar.getHolidaysForYearArray(year, false);
+    const events = getHolidaysForYearArray(year, false);
     const ev = events.find((ev) => ev.getDesc() === 'Birkat Hachamah');
     if (ev) {
       actual.push(year);
@@ -264,14 +267,19 @@ test('Birkat Hachamah', () => {
   const expected = [5657, 5685, 5713, 5741, 5769, 5797, 5825, 5853, 5881, 5909];
   expect(actual).toEqual(expected);
 
-  const events = HebrewCalendar.getHolidaysForYearArray(5965, false);
+  const events = getHolidaysForYearArray(5965, false);
   const ev = events.find((ev) => ev.getDesc() === 'Birkat Hachamah');
   expect(typeof ev).toBe('object');
   expect(ev.getDate().toString()).toBe('19 Nisan 5965');
 
-  const events2 = HebrewCalendar.getHolidaysForYearArray(5993, false);
+  const events2 = getHolidaysForYearArray(5993, false);
   const ev2 = events2.find((ev) => ev.getDesc() === 'Birkat Hachamah');
   expect(typeof ev2).toBe('object');
   expect(ev2.getDate().toString()).toBe('29 Adar II 5993');
 });
 
+test('getHolidaysForYear-throw', () => {
+  expect(() => {
+    getHolidaysForYear_(-1);
+  }).toThrow('Hebrew year -1 out of range 1-32658');
+});
