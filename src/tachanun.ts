@@ -27,7 +27,23 @@ const NONE: TachanunResult = {
   allCongs: false,
 } as const;
 
-export function tachanun_(hdate: HDate, il: boolean): TachanunResult {
+/**
+ * Return details on what Tachanun (or Tzidchatcha on Shabbat) is said on `hdate`.
+ *
+ * Tachanun is not said on Rosh Chodesh, the month of Nisan, Lag Baomer,
+ * Rosh Chodesh Sivan until Isru Chag, Tisha B'av, 15 Av, Erev Rosh Hashanah,
+ * Rosh Hashanah, Erev Yom Kippur until after Simchat Torah, Chanukah,
+ * Tu B'shvat, Purim and Shushan Purim, and Purim and Shushan Purim Katan.
+ *
+ * In some congregations Tachanun is not said until from Rosh Chodesh Sivan
+ * until 14th Sivan, Sukkot until after Rosh Chodesh Cheshvan, Pesach Sheini,
+ * Yom Ha'atzmaut, and Yom Yerushalayim.
+ *
+ * Tachanun is not said at Mincha on days before it is not said at Shacharit.
+ *
+ * Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
+ */
+export function tachanun(hdate: HDate, il: boolean): TachanunResult {
   return tachanun0(hdate, il, true);
 }
 

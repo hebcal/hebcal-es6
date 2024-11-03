@@ -1,13 +1,13 @@
 import {HDate, months} from '@hebcal/hdate';
-import {tachanun_} from '../src/tachanun';
+import {tachanun, TachanunResult} from '../src/tachanun';
 
 test('tachanun', () => {
   const startAbs = HDate.hebrew2abs(5782, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(5783, months.TISHREI, 1);
-  const actual = [];
+  const actual: [number, TachanunResult][] = [];
   for (let abs = startAbs; abs < endAbs; abs++) {
     const hd = new HDate(abs);
-    const tach = tachanun_(hd, false);
+    const tach = tachanun(hd, false);
     actual.push([hd.abs(), tach]);
   }
   const expected = [

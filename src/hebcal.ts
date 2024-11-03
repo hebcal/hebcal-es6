@@ -54,7 +54,7 @@ import {Location} from './location';
 import {Molad, MoladEvent} from './molad';
 import {OmerEvent} from './omer';
 import {reformatTimeStr} from './reformatTimeStr';
-import {TachanunResult, tachanun_} from './tachanun';
+import {TachanunResult, tachanun} from './tachanun';
 import {Zmanim} from './zmanim';
 import {getStartAndEnd} from './getStartAndEnd';
 
@@ -806,7 +806,7 @@ export class HebrewCalendar {
    * Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
    */
   static tachanun(hdate: HDate, il: boolean): TachanunResult {
-    return tachanun_(hdate, il);
+    return tachanun(hdate, il);
   }
 }
 
