@@ -1,5 +1,5 @@
 import {HDate} from '@hebcal/hdate';
-import {Location} from './location';
+import type {Location} from './location';
 
 export type DailyLearningValue = boolean | number | string;
 
