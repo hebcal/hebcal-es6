@@ -22,14 +22,17 @@
   ],
   "description": "A perpetual Jewish Calendar API",
   "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "module": "./dist/es/index.js",
   "type": "module",
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.cjs",
-    "types": "./dist/module.d.ts"
+    ".": {
+      "import": "./dist/es/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/es/index.d.ts"
+    },
+    "./dist/es/*": "./dist/es/*.js"
   },
-  "typings": "./dist/module.d.ts",
+  "typings": "./dist/es/index.d.ts",
   "engines": {
     "node": ">= 16.0.0"
   },
@@ -89,7 +92,6 @@
     "quick-lru": "<=6.1.2",
     "rollup": "^4.24.3",
     "rollup-plugin-bundle-size": "^1.0.3",
-    "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-visualizer": "^5.12.0",
     "ttag-cli": "^1.10.12",
     "typedoc": "^0.26.11",
