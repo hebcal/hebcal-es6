@@ -3,7 +3,7 @@ import {flags} from './event';
 import {HolidayEvent} from './HolidayEvent';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
-export const ykk = 'Yom Kippur Katan';
+const ykk = 'Yom Kippur Katan';
 
 /** YKK is minor day of atonement on the day preceeding each Rosh Chodesh */
 export class YomKippurKatanEvent extends HolidayEvent {

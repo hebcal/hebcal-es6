@@ -82,7 +82,7 @@ export class Sedra {
   private readonly year: number;
   private readonly il: boolean;
   private readonly firstSaturday: number;
-  private readonly theSedraArray: NumberOrString[];
+  private readonly theSedraArray: readonly NumberOrString[];
   /**
    * Caculates the Parashah HaShavua for an entire Hebrew year
    * @param hyear - Hebrew year (e.g. 5749)
@@ -262,7 +262,7 @@ export class Sedra {
    * Returns the underlying annual sedra schedule.
    * Used by `@hebcal/triennial`
    */
-  getSedraArray(): NumberOrString[] {
+  getSedraArray(): readonly NumberOrString[] {
     return this.theSedraArray;
   }
 
@@ -324,7 +324,7 @@ export class Sedra {
  * @readonly
  * @type {string[]}
  */
-export const parshiot: string[] = [
+export const parshiot: readonly string[] = [
   'Bereshit',
   'Noach',
   'Lech-Lecha',
@@ -378,7 +378,7 @@ export const parshiot: string[] = [
   'Nitzavim',
   'Vayeilech',
   "Ha'azinu",
-];
+] as const;
 
 // 0-based parsha IDs
 const parsha2id = new Map<string, number>();
@@ -435,15 +435,15 @@ const SHAVUOT = 'Shavuot'; // 33
  * @param start beginning number, inclusive
  * @param stop ending number, inclusive
  */
-function range(start: number, stop: number): number[] {
+function range(start: number, stop: number): readonly number[] {
   return Array.from({length: stop - start + 1}, (v, k) => k + start);
 }
 
 type NumberOrString = number | string;
 
-const yearStartVayeilech: NumberOrString[] = [51, 52, CHMSUKOT];
-const yearStartHaazinu: NumberOrString[] = [52, YK, CHMSUKOT];
-const yearStartRH: NumberOrString[] = [RH, 52, SUKKOT, SHMINI];
+const yearStartVayeilech: readonly NumberOrString[] = [51, 52, CHMSUKOT];
+const yearStartHaazinu: readonly NumberOrString[] = [52, YK, CHMSUKOT];
+const yearStartRH: readonly NumberOrString[] = [RH, 52, SUKKOT, SHMINI];
 const r020 = range(0, 20);
 const r027 = range(0, 27);
 const r3340 = range(33, 40);
@@ -456,7 +456,7 @@ const r4350 = range(43, 50);
  * @private
  * @readonly
  */
-const types: {[s: string]: NumberOrString[]} = {
+const types: {[s: string]: readonly NumberOrString[]} = {
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
    * Kislev each have 29 days), and has Passover start on Tuesday. */
   // e.g. 5753

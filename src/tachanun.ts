@@ -1,7 +1,7 @@
 import {HDate, months} from '@hebcal/hdate';
 import {dateYomHaZikaron} from './modern';
 
-function range(start: number, end: number): number[] {
+function range(start: number, end: number): readonly number[] {
   const arr = [];
   for (let i = start; i <= end; i++) {
     arr.push(i);
@@ -67,7 +67,13 @@ function tachanun0(
   return ret;
 }
 
-function tachanunYear(year: number, il: boolean): any {
+type TachanunYear = {
+  none: number[];
+  some: number[];
+  yesPrev: number[];
+};
+
+function tachanunYear(year: number, il: boolean): TachanunYear {
   const leap = HDate.isLeapYear(year);
   const monthsInYear = HDate.monthsInYear(year);
   let av9dt = new HDate(9, months.AV, year);
@@ -78,7 +84,7 @@ function tachanunYear(year: number, il: boolean): any {
   if (shushPurim.getDay() === 6) {
     shushPurim = shushPurim.next();
   }
-  const none: HDate[] = [
+  const none: readonly HDate[] = [
     new HDate(2, months.TISHREI, year), // Rosh Hashana II
   ].concat(
     // Rosh Chodesh - 1st of every month. Also includes RH day 1 (1 Tishrei)
@@ -108,7 +114,7 @@ function tachanunYear(year: number, il: boolean): any {
     shushPurim,
     leap ? new HDate(14, months.ADAR_I, year) : [] // Purim Katan
   );
-  const some: HDate[] = [
+  const some: readonly HDate[] = [
     new HDate(14, months.IYYAR, year), // Pesach Sheini
   ].concat(
     // Until 14 Sivan
@@ -120,7 +126,7 @@ function tachanunYear(year: number, il: boolean): any {
     // Yom Yerushalayim
     year >= 5727 ? new HDate(28, months.IYYAR, year) : []
   );
-  const yesPrev: HDate[] = [
+  const yesPrev: readonly HDate[] = [
     new HDate(29, months.ELUL, year - 1), // Erev Rosh Hashanah
     new HDate(9, months.TISHREI, year), // Erev Yom Kippur
     new HDate(14, months.IYYAR, year), // Pesach Sheini

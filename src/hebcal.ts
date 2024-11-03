@@ -578,7 +578,7 @@ export class HebrewCalendar {
           isSaturday
         );
         if (isFriday && candlesEv && sedra) {
-          const parsha = sedra!.lookup(abs);
+          const parsha = sedra.lookup(abs);
           const pe = new ParshaEvent(hd.next(), parsha.parsha, il, parsha.num);
           candlesEv.memo = pe.render(options.locale);
         }
