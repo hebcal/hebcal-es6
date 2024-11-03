@@ -60,7 +60,7 @@ module.exports = defineConfig([
       commonjs(),
       bundleSize(),
     ],
-    external: ['temporal-polyfill', /@babel\/runtime/],
+    external: [/node_modules/],
   },
   {
     input: 'src/index.ts',
@@ -103,7 +103,7 @@ module.exports = defineConfig([
       nodeResolve(),
       commonjs(),
     ],
-    external: ['temporal-polyfill', /@babel\/runtime/],
+    external: [/node_modules/],
   },
   // Standalone JS file for use without bundlers.
   // Avoid if possible.

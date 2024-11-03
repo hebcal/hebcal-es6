@@ -31,7 +31,7 @@ npm install @hebcal/core
 This package exports 3 categories of output:
 
 - `dist/bundle.min.js`: This includes all dependencies in a single JS file.  It's quite large (174KB minified), and should only be used if you aren't using a bundler.
-- `dist/index.cjs`: This includes all dependencies as a single CommonJS module, including polyfills.  Avoid where possible.
+- `dist/index.cjs`: This includes all of this package's code in a single bundle.
 - `dist/es/`: This directory contains ES modules for each source file in the package.  If you're using Rollup, Vite, or another bundler, you should import from here to reduce output sizes.
   - These files do not include polyfills; if you want to support older browsers, use <https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers>
   - To make tree-shaking work better, import from the most specific file possible; avoid importing from `index` or `hebcal`.  Some APIs may still need to be moved to specific files.
