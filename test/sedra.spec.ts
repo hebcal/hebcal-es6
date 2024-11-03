@@ -125,11 +125,11 @@ test('find', () => {
   expect(dt(sedra.find('Bo'))).toBe('2021-01-23');
   expect(dt(sedra.find(['Tazria', 'Metzora']))).toBe('2021-04-17');
   expect(dt(sedra.find('Tazria-Metzora'))).toBe('2021-04-17');
-  expect(sedra.find('Tazria')).toBe(null);
-  expect(sedra.find('Metzora')).toBe(null);
+  expect(sedra.find('Tazria')).toBeNull();
+  expect(sedra.find('Metzora')).toBeNull();
   expect(dt(sedra.find('Chukat'))).toBe('2021-06-19');
-  expect(sedra.find(['Chukat', 'Balak'])).toBe(null);
-  expect(sedra.find('Chukat-Balak')).toBe(null);
+  expect(sedra.find(['Chukat', 'Balak'])).toBeNull();
+  expect(sedra.find('Chukat-Balak')).toBeNull();
   const sedra5785 = new Sedra(5785, false);
   expect(dt(sedra5785.find('Sukkot Shabbat Chol ha-Moed'))).toBe('2024-10-19');
   expect(sedra.find('Sukkot Shabbat Chol ha-Moed')).toBeNull();
@@ -158,7 +158,7 @@ test('find-number', () => {
 
 test('find-bad string returns null', () => {
   const sedra = new Sedra(5781, false);
-  expect(sedra.find('Bogus')).toBe(null);
+  expect(sedra.find('Bogus')).toBeNull();
 });
 
 test('find-throws', () => {
@@ -191,7 +191,7 @@ test('find-throws', () => {
 
 test('find-holiday', () => {
   const sedra1 = new Sedra(5781, false);
-  expect(sedra1.find('Yom Kippur')).toBe(null);
+  expect(sedra1.find('Yom Kippur')).toBeNull();
   expect(dt(sedra1.find('Pesach VII'))).toBe('2021-04-03');
 
   const sedra2 = new Sedra(5754, true);
@@ -199,7 +199,7 @@ test('find-holiday', () => {
   expect(dt(sedra2.find('Pesach VII'))).toBe('1994-04-02');
 
   const sedra3 = new Sedra(5752, false);
-  expect(sedra3.find('Pesach VII')).toBe(null);
+  expect(sedra3.find('Pesach VII')).toBeNull();
   expect(dt(sedra3.find('Pesach VIII'))).toBe('1992-04-25');
 });
 

@@ -614,7 +614,7 @@ test('makeFastStartEnd', () => {
   };
   const ev2 = makeFastStartEnd(ev, options);
   const startEvent = ev2.startEvent as TimedEvent;
-  expect(startEvent).not.toBe(null);
+  expect(startEvent).not.toBeNull();
   expect(startEvent.eventTime.toISOString()).toBe('2023-07-27T00:10:00.000Z');
   expect(startEvent.eventTimeStr).toBe('20:10');
 });

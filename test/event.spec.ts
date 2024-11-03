@@ -25,7 +25,7 @@ test('renderBrief', () => {
 });
 
 test('emoji', () => {
-  expect(ev.getEmoji()).toBe(null);
+  expect(ev.getEmoji()).toBeNull();
 });
 
 test('basename', () => {
