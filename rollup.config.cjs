@@ -7,6 +7,7 @@ const terser = require('@rollup/plugin-terser');
 const typescript = require('@rollup/plugin-typescript');
 const {dts} = require('rollup-plugin-dts');
 const pkg = require('./package.json');
+const {defineConfig} = require('rollup');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
 
@@ -20,7 +21,7 @@ const TARGETS_BROWSER = {
 
 // Override tsconfig.json, which includes ./size-demo.
 const tsOptions = {rootDir: './src'};
-module.exports = [
+module.exports = defineConfig([
   {
     input: 'src/index.ts',
     output: [
@@ -40,7 +41,8 @@ module.exports = [
       typescript(tsOptions),
       json({compact: true, preferConst: true}),
       babel({
-        babelHelpers: 'bundled',
+        babelHelpers: 'runtime',
+        plugins: ['@babel/plugin-transform-runtime'],
         presets: [
           [
             '@babel/preset-env',
@@ -58,7 +60,7 @@ module.exports = [
       commonjs(),
       bundleSize(),
     ],
-    // external: ['temporal-polyfill'],
+    external: ['temporal-polyfill', /@babel\/runtime/],
   },
   {
     input: 'src/index.ts',
@@ -79,7 +81,8 @@ module.exports = [
       typescript(tsOptions),
       json({compact: true, preferConst: true}),
       babel({
-        babelHelpers: 'bundled',
+        babelHelpers: 'runtime',
+        plugins: ['@babel/plugin-transform-runtime'],
         presets: [
           [
             '@babel/preset-env',
@@ -97,8 +100,10 @@ module.exports = [
       commonjs(),
       bundleSize(),
     ],
-    // external: ['temporal-polyfill'],
+    external: ['temporal-polyfill', /@babel\/runtime/],
   },
+  // Standalone JS file for use without bundlers.
+  // Avoid if possible.
   {
     input: 'src/index.ts',
     output: [
@@ -119,7 +124,7 @@ module.exports = [
         format: 'iife',
         name: 'hebcal',
 
-        plugins: [terser(), bundleSize()],
+        plugins: [terser()],
         banner,
         sourcemap: true,
         inlineDynamicImports: true,
@@ -150,11 +155,11 @@ module.exports = [
       }),
       bundleSize(),
     ],
-    // external: ['temporal-polyfill'],
+    external: ['temporal-polyfill', /@babel\/runtime/],
   },
   {
     input: 'dist/index.d.ts',
     output: [{file: 'dist/module.d.ts', format: 'es'}],
     plugins: [dts()],
   },
-];
+]);

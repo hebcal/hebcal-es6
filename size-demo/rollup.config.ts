@@ -48,21 +48,6 @@ export default defineConfig(
           json({compact: true, preferConst: true}),
           nodeResolve(),
           commonjs(),
-          babel({
-            babelHelpers: 'bundled',
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  modules: false,
-                  targets: TARGETS_BROWSER,
-                  useBuiltIns: 'usage',
-                  corejs: 3,
-                },
-              ],
-            ],
-            exclude: ['node_modules/core-js/**'],
-          }),
           bundleSize(),
           {
             name: 'record-size-to-file',
