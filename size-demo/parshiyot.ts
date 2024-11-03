@@ -1,4 +1,4 @@
-import {HebrewCalendar} from '../dist/index';
+import {HebrewCalendar} from '../dist/es/index';
 
 const events = HebrewCalendar.calendar({
   year: new Date().getFullYear() - 1,

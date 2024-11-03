@@ -66,19 +66,23 @@ module.exports = defineConfig([
     input: 'src/index.ts',
     output: [
       {
-        file: pkg.module,
+        dir: 'dist/es',
         format: 'es',
         name: pkg.name,
         banner,
+        preserveModules: true,
+        preserveModulesRoot: 'src',
         sourcemap: true,
-        inlineDynamicImports: true,
         globals: {
           'temporal-polyfill': 'Temporal',
         },
       },
     ],
     plugins: [
-      typescript(tsOptions),
+      typescript({
+        outDir: 'dist/es',
+        rootDir: './src',
+      }),
       json({compact: true, preferConst: true}),
       babel({
         babelHelpers: 'runtime',
@@ -98,7 +102,6 @@ module.exports = defineConfig([
       }),
       nodeResolve(),
       commonjs(),
-      bundleSize(),
     ],
     external: ['temporal-polyfill', /@babel\/runtime/],
   },
