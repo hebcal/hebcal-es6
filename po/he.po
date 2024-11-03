@@ -331,17 +331,11 @@ msgstr "שַׁבָּת הַחֹדֶשׁ"
 msgid "Shabbat HaGadol"
 msgstr "שַׁבָּת הַגָּדוֹל"
 
-msgid "Shabbat Machar Chodesh"
-msgstr "שַׁבָּת מָחָר חוֹדֶשׁ"
-
 msgid "Shabbat Nachamu"
 msgstr "שַׁבָּת נַחֲמוּ"
 
 msgid "Shabbat Parah"
 msgstr "שַׁבָּת פּרה"
-
-msgid "Shabbat Rosh Chodesh"
-msgstr "שַׁבָּת רֹאשׁ חוֹדֶשׁ"
 
 msgid "Shabbat Shekalim"
 msgstr "שַׁבָּת שְׁקָלִים"
@@ -444,81 +438,6 @@ msgstr "יוֹם הַעֲלִיָּה"
 
 msgid "Yom HaAliyah School Observance"
 msgstr "שְׁמִירָת בֵּית הַסֵפֶר לְיוֹם הַעֲלִיָּה"
-
-msgid "Pesach I (on Shabbat)"
-msgstr "פֶּסַח יוֹם א׳ (בְּשַׁבָּת)"
-
-msgid "Pesach Chol ha-Moed Day 1"
-msgstr "פֶּסַח חוֹל הַמּוֹעֵד יוֹם א׳"
-
-msgid "Pesach Chol ha-Moed Day 2"
-msgstr "פֶּסַח חוֹל הַמּוֹעֵד יוֹם ב׳"
-
-msgid "Pesach Chol ha-Moed Day 2 on Sunday"
-msgstr "פֶּסַח חוֹל הַמּוֹעֵד יוֹם ב׳ (בְּיוֹם רִאשׁוֹן)"
-
-msgid "Pesach Chol ha-Moed Day 3"
-msgstr "פֶּסַח חוֹל הַמּוֹעֵד יוֹם ג׳"
-
-msgid "Pesach Chol ha-Moed Day 3 on Monday"
-msgstr "פֶּסַח חוֹל הַמּוֹעֵד יוֹם ג׳ (בְּיוֹם שָׁנִי)"
-
-msgid "Pesach Chol ha-Moed Day 4"
-msgstr "פֶּסַח חוֹל הַמּוֹעֵד יוֹם ד׳"
-
-msgid "Pesach Chol ha-Moed Day 5"
-msgstr "פֶּסַח חוֹל הַמּוֹעֵד יוֹם ה׳"
-
-msgid "Pesach Shabbat Chol ha-Moed"
-msgstr "פֶּסַח שַׁבָּת חוֹל הַמּוֹעֵד"
-
-msgid "Pesach VII (on Shabbat)"
-msgstr "פֶּסַח ז׳ (בְּשַׁבָּת)"
-
-msgid "Pesach VIII (on Shabbat)"
-msgstr "פֶּסַח ח׳ (בְּשַׁבָּת)"
-
-msgid "Shavuot II (on Shabbat)"
-msgstr "שָׁבוּעוֹת יוֹם ב׳ (בְּשַׁבָּת)"
-
-msgid "Rosh Hashana I (on Shabbat)"
-msgstr "רֹאשׁ הַשָּׁנָה יוֹם א׳ (בְּשַׁבָּת)"
-
-msgid "Yom Kippur (on Shabbat)"
-msgstr "יוֹם כִּפּוּר (בְּשַׁבָּת)"
-
-msgid "Yom Kippur (Mincha, Traditional)"
-msgstr "יוֹם כִּפּוּר מִנחָה"
-
-msgid "Yom Kippur (Mincha, Alternate)"
-msgstr "יוֹם כִּפּוּר מִנחָה"
-
-msgid "Sukkot I (on Shabbat)"
-msgstr "סוּכּוֹת יוֹם א׳ (בְּשַׁבָּת)"
-
-msgid "Sukkot Chol ha-Moed Day 1"
-msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם א׳"
-
-msgid "Sukkot Chol ha-Moed Day 2"
-msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ב׳"
-
-msgid "Sukkot Chol ha-Moed Day 3"
-msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ג׳"
-
-msgid "Sukkot Chol ha-Moed Day 4"
-msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ד׳"
-
-msgid "Sukkot Chol ha-Moed Day 5"
-msgstr "סוּכּוֹת חוֹל הַמּוֹעֵד יוֹם ה׳"
-
-msgid "Sukkot Shabbat Chol ha-Moed"
-msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמּוֹעֵד"
-
-msgid "Sukkot Final Day (Hoshana Raba)"
-msgstr "סוּכּוֹת ז׳ (הוֹשַׁעְנָא רַבָּה)"
-
-msgid "Shmini Atzeret (on Shabbat)"
-msgstr "שְׁמִינִי עֲצֶרֶת (בְּשַׁבָּת)"
 
 msgid "Rosh Chodesh Adar"
 msgstr "רֹאשׁ חוֹדֶשׁ אַדָר"
@@ -681,60 +600,10 @@ msgstr "מַּלְכוּת"
 msgid "day"
 msgstr "יוֹם"
 
-msgid "Chanukah Day 1"
-msgstr "חֲנוּכָּה יוֹם א׳"
-
-msgid "Chanukah Day 2"
-msgstr "חֲנוּכָּה יוֹם ב׳"
-
-msgid "Chanukah Day 3"
-msgstr "חֲנוּכָּה יוֹם ג׳"
-
-msgid "Chanukah Day 4"
-msgstr "חֲנוּכָּה יוֹם ד׳"
-
-msgid "Chanukah Day 5"
-msgstr "חֲנוּכָּה יוֹם ה׳"
-
-msgid "Chanukah Day 6"
-msgstr "חֲנוּכָּה יוֹם ו׳"
-
-msgid "Chanukah Day 7"
-msgstr "חֲנוּכָּה יוֹם ז׳"
-
-msgid "Chanukah Day 7 (on Rosh Chodesh)"
-msgstr "חֲנוּכָּה יוֹם ז׳ (רֹאשׁ חוֹדֶשׁ)"
-
-msgid "Chanukah Day 8"
-msgstr "חֲנוּכָּה יוֹם ח׳"
-
-msgid "Chanukah Day 1 (on Shabbat)"
-msgstr "חֲנוּכָּה יוֹם א׳ (בְּשַׁבָּת)"
-
-msgid "Chanukah Day 2 (on Shabbat)"
-msgstr "חֲנוּכָּה יוֹם ב׳ (בְּשַׁבָּת)"
-
-msgid "Chanukah Day 3 (on Shabbat)"
-msgstr "חֲנוּכָּה יוֹם ג׳ (בְּשַׁבָּת)"
-
-msgid "Chanukah Day 4 (on Shabbat)"
-msgstr "חֲנוּכָּה יוֹם ד׳ (בְּשַׁבָּת)"
-
-msgid "Chanukah Day 5 (on Shabbat)"
-msgstr "חֲנוּכָּה יוֹם ה׳ (בְּשַׁבָּת)"
-
-msgid "Chanukah Day 7 (on Shabbat)"
-msgstr "חֲנוּכָּה יוֹם ז׳ (בְּשַׁבָּת)"
-
-msgid "Chanukah Day 8 (on Shabbat)"
-msgstr "חֲנוּכָּה יוֹם ח׳ (בְּשַׁבָּת)"
-
-msgid "Shabbat Rosh Chodesh Chanukah"
-msgstr "שַׁבָּת רֹאשׁ חוֹדֶשׁ חֲנוּכָּה"
-
 msgid "Yom Kippur Katan"
 msgstr "יוֹם כִּפּוּר קָטָן"
 
+# modern IL holidays
 msgid "Family Day"
 msgstr "יוֹם הַמִּשׁפָּחָה"
 
@@ -872,27 +741,6 @@ msgstr "דִברֵי הַיָמִים רִאשׁוֹן"
 
 msgid "II Chronicles"
 msgstr "דִברֵי הַיָמִים שֵׁנִי"
-
-msgid "Yom Kippur (Mincha)"
-msgstr "יוֹם כִּפּוּר מִנחָה"
-
-msgid "Tish'a B'Av (Mincha)"
-msgstr "תִּשְׁעָה בְּאָב מִנחָה"
-
-msgid "Asara B'Tevet (Mincha)"
-msgstr "עֲשָׂרָה בְּטֵבֵת מִנחָה"
-
-msgid "Ta'anit Bechorot (Mincha)"
-msgstr "תַּעֲנִית בְּכוֹרוֹת מִנחָה"
-
-msgid "Ta'anit Esther (Mincha)"
-msgstr "תַּעֲנִית אֶסְתֵּר מִנחָה"
-
-msgid "Tzom Gedaliah (Mincha)"
-msgstr "צוֹם גְּדַלְיָה מִנחָה"
-
-msgid "Tzom Tammuz (Mincha)"
-msgstr "צוֹם תָּמוּז מִנחָה"
 
 msgid "Molad"
 msgstr "מוֹלָד הָלְּבָנָה"
