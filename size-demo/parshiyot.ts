@@ -1,6 +1,6 @@
-import {HebrewCalendar} from '../dist/es/index';
+import {calendar} from '../dist/es/calendar';
 
-const events = HebrewCalendar.calendar({
+const events = calendar({
   year: new Date().getFullYear() - 1,
   numYears: 2,
   sedrot: true,
