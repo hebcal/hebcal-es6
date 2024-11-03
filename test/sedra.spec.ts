@@ -132,6 +132,7 @@ test('find', () => {
   expect(sedra.find('Chukat-Balak')).toBe(null);
   const sedra5785 = new Sedra(5785, false);
   expect(dt(sedra5785.find('Sukkot Shabbat Chol ha-Moed'))).toBe('2024-10-19');
+  expect(sedra.find('Sukkot Shabbat Chol ha-Moed')).toBeNull();
 });
 
 test('findContaining', () => {

@@ -161,24 +161,19 @@ export class Sedra {
       if (parsha >= parshiot.length || (parsha < 0 && !isValidDouble(parsha))) {
         throw new RangeError(`Invalid parsha number: ${parsha}`);
       }
-      const idx = this.theSedraArray.indexOf(parsha);
-      if (idx === -1) {
-        return null; // doesn't occur this year
-      }
-      return new HDate(this.firstSaturday + idx * 7);
+      return this.findInternal(parsha);
     } else if (typeof parsha === 'string') {
       const num = parsha2id.get(parsha);
       if (typeof num === 'number') {
         return this.find(num);
       } else if (parsha.indexOf('-') !== -1) {
+        if (parsha === CHMPESACH || parsha === CHMSUKOT) {
+          return this.findInternal(parsha);
+        }
         return this.find(parsha.split('-'));
       } else {
         // try to find Saturday holiday like 'Yom Kippur'
-        const idx = this.theSedraArray.indexOf(parsha);
-        if (idx === -1) {
-          return null; // doesn't occur this year
-        }
-        return new HDate(this.firstSaturday + idx * 7);
+        return this.findInternal(parsha);
       }
     } else if (Array.isArray(parsha)) {
       const plen = parsha.length;
@@ -194,16 +189,6 @@ export class Sedra {
       const p2 = parsha[1];
       const num1 = parsha2id.get(p1);
       const num2 = parsha2id.get(p2);
-      //Attempt to find Holidays with dash such as Sukkot Shabbat Chol ha-Moed
-      if (
-        !num1 &&
-        !num2 &&
-        this.theSedraArray.indexOf(parsha.join('-')) !== -1
-      ) {
-        const rejoinedName = parsha.join('-');
-        const idx = this.theSedraArray.indexOf(rejoinedName);
-        return new HDate(this.firstSaturday + idx * 7);
-      }
       if (
         typeof num1 !== 'number' ||
         typeof num2 !== 'number' ||
@@ -215,6 +200,14 @@ export class Sedra {
       return this.find(-num1);
     }
     return null; /* NOTREACHED */
+  }
+
+  private findInternal(parsha: NumberOrString): HDate | null {
+    const idx = this.theSedraArray.indexOf(parsha);
+    if (idx === -1) {
+      return null; // doesn't occur this year
+    }
+    return new HDate(this.firstSaturday + idx * 7);
   }
 
   /**
