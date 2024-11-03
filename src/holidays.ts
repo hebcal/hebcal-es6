@@ -20,7 +20,7 @@
  */
 import {HDate, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
-import {flags} from './event';
+import {Event, flags} from './event';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
 import {getSedra} from './sedra';
 import {
@@ -35,6 +35,41 @@ import {
   RoshHashanaEvent,
   RoshChodeshEvent,
 } from './HolidayEvent';
+
+/** @private */
+function observedInIsrael(ev: Event): boolean {
+  return ev.observedInIsrael();
+}
+
+/** @private */
+function observedInDiaspora(ev: Event): boolean {
+  return ev.observedInDiaspora();
+}
+/** @private */
+export function holidayFilter(il: boolean) {
+  return il ? observedInIsrael : observedInDiaspora;
+}
+
+/**
+ * Returns an array of Events on this date (or `undefined` if no events)
+ * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
+ * @param [il] use the Israeli schedule for holidays
+ */
+export function getHolidaysOnDate(
+  date: HDate | Date | number,
+  il?: boolean
+): HolidayEvent[] | undefined {
+  const hd = HDate.isHDate(date) ? (date as HDate) : new HDate(date);
+  const hdStr = hd.toString();
+  const yearMap = getHolidaysForYear_(hd.getFullYear());
+  const events = yearMap.get(hdStr);
+  // if il isn't a boolean return both diaspora + IL for day
+  if (typeof il === 'undefined' || typeof events === 'undefined') {
+    return events;
+  }
+  const filtered = events.filter(holidayFilter(il));
+  return filtered;
+}
 
 const CHAG = flags.CHAG;
 const IL_ONLY = flags.IL_ONLY;

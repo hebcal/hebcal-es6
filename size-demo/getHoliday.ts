@@ -1,2 +1,3 @@
-import {HDate, HebrewCalendar} from '../dist/es/index';
-console.log(HebrewCalendar.getHolidaysOnDate(new HDate(1, 1, 5757)));
+import {HDate} from '@hebcal/hdate';
+import {getHolidaysOnDate} from '../dist/es/holidays';
+console.log(getHolidaysOnDate(new HDate(1, 1, 5757)));
