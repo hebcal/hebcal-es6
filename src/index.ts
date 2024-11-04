@@ -28,7 +28,7 @@ export {
   RoshChodeshEvent,
   RoshHashanaEvent,
 } from './HolidayEvent';
-export {HolidayYearMap} from './holidays';
+export {HolidayYearMap, getHolidaysOnDate} from './holidays';
 export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 export {holidayDesc} from './staticHolidays';
 export {DailyLearning} from './DailyLearning';

@@ -339,10 +339,7 @@ export class HebrewCalendar {
    * 2 - Whole Hallel
    */
   static hallel(hdate: HDate, il: boolean): number {
-    const events = HebrewCalendar.getHolidaysForYearArray(
-      hdate.getFullYear(),
-      il
-    );
+    const events = getHolidaysForYearArray(hdate.getFullYear(), il);
     return hallel_(events, hdate);
   }
 

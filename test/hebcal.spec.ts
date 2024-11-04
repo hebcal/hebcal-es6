@@ -476,12 +476,6 @@ test('year0', () => {
   expect(events.length).toBe(82);
 });
 
-test('getHolidaysForYear-throw', () => {
-  expect(() => {
-    HebrewCalendar.getHolidaysForYear(-1);
-  }).toThrow('Hebrew year -1 out of range 1-32658');
-});
-
 test('version', () => {
   const version = HebrewCalendar.version();
   expect(version.substring(0, version.indexOf('.'))).toBe('5');
