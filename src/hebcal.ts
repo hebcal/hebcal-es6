@@ -28,8 +28,8 @@ import {Sedra, getSedra} from './sedra';
 import {hallel_} from './hallel';
 import {
   getHolidaysForYear_,
+  getHolidaysForYearArray,
   getHolidaysOnDate,
-  holidayFilter,
   HolidayYearMap,
 } from './holidays';
 import {HolidayEvent} from './HolidayEvent';
@@ -251,19 +251,7 @@ export class HebrewCalendar {
    * @param il use the Israeli schedule for holidays
    */
   static getHolidaysForYearArray(year: number, il: boolean): HolidayEvent[] {
-    const yearMap = getHolidaysForYear_(year);
-    const startAbs = HDate.hebrew2abs(year, months.TISHREI, 1);
-    const endAbs = HDate.hebrew2abs(year + 1, months.TISHREI, 1) - 1;
-    let events: HolidayEvent[] = [];
-    for (let absDt = startAbs; absDt <= endAbs; absDt++) {
-      const hd = new HDate(absDt);
-      const holidays = yearMap.get(hd.toString());
-      if (holidays) {
-        const filtered: HolidayEvent[] = holidays.filter(holidayFilter(il));
-        events = events.concat(filtered);
-      }
-    }
-    return events;
+    return getHolidaysForYearArray(year, il);
   }
 
   /**

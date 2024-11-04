@@ -45,8 +45,9 @@ function observedInIsrael(ev: Event): boolean {
 function observedInDiaspora(ev: Event): boolean {
   return ev.observedInDiaspora();
 }
+
 /** @private */
-export function holidayFilter(il: boolean) {
+function holidayFilter(il: boolean) {
   return il ? observedInIsrael : observedInDiaspora;
 }
 
@@ -459,36 +460,6 @@ function getBirkatHaChama(year: number): number {
     }
   }
   return 0;
-}
-
-function observedInIsrael(ev: HolidayEvent): boolean {
-  return ev.observedInIsrael();
-}
-
-function observedInDiaspora(ev: HolidayEvent): boolean {
-  return ev.observedInDiaspora();
-}
-
-/**
- * Returns an array of Events on this date (or `undefined` if no events)
- * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
- * @param [il] use the Israeli schedule for holidays
- */
-export function getHolidaysOnDate(
-  date: HDate | Date | number,
-  il?: boolean
-): HolidayEvent[] | undefined {
-  const hd = HDate.isHDate(date) ? (date as HDate) : new HDate(date);
-  const hdStr = hd.toString();
-  const yearMap = getHolidaysForYear_(hd.getFullYear());
-  const events = yearMap.get(hdStr);
-  // if il isn't a boolean return both diaspora + IL for day
-  if (typeof il === 'undefined' || typeof events === 'undefined') {
-    return events;
-  }
-  const myFilter = il ? observedInIsrael : observedInDiaspora;
-  const filtered = events.filter(myFilter);
-  return filtered;
 }
 
 /**
