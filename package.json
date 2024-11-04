@@ -1,10 +1,12 @@
 {
   "name": "@hebcal/core",
-  "version": "5.6.1",
+  "version": "5.7.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
     "Danny Sadinoff (https://github.com/dsadinoff)",
+    "Yisroel Yakovson (https://github.com/YizYah)",
+    "Schabse Laks (https://github.com/SLaks)",
     "Benny Powers (https://github.com/bennypowers)"
   ],
   "keywords": [
