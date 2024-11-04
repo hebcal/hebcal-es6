@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {HDate, months} from '@hebcal/hdate';
+import {HDate, months, isoDateString} from '@hebcal/hdate';
 import {CalOptions} from './CalOptions';
 import {Location} from './location';
 import {Event, flags} from './event';
@@ -85,6 +85,13 @@ export class FastDayEvent extends HolidayEvent {
     super(date, desc, mask);
     this.startEvent = startEvent;
     this.endEvent = endEvent;
+  }
+  urlDateSuffix(): string {
+    if (this.getDesc() === "Asara B'Tevet") {
+      const isoDate = isoDateString(this.getDate().greg());
+      return isoDate.replace(/-/g, '');
+    }
+    return super.urlDateSuffix();
   }
 }
 

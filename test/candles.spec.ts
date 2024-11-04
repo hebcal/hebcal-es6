@@ -395,6 +395,27 @@ test('fastStartEnd-TzomTammuz', () => {
   expect(ev1.endEvent).toEqual(events[2]);
 });
 
+test('fastStartEnd Asara BTevet', () => {
+  const events0 = HebrewCalendar.calendar({
+    year: 2020,
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  });
+  const events = events0.filter((ev) => ev.getDesc() === 'Asara B\'Tevet');
+  expect(events.length).toBe(2);
+  expect(events[0]).toBeInstanceOf(FastDayEvent);
+  const urls = events.map((ev) => ev.url());
+  const expectedUrls = [
+    'https://www.hebcal.com/holidays/asara-btevet-20200107',
+    'https://www.hebcal.com/holidays/asara-btevet-20201225',
+  ];
+  expect(urls).toEqual(expectedUrls);
+  const fastEv = events[0] as FastDayEvent;
+  expect(fastEv.startEvent).toBeDefined();
+  expect(fastEv.startEvent).toBeInstanceOf(TimedEvent);
+  expect(fastEv.startEvent?.getDesc()).toBe('Fast begins');
+});
+
 test('fastStartEnd-withoutHoliday', () => {
   const events = HebrewCalendar.calendar({
     start: new Date(2021, 5, 27),
