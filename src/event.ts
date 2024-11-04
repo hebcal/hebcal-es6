@@ -229,6 +229,7 @@ export class Event {
   }
   /**
    * Makes a clone of this Event object
+   * @deprecated
    */
   clone(): Event {
     const ev = new Event(this.date, this.desc, this.mask);

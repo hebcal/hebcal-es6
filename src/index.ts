@@ -17,6 +17,7 @@ export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 export {Location} from './location';
 export {Zmanim} from './zmanim';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
+export {FastDayEvent} from './candles';
 export {Molad, MoladEvent} from './molad';
 export {OmerEvent} from './omer';
 export {TachanunResult} from './tachanun';

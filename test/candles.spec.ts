@@ -1,5 +1,6 @@
 import {
   makeCandleEvent, makeFastStartEnd,
+  FastDayEvent,
 } from '../src/candles';
 import {TimedEvent} from '../src/TimedEvent';
 import {CalOptions} from '../src/CalOptions';
@@ -389,7 +390,7 @@ test('fastStartEnd-TzomTammuz', () => {
     {dt: '2021-06-27T21:07:00-04:00', desc: 'Fast ends'},
   ];
   expect(events.map(eventTitleDateTime)).toEqual(expected);
-  const ev1 = events[1] as HolidayEvent;
+  const ev1 = events[1] as FastDayEvent;
   expect(ev1.startEvent).toEqual(events[0]);
   expect(ev1.endEvent).toEqual(events[2]);
 });

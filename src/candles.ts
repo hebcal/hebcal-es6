@@ -69,6 +69,25 @@ export function makeCandleEvent(
 const FAST_BEGINS = 'Fast begins';
 const FAST_ENDS = 'Fast ends';
 
+/** A fast day also contains a start and end time */
+export class FastDayEvent extends HolidayEvent {
+  /** this will be a "Fast begins" event */
+  readonly startEvent?: TimedEvent;
+  /** this will be a "Fast ends" event */
+  readonly endEvent?: TimedEvent;
+  constructor(
+    date: HDate,
+    desc: string,
+    mask: number,
+    startEvent?: TimedEvent,
+    endEvent?: TimedEvent
+  ) {
+    super(date, desc, mask);
+    this.startEvent = startEvent;
+    this.endEvent = endEvent;
+  }
+}
+
 /**
  * Makes a pair of events representing fast start and end times
  * @private
@@ -76,32 +95,33 @@ const FAST_ENDS = 'Fast ends';
 export function makeFastStartEnd(
   ev: HolidayEvent,
   options: CalOptions
-): HolidayEvent {
+): FastDayEvent {
   const desc = ev.getDesc();
   if (desc === 'Yom Kippur') {
     return ev;
   }
-  ev = ev.clone();
   const hd = ev.getDate();
   const dt = hd.greg();
   const location = options.location as Location;
   const fastEndDeg = options.fastEndDeg;
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, dt, useElevation);
+  let startEvent;
+  let endEvent;
   if (desc === "Erev Tish'a B'Av") {
     const sunset = zmanim.sunset();
     if (!isNaN(sunset.getTime())) {
-      ev.startEvent = makeTimedEvent(ev, sunset, FAST_BEGINS, options);
+      startEvent = makeTimedEvent(ev, sunset, FAST_BEGINS, options);
     }
   } else if (desc.startsWith("Tish'a B'Av")) {
     const tzeit = zmanim.tzeit(fastEndDeg);
     if (!isNaN(tzeit.getTime())) {
-      ev.endEvent = makeTimedEvent(ev, tzeit, FAST_ENDS, options);
+      endEvent = makeTimedEvent(ev, tzeit, FAST_ENDS, options);
     }
   } else {
     const dawn = zmanim.alotHaShachar();
     if (!isNaN(dawn.getTime())) {
-      ev.startEvent = makeTimedEvent(ev, dawn, FAST_BEGINS, options);
+      startEvent = makeTimedEvent(ev, dawn, FAST_BEGINS, options);
     }
     if (
       dt.getDay() !== 5 &&
@@ -109,11 +129,18 @@ export function makeFastStartEnd(
     ) {
       const tzeit = zmanim.tzeit(fastEndDeg);
       if (!isNaN(tzeit.getTime())) {
-        ev.endEvent = makeTimedEvent(ev, tzeit, FAST_ENDS, options);
+        endEvent = makeTimedEvent(ev, tzeit, FAST_ENDS, options);
       }
     }
   }
-  return ev;
+  const ev2 = new FastDayEvent(hd, desc, ev.getFlags(), startEvent, endEvent);
+  for (const property in ev) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (ev.hasOwnProperty(property)) {
+      Object.defineProperty(ev2, property, {value: (ev as any)[property]});
+    }
+  }
+  return ev2;
 }
 
 /**

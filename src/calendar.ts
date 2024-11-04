@@ -571,13 +571,14 @@ function appendHolidayAndRelated(
   }
   const isMajorFast = Boolean(eFlags & MAJOR_FAST);
   const isMinorFast = Boolean(eFlags & MINOR_FAST);
+  let fastEv;
   if (options.candlelighting && (isMajorFast || isMinorFast)) {
-    ev = makeFastStartEnd(ev, options);
+    ev = fastEv = makeFastStartEnd(ev, options);
     if (
-      ev.startEvent &&
+      fastEv.startEvent &&
       (isMajorFast || (isMinorFast && !options.noMinorFast))
     ) {
-      events.push(ev.startEvent);
+      events.push(fastEv.startEvent);
     }
   }
   if (eFlags & Number(options.mask) || (!eFlags && !hasUserMask)) {
@@ -605,8 +606,12 @@ function appendHolidayAndRelated(
       events.push(ev); // the original event itself
     }
   }
-  if (ev.endEvent && (isMajorFast || (isMinorFast && !options.noMinorFast))) {
-    events.push(ev.endEvent);
+  if (
+    (isMajorFast || (isMinorFast && !options.noMinorFast)) &&
+    fastEv &&
+    fastEv.endEvent
+  ) {
+    events.push(fastEv.endEvent);
   }
   return candlesEv;
 }

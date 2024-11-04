@@ -1,6 +1,5 @@
 import {HDate, Locale, isoDateString} from '@hebcal/hdate';
 import {Event, flags} from './event';
-import type {TimedEvent} from './TimedEvent';
 import {holidayDesc as hdesc} from './staticHolidays';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
@@ -15,10 +14,6 @@ export class HolidayEvent extends Event {
    * - Tzom Tammuz postponed from the 17th to the 18th
    */
   observed?: boolean;
-  /** For a Fast day, this will be a "Fast begins" event */
-  startEvent?: TimedEvent;
-  /** For a Fast day, this will be a "Fast ends" event */
-  endEvent?: TimedEvent;
 
   basename(): string {
     return this.getDesc()
