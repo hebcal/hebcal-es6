@@ -91,7 +91,7 @@
     "gts": "^6.0.2",
     "jest": "^29.7.0",
     "pretty-bytes": "^6.1.1",
-    "quick-lru": "<=6.1.2",
+    "quick-lru": "^6.1.2",
     "rollup": "^4.24.3",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-dts": "^6.1.1",
