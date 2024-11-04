@@ -1,11 +1,12 @@
 const {nodeResolve} = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const babel = require('@rollup/plugin-babel');
+const bundleSize = require('rollup-plugin-bundle-size');
 const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
 const typescript = require('@rollup/plugin-typescript');
-const {dts} = require('rollup-plugin-dts');
 const pkg = require('./package.json');
+const {defineConfig} = require('rollup');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
 
@@ -17,11 +18,17 @@ const TARGETS_BROWSER = {
   safari: '15.6',
 };
 
-module.exports = [
+// Override tsconfig.json, which includes ./size-demo.
+const tsOptions = {rootDir: './src'};
+module.exports = defineConfig([
   {
     input: 'src/index.ts',
     output: [
-      {file: pkg.main, format: 'cjs', name: pkg.name, banner,
+      {
+        file: pkg.main,
+        format: 'cjs',
+        name: pkg.name,
+        banner,
         sourcemap: true,
         inlineDynamicImports: true,
         globals: {
@@ -30,57 +37,75 @@ module.exports = [
       },
     ],
     plugins: [
-      typescript(),
+      typescript(tsOptions),
       json({compact: true, preferConst: true}),
       babel({
-        babelHelpers: 'bundled',
+        babelHelpers: 'runtime',
+        plugins: ['@babel/plugin-transform-runtime'],
         presets: [
-          ['@babel/preset-env', {
-            modules: false,
-            targets: {
-              node: TARGET_NODE_VER,
+          [
+            '@babel/preset-env',
+            {
+              modules: false,
+              targets: {
+                node: TARGET_NODE_VER,
+              },
             },
-          }],
+          ],
         ],
         exclude: ['node_modules/**'],
       }),
       nodeResolve(),
       commonjs(),
+      bundleSize(),
     ],
-    // external: ['temporal-polyfill'],
+    external: [/node_modules/],
   },
   {
     input: 'src/index.ts',
     output: [
-      {file: pkg.module, format: 'es', name: pkg.name, banner,
+      {
+        dir: 'dist/es',
+        format: 'es',
+        name: pkg.name,
+        banner,
+        preserveModules: true,
+        preserveModulesRoot: 'src',
         sourcemap: true,
-        inlineDynamicImports: true,
         globals: {
           'temporal-polyfill': 'Temporal',
         },
       },
     ],
     plugins: [
-
-      typescript(),
+      typescript({
+        outDir: 'dist/es',
+        rootDir: './src',
+      }),
       json({compact: true, preferConst: true}),
       babel({
-        babelHelpers: 'bundled',
+        babelHelpers: 'runtime',
+        plugins: ['@babel/plugin-transform-runtime'],
         presets: [
-          ['@babel/preset-env', {
-            modules: false,
-            targets: {
-              node: TARGET_NODE_VER,
+          [
+            '@babel/preset-env',
+            {
+              modules: false,
+              targets: {
+                node: TARGET_NODE_VER,
+              },
             },
-          }],
+          ],
         ],
         exclude: ['node_modules/**'],
       }),
       nodeResolve(),
       commonjs(),
     ],
-    // external: ['temporal-polyfill'],
+    external: [/node_modules/],
   },
+  // Standalone JS file for use without bundlers.
+  // Avoid if possible.
   {
     input: 'src/index.ts',
     output: [
@@ -100,6 +125,7 @@ module.exports = [
         file: 'dist/bundle.min.js',
         format: 'iife',
         name: 'hebcal',
+
         plugins: [terser()],
         banner,
         sourcemap: true,
@@ -110,28 +136,27 @@ module.exports = [
       },
     ],
     plugins: [
-      typescript(),
+      typescript(tsOptions),
       json({compact: true, preferConst: true}),
       nodeResolve(),
       commonjs(),
       babel({
         babelHelpers: 'bundled',
         presets: [
-          ['@babel/preset-env', {
-            modules: false,
-            targets: TARGETS_BROWSER,
-            useBuiltIns: 'usage',
-            corejs: 3,
-          }],
+          [
+            '@babel/preset-env',
+            {
+              modules: false,
+              targets: TARGETS_BROWSER,
+              useBuiltIns: 'usage',
+              corejs: 3,
+            },
+          ],
         ],
         exclude: ['node_modules/core-js/**'],
       }),
+      bundleSize(),
     ],
-    // external: ['temporal-polyfill'],
+    external: ['temporal-polyfill', /@babel\/runtime/],
   },
-  {
-    input: 'dist/index.d.ts',
-    output: [{file: 'dist/module.d.ts', format: 'es'}],
-    plugins: [dts()],
-  },
-];
+]);

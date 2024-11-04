@@ -1,6 +1,6 @@
 import {HDate, Locale, isoDateString} from '@hebcal/hdate';
 import {Event, flags} from './event';
-import {TimedEvent} from './TimedEvent';
+import type {TimedEvent} from './TimedEvent';
 import {holidayDesc as hdesc} from './staticHolidays';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 

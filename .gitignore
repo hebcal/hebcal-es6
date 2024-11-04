@@ -5,3 +5,4 @@ src/*.po.ts
 src/pkgVersion.ts
 coverage
 .nyc_output
+size-demo/dist
