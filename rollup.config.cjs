@@ -164,6 +164,5 @@ module.exports = defineConfig([
       }),
       bundleSize(),
     ],
-    external: ['temporal-polyfill', /@babel\/runtime/],
   },
 ]);
