@@ -100,6 +100,7 @@ export class HolidayEvent extends Event {
   }
   /**
    * Makes a clone of this Event object
+   * @deprecated
    */
   clone(): HolidayEvent {
     const ev = new HolidayEvent(this.date, this.desc, this.mask);
