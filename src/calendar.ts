@@ -1,4 +1,5 @@
-import {Locale, abs2greg, HDate, months} from '@hebcal/hdate';
+import {Locale} from './locale';
+import {abs2greg, HDate, months} from '@hebcal/hdate';
 import {CalOptions, DailyLearningValue} from './CalOptions';
 import {
   makeCandleEvent,

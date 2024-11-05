@@ -1,5 +1,4 @@
-import {Locale} from '@hebcal/hdate';
-import './locale'; // Adds Hebrew and Ashkenazic translations
+import {Locale} from './locale';
 
 /** @private */
 export function renderParshaName(parsha: string[], locale?: string): string {

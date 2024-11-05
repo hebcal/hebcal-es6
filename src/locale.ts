@@ -2,6 +2,8 @@ import {Locale, LocaleData, StringArrayMap} from '@hebcal/hdate';
 import poAshkenazi from './ashkenazi.po';
 import poHe from './he.po';
 
+export {Locale};
+
 Locale.addTranslations('he', poHe);
 Locale.addTranslations('h', poHe);
 Locale.addTranslations('ashkenazi', poAshkenazi);

@@ -1,5 +1,4 @@
-import {Locale} from '@hebcal/hdate';
-import '../src/locale';
+import {Locale} from '../src/locale';
 
 test('getLocaleNames', () => {
   const expected = ['', 'a', 'ashkenazi', 'en', 'h', 'he', 'he-x-nonikud', 's'];
@@ -14,10 +13,8 @@ test('gettext-he', () => {
 
 test('hebrewStripNikkud', () => {
   const strs = [
-    ['יוֹם כִּפּוּר',
-      'יום כפור'],
-    ['לֶךְ־לְךָ',
-      'לך־לך'],
+    ['יוֹם כִּפּוּר', 'יום כפור'],
+    ['לֶךְ־לְךָ', 'לך־לך'],
   ];
   for (const [original, expected] of strs) {
     expect(Locale.hebrewStripNikkud(original)).toBe(expected);
@@ -48,14 +45,16 @@ test('useLocale-ordinal', () => {
 });
 
 test('lookupTranslation-he-x-NoNikud', () => {
-  expect(Locale.lookupTranslation('Yom Kippur', 'he-x-NoNikud')).toBe('יום כפור');
+  expect(Locale.lookupTranslation('Yom Kippur', 'he-x-NoNikud')).toBe(
+    'יום כפור'
+  );
   expect(Locale.lookupTranslation('Lech-Lecha', 'he-x-NoNikud')).toBe('לך־לך');
   expect(Locale.lookupTranslation('Foobar', 'he-x-NoNikud')).toBe(undefined);
 });
 
 test('gettext-ashkenazi', () => {
   expect(Locale.gettext('Sukkot', 'a')).toBe('Sukkos');
-  expect(Locale.gettext('Asara B\'Tevet', 'a')).toBe('Asara B’Teves');
+  expect(Locale.gettext("Asara B'Tevet", 'a')).toBe('Asara B’Teves');
   expect(Locale.gettext('Tevet', 'a')).toBe('Teves');
   expect(Locale.gettext('Tevet', 'ashkenazi')).toBe('Teves');
 });
@@ -72,7 +71,7 @@ test('getLocaleName', () => {
 test('useLocale-throws', () => {
   expect(() => {
     Locale.useLocale('bogus');
-  }).toThrow('Locale \'bogus\' not found');
+  }).toThrow("Locale 'bogus' not found");
 });
 
 test('addTranslation', () => {
@@ -90,11 +89,13 @@ test('addTranslations', () => {
   expect(Locale.lookupTranslation('Goodbye', 'a')).toBe(undefined);
   const localeData = {
     headers: {'plural-forms': 'nplurals=2; plural=(n!=1);'},
-    contexts: {'': {
-      'Hello': ['World'],
-      'Hello world': ['Quux'],
-      'Goodbye': ['World'],
-    }},
+    contexts: {
+      '': {
+        Hello: ['World'],
+        'Hello world': ['Quux'],
+        Goodbye: ['World'],
+      },
+    },
   };
   Locale.addTranslations('a', localeData);
   expect(Locale.lookupTranslation('Hello world', 'a')).toBe('Quux');
