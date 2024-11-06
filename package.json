@@ -30,11 +30,11 @@
     ".": {
       "import": "./dist/es/index.js",
       "require": "./dist/index.cjs",
-      "types": "./dist/module.d.ts"
+      "types": "./dist/es/index.d.ts"
     },
     "./dist/es/*": "./dist/es/*.js"
   },
-  "typings": "./dist/module.d.ts",
+  "typings": "./dist/es/index.d.ts",
   "engines": {
     "node": ">= 16.0.0"
   },
@@ -90,7 +90,6 @@
     "pretty-bytes": "^6.1.1",
     "rollup": "^4.24.3",
     "rollup-plugin-bundle-size": "^1.0.3",
-    "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-visualizer": "^5.12.0",
     "ttag-cli": "^1.10.12",
     "typedoc": "^0.26.11",
