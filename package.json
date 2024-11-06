@@ -99,7 +99,7 @@
     "@babel/runtime": "^7.26.0",
     "@hebcal/hdate": "^0.11.5",
     "@hebcal/noaa": "^0.8.14",
-    "quick-lru": "^6.1.2",
+    "quick-lru": "^4.0.0",
     "temporal-polyfill": "^0.2.5",
     "tslib": "^2.8.1"
   }
