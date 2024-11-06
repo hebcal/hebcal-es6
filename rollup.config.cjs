@@ -59,7 +59,7 @@ module.exports = defineConfig([
       commonjs(),
       bundleSize(),
     ],
-    external: [/node_modules/],
+    external: ['temporal-polyfill/global', '@hebcal/noaa', '@hebcal/hdate'],
   },
   {
     input: 'src/index.ts',
