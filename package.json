@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.7.2",
+  "version": "5.7.3",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -24,17 +24,17 @@
   ],
   "description": "A perpetual Jewish Calendar API",
   "main": "./dist/index.cjs",
-  "module": "./dist/es/index.js",
+  "module": "./dist/esm/index.js",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/es/index.js",
+      "import": "./dist/esm/index.js",
       "require": "./dist/index.cjs",
-      "types": "./dist/es/index.d.ts"
+      "types": "./dist/esm/index.d.ts"
     },
-    "./dist/es/*": "./dist/es/*.js"
+    "./dist/esm/*": "./dist/esm/*.js"
   },
-  "typings": "./dist/es/index.d.ts",
+  "typings": "./dist/esm/index.d.ts",
   "engines": {
     "node": ">= 16.0.0"
   },

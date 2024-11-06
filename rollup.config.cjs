@@ -65,7 +65,7 @@ module.exports = defineConfig([
     input: 'src/index.ts',
     output: [
       {
-        dir: 'dist/es',
+        dir: 'dist/esm',
         format: 'es',
         name: pkg.name,
         banner,
@@ -79,7 +79,7 @@ module.exports = defineConfig([
     ],
     plugins: [
       typescript({
-        outDir: 'dist/es',
+        outDir: 'dist/esm',
         rootDir: './src',
       }),
       json({compact: true, preferConst: true}),
