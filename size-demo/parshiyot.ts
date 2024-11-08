@@ -1,4 +1,4 @@
-import {calendar} from '../dist/es/calendar';
+import {calendar} from '../dist/esm/calendar';
 
 const events = calendar({
   year: new Date().getFullYear() - 1,
