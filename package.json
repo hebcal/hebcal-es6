@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.7.6",
+  "version": "5.7.7",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.26.0",
-    "@hebcal/hdate": "^0.11.6",
+    "@hebcal/hdate": "^0.12.0",
     "@hebcal/noaa": "^0.8.14",
     "quick-lru": "^6.1.2",
     "temporal-polyfill": "^0.2.5",
