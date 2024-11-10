@@ -55,6 +55,7 @@ import {Location} from './location';
  * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
  * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
  * * Yom Kippur Katan (`options.yomKippurKatan`)
+ * * Yizkor (`options.yizkor`)
  *
  * Daily Study of texts are supported by the
  * {@link https://github.com/hebcal/hebcal-learning @hebcal/learning} package,
@@ -233,6 +234,18 @@ export function calendar(options: CalOptions = {}): Event[] {
     if (candlesEv) {
       evts.push(candlesEv);
     }
+    if (options.yizkor) {
+      const mm = hd.getMonth();
+      const dd = hd.getDate();
+      if (
+        (mm === months.TISHREI && (dd === 10 || dd === 22)) ||
+        (mm === NISAN && dd === (il ? 21 : 22)) ||
+        (mm === SIVAN && dd === (il ? 6 : 7))
+      ) {
+        const ev = new Event(hd, 'Yizkor', flags.YIZKOR, {emoji: '🕯️'});
+        evts.push(ev);
+      }
+    }
     if (
       options.addHebrewDates ||
       (options.addHebrewDatesForEvents && prevEventsLength !== evts.length)
@@ -277,6 +290,7 @@ const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;
 const CHOL_HAMOED = flags.CHOL_HAMOED;
 const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
+const YIZKOR = flags.YIZKOR;
 
 type StringIntMap = {
   [x: string]: number;
@@ -315,6 +329,7 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
   hour12: 1,
   dailyLearning: 1,
   useElevation: 1,
+  yizkor: 1,
 } as const satisfies Record<keyof CalOptions, 1>;
 
 /**
@@ -490,6 +505,9 @@ function getMaskFromOptions(options: CalOptions): number {
   if (options.yomKippurKatan) {
     mask |= YOM_KIPPUR_KATAN;
   }
+  if (options.yizkor) {
+    mask |= YIZKOR;
+  }
   if (options.dailyLearning) {
     const dailyLearning = options.dailyLearning;
     if (dailyLearning.dafYomi) {
@@ -542,6 +560,7 @@ function setOptionsFromMask(options: CalOptions): number {
   if (m & OMER_COUNT) options.omer = true;
   if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
   if (m & YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
+  if (m & YIZKOR) options.yizkor = true;
   return m;
 }
 

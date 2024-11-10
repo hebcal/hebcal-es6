@@ -79,6 +79,7 @@ export class HebrewCalendar {
    * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
    * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
    * * Yom Kippur Katan (`options.yomKippurKatan`)
+   * * Yizkor (`options.yizkor`)
    *
    * Daily Study of texts are supported by the
    * {@link https://github.com/hebcal/hebcal-learning @hebcal/learning} package,

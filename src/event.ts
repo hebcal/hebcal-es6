@@ -62,6 +62,8 @@ export const flags = {
   NACH_YOMI: 0x2000000,
   /** Daily Learning */
   DAILY_LEARNING: 0x4000000,
+  /** Yizkor */
+  YIZKOR: 0x8000000,
 } as const;
 
 const flagToCategory = [

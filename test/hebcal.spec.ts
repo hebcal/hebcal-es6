@@ -713,3 +713,35 @@ test('Eruv Tavshilin', () => {
   expect(HebrewCalendar.eruvTavshilin(new HDate(20, 'Cheshvan', 5785), false)).toBe(false);
   expect(HebrewCalendar.eruvTavshilin(new HDate(20, 'Cheshvan', 5785), true)).toBe(false);
 });
+
+test('yikzor', () => {
+  const options: CalOptions = {
+    isHebrewYear: true,
+    year: 5786,
+    noHolidays: true,
+    yizkor: true,
+    il: true,
+  };
+  const events = HebrewCalendar.calendar(options);
+  expect(events.length).toBe(4);
+  const actualIL = events.map(eventISODateDesc);
+  const expectedIL = [
+    { date: '2025-10-02', desc: 'Yizkor' },
+    { date: '2025-10-14', desc: 'Yizkor' },
+    { date: '2026-04-08', desc: 'Yizkor' },
+    { date: '2026-05-22', desc: 'Yizkor' }
+  ];
+  expect(actualIL).toEqual(expectedIL);
+
+  options.il = false;
+  const diaspora = HebrewCalendar.calendar(options);
+  expect(diaspora.length).toBe(4);
+  const actualD = diaspora.map(eventISODateDesc);
+  const expectedD = [
+    { date: '2025-10-02', desc: 'Yizkor' },
+    { date: '2025-10-14', desc: 'Yizkor' },
+    { date: '2026-04-09', desc: 'Yizkor' },
+    { date: '2026-05-23', desc: 'Yizkor' }
+  ];
+  expect(actualD).toEqual(expectedD);
+});

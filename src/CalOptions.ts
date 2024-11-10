@@ -158,4 +158,15 @@ export type CalOptions = {
   dailyLearning?: {
     [x: string]: DailyLearningValue;
   };
+  /**
+   * Yizkor (Hebrew: יִזְכּוֹר) is an Ashkenazi Jewish memorial prayer service
+   * for the dead. Yizkor is recited in synagogue as part of the service
+   * during four holidays each year:
+   * 1. Yom Kippur
+   * 2. Shmini Atzeret
+   * 3. The final day of Passover (8th day Pesach in Diaspora, 7th day
+   *    Pesach in Israel)
+   * 4. Shavuot (2nd day Shavuot in Diaspora)
+   */
+  yizkor?: boolean;
 };
