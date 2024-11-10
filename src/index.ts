@@ -23,6 +23,7 @@ export {OmerEvent} from './omer';
 export {TachanunResult} from './tachanun';
 export {Sedra, SedraResult, parshiot, getSedra} from './sedra';
 export {ParshaEvent} from './ParshaEvent';
+export {parshaYear} from './parshaYear';
 export {
   HolidayEvent,
   AsaraBTevetEvent,

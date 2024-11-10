@@ -113,6 +113,7 @@ export type CalOptions = {
   molad?: boolean;
   /**
    * use Ashkenazi transliterations for event titles (default Sephardi transliterations)
+   * @deprecated use `event.render('ashkenazi')` instead
    */
   ashkenazi?: boolean;
   /**

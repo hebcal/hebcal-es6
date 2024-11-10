@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {getBirthdayHD, getYahrzeitHD, HDate, months} from '@hebcal/hdate';
+import {getBirthdayHD, getYahrzeitHD, HDate} from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 import {CalOptions} from './CalOptions';
 import {version as pkgVersion} from './pkgVersion';
