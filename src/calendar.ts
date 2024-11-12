@@ -202,6 +202,18 @@ export function calendar(options: CalOptions = {}): Event[] {
         evts.push(new ParshaEvent(hd, parsha0.parsha, il, parsha0.num));
       }
     }
+    if (options.yizkor) {
+      const mm = hd.getMonth();
+      const dd = hd.getDate();
+      if (
+        (mm === months.TISHREI && (dd === 10 || dd === 22)) ||
+        (mm === NISAN && dd === (il ? 21 : 22)) ||
+        (mm === SIVAN && dd === (il ? 6 : 7))
+      ) {
+        const ev = new Event(hd, 'Yizkor', flags.YIZKOR, {emoji: '🕯️'});
+        evts.push(ev);
+      }
+    }
     const dailyLearning = options.dailyLearning;
     if (typeof dailyLearning === 'object') {
       const events = makeDailyLearning(hd, dailyLearning, il);
@@ -233,18 +245,6 @@ export function calendar(options: CalOptions = {}): Event[] {
     }
     if (candlesEv) {
       evts.push(candlesEv);
-    }
-    if (options.yizkor) {
-      const mm = hd.getMonth();
-      const dd = hd.getDate();
-      if (
-        (mm === months.TISHREI && (dd === 10 || dd === 22)) ||
-        (mm === NISAN && dd === (il ? 21 : 22)) ||
-        (mm === SIVAN && dd === (il ? 6 : 7))
-      ) {
-        const ev = new Event(hd, 'Yizkor', flags.YIZKOR, {emoji: '🕯️'});
-        evts.push(ev);
-      }
     }
     if (
       options.addHebrewDates ||
