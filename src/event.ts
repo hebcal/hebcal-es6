@@ -80,6 +80,7 @@ const flagToCategory = [
   [flags.SHABBAT_MEVARCHIM, 'mevarchim'],
   [flags.SPECIAL_SHABBAT, 'holiday', 'shabbat'],
   [flags.USER_EVENT, 'user'],
+  [flags.YIZKOR, 'yizkor'],
 ] as const;
 
 /**

@@ -748,4 +748,5 @@ test('yikzor', () => {
   expect(ev.render('en')).toBe('Yizkor');
   expect(ev.render('he')).toBe('יִזְכּוֹר');
   expect(ev.render('he-x-NoNikud')).toBe('יזכור');
+  expect(ev.getCategories()).toEqual(['yizkor']);
 });
