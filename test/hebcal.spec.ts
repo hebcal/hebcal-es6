@@ -744,4 +744,8 @@ test('yikzor', () => {
     { date: '2026-05-23', desc: 'Yizkor' }
   ];
   expect(actualD).toEqual(expectedD);
+  const ev = diaspora[0];
+  expect(ev.render('en')).toBe('Yizkor');
+  expect(ev.render('he')).toBe('יִזְכּוֹר');
+  expect(ev.render('he-x-NoNikud')).toBe('יזכור');
 });
