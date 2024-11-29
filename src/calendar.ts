@@ -210,7 +210,11 @@ export function calendar(options: CalOptions = {}): Event[] {
         (mm === NISAN && dd === (il ? 21 : 22)) ||
         (mm === SIVAN && dd === (il ? 6 : 7))
       ) {
-        const ev = new Event(hd, 'Yizkor', flags.YIZKOR, {emoji: '🕯️'});
+        const linkedEvent = holidays.filter(ev => ev.observedIn(il))[0];
+        const ev = new Event(hd, 'Yizkor', flags.YIZKOR, {
+          emoji: '🕯️',
+          linkedEvent,
+        });
         evts.push(ev);
       }
     }

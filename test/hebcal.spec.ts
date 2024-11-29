@@ -724,24 +724,31 @@ test('yikzor', () => {
   };
   const events = HebrewCalendar.calendar(options);
   expect(events.length).toBe(4);
-  const actualIL = events.map(eventISODateDesc);
+  const summarize = (ev: Event) => {
+    const date = isoDateString(ev.getDate().greg());
+    return {date,
+      desc: ev.getDesc(),
+      l: (ev as any).linkedEvent.getDesc(),
+    };
+  };
+  const actualIL = events.map(summarize);
   const expectedIL = [
-    { date: '2025-10-02', desc: 'Yizkor' },
-    { date: '2025-10-14', desc: 'Yizkor' },
-    { date: '2026-04-08', desc: 'Yizkor' },
-    { date: '2026-05-22', desc: 'Yizkor' }
+    { date: '2025-10-02', desc: 'Yizkor', l: 'Yom Kippur' },
+    { date: '2025-10-14', desc: 'Yizkor', l: 'Shmini Atzeret' },
+    { date: '2026-04-08', desc: 'Yizkor', l: 'Pesach VII' },
+    { date: '2026-05-22', desc: 'Yizkor', l: 'Shavuot' }
   ];
   expect(actualIL).toEqual(expectedIL);
 
   options.il = false;
   const diaspora = HebrewCalendar.calendar(options);
   expect(diaspora.length).toBe(4);
-  const actualD = diaspora.map(eventISODateDesc);
+  const actualD = diaspora.map(summarize);
   const expectedD = [
-    { date: '2025-10-02', desc: 'Yizkor' },
-    { date: '2025-10-14', desc: 'Yizkor' },
-    { date: '2026-04-09', desc: 'Yizkor' },
-    { date: '2026-05-23', desc: 'Yizkor' }
+    { date: '2025-10-02', desc: 'Yizkor', l: 'Yom Kippur' },
+    { date: '2025-10-14', desc: 'Yizkor', l: 'Shmini Atzeret' },
+    { date: '2026-04-09', desc: 'Yizkor', l: 'Pesach VIII' },
+    { date: '2026-05-23', desc: 'Yizkor', l: 'Shavuot II' }
   ];
   expect(actualD).toEqual(expectedD);
   const ev = diaspora[0];
