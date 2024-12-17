@@ -10,7 +10,6 @@ const {defineConfig} = require('rollup');
 
 const banner = '/*! ' + pkg.name + ' v' + pkg.version + ' */';
 
-const TARGET_NODE_VER = '16.0.0';
 const TARGETS_BROWSER = {
   chrome: '103',
   firefox: '91',
@@ -39,24 +38,7 @@ module.exports = defineConfig([
     plugins: [
       typescript(tsOptions),
       json({compact: true, preferConst: true}),
-      babel({
-        babelHelpers: 'runtime',
-        plugins: ['@babel/plugin-transform-runtime'],
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              modules: false,
-              targets: {
-                node: TARGET_NODE_VER,
-              },
-            },
-          ],
-        ],
-        exclude: ['node_modules/**'],
-      }),
       nodeResolve(),
-      commonjs(),
       bundleSize(),
     ],
     external: ['temporal-polyfill/global', '@hebcal/noaa', '@hebcal/hdate'],
@@ -83,24 +65,7 @@ module.exports = defineConfig([
         rootDir: './src',
       }),
       json({compact: true, preferConst: true}),
-      babel({
-        babelHelpers: 'runtime',
-        plugins: ['@babel/plugin-transform-runtime'],
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              modules: false,
-              targets: {
-                node: TARGET_NODE_VER,
-              },
-            },
-          ],
-        ],
-        exclude: ['node_modules/**'],
-      }),
       nodeResolve(),
-      commonjs(),
     ],
     external: [/node_modules/],
   },

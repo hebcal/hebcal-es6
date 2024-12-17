@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 import {Locale} from '../src/locale';
 
 test('getLocaleNames', () => {

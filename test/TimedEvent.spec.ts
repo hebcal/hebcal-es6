@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 import {TimedEvent, CandleLightingEvent, HavdalahEvent} from '../src/TimedEvent';
 import {flags} from '../src/event';
 import {HDate} from '@hebcal/hdate';

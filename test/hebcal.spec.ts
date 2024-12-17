@@ -1,15 +1,10 @@
+import {expect, test} from 'vitest';
 import {HDate, isoDateString, months} from '@hebcal/hdate';
 import {CalOptions} from '../src/CalOptions';
 import {HebrewCalendar} from '../src/hebcal';
 import {Event, flags} from '../src/event';
 import {Location} from '../src/location';
 import { OmerEvent } from '../src/omer';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 function gregDtString(ev: Event): string {
   return ev.getDate().greg().toLocaleDateString('en-US');

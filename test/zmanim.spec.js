@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 import {GeoLocation} from '@hebcal/noaa';
 import {Zmanim} from '../src/zmanim';
 

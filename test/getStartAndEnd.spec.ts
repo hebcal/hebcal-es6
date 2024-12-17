@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 import {getStartAndEnd} from '../src/getStartAndEnd';
 
 test('getStartAndEnd-2digit', () => {

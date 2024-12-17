@@ -1,14 +1,9 @@
+import {expect, test} from 'vitest';
 import {HDate, isoDateString, months} from '@hebcal/hdate';
 import {HolidayEvent, RoshChodeshEvent} from '../src/HolidayEvent';
 import {MevarchimChodeshEvent} from '../src/MevarchimChodeshEvent';
 import {HebrewCalendar} from '../src/hebcal';
 import {flags} from '../src/event';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 test('basename-and-url', () => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),

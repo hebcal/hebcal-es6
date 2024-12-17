@@ -1,14 +1,9 @@
+import {expect, test} from 'vitest';
 import {
   getHolidaysForYear_,
   getHolidaysForYearArray,
 } from '../src/holidays';
 import {isoDateString} from '@hebcal/hdate';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {

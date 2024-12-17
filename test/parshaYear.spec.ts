@@ -1,12 +1,7 @@
+import {expect, test} from 'vitest';
 import {Event} from '../src/event';
 import {parshaYear} from '../src/parshaYear';
 import {isoDateString} from '@hebcal/hdate';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 test('Israel and Diaspora lengths differ', () => {
   expect((parshaYear(5784, true)).length).toBe(51);

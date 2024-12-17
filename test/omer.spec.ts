@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 import {OmerEvent} from '../src/omer';
 import {HDate} from '@hebcal/hdate';
 

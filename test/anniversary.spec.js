@@ -1,12 +1,7 @@
 /* eslint-disable max-len */
+import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
 import {HebrewCalendar} from '../src/hebcal';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 test('yahrzeit', () => {
   // Gregorian YYYY, MM, DD

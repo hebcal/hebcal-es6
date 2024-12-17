@@ -1,12 +1,7 @@
+import {expect, test} from 'vitest';
 import {HDate, months} from '@hebcal/hdate';
 import {getHolidaysForYearArray} from '../src/holidays';
 import {hallel_} from '../src/hallel';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 test('hallel', () => {
   const ev1 = getHolidaysForYearArray(5781, false);

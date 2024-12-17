@@ -1,12 +1,7 @@
+import {expect, test} from 'vitest';
 import {HDate, Locale, isoDateString, months} from '@hebcal/hdate';
 import '../src/locale'; // Adds Hebrew and Ashkenazic translations
 import {Sedra} from '../src/sedra';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 /**
  * @private

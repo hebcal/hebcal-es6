@@ -1,12 +1,7 @@
+import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
 import {Event} from '../src/event';
 import {getHolidaysOnDate} from '../src/holidays';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 test('getHolidaysOnDate', () => {
   const hyear = 5771;

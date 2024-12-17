@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 /* eslint-disable max-len */
 import {HDate, months} from '@hebcal/hdate';
 import {Molad, MoladEvent} from '../src/molad';

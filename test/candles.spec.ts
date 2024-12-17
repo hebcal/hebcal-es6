@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 import {
   makeCandleEvent, makeFastStartEnd,
   FastDayEvent,
@@ -10,12 +11,6 @@ import {HebrewCalendar} from '../src/hebcal';
 import {HolidayEvent} from '../src/HolidayEvent';
 import {Location} from '../src/location';
 import {Zmanim} from '../src/zmanim';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 function eventDateDesc(ev: Event | undefined) {
   if (ev === undefined) {

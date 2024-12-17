@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 import {HDate, months} from '@hebcal/hdate';
 import {tachanun, TachanunResult} from '../src/tachanun';
 

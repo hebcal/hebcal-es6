@@ -1,11 +1,6 @@
+import {expect, test} from 'vitest';
 import {HDate, isoDateString, months} from '@hebcal/hdate';
 import {Sedra} from '../src/sedra';
-
-jest.mock('quick-lru', () => {
-  return jest.fn().mockImplementation(() => {
-    return new Map();
-  });
-});
 
 /**
  * @private

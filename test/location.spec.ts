@@ -1,3 +1,4 @@
+import {expect, test} from 'vitest';
 import {Location} from '../src/location';
 
 test('lookup', () => {
