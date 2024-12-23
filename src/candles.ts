@@ -37,16 +37,17 @@ export function makeCandleEvent(
     havdalahTitle = true;
     mask = LIGHT_CANDLES_TZEIS;
   }
-  // if offset is 0 or undefined, we'll use tzeit time
+  // if Havdalah offset is 0 or undefined, we'll use tzeit time
   const offset = useHavdalahOffset
-    ? options.havdalahMins
-    : options.candleLightingMins;
+    ? Number(options.havdalahMins)
+    : Number(options.candleLightingMins);
   const location = options.location as Location;
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, hd, useElevation);
-  const time = offset
-    ? zmanim.sunsetOffset(offset, true)
-    : zmanim.tzeit(options.havdalahDeg);
+  const time =
+    useHavdalahOffset && !offset
+      ? zmanim.tzeit(options.havdalahDeg)
+      : zmanim.sunsetOffset(offset, true);
   if (isNaN(time.getTime())) {
     return undefined; // no sunset
   }
@@ -92,6 +93,12 @@ export class FastDayEvent extends HolidayEvent {
       return isoDate.replace(/-/g, '');
     }
     return super.urlDateSuffix();
+  }
+  url(): string | undefined {
+    if (this.getFlags() & flags.YOM_KIPPUR_KATAN) {
+      return undefined;
+    }
+    return super.url();
   }
 }
 
@@ -141,12 +148,8 @@ export function makeFastStartEnd(
     }
   }
   const ev2 = new FastDayEvent(hd, desc, ev.getFlags(), startEvent, endEvent);
-  for (const property in ev) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (ev.hasOwnProperty(property)) {
-      Object.defineProperty(ev2, property, {value: (ev as any)[property]});
-    }
-  }
+  // copy properties such as memo or emoji
+  Object.assign(ev2, ev);
   return ev2;
 }
 

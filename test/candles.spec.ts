@@ -3,7 +3,7 @@ import {
   makeCandleEvent, makeFastStartEnd,
   FastDayEvent,
 } from '../src/candles';
-import {TimedEvent} from '../src/TimedEvent';
+import {CandleLightingEvent, TimedEvent} from '../src/TimedEvent';
 import {CalOptions} from '../src/CalOptions';
 import {Event, flags} from '../src/event';
 import {HDate, isoDateString} from '@hebcal/hdate';
@@ -269,6 +269,50 @@ test('candleLightingMins', () => {
     {dt: '2020-05-29T19:23:00+03:00', desc: 'Candle lighting'},
   ];
   expect(events18).toEqual(expected18);
+});
+
+test('candleLightingMins truncates decimals', () => {
+  const dt = new Date(2020, 4, 15);
+  const options: CalOptions = {
+    start: dt,
+    end: dt,
+    noHolidays: true,
+    location: Location.lookup('Tel Aviv'),
+    candlelighting: true,
+    useElevation: true,
+  };
+  let ev = HebrewCalendar.calendar({...options, candleLightingMins: 2.75})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:30');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: 2})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:30');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: -2})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:30');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: -2.99})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:30');
+});
+
+test('candleLightingMins-0', () => {
+  const dt = new Date(2020, 4, 15);
+  const options: CalOptions = {
+    start: dt,
+    end: dt,
+    noHolidays: true,
+    location: Location.lookup('Tel Aviv'),
+    candlelighting: true,
+    useElevation: true,
+  };
+  let ev = HebrewCalendar.calendar(options)[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:14');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: 18})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:14');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: 17})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:15');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: 2})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:30');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: 1})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:31');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: 0})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:32');
 });
 
 const jerusalemSeaLevel = new Location(31.76904, 35.21633, true, 'Asia/Jerusalem',

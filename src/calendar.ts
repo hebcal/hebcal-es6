@@ -411,14 +411,15 @@ function checkCandleOptions(options: CalOptions) {
     );
   }
 
-  let min = Number(options.candleLightingMins) || 18;
+  const min0 = options.candleLightingMins;
+  let min = typeof min0 === 'number' && !isNaN(min0) ? Math.trunc(min0) : 18;
   if (location.getIsrael() && Math.abs(min) === 18) {
     min = overrideIsraelCandleMins(location, min);
   }
   options.candleLightingMins = -1 * Math.abs(min);
 
   if (typeof options.havdalahMins === 'number') {
-    options.havdalahMins = Math.abs(options.havdalahMins);
+    options.havdalahMins = Math.trunc(Math.abs(options.havdalahMins));
   } else if (typeof options.havdalahDeg === 'number') {
     options.havdalahDeg = Math.abs(options.havdalahDeg);
   } else {

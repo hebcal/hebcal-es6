@@ -5,6 +5,8 @@ import {HebrewCalendar} from '../src/hebcal';
 import {Event, flags} from '../src/event';
 import {Location} from '../src/location';
 import { OmerEvent } from '../src/omer';
+import { YomKippurKatanEvent } from '../src/YomKippurKatanEvent';
+import { FastDayEvent } from '../src/candles';
 
 function gregDtString(ev: Event): string {
   return ev.getDate().greg().toLocaleDateString('en-US');
@@ -585,6 +587,33 @@ test('ykk-only', () => {
     isHebrewYear: true,
   });
   expect(events.length).toBe(9);
+  const ev = events[0];
+  expect(ev).toBeInstanceOf(YomKippurKatanEvent);
+  expect(ev.url()).toBeUndefined();
+  expect(ev.memo).toBe('Minor Day of Atonement on the day preceeding Rosh Chodesh Kislev');
+});
+
+test('ykk with location copies attributes from src', () => {
+  const dt = new Date(2025, 1, 27);
+  const events = HebrewCalendar.calendar({
+    start: dt,
+    end: dt,
+    yomKippurKatan: true,
+    noHolidays: true,
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  });
+  const actual = events.map(eventISODateDesc);
+  const expected = [
+    { date: '2025-02-27', desc: 'Fast begins' },
+    { date: '2025-02-27', desc: 'Yom Kippur Katan Adar' },
+    { date: '2025-02-27', desc: 'Fast ends' }
+  ];
+  expect(actual).toEqual(expected);
+  const ev = events[1];
+  expect(ev).toBeInstanceOf(FastDayEvent);
+  expect(ev.url()).toBeUndefined();
+  expect(ev.memo).toBe('Minor Day of Atonement on the day preceeding Rosh Chodesh Adar');
 });
 
 test('hallel', () => {
