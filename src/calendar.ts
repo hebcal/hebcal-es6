@@ -597,7 +597,11 @@ function appendHolidayAndRelated(
   const isMajorFast = Boolean(eFlags & MAJOR_FAST);
   const isMinorFast = Boolean(eFlags & MINOR_FAST);
   let fastEv;
-  if (options.candlelighting && (isMajorFast || isMinorFast)) {
+  if (
+    options.candlelighting &&
+    (isMajorFast || isMinorFast) &&
+    ev.getDesc() !== 'Yom Kippur'
+  ) {
     ev = fastEv = makeFastStartEnd(ev, options);
     if (
       fastEv.startEvent &&

@@ -591,6 +591,8 @@ test('ykk-only', () => {
   expect(ev).toBeInstanceOf(YomKippurKatanEvent);
   expect(ev.url()).toBeUndefined();
   expect(ev.memo).toBe('Minor Day of Atonement on the day preceeding Rosh Chodesh Kislev');
+  expect(ev.render('en')).toBe('Yom Kippur Katan Kislev');
+  expect(ev.render('he')).toBe('יוֹם כִּפּוּר קָטָן כִּסְלֵו');
 });
 
 test('ykk with location copies attributes from src', () => {
@@ -614,6 +616,8 @@ test('ykk with location copies attributes from src', () => {
   expect(ev).toBeInstanceOf(FastDayEvent);
   expect(ev.url()).toBeUndefined();
   expect(ev.memo).toBe('Minor Day of Atonement on the day preceeding Rosh Chodesh Adar');
+  expect(ev.render('en')).toBe('Yom Kippur Katan Adar');
+  expect(ev.render('he')).toBe('יוֹם כִּפּוּר קָטָן אַדָר');
 });
 
 test('hallel', () => {

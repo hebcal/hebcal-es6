@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import {HDate, months, isoDateString} from '@hebcal/hdate';
+import {HDate, months} from '@hebcal/hdate';
 import {CalOptions} from './CalOptions';
 import {Location} from './location';
 import {Event, flags} from './event';
@@ -72,33 +72,39 @@ const FAST_ENDS = 'Fast ends';
 
 /** A fast day also contains a start and end time */
 export class FastDayEvent extends HolidayEvent {
+  /** original event */
+  readonly linkedEvent: HolidayEvent;
   /** this will be a "Fast begins" event */
   readonly startEvent?: TimedEvent;
   /** this will be a "Fast ends" event */
   readonly endEvent?: TimedEvent;
   constructor(
-    date: HDate,
-    desc: string,
-    mask: number,
+    linkedEvent: HolidayEvent,
     startEvent?: TimedEvent,
     endEvent?: TimedEvent
   ) {
-    super(date, desc, mask);
+    super(linkedEvent.getDate(), linkedEvent.getDesc(), linkedEvent.getFlags());
+    this.linkedEvent = linkedEvent;
     this.startEvent = startEvent;
     this.endEvent = endEvent;
   }
+  render(locale?: string): string {
+    return this.linkedEvent.render(locale);
+  }
+  renderBrief(locale?: string): string {
+    return this.linkedEvent.renderBrief(locale);
+  }
   urlDateSuffix(): string {
-    if (this.getDesc() === "Asara B'Tevet") {
-      const isoDate = isoDateString(this.getDate().greg());
-      return isoDate.replace(/-/g, '');
-    }
-    return super.urlDateSuffix();
+    return this.linkedEvent.urlDateSuffix();
   }
   url(): string | undefined {
-    if (this.getFlags() & flags.YOM_KIPPUR_KATAN) {
-      return undefined;
-    }
-    return super.url();
+    return this.linkedEvent.url();
+  }
+  getEmoji(): string {
+    return this.linkedEvent.getEmoji();
+  }
+  getCategories(): string[] {
+    return this.linkedEvent.getCategories();
   }
 }
 
@@ -112,7 +118,7 @@ export function makeFastStartEnd(
 ): FastDayEvent {
   const desc = ev.getDesc();
   if (desc === 'Yom Kippur') {
-    return ev;
+    throw new RangeError('YK does not require this function');
   }
   const hd = ev.getDate();
   const dt = hd.greg();
@@ -147,7 +153,7 @@ export function makeFastStartEnd(
       }
     }
   }
-  const ev2 = new FastDayEvent(hd, desc, ev.getFlags(), startEvent, endEvent);
+  const ev2 = new FastDayEvent(ev, startEvent, endEvent);
   // copy properties such as memo or emoji
   Object.assign(ev2, ev);
   return ev2;

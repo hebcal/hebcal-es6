@@ -2,7 +2,6 @@ import prettyBytes from 'pretty-bytes';
 import {defineConfig, OutputChunk, Plugin, RollupOptions} from 'rollup';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import babel from '@rollup/plugin-babel';
 import bundleSize from 'rollup-plugin-bundle-size';
 import json from '@rollup/plugin-json';
 import terser from '@rollup/plugin-terser';
@@ -10,13 +9,6 @@ import typescript from '@rollup/plugin-typescript';
 import {appendFileSync, readdirSync, writeFileSync} from 'fs';
 import {basename} from 'path';
 import {visualizer} from 'rollup-plugin-visualizer';
-
-const TARGETS_BROWSER = {
-  chrome: '103',
-  firefox: '91',
-  edge: '84',
-  safari: '15.6',
-};
 
 const sizeFile = './size-demo/sizes.md';
 writeFileSync(sizeFile, '# Bundle sizes\n\n');

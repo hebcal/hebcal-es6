@@ -104,12 +104,8 @@ export class HolidayEvent extends Event {
    */
   clone(): HolidayEvent {
     const ev = new HolidayEvent(this.date, this.desc, this.mask);
-    for (const property in this) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (this.hasOwnProperty(property)) {
-        Object.defineProperty(ev, property, {value: this[property]});
-      }
-    }
+    // overwrite all enumerable properties
+    Object.assign(ev, this);
     return ev;
   }
 }
