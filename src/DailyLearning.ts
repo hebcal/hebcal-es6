@@ -34,4 +34,9 @@ export class DailyLearning {
     }
     return null;
   }
+
+  /** Returns the names of all calendars registered */
+  static getCalendars(): string[] {
+    return Array.from(cals.keys());
+  }
 }
