@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.8.8",
+  "version": "5.8.9",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -86,14 +86,13 @@
     "pretty-bytes": "^6.1.1",
     "rollup": "^4.29.1",
     "rollup-plugin-bundle-size": "^1.0.3",
-    "rollup-plugin-visualizer": "^5.12.0",
-    "typedoc": "^0.27.5",
+    "rollup-plugin-visualizer": "^5.13.1",
+    "typedoc": "^0.27.6",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },
   "dependencies": {
-    "@babel/runtime": "^7.26.0",
-    "@hebcal/hdate": "^0.13.2",
+    "@hebcal/hdate": "^0.13.3",
     "@hebcal/noaa": "^0.8.16",
     "quick-lru": "^6.1.2",
     "temporal-polyfill": "^0.2.5",
