@@ -154,6 +154,23 @@ test('asara-btevet-url', () => {
   expect(urls).toEqual(expected);
 });
 
+test('chanukah-url', () => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2024, 11, 30),
+    end: new Date(2025, 0, 2),
+  });
+  const urls = events
+      .filter((ev) => ev.basename() === 'Chanukah')
+      .map((ev) => ev.url());
+  const expected = [
+    'https://www.hebcal.com/holidays/chanukah-2024',
+    'https://www.hebcal.com/holidays/chanukah-2024',
+    'https://www.hebcal.com/holidays/chanukah-2024',
+    'https://www.hebcal.com/holidays/chanukah-2024',
+  ];
+  expect(urls).toEqual(expected);
+});
+
 test('early-ce-url', () => {
   const ev = new HolidayEvent(new HDate(new Date(100, 8, 30)), 'Yom Kippur');
   expect(ev.url()).toBe('https://www.hebcal.com/holidays/yom-kippur-100');

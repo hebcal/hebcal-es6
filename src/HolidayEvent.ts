@@ -112,12 +112,27 @@ export class HolidayEvent extends Event {
 
 /**
  * Because Asara B'Tevet often occurs twice in the same Gregorian year,
- * we subclass HolidayEvent to override the `url()` method.
+ * we subclass HolidayEvent to generate the correct URL.
  */
 export class AsaraBTevetEvent extends HolidayEvent {
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.getDate().greg());
     return isoDate.replace(/-/g, '');
+  }
+}
+
+/**
+ * Because Chanukah sometimes starts in December and ends in January,
+ * we subclass HolidayEvent to generate the correct URL.
+ */
+export class ChanukahEvent extends HolidayEvent {
+  urlDateSuffix(): string {
+    const dt = this.getDate().greg();
+    let year = dt.getFullYear();
+    if (dt.getMonth() === 0) {
+      year--;
+    }
+    return String(year);
   }
 }
 

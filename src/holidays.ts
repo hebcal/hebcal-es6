@@ -31,6 +31,7 @@ import {
 import {YomKippurKatanEvent} from './YomKippurKatanEvent';
 import {
   HolidayEvent,
+  ChanukahEvent,
   AsaraBTevetEvent,
   RoshHashanaEvent,
   RoshChodeshEvent,
@@ -190,7 +191,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
   for (let candles = 2; candles <= 8; candles++) {
     const hd = new HDate(23 + candles, KISLEV, year);
     add(
-      new HolidayEvent(
+      new ChanukahEvent(
         hd,
         `Chanukah: ${candles} Candles`,
         MINOR_HOLIDAY | CHANUKAH_CANDLES,
@@ -202,7 +203,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
     );
   }
   add(
-    new HolidayEvent(
+    new ChanukahEvent(
       new HDate(32, KISLEV, year),
       hdesc.CHANUKAH_8TH_DAY,
       MINOR_HOLIDAY,
