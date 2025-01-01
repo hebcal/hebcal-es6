@@ -3,7 +3,7 @@ import {HDate, months} from '@hebcal/hdate';
 import {CalOptions} from './CalOptions';
 import {Location} from './location';
 import {Event, flags} from './event';
-import {HolidayEvent} from './HolidayEvent';
+import {ChanukahEvent, HolidayEvent} from './HolidayEvent';
 import {Zmanim} from './zmanim';
 import {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
 
@@ -173,7 +173,7 @@ function makeTimedEvent(
   return new TimedEvent(hd, desc, ev.getFlags(), time, location, ev, options);
 }
 
-export class TimedChanukahEvent extends HolidayEvent {
+export class TimedChanukahEvent extends ChanukahEvent {
   eventTime: Date;
   eventTimeStr: string;
   readonly location: Location;

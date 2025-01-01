@@ -416,6 +416,26 @@ test('chanukah-candles', () => {
   expect(actual).toEqual(expected);
 });
 
+test('chanukah-candles-dec-jan', () => {
+  const options: CalOptions = {
+    start: new Date(2024, 11, 30),
+    end: new Date(2025, 0, 2),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  };
+  const events = HebrewCalendar.calendar(options);
+  const urls = events
+      .filter((ev) => ev.basename() === 'Chanukah')
+      .map((ev) => ev.url());
+  const expected = [
+    'https://www.hebcal.com/holidays/chanukah-2024',
+    'https://www.hebcal.com/holidays/chanukah-2024',
+    'https://www.hebcal.com/holidays/chanukah-2024',
+    'https://www.hebcal.com/holidays/chanukah-2024',
+  ];
+  expect(urls).toEqual(expected);
+});
+
 test('fastStartEnd-TzomTammuz', () => {
   const events = HebrewCalendar.calendar({
     start: new Date(2021, 5, 27),
