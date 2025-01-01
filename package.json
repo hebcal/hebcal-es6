@@ -92,7 +92,7 @@
     "vitest": "^2.1.8"
   },
   "dependencies": {
-    "@hebcal/hdate": "^0.13.3",
+    "@hebcal/hdate": "^0.13.5",
     "@hebcal/noaa": "^0.8.16",
     "quick-lru": "^6.1.2",
     "temporal-polyfill": "^0.2.5",
