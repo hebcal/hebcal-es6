@@ -17,7 +17,7 @@ export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 export {Location} from './location';
 export {Zmanim} from './zmanim';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
-export {FastDayEvent} from './candles';
+export {FastDayEvent, TimedChanukahEvent} from './candles';
 export {Molad, MoladEvent} from './molad';
 export {OmerEvent} from './omer';
 export {TachanunResult} from './tachanun';
@@ -26,12 +26,14 @@ export {ParshaEvent} from './ParshaEvent';
 export {parshaYear} from './parshaYear';
 export {
   HolidayEvent,
+  ChanukahEvent,
   AsaraBTevetEvent,
   RoshChodeshEvent,
   RoshHashanaEvent,
 } from './HolidayEvent';
 export {HolidayYearMap, getHolidaysOnDate} from './holidays';
 export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
+export {YomKippurKatanEvent} from './YomKippurKatanEvent';
 export {holidayDesc} from './staticHolidays';
 export {DailyLearning} from './DailyLearning';
 export {HebrewCalendar} from './hebcal';
