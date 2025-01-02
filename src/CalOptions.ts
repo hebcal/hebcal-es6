@@ -155,9 +155,7 @@ export type CalOptions = {
    * such as `dafYomi`, `mishnaYomi`, `nachYomi` with value `true`. For `yerushalmi`
    * the value should be a `number` for edition (`1` for Vilna, `2` for Schottenstein).
    */
-  dailyLearning?: {
-    [x: string]: DailyLearningValue;
-  };
+  dailyLearning?: Record<string, DailyLearningValue>;
   /**
    * Yizkor (Hebrew: יִזְכּוֹר) is an Ashkenazi Jewish memorial prayer service
    * for the dead. Yizkor is recited in synagogue as part of the service

@@ -1,6 +1,6 @@
 import {CalOptions} from './CalOptions';
 
-const hour12cc: {[key: string]: number} = {
+const hour12cc: Record<string, number> = {
   US: 1,
   CA: 1,
   BR: 1,

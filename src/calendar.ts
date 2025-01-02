@@ -296,9 +296,7 @@ const CHOL_HAMOED = flags.CHOL_HAMOED;
 const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
 const YIZKOR = flags.YIZKOR;
 
-type StringIntMap = {
-  [x: string]: number;
-};
+type StringIntMap = Record<string, number>;
 
 const unrecognizedAlreadyWarned = new Set<string>();
 const RECOGNIZED_OPTIONS: StringIntMap = {
@@ -674,7 +672,7 @@ function dailyLearningName(key: string, val: DailyLearningValue): string {
 
 function makeDailyLearning(
   hd: HDate,
-  dailyLearning: {[x: string]: DailyLearningValue},
+  dailyLearning: Record<string, DailyLearningValue>,
   il: boolean
 ): Event[] {
   const evts: Event[] = [];

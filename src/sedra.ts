@@ -449,7 +449,7 @@ const r4350 = range(43, 50);
  * @private
  * @readonly
  */
-const types: {[s: string]: readonly NumberOrString[]} = {
+const types: Record<string, readonly NumberOrString[]> = {
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
    * Kislev each have 29 days), and has Passover start on Tuesday. */
   // e.g. 5753

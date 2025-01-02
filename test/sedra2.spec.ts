@@ -15,7 +15,7 @@ test('diaspora-5701', () => {
   const sedra = new Sedra(hyear, false);
   const startAbs = HDate.hebrew2abs(hyear, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
-  const result: {[x: string]: string[]} = {};
+  const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
@@ -83,7 +83,7 @@ test('diaspora-5779', () => {
   const sedra = new Sedra(hyear, false);
   const startAbs = HDate.hebrew2abs(hyear, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
-  const result: {[x: string]: string[]} = {};
+  const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
@@ -155,7 +155,7 @@ test('israel-5745', () => {
   const sedra = new Sedra(hyear, true);
   const startAbs = HDate.hebrew2abs(hyear, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
-  const result: {[x: string]: string[]} = {};
+  const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
@@ -223,7 +223,7 @@ test('israel-5779', () => {
   const sedra = new Sedra(hyear, true);
   const startAbs = HDate.hebrew2abs(hyear, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
-  const result: {[x: string]: string[]} = {};
+  const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
@@ -295,7 +295,7 @@ test('diaspora-bce', () => {
   const sedra = new Sedra(hyear, false);
   const startAbs = HDate.hebrew2abs(hyear, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
-  const result: {[x: string]: string[]} = {};
+  const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
@@ -367,7 +367,7 @@ test('israel-bce', () => {
   const sedra = new Sedra(hyear, true);
   const startAbs = HDate.hebrew2abs(hyear, months.TISHREI, 1);
   const endAbs = HDate.hebrew2abs(hyear + 1, months.TISHREI, 1) - 1;
-  const result: {[x: string]: string[]} = {};
+  const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday

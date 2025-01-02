@@ -97,7 +97,7 @@ const classicCities0: [string, string, number, number, string, number][] = [
 const classicCities = new Map<string, Location>();
 
 // Zip-Codes.com TimeZone IDs
-const ZIPCODES_TZ_MAP: {[x: string]: string} = {
+const ZIPCODES_TZ_MAP: Record<string, string> = {
   '0': 'UTC',
   '4': 'America/Puerto_Rico', // Atlantic (GMT -04:00)
   '5': 'America/New_York', //    Eastern  (GMT -05:00)
