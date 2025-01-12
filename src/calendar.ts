@@ -347,6 +347,14 @@ function warnUnrecognizedOptions(options: CalOptions) {
       unrecognizedAlreadyWarned.add(k);
     }
   }
+  if (options.dailyLearning) {
+    for (const k of Object.keys(options.dailyLearning)) {
+      if (!unrecognizedAlreadyWarned.has(k) && !DailyLearning.has(k)) {
+        console.warn(`Ignoring unrecognized DailyLearning calendar: ${k}`);
+        unrecognizedAlreadyWarned.add(k);
+      }
+    }
+  }
 }
 
 const israelCityOffset: StringIntMap = {

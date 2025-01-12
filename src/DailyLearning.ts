@@ -12,27 +12,36 @@ const cals = new Map<string, Function>();
 export class DailyLearning {
   /**
    * Register a new learning calendar.
+   * @param name case insensitive
    */
   static addCalendar(name: string, calendar: Function) {
     if (typeof calendar !== 'function') {
       throw new TypeError(`Invalid calendar function: ${calendar}`);
     }
-    cals.set(name, calendar);
+    cals.set(name.toLowerCase(), calendar);
   }
 
   /**
    * Returns an event from daily calendar for a given date. Returns `null` if there
    * is no learning from this calendar on this date.
-   * @param name
-   * @param hd
-   * @param il
+   * @param name case insensitive
+   * @param hd Hebrew Date
+   * @param il true for Israel, false for Diaspora
    */
   static lookup(name: string, hd: HDate, il: boolean): Event | null {
-    const fn = cals.get(name);
+    const fn = cals.get(name.toLowerCase());
     if (typeof fn === 'function') {
       return fn(hd, il);
     }
     return null;
+  }
+
+  /**
+   * Tests to see if learning calendar has been registered
+   * @param name case insensitive
+   */
+  static has(name: string): boolean {
+    return cals.has(name);
   }
 
   /** Returns the names of all calendars registered */

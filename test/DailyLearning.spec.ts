@@ -8,10 +8,10 @@ test('DailyLearning', () => {
   const hd = new HDate();
   DailyLearning.addCalendar('Foo', dummy);
   DailyLearning.addCalendar('Bar', dummy);
-  expect(DailyLearning.getCalendars()).toEqual(['Foo', 'Bar']);
+  expect(DailyLearning.getCalendars()).toEqual(['foo', 'bar']);
   const dummy2 = () => {return {bogus: true}};
   DailyLearning.addCalendar('Quux', dummy2);
-  expect(DailyLearning.getCalendars()).toEqual(['Foo', 'Bar', 'Quux']);
+  expect(DailyLearning.getCalendars()).toEqual(['foo', 'bar', 'quux']);
   expect(DailyLearning.lookup('Foo', hd, false)).toBeNull();
   expect(DailyLearning.lookup('Bar', hd, false)).toBeNull();
   expect(DailyLearning.lookup('Quux', hd, false)).toEqual({bogus: true});
