@@ -41,7 +41,7 @@ export class DailyLearning {
    * @param name case insensitive
    */
   static has(name: string): boolean {
-    return cals.has(name);
+    return cals.has(name.toLowerCase());
   }
 
   /** Returns the names of all calendars registered */

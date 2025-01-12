@@ -6,7 +6,10 @@ test('DailyLearning', () => {
   expect(DailyLearning.getCalendars()).toEqual([]);
   const dummy = () => {return null};
   const hd = new HDate();
+  expect(DailyLearning.has('Foo')).toBe(false);
   DailyLearning.addCalendar('Foo', dummy);
+  expect(DailyLearning.has('Foo')).toBe(true);
+  expect(DailyLearning.has('foo')).toBe(true);
   DailyLearning.addCalendar('Bar', dummy);
   expect(DailyLearning.getCalendars()).toEqual(['foo', 'bar']);
   const dummy2 = () => {return {bogus: true}};
