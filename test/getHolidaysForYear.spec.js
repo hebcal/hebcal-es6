@@ -32,8 +32,8 @@ test('getHolidaysForYearArray-5771-diaspora', () => {
     {date: '2010-10-01', desc: 'Simchat Torah'},
     {date: '2010-10-08', desc: 'Rosh Chodesh Cheshvan'},
     {date: '2010-10-09', desc: 'Rosh Chodesh Cheshvan'},
+    {date: '2010-11-04', desc: 'Sigd'},
     {date: '2010-11-04', desc: 'Yom Kippur Katan Kislev'},
-    {date: '2010-11-06', desc: 'Sigd'},
     {date: '2010-11-07', desc: 'Rosh Chodesh Kislev'},
     {date: '2010-11-08', desc: 'Rosh Chodesh Kislev'},
     {date: '2010-12-01', desc: 'Chanukah: 1 Candle'},
@@ -277,4 +277,11 @@ test('getHolidaysForYear-throw', () => {
   expect(() => {
     getHolidaysForYear_(-1);
   }).toThrow('Hebrew year -1 out of range 1-32658');
+});
+
+test('Sigd Shabbat moves to Thursday', () => {
+  const events = getHolidaysForYearArray(5785, true);
+  const ev = events.find((ev) => ev.getDesc() === 'Sigd');
+  const date = isoDateString(ev.getDate().greg());
+  expect(date).toBe('2024-11-28');
 });

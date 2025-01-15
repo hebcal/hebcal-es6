@@ -640,6 +640,7 @@ export const staticModernHolidays: ModernHoliday[] = [
     desc: SIGD,
     chul: true,
     suppressEmoji: true,
+    friSatMovetoThu: true,
   },
   {firstYear: 5777, mm: Nisan, dd: 10, desc: YOM_HAALIYAH, chul: true},
   {firstYear: 5777, mm: Cheshvan, dd: 7, desc: YOM_HAALIYAH_SCHOOL_OBSERVANCE},
