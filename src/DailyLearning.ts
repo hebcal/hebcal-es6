@@ -1,8 +1,11 @@
 import {HDate} from '@hebcal/hdate';
 import {Event} from './event';
 
-/** @private */
-const cals = new Map<string, Function>();
+type LearningCalendar = {
+  fn: Function;
+  startDate?: HDate;
+};
+const cals = new Map<string, LearningCalendar>();
 
 /**
  * Plug-ins for daily learning calendars such as Daf Yomi, Mishna Yomi, Nach Yomi, etc.
@@ -13,12 +16,17 @@ export class DailyLearning {
   /**
    * Register a new learning calendar.
    * @param name case insensitive
+   * @param calendar a function that returns an `Event` or `null`
+   * @param startDate the first date for which this calendar is valid
    */
-  static addCalendar(name: string, calendar: Function) {
+  static addCalendar(name: string, calendar: Function, startDate?: HDate) {
     if (typeof calendar !== 'function') {
       throw new TypeError(`Invalid calendar function: ${calendar}`);
     }
-    cals.set(name.toLowerCase(), calendar);
+    cals.set(name.toLowerCase(), {
+      fn: calendar,
+      startDate: startDate,
+    });
   }
 
   /**
@@ -29,11 +37,19 @@ export class DailyLearning {
    * @param il true for Israel, false for Diaspora
    */
   static lookup(name: string, hd: HDate, il: boolean): Event | null {
-    const fn = cals.get(name.toLowerCase());
-    if (typeof fn === 'function') {
-      return fn(hd, il);
+    const cal = cals.get(name.toLowerCase());
+    if (typeof cal === 'object') {
+      return cal.fn(hd, il);
     }
     return null;
+  }
+
+  static getStartDate(name: string): HDate | undefined {
+    const cal = cals.get(name.toLowerCase());
+    if (typeof cal === 'object') {
+      return cal.startDate;
+    }
+    return undefined;
   }
 
   /**

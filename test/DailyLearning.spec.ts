@@ -10,12 +10,17 @@ test('DailyLearning', () => {
   DailyLearning.addCalendar('Foo', dummy);
   expect(DailyLearning.has('Foo')).toBe(true);
   expect(DailyLearning.has('foo')).toBe(true);
-  DailyLearning.addCalendar('Bar', dummy);
+  expect(DailyLearning.getStartDate('foo')).toBeUndefined();
+  const startDate = new HDate(5780, 'Cheshvan', 13);
+  DailyLearning.addCalendar('Bar', dummy, startDate);
+  expect(DailyLearning.getStartDate('bar')).toEqual(startDate)
   expect(DailyLearning.getCalendars()).toEqual(['foo', 'bar']);
   const dummy2 = () => {return {bogus: true}};
   DailyLearning.addCalendar('Quux', dummy2);
+  expect(DailyLearning.getStartDate('Quux')).toBeUndefined();
   expect(DailyLearning.getCalendars()).toEqual(['foo', 'bar', 'quux']);
   expect(DailyLearning.lookup('Foo', hd, false)).toBeNull();
   expect(DailyLearning.lookup('Bar', hd, false)).toBeNull();
   expect(DailyLearning.lookup('Quux', hd, false)).toEqual({bogus: true});
+  expect(DailyLearning.getStartDate('UNDEFINED')).toBeUndefined();
 });
