@@ -219,9 +219,13 @@ export function calendar(options: CalOptions = {}): Event[] {
       }
     }
     const dailyLearning = options.dailyLearning;
+    let numDailyLearning = 0;
     if (typeof dailyLearning === 'object') {
       const events = makeDailyLearning(hd, dailyLearning, il);
-      evts.push(...events);
+      numDailyLearning = events.length;
+      if (numDailyLearning) {
+        evts.push(...events);
+      }
     }
     if (options.omer && abs >= beginOmer && abs <= endOmer) {
       const omer = abs - beginOmer + 1;
@@ -252,7 +256,8 @@ export function calendar(options: CalOptions = {}): Event[] {
     }
     if (
       options.addHebrewDates ||
-      (options.addHebrewDatesForEvents && prevEventsLength !== evts.length)
+      (options.addHebrewDatesForEvents &&
+        prevEventsLength !== evts.length - numDailyLearning)
     ) {
       const e2 = new HebrewDateEvent(hd);
       if (prevEventsLength === evts.length) {
