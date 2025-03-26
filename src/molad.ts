@@ -15,7 +15,7 @@ const heDayNames = [
   'שִׁישִּׁי',
   'שַׁבָּת',
 ];
-
+const frDayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 const night = 'בַּלַּ֥יְלָה';
 
 function getHebrewTimeOfDay(hour: number): string {
@@ -89,8 +89,9 @@ export class Molad {
     }
     const isHebrewLocale =
       locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
+    const isFrenchLocale = locale === 'fr';
     const monthName = Locale.gettext(this.getMonthName(), locale);
-    const dayNames = isHebrewLocale ? heDayNames : shortDayNames;
+    const dayNames = isHebrewLocale ? heDayNames : (isFrenchLocale ? frDayNames : shortDayNames);
     const dow = dayNames[this.getDow()];
     const minutes = this.getMinutes();
     const hour = this.getHour();
@@ -98,6 +99,8 @@ export class Molad {
     const moladStr = Locale.gettext('Molad', locale);
     const minutesStr = Locale.lookupTranslation('min', locale) ?? 'minutes';
     const chalakimStr = Locale.gettext('chalakim', locale);
+    const and = Locale.gettext('and', locale);
+    const after = Locale.gettext('after', locale);
     if (isHebrewLocale) {
       const ampm = getHebrewTimeOfDay(hour);
       const result =
@@ -112,7 +115,7 @@ export class Molad {
     }
     const fmtTime = reformatTimeStr(`${hour}:00`, 'pm', options);
     const month = monthName.replace(/'/g, '’');
-    return `${moladStr} ${month}: ${dow}, ${minutes} ${minutesStr} and ${chalakim} ${chalakimStr} after ${fmtTime}`;
+    return `${moladStr} ${month}: ${dow}, ${minutes} ${minutesStr} ${and} ${chalakim} ${chalakimStr} ${after} ${fmtTime}`;
   }
 }
 
