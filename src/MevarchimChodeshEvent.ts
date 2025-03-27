@@ -13,10 +13,11 @@ export class MevarchimChodeshEvent extends Event {
    * @param date Hebrew date event occurs
    * @param monthName Hebrew month name (not translated)
    * @param [memo]
+   * @param locale Optional locale name
    */
-  constructor(date: HDate, monthName: string, memo: string) {
+  constructor(date: HDate, monthName: string, memo: string, locale?: string) {
     super(date, `${mevarchimChodeshStr} ${monthName}`, flags.SHABBAT_MEVARCHIM);
-    this.monthName = monthName;
+    this.monthName = Locale.gettext(monthName, locale);
     if (memo) {
       this.memo = memo;
     } else {
