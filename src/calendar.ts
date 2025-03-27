@@ -670,7 +670,9 @@ function makeMoladAndMevarchimChodesh(hd: HDate, options: CalOptions): Event[] {
       const nextMonthName = HDate.getMonthName(monNext, hyear);
       const molad = new Molad(hyear, monNext);
       const memo = molad.render(options.locale || 'en', options);
-      evts.push(new MevarchimChodeshEvent(hd, nextMonthName, memo));
+      evts.push(
+        new MevarchimChodeshEvent(hd, nextMonthName, memo, options.locale)
+      );
     }
   }
   return evts;
