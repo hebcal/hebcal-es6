@@ -84,7 +84,7 @@ test('days-weeks', () => {
 test('emoji', () => {
   const start = new HDate(16, 'Nisan', 5782);
   const startAbs = start.abs();
-  const actual = [];
+  const actual: string[] = [];
   for (let i = 1; i <= 49; i++) {
     const ev = new OmerEvent(new HDate(startAbs + i - 1), i);
     actual.push(ev.getEmoji());

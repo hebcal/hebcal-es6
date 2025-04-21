@@ -579,7 +579,7 @@ msgstr "גְבוּרָה"
 
 # Tiferet
 msgid "Beauty"
-msgstr "תִּפאֶרֶת"
+msgstr "תִּפְאֶֽרֶת"
 
 # Netzach
 msgid "Eternity"
