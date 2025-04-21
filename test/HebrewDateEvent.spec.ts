@@ -18,7 +18,7 @@ test('render', () => {
   expect(hd2.render('')).toBe('1st of Tishrei, 5780');
   expect(hd2.render('en')).toBe('1st of Tishrei, 5780');
   expect(hd2.render('ashkenazi')).toBe('1st of Tishrei, 5780');
-  expect(hd2.render('he')).toBe('א׳ תִּשְׁרֵי תש״פ');
+  expect(hd2.render('h')).toBe('א׳ תִּשְׁרֵי תש״פ');
   expect(hd2.render('he-x-NoNikud')).toBe('א׳ תשרי תש״פ');
   expect(elul29.render()).toBe('29th of Elul, 5779');
   expect(elul29.render('en')).toBe('29th of Elul, 5779');
@@ -41,7 +41,7 @@ test('renderBrief', () => {
   expect(elul29ev.renderBrief('s')).toBe('29th of Elul');
   expect(elul29ev.renderBrief('')).toBe('29th of Elul');
   expect(elul29ev.renderBrief('ashkenazi')).toBe('29th of Elul');
-  expect(elul29ev.renderBrief('he')).toBe('כ״ט אֱלוּל');
+  expect(elul29ev.renderBrief('h')).toBe('כ״ט אֱלוּל');
   expect(elul29ev.renderBrief('he-x-NoNikud')).toBe('כ״ט אלול');
   const tishrei1ev = new HebrewDateEvent(new HDate(1, 'Tishrei', 5780));
   expect(tishrei1ev.renderBrief()).toBe('1st of Tishrei, 5780');

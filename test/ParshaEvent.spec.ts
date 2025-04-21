@@ -51,3 +51,10 @@ test('render', () => {
   expect(ev.renderBrief('a')).toBe('Parshas Ha’azinu');
   expect(ev.renderBrief('he-x-NoNikud')).toBe('פרשת האזינו');
 });
+
+test('throws', () => {
+  expect(() => {
+    const ev = new ParshaEvent(new HDate(), 'Bereshit' as unknown as string[]);
+    console.log(ev);
+  }).toThrow('Bad parsha argument');
+});

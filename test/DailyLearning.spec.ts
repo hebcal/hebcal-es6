@@ -24,3 +24,9 @@ test('DailyLearning', () => {
   expect(DailyLearning.lookup('Quux', hd, false)).toEqual({bogus: true});
   expect(DailyLearning.getStartDate('UNDEFINED')).toBeUndefined();
 });
+
+test('throws', () => {
+  expect(() => {
+    DailyLearning.addCalendar('ShouldThrow', 1234 as unknown as Function);
+  }).toThrow('Invalid calendar function: 1234');
+});
