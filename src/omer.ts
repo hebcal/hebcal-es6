@@ -143,7 +143,7 @@ function omerTodayIsHe(omerDay: number): string {
   }
   if (omerDay > 6) {
     str = str.trim(); // remove trailing space before comma
-    str += ', שְׁהֵם ';
+    str += ', שֶׁהֵם ';
     const weeks: number = Math.floor(omerDay / 7);
     const days: number = omerDay % 7;
     if (weeks > 2) {
