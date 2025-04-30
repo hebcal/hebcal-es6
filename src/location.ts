@@ -169,6 +169,9 @@ export class Location extends GeoLocation {
     if (isNaN(long) || long < -180 || long > 180) {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
+    if (!tzid) {
+      throw new RangeError(`Invalid timezone`);
+    }
     const elev = typeof elevation === 'number' && elevation > 0 ? elevation : 0;
     super(cityName || null, lat, long, elev, tzid);
     this.il = Boolean(il);
