@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest';
-import {OmerEvent} from '../src/omer';
+import {OmerEvent, OmerLang} from '../src/omer';
 import {HDate} from '@hebcal/hdate';
 
 test('render', () => {
@@ -32,10 +32,18 @@ test('render', () => {
 test('sefira', () => {
   const omer = new OmerEvent(new HDate(2, 'Sivan', 5770), 46);
   expect(omer.sefira('en')).toBe('Eternity within Majesty');
-  expect(omer.sefira('he')).toBe('נֶּֽצַח שֶׁבְּמַּלְכוּת');
+  expect(omer.sefira('he')).toBe('נֶּֽצַח שֶׁבְּמַלְכוּת');
   expect(omer.sefira('translit')).toBe('Netzach sheb\'Malkhut');
-  expect(omer.sefira('bogus')).toBe('Eternity within Majesty');
+  expect(omer.sefira('bogus' as unknown as OmerLang)).toBe('Eternity within Majesty');
   expect(omer.sefira()).toBe('Eternity within Majesty');
+});
+
+test('sefira 2nd dagesh', () => {
+  const omer = new OmerEvent(new HDate(3, 'Iyyar', 5785), 18);
+  expect(omer.sefira('he')).toBe('נֶּֽצַח שֶׁבְּתִפְאֶֽרֶת');
+
+  const omer2 = new OmerEvent(new HDate(7, 'Iyyar', 5785), 22);
+  expect(omer2.sefira('he')).toBe('חֶֽסֶד שֶׁבְּנֶֽצַח');
 });
 
 test('getTodayIs-en', () => {

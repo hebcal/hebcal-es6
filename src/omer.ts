@@ -6,7 +6,7 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
  * Language for counting the Omer can be English or Hebrew.
  * Lang for the Sefira can be English, Hebrew, or Hebrew in Sephardic transliteration.
  */
-type OmerLang = 'en' | 'he' | 'translit';
+export type OmerLang = 'en' | 'he' | 'translit';
 
 const sefirot = {
   en: {
@@ -22,10 +22,11 @@ const sefirot = {
       'Foundation',
       'Majesty',
     ],
+    pfxWords: null,
   },
   he: {
-    infix: 'שֶׁבְּ',
-    infix26: 'שֶׁבִּ',
+    infix: null,
+    infix26: null,
     words: [
       '',
       'חֶֽסֶד',
@@ -35,6 +36,16 @@ const sefirot = {
       'הוֹד',
       'יְּסוֹד',
       'מַּלְכוּת',
+    ],
+    pfxWords: [
+      '',
+      'שֶׁבְּחֶֽסֶד',
+      'שֶׁבִּגְבוּרָה',
+      'שֶׁבְּתִפְאֶֽרֶת',
+      'שֶׁבְּנֶֽצַח',
+      'שֶׁבְּהוֹד',
+      'שֶׁבִּיְּסוֹד',
+      'שֶׁבְּמַלְכוּת',
     ],
   },
   translit: {
@@ -50,6 +61,7 @@ const sefirot = {
       'Yesod',
       'Malkhut',
     ],
+    pfxWords: null,
   },
 } as const;
 
@@ -203,16 +215,21 @@ export class OmerEvent extends Event {
    * @param lang `en` (English), `he` (Hebrew with nikud), or `translit` (Hebrew in Sephardic transliteration)
    * @returns a string such as `Lovingkindness within Might` or `חֶֽסֶד שֶׁבִּגְבוּרָה`
    */
-  sefira(lang = 'en'): string {
+  sefira(lang: OmerLang = 'en'): string {
     if (lang !== 'he' && lang !== 'translit') {
       lang = 'en';
     }
     const [weekNum, daysWithinWeeks]: number[] = getWeeks(this.omer);
     const config = sefirot[lang as OmerLang];
-    const week = config.words[weekNum];
-    const dayWithinWeek = config.words[daysWithinWeeks];
-    const infix =
-      weekNum === 2 || weekNum === 6 ? config.infix26 : config.infix;
+    const pfxWords = config.pfxWords;
+    const words = config.words;
+    const week = pfxWords ? pfxWords[weekNum] : words[weekNum];
+    const dayWithinWeek = words[daysWithinWeeks];
+    const infix = pfxWords
+      ? ''
+      : weekNum === 2 || weekNum === 6
+        ? config.infix26
+        : config.infix;
     return (dayWithinWeek + ' ' + infix + week).normalize();
   }
   /**
