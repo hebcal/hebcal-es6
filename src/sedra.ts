@@ -83,6 +83,7 @@ export class Sedra {
   private readonly il: boolean;
   private readonly firstSaturday: number;
   private readonly theSedraArray: readonly NumberOrString[];
+  private readonly yearKey: string;
   /**
    * Caculates the Parashah HaShavua for an entire Hebrew year
    * @param hyear - Hebrew year (e.g. 5749)
@@ -105,9 +106,11 @@ export class Sedra {
     let key = `${leap}${rhDay}${type}`;
     if (types[key]) {
       this.theSedraArray = types[key];
+      this.yearKey = key;
     } else {
       key = key + +this.il; // cast to num, then concat
       this.theSedraArray = types[key];
+      this.yearKey = key;
     }
 
     if (!this.theSedraArray) {
@@ -458,7 +461,7 @@ const types: Record<string, readonly NumberOrString[]> = {
     D(21),
     23,
     24,
-    PESACH,
+    CHMPESACH,
     25,
     D(26),
     D(28),
@@ -478,7 +481,7 @@ const types: Record<string, readonly NumberOrString[]> = {
     D(21),
     23,
     24,
-    PESACH,
+    CHMPESACH,
     25,
     D(26),
     D(28),

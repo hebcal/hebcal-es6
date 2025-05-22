@@ -217,3 +217,41 @@ test('weekday1', () => {
     hdate: new HDate(739171),
   });
 });
+
+test('Shabbos Chol Hamoed Pesach', () => {
+  const years = [5786, 5783, 5780, 5777];
+  for (const year of years) {
+    const sedra = new Sedra(year, false);
+    const hd = new HDate(17, months.NISAN, year);
+    const result = sedra.lookup(hd);
+    expect(result.chag).toBe(true);
+    expect(result.hdate.dd).toBeOneOf([17, 19]);
+    expect(result.parsha[0]).toBe('Pesach Shabbat Chol ha-Moed');
+  }
+});
+
+test('Pesach Diaspora', () => {
+  for (let year = 5700; year < 5900; year++) {
+    const sedra = new Sedra(year, false);
+    const hd = new HDate(17, months.NISAN, year);
+    const result = sedra.lookup(hd);
+    expect(result.chag).toBe(true);
+    switch (result.hdate.dd) {
+      case 17:
+      case 19:
+        expect(result.parsha[0]).toBe('Pesach Shabbat Chol ha-Moed');
+        break;
+      case 21:
+        expect(result.parsha[0]).toBe('Pesach VII');
+        break;
+      case 22:
+        expect(result.parsha[0]).toBe('Pesach VIII');
+        break;
+      default:
+        console.log((sedra as any).yearKey);
+        console.log(result);
+        expect(result.hdate.dd).toBe(0); // fail
+    }
+  }
+});
+
