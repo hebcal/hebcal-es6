@@ -86,7 +86,7 @@ msgid "Ki Tisa"
 msgstr "כִּי תִשָּׂא"
 
 msgid "Korach"
-msgstr "קוֹרַח"
+msgstr "קֹרַח"
 
 msgid "Lech-Lecha"
 msgstr "לֶךְ־לְךָ"

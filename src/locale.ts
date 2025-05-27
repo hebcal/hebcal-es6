@@ -1,6 +1,7 @@
 import {Locale, LocaleData, StringArrayMap} from '@hebcal/hdate';
 import poAshkenazi from './ashkenazi.po';
 import poHe from './he.po';
+import noNikudOverride from './he-x-NoNikud.po';
 
 export {Locale};
 
@@ -20,3 +21,4 @@ const poHeNoNikud: LocaleData = {
   contexts: {'': heNoNikud},
 } as const;
 Locale.addTranslations('he-x-NoNikud', poHeNoNikud);
+Locale.addTranslations('he-x-NoNikud', noNikudOverride);

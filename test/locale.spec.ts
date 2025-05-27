@@ -53,6 +53,11 @@ test('lookupTranslation-he-x-NoNikud', () => {
   expect(Locale.lookupTranslation('Foobar', 'he-x-NoNikud')).toBe(undefined);
 });
 
+test('Korach', () => {
+  expect(Locale.lookupTranslation('Korach', 'he')).toBe('קֹרַח');
+  expect(Locale.lookupTranslation('Korach', 'he-x-NoNikud')).toBe('קורח');
+});
+
 test('gettext-ashkenazi', () => {
   expect(Locale.gettext('Sukkot', 'a')).toBe('Sukkos');
   expect(Locale.gettext("Asara B'Tevet", 'a')).toBe('Asara B’Teves');
