@@ -8,6 +8,7 @@ export {
   Headers,
   StringArrayMap,
   LocaleData,
+  MonthName,
 } from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 export {CalOptions, DailyLearningValue} from './CalOptions';

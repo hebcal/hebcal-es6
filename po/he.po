@@ -22,9 +22,6 @@ msgstr ""
 msgid "Shabbat"
 msgstr "שַׁבָּת"
 
-msgid "Daf Yomi"
-msgstr "דַף יוֹמִי"
-
 msgid "Parashat"
 msgstr "פָּרָשַׁת"
 
@@ -499,76 +496,6 @@ msgstr "שַׁבָּת מְבָרְכִים חוֹדֶשׁ"
 msgid "Shabbat Shirah"
 msgstr "שַׁבָּת שִׁירָה"
 
-# midnight (sunset + six halachic hours)
-msgid "Chatzot HaLailah"
-msgstr "חֲצוֹת הַלַיְלָה"
-
-# Dawn
-msgid "Alot haShachar"
-msgstr "עֲלוֹת הַשַּׁחַר"
-
-# Earliest talis & tefillin 11.5 degrees
-msgid "Misheyakir"
-msgstr "מִשֶּׁיַּכִּיר"
-
-# Earliest talis & tefillin 10.2 degrees
-msgid "Misheyakir Machmir"
-msgstr "מִשֶּׁיַּכִּיר מַחמִיר"
-
-# sunrise
-msgid "Dawn"
-msgstr "דִּימְדּוּמֵי בּוֹקֵר"
-
-# sunrise
-msgid "Sunrise"
-msgstr "הַנֵץ הַחַמָּה"
-
-# Latest shema Gra
-msgid "Kriat Shema, sof zeman"
-msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע גר״א"
-
-# Latest shachris Gra
-msgid "Tefilah, sof zeman"
-msgstr "סוֹף זְמַן תְּפִלָּה גר״א"
-
-# Latest shema MGA
-msgid "Kriat Shema, sof zeman (MGA)"
-msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע מג״א"
-
-# Latest shachris MGA
-msgid "Tefilah, sof zeman (MGA)"
-msgstr "סוֹף זְמַן תְּפִלָּה מג״א"
-
-# Midday (sunrise + six halachic hours)
-msgid "Chatzot hayom"
-msgstr "חֲצוֹת הַיּוֹם"
-
-# Earliest mincha
-msgid "Mincha Gedolah"
-msgstr "מִנְחָה גְּדוֹלָה"
-
-# Preferable earliest time to recite Minchah
-msgid "Mincha Ketanah"
-msgstr "מִנְחָה קְטַנָּה"
-
-msgid "Plag HaMincha"
-msgstr "פְּלַג הַמִּנְחָה"
-
-msgid "Dusk"
-msgstr "דִּימְדּוּמֵי עֶרֶב"
-
-# sunset
-msgid "Sunset"
-msgstr "שְׁקִיעָה"
-
-# Nightfall - End of ordained fasts
-msgid "Nightfall - End of ordained fasts"
-msgstr "לַיְלָה - גמר תעניות דרבנן"
-
-# Nightfall - 3 stars emerge
-msgid "Tzeit HaKochavim"
-msgstr "צֵאת הַכּוֹכָבִים"
-
 # Chesed
 msgid "Lovingkindness"
 msgstr "חֶֽסֶד"
@@ -634,122 +561,11 @@ msgstr "שׁוּשָׁן פּוּרִים קָטָן"
 msgid "Purim Meshulash"
 msgstr "פּוּרִים מְשׁוּלָּשׁ"
 
-msgid "after sunset"
-msgstr "לְאַחַר הַשְׁקִיעָה"
-
-msgid "Yerushalmi"
-msgstr "יְרוּשַׁלְמִי"
-
 msgid "Chag HaBanot"
 msgstr "חַג הַבָּנוֹת"
-
-msgid "Joshua"
-msgstr "יְהוֹשׁוּעַ"
-
-msgid "Judges"
-msgstr "שׁוֹפְטִים"
-
-msgid "I Samuel"
-msgstr "שְׁמוּאֵל רִאשׁוֹן"
-
-msgid "II Samuel"
-msgstr "שְׁמוּאֵל שֵׁנִי"
-
-msgid "I Kings"
-msgstr "מְלָכִים רִאשׁוֹן"
-
-msgid "II Kings"
-msgstr "מְלָכִים שֵׁנִי"
-
-msgid "Isaiah"
-msgstr "יְשַׁעְיָהוּ"
-
-msgid "Jeremiah"
-msgstr "יִרְמְיָהוּ"
-
-msgid "Ezekiel"
-msgstr "יְחֶזְקֵאל"
-
-msgid "Hosea"
-msgstr "הוֹשֵׁעַ"
-
-msgid "Joel"
-msgstr "יוֹאֵל"
-
-msgid "Amos"
-msgstr "עָמוּס"
-
-msgid "Obadiah"
-msgstr "עוֹבַדְיָה"
-
-msgid "Jonah"
-msgstr "יוֹנָה"
-
-msgid "Micah"
-msgstr "מִיכָה"
-
-msgid "Nachum"
-msgstr "נַחוּם"
-
-msgid "Habakkuk"
-msgstr "חֲבַקּוּק"
-
-msgid "Zephaniah"
-msgstr "צְפַנְיָה"
-
-msgid "Haggai"
-msgstr "חַגַּי"
-
-msgid "Zechariah"
-msgstr "זְכַרְיָה"
-
-msgid "Malachi"
-msgstr "מַלְאָכִי"
-
-msgid "Psalms"
-msgstr "תְּהִלִּים"
-
-msgid "Proverbs"
-msgstr "מִשְׁלֵי"
-
-msgid "Job"
-msgstr "אִיּוֹב"
-
-msgid "Song of Songs"
-msgstr "שִׁיר הַשִּׁירִים"
-
-msgid "Ruth"
-msgstr "רוּת"
-
-msgid "Lamentations"
-msgstr "אֵיכָה"
-
-msgid "Ecclesiastes"
-msgstr "קֹהֶלֶת"
-
-msgid "Esther"
-msgstr "אֶסְתֵּר"
-
-msgid "Daniel"
-msgstr "דָּנִיֵּאל"
-
-msgid "Ezra"
-msgstr "עֶזְרָא"
-
-msgid "Nehemiah"
-msgstr "נְחֶמְיָה"
-
-msgid "I Chronicles"
-msgstr "דִברֵי הַיָמִים רִאשׁוֹן"
-
-msgid "II Chronicles"
-msgstr "דִברֵי הַיָמִים שֵׁנִי"
 
 msgid "Molad"
 msgstr "מוֹלָד הָלְּבָנָה"
 
 msgid "chalakim"
 msgstr "חֲלָקִים"
-
-msgid "Pirkei Avot"
-msgstr "פִּרְקֵי אָבוֹת"
