@@ -37,6 +37,7 @@ test('zmanim', () => {
   const expected = {
     chatzotNight: '00:49',
     alotHaShachar: '03:25',
+    alotHaShachar72: '04:04',
     misheyakir: '04:03',
     misheyakirMachmir: '04:12',
     dawn: '04:42',
@@ -91,6 +92,7 @@ test('zmanim-tlv', () => {
     gregEve: '03/05/2021, 17:41:37',
     chatzotNight: '03/05/2021, 23:51:56',
     alotHaShachar: '03/06/2021, 04:50:09',
+    alotHaShachar72: '03/06/2021, 04:50:16',
     misheyakir: '03/06/2021, 05:11:52',
     misheyakirMachmir: '03/06/2021, 05:18:00',
     dawn: '03/06/2021, 05:37:49',
@@ -162,6 +164,7 @@ test('zmanim-denver', () => {
     chatzotNight: '06/05/2020, 00:58:24',
     // "AlosHashachar": "2020-06-05T03:48:37-06:00",
     alotHaShachar: '06/05/2020, 03:48:37',
+    alotHaShachar72: '06/05/2020, 04:12:30',
     misheyakir: '06/05/2020, 04:23:08',
     misheyakirMachmir: '06/05/2020, 04:32:14',
     // "BeginCivilTwilight": "2020-06-05T05:00:12-06:00",
@@ -507,6 +510,7 @@ test('zmanim-UTC', () => {
   */
   const expected = {
     alotHaShachar: '04:48:37',
+    alotHaShachar72: '04:42:18',
     dawn: '05:32:33',
     sunrise: '05:54:18',
     seaLevelSunrise: '05:54:56',
@@ -600,4 +604,15 @@ test('makeSunsetAwareHDate', () => {
   expect(before.toString()).toBe('19 Elul 5784');
   const after = Zmanim.makeSunsetAwareHDate(gloc, new Date('2024-09-22T23:45:18.345Z'), false);
   expect(after.toString()).toBe('20 Elul 5784');
+});
+
+test('formatTime', () => {
+  const f = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Chicago',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+  });
+  expect(Zmanim.formatTime(new Date('2024-09-22T23:45:18.345Z'), f)).toBe('18:45');
+  expect(Zmanim.formatTime(new Date(NaN), f)).toBe('XX:XX');
 });

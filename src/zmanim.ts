@@ -203,6 +203,13 @@ export class Zmanim {
     return this.timeAtAngle(16.1, true);
   }
   /**
+   * Dawn – Alot haShachar; calculated as 72 minutes before sunrise or
+   * sea level sunrise.
+   */
+  alotHaShachar72(): Date {
+    return this.sunriseOffset(-72, false, false);
+  }
+  /**
    * Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning.
    * Because degree-based functions estimate the amount of light in the sky,
    * the result is not impacted by elevation.
