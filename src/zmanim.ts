@@ -445,9 +445,13 @@ export class Zmanim {
     return new Date(millis - 13.5 * 60 * 1000);
   }
   /**
-   * Uses timeFormat to return a date like '20:34'
+   * Uses timeFormat to return a date like '20:34'.
+   * Returns `XX:XX` if the date is invalid.
    */
   static formatTime(dt: Date, timeFormat: Intl.DateTimeFormat): string {
+    if (isNaN(dt.getTime())) {
+      return 'XX:XX'; // Invalid Date
+    }
     const time = timeFormat.format(dt);
     const hm = time.split(':');
     if (hm[0] === '24') {
