@@ -262,7 +262,6 @@ export class OmerEvent extends Event {
   /**
    * Returns an emoji number symbol with a circle, for example `㊲`
    *  from the “Enclosed CJK Letters and Months” block of the Unicode standard
-   * @param omerDay the day of the omer, 1-49 inclusive
    * @returns a single Unicode character from `①` through `㊾`
    */
   getEmoji(): string {

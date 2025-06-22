@@ -17,6 +17,7 @@ export {Event, flags} from './event';
 export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 export {Location} from './location';
 export {Zmanim} from './zmanim';
+export {isAssurBemlacha} from './isAssurBemlacha';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
 export {FastDayEvent, TimedChanukahEvent} from './candles';
 export {Molad, MoladEvent} from './molad';
