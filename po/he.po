@@ -92,16 +92,16 @@ msgid "Masei"
 msgstr "מַסְעֵי"
 
 msgid "Matot"
-msgstr "מַּטּוֹת"
+msgstr "מַטּוֹת"
 
 msgid "Metzora"
-msgstr "מְּצֹרָע"
+msgstr "מְצֹרָע"
 
 msgid "Miketz"
 msgstr "מִקֵּץ"
 
 msgid "Mishpatim"
-msgstr "מִּשְׁפָּטִים"
+msgstr "מִשְׁפָּטִים"
 
 msgid "Nasso"
 msgstr "נָשׂא"
@@ -455,7 +455,7 @@ msgid "Rosh Chodesh Elul"
 msgstr "רֹאשׁ חוֹדֶשׁ אֱלוּל"
 
 msgid "Rosh Chodesh Iyyar"
-msgstr "רֹאשׁ חוֹדֶשׁ אִיָּר"
+msgstr "רֹאשׁ חוֹדֶשׁ אִיָּיר"
 
 msgid "Rosh Chodesh Kislev"
 msgstr "רֹאשׁ חוֹדֶשׁ כִּסְלֵו"
