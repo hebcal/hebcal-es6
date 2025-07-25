@@ -8,3 +8,6 @@ msgstr ""
 
 msgid "Korach"
 msgstr "קורח"
+
+msgid "Chukat"
+msgstr "חוקת"

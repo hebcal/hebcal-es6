@@ -92,16 +92,16 @@ msgid "Masei"
 msgstr "מַסְעֵי"
 
 msgid "Matot"
-msgstr "מַּטּוֹת"
+msgstr "מַטּוֹת"
 
 msgid "Metzora"
-msgstr "מְּצֹרָע"
+msgstr "מְצֹרָע"
 
 msgid "Miketz"
 msgstr "מִקֵּץ"
 
 msgid "Mishpatim"
-msgstr "מִּשְׁפָּטִים"
+msgstr "מִשְׁפָּטִים"
 
 msgid "Nasso"
 msgstr "נָשׂא"
@@ -263,7 +263,7 @@ msgid "Lag BaOmer"
 msgstr "ל״ג בָּעוֹמֶר"
 
 msgid "Leil Selichot"
-msgstr "סליחות"
+msgstr "סְלִיחוֹת"
 
 msgid "Pesach"
 msgstr "פֶּסַח"
@@ -284,7 +284,7 @@ msgid "Pesach IV (CH''M)"
 msgstr "פֶּסַח ד׳ (חוה״מ)"
 
 msgid "Pesach Sheni"
-msgstr "פֶּסַח שני"
+msgstr "פֶּסַח שֵׁנִי"
 
 msgid "Pesach V (CH''M)"
 msgstr "פֶּסַח ה׳ (חוה״מ)"
@@ -320,28 +320,28 @@ msgid "Rosh Hashana II"
 msgstr "רֹאשׁ הַשָּׁנָה ב׳"
 
 msgid "Shabbat Chazon"
-msgstr "שַׁבָּת חֲזוֹן"
+msgstr "שַׁבַּת חֲזוֹן"
 
 msgid "Shabbat HaChodesh"
-msgstr "שַׁבָּת הַחֹדֶשׁ"
+msgstr "שַׁבַּת הַחֹדֶשׁ"
 
 msgid "Shabbat HaGadol"
-msgstr "שַׁבָּת הַגָּדוֹל"
+msgstr "שַׁבַּת הַגָּדוֹל"
 
 msgid "Shabbat Nachamu"
-msgstr "שַׁבָּת נַחֲמוּ"
+msgstr "שַׁבַּת נַחֲמוּ"
 
 msgid "Shabbat Parah"
-msgstr "שַׁבָּת פּרה"
+msgstr "שַׁבַּת פָּרָה"
 
 msgid "Shabbat Shekalim"
-msgstr "שַׁבָּת שְׁקָלִים"
+msgstr "שַׁבַּת שְׁקָלִים"
 
 msgid "Shabbat Shuva"
-msgstr "שַׁבָּת שׁוּבָה"
+msgstr "שַׁבַּת שׁוּבָה"
 
 msgid "Shabbat Zachor"
-msgstr "שַׁבָּת זָכוֹר"
+msgstr "שַׁבַּת זָכוֹר"
 
 msgid "Shavuot"
 msgstr "שָׁבוּעוֹת"
@@ -359,7 +359,7 @@ msgid "Shushan Purim"
 msgstr "שׁוּשָׁן פּוּרִים"
 
 msgid "Sigd"
-msgstr "סיגד"
+msgstr "חַג הַסִּיגְד"
 
 msgid "Simchat Torah"
 msgstr "שִׂמְחַת תּוֹרָה"
@@ -401,19 +401,19 @@ msgid "Tish'a B'Av"
 msgstr "תִּשְׁעָה בְּאָב"
 
 msgid "Tu B'Av"
-msgstr "טוּ בְּאָב"
+msgstr "ט״וּ בְּאָב"
 
 msgid "Tu BiShvat"
-msgstr "טוּ בִּשְׁבָט"
+msgstr "ט״וּ בִּשְׁבָט"
 
 msgid "Tu B'Shvat"
-msgstr "טוּ בִּשְׁבָט"
+msgstr "ט״וּ בִּשְׁבָט"
 
 msgid "Tzom Gedaliah"
 msgstr "צוֹם גְּדַלְיָה"
 
 msgid "Tzom Tammuz"
-msgstr "צוֹם תָּמוּז"
+msgstr "צוֹם י״ז בְּתַמּוּז"
 
 msgid "Yom HaAtzma'ut"
 msgstr "יוֹם הָעַצְמָאוּת"
@@ -437,13 +437,13 @@ msgid "Yom HaAliyah School Observance"
 msgstr "שְׁמִירָת בֵּית הַסֵפֶר לְיוֹם הַעֲלִיָּה"
 
 msgid "Rosh Chodesh Adar"
-msgstr "רֹאשׁ חוֹדֶשׁ אַדָר"
+msgstr "רֹאשׁ חוֹדֶשׁ אֲדָר"
 
 msgid "Rosh Chodesh Adar I"
-msgstr "רֹאשׁ חוֹדֶשׁ אַדָר א׳"
+msgstr "רֹאשׁ חוֹדֶשׁ אֲדָר א׳"
 
 msgid "Rosh Chodesh Adar II"
-msgstr "רֹאשׁ חוֹדֶשׁ אַדָר ב׳"
+msgstr "רֹאשׁ חוֹדֶשׁ אֲדָר ב׳"
 
 msgid "Rosh Chodesh Av"
 msgstr "רֹאשׁ חוֹדֶשׁ אָב"
@@ -455,7 +455,7 @@ msgid "Rosh Chodesh Elul"
 msgstr "רֹאשׁ חוֹדֶשׁ אֱלוּל"
 
 msgid "Rosh Chodesh Iyyar"
-msgstr "רֹאשׁ חוֹדֶשׁ אִיָיר"
+msgstr "רֹאשׁ חוֹדֶשׁ אִיָּיר"
 
 msgid "Rosh Chodesh Kislev"
 msgstr "רֹאשׁ חוֹדֶשׁ כִּסְלֵו"
@@ -470,7 +470,7 @@ msgid "Rosh Chodesh Sivan"
 msgstr "רֹאשׁ חוֹדֶשׁ סִיוָן"
 
 msgid "Rosh Chodesh Tamuz"
-msgstr "רֹאשׁ חוֹדֶשׁ תָּמוּז"
+msgstr "רֹאשׁ חוֹדֶשׁ תַּמּוּז"
 
 msgid "Rosh Chodesh Tevet"
 msgstr "רֹאשׁ חוֹדֶשׁ טֵבֵת"
@@ -479,7 +479,7 @@ msgid "min"
 msgstr "דַּקּוֹת"
 
 msgid "Fast begins"
-msgstr "תחילת הַצוֹם"
+msgstr "תְּחִילַּת הַצוֹם"
 
 msgid "Fast ends"
 msgstr "סִיּוּם הַצוֹם"
@@ -488,29 +488,29 @@ msgid "Rosh Hashana LaBehemot"
 msgstr "רֹאשׁ הַשָּׁנָה לְמַעְשַׂר בְּהֵמָה"
 
 msgid "Tish'a B'Av (observed)"
-msgstr "תִּשְׁעָה בְּאָב נִדחֶה"
+msgstr "(תִּשְׁעָה בְּאָב (נִדְחָה"
 
 msgid "Shabbat Mevarchim Chodesh"
-msgstr "שַׁבָּת מְבָרְכִים חוֹדֶשׁ"
+msgstr "שַׁבַּת מְבָרְכִים חוֹדֶשׁ"
 
 msgid "Shabbat Shirah"
-msgstr "שַׁבָּת שִׁירָה"
+msgstr "שַׁבַּת שִׁירָה"
 
 # Chesed
 msgid "Lovingkindness"
-msgstr "חֶֽסֶד"
+msgstr "חֶסֶד"
 
 # Gevurah
 msgid "Might"
-msgstr "גְבוּרָה"
+msgstr "גְּבוּרָה"
 
 # Tiferet
 msgid "Beauty"
-msgstr "תִּפְאֶֽרֶת"
+msgstr "תִּפְאֶרֶת"
 
 # Netzach
 msgid "Eternity"
-msgstr "נֶּֽצַח"
+msgstr "נֶּצַח"
 
 # Hod
 msgid "Splendor"
@@ -538,13 +538,13 @@ msgid "Family Day"
 msgstr "יוֹם הַמִּשׁפָּחָה"
 
 msgid "Yitzhak Rabin Memorial Day"
-msgstr "יוֹם הַזִּכָּרוֹן ליצחק רבין"
+msgstr "יוֹם הַזִּכָּרוֹן לְיִצְחָק רַבִּין"
 
 msgid "Jabotinsky Day"
-msgstr "יוֹם ז׳בוטינסקי"
+msgstr "יוֹם זַ׳בּוֹטִינְסְקִי"
 
 msgid "Herzl Day"
-msgstr "יוֹם הרצל"
+msgstr "יוֹם הֵרְצְל"
 
 msgid "Ben-Gurion Day"
 msgstr "יוֹם בן־גוריון"
@@ -553,7 +553,7 @@ msgid "Hebrew Language Day"
 msgstr "יוֹם הַשָׂפָה הַעִברִית"
 
 msgid "Birkat Hachamah"
-msgstr "בִרְכַּת הַחַמָּה"
+msgstr "בִּרְכַּת הַחַמָּה"
 
 msgid "Shushan Purim Katan"
 msgstr "שׁוּשָׁן פּוּרִים קָטָן"
