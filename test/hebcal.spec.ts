@@ -256,7 +256,7 @@ test('addHebrewDates-locale', () => {
   const ev = HebrewCalendar.calendar(options)[0];
   expect(ev.getFlags()).toBe(flags.HEBREW_DATE);
   expect(ev.getDesc()).toBe('3 Adar 5777');
-  expect(ev.render('he')).toBe('ג׳ אַדָר תשע״ז');
+  expect(ev.render('he')).toBe('ג׳ אֲדָר תשע״ז');
 });
 
 test('startAndEnd', () => {
@@ -617,7 +617,7 @@ test('ykk with location copies attributes from src', () => {
   expect(ev.url()).toBeUndefined();
   expect(ev.memo).toBe('Minor Day of Atonement on the day preceeding Rosh Chodesh Adar');
   expect(ev.render('en')).toBe('Yom Kippur Katan Adar');
-  expect(ev.render('he')).toBe('יוֹם כִּפּוּר קָטָן אַדָר');
+  expect(ev.render('he')).toBe('יוֹם כִּפּוּר קָטָן אֲדָר');
 });
 
 test('hallel', () => {
