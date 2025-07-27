@@ -139,7 +139,7 @@ test('9av-observed', () => {
     {date: '2024-08-13', basename: 'Tish\'a B\'Av', desc: 'Tish\'a B\'Av'},
   ];
   expect(actual).toEqual(expected);
-  expect(av9[0].render('he')).toBe('תִּשְׁעָה בְּאָב נִדחֶה');
+  expect(av9[0].render('he')).toBe('(תִּשְׁעָה בְּאָב (נִדְחָה');
   expect(av9[2].render('he')).toBe('תִּשְׁעָה בְּאָב');
 });
 

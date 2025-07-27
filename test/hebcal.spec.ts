@@ -171,7 +171,7 @@ test('ashkenazi', () => {
 test('locale-he', () => {
   const options: CalOptions = {year: 2020, month: 4, locale: 'he'};
   const ev = HebrewCalendar.calendar(options)[0];
-  expect(ev.render()).toBe('שַׁבָּת הַגָּדוֹל');
+  expect(ev.render()).toBe('שַׁבַּת הַגָּדוֹל');
 });
 
 test('locale-he-rosh-hashana', () => {
@@ -299,21 +299,21 @@ test('renderBrief', () => {
   const events = HebrewCalendar.calendar(options);
   const expected = [
     ['Candle lighting', 'הַדְלָקַת נֵרוֹת'],
-    ['Shabbat Zachor', 'שַׁבָּת זָכוֹר'],
+    ['Shabbat Zachor', 'שַׁבַּת זָכוֹר'],
     ['Parashat Tetzaveh', 'פָּרָשַׁת תְּצַוֶּה'],
     ['Havdalah', 'הַבְדָּלָה'],
-    ['Fast begins', 'תחילת הַצוֹם'],
+    ['Fast begins', 'תְּחִילַּת הַצוֹם'],
     ['Ta’anit Esther', 'תַּעֲנִית אֶסְתֵּר'],
     ['Fast ends', 'סִיּוּם הַצוֹם'],
     ['Erev Purim', 'עֶרֶב פּוּרִים'],
     ['Purim', 'פּוּרִים'],
     ['Shushan Purim', 'שׁוּשָׁן פּוּרִים'],
     ['Candle lighting', 'הַדְלָקַת נֵרוֹת'],
-    ['Shabbat Parah', 'שַׁבָּת פּרה'],
+    ['Shabbat Parah', 'שַׁבַּת פָּרָה'],
     ['Parashat Ki Tisa', 'פָּרָשַׁת כִּי תִשָּׂא'],
     ['Havdalah', 'הַבְדָּלָה'],
     ['Candle lighting', 'הַדְלָקַת נֵרוֹת'],
-    ['Shabbat HaChodesh', 'שַׁבָּת הַחֹדֶשׁ'],
+    ['Shabbat HaChodesh', 'שַׁבַּת הַחֹדֶשׁ'],
     ['Parashat Vayakhel-Pekudei', 'פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי'],
     ['Havdalah', 'הַבְדָּלָה'],
     ['Rosh Chodesh Nisan', 'רֹאשׁ חוֹדֶשׁ נִיסָן'],
