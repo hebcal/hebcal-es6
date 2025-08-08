@@ -785,3 +785,51 @@ test('yikzor', () => {
   expect(ev.render('he-x-NoNikud')).toBe('יזכור');
   expect(ev.getCategories()).toEqual(['yizkor']);
 });
+
+test('getBirthdayOrAnniversary', () => {
+  const dt = new Date(1978, 5, 8);
+  const hd = HebrewCalendar.getBirthdayOrAnniversary(5760, dt);
+  expect(hd.toString()).toBe('3 Sivan 5760');
+  const hd2 = HebrewCalendar.getBirthdayOrAnniversary(5730, dt);
+  expect(hd2).toBeUndefined();
+});
+
+test('getYahrzeit', () => {
+  const dt = new Date(1995, 10, 24);
+  const hd = HebrewCalendar.getYahrzeit(5760, dt);
+  expect(hd.toString()).toBe('1 Kislev 5760');
+  const hd2 = HebrewCalendar.getYahrzeit(5750, dt);
+  expect(hd2).toBeUndefined();
+});
+
+test('getHolidayForYear', () => {
+  const holidays = HebrewCalendar.getHolidaysForYear(5781);
+  expect(holidays).toBeInstanceOf(Map);
+  let found = false;
+  for (const value of holidays.values()) {
+    if (value[0].getDesc() === 'Tu BiShvat') {
+      found = true;
+      break;
+    }
+  }
+  expect(found).toBe(true);
+});
+
+test('getHolidaysForYearArray', () => {
+  const holidays = HebrewCalendar.getHolidaysForYearArray(5781, false);
+  expect(Array.isArray(holidays)).toBe(true);
+  expect(holidays.length).toBe(93);
+});
+
+test('getHolidaysOnDate', () => {
+  const holidays = HebrewCalendar.getHolidaysOnDate(new Date(2020, 4, 29), false);
+  expect(Array.isArray(holidays)).toBe(true);
+  expect(holidays.length).toBe(1);
+  expect(holidays[0].render('en')).toBe('Shavuot I');
+});
+
+test('getSedra', () => {
+  const sedra = HebrewCalendar.getSedra(5781, false);
+  const parsha = sedra.get(new HDate(13, 'Cheshvan', 5781));
+  expect(parsha).toEqual(['Lech-Lecha']);
+});
