@@ -100,22 +100,8 @@ const ADAR_I = months.ADAR_I;
 const ADAR_II = months.ADAR_II;
 
 const emojiIsraelFlag = {emoji: '🇮🇱'} as const;
-const chanukahEmoji = '🕎';
 export type HolidayYearMap = Map<string, HolidayEvent[]>;
 const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 400});
-
-const KEYCAP_DIGITS = [
-  '0️⃣',
-  '1️⃣',
-  '2️⃣',
-  '3️⃣',
-  '4️⃣',
-  '5️⃣',
-  '6️⃣',
-  '7️⃣',
-  '8️⃣',
-  '9️⃣',
-] as const;
 
 /**
  * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
@@ -186,6 +172,14 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
     ? new HDate(1, TEVET, year)
     : new HDate(30, KISLEV, year);
   add(new HolidayEvent(rchTevet, hdesc.CHAG_HABANOT, MINOR_HOLIDAY));
+  add(
+    new ChanukahEvent(
+      new HDate(24, KISLEV, year),
+      hdesc.CHANUKAH_1_CANDLE,
+      EREV | MINOR_HOLIDAY | CHANUKAH_CANDLES,
+      undefined
+    )
+  );
   // yes, we know Kislev 30-32 are wrong
   // HDate() corrects the month automatically
   for (let candles = 2; candles <= 8; candles++) {
@@ -195,10 +189,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
         hd,
         `Chanukah: ${candles} Candles`,
         MINOR_HOLIDAY | CHANUKAH_CANDLES,
-        {
-          chanukahDay: candles - 1,
-          emoji: chanukahEmoji + KEYCAP_DIGITS[candles],
-        }
+        candles - 1
       )
     );
   }
@@ -207,7 +198,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       new HDate(32, KISLEV, year),
       hdesc.CHANUKAH_8TH_DAY,
       MINOR_HOLIDAY,
-      {chanukahDay: 8, emoji: chanukahEmoji}
+      8
     )
   );
   add(

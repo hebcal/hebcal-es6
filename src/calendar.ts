@@ -14,7 +14,7 @@ import {ParshaEvent} from './ParshaEvent';
 import {Sedra, getSedra} from './sedra';
 import {TimedEvent, HavdalahEvent} from './TimedEvent';
 import {DailyLearning} from './DailyLearning';
-import {HolidayEvent} from './HolidayEvent';
+import {ChanukahEvent, HolidayEvent} from './HolidayEvent';
 import {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 import {MoladEvent, Molad} from './molad';
 import {OmerEvent} from './omer';
@@ -628,7 +628,10 @@ function appendHolidayAndRelated(
       if (eFlags & CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
         // Replace Chanukah event with a clone that includes candle lighting time.
         // For clarity, allow a "duplicate" candle lighting event to remain for Shabbat
-        const chanukahEv = makeWeekdayChanukahCandleLighting(ev, hd, options);
+        const chanukahEv = makeWeekdayChanukahCandleLighting(
+          ev as ChanukahEvent,
+          options
+        );
         if (chanukahEv) {
           if (isFriday || isSaturday) {
             chanukahEv.eventTime = candlesEv.eventTime;

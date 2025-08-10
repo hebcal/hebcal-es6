@@ -394,13 +394,6 @@ export const staticHolidays: Holiday[] = [
     chmDay: -1,
     emoji: emojiSukkot,
   },
-  {
-    mm: Kislev,
-    dd: 24,
-    desc: CHANUKAH_1_CANDLE,
-    flags: EREV | MINOR_HOLIDAY | CHANUKAH_CANDLES,
-    emoji: '🕎1️⃣',
-  },
   {mm: Shvat, dd: 15, desc: TU_BISHVAT, flags: MINOR_HOLIDAY, emoji: '🌳'},
   {
     mm: Adar2,

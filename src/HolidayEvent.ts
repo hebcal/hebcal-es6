@@ -7,7 +7,6 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
 export class HolidayEvent extends Event {
   /** During Sukkot or Pesach */
   cholHaMoedDay?: number;
-  chanukahDay?: number;
   /**
    * `true` if the fast day was postponed a day to avoid Shabbat.
    * - Tish'a B'Av postponed from the 9th to the 10th
@@ -121,11 +120,38 @@ export class AsaraBTevetEvent extends HolidayEvent {
   }
 }
 
+const chanukahEmoji = '🕎';
+const KEYCAP_DIGITS = [
+  '0️⃣',
+  '1️⃣',
+  '2️⃣',
+  '3️⃣',
+  '4️⃣',
+  '5️⃣',
+  '6️⃣',
+  '7️⃣',
+  '8️⃣',
+  '9️⃣',
+] as const;
+
 /**
  * Because Chanukah sometimes starts in December and ends in January,
  * we subclass HolidayEvent to generate the correct URL.
  */
 export class ChanukahEvent extends HolidayEvent {
+  readonly chanukahDay?: number;
+  /**
+   * @param chanukahDay should be undefined for 1st night of Chanukah
+   */
+  constructor(date: HDate, desc: string, mask: number, chanukahDay?: number) {
+    super(date, desc, mask);
+    this.chanukahDay = chanukahDay;
+    this.emoji = chanukahEmoji;
+    if (chanukahDay !== 8) {
+      const candles = chanukahDay ? chanukahDay + 1 : 1;
+      this.emoji += KEYCAP_DIGITS[candles];
+    }
+  }
   urlDateSuffix(): string {
     const dt = this.getDate().greg();
     let year = dt.getFullYear();

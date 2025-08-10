@@ -177,18 +177,13 @@ export class TimedChanukahEvent extends ChanukahEvent {
   eventTime: Date;
   eventTimeStr: string;
   readonly location: Location;
-  constructor(
-    date: HDate,
-    desc: string,
-    mask: number,
-    eventTime: Date,
-    location: Location
-  ) {
-    super(date, desc, mask);
+  constructor(ev: ChanukahEvent, eventTime: Date, location: Location) {
+    super(ev.getDate(), ev.getDesc(), ev.getFlags(), ev.chanukahDay);
     this.eventTime = Zmanim.roundTime(eventTime);
     const timeFormat = location.getTimeFormatter();
     this.eventTimeStr = Zmanim.formatTime(this.eventTime, timeFormat);
     this.location = location;
+    this.emoji = ev.emoji;
   }
 }
 
@@ -199,10 +194,10 @@ export class TimedChanukahEvent extends ChanukahEvent {
  * @private
  */
 export function makeWeekdayChanukahCandleLighting(
-  ev: HolidayEvent,
-  hd: HDate,
+  ev: ChanukahEvent,
   options: CalOptions
 ): TimedChanukahEvent | null {
+  const hd = ev.getDate();
   const location = options.location as Location;
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, hd.greg(), useElevation);
@@ -210,14 +205,5 @@ export function makeWeekdayChanukahCandleLighting(
   if (isNaN(candleLightingTime.getTime())) {
     return null;
   }
-  const ev2 = new TimedChanukahEvent(
-    hd,
-    ev.getDesc(),
-    ev.getFlags(),
-    candleLightingTime,
-    location
-  );
-  ev2.emoji = ev.emoji;
-  ev2.chanukahDay = ev.chanukahDay;
-  return ev2;
+  return new TimedChanukahEvent(ev, candleLightingTime, location);
 }
