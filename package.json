@@ -94,7 +94,7 @@
   "dependencies": {
     "@hebcal/hdate": "^0.14.5",
     "@hebcal/noaa": "^0.9.2",
-    "quick-lru": "^6.1.2",
+    "quick-lru": "^7.2.0",
     "temporal-polyfill": "^0.3.0",
     "tslib": "^2.8.1"
   }
