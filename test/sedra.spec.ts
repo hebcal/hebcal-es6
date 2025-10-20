@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest';
-import {HDate, Locale, isoDateString, months} from '@hebcal/hdate';
+import {HDate, isoDateString, months} from '@hebcal/hdate';
 import '../src/locale'; // Adds Hebrew and Ashkenazic translations
 import {Sedra} from '../src/sedra';
 
@@ -25,32 +25,15 @@ test('3762', () => {
   }
 });
 
-test('getString-locale', () => {
-  const sedra = new Sedra(5781, false);
-  const hd = new HDate(new Date(2021, 3, 24));
-  expect(sedra.getString(hd, 'he')).toBe('פָּרָשַׁת אַחֲרֵי מוֹת־קְדשִׁים');
-  expect(sedra.getString(hd, 'en')).toBe('Parashat Achrei Mot-Kedoshim');
-  expect(sedra.getString(hd, 'ashkenazi')).toBe('Parshas Achrei Mos-Kedoshim');
-});
-
-const sep24 = new HDate(new Date(1988, 8, 24));
 const oct1 = new HDate(new Date(1988, 9, 1));
 const nov5 = new HDate(new Date(1988, 10, 5));
 const jul15 = new HDate(new Date(1989, 6, 15));
 
 test('get', () => {
   const sedra = new Sedra(5749, false);
-  expect(sedra.get(oct1)).toEqual(['Sukkot Shabbat Chol ha-Moed']);
-  expect(sedra.get(nov5)).toEqual(['Chayei Sara']);
-  expect(sedra.get(jul15)).toEqual(['Chukat', 'Balak']);
-});
-
-test('getString', () => {
-  const sedra = new Sedra(5749, false);
-  expect(sedra.getString(oct1, 'en')).toBe('Parashat Sukkot Shabbat Chol ha-Moed');
-  expect(sedra.getString(nov5, 'en')).toBe('Parashat Chayei Sara');
-  expect(sedra.getString(jul15, 'en')).toBe('Parashat Chukat-Balak');
-  expect(sedra.getString(sep24, 'ashkenazi')).toBe('Parshas Ha’azinu');
+  expect(sedra.lookup(oct1).parsha).toEqual(['Sukkot Shabbat Chol ha-Moed']);
+  expect(sedra.lookup(nov5).parsha).toEqual(['Chayei Sara']);
+  expect(sedra.lookup(jul15).parsha).toEqual(['Chukat', 'Balak']);
 });
 
 test('lookup', () => {
@@ -89,9 +72,9 @@ test('lookup-throws', () => {
 
 test('isParsha', () => {
   const sedra = new Sedra(5749, false);
-  expect(sedra.isParsha(oct1)).toBe(false);
-  expect(sedra.isParsha(nov5)).toBe(true);
-  expect(sedra.isParsha(jul15)).toBe(true);
+  expect(sedra.lookup(oct1).chag).toBe(true);
+  expect(sedra.lookup(nov5).chag).toBe(false);
+  expect(sedra.lookup(jul15).chag).toBe(false);
 });
 
 test('getYear', () => {

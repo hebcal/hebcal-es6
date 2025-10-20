@@ -231,16 +231,6 @@ export class Event {
     return il ? this.observedInIsrael() : this.observedInDiaspora();
   }
   /**
-   * Makes a clone of this Event object
-   * @deprecated
-   */
-  clone(): Event {
-    const ev = new Event(this.date, this.desc, this.mask);
-    // overwrite all enumerable properties
-    Object.assign(ev, this);
-    return ev;
-  }
-  /**
    * Returns a list of event categories
    */
   getCategories(): string[] {

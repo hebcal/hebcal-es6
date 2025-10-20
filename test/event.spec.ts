@@ -56,13 +56,3 @@ test('observedIn', () => {
   expect(ev2.observedIn(false)).toBe(true);
   expect(ev2.observedIn(true)).toBe(true);
 });
-
-test('clone', () => {
-  const ev2 = ev.clone();
-  expect(ev2.getDate()).toBe(hd);
-  expect(ev2.getFlags()).toBe(flags.USER_EVENT | flags.CHUL_ONLY);
-  expect(ev2.getDesc()).toBe('Foo Bar');
-  expect(ev2.observedInIsrael()).toBe(false);
-  expect(ev2.observedInDiaspora()).toBe(true);
-  expect((ev2 as any).quux).toBe(123);
-});

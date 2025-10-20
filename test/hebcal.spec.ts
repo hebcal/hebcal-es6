@@ -823,13 +823,14 @@ test('getHolidaysForYearArray', () => {
 
 test('getHolidaysOnDate', () => {
   const holidays = HebrewCalendar.getHolidaysOnDate(new Date(2020, 4, 29), false);
+  expect(holidays).toBeDefined();
   expect(Array.isArray(holidays)).toBe(true);
-  expect(holidays.length).toBe(1);
-  expect(holidays[0].render('en')).toBe('Shavuot I');
+  expect(holidays!.length).toBe(1);
+  expect(holidays![0].render('en')).toBe('Shavuot I');
 });
 
 test('getSedra', () => {
   const sedra = HebrewCalendar.getSedra(5781, false);
-  const parsha = sedra.get(new HDate(13, 'Cheshvan', 5781));
+  const parsha = sedra.lookup(new HDate(13, 'Cheshvan', 5781)).parsha;
   expect(parsha).toEqual(['Lech-Lecha']);
 });

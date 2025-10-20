@@ -1,6 +1,12 @@
 import {expect, test} from 'vitest';
 import {Locale} from '../src/locale';
 
+test('gettext-ashkenazi', () => {
+  expect(Locale.gettext('Parashat', 'ashkenazi')).toBe('Parshas');
+  expect(Locale.gettext('Bereshit', 'ashkenazi')).toBe('Bereshis');
+  expect(Locale.gettext('Sukkot', 'ashkenazi')).toBe('Sukkos');
+});
+
 test('gettext-he', () => {
   expect(Locale.gettext('Yom Kippur', 'he')).toBe('יוֹם כִּפּוּר');
   expect(Locale.gettext('Lech-Lecha', 'he')).toBe('לֶךְ־לְךָ');

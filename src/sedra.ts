@@ -31,7 +31,6 @@
  *
  */
 import {HDate, months} from '@hebcal/hdate';
-import {renderParshaName} from './parshaName';
 import QuickLRU from 'quick-lru';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
@@ -118,36 +117,6 @@ export class Sedra {
         `improper sedra year type ${key} calculated for ${hyear}`
       );
     }
-  }
-
-  /**
-   * Returns the parsha (or parshiyot) read on Hebrew date
-   * @deprecated Use {@link lookup} instead
-   * @param hd Hebrew date or R.D. days
-   */
-  get(hd: HDate | number): string[] {
-    return this.lookup(hd).parsha;
-  }
-
-  /**
-   * Looks up parsha for the date, then returns a translated or transliterated string
-   * @deprecated Use {@link lookup} instead
-   * @param hd Hebrew date or R.D. days
-   * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale
-   */
-  getString(hd: HDate | number, locale?: string): string {
-    const parsha = this.get(hd);
-    return renderParshaName(parsha, locale);
-  }
-
-  /**
-   * Checks to see if this day would be a regular parasha HaShavua
-   * Torah reading or special holiday reading
-   * @deprecated Use {@link lookup} instead
-   * @param hd Hebrew date or R.D. days
-   */
-  isParsha(hd: HDate | number): boolean {
-    return !this.lookup(hd).chag;
   }
 
   /**

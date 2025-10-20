@@ -19,7 +19,7 @@ test('diaspora-5701', () => {
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
-      result[dt(hd)] = sedra.get(abs);
+      result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
@@ -87,7 +87,7 @@ test('diaspora-5779', () => {
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
-      result[dt(hd)] = sedra.get(abs);
+      result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
@@ -159,7 +159,7 @@ test('israel-5745', () => {
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
-      result[dt(hd)] = sedra.get(abs);
+      result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
@@ -227,7 +227,7 @@ test('israel-5779', () => {
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
-      result[dt(hd)] = sedra.get(abs);
+      result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
@@ -299,7 +299,7 @@ test('diaspora-bce', () => {
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
-      result[dt(hd)] = sedra.get(abs);
+      result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
@@ -371,7 +371,7 @@ test('israel-bce', () => {
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
     if (hd.getDay() === 6) { // Saturday
-      result[dt(hd)] = sedra.get(abs);
+      result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {

@@ -97,16 +97,6 @@ export class HolidayEvent extends Event {
     const str = super.renderBrief(locale);
     return str.replace(/'/g, '’');
   }
-  /**
-   * Makes a clone of this Event object
-   * @deprecated
-   */
-  clone(): HolidayEvent {
-    const ev = new HolidayEvent(this.date, this.desc, this.mask);
-    // overwrite all enumerable properties
-    Object.assign(ev, this);
-    return ev;
-  }
 }
 
 /**
