@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "5.10.1",
+  "version": "6.0.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -23,20 +23,18 @@
     "zmanim"
   ],
   "description": "A perpetual Jewish Calendar API",
-  "main": "./dist/index.cjs",
   "module": "./dist/esm/index.js",
   "type": "module",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/index.cjs",
       "types": "./dist/esm/index.d.ts"
     },
     "./dist/esm/*": "./dist/esm/*.js"
   },
   "typings": "./dist/esm/index.d.ts",
   "engines": {
-    "node": ">= 16.0.0"
+    "node": ">= 18.0.0"
   },
   "repository": {
     "type": "git",
@@ -55,7 +53,7 @@
     "size-demo": "npm run build && npm run size-demo:rollup",
     "build": "npm run po2json && npm run version && npm run build:rollup --production",
     "prepublish": "npm run build",
-    "version": "node ./version.cjs package.json src/pkgVersion.ts",
+    "version": "node ./version.js package.json src/pkgVersion.ts",
     "po2json": "node ./po2json.js po/he.po po/he-x-NoNikud.po po/ashkenazi.po",
     "docs": "typedoc",
     "pretest": "npm run build",
@@ -67,12 +65,6 @@
   },
   "license": "GPL-2.0",
   "devDependencies": {
-    "@babel/core": "^7.28.4",
-    "@babel/plugin-transform-runtime": "^7.28.3",
-    "@babel/preset-env": "^7.28.3",
-    "@babel/preset-typescript": "^7.27.1",
-    "@babel/register": "^7.28.3",
-    "@rollup/plugin-babel": "^6.1.0",
     "@rollup/plugin-commonjs": "^28.0.8",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
@@ -92,7 +84,7 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "@hebcal/hdate": "^0.14.5",
+    "@hebcal/hdate": "^0.21.0",
     "@hebcal/noaa": "^0.9.2",
     "quick-lru": "^6.1.2",
     "temporal-polyfill": "^0.3.0",

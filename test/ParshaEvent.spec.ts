@@ -17,14 +17,13 @@ test('ParshaEvent-url', () => {
 });
 
 test('getString-locale', () => {
-  Locale.useLocale('he');
   const hd = new HDate(new Date(2020, 6, 7));
   const ev = new ParshaEvent(hd, ['Pinchas'], false);
-  expect(ev.render()).toBe('פָּרָשַׁת פִּינְחָס');
+  expect(ev.render('he')).toBe('פָּרָשַׁת פִּינְחָס');
 
   const hd2 = new HDate(new Date(2020, 2, 21));
   const ev2 = new ParshaEvent(hd2, ['Vayakhel', 'Pekudei'], false);
-  expect(ev2.render()).toBe('פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי');
+  expect(ev2.render('he')).toBe('פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי');
 });
 
 test('early-ce-url', () => {

@@ -165,13 +165,13 @@ test('multi-year', () => {
 test('ashkenazi', () => {
   const options: CalOptions = {year: 2020, month: 4, ashkenazi: true};
   const ev = HebrewCalendar.calendar(options)[0];
-  expect(ev.render()).toBe('Shabbos HaGadol');
+  expect(ev.render('ashkenazi')).toBe('Shabbos HaGadol');
 });
 
 test('locale-he', () => {
   const options: CalOptions = {year: 2020, month: 4, locale: 'he'};
   const ev = HebrewCalendar.calendar(options)[0];
-  expect(ev.render()).toBe('שַׁבַּת הַגָּדוֹל');
+  expect(ev.render('he')).toBe('שַׁבַּת הַגָּדוֹל');
 });
 
 test('locale-he-rosh-hashana', () => {
@@ -475,7 +475,7 @@ test('year0', () => {
 
 test('version', () => {
   const version = HebrewCalendar.version();
-  expect(version.substring(0, version.indexOf('.'))).toBe('5');
+  expect(version.substring(0, version.indexOf('.'))).toBe('6');
 });
 
 test('candlelighting-no-location-throw', () => {

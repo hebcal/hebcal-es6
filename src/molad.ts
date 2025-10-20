@@ -83,7 +83,7 @@ export class Molad {
    * @param options
    */
   render(locale?: string, options?: CalOptions): string {
-    locale = locale ?? Locale.getLocaleName();
+    locale = locale ?? 'en';
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }

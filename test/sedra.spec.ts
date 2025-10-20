@@ -26,10 +26,9 @@ test('3762', () => {
 });
 
 test('getString-locale', () => {
-  Locale.useLocale('he');
   const sedra = new Sedra(5781, false);
   const hd = new HDate(new Date(2021, 3, 24));
-  expect(sedra.getString(hd)).toBe('פָּרָשַׁת אַחֲרֵי מוֹת־קְדשִׁים');
+  expect(sedra.getString(hd, 'he')).toBe('פָּרָשַׁת אַחֲרֵי מוֹת־קְדשִׁים');
   expect(sedra.getString(hd, 'en')).toBe('Parashat Achrei Mot-Kedoshim');
   expect(sedra.getString(hd, 'ashkenazi')).toBe('Parshas Achrei Mos-Kedoshim');
 });

@@ -236,7 +236,7 @@ export class OmerEvent extends Event {
    * @param [locale] Optional locale name (defaults to active locale).
    */
   render(locale?: string): string {
-    locale = locale ?? Locale.getLocaleName();
+    locale = locale ?? 'en';
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }
@@ -294,7 +294,7 @@ export class OmerEvent extends Event {
    *  or `הַיוֹם עֲשָׂרָה יָמִים, שְׁהֵם שָׁבוּעַ אֶחָד וְשְׁלוֹשָׁה יָמִים לָעוֹמֶר`
    */
   getTodayIs(locale: string): string {
-    locale = locale ?? Locale.getLocaleName();
+    locale = locale ?? 'en';
     if (typeof locale === 'string') {
       locale = locale.toLowerCase();
     }

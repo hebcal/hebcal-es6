@@ -6,9 +6,7 @@ import noNikudOverride from './he-x-NoNikud.po';
 export {Locale};
 
 Locale.addTranslations('he', poHe);
-Locale.addTranslations('h', poHe);
 Locale.addTranslations('ashkenazi', poAshkenazi);
-Locale.addTranslations('a', poAshkenazi);
 
 /* Hebrew without nikkud */
 const poHeNoNikud = Locale.copyLocaleNoNikud(poHe);

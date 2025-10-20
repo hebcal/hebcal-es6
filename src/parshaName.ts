@@ -2,7 +2,7 @@ import {Locale} from './locale';
 
 /** @private */
 export function renderParshaName(parsha: string[], locale?: string): string {
-  const locale0 = locale ?? Locale.getLocaleName();
+  const locale0 = locale ?? 'en';
   let name = Locale.gettext(parsha[0], locale0);
   if (parsha.length === 2) {
     const hyphen = locale0 === 'he' ? '־' : '-';

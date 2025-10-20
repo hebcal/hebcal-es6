@@ -22,7 +22,7 @@ export class HebrewDateEvent extends Event {
    */
   render(locale?: string): string {
     const locale1 = locale?.toLowerCase();
-    const locale0 = locale1 ?? Locale.getLocaleName();
+    const locale0 = locale1 ?? 'en';
     const hd = this.getDate();
     switch (locale0) {
       case 'h':
@@ -56,7 +56,7 @@ export class HebrewDateEvent extends Event {
    */
   renderBrief(locale?: string): string {
     const locale1 = locale?.toLowerCase();
-    const locale0 = locale1 ?? Locale.getLocaleName();
+    const locale0 = locale1 ?? 'en';
     const hd = this.getDate();
     if (hd.getMonth() === months.TISHREI && hd.getDate() === 1) {
       return this.render(locale0);

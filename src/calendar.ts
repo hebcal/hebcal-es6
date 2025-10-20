@@ -136,19 +136,20 @@ export function calendar(options: CalOptions = {}): Event[] {
   const il = (options.il = options.il || location.getIsrael() || false);
   const hasUserMask = typeof options.mask === 'number';
   options.mask = getMaskFromOptions(options);
-  if (options.ashkenazi || options.locale) {
-    if (options.locale && typeof options.locale !== 'string') {
-      throw new TypeError(`Invalid options.locale: ${options.locale}`);
+  if (options.locale) {
+    const locale = options.locale;
+    if (locale && typeof locale !== 'string') {
+      throw new TypeError(`Invalid options.locale: ${locale}`);
     }
-    const locale = options.ashkenazi ? 'ashkenazi' : (options.locale as string);
-    const translationObj = Locale.useLocale(locale);
-    if (!translationObj) {
+    if (!Locale.hasLocale(locale)) {
       throw new TypeError(
         `Locale '${locale}' not found; did you forget to import @hebcal/locales?`
       );
     }
+  } else if (options.ashkenazi) {
+    options.locale = 'ashkenazi';
   } else {
-    Locale.useLocale('en');
+    options.locale = 'en';
   }
 
   const evts: Event[] = [];
