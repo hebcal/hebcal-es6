@@ -9,7 +9,11 @@ import {
 import {Event, flags} from './event';
 import {getStartAndEnd} from './getStartAndEnd';
 import {HebrewDateEvent} from './HebrewDateEvent';
-import {HolidayYearMap, getHolidaysForYear_} from './holidays';
+import {
+  HolidayYearMap,
+  getHolidaysForYear_,
+  getHolidaysOnDate,
+} from './holidays';
 import {ParshaEvent} from './ParshaEvent';
 import {Sedra, getSedra} from './sedra';
 import {TimedEvent, HavdalahEvent} from './TimedEvent';
@@ -186,7 +190,8 @@ export function calendar(options: CalOptions = {}): Event[] {
     const isFriday = dow === FRI;
     const isSaturday = dow === SAT;
     let candlesEv: TimedEvent | undefined;
-    const holidays = holidaysYear!.get(hd.toString()) || [];
+    const holidays0 = holidaysYear!.get(hd.toString()) || [];
+    const holidays = holidays0.filter(ev => ev.observedIn(il));
     for (const ev of holidays) {
       candlesEv = appendHolidayAndRelated(
         candlesEv,
@@ -212,7 +217,7 @@ export function calendar(options: CalOptions = {}): Event[] {
         (mm === NISAN && dd === (il ? 21 : 22)) ||
         (mm === SIVAN && dd === (il ? 6 : 7))
       ) {
-        const linkedEvent = holidays.filter(ev => ev.observedIn(il))[0];
+        const linkedEvent = holidays[0];
         const ev = new Event(hd, 'Yizkor', flags.YIZKOR, {
           emoji: '🕯️',
           linkedEvent,
@@ -242,8 +247,15 @@ export function calendar(options: CalOptions = {}): Event[] {
       candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);
       if (isFriday && candlesEv && sedra) {
         const parsha = sedra.lookup(abs);
-        const pe = new ParshaEvent(parsha);
-        candlesEv.memo = pe.render(options.locale);
+        if (!parsha.chag) {
+          const pe = new ParshaEvent(parsha);
+          candlesEv.memo = pe.render(options.locale);
+        } else {
+          const tomorrowHolidays = getHolidaysOnDate(hd.next(), il);
+          if (tomorrowHolidays) {
+            candlesEv.memo = tomorrowHolidays[0].render(options.locale);
+          }
+        }
       }
     }
     // suppress Havdalah when options.havdalahMins=0 or options.havdalahDeg=0

@@ -37,21 +37,6 @@ import {
   RoshChodeshEvent,
 } from './HolidayEvent';
 
-/** @private */
-function observedInIsrael(ev: Event): boolean {
-  return ev.observedInIsrael();
-}
-
-/** @private */
-function observedInDiaspora(ev: Event): boolean {
-  return ev.observedInDiaspora();
-}
-
-/** @private */
-function holidayFilter(il: boolean) {
-  return il ? observedInIsrael : observedInDiaspora;
-}
-
 /**
  * Returns an array of Events on this date (or `undefined` if no events)
  * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
@@ -69,7 +54,7 @@ export function getHolidaysOnDate(
   if (typeof il === 'undefined' || typeof events === 'undefined') {
     return events;
   }
-  const filtered = events.filter(holidayFilter(il));
+  const filtered = events.filter(ev => ev.observedIn(il));
   return filtered;
 }
 
@@ -467,12 +452,11 @@ export function getHolidaysForYearArray(
   const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
   const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
   let events: HolidayEvent[] = [];
-  const myFilter = il ? observedInIsrael : observedInDiaspora;
   for (let absDt = startAbs; absDt <= endAbs; absDt++) {
     const hd = new HDate(absDt);
     const holidays = yearMap.get(hd.toString());
     if (holidays) {
-      const filtered: HolidayEvent[] = holidays.filter(myFilter);
+      const filtered: HolidayEvent[] = holidays.filter(ev => ev.observedIn(il));
       events = events.concat(filtered);
     }
   }

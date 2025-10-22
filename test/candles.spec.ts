@@ -640,7 +640,24 @@ test('sedra-memo', () => {
     sedrot: true,
     ashkenazi: true,
   });
-  expect(events[0].memo).toBe('Parshas Bechukosai');
+  const ev = events[0];
+  expect(ev.getDesc()).toBe('Candle lighting');
+  expect(ev.memo).toBe('Parshas Bechukosai');
+});
+
+test('candle-holiday-memo', () => {
+  const events = HebrewCalendar.calendar({
+    start: new Date(2025, 9, 10),
+    end: new Date(2025, 9, 10),
+    noHolidays: true,
+    location: Location.lookup('Miami'),
+    candlelighting: true,
+    sedrot: true,
+    ashkenazi: true,
+  });
+  const ev = events[0];
+  expect(ev.getDesc()).toBe('Candle lighting');
+  expect(ev.memo).toBe('Sukkos V (CH’’M)');
 });
 
 test('yk-candles-only', () => {
