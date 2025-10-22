@@ -72,6 +72,8 @@ export type SedraResult = {
   num?: number | number[];
   /** The date of the Shabbat this parsha is read */
   hdate: HDate;
+  /** true if Israel, false for Diaspora */
+  il: boolean;
 };
 
 /**
@@ -267,10 +269,16 @@ export class Sedra {
     const hdate = new HDate(saturday);
     if (typeof index === 'string') {
       // Shabbat has a chag. Return a description
-      return {parsha: [index], chag: true, hdate};
+      return {parsha: [index], chag: true, hdate, il: this.il};
     }
     if (index >= 0) {
-      return {parsha: [parshiot[index]], chag: false, num: index + 1, hdate};
+      return {
+        parsha: [parshiot[index]],
+        chag: false,
+        num: index + 1,
+        hdate,
+        il: this.il,
+      };
     }
 
     const p1 = D(index); // undouble the parsha
@@ -279,6 +287,7 @@ export class Sedra {
       chag: false,
       num: [p1 + 1, p1 + 2],
       hdate,
+      il: this.il,
     };
   }
 }

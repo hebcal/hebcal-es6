@@ -27,7 +27,7 @@ export class HolidayEvent extends Event {
   }
 
   url(): string | undefined {
-    const year = this.getDate().greg().getFullYear();
+    const year = this.greg().getFullYear();
     if (year < 100) {
       return undefined;
     }
@@ -40,7 +40,7 @@ export class HolidayEvent extends Event {
   }
 
   urlDateSuffix(): string {
-    const year = this.getDate().greg().getFullYear();
+    const year = this.greg().getFullYear();
     return String(year);
   }
 
@@ -105,7 +105,7 @@ export class HolidayEvent extends Event {
  */
 export class AsaraBTevetEvent extends HolidayEvent {
   urlDateSuffix(): string {
-    const isoDate = isoDateString(this.getDate().greg());
+    const isoDate = isoDateString(this.greg());
     return isoDate.replace(/-/g, '');
   }
 }
@@ -143,7 +143,7 @@ export class ChanukahEvent extends HolidayEvent {
     }
   }
   urlDateSuffix(): string {
-    const dt = this.getDate().greg();
+    const dt = this.greg();
     let year = dt.getFullYear();
     if (dt.getMonth() === 0) {
       year--;

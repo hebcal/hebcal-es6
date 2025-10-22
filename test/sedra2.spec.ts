@@ -433,3 +433,28 @@ test('israel-bce', () => {
   };
   expect(result).toEqual(expected);
 });
+
+
+test('year1', () => {
+  const sedra = new Sedra(1, true);
+  const startAbs = HDate.hebrew2abs(1, months.TISHREI, 1);
+  const endAbs = HDate.hebrew2abs(1, months.CHESHVAN, 29);
+  const result: Record<string, string> = {};
+  for (let abs = startAbs; abs <= endAbs; abs++) {
+    const hd = new HDate(abs);
+    if (hd.getDay() === 6) { // Saturday
+      result[dt(hd)] = sedra.lookup(abs).parsha[0];
+    }
+  }
+  const expected = {
+    '-003760-09-12': 'Vayeilech',
+    '-003760-09-19': "Ha'azinu",
+    '-003760-09-26': 'Sukkot Shabbat Chol ha-Moed',
+    '-003760-10-03': 'Bereshit',
+    '-003760-10-10': 'Noach',
+    '-003760-10-17': 'Lech-Lecha',
+    '-003760-10-24': 'Vayera',
+    '-003760-10-31': 'Chayei Sara'
+  };
+  expect(result).toEqual(expected);
+});

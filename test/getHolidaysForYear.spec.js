@@ -7,7 +7,7 @@ import {isoDateString} from '@hebcal/hdate';
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {
-  const date = isoDateString(ev.getDate().greg());
+  const date = isoDateString(ev.greg());
   return {date, desc: ev.getDesc()};
 }
 
@@ -282,6 +282,6 @@ test('getHolidaysForYear-throw', () => {
 test('Sigd Shabbat moves to Thursday', () => {
   const events = getHolidaysForYearArray(5785, true);
   const ev = events.find((ev) => ev.getDesc() === 'Sigd');
-  const date = isoDateString(ev.getDate().greg());
+  const date = isoDateString(ev.greg());
   expect(date).toBe('2024-11-28');
 });

@@ -108,7 +108,7 @@ test('Purim Meshulash', () => {
 
 // eslint-disable-next-line require-jsdoc
 function eventDateBasenameDesc(ev) {
-  const date = isoDateString(ev.getDate().greg());
+  const date = isoDateString(ev.greg());
   return {
     date,
     basename: ev.basename(),
@@ -118,7 +118,7 @@ function eventDateBasenameDesc(ev) {
 
 // eslint-disable-next-line require-jsdoc
 function eventDateDesc(ev) {
-  const date = isoDateString(ev.getDate().greg());
+  const date = isoDateString(ev.greg());
   return {date, desc: ev.getDesc()};
 }
 

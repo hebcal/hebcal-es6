@@ -41,26 +41,35 @@ test('lookup', () => {
   expect(sedra.lookup(oct1)).toEqual({
     parsha: ['Sukkot Shabbat Chol ha-Moed'],
     chag: true,
+    il: false,
     hdate: new HDate(726011),
   });
   expect(sedra.lookup(nov5)).toEqual({
     parsha: ['Chayei Sara'],
     chag: false,
+    il: false,
     num: 5,
     hdate: new HDate(726046),
   });
   expect(sedra.lookup(jul15)).toEqual({
     parsha: ['Chukat', 'Balak'],
     chag: false,
+    il: false,
     num: [39, 40],
     hdate: new HDate(726298),
   });
 });
 
 test('lookup-rollover', () => {
-  const sedra = new Sedra(5782, false);
+  const sedra = new Sedra(5782, true);
   const hd = new HDate(6, 'Tishrei', 5783);
-  expect(sedra.lookup(hd)).toEqual({parsha: ['Vayeilech'], chag: false, num: 52, hdate: new HDate(738429)});
+  expect(sedra.lookup(hd)).toEqual({
+    parsha: ['Vayeilech'],
+    chag: false,
+    il: true,
+    num: 52,
+    hdate: new HDate(738429),
+  });
 });
 
 test('lookup-throws', () => {
@@ -196,6 +205,7 @@ test('weekday1', () => {
   expect(sedra.lookup(tishrei7)).toEqual({
     parsha: ['Yom Kippur'],
     chag: true,
+    il: false,
     hdate: new HDate(739171),
   });
 });

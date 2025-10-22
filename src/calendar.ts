@@ -165,6 +165,7 @@ export function calendar(options: CalOptions = {}): Event[] {
   const startGreg = abs2greg(startAbs);
   if (startGreg.getFullYear() < 100) {
     options.candlelighting = false;
+    options.sedrot = false;
   }
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
@@ -200,7 +201,7 @@ export function calendar(options: CalOptions = {}): Event[] {
     if (options.sedrot && isSaturday) {
       const parsha0 = sedra!.lookup(abs);
       if (!parsha0.chag) {
-        evts.push(new ParshaEvent(hd, parsha0.parsha, il, parsha0.num));
+        evts.push(new ParshaEvent(parsha0));
       }
     }
     if (options.yizkor) {
@@ -241,7 +242,7 @@ export function calendar(options: CalOptions = {}): Event[] {
       candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);
       if (isFriday && candlesEv && sedra) {
         const parsha = sedra.lookup(abs);
-        const pe = new ParshaEvent(hd.next(), parsha.parsha, il, parsha.num);
+        const pe = new ParshaEvent(parsha);
         candlesEv.memo = pe.render(options.locale);
       }
     }

@@ -18,7 +18,7 @@ export function parshaYear(year: number, il: boolean): Event[] {
   for (let absDt = startAbs; absDt <= endAbs; absDt += 7) {
     const parsha = sedra.lookup(absDt);
     if (!parsha.chag) {
-      const ev = new ParshaEvent(parsha.hdate, parsha.parsha, il, parsha.num);
+      const ev = new ParshaEvent(parsha);
       events.push(ev);
     }
   }

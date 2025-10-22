@@ -17,7 +17,7 @@ function eventDateDesc(ev: Event | undefined) {
     return null;
   }
   return {
-    date: isoDateString(ev.getDate().greg()),
+    date: isoDateString(ev.greg()),
     desc: ev.render('en'),
   };
 }
@@ -117,7 +117,7 @@ function eventTitleDateTime(ev: Event) {
   const obj = ev as any;
   const timeStr = typeof obj.eventTime === 'object' ?
     Zmanim.formatISOWithTimeZone(obj.location.getTzid(), obj.eventTime as Date) :
-    isoDateString(ev.getDate().greg());
+    isoDateString(ev.greg());
   return {
     dt: timeStr,
     desc: ev.getDesc(),

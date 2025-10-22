@@ -137,6 +137,12 @@ export class Event {
     return this.date;
   }
   /**
+   * Gregorian date of this event
+   */
+  greg(): Date {
+    return this.date.greg();
+  }
+  /**
    * Untranslated title of this event. Note that these description
    * strings are always in English and will remain stable across releases.
    * To get the title of the event in another language, use the

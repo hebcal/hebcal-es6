@@ -9,7 +9,7 @@ import { YomKippurKatanEvent } from '../src/YomKippurKatanEvent';
 import { FastDayEvent } from '../src/candles';
 
 function gregDtString(ev: Event): string {
-  return ev.getDate().greg().toLocaleDateString('en-US');
+  return ev.greg().toLocaleDateString('en-US');
 }
 
 test('heb-month', () => {
@@ -60,16 +60,16 @@ test('greg-2digit-year', () => {
     year: 50,
   };
   const events = HebrewCalendar.calendar(options);
-  expect(events[0].getDate().greg().getFullYear()).toBe(50);
-  expect(events[events.length - 1].getDate().greg().getFullYear()).toBe(50);
+  expect(events[0].greg().getFullYear()).toBe(50);
+  expect(events[events.length - 1].greg().getFullYear()).toBe(50);
 
   const opts2 = {
     addHebrewDates: true,
     year: 88,
   };
   const events2 = HebrewCalendar.calendar(opts2);
-  expect(events2[0].getDate().greg().getFullYear()).toBe(88);
-  expect(events2[events2.length - 1].getDate().greg().getFullYear()).toBe(88);
+  expect(events2[0].greg().getFullYear()).toBe(88);
+  expect(events2[events2.length - 1].greg().getFullYear()).toBe(88);
 });
 
 test('heb-year', () => {
@@ -94,8 +94,8 @@ test('heb-year', () => {
 test('no-options', () => {
   const now = new Date();
   const events = HebrewCalendar.calendar({});
-  expect(events[0].getDate().greg().getFullYear()).toBe(now.getFullYear());
-  expect(events[events.length - 1].getDate().greg().getFullYear()).toBe(now.getFullYear());
+  expect(events[0].greg().getFullYear()).toBe(now.getFullYear());
+  expect(events[events.length - 1].greg().getFullYear()).toBe(now.getFullYear());
 });
 
 test('no-holidays', () => {
@@ -495,7 +495,7 @@ test('havdalahDeg-havdalahMin-throw', () => {
  * @private
  */
 function eventISODateDesc(ev: Event): any {
-  const date = isoDateString(ev.getDate().greg());
+  const date = isoDateString(ev.greg());
   return {date, desc: ev.getDesc()};
 }
 
@@ -642,22 +642,21 @@ test('year1', () => {
   expect(events.length).toBe(79);
 });
 
-test('year1-sedrot', () => {
+test('year5786-sedrot', () => {
   const events = HebrewCalendar.calendar({
     isHebrewYear: true,
-    year: 1,
+    year: 5786,
     sedrot: true,
     noHolidays: true,
   });
-  expect(events.length).toBe(47);
   const actual = events.slice(0, 6).map(eventISODateDesc);
   const expected = [
-    {date: '-003760-09-12', desc: 'Parashat Vayeilech'},
-    {date: '-003760-09-19', desc: 'Parashat Ha\'azinu'},
-    {date: '-003760-10-03', desc: 'Parashat Bereshit'},
-    {date: '-003760-10-10', desc: 'Parashat Noach'},
-    {date: '-003760-10-17', desc: 'Parashat Lech-Lecha'},
-    {date: '-003760-10-24', desc: 'Parashat Vayera'},
+    { date: '2025-09-27', desc: 'Parashat Vayeilech' },
+    { date: '2025-10-04', desc: "Parashat Ha'azinu" },
+    { date: '2025-10-18', desc: 'Parashat Bereshit' },
+    { date: '2025-10-25', desc: 'Parashat Noach' },
+    { date: '2025-11-01', desc: 'Parashat Lech-Lecha' },
+    { date: '2025-11-08', desc: 'Parashat Vayera' }
   ];
   expect(actual).toEqual(expected);
 });
@@ -753,7 +752,7 @@ test('yikzor', () => {
   const events = HebrewCalendar.calendar(options);
   expect(events.length).toBe(4);
   const summarize = (ev: Event) => {
-    const date = isoDateString(ev.getDate().greg());
+    const date = isoDateString(ev.greg());
     return {date,
       desc: ev.getDesc(),
       l: (ev as any).linkedEvent.getDesc(),
