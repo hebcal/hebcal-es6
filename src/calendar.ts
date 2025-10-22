@@ -9,11 +9,7 @@ import {
 import {Event, flags} from './event';
 import {getStartAndEnd} from './getStartAndEnd';
 import {HebrewDateEvent} from './HebrewDateEvent';
-import {
-  HolidayYearMap,
-  getHolidaysForYear_,
-  getHolidaysOnDate,
-} from './holidays';
+import {HolidayYearMap, getHolidaysForYear_} from './holidays';
 import {ParshaEvent} from './ParshaEvent';
 import {Sedra, getSedra} from './sedra';
 import {TimedEvent, HavdalahEvent} from './TimedEvent';
@@ -251,10 +247,7 @@ export function calendar(options: CalOptions = {}): Event[] {
           const pe = new ParshaEvent(parsha);
           candlesEv.memo = pe.render(options.locale);
         } else {
-          const tomorrowHolidays = getHolidaysOnDate(hd.next(), il);
-          if (tomorrowHolidays) {
-            candlesEv.memo = tomorrowHolidays[0].render(options.locale);
-          }
+          candlesEv.memo = Locale.gettext(parsha.parsha[0], options.locale);
         }
       }
     }

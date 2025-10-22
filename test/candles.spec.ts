@@ -653,11 +653,10 @@ test('candle-holiday-memo', () => {
     location: Location.lookup('Miami'),
     candlelighting: true,
     sedrot: true,
-    ashkenazi: true,
   });
   const ev = events[0];
   expect(ev.getDesc()).toBe('Candle lighting');
-  expect(ev.memo).toBe('Sukkos V (CH’’M)');
+  expect(ev.memo).toBe('Sukkot Shabbat Chol ha-Moed');
 });
 
 test('yk-candles-only', () => {
