@@ -41,6 +41,7 @@ test('lookup', () => {
   expect(sedra.lookup(oct1)).toEqual({
     parsha: ['Sukkot Shabbat Chol ha-Moed'],
     chag: true,
+    num: 0,
     il: false,
     hdate: new HDate(726011),
   });
@@ -205,6 +206,7 @@ test('weekday1', () => {
   expect(sedra.lookup(tishrei7)).toEqual({
     parsha: ['Yom Kippur'],
     chag: true,
+    num: 0,
     il: false,
     hdate: new HDate(739171),
   });

@@ -43,4 +43,9 @@ export class ParshaEvent extends Event {
     const isoDate = isoDateString(this.greg());
     return isoDate.replace(/-/g, '');
   }
+
+  /** convenience function for compatibility with previous implementation */
+  get parsha(): string[] {
+    return this.p.parsha;
+  }
 }

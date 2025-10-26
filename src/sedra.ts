@@ -58,8 +58,8 @@ export type SedraResult = {
    */
   parsha: string[];
   /**
-   * True if this is a regular parasha HaShavua
-   * Torah reading, false if it's a special holiday reading
+   * False if this is a regular parashat HaShavua reading.
+   * True if it's a special holiday reading.
    */
   chag: boolean;
   /**
@@ -68,8 +68,9 @@ export type SedraResult = {
    * for a doubled parsha.
    * For Parashat *Bereshit*, `num` would be equal to `1`, and for
    * *Matot-Masei* it would be `[42, 43]`
+   * For a chag (holiday) reading, `num` will be `0`.
    */
-  num?: number | number[];
+  num: number | number[];
   /** The date of the Shabbat this parsha is read */
   hdate: HDate;
   /** true if Israel, false for Diaspora */
@@ -269,7 +270,7 @@ export class Sedra {
     const hdate = new HDate(saturday);
     if (typeof index === 'string') {
       // Shabbat has a chag. Return a description
-      return {parsha: [index], chag: true, hdate, il: this.il};
+      return {parsha: [index], chag: true, hdate, il: this.il, num: 0};
     }
     if (index >= 0) {
       return {
