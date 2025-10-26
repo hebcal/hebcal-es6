@@ -15,7 +15,7 @@ export class ParshaEvent extends Event {
     this.p = parsha;
   }
   /**
-   * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to active locale.
+   * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to empty locale.
    */
   render(locale?: string): string {
     return renderParshaName(this.p.parsha, locale);

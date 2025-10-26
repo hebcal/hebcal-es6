@@ -27,7 +27,7 @@ export class YomKippurKatanEvent extends HolidayEvent {
     return this.getDesc();
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     const monthName0 = Locale.gettext(this.nextMonthName, locale);
@@ -35,7 +35,7 @@ export class YomKippurKatanEvent extends HolidayEvent {
     return Locale.gettext(ykk, locale) + ' ' + monthName;
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
     return Locale.gettext(ykk, locale);

@@ -164,7 +164,7 @@ export class Event {
    * ev.render('en'); // 'Shavuot'
    * ev.render('he'); // 'שָׁבוּעוֹת'
    * ev.render('ashkenazi'); // 'Shavuos'
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     return Locale.gettext(this.desc, locale);
@@ -173,7 +173,7 @@ export class Event {
    * Returns a brief (translated) description of this event.
    * For most events, this is the same as render(). For some events, it procudes
    * a shorter text (e.g. without a time or added description).
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
     return this.render(locale);

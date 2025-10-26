@@ -11,7 +11,7 @@ export class HebrewDateEvent extends Event {
     super(date, date.toString(), flags.HEBREW_DATE);
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    * @example
    * import {HDate, HebrewDateEvent, months} from '@hebcal/core';
    *
@@ -45,7 +45,7 @@ export class HebrewDateEvent extends Event {
     return gematriya(dd) + ' ' + mm;
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    * @example
    * import {HDate, HebrewDateEvent, months} from '@hebcal/core';
    *

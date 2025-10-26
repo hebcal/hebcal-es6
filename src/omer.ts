@@ -233,7 +233,7 @@ export class OmerEvent extends Event {
     return (dayWithinWeek + ' ' + infix + week).normalize();
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     locale = locale ?? 'en';
@@ -248,7 +248,7 @@ export class OmerEvent extends Event {
   }
   /**
    * Returns translation of "Omer day 22" without ordinal numbers.
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
     return (

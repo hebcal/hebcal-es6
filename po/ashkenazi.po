@@ -55,6 +55,9 @@ msgstr "Ki Sisa"
 msgid "Matot"
 msgstr "Matos"
 
+msgid "Pesach Shabbat Chol ha-Moed"
+msgstr "Pesach Shabbos Chol ha-Moed"
+
 msgid "Purim Katan"
 msgstr "Purim Koton"
 
@@ -126,6 +129,9 @@ msgstr "Sukkos VI (CH’’M)"
 
 msgid "Sukkot VII (Hoshana Raba)"
 msgstr "Sukkos VII (Hoshana Raba)"
+
+msgid "Sukkot Shabbat Chol ha-Moed"
+msgstr "Sukkos Shabbos Chol ha-Moed"
 
 msgid "Ta'anit Bechorot"
 msgstr "Ta’anis Bechoros"

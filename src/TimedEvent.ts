@@ -37,14 +37,14 @@ export class TimedEvent extends Event {
     }
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     return Locale.gettext(this.getDesc(), locale) + ': ' + this.fmtTime;
   }
   /**
    * Returns translation of "Candle lighting" without the time.
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
     return Locale.gettext(this.getDesc(), locale);
@@ -113,14 +113,14 @@ export class HavdalahEvent extends TimedEvent {
     }
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     return this.renderBrief(locale) + ': ' + this.fmtTime;
   }
   /**
    * Returns translation of "Havdalah" without the time.
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
     let str = Locale.gettext(this.getDesc(), locale);

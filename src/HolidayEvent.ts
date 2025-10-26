@@ -81,7 +81,7 @@ export class HolidayEvent extends Event {
   }
   /**
    * Returns (translated) description of this event
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     const str = super.render(locale);
@@ -91,7 +91,7 @@ export class HolidayEvent extends Event {
    * Returns a brief (translated) description of this event.
    * For most events, this is the same as render(). For some events, it procudes
    * a shorter text (e.g. without a time or added description).
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
     const str = super.renderBrief(locale);
@@ -167,7 +167,7 @@ export class RoshHashanaEvent extends HolidayEvent {
   }
   /**
    * Returns (translated) description of this event
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
@@ -192,7 +192,7 @@ export class RoshChodeshEvent extends HolidayEvent {
   }
   /**
    * Returns (translated) description of this event
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     const monthName = this.getDesc().substring(roshChodeshStr.length + 1);

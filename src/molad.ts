@@ -79,7 +79,7 @@ export class Molad {
     return this.m.chalakim;
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale)
+   * @param [locale] Optional locale name (defaults to empty locale)
    * @param options
    */
   render(locale?: string, options?: CalOptions): string {
@@ -137,7 +137,7 @@ export class MoladEvent extends Event {
     this.options = options;
   }
   /**
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     return this.molad.render(locale, this.options);

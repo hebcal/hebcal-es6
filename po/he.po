@@ -298,6 +298,9 @@ msgstr "פֶּסַח ז׳"
 msgid "Pesach VIII"
 msgstr "פֶּסַח ח׳"
 
+msgid "Pesach Shabbat Chol ha-Moed"
+msgstr "פֶּסַח שַׁבָּת חוֹל הַמּוֹעֵד"
+
 msgid "Purim"
 msgstr "פּוּרִים"
 
@@ -390,6 +393,9 @@ msgstr "סוּכּוֹת ו׳ (חוה״מ)"
 
 msgid "Sukkot VII (Hoshana Raba)"
 msgstr "סוּכּוֹת ז׳ (הוֹשַׁעְנָא רַבָּה)"
+
+msgid "Sukkot Shabbat Chol ha-Moed"
+msgstr "סוּכּוֹת שַׁבָּת חוֹל הַמּוֹעֵד"
 
 msgid "Ta'anit Bechorot"
 msgstr "תַּעֲנִית בְּכוֹרוֹת"

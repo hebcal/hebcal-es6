@@ -35,7 +35,7 @@ export class MevarchimChodeshEvent extends Event {
   }
   /**
    * Returns (translated) description of this event
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
     const monthName0 = Locale.gettext(this.monthName, locale);
@@ -44,7 +44,7 @@ export class MevarchimChodeshEvent extends Event {
   }
   /**
    * Returns (translated) description of this event
-   * @param [locale] Optional locale name (defaults to active locale).
+   * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
     const str = this.render(locale);
