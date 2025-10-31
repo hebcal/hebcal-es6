@@ -166,6 +166,7 @@ export function calendar(options: CalOptions = {}): Event[] {
   if (startGreg.getFullYear() < 100) {
     options.candlelighting = false;
     options.sedrot = false;
+    options.dailyLearning = {};
   }
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
@@ -223,7 +224,7 @@ export function calendar(options: CalOptions = {}): Event[] {
     }
     const dailyLearning = options.dailyLearning;
     let numDailyLearning = 0;
-    if (typeof dailyLearning === 'object') {
+    if (typeof dailyLearning === 'object' && dailyLearning !== null) {
       const events = makeDailyLearning(hd, dailyLearning, il);
       numDailyLearning = events.length;
       if (numDailyLearning) {
@@ -531,8 +532,8 @@ function getMaskFromOptions(options: CalOptions): number {
   if (options.yizkor) {
     mask |= YIZKOR;
   }
-  if (options.dailyLearning) {
-    const dailyLearning = options.dailyLearning;
+  const dailyLearning = options.dailyLearning;
+  if (typeof dailyLearning === 'object' && dailyLearning !== null) {
     if (dailyLearning.dafYomi) {
       mask |= DAF_YOMI;
     }
