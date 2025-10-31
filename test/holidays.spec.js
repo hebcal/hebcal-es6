@@ -72,7 +72,7 @@ test('observedInIsrael and url contains ?i=on', () => {
 
 test('MevarchimChodeshEvent', () => {
   const mvch = new MevarchimChodeshEvent(new HDate(23, months.KISLEV, 5769), 'Tevet');
-  expect(mvch.memo).toBe('Molad Tevet: Sat, 10 minutes and 16 chalakim after 16:00');
+  expect(mvch.memo).toBe('Molad Tevet: Saturday, 16:10 and 16 chalakim');
 });
 
 test('Shushan Purim', () => {

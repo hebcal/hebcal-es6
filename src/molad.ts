@@ -5,7 +5,16 @@ import {HDate, Locale, molad, Molad as MoladBase} from '@hebcal/hdate';
 import {reformatTimeStr} from './reformatTimeStr';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
-const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const enDoW = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+] as const;
+
 const heDayNames = [
   'רִאשׁוֹן',
   'שֵׁנִי',
@@ -14,9 +23,27 @@ const heDayNames = [
   'חֲמִישִׁי',
   'שִׁישִּׁי',
   'שַׁבָּת',
-];
-const frDayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+] as const;
+
+const frDoW = [
+  'Dimanche',
+  'Lundi',
+  'Mardi',
+  'Mercredi',
+  'Jeudi',
+  'Vendredi',
+  'Samedi',
+] as const;
 const night = 'בַּלַּ֥יְלָה';
+
+function getDayNames(locale: string): readonly string[] {
+  if (locale === 'he' || locale === 'he-x-nonikud' || locale === 'h') {
+    return heDayNames;
+  } else if (locale === 'fr') {
+    return frDoW;
+  }
+  return enDoW;
+}
 
 function getHebrewTimeOfDay(hour: number): string {
   if (hour < 5) return night;
@@ -89,9 +116,8 @@ export class Molad {
     }
     const isHebrewLocale =
       locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
-    const isFrenchLocale = locale === 'fr';
     const monthName = Locale.gettext(this.getMonthName(), locale);
-    const dayNames = isHebrewLocale ? heDayNames : (isFrenchLocale ? frDayNames : shortDayNames);
+    const dayNames = getDayNames(locale);
     const dow = dayNames[this.getDow()];
     const minutes = this.getMinutes();
     const hour = this.getHour();
@@ -100,22 +126,27 @@ export class Molad {
     const minutesStr = Locale.lookupTranslation('min', locale) ?? 'minutes';
     const chalakimStr = Locale.gettext('chalakim', locale);
     const and = Locale.gettext('and', locale);
-    const after = Locale.gettext('after', locale);
     if (isHebrewLocale) {
       const ampm = getHebrewTimeOfDay(hour);
-      const result =
+      let result =
         `${moladStr} ${monthName} יִהְיֶה בַּיּוֹם ${dow} בשָׁבוּעַ, ` +
         `בְּשָׁעָה ${hour} ${ampm}, ` +
-        `ו-${minutes} ${minutesStr} ` +
-        `ו-${chalakim} ${chalakimStr}`;
+        `ו-${minutes} ${minutesStr}`;
+      if (chalakim !== 0) {
+        result += ` ו-${chalakim} ${chalakimStr}`;
+      }
       if (locale === 'he-x-nonikud') {
         return Locale.hebrewStripNikkud(result);
       }
       return result;
     }
-    const fmtTime = reformatTimeStr(`${hour}:00`, 'pm', options);
+    const fmtTime = reformatTimeStr(`${hour}:${minutes}`, 'pm', options);
     const month = monthName.replace(/'/g, '’');
-    return `${moladStr} ${month}: ${dow}, ${minutes} ${minutesStr} ${and} ${chalakim} ${chalakimStr} ${after} ${fmtTime}`;
+    const result = `${moladStr} ${month}: ${dow}, ${fmtTime}`;
+    if (chalakim === 0) {
+      return result;
+    }
+    return result + ` ${and} ${chalakim} ${chalakimStr}`;
   }
 }
 

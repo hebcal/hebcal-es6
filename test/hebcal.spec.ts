@@ -694,7 +694,7 @@ test('Shabbat Mevarchim follows hour12 and locale', () => {
     hour12: true,
   });
   expect(events.length).toBe(1);
-  expect(events[0].memo).toBe('Molad Sivan: Wed, 12 minutes and 10 chalakim after 2:00pm');
+  expect(events[0].memo).toBe('Molad Sivan: Wednesday, 2:12pm and 10 chalakim');
 
   const events2 = HebrewCalendar.calendar({
     start: dt,
@@ -703,7 +703,7 @@ test('Shabbat Mevarchim follows hour12 and locale', () => {
     hour12: false,
   });
   expect(events2.length).toBe(1);
-  expect(events2[0].memo).toBe('Molad Sivan: Wed, 12 minutes and 10 chalakim after 14:00');
+  expect(events2[0].memo).toBe('Molad Sivan: Wednesday, 14:12 and 10 chalakim');
 
   const events3 = HebrewCalendar.calendar({
     start: dt,
