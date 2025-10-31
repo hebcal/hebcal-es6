@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import {Event, flags} from './event';
 import {CalOptions} from './CalOptions';
-import {HDate, Locale, molad, Molad as MoladBase} from '@hebcal/hdate';
+import {HDate, Locale, molad, Molad as MoladBase, pad2} from '@hebcal/hdate';
 import {reformatTimeStr} from './reformatTimeStr';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
@@ -140,7 +140,7 @@ export class Molad {
       }
       return result;
     }
-    const fmtTime = reformatTimeStr(`${hour}:${minutes}`, 'pm', options);
+    const fmtTime = reformatTimeStr(`${hour}:${pad2(minutes)}`, 'pm', options);
     const month = monthName.replace(/'/g, '’');
     const result = `${moladStr} ${month}: ${dow}, ${fmtTime}`;
     if (chalakim === 0) {

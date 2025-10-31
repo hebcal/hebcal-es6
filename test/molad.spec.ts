@@ -96,3 +96,18 @@ test('Molad.render with chalakim == 0', () => {
   expect(heWith0).not.toContain('ו-0 חֲלָקִים');
   expect(heWith0.length).toBeLessThan(heWith10.length);
 });
+
+test('Molad Nisan 5787 with leading zero in minutes', () => {
+  const m = new Molad(5787, months.NISAN);
+  expect(m.getMinutes()).toBe(7);
+  expect(m.getHour()).toBe(14);
+  expect(m.getChalakim()).toBe(8);
+
+  // Should format with leading zero: "2:07pm" not "2:7pm"
+  expect(m.render('en', {hour12: true}))
+      .toBe('Molad Nisan: Tuesday, 2:07pm and 8 chalakim');
+
+  // 24-hour format should also have leading zero
+  expect(m.render('en', {hour12: false}))
+      .toBe('Molad Nisan: Tuesday, 14:07 and 8 chalakim');
+});
