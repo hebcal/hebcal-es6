@@ -180,6 +180,15 @@ test('early-ce-url', () => {
   expect(ev2.url()).toBe(undefined);
 });
 
+test('far-future-url', () => {
+  const dt = new Date(2750, 8, 30);
+  const ev = new HolidayEvent(new HDate(dt), 'Yom Kippur');
+  expect(ev.url()).toBe('https://www.hebcal.com/holidays/yom-kippur-2750');
+  dt.setFullYear(3000);
+  const ev2 = new HolidayEvent(new HDate(dt), 'Yom Kippur');
+  expect(ev2.url()).toBe(undefined);
+});
+
 test('bce-url', () => {
   const urls = HebrewCalendar.calendar({year: -776})
       .filter((ev) => ev.getDesc() === 'Asara B\'Tevet' || ev.getDesc() === 'Yom Kippur')

@@ -163,7 +163,8 @@ export function calendar(options: CalOptions = {}): Event[] {
   const startAbs = startAndEnd[0];
   const endAbs = startAndEnd[1];
   const startGreg = abs2greg(startAbs);
-  if (startGreg.getFullYear() < 100) {
+  const startGregYear = startGreg.getFullYear();
+  if (startGregYear < 100 || startGregYear > 9999) {
     options.candlelighting = false;
     options.sedrot = false;
     options.dailyLearning = {};

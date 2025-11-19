@@ -35,6 +35,17 @@ test('early-ce-url', () => {
   expect(ev2.url()).toBe(undefined);
 });
 
+test('far-future-url', () => {
+  const dt = new Date(2750, 9, 21);
+  const parsha = {hdate: new HDate(dt), parsha: ['Bereshit'], il: false, chag: false, num: 0};
+  const ev = new ParshaEvent(parsha);
+  expect(ev.url()).toBe('https://www.hebcal.com/sedrot/bereshit-27501021');
+  dt.setFullYear(3000);
+  parsha.hdate = new HDate(dt);
+  const ev2 = new ParshaEvent(parsha);
+  expect(ev2.url()).toBe(undefined);
+});
+
 test('bce-url', () => {
   const ev = new ParshaEvent({
     hdate: new HDate(new Date(-428, 8, 30)), parsha: ['Bereshit'], il: false, chag: false, num: 0});
