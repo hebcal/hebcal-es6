@@ -20,7 +20,7 @@
  */
 import {HDate, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
-import {Event, flags} from './event';
+import {flags} from './event';
 import {dateYomHaShoah, dateYomHaZikaron} from './modern';
 import {getSedra} from './sedra';
 import {

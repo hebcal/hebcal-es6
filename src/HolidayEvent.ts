@@ -28,7 +28,7 @@ export class HolidayEvent extends Event {
 
   url(): string | undefined {
     const year = this.greg().getFullYear();
-    if (year < 100) {
+    if (year < 100 || year > 3200) {
       return undefined;
     }
     const url =
