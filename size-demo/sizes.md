@@ -1,10 +1,10 @@
 # Bundle sizes
 
-- `getHoliday.mjs`: 129 kB
-- `getHoliday.min.mjs`: 41.9 kB
-- `parshiyot.mjs`: 386 kB
-- `parshiyot.min.mjs`: 140 kB
-- `sedra.mjs`: 85.7 kB
-- `sedra.min.mjs`: 29.9 kB
-- `tachanun.mjs`: 55.5 kB
-- `tachanun.min.mjs`: 13.2 kB
+- `getHoliday.js`: 128 kB
+- `getHoliday.min.js`: 41.4 kB
+- `parshiyot.js`: 384 kB
+- `parshiyot.min.js`: 138 kB
+- `sedra.js`: 85.2 kB
+- `sedra.min.js`: 28.9 kB
+- `tachanun.js`: 56.9 kB
+- `tachanun.min.js`: 13.9 kB

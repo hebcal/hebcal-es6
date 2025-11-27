@@ -1,9 +1,7 @@
 import prettyBytes from 'pretty-bytes';
 import {defineConfig, OutputChunk, Plugin, RollupOptions} from 'rollup';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
 import bundleSize from 'rollup-plugin-bundle-size';
-import json from '@rollup/plugin-json';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import {appendFileSync, readdirSync, writeFileSync} from 'fs';
@@ -23,12 +21,12 @@ export default defineConfig(
         input: `size-demo/${name}.ts`,
         output: [
           {
-            file: `size-demo/dist/${name}.mjs`,
+            file: `size-demo/dist/${name}.js`,
             format: 'es',
             inlineDynamicImports: true,
           },
           {
-            file: `size-demo/dist/${name}.min.mjs`,
+            file: `size-demo/dist/${name}.min.js`,
             format: 'es',
             inlineDynamicImports: true,
             plugins: [terser()],
@@ -37,9 +35,7 @@ export default defineConfig(
 
         plugins: [
           typescript({tsconfig: './size-demo/tsconfig.json'}),
-          json({compact: true, preferConst: true}),
           nodeResolve(),
-          commonjs(),
           bundleSize(),
           {
             name: 'record-size-to-file',
