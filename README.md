@@ -60,6 +60,8 @@ This package exports two categories of output:
 
   - You will need to include `@rollup/plugin-node-resolve` in your Rollup config.
 
+## [API Documentation](https://hebcal.github.io/api/core/modules.html)
+
 ## History
 
 Hebcal was created in 1992 by Danny Sadinoff as a Unix/Linux program
@@ -81,5 +83,3 @@ Version 5 (December 2023) added elevation support for zmanim
 and candle-lighting times, and improved ES module support.
 
 Version 6 (October 2025) removed support for CommonJS and Node.js 16.x.
-
-## [API Documentation](https://hebcal.github.io/api/core/modules.html)
