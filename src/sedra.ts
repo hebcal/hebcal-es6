@@ -295,7 +295,10 @@ export class Sedra {
 
 /**
  * The 54 parshiyot of the Torah as transilterated strings.
- * parshiot[0] == 'Bereshit', parshiot[1] == 'Noach', parshiot[52] == "Ha'azinu", parshiot[53] == 'Vezot Haberakhah'.
+ * * parshiot[0] == `Bereshit`
+ * * parshiot[1] == `Noach`
+ * * parshiot[52] == `Ha'azinu`
+ * * parshiot[53] == `Vezot Haberakhah`
  * @readonly
  * @type {string[]}
  */
