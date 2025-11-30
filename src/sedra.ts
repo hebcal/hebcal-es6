@@ -83,6 +83,7 @@ export type SedraResult = {
 export class Sedra {
   private readonly year: number;
   private readonly il: boolean;
+  private readonly rh: number;
   private readonly firstSaturday: number;
   private readonly theSedraArray: readonly NumberOrString[];
   private readonly yearKey: string;
@@ -96,7 +97,7 @@ export class Sedra {
     this.year = hyear;
 
     const rh0 = new HDate(1, months.TISHREI, hyear);
-    const rh = rh0.abs();
+    const rh = (this.rh = rh0.abs());
     const rhDay = rh0.getDay() + 1;
 
     // find the first Saturday on or after Rosh Hashana
@@ -255,6 +256,10 @@ export class Sedra {
 
     if (isNaN(abs)) {
       throw new TypeError(`Bad date argument: ${hd}`);
+    } else if (abs < this.rh) {
+      throw new RangeError(
+        `Date ${hd} before start of Hebrew year ${this.year}`
+      );
     }
 
     // find the first saturday on or after today's date

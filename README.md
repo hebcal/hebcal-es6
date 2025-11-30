@@ -24,17 +24,16 @@ npm install @hebcal/core
 ## Synopsis
 
 ```javascript
-import {HebrewCalendar, HDate, Location, Event} from '@hebcal/core';
+import {HebrewCalendar, Location} from '@hebcal/core';
 
-const options: CalOptions = {
+const events = HebrewCalendar.calendar({
   year: 1981,
   isHebrewYear: false,
   candlelighting: true,
   location: Location.lookup('San Francisco'),
   sedrot: true,
   omer: true,
-};
-const events = HebrewCalendar.calendar(options);
+});
 
 for (const ev of events) {
   const hd = ev.getDate();
