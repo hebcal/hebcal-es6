@@ -14,7 +14,7 @@ test('gettext-he', () => {
 
 test('lookupTranslation-he-x-NoNikud', () => {
   expect(Locale.lookupTranslation('Yom Kippur', 'he-x-NoNikud')).toBe(
-    'יום כפור'
+    'יום כיפור'
   );
   expect(Locale.lookupTranslation('Lech-Lecha', 'he-x-NoNikud')).toBe('לך־לך');
   expect(Locale.lookupTranslation('Foobar', 'he-x-NoNikud')).toBe(undefined);

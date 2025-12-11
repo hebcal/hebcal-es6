@@ -11,3 +11,9 @@ msgstr "קורח"
 
 msgid "Chukat"
 msgstr "חוקת"
+
+msgid "Yom Kippur"
+msgstr "יום כיפור"
+
+msgid "Yom Kippur Katan"
+msgstr "יום כיפור קטן"

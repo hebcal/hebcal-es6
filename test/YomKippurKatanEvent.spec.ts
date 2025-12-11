@@ -14,7 +14,7 @@ test('render', () => {
   expect(ykk.render('s')).toBe('Yom Kippur Katan Kislev');
   expect(ykk.render('ashkenazi')).toBe('Yom Kippur Katan Kislev');
   expect(ykk.render('he')).toBe('יוֹם כִּפּוּר קָטָן כִּסְלֵו');
-  expect(ykk.render('he-x-NoNikud')).toBe('יום כפור קטן כסלו');
+  expect(ykk.render('he-x-NoNikud')).toBe('יום כיפור קטן כסלו');
 });
 
 test('renderBrief', () => {
@@ -27,7 +27,7 @@ test('renderBrief', () => {
   expect(ykk.renderBrief('s')).toBe('Yom Kippur Katan');
   expect(ykk.renderBrief('ashkenazi')).toBe('Yom Kippur Katan');
   expect(ykk.renderBrief('he')).toBe('יוֹם כִּפּוּר קָטָן');
-  expect(ykk.renderBrief('he-x-NoNikud')).toBe('יום כפור קטן');
+  expect(ykk.renderBrief('he-x-NoNikud')).toBe('יום כיפור קטן');
 });
 
 test('memo and flags', () => {
