@@ -478,6 +478,9 @@ msgstr "רֹאשׁ חוֹדֶשׁ סִיוָן"
 msgid "Rosh Chodesh Tamuz"
 msgstr "רֹאשׁ חוֹדֶשׁ תַּמּוּז"
 
+msgid "Rosh Chodesh Tammuz"
+msgstr "רֹאשׁ חוֹדֶשׁ תַּמּוּז"
+
 msgid "Rosh Chodesh Tevet"
 msgstr "רֹאשׁ חוֹדֶשׁ טֵבֵת"
 
