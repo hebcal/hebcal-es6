@@ -68,7 +68,7 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.2",
     "@vitest/coverage-v8": "^4.0.14",
     "core-js": "^3.47.0",
     "gettext-parser": "^8.0.0",
