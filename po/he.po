@@ -71,7 +71,7 @@ msgid "Ha'azinu"
 msgstr "הַאֲזִינוּ"
 
 msgid "Kedoshim"
-msgstr "קְדשִׁים"
+msgstr "קְדֹשִׁים"
 
 msgid "Ki Tavo"
 msgstr "כִּי־תָבוֹא"
