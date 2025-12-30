@@ -19,7 +19,6 @@ const YOM_TOV_ENDS = flags.YOM_TOV_ENDS;
 const CHUL_ONLY = flags.CHUL_ONLY;
 const IL_ONLY = flags.IL_ONLY;
 const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
-const CHANUKAH_CANDLES = flags.CHANUKAH_CANDLES;
 const MAJOR_FAST = flags.MAJOR_FAST;
 const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
 const EREV = flags.EREV;

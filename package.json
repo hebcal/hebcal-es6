@@ -61,25 +61,28 @@
     "coverage": "vitest --coverage",
     "test": "vitest",
     "clean": "gts clean",
-    "fix": "gts fix"
+    "fix": "gts fix",
+    "compile": "tsc",
+    "prepare": "npm run compile",
+    "posttest": "npm run lint"
   },
   "license": "GPL-2.0",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^24.10.1",
-    "@vitest/coverage-v8": "^4.0.14",
+    "@types/node": "^25.0.3",
+    "@vitest/coverage-v8": "^4.0.16",
     "core-js": "^3.47.0",
-    "gettext-parser": "^8.0.0",
+    "gettext-parser": "^9.0.0",
     "gts": "^6.0.2",
     "pretty-bytes": "^7.1.0",
-    "rollup": "^4.53.3",
+    "rollup": "^4.54.0",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-visualizer": "^6.0.5",
-    "typedoc": "^0.28.14",
+    "typedoc": "^0.28.15",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.14"
+    "vitest": "^4.0.16"
   },
   "dependencies": {
     "@hebcal/hdate": "^0.21.1",
