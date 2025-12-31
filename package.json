@@ -75,7 +75,7 @@
     "@vitest/coverage-v8": "^4.0.16",
     "core-js": "^3.47.0",
     "gettext-parser": "^9.0.0",
-    "gts": "^6.0.2",
+    "gts": "^7.0.0",
     "pretty-bytes": "^7.1.0",
     "rollup": "^4.54.0",
     "rollup-plugin-bundle-size": "^1.0.3",
