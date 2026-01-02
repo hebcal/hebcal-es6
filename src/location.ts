@@ -173,6 +173,9 @@ export class Location extends GeoLocation {
       throw new RangeError('Invalid timezone');
     }
     const elev = typeof elevation === 'number' && elevation > 0 ? elevation : 0;
+    if (cityName && typeof cityName !== 'string') {
+      cityName = String(cityName);
+    }
     super(cityName || null, lat, long, elev, tzid);
     this.il = Boolean(il);
     this.cc = countryCode;
