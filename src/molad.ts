@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {Event, flags} from './event';
 import {CalOptions} from './CalOptions';
 import {HDate, Locale, molad, Molad as MoladBase, pad2} from '@hebcal/hdate';

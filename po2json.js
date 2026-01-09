@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 import fs from 'fs';
 import path from 'path';
 import {po} from 'gettext-parser';

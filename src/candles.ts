@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {HDate, months} from '@hebcal/hdate';
 import {CalOptions} from './CalOptions';
 import {Location} from './location';

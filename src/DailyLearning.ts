@@ -2,7 +2,7 @@ import {HDate} from '@hebcal/hdate';
 import {Event} from './event';
 
 type LearningCalendar = {
-  fn: Function;
+  fn: (hd: HDate, il: boolean) => Event | null;
   startDate?: HDate;
 };
 const cals = new Map<string, LearningCalendar>();
@@ -19,7 +19,11 @@ export class DailyLearning {
    * @param calendar a function that returns an `Event` or `null`
    * @param startDate the first date for which this calendar is valid
    */
-  static addCalendar(name: string, calendar: Function, startDate?: HDate) {
+  static addCalendar(
+    name: string,
+    calendar: (hd: HDate, il: boolean) => Event | null,
+    startDate?: HDate
+  ) {
     if (typeof calendar !== 'function') {
       throw new TypeError(`Invalid calendar function: ${calendar}`);
     }
