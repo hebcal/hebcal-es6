@@ -71,23 +71,22 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^25.0.10",
-    "@vitest/coverage-v8": "^4.0.17",
+    "@types/node": "^25.2.3",
+    "@vitest/coverage-v8": "^4.0.18",
     "gettext-parser": "^9.0.1",
     "gts": "^7.0.0",
     "pretty-bytes": "^7.1.0",
-    "rollup": "^4.55.3",
+    "rollup": "^4.57.1",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-visualizer": "^6.0.5",
-    "typedoc": "^0.28.16",
+    "typedoc": "^0.28.17",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.17"
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "@hebcal/hdate": "^0.21.1",
     "@hebcal/noaa": "^0.9.2",
     "quick-lru": "^7.3.0",
-    "temporal-polyfill": "^0.3.0",
-    "tslib": "^2.8.1"
+    "temporal-polyfill": "^0.3.0"
   }
 }
