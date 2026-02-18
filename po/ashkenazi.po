@@ -166,9 +166,27 @@ msgstr "Shabbos Shirah"
 msgid "Asara B'Tevet"
 msgstr "Asara B’Teves"
 
+msgid "Birkat Hachamah"
+msgstr "Birkas HaChamah"
+
+msgid "Birkat HaChamah"
+msgstr "Birkas HaChamah"
+
+msgid "Shushan Purim Katan"
+msgstr "Shushan Purim Koton"
+
 # hebcal/hebcal zmanim (unused by hebcal/hebcal-es6)
 msgid "Alot HaShachar"
 msgstr "Alos HaShachar"
+
+msgid "Misheyakir"
+msgstr "Misheyakir"
+
+msgid "Misheyakir Machmir"
+msgstr "Misheyakir Machmir"
+
+msgid "Sunrise"
+msgstr "Sunrise"
 
 msgid "Kriat Shema, sof zeman"
 msgstr "Krias Shema, sof zman"
@@ -179,20 +197,38 @@ msgstr "Tefilah, sof zman"
 msgid "Kriat Shema, sof zeman (MGA)"
 msgstr "Krias Shema, sof zman (MGA)"
 
+msgid "Kriat Shema, sof zeman (GRA)"
+msgstr "Krias Shema, sof zman (GRA)"
+
 msgid "Tefilah, sof zeman (MGA)"
 msgstr "Tefilah, sof zman (MGA)"
+
+msgid "Tefilah, sof zeman (GRA)"
+msgstr "Tefilah, sof zman (GRA)"
 
 msgid "Chatzot HaLailah"
 msgstr "Chatzos HaLailah"
 
+msgid "Chatzot HaYom"
+msgstr "Chatzos"
+
 msgid "Chatzot hayom"
 msgstr "Chatzos"
 
+msgid "Mincha Gedolah"
+msgstr "Mincha Gedolah"
+
+msgid "Mincha Ketanah"
+msgstr "Mincha Ketanah"
+
+msgid "Plag HaMincha"
+msgstr "Plag HaMincha"
+
+msgid "Sunset"
+msgstr "Sunset"
+
+msgid "Bein HaShemashot"
+msgstr "Bein HaShemashos"
+
 msgid "Tzeit HaKochavim"
 msgstr "Tzeis HaKochavim"
-
-msgid "Birkat Hachamah"
-msgstr "Birkas Hachamah"
-
-msgid "Shushan Purim Katan"
-msgstr "Shushan Purim Koton"

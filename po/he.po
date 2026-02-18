@@ -564,6 +564,9 @@ msgstr "יוֹם הַשָׂפָה הַעִברִית"
 msgid "Birkat Hachamah"
 msgstr "בִּרְכַּת הַחַמָּה"
 
+msgid "Birkat HaChamah"
+msgstr "בִּרְכַּת הַחַמָּה"
+
 msgid "Shushan Purim Katan"
 msgstr "שׁוּשָׁן פּוּרִים קָטָן"
 
@@ -578,3 +581,61 @@ msgstr "מוֹלָד הָלְּבָנָה"
 
 msgid "chalakim"
 msgstr "חֲלָקִים"
+
+# hebcal/hebcal zmanim (unused by hebcal/hebcal-es6)
+msgid "Alot HaShachar"
+msgstr "עֲלוֹת הַשַּׁחַר"
+
+msgid "Misheyakir"
+msgstr "מִשֶּׁיַּכִּיר"
+
+msgid "Misheyakir Machmir"
+msgstr "מִשֶּׁיַּכִּיר מַחְמִיר"
+
+msgid "Sunrise"
+msgstr "נֵץ הַחַמָּה"
+
+msgid "Kriat Shema, sof zeman"
+msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע"
+
+msgid "Tefilah, sof zeman"
+msgstr "סוֹף זְמַן תְּפִלָּה"
+
+msgid "Kriat Shema, sof zeman (MGA)"
+msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע (מג״א)"
+
+msgid "Kriat Shema, sof zeman (GRA)"
+msgstr "סוֹף זְמַן קְרִיאַת שְׁמַע (גְּרָ״א)"
+
+msgid "Tefilah, sof zeman (MGA)"
+msgstr "סוֹף זְמַן תְּפִלָּה (מג״א)"
+
+msgid "Tefilah, sof zeman (GRA)"
+msgstr "סוֹף זְמַן תְּפִלָּה (גְּרָ״א)"
+
+msgid "Chatzot HaLailah"
+msgstr "חֲצוֹת הַלַּיְלָה"
+
+msgid "Chatzot HaYom"
+msgstr "חֲצוֹת הַיּוֹם"
+
+msgid "Chatzot hayom"
+msgstr "חֲצוֹת הַיּוֹם"
+
+msgid "Mincha Gedolah"
+msgstr "מִנְחָה גְּדוֹלָה"
+
+msgid "Mincha Ketanah"
+msgstr "מִנְחָה קְטַנָּה"
+
+msgid "Plag HaMincha"
+msgstr "פְּלַג הַמִּנְחָה"
+
+msgid "Sunset"
+msgstr "שְׁקִיעַת הַחַמָּה"
+
+msgid "Bein HaShemashot"
+msgstr "בֵּין הַשְּׁמָשׁוֹת"
+
+msgid "Tzeit HaKochavim"
+msgstr "צֵאת הַכּוֹכָבִים"
