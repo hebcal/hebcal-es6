@@ -78,7 +78,7 @@
     "pretty-bytes": "^7.1.0",
     "rollup": "^4.57.1",
     "rollup-plugin-bundle-size": "^1.0.3",
-    "rollup-plugin-visualizer": "^6.0.5",
+    "rollup-plugin-visualizer": "^7.0.0",
     "typedoc": "^0.28.17",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
