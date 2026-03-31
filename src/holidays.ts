@@ -86,7 +86,7 @@ const ADAR_II = months.ADAR_II;
 
 const emojiIsraelFlag = {emoji: '🇮🇱'} as const;
 export type HolidayYearMap = Map<string, HolidayEvent[]>;
-const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 400});
+const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 120});
 
 /**
  * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by

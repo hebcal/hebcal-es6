@@ -686,7 +686,7 @@ types['1311'] = types['1221'];
  * Kislev each have 30 days), and has Passover start on Thursday. */
 types['1721'] = types['170'];
 
-const sedraCache = new QuickLRU<string, Sedra>({maxSize: 400});
+const sedraCache = new QuickLRU<string, Sedra>({maxSize: 120});
 
 /**
  * Convenience function to create an instance of `Sedra` or reuse a previously
