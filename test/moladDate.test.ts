@@ -2,7 +2,13 @@
 import {expect, test} from 'vitest';
 import {months, monthsInYear} from '@hebcal/hdate';
 import {makeMolad} from '../src/moladBase';
-import {getMoladAsDate} from '../src/moladDate';
+import {
+  getMoladAsDate,
+  getSofZmanKidushLevana15Days,
+  getSofZmanKidushLevanaBetweenMoldos,
+  getTchilasZmanKidushLevana3Days,
+  getTchilasZmanKidushLevana7Days,
+} from '../src/moladDate';
 
 interface ExpectedRecord {
   year: number;
@@ -90,12 +96,10 @@ test('molad for years 5786 and 5787 match Java reference output', () => {
       const zdt1 = getMoladAsDate(molad);
       // console.log(zdt1.toString());
       expect(toUtcString(zdt1)).toBe(exp.moladAsDate);
-      /*
-      expect(toUtcString(getTchilasZmanKidushLevana3Days(year, month))).toBe(exp.tchilasZmanKidushLevana3Days);
-      expect(toUtcString(getTchilasZmanKidushLevana7Days(year, month))).toBe(exp.tchilasZmanKidushLevana7Days);
-      expect(toUtcString(getSofZmanKidushLevanaBetweenMoldos(year, month))).toBe(exp.sofZmanKidushLevanaBetweenMoldos);
-      expect(toUtcString(getSofZmanKidushLevana15Days(year, month))).toBe(exp.sofZmanKidushLevana15Days);
-      */
+      expect(toUtcString(getTchilasZmanKidushLevana3Days(molad))).toBe(exp.tchilasZmanKidushLevana3Days);
+      expect(toUtcString(getTchilasZmanKidushLevana7Days(molad))).toBe(exp.tchilasZmanKidushLevana7Days);
+      expect(toUtcString(getSofZmanKidushLevanaBetweenMoldos(molad))).toBe(exp.sofZmanKidushLevanaBetweenMoldos);
+      expect(toUtcString(getSofZmanKidushLevana15Days(molad))).toBe(exp.sofZmanKidushLevana15Days);
     }
   }
 });

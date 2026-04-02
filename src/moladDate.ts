@@ -71,3 +71,97 @@ export function getMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
   // console.log('Molad time in standard time: ' + zdt2.toString());
   return zdt2;
 }
+
+/**
+ * Returns the earliest time of <em>Kiddush Levana</em> calculated as 3 days after the molad. This method returns the time
+ * even if it is during the day when <em>Kiddush Levana</em> can't be said. Callers of this method should consider
+ * displaying the next <em>tzais</em> if the zman is between <em>alos</em> and <em>tzais</em>.
+ *
+ * @return the Date representing the moment 3 days after the molad.
+ *
+ * @see ComplexZmanimCalendar#getTchilasZmanKidushLevana3Days()
+ * @see ComplexZmanimCalendar#getTchilasZmanKidushLevana3Days(Date, Date)
+ */
+export function getTchilasZmanKidushLevana3Days(
+  m: MoladBase
+): Temporal.ZonedDateTime {
+  const molad: Temporal.ZonedDateTime = getMoladAsDate(m);
+
+  return molad.add({hours: 72});
+}
+
+/**
+ * Returns the earliest time of Kiddush Levana calculated as 7 days after the molad as mentioned by the <a
+ * href="https://en.wikipedia.org/wiki/Yosef_Karo">Mechaber</a>. See the <a
+ * href="https://en.wikipedia.org/wiki/Yoel_Sirkis">Bach's</a> opinion on this time. This method returns the time
+ * even if it is during the day when <em>Kiddush Levana</em> can't be said. Callers of this method should consider
+ * displaying the next <em>tzais</em> if the zman is between <em>alos</em> and <em>tzais</em>.
+ *
+ * @return the Date representing the moment 7 days after the molad.
+ *
+ * @see ComplexZmanimCalendar#getTchilasZmanKidushLevana7Days()
+ * @see ComplexZmanimCalendar#getTchilasZmanKidushLevana7Days(Date, Date)
+ */
+export function getTchilasZmanKidushLevana7Days(
+  m: MoladBase
+): Temporal.ZonedDateTime {
+  const molad: Temporal.ZonedDateTime = getMoladAsDate(m);
+
+  return molad.add({hours: 168});
+}
+
+/**
+ * Returns the latest time of Kiddush Levana according to the <a
+ * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> opinion that it is calculated as
+ * halfway between molad and molad. This adds half the 29 days, 12 hours and 793 chalakim time between molad and
+ * molad (14 days, 18 hours, 22 minutes and 666 milliseconds) to the month's molad. This method returns the time
+ * even if it is during the day when <em>Kiddush Levana</em> can't be said. Callers of this method should consider
+ * displaying <em>alos</em> before this time if the zman is between <em>alos</em> and <em>tzais</em>.
+ *
+ * @return the Date representing the moment halfway between molad and molad.
+ *
+ * @see #getSofZmanKidushLevana15Days()
+ * @see ComplexZmanimCalendar#getSofZmanKidushLevanaBetweenMoldos()
+ * @see ComplexZmanimCalendar#getSofZmanKidushLevanaBetweenMoldos(Date, Date)
+ */
+export function getSofZmanKidushLevanaBetweenMoldos(
+  m: MoladBase
+): Temporal.ZonedDateTime {
+  const molad: Temporal.ZonedDateTime = getMoladAsDate(m);
+
+  // add half the time between molad and molad (half of 29 days, 12 hours and 793 chalakim (44 minutes, 3.3
+  // seconds), or 14 days, 18 hours, 22 minutes and 666 milliseconds). Add it as hours, not days, to avoid
+  // DST/ST crossover issues.
+  return molad.add({
+    hours: 24 * 14 + 18,
+    minutes: 22,
+    seconds: 1,
+    milliseconds: 666,
+  });
+}
+
+/**
+ * Returns the latest time of Kiddush Levana calculated as 15 days after the molad. This is the opinion brought down
+ * in the Shulchan Aruch (Orach Chaim 426). It should be noted that some opinions hold that the
+ * <a href="https://en.wikipedia.org/wiki/Moses_Isserles">Rema</a> who brings down the opinion of the <a
+ * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> of calculating
+ * {@link #getSofZmanKidushLevanaBetweenMoldos() half way between molad and mold} is of the opinion that Mechaber
+ * agrees to his opinion. Also see the Aruch Hashulchan. For additional details on the subject, See Rabbi Dovid
+ * Heber's very detailed writeup in Siman Daled (chapter 4) of <a
+ * href="https://www.worldcat.org/oclc/461326125">Shaarei Zmanim</a>. This method returns the time even if it is during
+ * the day when <em>Kiddush Levana</em> can't be said. Callers of this method should consider displaying <em>alos</em>
+ * before this time if the zman is between <em>alos</em> and <em>tzais</em>.
+ *
+ * @return the Date representing the moment 15 days after the molad.
+ * @see #getSofZmanKidushLevanaBetweenMoldos()
+ * @see ComplexZmanimCalendar#getSofZmanKidushLevana15Days()
+ * @see ComplexZmanimCalendar#getSofZmanKidushLevana15Days(Date, Date)
+ */
+export function getSofZmanKidushLevana15Days(
+  m: MoladBase
+): Temporal.ZonedDateTime {
+  const molad: Temporal.ZonedDateTime = getMoladAsDate(m);
+
+  // 15 days after the molad. Add it as hours, not days, to avoid DST/ST crossover issues.
+  return molad.add({hours: 24 * 15});
+}
