@@ -1,14 +1,9 @@
 /* eslint-disable max-len */
 import {expect, test} from 'vitest';
 import {months, monthsInYear} from '@hebcal/hdate';
-import {makeMolad} from '../src/moladBase';
-import {
-  getMoladAsDate,
-  getSofZmanKidushLevana15Days,
-  getSofZmanKidushLevanaBetweenMoldos,
-  getTchilasZmanKidushLevana3Days,
-  getTchilasZmanKidushLevana7Days,
-} from '../src/moladDate';
+import {calculateMolad} from '../src/moladBase';
+import {getMoladAsDate} from '../src/moladDate';
+import {Molad} from '../src/molad';
 
 interface ExpectedRecord {
   year: number;
@@ -76,7 +71,7 @@ test('molad for years 5786 and 5787 match Java reference output', () => {
     for (let month = months.NISAN; month < numMonths; month++) {
       const exp = EXPECTED[`${year}-${month}`];
 
-      const molad = makeMolad(year, month);
+      const molad = calculateMolad(year, month);
       // console.log(exp);
       // console.log(molad);
 
@@ -96,16 +91,17 @@ test('molad for years 5786 and 5787 match Java reference output', () => {
       const zdt1 = getMoladAsDate(molad);
       // console.log(zdt1.toString());
       expect(toUtcString(zdt1)).toBe(exp.moladAsDate);
-      expect(toUtcString(getTchilasZmanKidushLevana3Days(molad))).toBe(exp.tchilasZmanKidushLevana3Days);
-      expect(toUtcString(getTchilasZmanKidushLevana7Days(molad))).toBe(exp.tchilasZmanKidushLevana7Days);
-      expect(toUtcString(getSofZmanKidushLevanaBetweenMoldos(molad))).toBe(exp.sofZmanKidushLevanaBetweenMoldos);
-      expect(toUtcString(getSofZmanKidushLevana15Days(molad))).toBe(exp.sofZmanKidushLevana15Days);
+      const m = new Molad(year, month);
+      expect(toUtcString(m.getTchilasZmanKidushLevana3Days())).toBe(exp.tchilasZmanKidushLevana3Days);
+      expect(toUtcString(m.getTchilasZmanKidushLevana7Days())).toBe(exp.tchilasZmanKidushLevana7Days);
+      expect(toUtcString(m.getSofZmanKidushLevanaBetweenMoldos())).toBe(exp.sofZmanKidushLevanaBetweenMoldos);
+      expect(toUtcString(m.getSofZmanKidushLevana15Days())).toBe(exp.sofZmanKidushLevana15Days);
     }
   }
 });
 
 test('getMoladAsDate', () => {
-  const molad = makeMolad(5787, months.TAMUZ);
+  const molad = calculateMolad(5787, months.TAMUZ);
   const zdt = getMoladAsDate(molad);
   // Molad Tamuz: Sunday, 4:19am and 11 chalakim
   // July 3, 2027 at 23:58:40 Etc/GMT+2

@@ -25,28 +25,28 @@ export type MoladBase = {
  */
 const JEWISH_EPOCH: number = -1373429;
 
-/** The number  of <em>chalakim</em> (18) in a minute. */
+/** The number of _chalakim_ (18) in a minute. */
 const CHALAKIM_PER_MINUTE: number = 18;
 
-/** The number  of <em>chalakim</em> (1080) in an hour. */
+/** The number of _chalakim_ (1080) in an hour. */
 const CHALAKIM_PER_HOUR: number = 1080;
 
-/** The number of <em>chalakim</em> (25,920) in a 24-hour day. */
+/** The number of _chalakim_ (25,920) in a 24-hour day. */
 const CHALAKIM_PER_DAY: number = 25920; // 24 * 1080
 
-/** The number  of <em>chalakim</em> in an average Jewish month. A month has 29 days, 12 hours and 793
- * <em>chalakim</em> (44 minutes and 3.3 seconds) for a total of 765,433 <em>chalakim</em> */
+/** The number of _chalakim_ in an average Jewish month. A month has 29 days, 12 hours and 793
+ * _chalakim_ (44 minutes and 3.3 seconds) for a total of 765,433 _chalakim_ */
 const CHALAKIM_PER_MONTH: number = 765433; // (29 * 24 + 12) * 1080 + 793
 
 /**
- * Days from the beginning of Sunday till <em>molad BaHaRaD</em>. Calculated as 1 day, 5 hours and 204 <em>chalakim</em> =
+ * Days from the beginning of Sunday till _molad BaHaRaD_. Calculated as 1 day, 5 hours and 204 _chalakim_ =
  * (24 + 5) * 1080 + 204 = 31524
  */
 const CHALAKIM_MOLAD_TOHU: number = 31524;
 
 /**
  * Converts the NISSAN-based constants used by this class to numeric month starting from
- * TISHREI. This is required for <em>molad</em> calculations.
+ * TISHREI. This is required for _molad_ calculations.
  */
 function getJewishMonthOfYear(year: number, month: number): number {
   const leap: boolean = isLeapYear(year);
@@ -54,8 +54,8 @@ function getJewishMonthOfYear(year: number, month: number): number {
 }
 
 /**
- * Returns the number of <em>chalakim</em> (parts - 1080 to the hour) from
- * the original hypothetical <em>Molad Tohu</em> to the year and month
+ * Returns the number of _chalakim_ (parts - 1080 to the hour) from
+ * the original hypothetical _Molad Tohu_ to the year and month
  * passed in.
  */
 function getChalakimSinceMoladTohu(year: number, month: number): number {
@@ -73,14 +73,14 @@ function getChalakimSinceMoladTohu(year: number, month: number): number {
 
 /**
  * Returns the number of days from the Jewish epoch from the number of chalakim from the epoch passed in.
- * @param chalakim the number of <em>chalakim</em> since the beginning of Sunday prior to BaHaRaD
+ * @param chalakim the number of _chalakim_ since the beginning of Sunday prior to BaHaRaD
  * @return the number of days from the Jewish epoch
  */
 function moladToAbsDate(chalakim: number): number {
   return Math.trunc(chalakim / CHALAKIM_PER_DAY) + JEWISH_EPOCH;
 }
 
-export function makeMolad(year: number, month: number): MoladBase {
+export function calculateMolad(year: number, month: number): MoladBase {
   const chalakim = getChalakimSinceMoladTohu(year, month);
   const absDate = moladToAbsDate(chalakim);
   let hd = new HDate(absDate);

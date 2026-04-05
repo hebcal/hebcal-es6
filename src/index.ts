@@ -20,14 +20,8 @@ export {Zmanim} from './zmanim';
 export {isAssurBemlacha} from './isAssurBemlacha';
 export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
 export {FastDayEvent, TimedChanukahEvent} from './candles';
-export {MoladBase, makeMolad} from './moladBase';
-export {
-  getMoladAsDate,
-  getSofZmanKidushLevana15Days,
-  getSofZmanKidushLevanaBetweenMoldos,
-  getTchilasZmanKidushLevana3Days,
-  getTchilasZmanKidushLevana7Days,
-} from './moladDate';
+export {MoladBase, calculateMolad} from './moladBase';
+export {getMoladAsDate} from './moladDate';
 export {Molad, MoladEvent} from './molad';
 export {OmerEvent, OmerLang} from './omer';
 export {TachanunResult} from './tachanun';

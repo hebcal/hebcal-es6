@@ -1,10 +1,11 @@
 {
   "name": "@hebcal/core",
-  "version": "6.0.9",
+  "version": "6.1.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
     "Danny Sadinoff (https://github.com/dsadinoff)",
+    "Eliyahu Hershfeld (https://github.com/KosherJava)",
     "Yisroel Yakovson (https://github.com/YizYah)",
     "Schabse Laks (https://github.com/SLaks)",
     "Benny Powers (https://github.com/bennypowers)"
