@@ -7,6 +7,7 @@ import {
   isDate,
   pad2,
 } from '@hebcal/hdate';
+import {Molad} from './molad';
 
 /**
  * @private
@@ -53,7 +54,7 @@ function getDate(date: Date | HDate): Date {
  * const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
  */
 export class Zmanim {
-  private readonly date: Date;
+  private readonly plainDate: Temporal.PlainDate;
   private readonly gloc: GeoLocation;
   private readonly noaa: NOAACalculator;
   private useElevation: boolean;
@@ -70,14 +71,13 @@ export class Zmanim {
    */
   constructor(gloc: GeoLocation, date: Date | HDate, useElevation: boolean) {
     const dt = getDate(date);
-    this.date = dt;
-    this.gloc = gloc;
-    const plainDate = Temporal.PlainDate.from({
+    this.plainDate = Temporal.PlainDate.from({
       year: dt.getFullYear(),
       month: dt.getMonth() + 1,
       day: dt.getDate(),
     });
-    this.noaa = new NOAACalculator(gloc, plainDate);
+    this.gloc = gloc;
+    this.noaa = new NOAACalculator(gloc, this.plainDate);
     this.useElevation = Boolean(useElevation);
   }
   /**
@@ -167,8 +167,8 @@ export class Zmanim {
    * If elevation is enabled, this function will include elevation in the calculation.
    */
   gregEve(): Date {
-    const prev = new Date(this.date);
-    prev.setDate(prev.getDate() - 1);
+    const prev0 = this.plainDate.subtract({days: 1});
+    const prev = new Date(prev0.year, prev0.month - 1, prev0.day);
     const zman = new Zmanim(this.gloc, prev, this.useElevation);
     return zman.sunset();
   }
@@ -451,6 +451,293 @@ export class Zmanim {
     }
     return new Date(millis - 13.5 * 60 * 1000);
   }
+
+  /**
+   * Used by Molad based _zmanim_ to determine if _zmanim_ occur during the current day.
+   * @return previous midnight
+   */
+  private getMidnightLastNight(): Temporal.ZonedDateTime {
+    // reset hour, minutes, seconds and millis
+    return this.plainDate.toZonedDateTime({
+      timeZone: this.gloc.getTimeZone(),
+    });
+  }
+
+  /**
+   * Used by Molad based _zmanim_ to determine if _zmanim_ occur during the current day.
+   * @return following midnight
+   */
+  private getMidnightTonight(): Temporal.ZonedDateTime {
+    return this.plainDate.add({days: 1}).toZonedDateTime({
+      timeZone: this.gloc.getTimeZone(),
+    });
+  }
+
+  /**
+   * Returns the Date of the _molad_ based time if it occurs on the current date. Since _Kiddush Levana_
+   * can only be said during the day, there are parameters to limit it to between _alos_ and _tzais_. If
+   * the time occurs between _alos_ and _tzais_, _tzais_ will be returned.
+   *
+   * @param moladBasedTime
+   *            the _molad_ based time such as _molad_, _tchilas_ and _sof zman Kiddush Levana_
+   * @param alos
+   *            optional start of day to limit _molad_ times to the end of the night before or beginning of the next night.
+   *            Ignored if either _alos_ or _tzais_ are null.
+   * @param tzais
+   *            optional end of day to limit _molad_ times to the end of the night before or beginning of the next night.
+   *            Ignored if either _tzais_ or _alos_ are null
+   * @param techila
+   *            is it the start of _Kiddush Levana_ time or the end? If it is start roll it to the next _tzais_,
+   *            and if it is the end, return the end of the previous night (_alos_ passed in). Ignored if either
+   *            _alos_ or _tzais_ are null.
+   * @return the _molad_ based time. If the _zman_ does not occur during the current date, <code>null</code> will be
+   *         returned.
+   */
+  private getMoladBasedTime(
+    moladBasedTime: Temporal.ZonedDateTime,
+    alos: Temporal.ZonedDateTime | null,
+    tzais: Temporal.ZonedDateTime | null,
+    techila: boolean
+  ): Temporal.ZonedDateTime | null {
+    const lastMidnight: Temporal.ZonedDateTime = this.getMidnightLastNight();
+    const midnightTonight: Temporal.ZonedDateTime = this.getMidnightTonight();
+
+    if (
+      !(
+        Temporal.ZonedDateTime.compare(moladBasedTime, lastMidnight) < 0 ||
+        Temporal.ZonedDateTime.compare(moladBasedTime, midnightTonight) > 0
+      )
+    ) {
+      if (alos !== null || tzais !== null) {
+        return techila &&
+          !(
+            Temporal.ZonedDateTime.compare(moladBasedTime, tzais!) < 0 ||
+            Temporal.ZonedDateTime.compare(moladBasedTime, alos!) > 0
+          )
+          ? tzais
+          : alos;
+      }
+      return moladBasedTime;
+    }
+    return null;
+  }
+
+  private getHDate(): HDate {
+    const dt = new Date(
+      this.plainDate.year,
+      this.plainDate.month - 1,
+      this.plainDate.day
+    );
+    return new HDate(dt);
+  }
+
+  /**
+   * Returns the latest time of Kiddush Levana according to the <a
+   * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> opinion that it is calculated as
+   * halfway between _molad_ and _molad_. This adds half the 29 days, 12 hours and 793 chalakim time between
+   * _molad_ and _molad_ (14 days, 18 hours, 22 minutes and 666 milliseconds) to the month's _molad_.
+   * The _sof zman Kiddush Levana_ will be returned even if it occurs during the day. To limit the time to between
+   * _tzais_ and _alos_, see {@link #getSofZmanKidushLevanaBetweenMoldos(Date, Date)}.
+   *
+   * @param alos
+   *            the beginning of the Jewish day. If _Kidush Levana_ occurs during the day (starting at _alos_ and
+   *            ending at _tzais_), the time returned will be alos. If either the _alos_ or _tzais_ parameters
+   *            are null, no daytime adjustment will be made.
+   * @param tzais
+   *            the end of the Jewish day. If Kidush Levana occurs during the day (starting at alos and ending at
+   *            tzais), the time returned will be alos. If either the alos or tzais parameters are null, no daytime
+   *            adjustment will be made.
+   * @return the Date representing the moment halfway between molad and molad. If the time occurs between
+   *         _alos_ and _tzais_, _alos_ will be returned. If the _zman_ will not occur on this
+   *         day, a <code>null</code> will be returned.
+   */
+  public getSofZmanKidushLevanaBetweenMoldos(
+    alos: Temporal.ZonedDateTime | null = null,
+    tzais: Temporal.ZonedDateTime | null = null
+  ): Temporal.ZonedDateTime | null {
+    const hd = this.getHDate();
+
+    // Do not calculate for impossible dates, but account for extreme cases. In the extreme case of Rapa Iti in French
+    // Polynesia on Dec 2027 when kiddush Levana 3 days can be said on _Rosh Chodesh_, the sof zman Kiddush Levana
+    // will be on the 12th of the Teves. In the case of Anadyr, Russia on Jan, 2071, sof zman Kiddush Levana between the
+    // moldos will occur is on the night of 17th of Shevat. See Rabbi Dovid Heber's Shaarei Zmanim chapter 4 (pages 28 and 32).
+    if (hd.getDate() < 11 || hd.getDate() > 16) {
+      return null;
+    }
+    const molad = new Molad(hd.getFullYear(), hd.getMonth());
+    return this.getMoladBasedTime(
+      molad.getSofZmanKidushLevanaBetweenMoldos(),
+      alos,
+      tzais,
+      false
+    );
+  }
+
+  /**
+   * Returns the latest time of _Kiddush Levana_ calculated as 15 days after the molad. This is the opinion of
+   * the Shulchan Aruch (Orach Chaim 426). It should be noted that some opinions hold that the
+   * <a href="https://en.wikipedia.org/wiki/Moses_Isserles">Rema</a> who brings down the opinion of the <a
+   * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> of calculating
+   * {@link #getSofZmanKidushLevanaBetweenMoldos(Date, Date) half way between _molad_ and _molad_} is of
+   * the opinion that the Mechaber agrees to his opinion. Also see the Aruch Hashulchan. For additional details on the subject,
+   * See Rabbi Dovid Heber's very detailed write-up in Siman Daled (chapter 4) of <a href="https://hebrewbooks.org/53000">Shaarei
+   * Zmanim</a>. The _sof zman Kiddush Levana_ will be returned even if it occurs during the day. To limit the time to
+   * between _tzais_ and _alos_, see {@link #getSofZmanKidushLevana15Days(Date, Date)}.
+   *
+   * @return the Date representing the moment 15 days after the _molad_. If the time occurs between
+   *         _alos_ and _tzais_, _alos_ will be returned. If the _zman_ will not occur on this day, a
+   *         <code>null</code> will be returned.
+   *
+   *
+   */
+  public getSofZmanKidushLevana15Days(
+    alos: Temporal.ZonedDateTime | null = null,
+    tzais: Temporal.ZonedDateTime | null = null
+  ): Temporal.ZonedDateTime | null {
+    const hd = this.getHDate();
+
+    // Do not calculate for impossible dates, but account for extreme cases. In the extreme case of Rapa Iti in
+    // French Polynesia on Dec 2027 when kiddush Levana 3 days can be said on _Rosh Chodesh_, the sof zman Kiddush
+    // Levana will be on the 12th of the Teves. in the case of Anadyr, Russia on Jan, 2071, sof zman kiddush levana will
+    // occur after midnight on the 17th of Shevat. See Rabbi Dovid Heber's Shaarei Zmanim chapter 4 (pages 28 and 32).
+    if (hd.getDate() < 11 || hd.getDate() > 17) {
+      return null;
+    }
+    const molad = new Molad(hd.getFullYear(), hd.getMonth());
+    return this.getMoladBasedTime(
+      molad.getSofZmanKidushLevana15Days(),
+      alos,
+      tzais,
+      false
+    );
+  }
+
+  /**
+   * Returns the earliest time of _Kiddush Levana_ according to <a href=
+   * "https://en.wikipedia.org/wiki/Yonah_Gerondi">Rabbeinu Yonah</a>'s opinion that it can be said 3 days after the _molad_.
+   * If the time of _tchilas zman Kiddush Levana_ occurs during the day (between _alos_ and _tzais_ passed to
+   * this method) it will return the following _tzais_. If null is passed for either _alos_ or _tzais_, the actual
+   * _tchilas zman Kiddush Levana_ will be returned, regardless of if it is during the day or not.
+   *
+   * @param alos
+   *            the beginning of the Jewish day. If Kidush Levana occurs during the day (starting at _alos_ and ending
+   *            at _tzais_), the time returned will be _tzais_. If either the _alos_ or _tzais_ parameters
+   *            are null, no daytime adjustment will be made.
+   * @param tzais
+   *            the end of the Jewish day. If _Kidush Levana_ occurs during the day (starting at _alos_ and ending at
+   *            _tzais_), the time returned will be _tzais_. If either the _alos_ or _tzais_ parameters
+   *            are null, no daytime adjustment will be made.
+   *
+   * @return the Date representing the moment 3 days after the molad. If the time occurs between _alos_ and
+   *         _tzais_, _tzais_ will be returned. If the _zman_ will not occur on this day, a
+   *         <code>null</code> will be returned.
+   */
+  public getTchilasZmanKidushLevana3Days(
+    alos: Temporal.ZonedDateTime | null = null,
+    tzais: Temporal.ZonedDateTime | null = null
+  ): Temporal.ZonedDateTime | null {
+    const hd = this.getHDate();
+
+    // Do not calculate for impossible dates, but account for extreme cases. Tchilas zman kiddush Levana 3 days for
+    // the extreme case of Rapa Iti in French Polynesia on Dec 2027 when kiddush Levana 3 days can be said on the evening
+    // of the 30th, the second night of Rosh Chodesh. The 3rd day after the _molad_ will be on the 4th of the month.
+    // In the case of Anadyr, Russia on Jan, 2071, when sof zman kiddush levana is on the 17th of the month, the 3rd day
+    // from the molad will be on the 5th day of Shevat. See Rabbi Dovid Heber's Shaarei Zmanim chapter 4 (pages 28 and 32).
+    if (hd.getDate() > 5 && hd.getDate() < 30) {
+      return null;
+    }
+
+    const molad = new Molad(hd.getFullYear(), hd.getMonth());
+    let zman: Temporal.ZonedDateTime | null = this.getMoladBasedTime(
+      molad.getTchilasZmanKidushLevana3Days(),
+      alos,
+      tzais,
+      true
+    );
+
+    // Get the following month's zman kiddush Levana for the extreme case of Rapa Iti in French Polynesia on Dec 2027 when
+    // kiddush Levana can be said on Rosh Chodesh (the evening of the 30th). See Rabbi Dovid Heber's Shaarei Zmanim chapter 4 (page 32)
+    if (zman === null && hd.getDate() === 30) {
+      const hd2 = hd.add(1, 'week');
+      const molad2 = new Molad(hd2.getFullYear(), hd2.getMonth());
+      zman = this.getMoladBasedTime(
+        molad2.getTchilasZmanKidushLevana3Days(),
+        null,
+        null,
+        true
+      );
+    }
+
+    return zman;
+  }
+
+  /**
+   * Returns the point in time of _Molad_ as a <code>Date</code> Object. For the traditional day of week, hour,
+   * minute and chalakim, {@link Molad.getInstant()} and the not yet completed
+   * {@link HebrewDateFormatter} that will have formatting for this.
+   *
+   * @return the Date representing the moment of the molad. If the _molad_ does not occur on this day, a
+   *         <code>null</code> will be returned.
+   *
+   */
+  public getZmanMolad(): Temporal.ZonedDateTime | null {
+    const hd = this.getHDate();
+
+    // Optimize to not calculate for impossible dates, but account for extreme cases. The molad in the extreme case of Rapa
+    // Iti in French Polynesia on Dec 2027 occurs on the night of the 27th of Kislev. In the case of Anadyr, Russia on
+    // Jan 2071, the molad will be on the 2nd day of Shevat. See Rabbi Dovid Heber's Shaarei Zmanim chapter 4 (pages 28 and 32).
+    if (hd.getDate() > 2 && hd.getDate() < 27) {
+      return null;
+    }
+
+    const molad = new Molad(hd.getFullYear(), hd.getMonth());
+    let zman: Temporal.ZonedDateTime | null = this.getMoladBasedTime(
+      molad.getInstant(),
+      null,
+      null,
+      true
+    );
+
+    // deal with molad that happens on the end of the previous month
+    if (zman === null && hd.getDate() > 26) {
+      const hd2 = hd.add(1, 'week');
+      const molad2 = new Molad(hd2.getFullYear(), hd2.getMonth());
+      zman = this.getMoladBasedTime(molad2.getInstant(), null, null, true);
+    }
+    return zman;
+  }
+
+  /**
+   * Returns the earliest time of _Kiddush Levana_ according to the opinions that it should not be said until 7
+   * days after the _molad_. The time will be returned even if it occurs during the day when _Kiddush Levana_
+   * can't be recited. Use {@link #getTchilasZmanKidushLevana7Days(Date, Date)} if you want to limit the time to night hours.
+   *
+   * @return the Date representing the moment 7 days after the molad regardless of it is day or night. If the _zman_
+   *         will not occur on this day, a <code>null</code> will be returned.
+   */
+  public getTchilasZmanKidushLevana7Days(
+    alos: Temporal.ZonedDateTime | null = null,
+    tzais: Temporal.ZonedDateTime | null = null
+  ): Temporal.ZonedDateTime | null {
+    const hd = this.getHDate();
+
+    // Optimize to not calculate for impossible dates, but account for extreme cases. Tchilas zman kiddush Levana 7 days for
+    // the extreme case of Rapa Iti in French Polynesia on Jan 2028 (when kiddush Levana 3 days can be said on the evening
+    // of the 30th, the second night of Rosh Chodesh), the 7th day after the molad will be on the 4th of the month.
+    // In the case of Anadyr, Russia on Jan, 2071, when sof zman kiddush levana is on the 17th of the month, the 7th day
+    // from the molad will be on the 9th day of Shevat. See Rabbi Dovid Heber's Shaarei Zmanim chapter 4 (pages 28 and 32).
+    if (hd.getDate() < 4 || hd.getDate() > 9) {
+      return null;
+    }
+    const molad = new Molad(hd.getFullYear(), hd.getMonth());
+    return this.getMoladBasedTime(
+      molad.getTchilasZmanKidushLevana7Days(),
+      alos,
+      tzais,
+      true
+    );
+  }
+
   /**
    * Uses timeFormat to return a date like '20:34'.
    * Returns `XX:XX` if the date is invalid.
