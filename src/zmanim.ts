@@ -209,6 +209,16 @@ export class Zmanim {
   alotHaShachar72(): Date {
     return this.sunriseOffset(-72, false, false);
   }
+  alotHaShachar72zdt(): Temporal.ZonedDateTime | null {
+    const zdt = this.useElevation
+      ? this.noaa.getSunrise()
+      : this.noaa.getSeaLevelSunrise();
+    if (!zdt) {
+      return null;
+    }
+    return zdt.subtract({minutes: 72});
+  }
+
   /**
    * Earliest talis & tefillin – Misheyakir; Sun is 11.5° below the horizon in the morning.
    * Because degree-based functions estimate the amount of light in the sky,
@@ -422,6 +432,15 @@ export class Zmanim {
    */
   tzeit(angle = 8.5): Date {
     return this.timeAtAngle(angle, false);
+  }
+  tzeit72(): Temporal.ZonedDateTime | null {
+    const zdt = this.useElevation
+      ? this.noaa.getSunset()
+      : this.noaa.getSeaLevelSunset();
+    if (!zdt) {
+      return null;
+    }
+    return zdt.add({minutes: 72});
   }
   /**
    * Alias for sunrise
