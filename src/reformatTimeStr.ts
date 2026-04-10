@@ -30,10 +30,10 @@ export function reformatTimeStr(
     throw new TypeError(`Bad timeStr: ${timeStr}`);
   const cc = options?.location?.getCountryCode() || (options?.il ? 'IL' : 'US');
   const hour12 = options?.hour12;
-  if (typeof hour12 !== 'undefined' && !hour12) {
+  if (hour12 !== undefined && !hour12) {
     return timeStr;
   }
-  if (!hour12 && typeof hour12cc[cc] === 'undefined') {
+  if (!hour12 && hour12cc[cc] === undefined) {
     return timeStr;
   }
   const hm = timeStr.split(':');

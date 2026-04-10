@@ -15,7 +15,7 @@ function getAbs(d: Date | HDate | number): number {
 }
 
 function getYear(options: CalOptions): number {
-  if (typeof options.year !== 'undefined') {
+  if (options.year !== undefined) {
     return Number(options.year);
   }
   return options.isHebrewYear

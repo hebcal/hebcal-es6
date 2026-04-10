@@ -13,6 +13,12 @@ export class HolidayEvent extends Event {
    * - Tzom Tammuz postponed from the 17th to the 18th
    */
   observed?: boolean;
+  constructor(date: HDate, desc: string, mask = 0, attrs?: object) {
+    super(date, desc, mask, attrs);
+    if (typeof attrs === 'object' && attrs !== null) {
+      Object.assign(this, attrs);
+    }
+  }
 
   basename(): string {
     return this.getDesc()

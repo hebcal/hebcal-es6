@@ -32,12 +32,13 @@ function getLocalMeanTimeOffset(
 }
 
 /**
- * Returns the molad in Standard Time in Yerushalayim as a Temporal.ZonedDateTime.
+ * Returns the molad in UTC as a Temporal.ZonedDateTime.
  * This method subtracts 20.94 minutes (20 minutes and 56.496 seconds) from the computed time (Har Habayis with a longitude
  * of 35.2354&deg; is 5.2354&deg; away from the %15 timezone longitude) to get to standard time. This method
  * intentionally uses standard time and not daylight savings time.
  *
- * @return the Date representing the moment of the molad in Yerushalayim standard time (GMT + 2)
+ * @return the ZonedDateTime representing the moment of the molad in UTC
+
  */
 export function getMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
   const moladSeconds: number = (molad.chalakim * 10) / 3;
@@ -61,13 +62,10 @@ export function getMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
     millisecond: millis,
     timeZone: tzid,
   });
-  // console.log('Raw molad time in standard time: ' + zdt.toString());
 
   const longitude: number = 35.2354; // Har Habayis longitude
   const offset = getLocalMeanTimeOffset(dt, longitude, tzid);
-  // console.log('Subtracting local mean time offset of ' + offset + 'ms');
   // subtract local time difference of 20.94 minutes (20 minutes and 56.496 seconds) to get to Standard time
   const zdt2 = zdt.subtract({milliseconds: offset});
-  // console.log('Molad time in standard time: ' + zdt2.toString());
-  return zdt2;
+  return zdt2.withTimeZone('UTC');
 }

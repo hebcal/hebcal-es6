@@ -354,7 +354,7 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
 function warnUnrecognizedOptions(options: CalOptions) {
   for (const k of Object.keys(options)) {
     if (
-      typeof RECOGNIZED_OPTIONS[k] === 'undefined' &&
+      RECOGNIZED_OPTIONS[k] === undefined &&
       !unrecognizedAlreadyWarned.has(k)
     ) {
       console.warn(`Ignoring unrecognized HebrewCalendar option: ${k}`);
@@ -417,7 +417,7 @@ function checkCandleOptions(options: CalOptions) {
     return;
   }
   const location = options.location;
-  if (typeof location === 'undefined' || !(location instanceof Location)) {
+  if (location === undefined || !(location instanceof Location)) {
     throw new TypeError(
       'options.candlelighting requires valid options.location'
     );
@@ -660,8 +660,7 @@ function appendHolidayAndRelated(
   }
   if (
     (isMajorFast || (isMinorFast && !options.noMinorFast)) &&
-    fastEv &&
-    fastEv.endEvent
+    fastEv?.endEvent
   ) {
     events.push(fastEv.endEvent);
   }

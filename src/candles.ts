@@ -22,7 +22,7 @@ export function makeCandleEvent(
   let havdalahTitle = false;
   let useHavdalahOffset = isSaturday;
   let mask = ev ? ev.getFlags() : LIGHT_CANDLES;
-  if (typeof ev !== 'undefined') {
+  if (ev !== undefined) {
     // if linked event && dow == FRI, use Candle lighting time & title
     if (!isFriday) {
       if (mask & (LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {

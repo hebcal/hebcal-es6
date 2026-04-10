@@ -142,7 +142,7 @@ export class Sedra {
       const num = parsha2id.get(parsha);
       if (typeof num === 'number') {
         return this.find(num);
-      } else if (parsha.indexOf('-') !== -1) {
+      } else if (parsha.includes('-')) {
         if (parsha === CHMPESACH || parsha === CHMSUKOT) {
           return this.findInternal(parsha);
         }
@@ -268,7 +268,7 @@ export class Sedra {
     const weekNum = (saturday - this.firstSaturday) / 7;
     const index = this.theSedraArray[weekNum];
 
-    if (typeof index === 'undefined') {
+    if (index === undefined) {
       const sedra = getSedra(this.year + 1, this.il);
       return sedra.lookup(saturday); // must be next year
     }
@@ -372,7 +372,7 @@ for (let id = 0; id < parshiot.length; id++) {
 }
 
 // 0-based parsha IDs
-const doubles = [
+const doubles = new Set([
   21, // Vayakhel-Pekudei
   26, // Tazria-Metzora
   28, // Achrei Mot-Kedoshim
@@ -380,14 +380,14 @@ const doubles = [
   38, // Chukat-Balak
   41, // Matot-Masei
   50, // Nitzavim-Vayeilech
-];
+]);
 
 /**
  * @private
  * @param id a negative number
  */
 function isValidDouble(id: number): boolean {
-  return doubles.includes(-id);
+  return doubles.has(-id);
 }
 
 /**

@@ -522,23 +522,24 @@ export class Zmanim {
     const midnightTonight: Temporal.ZonedDateTime = this.getMidnightTonight();
 
     if (
-      !(
-        Temporal.ZonedDateTime.compare(moladBasedTime, lastMidnight) < 0 ||
-        Temporal.ZonedDateTime.compare(moladBasedTime, midnightTonight) > 0
-      )
+      Temporal.ZonedDateTime.compare(moladBasedTime, lastMidnight) < 0 ||
+      Temporal.ZonedDateTime.compare(moladBasedTime, midnightTonight) > 0
     ) {
-      if (alos !== null || tzais !== null) {
-        return techila &&
-          !(
-            Temporal.ZonedDateTime.compare(moladBasedTime, tzais!) < 0 ||
-            Temporal.ZonedDateTime.compare(moladBasedTime, alos!) > 0
-          )
-          ? tzais
-          : alos;
-      }
-      return moladBasedTime;
+      return null; // Invalid time, bailout
     }
-    return null;
+    if (alos === null || tzais === null) {
+      return moladBasedTime.withTimeZone(this.gloc.getTimeZone()); // Not enough info to adjust
+    }
+    if (
+      Temporal.ZonedDateTime.compare(moladBasedTime, alos) > 0 &&
+      Temporal.ZonedDateTime.compare(moladBasedTime, tzais) < 0
+    ) {
+      // It's the daytime (after alos but before tzais)
+      // get the next/prev night
+      return techila ? tzais : alos;
+    }
+    // It's the night, the provided time is valid
+    return moladBasedTime.withTimeZone(this.gloc.getTimeZone());
   }
 
   private getHDate(): HDate {

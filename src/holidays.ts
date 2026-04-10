@@ -51,7 +51,7 @@ export function getHolidaysOnDate(
   const yearMap = getHolidaysForYear_(hd.getFullYear());
   const events = yearMap.get(hdStr);
   // if il isn't a boolean return both diaspora + IL for day
-  if (typeof il === 'undefined' || typeof events === 'undefined') {
+  if (il === undefined || events === undefined) {
     return events;
   }
   const filtered = events.filter(ev => ev.observedIn(il));

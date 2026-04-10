@@ -55,7 +55,7 @@ function tachanun0(
   const year = hdate.yy;
   const dates = tachanunYear(year, il);
   const abs = hdate.abs();
-  if (dates.none.indexOf(abs) > -1) {
+  if (dates.none.includes(abs)) {
     return NONE;
   }
   const dow = hdate.getDay();
@@ -64,14 +64,14 @@ function tachanun0(
     mincha: false,
     allCongs: false,
   };
-  if (dates.some.indexOf(abs) === -1) {
+  if (!dates.some.includes(abs)) {
     ret.allCongs = true;
   }
   if (dow !== 6) {
     ret.shacharit = true;
   }
   const tomorrow = abs + 1;
-  if (checkNext && dates.yesPrev.indexOf(tomorrow) === -1) {
+  if (checkNext && !dates.yesPrev.includes(tomorrow)) {
     const tmp = tachanun0(new HDate(tomorrow), il, false);
     ret.mincha = tmp.shacharit;
   } else {

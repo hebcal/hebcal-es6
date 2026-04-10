@@ -87,7 +87,7 @@ function omerTodayIsEn(omerDay: number): string {
     const day7: boolean = daysWithinWeeks === 7;
     const numWeeks: number = day7 ? weekNumber : weekNumber - 1;
     const weeksStr: string = numWeeks === 1 ? 'week' : 'weeks';
-    str += `, which is ${numWeeks} ${weeksStr}`;
+    str += `, which are ${numWeeks} ${weeksStr}`;
     if (!day7) {
       const daysStr: string = daysWithinWeeks === 1 ? 'day' : 'days';
       str += ` and ${daysWithinWeeks} ${daysStr}`;
@@ -193,7 +193,6 @@ export class OmerEvent extends Event {
   private readonly weekNumber: number;
   private readonly daysWithinWeeks: number;
   readonly omer: number;
-  emoji?: string;
 
   /**
    * @param date

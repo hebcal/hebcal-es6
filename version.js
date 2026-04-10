@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 
 const inpath = process.argv[2];
 const outpath = process.argv[3];

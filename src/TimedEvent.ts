@@ -32,7 +32,7 @@ export class TimedEvent extends Event {
     this.eventTimeStr = Zmanim.formatTime(this.eventTime, timeFormat);
     const opts = {...options, location};
     this.fmtTime = reformatTimeStr(this.eventTimeStr, 'pm', opts);
-    if (typeof linkedEvent !== 'undefined') {
+    if (linkedEvent !== undefined) {
       this.linkedEvent = linkedEvent;
     }
   }

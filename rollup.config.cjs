@@ -13,7 +13,7 @@ const banner =
   ', distributed under GPLv2 https://www.gnu.org/licenses/gpl-2.0.txt */';
 
 // Override tsconfig.json, which includes ./size-demo.
-const tsOptions = {rootDir: './src'};
+const tsOptions = {rootDir: './src', target: 'es2018'};
 module.exports = defineConfig([
   {
     input: 'src/index.ts',

@@ -84,22 +84,22 @@ test('getTodayIs-en', () => {
   expect(omer.getTodayIs('en')).toBe('Today is 2 days of the Omer');
 
   omer = new OmerEvent(new HDate(22, 'Nisan', 5770), 7);
-  expect(omer.getTodayIs('en')).toBe('Today is 7 days, which is 1 week of the Omer');
+  expect(omer.getTodayIs('en')).toBe('Today is 7 days, which are 1 week of the Omer');
 
   omer = new OmerEvent(new HDate(23, 'Nisan', 5770), 8);
-  expect(omer.getTodayIs('en')).toBe('Today is 8 days, which is 1 week and 1 day of the Omer');
+  expect(omer.getTodayIs('en')).toBe('Today is 8 days, which are 1 week and 1 day of the Omer');
 
   omer = new OmerEvent(new HDate(28, 'Nisan', 5770), 13);
-  expect(omer.getTodayIs('en')).toBe('Today is 13 days, which is 1 week and 6 days of the Omer');
+  expect(omer.getTodayIs('en')).toBe('Today is 13 days, which are 1 week and 6 days of the Omer');
 
   omer = new OmerEvent(new HDate(29, 'Nisan', 5770), 14);
-  expect(omer.getTodayIs('en')).toBe('Today is 14 days, which is 2 weeks of the Omer');
+  expect(omer.getTodayIs('en')).toBe('Today is 14 days, which are 2 weeks of the Omer');
 
   omer = new OmerEvent(new HDate(26, 'Iyyar', 5770), 41);
-  expect(omer.getTodayIs('en')).toBe('Today is 41 days, which is 5 weeks and 6 days of the Omer');
+  expect(omer.getTodayIs('en')).toBe('Today is 41 days, which are 5 weeks and 6 days of the Omer');
 
   omer = new OmerEvent(new HDate(2, 'Sivan', 5770), 46);
-  expect(omer.getTodayIs('en')).toBe('Today is 46 days, which is 6 weeks and 4 days of the Omer');
+  expect(omer.getTodayIs('en')).toBe('Today is 46 days, which are 6 weeks and 4 days of the Omer');
 });
 
 test('days-weeks', () => {

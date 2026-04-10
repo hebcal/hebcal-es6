@@ -430,6 +430,7 @@ test('fast days includes Yom Kippur Katan', () => {
 test('getCategories', () => {
   const ev = new HolidayEvent(new HDate(18, months.NISAN, 5763),
       'Pesach IV (CH\'\'M)', flags.CHUL_ONLY, {cholHaMoedDay: 2});
+  expect(ev.cholHaMoedDay).toBe(2);
   expect(ev.getCategories()).toEqual(['holiday', 'major', 'cholhamoed']);
 
   const ev2 = new HolidayEvent(new HDate(18, months.IYYAR, 5763),

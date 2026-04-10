@@ -1,11 +1,11 @@
 import prettyBytes from 'pretty-bytes';
-import {defineConfig, OutputChunk, Plugin, RollupOptions} from 'rollup';
+import {defineConfig} from 'rollup';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import bundleSize from 'rollup-plugin-bundle-size';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
-import {appendFileSync, readdirSync, writeFileSync} from 'fs';
-import {basename} from 'path';
+import {appendFileSync, readdirSync, writeFileSync} from 'node:fs';
+import {basename} from 'node:path';
 import {visualizer} from 'rollup-plugin-visualizer';
 
 const sizeFile = './size-demo/sizes.md';
@@ -15,7 +15,7 @@ export default defineConfig(
   readdirSync('./size-demo')
     .filter(f => f.endsWith('.ts'))
     .filter(f => !f.endsWith('.d.ts') && !f.endsWith('.config.ts'))
-    .map((file): RollupOptions => {
+    .map(file => {
       const name = basename(file, '.ts');
       return {
         input: `size-demo/${name}.ts`,
@@ -40,14 +40,14 @@ export default defineConfig(
           {
             name: 'record-size-to-file',
             generateBundle(options, bundle) {
-              const asset = basename(options.file!);
-              const result = bundle[asset] as OutputChunk;
+              const asset = basename(options.file);
+              const result = bundle[asset];
               appendFileSync(
                 sizeFile,
                 `- \`${asset}\`: ${prettyBytes(result.code.length)}\n`
               );
             },
-          } satisfies Plugin,
+          },
           visualizer({filename: `size-demo/dist/${name}.stats.html`}),
         ],
       };

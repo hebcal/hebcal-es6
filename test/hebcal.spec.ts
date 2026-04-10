@@ -788,7 +788,8 @@ test('yikzor', () => {
 test('getBirthdayOrAnniversary', () => {
   const dt = new Date(1978, 5, 8);
   const hd = HebrewCalendar.getBirthdayOrAnniversary(5760, dt);
-  expect(hd.toString()).toBe('3 Sivan 5760');
+  expect(hd).toBeDefined();
+  expect(hd!.toString()).toBe('3 Sivan 5760');
   const hd2 = HebrewCalendar.getBirthdayOrAnniversary(5730, dt);
   expect(hd2).toBeUndefined();
 });
@@ -796,7 +797,8 @@ test('getBirthdayOrAnniversary', () => {
 test('getYahrzeit', () => {
   const dt = new Date(1995, 10, 24);
   const hd = HebrewCalendar.getYahrzeit(5760, dt);
-  expect(hd.toString()).toBe('1 Kislev 5760');
+  expect(hd).toBeDefined();
+  expect(hd!.toString()).toBe('1 Kislev 5760');
   const hd2 = HebrewCalendar.getYahrzeit(5750, dt);
   expect(hd2).toBeUndefined();
 });

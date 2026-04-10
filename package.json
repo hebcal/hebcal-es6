@@ -50,7 +50,7 @@
   ],
   "scripts": {
     "build:rollup": "rollup -c",
-    "size-demo:rollup": "rollup -c size-demo/rollup.config.ts --configPlugin typescript",
+    "size-demo:rollup": "rollup -c size-demo/rollup.config.js",
     "size-demo": "npm run build && npm run size-demo:rollup",
     "build": "npm run po2json && npm run version && npm run build:rollup --production",
     "prepublish": "npm run build",
@@ -64,16 +64,15 @@
     "clean": "gts clean",
     "fix": "gts fix",
     "compile": "tsc",
-    "prepare": "npm run compile",
-    "posttest": "npm run lint"
+    "prepare": "npm run compile"
   },
   "license": "GPL-2.0",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^25.5.0",
-    "@vitest/coverage-v8": "^4.1.3",
+    "@types/node": "^25.6.0",
+    "@vitest/coverage-v8": "^4.1.4",
     "gettext-parser": "^9.0.2",
     "gts": "^7.0.0",
     "pretty-bytes": "^7.1.0",
@@ -81,12 +80,12 @@
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-visualizer": "^7.0.1",
     "typedoc": "^0.28.18",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.3"
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
   },
   "dependencies": {
-    "@hebcal/hdate": "^0.21.1",
-    "@hebcal/noaa": "^0.9.2",
+    "@hebcal/hdate": "^0.22.0",
+    "@hebcal/noaa": "^0.10.1",
     "quick-lru": "^7.3.0",
     "temporal-polyfill": "^0.3.2"
   }

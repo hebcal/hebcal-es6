@@ -56,10 +56,14 @@ const EXPECTED: Record<string,ExpectedRecord> = {
   "5787-6": { year: 5787, month: 6, monthName: 'Elul', isLeapYear: true, moladYear: 5787, moladMonth: 5, moladDay: 29, moladHours: 5, moladMinutes: 47, moladChalakim: 13, moladGregorianYear: 2027, moladGregorianMonth: 9, moladGregorianDay: 1, moladAsDate: '2027-09-01T03:26:46.837Z', tchilasZmanKidushLevana3Days: '2027-09-04T03:26:46.837Z', tchilasZmanKidushLevana7Days: '2027-09-08T03:26:46.837Z', sofZmanKidushLevanaBetweenMoldos: '2027-09-15T21:48:48.503Z', sofZmanKidushLevana15Days: '2027-09-16T03:26:46.837Z' },
 };
 
-function toUtcString(zdt: Temporal.ZonedDateTime): string {
+function padMillis(iso8601: string): string {
   // Temporal.Instant.toString() drops trailing zeros in milliseconds (e.g. 170 → "17"),
-  // so we pad the fractional-seconds part back to 3 digits to match Java's output format.
-  return zdt.toInstant().toString().replace(/\.(\d{1,3})Z$/, (_, ms) => `.${ms.padEnd(3, '0')}Z`);
+  // Pad the fractional-seconds part to 3 digits to match Java's output format.
+  return iso8601.replace(/\.(\d{1,3})Z$/, (_, ms) => `.${ms.padEnd(3, '0')}Z`);
+}
+
+function toUtcString(zdt: Temporal.ZonedDateTime): string {
+  return padMillis(zdt.toInstant().toString());
 }
 
 test('molad for years 5786 and 5787 match Java reference output', () => {
@@ -89,7 +93,6 @@ test('molad for years 5786 and 5787 match Java reference output', () => {
       expect(dt.getDate()).toBe(exp.moladGregorianDay);
 
       const zdt1 = getMoladAsDate(molad);
-      // console.log(zdt1.toString());
       expect(toUtcString(zdt1)).toBe(exp.moladAsDate);
       const m = new Molad(year, month);
       expect(toUtcString(m.getTchilasZmanKidushLevana3Days())).toBe(exp.tchilasZmanKidushLevana3Days);
@@ -98,18 +101,4 @@ test('molad for years 5786 and 5787 match Java reference output', () => {
       expect(toUtcString(m.getSofZmanKidushLevana15Days())).toBe(exp.sofZmanKidushLevana15Days);
     }
   }
-});
-
-test('getMoladAsDate', () => {
-  const molad = calculateMolad(5787, months.TAMUZ);
-  const zdt = getMoladAsDate(molad);
-  // Molad Tamuz: Sunday, 4:19am and 11 chalakim
-  // July 3, 2027 at 23:58:40 Etc/GMT+2
-  expect(zdt.year).toBe(2027);
-  expect(zdt.month).toBe(7);
-  expect(zdt.day).toBe(3);
-  expect(zdt.hour).toBe(23);
-  expect(zdt.minute).toBe(58);
-  expect(zdt.second).toBe(40);
-  expect(zdt.toString()).toBe('2027-07-03T23:58:40.17-02:00[Etc/GMT+2]');
 });

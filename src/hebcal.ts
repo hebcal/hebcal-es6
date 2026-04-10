@@ -188,7 +188,7 @@ export class HebrewCalendar {
     gdate: Date | HDate
   ): HDate | undefined {
     const dt = getBirthdayHD(hyear, gdate);
-    if (typeof dt === 'undefined') {
+    if (dt === undefined) {
       return dt;
     }
     return new HDate(dt);
@@ -230,7 +230,7 @@ export class HebrewCalendar {
    */
   static getYahrzeit(hyear: number, gdate: Date | HDate): HDate | undefined {
     const dt = getYahrzeitHD(hyear, gdate);
-    if (typeof dt === 'undefined') {
+    if (dt === undefined) {
       return dt;
     }
     return new HDate(dt);
