@@ -20,3 +20,9 @@ msgstr "יום כיפור"
 
 msgid "Yom Kippur Katan"
 msgstr "יום כיפור קטן"
+
+msgid "Pesach Shabbat Chol ha-Moed"
+msgstr "פסח שבת חול המועד"
+
+msgid "Sukkot Shabbat Chol ha-Moed"
+msgstr "סוכות שבת חול המועד"
