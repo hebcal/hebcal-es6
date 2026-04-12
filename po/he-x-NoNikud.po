@@ -26,3 +26,33 @@ msgstr "פסח שבת חול המועד"
 
 msgid "Sukkot Shabbat Chol ha-Moed"
 msgstr "סוכות שבת חול המועד"
+
+msgid "Erev Sukkot"
+msgstr "ערב סוכות"
+
+msgid "Sukkot"
+msgstr "סוכות"
+
+msgid "Sukkot I"
+msgstr "סוכות א׳"
+
+msgid "Sukkot II"
+msgstr "סוכות ב׳"
+
+msgid "Sukkot II (CH''M)"
+msgstr "סוכות ב׳ (חוה״מ)"
+
+msgid "Sukkot III (CH''M)"
+msgstr "סוכות ג׳ (חוה״מ)"
+
+msgid "Sukkot IV (CH''M)"
+msgstr "סוכות ד׳ (חוה״מ)"
+
+msgid "Sukkot V (CH''M)"
+msgstr "סוכות ה׳ (חוה״מ)"
+
+msgid "Sukkot VI (CH''M)"
+msgstr "סוכות ו׳ (חוה״מ)"
+
+msgid "Sukkot VII (Hoshana Raba)"
+msgstr "סוכות ז׳ (הושענא רבה)"
