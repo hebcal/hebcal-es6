@@ -327,7 +327,7 @@ export class OmerEvent extends Event {
   }
 
   getLamnatzeachLetter(): string {
-	const lamnatzeachLetters = "ישמחו וירננו לאמים כי תשפט עמים מישור ולאמים בארץ תנחם סלה";
+	const lamnatzeachLetters = "ישמחו וירננו לאמים כי תשפט עמים מישור ולאמים בארץ תנחם סלה".replaceAll(/\s/g, '');
 	return lamnatzeachLetters[this.omer - 1];
   }
 
