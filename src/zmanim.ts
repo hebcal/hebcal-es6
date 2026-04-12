@@ -298,6 +298,20 @@ export class Zmanim {
     return this.getShaahZmanisBasedZman(4);
   }
   /**
+   * This method returns the latest time for burning _chametz_ on _Erev Pesach_ according to the opinion
+   * of the <a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a>. This time is 5 hours into the day based on the
+   * opinion of the <a href="https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a> that the day is calculated from
+   * sunrise to sunset. This returns the time 5 * {@link #getShaahZmanisGra()} after {@link #getSeaLevelSunrise() sea
+   * level sunrise}.
+   * @return the <code>Date</code> of the latest time for burning _chametz_ on _Erev Pesach_. If it is not
+   *         _erev Pesach_ or the calculation can't be computed such as in the Arctic Circle where there is at least
+   *         one day a year where the sun does not rise, and one where it does not set, a <code>null</code> will be
+   *         returned.
+   */
+  sofZmanBiurChametzGRA(): Date {
+    return this.getShaahZmanisBasedZman(5);
+  }
+  /**
    * Returns an array with alot (Date) and ms in hour (number)
    * @private
    */
@@ -849,9 +863,9 @@ export class Zmanim {
    * before {@link getSunrise() sunrise}.
    *
    * The zenith of 16.9&deg; below is based on the calculation that the time between dawn
-   * and <em>netz amiti</em> (sunrise) is 72 minutes, the time that is takes to walk 4 mil at 18 minutes
+   * and _netz amiti_ (sunrise) is 72 minutes, the time that is takes to walk 4 mil at 18 minutes
    * a mil (<a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a> and others). The sun's position at 72
-   * minutes before {@link getSunriseBaalHatanya <em>netz amiti</em> (sunrise)} in Jerusalem <a href=
+   * minutes before {@link getSunriseBaalHatanya _netz amiti_ (sunrise)} in Jerusalem <a href=
    * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a> is
    * 16.9&deg; below {@link GEOMETRIC_ZENITH geometric zenith}.
    *

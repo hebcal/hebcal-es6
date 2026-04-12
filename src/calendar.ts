@@ -614,6 +614,12 @@ function appendHolidayAndRelated(
   ) {
     return candlesEv; // bail out early
   }
+  if (options.candlelighting && ev.getDesc() === 'Erev Pesach') {
+    const biurChametzEv = makeBiurChametzEvent(ev, options);
+    if (biurChametzEv) {
+      events.push(biurChametzEv);
+    }
+  }
   const isMajorFast = Boolean(eFlags & MAJOR_FAST);
   const isMinorFast = Boolean(eFlags & MINOR_FAST);
   let fastEv;
@@ -725,4 +731,29 @@ function makeOmerEvent(hd: HDate, omerDay: number, options: CalOptions) {
     }
   }
   return omerEv;
+}
+
+function makeBiurChametzEvent(
+  erevPesachEv: Event,
+  options: CalOptions
+): TimedEvent | undefined {
+  const location = options.location!;
+  const useElevation = Boolean(options.useElevation);
+  const hd = erevPesachEv.getDate();
+  const zmanim = new Zmanim(location, hd, useElevation);
+  const time = zmanim.sofZmanBiurChametzGRA();
+  if (isNaN(time.getTime())) {
+    return undefined;
+  }
+  const biurChametzEv = new TimedEvent(
+    hd,
+    'Biur Chametz',
+    flags.USER_EVENT,
+    time,
+    location,
+    erevPesachEv,
+    options
+  );
+  biurChametzEv.emoji = '🔥';
+  return biurChametzEv;
 }

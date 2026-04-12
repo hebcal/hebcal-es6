@@ -63,6 +63,8 @@ export class TimedEvent extends Event {
       case 'Fast begins':
       case 'Fast ends':
         return ['zmanim', 'fast'];
+      case 'Biur Chametz':
+        return ['zmanim', 'biurChametz'];
     }
     /* NOTREACHED */
     return ['unknown'];
