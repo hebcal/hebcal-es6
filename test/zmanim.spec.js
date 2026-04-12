@@ -62,6 +62,13 @@ test('zmanim', () => {
     beinHaShmashos: '20:50',
     dusk: '20:56',
     tzeit: '21:13',
+    alosBaalHatanya: '03:18',
+    sofZmanShmaBaalHatanya: '09:00',
+    sofZmanTfilaBaalHatanya: '10:16',
+    minchaGedolaBaalHatanya: '13:27',
+    minchaKetanaBaalHatanya: '17:16',
+    plagHaminchaBaalHatanya: '18:51',
+    tzaisBaalHatanya: '20:56',
   };
 
   const actual = {};
@@ -111,6 +118,13 @@ test('zmanim-tlv', () => {
     beinHaShmashos: '03/06/2021, 17:58:27',
     dusk: '03/06/2021, 18:06:50',
     tzeit: '03/06/2021, 18:18:39',
+    alosBaalHatanya: '03/06/2021, 04:46:22',
+    sofZmanShmaBaalHatanya: '03/06/2021, 08:55:31',
+    sofZmanTfilaBaalHatanya: '03/06/2021, 09:54:27',
+    minchaGedolaBaalHatanya: '03/06/2021, 12:21:47',
+    minchaKetanaBaalHatanya: '03/06/2021, 15:18:35',
+    plagHaminchaBaalHatanya: '03/06/2021, 16:32:15',
+    tzaisBaalHatanya: '03/06/2021, 18:06:50',
   };
 
   const actual = {};
@@ -199,6 +213,13 @@ test('zmanim-denver', () => {
     dusk: '06/05/2020, 20:57:18',
     // "Tzais": "2020-06-05T21:13:45-06:00"
     tzeit: '06/05/2020, 21:13:45',
+    alosBaalHatanya: '06/05/2020, 03:42:07',
+    sofZmanShmaBaalHatanya: '06/05/2020, 09:13:18',
+    sofZmanTfilaBaalHatanya: '06/05/2020, 10:28:26',
+    minchaGedolaBaalHatanya: '06/05/2020, 13:36:18',
+    minchaKetanaBaalHatanya: '06/05/2020, 17:21:44',
+    plagHaminchaBaalHatanya: '06/05/2020, 18:55:39',
+    tzaisBaalHatanya: '06/05/2020, 20:57:18',
   };
 
   const actual = {};

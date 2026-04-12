@@ -28,6 +28,21 @@ function getDate(date: Date | HDate): Date {
 }
 
 /**
+ * The zenith of astronomical sunrise and sunset. The sun is 90&deg; from the vertical 0&deg;
+ */
+const GEOMETRIC_ZENITH: number = 90;
+
+/**
+ * The zenith of 1.583&deg; below {@link GEOMETRIC_ZENITH geometric zenith} (90&deg;). This calculation is used for
+ * calculating _netz amiti_ (sunrise) and _shkiah amiti_ (sunset) based on the opinion of the
+ * <a href="https://en.wikipedia.org/wiki/Shneur_Zalman_of_Liadi">Baal Hatanya</a>.
+ *
+ * @see Zmanim.sunriseBaalHatanya()
+ * @see Zmanim.sunsetBaalHatanya()
+ */
+const ZENITH_1_POINT_583: number = GEOMETRIC_ZENITH + 1.583;
+
+/**
  * Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
  * Calculations are available for tzeit / tzais (nightfall),
  * shkiah (sunset) and more.
@@ -102,7 +117,7 @@ export class Zmanim {
    * @param rising
    */
   timeAtAngle(angle: number, rising: boolean): Date {
-    const offsetZenith = 90 + angle;
+    const offsetZenith = GEOMETRIC_ZENITH + angle;
     const zdt = rising
       ? this.noaa.getSunriseOffsetByDegrees(offsetZenith)
       : this.noaa.getSunsetOffsetByDegrees(offsetZenith);
@@ -235,21 +250,29 @@ export class Zmanim {
   misheyakirMachmir(): Date {
     return this.timeAtAngle(10.2, true);
   }
+  private getShaahZmanisBasedZmanZdt(
+    startOfDay: Temporal.ZonedDateTime | null,
+    endOfDay: Temporal.ZonedDateTime | null,
+    hours: number
+  ): Temporal.ZonedDateTime | null {
+    const temporalHour = this.noaa.getTemporalHour(startOfDay, endOfDay);
+    const offset = Math.trunc(temporalHour * hours);
+    const zdt = NOAACalculator.getTimeOffset(startOfDay, offset);
+    return zdt;
+  }
   /**
    * Utility method for using elevation-aware sunrise/sunset
    * @private
    * @param hours
    */
-  getShaahZmanisBasedZman(hours: number): Date {
+  private getShaahZmanisBasedZman(hours: number): Date {
     const startOfDay = this.useElevation
       ? this.noaa.getSunrise()
       : this.noaa.getSeaLevelSunrise();
     const endOfDay = this.useElevation
       ? this.noaa.getSunset()
       : this.noaa.getSeaLevelSunset();
-    const temporalHour = this.noaa.getTemporalHour(startOfDay, endOfDay);
-    const offset = Math.round(temporalHour * hours);
-    const zdt = NOAACalculator.getTimeOffset(startOfDay, offset);
+    const zdt = this.getShaahZmanisBasedZmanZdt(startOfDay, endOfDay, hours);
     return zdtToDate(zdt);
   }
   /**
@@ -509,7 +532,7 @@ export class Zmanim {
    *            is it the start of _Kiddush Levana_ time or the end? If it is start roll it to the next _tzais_,
    *            and if it is the end, return the end of the previous night (_alos_ passed in). Ignored if either
    *            _alos_ or _tzais_ are null.
-   * @return the _molad_ based time. If the _zman_ does not occur during the current date, <code>null</code> will be
+   * @return the _molad_ based time. If the _zman_ does not occur during the current date, `null` will be
    *         returned.
    */
   private getMoladBasedTime(
@@ -557,7 +580,7 @@ export class Zmanim {
    * halfway between _molad_ and _molad_. This adds half the 29 days, 12 hours and 793 chalakim time between
    * _molad_ and _molad_ (14 days, 18 hours, 22 minutes and 666 milliseconds) to the month's _molad_.
    * The _sof zman Kiddush Levana_ will be returned even if it occurs during the day. To limit the time to between
-   * _tzais_ and _alos_, see {@link #getSofZmanKidushLevanaBetweenMoldos(Date, Date)}.
+   * _tzais_ and _alos_, see {@link getSofZmanKidushLevanaBetweenMoldos}.
    *
    * @param alos
    *            the beginning of the Jewish day. If _Kidush Levana_ occurs during the day (starting at _alos_ and
@@ -569,7 +592,7 @@ export class Zmanim {
    *            adjustment will be made.
    * @return the Date representing the moment halfway between molad and molad. If the time occurs between
    *         _alos_ and _tzais_, _alos_ will be returned. If the _zman_ will not occur on this
-   *         day, a <code>null</code> will be returned.
+   *         day, a `null` will be returned.
    */
   public getSofZmanKidushLevanaBetweenMoldos(
     alos: Temporal.ZonedDateTime | null = null,
@@ -598,15 +621,15 @@ export class Zmanim {
    * the Shulchan Aruch (Orach Chaim 426). It should be noted that some opinions hold that the
    * <a href="https://en.wikipedia.org/wiki/Moses_Isserles">Rema</a> who brings down the opinion of the <a
    * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> of calculating
-   * {@link #getSofZmanKidushLevanaBetweenMoldos(Date, Date) half way between _molad_ and _molad_} is of
+   * {@link getSofZmanKidushLevanaBetweenMoldos half way between _molad_ and _molad_} is of
    * the opinion that the Mechaber agrees to his opinion. Also see the Aruch Hashulchan. For additional details on the subject,
    * See Rabbi Dovid Heber's very detailed write-up in Siman Daled (chapter 4) of <a href="https://hebrewbooks.org/53000">Shaarei
    * Zmanim</a>. The _sof zman Kiddush Levana_ will be returned even if it occurs during the day. To limit the time to
-   * between _tzais_ and _alos_, see {@link #getSofZmanKidushLevana15Days(Date, Date)}.
+   * between _tzais_ and _alos_, see {@link getSofZmanKidushLevana15Days}.
    *
    * @return the Date representing the moment 15 days after the _molad_. If the time occurs between
    *         _alos_ and _tzais_, _alos_ will be returned. If the _zman_ will not occur on this day, a
-   *         <code>null</code> will be returned.
+   *         `null` will be returned.
    *
    *
    */
@@ -650,7 +673,7 @@ export class Zmanim {
    *
    * @return the Date representing the moment 3 days after the molad. If the time occurs between _alos_ and
    *         _tzais_, _tzais_ will be returned. If the _zman_ will not occur on this day, a
-   *         <code>null</code> will be returned.
+   *         `null` will be returned.
    */
   public getTchilasZmanKidushLevana3Days(
     alos: Temporal.ZonedDateTime | null = null,
@@ -697,7 +720,7 @@ export class Zmanim {
    * {@link HebrewDateFormatter} that will have formatting for this.
    *
    * @return the Date representing the moment of the molad. If the _molad_ does not occur on this day, a
-   *         <code>null</code> will be returned.
+   *         `null` will be returned.
    *
    */
   public getZmanMolad(): Temporal.ZonedDateTime | null {
@@ -730,10 +753,10 @@ export class Zmanim {
   /**
    * Returns the earliest time of _Kiddush Levana_ according to the opinions that it should not be said until 7
    * days after the _molad_. The time will be returned even if it occurs during the day when _Kiddush Levana_
-   * can't be recited. Use {@link #getTchilasZmanKidushLevana7Days(Date, Date)} if you want to limit the time to night hours.
+   * can't be recited. Use {@link getTchilasZmanKidushLevana7Days} if you want to limit the time to night hours.
    *
    * @return the Date representing the moment 7 days after the molad regardless of it is day or night. If the _zman_
-   *         will not occur on this day, a <code>null</code> will be returned.
+   *         will not occur on this day, a `null` will be returned.
    */
   public getTchilasZmanKidushLevana7Days(
     alos: Temporal.ZonedDateTime | null = null,
@@ -756,6 +779,188 @@ export class Zmanim {
       tzais,
       true
     );
+  }
+
+  /**
+   * A method that returns the <a href="https://en.wikipedia.org/wiki/Shneur_Zalman_of_Liadi">Baal Hatanya</a>'s
+   * _netz amiti_ (sunrise) without
+   * elevation adjustment. This forms the base for the Baal Hatanya's dawn-based calculations that are
+   * calculated as a dip below the horizon before sunrise.
+   *
+   * According to the Baal Hatanya, _netz amiti_, or true (halachic) sunrise, is when the top of the sun's
+   * disk is visible at an elevation similar to the mountains of Eretz Yisrael. The time is calculated as the point at which
+   * the center of the sun's disk is 1.583&deg; below the horizon. This degree-based calculation can be found in Rabbi Shalom
+   * DovBer Levine's commentary on The <a href="https://www.chabadlibrary.org/books/pdf/Seder-Hachnosas-Shabbos.pdf">Baal
+   * Hatanya's Seder Hachnasas Shabbos</a>. From an elevation of 546 meters, the top of <a href=
+   * "https://en.wikipedia.org/wiki/Mount_Carmel">Har Hacarmel</a>, the sun disappears when it is 1&deg; 35' or 1.583&deg;
+   * below the sea level horizon. This in turn is based on the Gemara <a href=
+   * "https://hebrewbooks.org/shas.aspx?mesechta=2&daf=35">Shabbos 35a</a>. There are other opinions brought down by
+   * Rabbi Levine, including Rabbi Yosef Yitzchok Feigelstock who calculates it as the degrees below the horizon 4 minutes after
+   * sunset in Yerushalayim (on the equinox). That is brought down as 1.583&deg;. This is identical to the 1&deg; 35' _zman_
+   * and is probably a typo and should be 1.683&deg;. These calculations are used by most <a href=
+   * "https://en.wikipedia.org/wiki/Chabad">Chabad</a> calendars that use the Baal Hatanya's _zmanim_. See
+   * <a href="https://www.chabad.org/library/article_cdo/aid/3209349/jewish/About-Our-Zmanim-Calculations.htm">About Our
+   * _Zmanim_ Calculations @ Chabad.org</a>.
+   *
+   * Note: _netz amiti_ is used only for calculating certain _zmanim_, and is intentionally unpublished. For
+   * practical purposes, daytime _mitzvos_ like _shofar_ and _lulav_ should not be done until after the
+   * published time for _netz_ / sunrise.
+   *
+   * @return the <code>Date</code> representing the exact sea level _netz amiti_ (sunrise) time. If the calculation can't be
+   *         computed such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
+   *         where it does not set, a `null` will be returned. See detailed explanation on top of the page.
+   *
+   * @see ZENITH_1_POINT_583
+   */
+  private getSunriseBaalHatanya(): Temporal.ZonedDateTime | null {
+    return this.noaa.getSunriseOffsetByDegrees(ZENITH_1_POINT_583);
+  }
+
+  /**
+   * A method that returns the <a href="https://en.wikipedia.org/wiki/Shneur_Zalman_of_Liadi">Baal Hatanya</a>'s
+   * _shkiah amiti_ (sunset) without
+   * elevation adjustment. This forms the base for the Baal Hatanya's dusk-based calculations that are calculated
+   * as a dip below the horizon after sunset.
+   *
+   * According to the Baal Hatanya, _shkiah amiti_, true (_halachic_) sunset, is when the top of the
+   * sun's disk disappears from view at an elevation similar to the mountains of _Eretz Yisrael_.
+   * This time is calculated as the point at which the center of the sun's disk is 1.583 degrees below the horizon.
+   *
+   * Note: _shkiah amiti_ is used only for calculating certain _zmanim_, and is intentionally unpublished. For
+   * practical purposes, all daytime mitzvos should be completed before the published time for _shkiah_ / sunset.
+   *
+   * For further explanation of the calculations used for the Baal Hatanya's _zmanim_ in this library, see
+   * <a href="https://www.chabad.org/library/article_cdo/aid/3209349/jewish/About-Our-Zmanim-Calculations.htm">About Our
+   * _Zmanim_ Calculations @ Chabad.org</a>.
+   *
+   * @return the <code>Date</code> representing the exact sea level _shkiah amiti_ (sunset) time. If the calculation
+   *         can't be computed such as in the Arctic Circle where there is at least one day a year where the sun does not
+   *         rise, and one where it does not set, a `null` will be returned.
+   *
+   * @see ZENITH_1_POINT_583
+   */
+  private getSunsetBaalHatanya(): Temporal.ZonedDateTime | null {
+    return this.noaa.getSunsetOffsetByDegrees(ZENITH_1_POINT_583);
+  }
+
+  /**
+   * Returns the <a href="https://en.wikipedia.org/wiki/Shneur_Zalman_of_Liadi">Baal Hatanya</a>'s _alos_
+   * (dawn) calculated as the time when the sun is 16.9&deg; below the eastern {@link GEOMETRIC_ZENITH geometric horizon}
+   * before {@link getSunrise() sunrise}.
+   *
+   * The zenith of 16.9&deg; below is based on the calculation that the time between dawn
+   * and <em>netz amiti</em> (sunrise) is 72 minutes, the time that is takes to walk 4 mil at 18 minutes
+   * a mil (<a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a> and others). The sun's position at 72
+   * minutes before {@link getSunriseBaalHatanya <em>netz amiti</em> (sunrise)} in Jerusalem <a href=
+   * "https://kosherjava.com/2022/01/12/equinox-vs-equilux-zmanim-calculations/">around the equinox / equilux</a> is
+   * 16.9&deg; below {@link GEOMETRIC_ZENITH geometric zenith}.
+   *
+   * @return The <code>Date</code> of dawn. If the calculation can't be computed such as northern and southern
+   *         locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may not reach
+   *         low enough below the horizon for this calculation, a `null` will be returned.   */
+  public alosBaalHatanya(): Date {
+    return this.timeAtAngle(16.9, true);
+  }
+
+  private getShaahZmanisBaalHatanya(hours: number): Date {
+    const zdt = this.getShaahZmanisBasedZmanZdt(
+      this.getSunriseBaalHatanya(),
+      this.getSunsetBaalHatanya(),
+      hours
+    );
+    return zdtToDate(zdt);
+  }
+
+  /**
+   * This method returns the latest _zman krias shema_ (time to recite Shema in the morning). This time is 3
+   * {@link shaahZmanisBaalHatanya() _shaos zmaniyos_} (solar hours) after {@link getSunriseBaalHatanya()
+   * _netz amiti_ (sunrise)} based on the opinion of the Baal Hatanya that the day is calculated from
+   * sunrise to sunset. This returns the time 3 * {@link getShaahZmanisBaalHatanya()} after {@link getSunriseBaalHatanya()
+   * _netz amiti_ (sunrise)}.
+   *
+   * @return the <code>Date</code> of the latest _zman shema_ according to the Baal Hatanya. If the calculation
+   *         can't be computed such as in the Arctic Circle where there is at least one day a year where the sun does
+   *         not rise, and one where it does not set, a `null` will be returned.
+   */
+  public sofZmanShmaBaalHatanya(): Date {
+    return this.getShaahZmanisBaalHatanya(3);
+  }
+
+  /**
+   * This method returns the latest _zman tfilah_ (time to recite the morning prayers). This time is 4
+   * hours into the day based on the opinion of the Baal Hatanya that the day is
+   * calculated from sunrise to sunset. This returns the time 4 * {@link getShaahZmanisBaalHatanya()} after
+   * {@link getSunriseBaalHatanya() _netz amiti_ (sunrise)}.
+   *
+   * @return the <code>Date</code> of the latest _zman tfilah_. If the calculation can't be computed such as in
+   *         the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it does
+   *         not set, a `null` will be returned.
+   */
+  public sofZmanTfilaBaalHatanya(): Date {
+    return this.getShaahZmanisBaalHatanya(4);
+  }
+
+  /**
+   * This method returns the time of _mincha gedola_. _Mincha gedola_ is the earliest time one can pray
+   * _mincha_. The <a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a> is of the opinion that it is
+   * better to delay _mincha_ until {@link minchaKetanaBaalHatanya() _mincha ketana_} while the
+   * <a href="https://en.wikipedia.org/wiki/Asher_ben_Jehiel">Ra"sh</a>,
+   * <a href="https://en.wikipedia.org/wiki/Jacob_ben_Asher">Tur</a>, <a href=
+   * "https://en.wikipedia.org/wiki/Vilna_Gaon">GRA</a> and others are of the opinion that _mincha_ can be prayed
+   * _lechatchila_ starting at _mincha gedola_. This is calculated as 6.5 {@link getShaahZmanisBaalHatanya()
+   * sea level solar hours} after {@link getSunriseBaalHatanya() _netz amiti_ (sunrise)}. This calculation is based
+   * on the opinion of the Baal Hatanya that the day is calculated from sunrise to sunset. This returns the time 6.5
+   * * {@link getShaahZmanisBaalHatanya()} after {@link getSunriseBaalHatanya() _netz amiti_ ("real" sunrise)}.
+   * @return the <code>Date</code> of the time of _mincha gedola_ according to the Baal Hatanya. If the calculation
+   *         can't be computed such as in the Arctic Circle where there is at least one day a year where the sun does not rise,
+   *         and one where it does not set, a `null` will be returned.
+   */
+  public minchaGedolaBaalHatanya(): Date {
+    return this.getShaahZmanisBaalHatanya(6.5);
+  }
+
+  /**
+   * This method returns the time of _mincha ketana_. This is the preferred earliest time to pray
+   * _mincha_ in the opinion of the <a href="https://en.wikipedia.org/wiki/Maimonides">Rambam</a> and others.
+   * For more information on this see the documentation on {@link minchaGedolaBaalHatanya() _mincha gedola_}.
+   * This is calculated as 9.5 sea level solar hours after {@link getSunriseBaalHatanya
+   * _netz amiti_ (sunrise)}. This calculation is calculated based on the opinion of the Baal Hatanya that the
+   * day is calculated from sunrise to sunset. This returns the time 9.5 * after
+   * _netz amiti_ (sunrise).
+   *
+   * @return the <code>Date</code> of the time of _mincha ketana_. If the calculation can't be computed such as
+   *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
+   *         does not set, a `null` will be returned.
+   */
+  public minchaKetanaBaalHatanya(): Date {
+    return this.getShaahZmanisBaalHatanya(9.5);
+  }
+
+  /**
+   * This method returns the time of _plag hamincha_. This is calculated as 10.75 hours after sunrise. This
+   * calculation is based on the opinion of the Baal Hatanya that the day is calculated
+   * from sunrise to sunset. This returns the time 10.75 * {@link getShaahZmanisBaalHatanya()} after
+   * {@link getSunriseBaalHatanya() _netz amiti_ (sunrise)}.
+   *
+   * @return the <code>Date</code> of the time of _plag hamincha_. If the calculation can't be computed such as
+   *         in the Arctic Circle where there is at least one day a year where the sun does not rise, and one where it
+   *         does not set, a `null` will be returned.
+   */
+  public plagHaminchaBaalHatanya(): Date {
+    return this.getShaahZmanisBaalHatanya(10.75);
+  }
+
+  /**
+   * A method that returns _tzais_ (nightfall) when the sun is 6&deg; below the western geometric horizon
+   * (90&deg;) after {@link getSunset() sunset}. For information on the source of this calculation see
+   * {@link ZENITH_6_DEGREES}.
+   *
+   * @return The <code>Date</code> of nightfall. If the calculation can't be computed such as northern and southern
+   *         locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may not reach
+   *         low enough below the horizon for this calculation, a `null` will be returned.   * @see ZENITH_6_DEGREES
+   */
+  public tzaisBaalHatanya(): Date {
+    return this.timeAtAngle(6, false);
   }
 
   /**
