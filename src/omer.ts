@@ -195,7 +195,7 @@ const ps67lines = sefira.ps67lines;
 
 const lamnatzeach = ps67lines.flatMap((x: string) => x.split(/[ ־]/));
 
-const lamnatzeachLetters = sefira.lamnatzeachLetters;
+const lamnatzeachLetters = sefira.lamnatzeachLetters.split('');
 
 /** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
 export class OmerEvent extends Event {
