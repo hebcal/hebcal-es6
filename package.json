@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -80,7 +80,7 @@
     "rollup": "^4.60.1",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-visualizer": "^7.0.1",
-    "typedoc": "^0.28.18",
+    "typedoc": "^0.28.19",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
   },
