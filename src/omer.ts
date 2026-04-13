@@ -322,14 +322,59 @@ export class OmerEvent extends Event {
     return `https://www.hebcal.com/omer/${year}/${this.omer}`;
   }
 
+  /**
+   * Returns the word from Psalm 67 (לַמְנַצֵּחַ, "Lamnatzeach") corresponding
+   * to this Omer day. Psalm 67 contains 49 words (excluding its opening verse),
+   * one for each day of the Omer. The words are taken from verses 2–8, split on
+   * spaces and maqef (־).
+   * @returns a Hebrew word from Psalm 67
+   * @example
+   * const ev = new OmerEvent(new HDate(16, 'Nisan', 5785), 1);
+   * ev.getLamnatzeachWord(); // 'אֱלֹהִים' (day 1, first word of verse 2)
+   * @example
+   * const ev = new OmerEvent(new HDate(3, 'Sivan', 5785), 49);
+   * ev.getLamnatzeachWord(); // 'אָרֶץ' (day 49, last word of verse 8)
+   */
   getLamnatzeachWord(): string {
     return lamnatzeach[this.omer - 1];
   }
 
+  /**
+   * Returns the letter from verse 5 of Psalm 67 corresponding to this Omer day.
+   * Verse 5 (יִשְׂמְחוּ וִירַנְּנוּ לְאֻמִּים…) contains exactly 49 letters,
+   * one for each day of the Omer, and is used as a Kabbalistic meditation during
+   * the counting.
+   * @returns a single Hebrew letter from verse 5 of Psalm 67
+   * @example
+   * const ev = new OmerEvent(new HDate(16, 'Nisan', 5785), 1);
+   * ev.getLamnatzeachLetter(); // 'י' (day 1, first letter of verse 5)
+   * @example
+   * const ev = new OmerEvent(new HDate(3, 'Sivan', 5785), 49);
+   * ev.getLamnatzeachLetter(); // 'ה' (day 49, last letter of verse 5)
+   */
   getLamnatzeachLetter(): string {
     return lamnatzeachLetters[this.omer - 1];
   }
 
+  /**
+   * Returns the word from the Ana BeKoach prayer (אָנָּא בְּכֹחַ) corresponding
+   * to this Omer day. Ana BeKoach is a 42-word Kabbalistic prayer whose initial
+   * letters spell out the 42-letter name of God. The prayer has 7 verses of
+   * 6 words each; the 7th entry of each group is the abbreviation of the acrostic
+   * letters for that verse (e.g. `אב״ג ית״ץ` for verse 1). Together the 49
+   * entries (7 verses × 7 entries) align with the 49 days of the Omer, connecting
+   * each day to one of the lower seven Sefirot within a Sefirah.
+   * @returns a Hebrew word or verse-abbreviation string from Ana BeKoach
+   * @example
+   * const ev = new OmerEvent(new HDate(16, 'Nisan', 5785), 1);
+   * ev.getAnaBekoachWord(); // 'אָנָּא' (day 1, first word of verse 1)
+   * @example
+   * const ev = new OmerEvent(new HDate(22, 'Nisan', 5785), 7);
+   * ev.getAnaBekoachWord(); // 'אב״ג ית״ץ' (day 7, acrostic abbreviation for verse 1)
+   * @example
+   * const ev = new OmerEvent(new HDate(3, 'Sivan', 5785), 49);
+   * ev.getAnaBekoachWord(); // 'שק״ו צי״ת' (day 49, acrostic abbreviation for verse 7)
+   */
   getAnaBekoachWord(): string {
     return anaBekoach[this.omer - 1];
   }
