@@ -245,3 +245,91 @@ test('getTodayIs-he-x-NoNikud', () => {
   const expected = 'היום יום אחד לעומר';
   expect(ev.getTodayIs('he-x-NoNikud')).toBe(expected);
 });
+
+test('getLamnatzeachWord', () => {
+  // day 1: first word of Psalm 67:2
+  const ev1 = new OmerEvent(new HDate(16, 'Nisan', 5785), 1);
+  expect(ev1.getLamnatzeachWord()).toBe('אֱלֹהִים');
+
+  // day 7: last word of Psalm 67:2 (end of first verse)
+  const ev7 = new OmerEvent(new HDate(22, 'Nisan', 5785), 7);
+  expect(ev7.getLamnatzeachWord()).toBe('סֶלָה');
+
+  // day 8: first word of Psalm 67:3 (start of second verse)
+  const ev8 = new OmerEvent(new HDate(23, 'Nisan', 5785), 8);
+  expect(ev8.getLamnatzeachWord()).toBe('לָדַעַת');
+
+  // day 20: first word of Psalm 67:5 (longest verse, 11 words)
+  const ev20 = new OmerEvent(new HDate(5, 'Iyyar', 5785), 20);
+  expect(ev20.getLamnatzeachWord()).toBe('יִשְׂמְחוּ');
+
+  // day 23: word split from maqef in Psalm 67:5
+  const ev23 = new OmerEvent(new HDate(8, 'Iyyar', 5785), 23);
+  expect(ev23.getLamnatzeachWord()).toBe('כִּי');
+
+  // day 30: last word of Psalm 67:5
+  const ev30 = new OmerEvent(new HDate(15, 'Iyyar', 5785), 30);
+  expect(ev30.getLamnatzeachWord()).toBe('סֶלָה');
+
+  // day 49: last word of Psalm 67:8 (last word of the psalm)
+  const ev49 = new OmerEvent(new HDate(3, 'Sivan', 5785), 49);
+  expect(ev49.getLamnatzeachWord()).toBe('אָרֶץ');
+});
+
+test('getLamnatzeachLetter', () => {
+  // Each of the 49 letters of Psalm 67:5 corresponds to one Omer day
+  const start = new HDate(16, 'Nisan', 5782);
+  const startAbs = start.abs();
+  const actual: string[] = [];
+  for (let i = 1; i <= 49; i++) {
+    const ev = new OmerEvent(new HDate(startAbs + i - 1), i);
+    actual.push(ev.getLamnatzeachLetter());
+  }
+  const expected = [
+    'י', 'ש', 'מ', 'ח', 'ו', 'ו', 'י',
+    'ר', 'נ', 'נ', 'ו', 'ל', 'א', 'מ',
+    'י', 'ם', 'כ', 'י', 'ת', 'ש', 'פ',
+    'ו', 'ט', 'ע', 'מ', 'י', 'ם', 'מ',
+    'י', 'ש', 'ו', 'ר', 'ו', 'ל', 'א',
+    'מ', 'י', 'ם', 'ב', 'א', 'ר', 'ץ',
+    'ת', 'נ', 'ח', 'ם', 'ס', 'ל', 'ה',
+  ];
+  expect(actual).toEqual(expected);
+});
+
+test('getAnaBekoachWord', () => {
+  // first two words of the prayer
+  const ev1 = new OmerEvent(new HDate(16, 'Nisan', 5785), 1);
+  expect(ev1.getAnaBekoachWord()).toBe('אָנָּא');
+
+  const ev2 = new OmerEvent(new HDate(17, 'Nisan', 5785), 2);
+  expect(ev2.getAnaBekoachWord()).toBe('בְּכֹחַ');
+
+  // day 7: acrostic abbreviation for verse 1
+  const ev7 = new OmerEvent(new HDate(22, 'Nisan', 5785), 7);
+  expect(ev7.getAnaBekoachWord()).toBe('אב״ג ית״ץ');
+
+  // day 14: acrostic abbreviation for verse 2
+  const ev14 = new OmerEvent(new HDate(29, 'Nisan', 5785), 14);
+  expect(ev14.getAnaBekoachWord()).toBe('קר״ע שט״ן');
+
+  // day 21: acrostic abbreviation for verse 3
+  const ev21 = new OmerEvent(new HDate(6, 'Iyyar', 5785), 21);
+  expect(ev21.getAnaBekoachWord()).toBe('נג״ד יכ״ש');
+
+  // day 28: acrostic abbreviation for verse 4
+  const ev28 = new OmerEvent(new HDate(13, 'Iyyar', 5785), 28);
+  expect(ev28.getAnaBekoachWord()).toBe('בט״ר צת״ג');
+
+  // day 35: acrostic abbreviation for verse 5
+  const ev35 = new OmerEvent(new HDate(20, 'Iyyar', 5785), 35);
+  expect(ev35.getAnaBekoachWord()).toBe('חק״ב תנ״ע');
+
+  // day 42: acrostic abbreviation for verse 6
+  const ev42 = new OmerEvent(new HDate(27, 'Iyyar', 5785), 42);
+  expect(ev42.getAnaBekoachWord()).toBe('יג״ל אפ״ז');
+
+  // day 49: acrostic abbreviation for verse 7 (last day of the Omer)
+  const ev49 = new OmerEvent(new HDate(3, 'Sivan', 5785), 49);
+  expect(ev49.getAnaBekoachWord()).toBe('שק״ו צי״ת');
+});

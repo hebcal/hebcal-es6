@@ -376,6 +376,6 @@ export class OmerEvent extends Event {
    * ev.getAnaBekoachWord(); // 'שק״ו צי״ת' (day 49, acrostic abbreviation for verse 7)
    */
   getAnaBekoachWord(): string {
-    return anaBekoach[this.omer - 1];
+    return anaBekoach[this.omer - 1].normalize();
   }
 }
