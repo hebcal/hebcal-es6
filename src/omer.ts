@@ -255,10 +255,65 @@ const ps67lines: string[] = [
   'אֶרֶץ נָתְנָה יְבוּלָהּ יְבָרְכֵנוּ אֱלֹהִים אֱלֹהֵינוּ',
   'יְבָרְכֵנוּ אֱלֹהִים וְיִירְאוּ אוֹתוֹ כָּל־אַפְסֵי־אָרֶץ',
 ];
-const ps67v5 = Locale.hebrewStripNikkud(ps67lines[3]);
-const lamnatzeachLetters = ps67v5.replace(/[ ־]/g, '');
+const lamnatzeach = ps67lines.flatMap((x: string) => x.split(/[ ־]/));
 
-const lamnatzeach = ps67lines.flatMap(line => line.split(/[ ־]/));
+const lamnatzeachLetters = [
+  'י',
+  'ש',
+  'מ',
+  'ח',
+  'ו',
+  'ו',
+  'י',
+
+  'ר',
+  'נ',
+  'נ',
+  'ו',
+  'ל',
+  'א',
+  'מ',
+
+  'י',
+  'ם',
+  'כ',
+  'י',
+  'ת',
+  'ש',
+  'פ',
+
+  'ו',
+  'ט',
+  'ע',
+  'מ',
+  'י',
+  'ם',
+  'מ',
+
+  'י',
+  'ש',
+  'ו',
+  'ר',
+  'ו',
+  'ל',
+  'א',
+
+  'מ',
+  'י',
+  'ם',
+  'ב',
+  'א',
+  'ר',
+  'ץ',
+
+  'ת',
+  'נ',
+  'ח',
+  'ם',
+  'ס',
+  'ל',
+  'ה',
+];
 
 /** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
 export class OmerEvent extends Event {
