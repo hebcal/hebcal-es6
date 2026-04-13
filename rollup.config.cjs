@@ -1,5 +1,6 @@
 const {nodeResolve} = require('@rollup/plugin-node-resolve');
 const bundleSize = require('rollup-plugin-bundle-size');
+const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
 const typescript = require('@rollup/plugin-typescript');
 const pkg = require('./package.json');
@@ -36,6 +37,7 @@ module.exports = defineConfig([
         outDir: 'dist/esm',
         rootDir: './src',
       }),
+      json({compact: true, preferConst: true}),
       nodeResolve(),
     ],
     external: [/node_modules/],
@@ -71,6 +73,11 @@ module.exports = defineConfig([
         },
       },
     ],
-    plugins: [typescript(tsOptions), nodeResolve(), bundleSize()],
+    plugins: [
+      typescript(tsOptions),
+      nodeResolve(),
+      json({compact: true, preferConst: true}),
+      bundleSize(),
+    ],
   },
 ]);
