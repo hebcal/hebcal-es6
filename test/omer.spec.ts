@@ -327,7 +327,7 @@ test('getAnaBekoachWord', () => {
 
   // day 42: acrostic abbreviation for verse 6
   const ev42 = new OmerEvent(new HDate(27, 'Iyyar', 5785), 42);
-  expect(ev42.getAnaBekoachWord()).toBe('יג״ל אפ״ז');
+  expect(ev42.getAnaBekoachWord()).toBe('יג״ל פז״ק');
 
   // day 49: acrostic abbreviation for verse 7 (last day of the Omer)
   const ev49 = new OmerEvent(new HDate(3, 'Sivan', 5785), 49);
