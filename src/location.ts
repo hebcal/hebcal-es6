@@ -139,6 +139,14 @@ export class Location extends GeoLocation {
   private readonly il: boolean;
   private readonly cc?: string;
   private readonly geoid?: string | number;
+  admin1?: string;
+  stateName?: string;
+  geo?: 'zip' | 'geoname';
+  zip?: string;
+  population?: number;
+  asciiname?: string;
+  jersualem?: boolean;
+
   /**
    * Initialize a Location instance
    * @param latitude - Latitude as a decimal, valid range -90 thru +90 (e.g. 41.85003)
