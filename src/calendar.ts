@@ -751,7 +751,7 @@ function makeBiurChametzEvent(
     flags.USER_EVENT,
     time,
     location,
-    erevPesachEv,
+    undefined,
     options
   );
   biurChametzEv.emoji = '🔥';
