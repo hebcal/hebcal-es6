@@ -157,15 +157,18 @@ test('url', () => {
 });
 
 test('distant-past-url', () => {
-  const hd = new HDate(20, 'Iyyar', 3860);
+  const hd = new HDate(20, 'Iyyar', 4001);
   const ev = new OmerEvent(hd, 35);
-  expect(ev.url()).toBe('https://www.hebcal.com/omer/3860/35');
-  const hd2 = new HDate(20, 'Iyyar', 3859);
+  expect(ev.url()).toBe('https://www.hebcal.com/omer/4001/35');
+  const hd2 = new HDate(20, 'Iyyar', 4000);
   const ev2 = new OmerEvent(hd2, 35);
   expect(ev2.url()).toBe(undefined);
-  const hd3 = new HDate(20, 'Iyyar', 3333);
+  const hd3 = new HDate(20, 'Iyyar', 3860);
   const ev3 = new OmerEvent(hd3, 35);
   expect(ev3.url()).toBe(undefined);
+  const hd4 = new HDate(20, 'Iyyar', 3333);
+  const ev4 = new OmerEvent(hd4, 35);
+  expect(ev4.url()).toBe(undefined);
 });
 
 test('far-future-url', () => {
