@@ -316,7 +316,7 @@ export class OmerEvent extends Event {
 
   url(): string | undefined {
     const year = this.getDate().getFullYear();
-    if (year < 3860 || year > 6759) {
+    if (year <= 4000 || year > 6759) {
       return undefined;
     }
     return `https://www.hebcal.com/omer/${year}/${this.omer}`;
