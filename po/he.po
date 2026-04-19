@@ -639,3 +639,9 @@ msgstr "בֵּין הַשְּׁמָשׁוֹת"
 
 msgid "Tzeit HaKochavim"
 msgstr "צֵאת הַכּוֹכָבִים"
+
+msgid "Biur Chametz"
+msgstr "בִּעוּר חָמֵץ"
+
+msgid "Finish eating chametz"
+msgstr "סוֹף זְמַן אֲכִילַת חָמֵץ"

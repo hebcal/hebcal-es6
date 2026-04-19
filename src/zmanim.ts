@@ -21,12 +21,6 @@ function zdtToDate(zdt: Temporal.ZonedDateTime | null): Date {
   return res;
 }
 
-function getDate(date: Date | HDate): Date {
-  if (isDate(date)) return date as Date;
-  if (HDate.isHDate(date)) return (date as HDate).greg();
-  throw new TypeError(`invalid date: ${date}`);
-}
-
 /**
  * The zenith of astronomical sunrise and sunset. The sun is 90&deg; from the vertical 0&deg;
  */
@@ -69,6 +63,7 @@ const ZENITH_1_POINT_583: number = GEOMETRIC_ZENITH + 1.583;
  * const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
  */
 export class Zmanim {
+  private readonly hdate: HDate;
   private readonly plainDate: Temporal.PlainDate;
   private readonly gloc: GeoLocation;
   private readonly noaa: NOAACalculator;
@@ -85,7 +80,8 @@ export class Zmanim {
    *    These zmanim intentionally do not support elevation adjustment.
    */
   constructor(gloc: GeoLocation, date: Date | HDate, useElevation: boolean) {
-    const dt = getDate(date);
+    this.hdate = new HDate(date);
+    const dt = isDate(date) ? date : this.hdate.greg();
     this.plainDate = Temporal.PlainDate.from({
       year: dt.getFullYear(),
       month: dt.getMonth() + 1,
@@ -579,15 +575,6 @@ export class Zmanim {
     return moladBasedTime.withTimeZone(this.gloc.getTimeZone());
   }
 
-  private getHDate(): HDate {
-    const dt = new Date(
-      this.plainDate.year,
-      this.plainDate.month - 1,
-      this.plainDate.day
-    );
-    return new HDate(dt);
-  }
-
   /**
    * Returns the latest time of Kiddush Levana according to the <a
    * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> opinion that it is calculated as
@@ -612,7 +599,7 @@ export class Zmanim {
     alos: Temporal.ZonedDateTime | null = null,
     tzais: Temporal.ZonedDateTime | null = null
   ): Temporal.ZonedDateTime | null {
-    const hd = this.getHDate();
+    const hd = this.hdate;
 
     // Do not calculate for impossible dates, but account for extreme cases. In the extreme case of Rapa Iti in French
     // Polynesia on Dec 2027 when kiddush Levana 3 days can be said on _Rosh Chodesh_, the sof zman Kiddush Levana
@@ -651,7 +638,7 @@ export class Zmanim {
     alos: Temporal.ZonedDateTime | null = null,
     tzais: Temporal.ZonedDateTime | null = null
   ): Temporal.ZonedDateTime | null {
-    const hd = this.getHDate();
+    const hd = this.hdate;
 
     // Do not calculate for impossible dates, but account for extreme cases. In the extreme case of Rapa Iti in
     // French Polynesia on Dec 2027 when kiddush Levana 3 days can be said on _Rosh Chodesh_, the sof zman Kiddush
@@ -693,7 +680,7 @@ export class Zmanim {
     alos: Temporal.ZonedDateTime | null = null,
     tzais: Temporal.ZonedDateTime | null = null
   ): Temporal.ZonedDateTime | null {
-    const hd = this.getHDate();
+    const hd = this.hdate;
 
     // Do not calculate for impossible dates, but account for extreme cases. Tchilas zman kiddush Levana 3 days for
     // the extreme case of Rapa Iti in French Polynesia on Dec 2027 when kiddush Levana 3 days can be said on the evening
@@ -738,7 +725,7 @@ export class Zmanim {
    *
    */
   public getZmanMolad(): Temporal.ZonedDateTime | null {
-    const hd = this.getHDate();
+    const hd = this.hdate;
 
     // Optimize to not calculate for impossible dates, but account for extreme cases. The molad in the extreme case of Rapa
     // Iti in French Polynesia on Dec 2027 occurs on the night of the 27th of Kislev. In the case of Anadyr, Russia on
@@ -776,7 +763,7 @@ export class Zmanim {
     alos: Temporal.ZonedDateTime | null = null,
     tzais: Temporal.ZonedDateTime | null = null
   ): Temporal.ZonedDateTime | null {
-    const hd = this.getHDate();
+    const hd = this.hdate;
 
     // Optimize to not calculate for impossible dates, but account for extreme cases. Tchilas zman kiddush Levana 7 days for
     // the extreme case of Rapa Iti in French Polynesia on Jan 2028 (when kiddush Levana 3 days can be said on the evening

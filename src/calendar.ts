@@ -20,6 +20,7 @@ import {MoladEvent, Molad} from './molad';
 import {OmerEvent} from './omer';
 import {Zmanim} from './zmanim';
 import {Location} from './location';
+import {holidayDesc as hdesc} from './staticHolidays';
 
 /**
  * Calculates holidays and other Hebrew calendar events based on {@link CalOptions}.
@@ -216,7 +217,7 @@ export function calendar(options: CalOptions = {}): Event[] {
         (mm === SIVAN && dd === (il ? 6 : 7))
       ) {
         const linkedEvent = holidays[0];
-        const ev = new Event(hd, 'Yizkor', flags.YIZKOR, {
+        const ev = new Event(hd, hdesc.YIZKOR, flags.YIZKOR, {
           emoji: '🕯️',
           linkedEvent,
         });
@@ -615,9 +616,9 @@ function appendHolidayAndRelated(
     return candlesEv; // bail out early
   }
   if (options.candlelighting && ev.getDesc() === 'Erev Pesach') {
-    const biurChametzEv = makeBiurChametzEvent(ev, options);
-    if (biurChametzEv) {
-      events.push(biurChametzEv);
+    const evts = makeErevPesachChametzEvents(ev, options);
+    if (evts.length) {
+      events.push(...evts);
     }
   }
   const isMajorFast = Boolean(eFlags & MAJOR_FAST);
@@ -733,27 +734,41 @@ function makeOmerEvent(hd: HDate, omerDay: number, options: CalOptions) {
   return omerEv;
 }
 
-function makeBiurChametzEvent(
+function makeErevPesachChametzEvents(
   erevPesachEv: Event,
   options: CalOptions
-): TimedEvent | undefined {
+): TimedEvent[] {
+  const evts: TimedEvent[] = [];
   const location = options.location!;
   const useElevation = Boolean(options.useElevation);
   const hd = erevPesachEv.getDate();
   const zmanim = new Zmanim(location, hd, useElevation);
+  const zmanAchilas = zmanim.sofZmanTfilla(); // Gra
   const time = zmanim.sofZmanBiurChametzGRA();
-  if (isNaN(time.getTime())) {
-    return undefined;
+  if (isNaN(zmanAchilas.getTime()) || isNaN(time.getTime())) {
+    return [];
   }
+  const zmanAchilasEv = new TimedEvent(
+    hd,
+    hdesc.SOF_ZMAN_ACHILAT_CHAMETZ,
+    0,
+    zmanAchilas,
+    location,
+    undefined,
+    options
+  );
+  zmanAchilasEv.emoji = '🍞';
+  evts.push(zmanAchilasEv);
   const biurChametzEv = new TimedEvent(
     hd,
-    'Biur Chametz',
-    flags.USER_EVENT,
+    hdesc.BIUR_CHAMETZ,
+    0,
     time,
     location,
     undefined,
     options
   );
   biurChametzEv.emoji = '🔥';
-  return biurChametzEv;
+  evts.push(biurChametzEv);
+  return evts;
 }

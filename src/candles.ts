@@ -5,6 +5,7 @@ import {Event, flags} from './event';
 import {ChanukahEvent, HolidayEvent} from './HolidayEvent';
 import {Zmanim} from './zmanim';
 import {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
+import {holidayDesc as hdesc} from './staticHolidays';
 
 const LIGHT_CANDLES = flags.LIGHT_CANDLES;
 const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
@@ -66,8 +67,8 @@ export function makeCandleEvent(
   }
 }
 
-const FAST_BEGINS = 'Fast begins';
-const FAST_ENDS = 'Fast ends';
+const FAST_BEGINS = hdesc.FAST_BEGINS;
+const FAST_ENDS = hdesc.FAST_ENDS;
 
 /** A fast day also contains a start and end time */
 export class FastDayEvent extends HolidayEvent {

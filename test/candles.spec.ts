@@ -510,6 +510,7 @@ test('fastStartEnd-friday', () => {
   const expected = [
     {dt: '2022-04-15T04:37:00-04:00', desc: 'Fast begins'},
     {dt: '2022-04-15', desc: 'Ta\'anit Bechorot'},
+    {dt: '2022-04-15T10:32:00-04:00', desc: 'Finish eating chametz'},
     {dt: '2022-04-15T11:39:00-04:00', desc: 'Biur Chametz'},
     {dt: '2022-04-15', desc: 'Erev Pesach'},
     {dt: '2022-04-15T19:08:00-04:00', desc: 'Candle lighting'},

@@ -234,13 +234,6 @@ test('zmanim-denver', () => {
       .toBe('06/05/2020, 21:37:01');
 });
 
-test('throws', () => {
-  const gloc = new GeoLocation(null, 0, 0, 21, 'UTC');
-  expect(() => {
-    new Zmanim(gloc, 123);
-  }).toThrow('invalid date: 123');
-});
-
 test('roundTime', () => {
   const dt50 = new Date(2021, 0, 31, 7, 30, 50, 551); // 2021-01-31T07:30:50.551Z
   const rounded50 = Zmanim.roundTime(dt50);

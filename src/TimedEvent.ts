@@ -4,7 +4,11 @@ import {Location} from './location';
 import {Event} from './event';
 import {reformatTimeStr} from './reformatTimeStr';
 import {Zmanim} from './zmanim';
+import {holidayDesc as hdesc} from './staticHolidays';
 import './locale'; // Adds Hebrew and Ashkenazic translations
+
+const HAVDALAH = hdesc.HAVDALAH;
+const CANDLE_LIGHTING = hdesc.CANDLE_LIGHTING;
 
 /** An event that has an `eventTime` and `eventTimeStr` */
 export class TimedEvent extends Event {
@@ -54,16 +58,18 @@ export class TimedEvent extends Event {
     const desc = this.getDesc();
     switch (desc) {
       // LIGHT_CANDLES or LIGHT_CANDLES_TZEIS
-      case 'Candle lighting':
+      case CANDLE_LIGHTING:
         return ['candles'];
       // YOM_TOV_ENDS
-      case 'Havdalah':
+      case HAVDALAH:
         return ['havdalah'];
       // flags.MINOR_FAST or flags.MAJOR_FAST
-      case 'Fast begins':
-      case 'Fast ends':
+      case hdesc.FAST_BEGINS:
+      case hdesc.FAST_ENDS:
         return ['zmanim', 'fast'];
-      case 'Biur Chametz':
+      case hdesc.SOF_ZMAN_ACHILAT_CHAMETZ:
+        return ['zmanim', 'achilasChametz'];
+      case hdesc.BIUR_CHAMETZ:
         return ['zmanim', 'biurChametz'];
     }
     /* NOTREACHED */
@@ -83,7 +89,7 @@ export class CandleLightingEvent extends TimedEvent {
   ) {
     super(
       date,
-      'Candle lighting',
+      CANDLE_LIGHTING,
       mask,
       eventTime,
       location,
@@ -109,7 +115,7 @@ export class HavdalahEvent extends TimedEvent {
     linkedEvent?: Event,
     options?: CalOptions
   ) {
-    super(date, 'Havdalah', mask, eventTime, location, linkedEvent, options);
+    super(date, HAVDALAH, mask, eventTime, location, linkedEvent, options);
     if (havdalahMins) {
       this.havdalahMins = havdalahMins;
     }

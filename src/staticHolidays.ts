@@ -75,6 +75,13 @@ const SIGD = 'Sigd';
 const YOM_HAALIYAH = 'Yom HaAliyah';
 const YOM_HAALIYAH_SCHOOL_OBSERVANCE = 'Yom HaAliyah School Observance';
 const HEBREW_LANGUAGE_DAY = 'Hebrew Language Day';
+const CANDLE_LIGHTING = 'Candle lighting';
+const HAVDALAH = 'Havdalah';
+const FAST_BEGINS = 'Fast begins';
+const FAST_ENDS = 'Fast ends';
+const BIUR_CHAMETZ = 'Biur Chametz';
+const SOF_ZMAN_ACHILAT_CHAMETZ = 'Finish eating chametz';
+const YIZKOR = 'Yizkor';
 
 /**
  * Transliterated names of holidays, used by `Event.getDesc()`
@@ -231,6 +238,20 @@ export const holidayDesc = {
   YOM_KIPPUR,
   /** Yom Yerushalayim */
   YOM_YERUSHALAYIM,
+  /** Candle lighting */
+  CANDLE_LIGHTING,
+  /** Havdalah */
+  HAVDALAH,
+  /** Fast begins */
+  FAST_BEGINS,
+  /** Fast ends */
+  FAST_ENDS,
+  /** Biur Chametz */
+  BIUR_CHAMETZ,
+  /** Finish eating chametz */
+  SOF_ZMAN_ACHILAT_CHAMETZ,
+  /** Yizkor */
+  YIZKOR,
 } as const;
 
 export interface Holiday {
