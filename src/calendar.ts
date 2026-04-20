@@ -202,6 +202,19 @@ export function calendar(options: CalOptions = {}): Event[] {
         hasUserMask
       );
     }
+    // When Erev Pesach falls on Shabbat, burning chametz is moved to Friday.
+    if (isFriday && options.candlelighting) {
+      const tomorrow = holidaysYear!.get(hd.next().toString()) || [];
+      const tomorrowIsErevPesach = tomorrow.some(
+        ev => ev.getDesc() === hdesc.EREV_PESACH && ev.observedIn(il)
+      );
+      if (tomorrowIsErevPesach) {
+        const biurEv = makeBiurChametzEvent(hd, options);
+        if (biurEv) {
+          evts.push(biurEv);
+        }
+      }
+    }
     if (options.sedrot && isSaturday) {
       const parsha0 = sedra!.lookup(abs);
       if (!parsha0.chag) {
@@ -615,7 +628,7 @@ function appendHolidayAndRelated(
   ) {
     return candlesEv; // bail out early
   }
-  if (options.candlelighting && ev.getDesc() === 'Erev Pesach') {
+  if (options.candlelighting && ev.getDesc() === hdesc.EREV_PESACH) {
     const evts = makeErevPesachChametzEvents(ev, options);
     if (evts.length) {
       events.push(...evts);
@@ -744,8 +757,7 @@ function makeErevPesachChametzEvents(
   const hd = erevPesachEv.getDate();
   const zmanim = new Zmanim(location, hd, useElevation);
   const zmanAchilas = zmanim.sofZmanTfilla(); // Gra
-  const time = zmanim.sofZmanBiurChametzGRA();
-  if (isNaN(zmanAchilas.getTime()) || isNaN(time.getTime())) {
+  if (isNaN(zmanAchilas.getTime())) {
     return [];
   }
   const zmanAchilasEv = new TimedEvent(
@@ -759,6 +771,29 @@ function makeErevPesachChametzEvents(
   );
   zmanAchilasEv.emoji = '🍞';
   evts.push(zmanAchilasEv);
+  // When Erev Pesach falls on Shabbat, chametz cannot be burned on Shabbat,
+  // so Biur Chametz is emitted on the Friday before (see makeBiurChametzEvent
+  // called from the main calendar loop). Skip it here in that case.
+  if (hd.getDay() !== SAT) {
+    const biurEv = makeBiurChametzEvent(hd, options);
+    if (biurEv) {
+      evts.push(biurEv);
+    }
+  }
+  return evts;
+}
+
+function makeBiurChametzEvent(
+  hd: HDate,
+  options: CalOptions
+): TimedEvent | undefined {
+  const location = options.location!;
+  const useElevation = Boolean(options.useElevation);
+  const zmanim = new Zmanim(location, hd, useElevation);
+  const time = zmanim.sofZmanBiurChametzGRA();
+  if (isNaN(time.getTime())) {
+    return undefined;
+  }
   const biurChametzEv = new TimedEvent(
     hd,
     hdesc.BIUR_CHAMETZ,
@@ -769,6 +804,5 @@ function makeErevPesachChametzEvents(
     options
   );
   biurChametzEv.emoji = '🔥';
-  evts.push(biurChametzEv);
-  return evts;
+  return biurChametzEv;
 }
