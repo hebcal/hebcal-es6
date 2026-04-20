@@ -518,6 +518,53 @@ test('fastStartEnd-friday', () => {
   expect(events.map(eventTitleDateTime)).toEqual(expected);
 });
 
+test('biurChametz-erevPesach-saturday-5785', () => {
+  // Pesach 5785 begins Saturday evening, 12 April 2025.
+  // Erev Pesach falls on Shabbat, so Biur Chametz is moved
+  // to Friday (11 April 2025), while Finish eating chametz
+  // stays on Saturday morning.
+  const events = HebrewCalendar.calendar({
+    start: new Date(2025, 3, 10),
+    end: new Date(2025, 3, 12),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  });
+  const expected = [
+    {dt: '2025-04-10T04:46:00-04:00', desc: 'Fast begins'},
+    {dt: '2025-04-10', desc: 'Ta\'anit Bechorot'},
+    {dt: '2025-04-10T19:56:00-04:00', desc: 'Fast ends'},
+    {dt: '2025-04-11T11:41:00-04:00', desc: 'Biur Chametz'},
+    {dt: '2025-04-11T19:04:00-04:00', desc: 'Candle lighting'},
+    {dt: '2025-04-12', desc: 'Shabbat HaGadol'},
+    {dt: '2025-04-12T10:34:00-04:00', desc: 'Finish eating chametz'},
+    {dt: '2025-04-12', desc: 'Erev Pesach'},
+    {dt: '2025-04-12T20:07:00-04:00', desc: 'Candle lighting'},
+  ];
+  expect(events.map(eventTitleDateTime)).toEqual(expected);
+});
+
+test('biurChametz-erevPesach-saturday-5785-il', () => {
+  // Same scenario in Israel.
+  const events = HebrewCalendar.calendar({
+    start: new Date(2025, 3, 11),
+    end: new Date(2025, 3, 12),
+    location: Location.lookup('Jerusalem'),
+    il: true,
+    candlelighting: true,
+  });
+  const descs = events.map(ev => ev.getDesc());
+  expect(descs).toContain('Biur Chametz');
+  expect(descs).toContain('Finish eating chametz');
+  const biur = events.find(ev => ev.getDesc() === 'Biur Chametz')!;
+  const achilas = events.find(
+    ev => ev.getDesc() === 'Finish eating chametz'
+  )!;
+  // Biur Chametz is on Friday, 11 April 2025 (13 Nisan).
+  expect(isoDateString(biur.greg())).toBe('2025-04-11');
+  // Finish eating chametz stays on Saturday, 12 April 2025 (14 Nisan).
+  expect(isoDateString(achilas.greg())).toBe('2025-04-12');
+});
+
 test('fastStartEnd-9av', () => {
   const location = Location.lookup('Providence');
   const events = HebrewCalendar.calendar({
