@@ -202,17 +202,18 @@ export function calendar(options: CalOptions = {}): Event[] {
         hasUserMask
       );
     }
+    const mm = hd.getMonth();
+    const dd = hd.getDate();
     // When Erev Pesach falls on Shabbat, burning chametz is moved to Friday.
-    if (isFriday && options.candlelighting) {
-      const tomorrow = holidaysYear!.get(hd.next().toString()) || [];
-      const tomorrowIsErevPesach = tomorrow.some(
-        ev => ev.getDesc() === hdesc.EREV_PESACH && ev.observedIn(il)
-      );
-      if (tomorrowIsErevPesach) {
-        const biurEv = makeBiurChametzEvent(hd, options);
-        if (biurEv) {
-          evts.push(biurEv);
-        }
+    if (
+      isFriday &&
+      options.candlelighting &&
+      mm === months.NISAN &&
+      dd === 13
+    ) {
+      const biurEv = makeBiurChametzEvent(hd, options);
+      if (biurEv) {
+        evts.push(biurEv);
       }
     }
     if (options.sedrot && isSaturday) {
@@ -222,8 +223,6 @@ export function calendar(options: CalOptions = {}): Event[] {
       }
     }
     if (options.yizkor) {
-      const mm = hd.getMonth();
-      const dd = hd.getDate();
       if (
         (mm === months.TISHREI && (dd === 10 || dd === 22)) ||
         (mm === NISAN && dd === (il ? 21 : 22)) ||
@@ -640,7 +639,7 @@ function appendHolidayAndRelated(
   if (
     options.candlelighting &&
     (isMajorFast || isMinorFast) &&
-    ev.getDesc() !== 'Yom Kippur'
+    ev.getDesc() !== hdesc.YOM_KIPPUR
   ) {
     ev = fastEv = makeFastStartEnd(ev, options);
     if (
