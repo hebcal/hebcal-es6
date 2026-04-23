@@ -699,7 +699,7 @@ function makeMoladAndMevarchimChodesh(hd: HDate, options: CalOptions): Event[] {
     if (options.shabbatMevarchim) {
       const nextMonthName = HDate.getMonthName(monNext, hyear);
       const molad = new Molad(hyear, monNext);
-      const memo = molad.render(options.locale || 'en', options);
+      const memo = molad.render(options.locale, options);
       evts.push(
         new MevarchimChodeshEvent(hd, nextMonthName, memo, options.locale)
       );

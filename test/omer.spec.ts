@@ -157,10 +157,10 @@ test('url', () => {
 });
 
 test('distant-past-url', () => {
-  const hd = new HDate(20, 'Iyyar', 4001);
+  const hd = new HDate(20, 'Iyyar', 5000);
   const ev = new OmerEvent(hd, 35);
-  expect(ev.url()).toBe('https://www.hebcal.com/omer/4001/35');
-  const hd2 = new HDate(20, 'Iyyar', 4000);
+  expect(ev.url()).toBe('https://www.hebcal.com/omer/5000/35');
+  const hd2 = new HDate(20, 'Iyyar', 4999);
   const ev2 = new OmerEvent(hd2, 35);
   expect(ev2.url()).toBe(undefined);
   const hd3 = new HDate(20, 'Iyyar', 3860);

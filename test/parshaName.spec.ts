@@ -26,7 +26,7 @@ test('he', () => {
 test('he-x-NoNikud', () => {
   expect(renderParshaName(['Bereshit'], 'he-x-NoNikud')).toBe('פרשת בראשית');
   expect(renderParshaName(['Lech-Lecha'], 'he-x-NoNikud')).toBe('פרשת לך־לך');
-  expect(renderParshaName(['Vayakhel', 'Pekudei'], 'he-x-NoNikud')).toBe('פרשת ויקהל-פקודי');
+  expect(renderParshaName(['Vayakhel', 'Pekudei'], 'he-x-NoNikud')).toBe('פרשת ויקהל־פקודי');
 });
 
 test('Achrei Mot-Kedoshim', () => {

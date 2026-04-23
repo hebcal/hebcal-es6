@@ -38,8 +38,8 @@ const frDoW = [
 ] as const;
 const night = 'בַּלַּ֥יְלָה';
 
-function getDayNames(locale: string): readonly string[] {
-  if (locale === 'he' || locale === 'he-x-nonikud' || locale === 'h') {
+function getDayNames(locale?: string): readonly string[] {
+  if (Locale.isHebrewLocale(locale)) {
     return heDayNames;
   } else if (locale === 'fr') {
     return frDoW;
@@ -214,12 +214,6 @@ export class Molad {
    * @param options
    */
   render(locale?: string, options?: CalOptions): string {
-    locale = locale ?? 'en';
-    if (typeof locale === 'string') {
-      locale = locale.toLowerCase();
-    }
-    const isHebrewLocale =
-      locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
     const monthName = Locale.gettext(this.getMonthName(), locale);
     const dayNames = getDayNames(locale);
     const dow = dayNames[this.getDow()];
@@ -230,7 +224,7 @@ export class Molad {
     const minutesStr = Locale.lookupTranslation('min', locale) ?? 'minutes';
     const chalakimStr = Locale.gettext('chalakim', locale);
     const and = Locale.gettext('and', locale);
-    if (isHebrewLocale) {
+    if (Locale.isHebrewLocale(locale)) {
       const ampm = getHebrewTimeOfDay(hour);
       let result =
         `${moladStr} ${monthName} יִהְיֶה בַּיּוֹם ${dow} בשָׁבוּעַ, ` +
@@ -239,7 +233,7 @@ export class Molad {
       if (chalakim !== 0) {
         result += ` ו-${chalakim} ${chalakimStr}`;
       }
-      if (locale === 'he-x-nonikud') {
+      if (locale!.toLocaleLowerCase() === 'he-x-nonikud') {
         return Locale.hebrewStripNikkud(result);
       }
       return result;

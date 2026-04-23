@@ -244,12 +244,7 @@ export class OmerEvent extends Event {
    * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
-    locale = locale ?? 'en';
-    if (typeof locale === 'string') {
-      locale = locale.toLowerCase();
-    }
-    const isHebrewLocale =
-      locale === 'he' || locale === 'he-x-nonikud' || locale === 'h';
+    const isHebrewLocale = Locale.isHebrewLocale(locale);
     const omer = this.omer;
     const nth = isHebrewLocale ? gematriya(omer) : Locale.ordinal(omer, locale);
     return nth + ' ' + Locale.gettext('day of the Omer', locale);
@@ -302,11 +297,8 @@ export class OmerEvent extends Event {
    *  or `הַיוֹם עֲשָׂרָה יָמִים, שְׁהֵם שָׁבוּעַ אֶחָד וְשְׁלוֹשָׁה יָמִים לָעוֹמֶר`
    */
   getTodayIs(locale: string): string {
-    locale = locale ?? 'en';
-    if (typeof locale === 'string') {
-      locale = locale.toLowerCase();
-    }
-    const isHebrew = locale === 'he' || locale === 'he-x-nonikud';
+    locale = (locale || 'en').toLowerCase();
+    const isHebrew = Locale.isHebrewLocale(locale);
     const str = isHebrew ? omerTodayIsHe(this.omer) : omerTodayIsEn(this.omer);
     if (locale === 'he-x-nonikud') {
       return Locale.hebrewStripNikkud(str);
@@ -316,7 +308,7 @@ export class OmerEvent extends Event {
 
   url(): string | undefined {
     const year = this.getDate().getFullYear();
-    if (year <= 4000 || year > 6759) {
+    if (year < 5000 || year > 6759) {
       return undefined;
     }
     return `https://www.hebcal.com/omer/${year}/${this.omer}`;
