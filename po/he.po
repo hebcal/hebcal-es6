@@ -553,10 +553,10 @@ msgid "Jabotinsky Day"
 msgstr "יוֹם זַ׳בּוֹטִינְסְקִי"
 
 msgid "Herzl Day"
-msgstr "יוֹם הֵרְצְל"
+msgstr "יוֹם הֶרְצְל"
 
 msgid "Ben-Gurion Day"
-msgstr "יוֹם בן־גוריון"
+msgstr "יוֹם בֶּן־גּוּרִיּוֹן"
 
 msgid "Hebrew Language Day"
 msgstr "יוֹם הַשָׂפָה הַעִברִית"
