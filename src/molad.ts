@@ -1,4 +1,4 @@
-import 'temporal-polyfill/global';
+import './temporal-shim';
 import {Event, flags} from './event';
 import {CalOptions} from './CalOptions';
 import {HDate, Locale, pad2} from '@hebcal/hdate';
