@@ -1,4 +1,4 @@
-import 'temporal-polyfill/global';
+import './temporal-shim';
 import {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 import {
   HDate,
