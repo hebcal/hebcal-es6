@@ -15,6 +15,22 @@ const banner =
 
 // Override tsconfig.json, which includes ./size-demo.
 const tsOptions = {rootDir: './src', target: 'es2019', declaration: false};
+
+// Strip the top-level `await import('temporal-polyfill/global')` block emitted
+// by @hebcal/noaa. The IIFE format does not support top-level await, and our
+// own `src/temporal-shim.ts` (loaded via molad.ts/zmanim.ts) already installs
+// the polyfill conditionally via a synchronous static import.
+const stripNoaaTopLevelAwait = {
+  name: 'strip-noaa-top-level-await',
+  transform(code, id) {
+    if (!id.includes('@hebcal/noaa')) return null;
+    const replaced = code.replace(
+      /if \(typeof globalThis\.Temporal === 'undefined'\) \{\s*await import\('temporal-polyfill\/global'\);\s*\}\s*/,
+      ''
+    );
+    return replaced === code ? null : {code: replaced, map: null};
+  },
+};
 module.exports = defineConfig([
   {
     input: 'src/index.ts',
@@ -75,6 +91,7 @@ module.exports = defineConfig([
     ],
     plugins: [
       typescript(tsOptions),
+      stripNoaaTopLevelAwait,
       nodeResolve(),
       json({compact: true, preferConst: true}),
       bundleSize(),

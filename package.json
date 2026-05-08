@@ -86,7 +86,7 @@
   },
   "dependencies": {
     "@hebcal/hdate": "^0.22.1",
-    "@hebcal/noaa": "^0.10.1",
+    "@hebcal/noaa": "^0.11.0",
     "quick-lru": "^7.3.0",
     "temporal-polyfill": "^0.3.2"
   }
