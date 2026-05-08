@@ -145,7 +145,6 @@ export class Location extends GeoLocation {
   zip?: string;
   population?: number;
   asciiname?: string;
-  jersualem?: boolean;
 
   /**
    * Initialize a Location instance
