@@ -440,4 +440,12 @@ test('getCategories', () => {
   const ev3 = new HolidayEvent(new HDate(9, months.TISHREI, 5763),
       'Erev Yom Kippur', flags.EREV | flags.LIGHT_CANDLES);
   expect(ev3.getCategories()).toEqual(['holiday', 'major']);
+
+  const events = HebrewCalendar.calendar({
+    start: new HDate(25, months.KISLEV, 5784),
+    end: new HDate(26, months.KISLEV, 5784),
+  });
+  const ev4 = events.find((ev) => ev.basename() === 'Chanukah');
+  expect(ev4).toBeDefined();
+  expect(ev4.getCategories()).toEqual(['holiday', 'minor']);
 });
