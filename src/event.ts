@@ -68,7 +68,7 @@ export const flags = {
 
 const flagToCategory = [
   [flags.MAJOR_FAST, 'holiday', 'major', 'fast'],
-  [flags.CHANUKAH_CANDLES, 'holiday', 'major'],
+  [flags.CHANUKAH_CANDLES, 'holiday', 'minor'],
   [flags.HEBREW_DATE, 'hebdate'],
   [flags.MINOR_FAST, 'holiday', 'fast'],
   [flags.MINOR_HOLIDAY, 'holiday', 'minor'],
