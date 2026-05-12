@@ -5,7 +5,12 @@ import {SedraResult} from './sedra';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 /**
- * Represents one of 54 weekly Torah portions, always on a Saturday
+ * Represents one of 54 weekly Torah portions, always on a Saturday.
+ *
+ * `ParshaEvent` is for regular Parashat HaShavua readings. For Shabbatot
+ * with holiday readings such as Shabbat Chol ha-Moed, use
+ * `getHolidaysOnDate()` from `@hebcal/core`, or `getLeyningOnDate()` from
+ * `@hebcal/leyning` when the display title and exact Torah readings are needed.
  */
 export class ParshaEvent extends Event {
   readonly p: SedraResult;

@@ -42,6 +42,39 @@ for (const ev of events) {
 }
 ```
 
+## Displaying the current Shabbat
+
+`ParshaEvent` is designed for regular weekly parsha readings. On Shabbatot
+with holiday readings, such as Shabbat Chol HaMoed, use holiday events or the
+`@hebcal/leyning` package instead.
+
+For a lightweight holiday title from `@hebcal/core`:
+
+```javascript
+import {HDate, getHolidaysOnDate, getSedra, ParshaEvent} from '@hebcal/core';
+
+const hdate = new HDate(new Date(2025, 9, 11));
+const sedra = getSedra(hdate.getFullYear(), true).lookup(hdate);
+const event = sedra.chag
+  ? getHolidaysOnDate(hdate, true)[0]
+  : new ParshaEvent(sedra);
+
+console.log(event.render('he'));
+```
+
+For full Torah reading metadata and Shabbat/holiday leyning titles:
+
+```javascript
+import {HDate} from '@hebcal/hdate';
+import {getLeyningOnDate} from '@hebcal/leyning';
+
+const hdate = new HDate(new Date(2025, 9, 11));
+const reading = getLeyningOnDate(hdate, true, false, 'he');
+
+console.log(reading.name.he);
+console.log(reading.summary);
+```
+
 ## Usage
 
 This package exports two categories of output:
