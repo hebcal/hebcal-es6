@@ -400,6 +400,9 @@ msgstr "סֻכּוֹת שַׁבָּת חֹל הַמּוֹעֵד"
 msgid "Ta'anit Bechorot"
 msgstr "תַּעֲנִית בְּכוֹרוֹת"
 
+msgid "Ta'anit BeHaB"
+msgstr "תַּעֲנִית בה״ב"
+
 msgid "Ta'anit Esther"
 msgstr "תַּעֲנִית אֶסְתֵּר"
 

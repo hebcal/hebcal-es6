@@ -146,6 +146,10 @@ export type CalOptions = {
    */
   yomKippurKatan?: boolean;
   /**
+   * include BeHaB fast days on Monday, Thursday and Monday after Pesach and Sukkot (default `false`).
+   */
+  behab?: boolean;
+  /**
    * Whether to use 12-hour time (as opposed to 24-hour time).
    * Possible values are `true` and `false`; the default is locale dependent.
    */

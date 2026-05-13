@@ -64,6 +64,8 @@ export const flags = {
   DAILY_LEARNING: 0x4000000,
   /** Yizkor */
   YIZKOR: 0x8000000,
+  /** BeHaB fast days on Monday, Thursday and Monday after Pesach and Sukkot */
+  BEHAB: 0x10000000,
 } as const;
 
 const flagToCategory = [

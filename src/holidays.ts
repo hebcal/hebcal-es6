@@ -62,6 +62,7 @@ const CHAG = flags.CHAG;
 const IL_ONLY = flags.IL_ONLY;
 const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
 const CHANUKAH_CANDLES = flags.CHANUKAH_CANDLES;
+const BEHAB = flags.BEHAB;
 const MINOR_FAST = flags.MINOR_FAST;
 const SPECIAL_SHABBAT = flags.SPECIAL_SHABBAT;
 const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
@@ -76,9 +77,11 @@ const FRI = 5;
 const SAT = 6;
 
 const NISAN = months.NISAN;
+const IYYAR = months.IYYAR;
 const TAMUZ = months.TAMUZ;
 const AV = months.AV;
 const TISHREI = months.TISHREI;
+const CHESHVAN = months.CHESHVAN;
 const KISLEV = months.KISLEV;
 const TEVET = months.TEVET;
 const ADAR_I = months.ADAR_I;
@@ -395,6 +398,21 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
     const nextMonthName = HDate.getMonthName(nextMonth, year);
     const ev = new YomKippurKatanEvent(ykk, nextMonthName);
     add(ev);
+  }
+
+  for (const month of [CHESHVAN, IYYAR]) {
+    const roshChodesh = new HDate(1, month, year);
+    let shabbos = new HDate(HDate.dayOnOrBefore(SAT, roshChodesh.abs() + 6));
+    if (shabbos.abs() === roshChodesh.abs()) {
+      shabbos = new HDate(shabbos.abs() + 7);
+    }
+    const fastDays = [2, 5, 9].map(offset => new HDate(shabbos.abs() + offset));
+    if (month === IYYAR && fastDays[2].getDate() === 14) {
+      fastDays[2] = new HDate(17, IYYAR, year);
+    }
+    for (const hd of fastDays) {
+      add(new HolidayEvent(hd, hdesc.TAANIT_BEHAB, MINOR_FAST | BEHAB));
+    }
   }
 
   const sedra = getSedra(year, false);

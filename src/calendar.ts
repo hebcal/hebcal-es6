@@ -56,6 +56,7 @@ import {holidayDesc as hdesc} from './staticHolidays';
  * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
  * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
  * * Yom Kippur Katan (`options.yomKippurKatan`)
+ * * BeHaB fast days after Pesach and Sukkot (`options.behab`)
  * * Yizkor (`options.yizkor`)
  *
  * Daily Study of texts are supported by the
@@ -322,6 +323,7 @@ const EREV = flags.EREV;
 const CHOL_HAMOED = flags.CHOL_HAMOED;
 const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
 const YIZKOR = flags.YIZKOR;
+const BEHAB = flags.BEHAB;
 
 type StringIntMap = Record<string, number>;
 
@@ -355,6 +357,7 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
   addHebrewDatesForEvents: 1,
   mask: 1,
   yomKippurKatan: 1,
+  behab: 1,
   hour12: 1,
   dailyLearning: 1,
   useElevation: 1,
@@ -543,6 +546,9 @@ function getMaskFromOptions(options: CalOptions): number {
   if (options.yomKippurKatan) {
     mask |= YOM_KIPPUR_KATAN;
   }
+  if (options.behab) {
+    mask |= BEHAB;
+  }
   if (options.yizkor) {
     mask |= YIZKOR;
   }
@@ -598,6 +604,7 @@ function setOptionsFromMask(options: CalOptions): number {
   if (m & OMER_COUNT) options.omer = true;
   if (m & SHABBAT_MEVARCHIM) options.shabbatMevarchim = true;
   if (m & YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
+  if (m & BEHAB) options.behab = true;
   if (m & YIZKOR) options.yizkor = true;
   return m;
 }
@@ -623,6 +630,7 @@ function appendHolidayAndRelated(
   const eFlags = ev.getFlags();
   if (
     (!options.yomKippurKatan && eFlags & YOM_KIPPUR_KATAN) ||
+    (!options.behab && eFlags & BEHAB) ||
     (options.noModern && eFlags & MODERN_HOLIDAY)
   ) {
     return candlesEv; // bail out early
@@ -672,7 +680,8 @@ function appendHolidayAndRelated(
     }
     if (
       !options.noHolidays ||
-      (options.yomKippurKatan && eFlags & YOM_KIPPUR_KATAN)
+      (options.yomKippurKatan && eFlags & YOM_KIPPUR_KATAN) ||
+      (options.behab && eFlags & BEHAB)
     ) {
       events.push(ev); // the original event itself
     }

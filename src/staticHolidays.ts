@@ -127,6 +127,8 @@ export const holidayDesc = {
   SHUSHAN_PURIM_KATAN: 'Shushan Purim Katan',
   /** Ta'anit Bechorot */
   TAANIT_BECHOROT: "Ta'anit Bechorot",
+  /** Ta'anit BeHaB */
+  TAANIT_BEHAB: "Ta'anit BeHaB",
   /** Ta'anit Esther */
   TAANIT_ESTHER: "Ta'anit Esther",
   /** Tish'a B'Av */

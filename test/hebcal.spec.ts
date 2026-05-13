@@ -620,6 +620,72 @@ test('ykk with location copies attributes from src', () => {
   expect(ev.render('he')).toBe('יוֹם כִּפּוּר קָטָן אֲדָר');
 });
 
+test('behab is omitted by default', () => {
+  const events = HebrewCalendar.calendar({
+    year: 5784,
+    isHebrewYear: true,
+  });
+  const ev = events.find((ev) => ev.getDesc() === 'Ta\'anit BeHaB');
+  expect(ev).toBeUndefined();
+});
+
+test('behab-only', () => {
+  const events = HebrewCalendar.calendar({
+    behab: true,
+    noHolidays: true,
+    year: 5784,
+    isHebrewYear: true,
+  });
+  const actual = events.map(eventISODateDesc);
+  const expected = [
+    {date: '2023-10-23', desc: 'Ta\'anit BeHaB'},
+    {date: '2023-10-26', desc: 'Ta\'anit BeHaB'},
+    {date: '2023-10-30', desc: 'Ta\'anit BeHaB'},
+    {date: '2024-05-13', desc: 'Ta\'anit BeHaB'},
+    {date: '2024-05-16', desc: 'Ta\'anit BeHaB'},
+    {date: '2024-05-20', desc: 'Ta\'anit BeHaB'},
+  ];
+  expect(actual).toEqual(expected);
+  for (const ev of events) {
+    expect(ev.getFlags()).toBe(flags.MINOR_FAST | flags.BEHAB);
+    expect(ev.getCategories()).toEqual(['holiday', 'fast']);
+  }
+  expect(events[0].render('he')).toBe('תַּעֲנִית בה״ב');
+  expect(events[0].render('he-x-NoNikud')).toBe('תענית בה״ב');
+  expect(events[0].render('ashkenazi')).toBe('Ta’anis BeHaB');
+});
+
+test('behab mask', () => {
+  const events = HebrewCalendar.calendar({
+    mask: flags.BEHAB,
+    year: 5784,
+    isHebrewYear: true,
+  });
+  expect(events.map(eventISODateDesc)).toEqual([
+    {date: '2023-10-23', desc: 'Ta\'anit BeHaB'},
+    {date: '2023-10-26', desc: 'Ta\'anit BeHaB'},
+    {date: '2023-10-30', desc: 'Ta\'anit BeHaB'},
+    {date: '2024-05-13', desc: 'Ta\'anit BeHaB'},
+    {date: '2024-05-16', desc: 'Ta\'anit BeHaB'},
+    {date: '2024-05-20', desc: 'Ta\'anit BeHaB'},
+  ]);
+});
+
+test('behab skips Pesach Sheni', () => {
+  const events = HebrewCalendar.calendar({
+    behab: true,
+    noHolidays: true,
+    year: 5785,
+    isHebrewYear: true,
+    month: 'Iyyar',
+  });
+  expect(events.map(eventISODateDesc)).toEqual([
+    {date: '2025-05-05', desc: 'Ta\'anit BeHaB'},
+    {date: '2025-05-08', desc: 'Ta\'anit BeHaB'},
+    {date: '2025-05-15', desc: 'Ta\'anit BeHaB'},
+  ]);
+});
+
 test('hallel', () => {
   expect(HebrewCalendar.hallel(new HDate(25, months.KISLEV, 5780), false)).toBe(2);
   expect(HebrewCalendar.hallel(new HDate(26, months.KISLEV, 5780), true)).toBe(2);
@@ -819,7 +885,7 @@ test('getHolidayForYear', () => {
 test('getHolidaysForYearArray', () => {
   const holidays = HebrewCalendar.getHolidaysForYearArray(5781, false);
   expect(Array.isArray(holidays)).toBe(true);
-  expect(holidays.length).toBe(93);
+  expect(holidays.length).toBe(99);
 });
 
 test('getHolidaysOnDate', () => {
