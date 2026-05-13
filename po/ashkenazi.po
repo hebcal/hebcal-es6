@@ -136,6 +136,9 @@ msgstr "Sukkos Shabbos Chol ha-Moed"
 msgid "Ta'anit Bechorot"
 msgstr "Ta’anis Bechoros"
 
+msgid "Ta'anit BeHaB"
+msgstr "Ta’anis BeHaB"
+
 msgid "Ta'anit Esther"
 msgstr "Ta’anis Esther"
 
