@@ -21,9 +21,6 @@ msgstr "יום כיפור"
 msgid "Yom Kippur Katan"
 msgstr "יום כיפור קטן"
 
-msgid "Ta'anit BeHaB"
-msgstr "תענית בה״ב"
-
 msgid "Pesach Shabbat Chol ha-Moed"
 msgstr "פסח שבת חול המועד"
 
