@@ -1,0 +1,51 @@
+# .github/workflows/release.yml
+#
+# Publishes to npm via OIDC Trusted Publishing when a GitHub Release is published.
+# Requires: trusted publisher configured on npmjs.com for this package, pointing at
+# this repo, this workflow file (release.yml), and (optionally) the "npm-publish" environment.
+#
+# No NPM_TOKEN needed. Provenance attestations are generated automatically.
+
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  # Allow manual re-runs if a release fails partway through
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # Using an environment lets you add manual approval / branch protection later
+    # if you ever want it. Must match what you configure on npmjs.com (or remove there too).
+    environment:
+      name: npm-publish
+      url: https://www.npmjs.com/package/${{ github.event.repository.name }}
+    permissions:
+      contents: read
+      id-token: write   # REQUIRED for OIDC trusted publishing
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          # Do NOT set registry-url here; it can write an .npmrc that breaks OIDC.
+
+      # Trusted publishing requires npm >= 11.5.1. The npm bundled with Node LTS
+      # may be older, so upgrade explicitly.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Test
+        run: npm test --if-present
+
+      - name: Publish
+        run: npm publish
