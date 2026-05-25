@@ -72,8 +72,8 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^25.8.0",
-    "@vitest/coverage-v8": "^4.1.6",
+    "@types/node": "^25.9.1",
+    "@vitest/coverage-v8": "^4.1.7",
     "gettext-parser": "^9.0.2",
     "gts": "^7.0.0",
     "pretty-bytes": "^7.1.0",
@@ -82,10 +82,10 @@
     "rollup-plugin-visualizer": "^7.0.1",
     "typedoc": "^0.28.19",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.7"
   },
   "dependencies": {
-    "@hebcal/hdate": "^0.22.2",
+    "@hebcal/hdate": "^0.22.3",
     "@hebcal/noaa": "^0.11.0",
     "quick-lru": "^7.3.0",
     "temporal-polyfill": "^0.3.2"
