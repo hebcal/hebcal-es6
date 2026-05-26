@@ -89,10 +89,20 @@ const flagToCategory = [
  * Represents an Event with a title, date, and flags.
  *
  * Events are used to represent holidays, candle-lighting times,
- * Torah readings, and more.
+ * Torah readings, Omer days, Hebrew dates, and more. Most concrete event
+ * types are subclasses (e.g. {@link HolidayEvent}, {@link TimedEvent},
+ * {@link ParshaEvent}, {@link OmerEvent}) and are produced by
+ * {@link HebrewCalendar.calendar}.
  *
- * To get the title of the event a language other than English
- * with Sephardic transliterations, use the `render()` method.
+ * To get the title of the event in a language other than English with
+ * Sephardic transliterations, use the {@link Event.render} method.
+ *
+ * @example
+ * import {Event, HDate, flags} from '@hebcal/core';
+ * const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
+ * ev.getDate().toString(); // '6 Sivan 5749'
+ * ev.getDesc();             // 'Shavuot'
+ * ev.render('he');          // 'שָׁבוּעוֹת'
  */
 export class Event {
   /** Hebrew date of this event */
@@ -173,31 +183,53 @@ export class Event {
   }
   /**
    * Returns a brief (translated) description of this event.
-   * For most events, this is the same as render(). For some events, it procudes
-   * a shorter text (e.g. without a time or added description).
+   *
+   * For most events this is the same as {@link render}. Some subclasses
+   * (e.g. {@link CandleLightingEvent}, {@link HavdalahEvent},
+   * {@link OmerEvent}) produce shorter text without an attached time or
+   * extra qualifier — useful for compact UI display.
+   * @example
+   * import {CandleLightingEvent} from '@hebcal/core';
+   * // For a regular Event, renderBrief() == render():
+   * const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
+   * ev.renderBrief('en'); // 'Shavuot'
    * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
     return this.render(locale);
   }
   /**
-   * Optional holiday-specific Emoji or `null`.
+   * Returns the event's emoji character (e.g. `🕯️`, `🕎`, `🇮🇱`, `🍏🍯`),
+   * or `null` if no emoji is associated with this event.
+   * Subclasses override this to provide holiday-specific emoji.
    */
   getEmoji(): string | null {
     return this.emoji || null;
   }
   /**
-   * Returns a simplified (untranslated) description for this event. For example,
-   * the `HolidayEvent` class supports
-   * "Erev Pesach" => "Pesach", and "Sukkot III (CH''M)" => "Sukkot".
-   * For many holidays the basename and the event description are the same.
+   * Returns a simplified (untranslated) description for this event, suitable
+   * for grouping related events under a single name.
+   *
+   * For example, {@link HolidayEvent} strips qualifiers so that
+   * `"Erev Pesach"` → `"Pesach"` and `"Sukkot III (CH''M)"` → `"Sukkot"`.
+   * For many events the basename and the event description are identical.
+   * @example
+   * import {HolidayEvent, HDate, months, flags} from '@hebcal/core';
+   * const ev = new HolidayEvent(
+   *   new HDate(14, months.NISAN, 5784), 'Erev Pesach', flags.EREV);
+   * ev.getDesc();    // 'Erev Pesach'
+   * ev.basename();   // 'Pesach'
    */
   basename(): string {
     return this.getDesc();
   }
   /**
-   * Returns a URL to hebcal.com or sefaria.org for more detail on the event.
-   * Returns `undefined` for events with no detail page.
+   * Returns a URL to hebcal.com or sefaria.org for more detail on the event,
+   * or `undefined` for events with no detail page.
+   *
+   * Subclasses such as {@link HolidayEvent}, {@link ChanukahEvent},
+   * {@link AsaraBTevetEvent}, {@link ParshaEvent}, and {@link OmerEvent}
+   * override this with their own URL patterns.
    */
   url(): string | undefined {
     return undefined;
@@ -239,7 +271,18 @@ export class Event {
     return il ? this.observedInIsrael() : this.observedInDiaspora();
   }
   /**
-   * Returns a list of event categories
+   * Returns an array of category strings classifying this event, derived
+   * from its {@link flags} bitmask. The first element is the broad category
+   * (e.g. `'holiday'`, `'roshchodesh'`, `'parashat'`, `'omer'`), followed
+   * by zero or more refinements (e.g. `'major'`, `'minor'`, `'fast'`).
+   *
+   * Returns `['unknown']` if no flag maps to a known category.
+   * @example
+   * import {Event, HDate, flags} from '@hebcal/core';
+   * new Event(new HDate(10, 'Tishrei', 5784), 'Yom Kippur', flags.MAJOR_FAST)
+   *   .getCategories(); // ['holiday', 'major', 'fast']
+   * new Event(new HDate(1, 'Shvat', 5784), 'Rosh Chodesh Sh\'vat', flags.ROSH_CHODESH)
+   *   .getCategories(); // ['roshchodesh']
    */
   getCategories(): string[] {
     const mask = this.getFlags();

@@ -29,11 +29,22 @@ function isBeinHaMetzarim(hd: HDate): boolean {
 }
 
 /**
- * Utility method to determine if the given date is during a mourning period.
+ * Returns `true` if the given date falls within a public period of communal
+ * mourning — specifically:
  *
- * This broad helper returns `true` during Sefirat HaOmer and Bein HaMetzarim.
- * It does not attempt to model minhag-specific exceptions within those periods.
+ * - **Sefirat HaOmer**: 16 Nisan through 5 Sivan (the 49 days of the Omer).
+ * - **Bein HaMetzarim** ("between the straits"): 17 Tammuz through 9 Av
+ *   (10 Av when 9 Av is postponed because it falls on Shabbat).
  *
+ * This is a broad helper — it does not attempt to model minhag-specific
+ * exceptions within those periods (e.g. Lag BaOmer, Rosh Chodesh Iyar,
+ * the distinction between Sephardic and Ashkenazic customs on which
+ * portion of the Omer is observed as mourning, etc.).
+ * @example
+ * import {isAveilut, HDate, months} from '@hebcal/core';
+ * isAveilut(new HDate(20, months.NISAN, 5784)); // true (Omer)
+ * isAveilut(new HDate(25, months.TAMUZ, 5784)); // true (Three Weeks)
+ * isAveilut(new HDate(15, months.AV, 5784));    // false
  * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
  * @return `true` if the date is during a mourning period
  */

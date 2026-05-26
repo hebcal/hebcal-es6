@@ -197,15 +197,34 @@ const lamnatzeach = ps67lines.flatMap((x: string) => x.split(/[ ־]/));
 
 const lamnatzeachLetters = sefira.lamnatzeachLetters.split('');
 
-/** Represents a day 1-49 of counting the Omer from Pesach to Shavuot */
+/**
+ * Represents one of the 49 days of counting the Omer between Pesach and
+ * Shavuot (16 Nisan through 5 Sivan).
+ *
+ * Each day has an associated Sefirah pairing (e.g. *Chesed shebiGevurah*),
+ * a word from Psalm 67 (Lamnatzeach), a letter from verse 5 of Psalm 67,
+ * and a word/acrostic from the Ana BeKoach prayer — all accessible via
+ * the methods on this class.
+ *
+ * @example
+ * import {OmerEvent, HDate, months} from '@hebcal/core';
+ * const ev = new OmerEvent(new HDate(16, months.NISAN, 5784), 1);
+ * ev.render('en');        // '1st day of the Omer'
+ * ev.render('he');        // 'א׳ בָּעוֹמֶר'
+ * ev.sefira('translit');  // 'Chesed shebChesed'
+ * ev.getTodayIs('en');    // 'Today is 1 day of the Omer'
+ */
 export class OmerEvent extends Event {
   private readonly weekNumber: number;
   private readonly daysWithinWeeks: number;
   readonly omer: number;
 
   /**
-   * @param date
-   * @param omerDay
+   * Constructs an Omer event for a given day (1–49).
+   *
+   * Throws `RangeError` if `omerDay` is outside 1–49.
+   * @param date Hebrew date this Omer day is counted on (the evening of)
+   * @param omerDay day of the Omer, 1 through 49
    */
   constructor(date: HDate, omerDay: number) {
     super(date, `Omer ${omerDay}`, flags.OMER_COUNT);
@@ -216,10 +235,19 @@ export class OmerEvent extends Event {
   }
 
   /**
-   * Returns the sefira. For example, on day 8:
+   * Returns the Sefirah pairing associated with this Omer day —
+   * one of the seven lower Sefirot within another, calculated as
+   * `day-within-week` of `week-within-cycle`. For example, on day 8
+   * (week 2, day 1):
    *  * חֶֽסֶד שֶׁבִּגְבוּרָה
    *  * Chesed shebiGevurah
    *  * Lovingkindness within Might
+   * @example
+   * import {OmerEvent, HDate, months} from '@hebcal/core';
+   * const day8 = new OmerEvent(new HDate(23, months.NISAN, 5784), 8);
+   * day8.sefira('en');        // 'Lovingkindness within Might'
+   * day8.sefira('he');        // 'חֶֽסֶד שֶׁבִּגְבוּרָה'
+   * day8.sefira('translit');  // 'Chesed shebiGevurah'
    * @param lang `en` (English), `he` (Hebrew with nikud), or `translit` (Hebrew in Sephardic transliteration)
    * @returns a string such as `Lovingkindness within Might` or `חֶֽסֶד שֶׁבִּגְבוּרָה`
    */

@@ -3,7 +3,22 @@ import {Event, flags} from './event';
 import {holidayDesc as hdesc} from './staticHolidays';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
-/** Represents a built-in holiday like Pesach, Purim or Tu BiShvat */
+/**
+ * Represents a built-in holiday like Pesach, Purim or Tu BiShvat.
+ *
+ * Most holiday-related events emitted by {@link HebrewCalendar.calendar}
+ * are instances of `HolidayEvent` or one of its subclasses
+ * ({@link ChanukahEvent}, {@link AsaraBTevetEvent},
+ * {@link RoshHashanaEvent}, {@link RoshChodeshEvent}).
+ *
+ * Adds two notable behaviors over the base {@link Event}:
+ *
+ * - {@link HolidayEvent.basename} strips qualifiers like `Erev `, ` I`/`II`,
+ *   `(CH''M)`, `(observed)`, candle counts, etc. (e.g. `"Erev Pesach"` →
+ *   `"Pesach"`).
+ * - {@link HolidayEvent.url} returns a `https://www.hebcal.com/holidays/...`
+ *   link for the holiday.
+ */
 export class HolidayEvent extends Event {
   /** During Sukkot or Pesach */
   cholHaMoedDay?: number;
@@ -20,6 +35,19 @@ export class HolidayEvent extends Event {
     }
   }
 
+  /**
+   * Returns a simplified (untranslated) name for this holiday, stripping
+   * qualifiers so that related events group under one name.
+   *
+   * Strips trailing 4-digit years, `(CH''M)`, `(observed)`, `(Hoshana Raba)`,
+   * Roman-numeral day numbers (` I`, ` II`, ...), Chanukah candle counts,
+   * `: 8th Day`, and a leading `"Erev "`.
+   * @example
+   * // 'Erev Pesach'           => 'Pesach'
+   * // 'Sukkot III (CH''M)'    => 'Sukkot'
+   * // 'Chanukah: 5 Candles'   => 'Chanukah'
+   * // 'Rosh Hashana 5784'     => 'Rosh Hashana'
+   */
   basename(): string {
     return this.getDesc()
       .replace(/ \d{4}$/, '')
@@ -32,6 +60,11 @@ export class HolidayEvent extends Event {
       .replace(/^Erev /, '');
   }
 
+  /**
+   * Returns a `https://www.hebcal.com/holidays/...` URL for more detail on
+   * this holiday. Israel-only holidays get an `?i=on` query parameter.
+   * Returns `undefined` for years outside `[100, 2999]`.
+   */
   url(): string | undefined {
     const year = this.greg().getFullYear();
     if (year < 100 || year > 2999) {

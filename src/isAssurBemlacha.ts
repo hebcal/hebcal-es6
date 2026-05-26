@@ -34,11 +34,31 @@ function isTodayAssurBemelacha(dow: number, events: Event[]): boolean {
 }
 
 /**
- * Utility method to determine if the date and time has a <em>melacha</em> (work) prohibition.
- * Although there are many opinions on the time of <em>tzais</em>, for simplicity
- * this function uses solar depression of 8.5 degrees.
+ * Returns `true` if the given moment (date + time) falls within a period
+ * when *melacha* (work) is prohibited — i.e. Shabbat or a Yom Tov.
  *
- * @return `true` if <em>melacha</em> is prohibited or `false` if it is not.
+ * The Shabbat/Yom Tov window is taken to begin at sunset (shkiah) on the
+ * preceding day (Erev Shabbat / Erev Yom Tov / Yom Tov sheni) and to end
+ * at *tzais* (nightfall) on the day itself. *Tzais* is calculated using a
+ * solar depression of 8.5° for simplicity; consult a halachic authority
+ * for more stringent opinions.
+ *
+ * `useElevation` controls whether the location's elevation is taken into
+ * account when computing sunset (it has no effect on the degree-based
+ * tzais calculation). The Israel/Diaspora schedule comes from
+ * `location.getIsrael()`.
+ *
+ * Throws if sunset cannot be calculated for the given location
+ * (e.g. polar regions).
+ * @example
+ * import {isAssurBemlacha, Location} from '@hebcal/core';
+ * const loc = Location.lookup('Jerusalem')!;
+ * // Friday after sunset:
+ * isAssurBemlacha(new Date('2024-04-26T18:00:00Z'), loc, false); // true
+ * @param currentTime the moment to test (with hour/minute)
+ * @param location geographic location (also supplies Israel/Diaspora flag and tzid)
+ * @param useElevation include elevation when computing sunset
+ * @return `true` if *melacha* is prohibited, `false` if it is not
  */
 export function isAssurBemlacha(
   currentTime: Date,

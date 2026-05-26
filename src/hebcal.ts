@@ -238,8 +238,20 @@ export class HebrewCalendar {
 
   /**
    * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
-   * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
+   * `HDate.toString()`. These events must be filtered for `flags.IL_ONLY`
    * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
+   *
+   * Includes Rosh Chodesh, fasts, Yom Kippur Katan, Special Shabbatot, etc.,
+   * but does not generate candle-lighting times, Torah readings, or Omer days.
+   * The result is cached in an internal LRU.
+   * @example
+   * import {HebrewCalendar} from '@hebcal/core';
+   * const map = HebrewCalendar.getHolidaysForYear(5784);
+   * for (const [hdStr, events] of map.entries()) {
+   *   for (const ev of events) {
+   *     console.log(hdStr, ev.getDesc());
+   *   }
+   * }
    * @param year Hebrew year
    */
   static getHolidaysForYear(year: number): HolidayYearMap {
@@ -247,7 +259,16 @@ export class HebrewCalendar {
   }
 
   /**
-   * Returns an array of holidays for the year
+   * Returns a sorted array of holidays observed during the given Hebrew year.
+   *
+   * Events are pre-filtered by Israel vs. Diaspora schedule, so callers do not
+   * need to inspect `flags.IL_ONLY` / `flags.CHUL_ONLY` themselves.
+   * Includes Rosh Chodesh, fasts, modern holidays, special Shabbatot, etc.,
+   * but does not generate candle-lighting times, Torah readings, or Omer days.
+   * @example
+   * import {HebrewCalendar} from '@hebcal/core';
+   * const events = HebrewCalendar.getHolidaysForYearArray(5784, false);
+   * console.log(events[0].getDesc()); // 'Rosh Hashana 5784'
    * @param year Hebrew year
    * @param il use the Israeli schedule for holidays
    */
@@ -256,7 +277,16 @@ export class HebrewCalendar {
   }
 
   /**
-   * Returns an array of Events on this date (or `undefined` if no events)
+   * Returns an array of holiday Events that occur on the given date,
+   * or `undefined` if no holidays occur that day.
+   *
+   * When `il` is omitted, both Diaspora-only and Israel-only events are
+   * returned; pass `true` or `false` to filter to a single schedule.
+   * @example
+   * import {HebrewCalendar, HDate, months} from '@hebcal/core';
+   * const hd = new HDate(15, months.NISAN, 5784);
+   * const events = HebrewCalendar.getHolidaysOnDate(hd, false);
+   * console.log(events?.map(ev => ev.getDesc())); // ['Pesach I']
    * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
    * @param [il] use the Israeli schedule for holidays
    */
@@ -268,7 +298,20 @@ export class HebrewCalendar {
   }
 
   /**
-   * Eruv Tavshilin
+   * Returns `true` if Eruv Tavshilin should be prepared on the given date.
+   *
+   * Eruv Tavshilin is prepared when a Yom Tov falls on Friday (so cooking
+   * for Shabbat that begins Friday night may continue from Yom Tov into
+   * Shabbat). This requires the day before to be a weekday (Wednesday or
+   * Thursday), the following Friday to be Yom Tov, and the day after Friday
+   * (Shabbat) to also be a sacred day.
+   * @example
+   * import {HebrewCalendar} from '@hebcal/core';
+   * // Thursday April 25, 2024 — first day of Pesach 5784, with Shabbat
+   * // chol ha-moed the next day, so Eruv Tavshilin is required:
+   * HebrewCalendar.eruvTavshilin(new Date(2024, 3, 25), false); // true
+   * @param date Gregorian or Hebrew date to test
+   * @param il use the Israeli holiday schedule
    */
   static eruvTavshilin(date: Date | HDate, il: boolean): boolean {
     if (date.getDay() < 3 || date.getDay() > 4) {
@@ -284,11 +327,19 @@ export class HebrewCalendar {
   }
 
   /**
-   * Helper function to format a 23-hour (00:00-23:59) time in US format ("8:13pm") or
-   * keep as "20:13" for any other locale/country. Uses {@link CalOptions} to determine
-   * locale.
-   * If `options.hour12` is `false`, locale is ignored and always returns 24-hour time.
-   * If `options.hour12` is `true`, locale is ignored and always returns 12-hour time.
+   * Helper function to format a 24-hour (00:00-23:59) time string in either
+   * 12-hour US format (e.g. `"8:13pm"`) or keep it in 24-hour format (e.g.
+   * `"20:13"`) for any other locale or country.
+   *
+   * The locale (and therefore default behavior) is derived from
+   * `options.location` / `options.locale`. The `options.hour12` override
+   * takes precedence: if `false`, locale is ignored and the result is always
+   * 24-hour; if `true`, locale is ignored and the result is always 12-hour.
+   * @example
+   * import {HebrewCalendar, Location} from '@hebcal/core';
+   * const opts = {location: Location.lookup('Chicago')};
+   * HebrewCalendar.reformatTimeStr('20:30', 'pm', opts);          // '8:30pm'
+   * HebrewCalendar.reformatTimeStr('20:30', 'pm', {hour12: false}); // '20:30'
    * @param timeStr - original time like "20:30"
    * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
    * @param options
@@ -301,31 +352,51 @@ export class HebrewCalendar {
     return reformatTimeStr(timeStr, suffix, options);
   }
 
+  /**
+   * Returns the semantic version string of the `@hebcal/core` package
+   * (e.g. `"5.10.0"`). Useful for logging or feature detection.
+   */
   static version(): string {
     return pkgVersion;
   }
 
   /**
-   * Convenience function to create an instance of `Sedra` or reuse a previously
-   * created and cached instance.
+   * Convenience function to create an instance of {@link Sedra} or reuse a
+   * previously created and cached instance for the same year + schedule.
+   *
+   * Use this in preference to `new Sedra(...)` when calling repeatedly,
+   * since an internal LRU cache (~120 entries) avoids recomputing the
+   * keviyah-specific reading pattern.
+   * @example
+   * import {HebrewCalendar} from '@hebcal/core';
+   * const sedra = HebrewCalendar.getSedra(5784, false);
+   * const result = sedra.lookup(new HDate(15, 'Cheshvan', 5784));
+   * console.log(result.parsha); // ['Lech-Lecha']
+   * @param hyear Hebrew year
+   * @param il Use Israel sedra schedule (`false` for Diaspora)
    */
   static getSedra(hyear: number, il: boolean): Sedra {
     return getSedra(hyear, il);
   }
 
   /**
-   * Return a number containing information on what Hallel is said on that day.
+   * Returns a number indicating which form of Hallel (if any) is recited
+   * on a given Hebrew date.
    *
    * Whole Hallel is said on Chanukah, the first Yom Tov of Pesach, Shavuot, Sukkot,
    * Yom Ha'atzmaut, and Yom Yerushalayim.
    *
    * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
    *
-   * The number is one of the following values:
-   *
-   * 0 - No Hallel
-   * 1 - Half Hallel
-   * 2 - Whole Hallel
+   * The return value is one of:
+   * * `0` — No Hallel
+   * * `1` — Half Hallel
+   * * `2` — Whole Hallel
+   * @example
+   * import {HebrewCalendar, HDate, months} from '@hebcal/core';
+   * HebrewCalendar.hallel(new HDate(25, months.KISLEV, 5784), false); // 2 (Chanukah)
+   * HebrewCalendar.hallel(new HDate(1, months.SHVAT, 5784), false);   // 1 (Rosh Chodesh)
+   * HebrewCalendar.hallel(new HDate(2, months.SHVAT, 5784), false);   // 0
    */
   static hallel(hdate: HDate, il: boolean): number {
     const events = getHolidaysForYearArray(hdate.getFullYear(), il);
@@ -347,6 +418,15 @@ export class HebrewCalendar {
    * Tachanun is not said at Mincha on days before it is not said at Shacharit.
    *
    * Tachanun is not said at Shacharit on Shabbat, but is at Mincha, usually.
+   * @example
+   * import {HebrewCalendar, HDate, months} from '@hebcal/core';
+   * // Regular weekday — Tachanun is said at both services
+   * HebrewCalendar.tachanun(new HDate(2, months.SHVAT, 5784), false);
+   * // => { shacharit: true, mincha: true, allCongs: true }
+   *
+   * // Rosh Chodesh — no Tachanun
+   * HebrewCalendar.tachanun(new HDate(1, months.SHVAT, 5784), false);
+   * // => { shacharit: false, mincha: false, allCongs: false }
    */
   static tachanun(hdate: HDate, il: boolean): TachanunResult {
     return tachanun(hdate, il);
