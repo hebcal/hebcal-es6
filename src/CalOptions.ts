@@ -24,7 +24,7 @@ export type CalOptions = {
    */
   month?: number | string;
   /**
-   * generate calendar for multiple years (default 1)
+   * generate calendar for multiple years (default 1, maximum 2000)
    */
   numYears?: number;
   /**
@@ -52,8 +52,7 @@ export type CalOptions = {
   havdalahMins?: number;
   /**
    * degrees for solar depression for Havdalah.
-   * Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars
-   * (observed by Dr. Baruch (Berthold) Cohn in his luach published in France in 1899).
+   * Default is 8.5 degrees for 3 small stars. use 7.083 degrees for 3 medium-sized stars.
    * If `0`, Havdalah times are suppressed.
    */
   havdalahDeg?: number;
@@ -72,7 +71,7 @@ export type CalOptions = {
    */
   useElevation?: boolean;
   /**
-   * calculate parashah hashavua on Saturdays
+   * calculate Parashat HaShavua on Saturdays
    */
   sedrot?: boolean;
   /**

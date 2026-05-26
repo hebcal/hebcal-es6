@@ -23,6 +23,8 @@ function getYear(options: CalOptions): number {
     : new Date().getFullYear();
 }
 
+const MAX_NUM_YEARS = 2000;
+
 /**
  * Parse options object to determine start & end days
  * @private
@@ -31,7 +33,12 @@ export function getStartAndEnd(options: CalOptions): number[] {
   if ((options.start && !options.end) || (options.end && !options.start)) {
     throw new TypeError('Both options.start and options.end are required');
   } else if (options.start && options.end) {
-    return [getAbs(options.start), getAbs(options.end)];
+    const start = getAbs(options.start),
+      end = getAbs(options.end);
+    if (end - start > 365 * MAX_NUM_YEARS) {
+      throw new RangeError(`Date range exceeds ${MAX_NUM_YEARS} years`);
+    }
+    return [start, end];
   }
   const isHebrewYear = Boolean(options.isHebrewYear);
   const theYear = getYear(options);
@@ -42,6 +49,9 @@ export function getStartAndEnd(options: CalOptions): number[] {
   }
   const theMonth = getMonth(options);
   const numYears = Number(options.numYears) || 1;
+  if (numYears > MAX_NUM_YEARS) {
+    throw new RangeError(`options.numYears exceeds ${MAX_NUM_YEARS}`);
+  }
   if (isHebrewYear) {
     return startEndHebrew(theMonth, theYear, numYears);
   } else {

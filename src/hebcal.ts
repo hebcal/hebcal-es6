@@ -55,7 +55,7 @@ export class HebrewCalendar {
    * The date range returned by this function can be controlled by:
    * * `options.year` - Gregorian (e.g. 1993) or Hebrew year (e.g. 5749)
    * * `options.isHebrewYear` - to interpret `year` as Hebrew year
-   * * `options.numYears` - generate calendar for multiple years (default 1)
+   * * `options.numYears` - generate calendar for multiple years (default 1, maximum 2000)
    * * `options.month` - Gregorian or Hebrew month (to filter results to a single month)
    *
    * Alternatively, specify start and end days with `Date` or {@link HDate} instances:

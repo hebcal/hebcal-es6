@@ -26,7 +26,7 @@ export {MoladBase, calculateMolad} from './moladBase';
 export {getMoladAsDate} from './moladDate';
 export {Molad, MoladEvent} from './molad';
 export {OmerEvent, OmerLang} from './omer';
-export {TachanunResult} from './tachanun';
+export {TachanunResult, tachanun} from './tachanun';
 export {Sedra, SedraResult, parshiot, getSedra} from './sedra';
 export {ParshaEvent} from './ParshaEvent';
 export {parshaYear} from './parshaYear';
