@@ -78,7 +78,31 @@ function initClassicCities() {
   }
 }
 
-/** Class representing Location */
+/**
+ * Class representing a geographic location for use with candle-lighting,
+ * havdalah, and zmanim calculations.
+ *
+ * Extends {@link GeoLocation} from `@hebcal/noaa` with Jewish-calendar
+ * specific data: an Israel/Diaspora flag, ISO country code, and an optional
+ * geographic identifier. Also provides {@link Location.lookup} for ~60
+ * built-in "classic" Hebcal cities.
+ *
+ * @example
+ * import {Location} from '@hebcal/core';
+ *
+ * // Create a location for a custom address
+ * const loc = new Location(
+ *   41.85003,    // latitude
+ *   -87.65005,   // longitude
+ *   false,       // not in Israel
+ *   'America/Chicago',
+ *   'Chicago, Illinois, USA',
+ *   'US'
+ * );
+ *
+ * // Or look up a built-in classic city
+ * const tlv = Location.lookup('Tel Aviv');
+ */
 export class Location extends GeoLocation {
   private readonly il: boolean;
   private readonly cc?: string;
@@ -133,16 +157,33 @@ export class Location extends GeoLocation {
     this.geoid = geoid;
   }
 
+  /**
+   * Returns `true` if this location is in Israel (uses the Israeli holiday
+   * and Torah-reading schedule), `false` for the Diaspora.
+   */
   getIsrael(): boolean {
     return this.il;
   }
 
+  /**
+   * Returns the full descriptive location name passed to the constructor,
+   * or `null` if no name was provided.
+   * @example
+   * Location.lookup('San Francisco')?.getName(); // 'San Francisco, California, USA'
+   */
   getName(): string | null {
     return this.getLocationName();
   }
 
   /**
-   * Returns the location name, up to the first comma
+   * Returns the location name truncated at the first comma. Useful for
+   * compact display where only the city name is desired.
+   *
+   * Special-cased so that US locations of the form `"Washington, DC"` or
+   * `"Washington, D.C., ..."` keep the `DC` / `D.C.` suffix attached.
+   * @example
+   * Location.lookup('San Francisco')?.getShortName(); // 'San Francisco'
+   * Location.lookup('Washington DC')?.getShortName(); // 'Washington, DC'
    */
   getShortName(): string | null {
     const name = this.getLocationName();
@@ -159,21 +200,40 @@ export class Location extends GeoLocation {
     return name.substring(0, comma);
   }
 
+  /**
+   * Returns the ISO 3166 alpha-2 country code (e.g. `"US"`, `"IL"`, `"FR"`)
+   * passed to the constructor, or `undefined` if none was provided.
+   */
   getCountryCode(): string | undefined {
     return this.cc;
   }
 
+  /**
+   * Returns the Olson timezone identifier (e.g. `"America/Chicago"`).
+   * Alias for `getTimeZone()` from the parent `GeoLocation` class.
+   */
   getTzid(): string {
     return this.getTimeZone();
   }
 
   /**
-   * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) for this location
+   * Returns a cached 24-hour `Intl.DateTimeFormat` (e.g. `07:41` or `20:03`)
+   * configured for this location's timezone. Formatters are memoized by
+   * timezone so repeated calls do not allocate.
+   * @example
+   * const loc = Location.lookup('Tel Aviv')!;
+   * const fmt = loc.getTimeFormatter();
+   * fmt.format(new Date()); // e.g. '18:42'
    */
   getTimeFormatter(): Intl.DateTimeFormat {
     return getFormatter(this.getTimeZone());
   }
 
+  /**
+   * Returns the optional geographic identifier passed to the constructor
+   * (typically a GeoNames numeric ID or a US Zip Code string), or
+   * `undefined` if none was provided.
+   */
   getGeoId(): string | number | undefined {
     return this.geoid;
   }
@@ -194,7 +254,13 @@ export class Location extends GeoLocation {
    * 'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
    * 'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
    * 'Washington DC', 'Worcester'
-   * @param name
+   *
+   * Lookups are case-insensitive. Returns `undefined` if the name is not
+   * recognized. The list can be extended with {@link Location.addLocation}.
+   * @example
+   * const loc = Location.lookup('San Francisco');
+   * console.log(loc?.getTzid()); // 'America/Los_Angeles'
+   * @param name case-insensitive classic city name
    */
   static lookup(name: string): Location | undefined {
     if (classicCities.size === 0) {
@@ -203,12 +269,25 @@ export class Location extends GeoLocation {
     return classicCities.get(name.toLowerCase());
   }
 
+  /**
+   * Returns a JSON-serialized representation of this Location.
+   * Useful for debugging and structured logging.
+   */
   toString(): string {
     return JSON.stringify(this);
   }
 
   /**
-   * Converts legacy Hebcal timezone to a standard Olson tzid.
+   * Converts a legacy Hebcal-style timezone (a numeric GMT offset plus a
+   * coarse DST region) to a standard IANA/Olson timezone ID.
+   *
+   * This exists to migrate data from older Hebcal versions that stored
+   * timezones as GMT offset + DST scheme rather than as a full tzid.
+   * @example
+   * Location.legacyTzToTzid(2, 'israel'); // 'Asia/Jerusalem'
+   * Location.legacyTzToTzid(0, 'eu');     // 'Europe/London'
+   * Location.legacyTzToTzid(0, 'none');   // 'UTC'
+   * Location.legacyTzToTzid(-5, 'none');  // 'Etc/GMT-5'
    * @param tz integer, GMT offset in hours
    * @param dst 'none', 'eu', 'usa', or 'israel'
    */
@@ -264,9 +343,18 @@ export class Location extends GeoLocation {
   }
 
   /**
-   * Adds a location name for `Location.lookup()` only if the name isn't
-   * already being used. Returns `false` if the name is already taken
-   * and `true` if successfully added.
+   * Registers a new named location with the built-in `Location.lookup()`
+   * registry. Names are stored case-insensitively. Returns `false` if a
+   * location with the same (lower-cased) name is already registered, and
+   * `true` if successfully added.
+   *
+   * Use this to extend the built-in set of ~60 classic Hebcal cities with
+   * your own custom locations.
+   * @example
+   * const tlv = new Location(32.0853, 34.7818, true,
+   *   'Asia/Tel_Aviv', 'My Office, Tel Aviv', 'IL');
+   * Location.addLocation('My Office', tlv);   // true
+   * Location.lookup('my office')?.getTzid();  // 'Asia/Tel_Aviv'
    */
   static addLocation(cityName: string, location: Location): boolean {
     const name = cityName.toLowerCase();

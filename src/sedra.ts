@@ -78,7 +78,23 @@ export type SedraResult = {
 };
 
 /**
- * Represents Parashah HaShavua for an entire Hebrew year
+ * Represents the weekly Torah-reading (Parashat HaShavua) schedule for an
+ * entire Hebrew year.
+ *
+ * The schedule depends on the year's *keviyah* — the day of week of Rosh
+ * Hashana, whether the year is leap, whether Cheshvan/Kislev are long or
+ * short, and whether the schedule is for Israel or the Diaspora (since
+ * Israel and the Diaspora diverge in some years when the 8th day of Pesach
+ * or the 2nd day of Shavuot fall on Shabbat).
+ *
+ * Prefer {@link getSedra} (or {@link HebrewCalendar.getSedra}) over
+ * calling this constructor directly, since both cache their results.
+ *
+ * @example
+ * import {Sedra, HDate, months} from '@hebcal/core';
+ * const sedra = new Sedra(5784, false);
+ * const result = sedra.lookup(new HDate(15, months.CHESHVAN, 5784));
+ * console.log(result.parsha); // ['Lech-Lecha']
  */
 export class Sedra {
   private readonly year: number;
@@ -88,7 +104,7 @@ export class Sedra {
   private readonly theSedraArray: readonly NumberOrString[];
   private readonly yearKey: string;
   /**
-   * Caculates the Parashah HaShavua for an entire Hebrew year
+   * Calculates the Parashat HaShavua schedule for an entire Hebrew year.
    * @param hyear - Hebrew year (e.g. 5749)
    * @param il - Use Israel sedra schedule (false for Diaspora)
    */
@@ -124,8 +140,23 @@ export class Sedra {
   }
 
   /**
-   * Returns the date that a parsha occurs
-   * or `null` if the parsha doesn't occur this year
+   * Returns the date a parsha is read this year, or `null` if it does not
+   * occur in this year's schedule.
+   *
+   * A doubled parsha (e.g. `'Matot-Masei'`) will only return a date in years
+   * where that pair is actually read together; in years where they are read
+   * separately, this returns `null`. Use {@link findContaining} to find the
+   * date a parsha is read regardless of whether it is doubled.
+   *
+   * Throws `RangeError` for an out-of-range numeric input or an invalid
+   * doubled-parsha pair, and `TypeError` for a malformed array argument.
+   * @example
+   * import {Sedra} from '@hebcal/core';
+   * const sedra = new Sedra(5784, false);
+   * sedra.find('Noach')?.toString();         // '15 Cheshvan 5784'
+   * sedra.find(1)?.toString();                // same, by 0-based index
+   * sedra.find('Matot-Masei')?.toString();   // null in 5784 — read separately
+   * sedra.find(['Matot', 'Masei']);          // also null in 5784
    * @param parsha if a `string`, specified with Sephardic transliterations
    *  like `'Noach'` or `'Matot-Masei'`. If an array, must be a 1- or 2-element
    *  array such as `['Noach']` or `['Matot', 'Masei']`. If a `number`, should
@@ -187,8 +218,22 @@ export class Sedra {
   }
 
   /**
-   * Returns the date that a parsha (or its doubled or undoubled counterpart)
-   * occurs, or `null` if the parsha doesn't occur this year
+   * Returns the date a parsha is read this year, looking through both
+   * single and doubled forms.
+   *
+   * For example, if `'Matot'` is read individually this year, this returns
+   * its date; if it is read as part of `'Matot-Masei'` this year, this
+   * returns the date of `'Matot-Masei'` (and similarly for `'Masei'`).
+   * Conversely, asking for `'Matot-Masei'` in a year where they are split
+   * will return the date of `'Matot'` alone.
+   * @example
+   * import {Sedra} from '@hebcal/core';
+   * const sedra = new Sedra(5784, false);
+   * // Matot-Masei is split in 5784; both individual halves resolve:
+   * sedra.findContaining('Matot')?.toString();        // '22 Tamuz 5784'
+   * sedra.findContaining('Masei')?.toString();        // '29 Tamuz 5784'
+   * // Asking for the doubled name returns the date of the first half:
+   * sedra.findContaining('Matot-Masei')?.toString();  // '22 Tamuz 5784'
    */
   findContaining(parsha: number | string): HDate | null {
     const hdate = this.find(parsha);
@@ -228,26 +273,53 @@ export class Sedra {
   }
 
   /**
-   * Returns the underlying annual sedra schedule.
-   * Used by `@hebcal/triennial`
+   * Returns the underlying annual reading schedule as an array, where each
+   * entry corresponds to one Saturday (starting from the first Shabbat on
+   * or after Rosh Hashana). Entries are either:
+   * - a non-negative `number`: a 0-based parsha index (e.g. `0` for
+   *   *Bereshit*)
+   * - a negative `number`: the negated first index of a doubled parsha
+   *   (e.g. `-21` for *Vayakhel-Pekudei*)
+   * - a `string`: a holiday name when a Yom Tov displaces the weekly reading
+   *   (e.g. `'Pesach Shabbat Chol ha-Moed'`, `'Yom Kippur'`)
+   *
+   * Used by `@hebcal/triennial`.
    */
   getSedraArray(): readonly NumberOrString[] {
     return this.theSedraArray;
   }
 
   /**
-   * R.D. date of the first Saturday on or after Rosh Hashana
+   * Returns the R.D. (Rata Die / Fixed Date) absolute day number of the
+   * first Saturday on or after Rosh Hashana of this year. This is the
+   * anchor point for {@link getSedraArray} — index `0` of that array
+   * corresponds to this date.
    */
   getFirstSaturday(): number {
     return this.firstSaturday;
   }
 
+  /** Returns the Hebrew year this `Sedra` instance covers. */
   getYear(): number {
     return this.year;
   }
 
   /**
-   * Returns an object describing the parsha on the first Saturday on or after `hd`
+   * Returns details about the parsha read on the first Saturday on or after
+   * `hd`. If `hd` is itself a Saturday, the reading for that date is
+   * returned; otherwise the reading for the upcoming Saturday is returned.
+   *
+   * If the given date falls in the final days of the Hebrew year (after
+   * the last reading of this year's schedule), this method transparently
+   * delegates to the next year's `Sedra`.
+   * @example
+   * import {Sedra, HDate, months} from '@hebcal/core';
+   * const sedra = new Sedra(5784, false);
+   * // A weekday — returns the upcoming Shabbat's reading
+   * const result = sedra.lookup(new HDate(13, months.CHESHVAN, 5784));
+   * console.log(result.parsha); // ['Lech-Lecha']
+   * console.log(result.chag);   // false
+   * console.log(result.hdate.toString()); // '15 Cheshvan 5784' (Saturday)
    * @param hd Hebrew date or R.D. days
    */
   lookup(hd: HDate | number): SedraResult {
@@ -689,10 +761,18 @@ types['1721'] = types['170'];
 const sedraCache = new QuickLRU<string, Sedra>({maxSize: 120});
 
 /**
- * Convenience function to create an instance of `Sedra` or reuse a previously
- * created and cached instance.
- * @param hyear
- * @param il
+ * Convenience function to create an instance of {@link Sedra} or reuse a
+ * previously created and cached instance for the same year and schedule.
+ *
+ * Prefer this over `new Sedra(...)` when calling repeatedly — an internal
+ * LRU cache (~120 entries) avoids recomputing the keviyah-specific schedule.
+ * @example
+ * import {getSedra, HDate, months} from '@hebcal/core';
+ * const sedra = getSedra(5784, false);
+ * const {parsha} = sedra.lookup(new HDate(15, months.CHESHVAN, 5784));
+ * console.log(parsha); // ['Lech-Lecha']
+ * @param hyear Hebrew year
+ * @param il Use Israel sedra schedule (`false` for Diaspora)
  */
 export function getSedra(hyear: number, il: boolean): Sedra {
   const cacheKey = `${hyear}-${il ? 1 : 0}`;

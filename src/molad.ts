@@ -56,7 +56,20 @@ function getHebrewTimeOfDay(hour: number): string {
 }
 
 /**
- * Represents a molad, the moment when the new moon is "born"
+ * Represents a *molad* — the calculated moment when the new moon is "born"
+ * for a given Hebrew month.
+ *
+ * The molad is announced in synagogue on Shabbat Mevarchim (the Shabbat
+ * before Rosh Chodesh) and is the anchor point for Kiddush Levana zmanim.
+ * Calculations use the traditional chalakim arithmetic
+ * (1 hour = 1080 chalakim) anchored to *Molad Tohu BaHaRaD*.
+ *
+ * @example
+ * import {Molad, months} from '@hebcal/core';
+ * const m = new Molad(5784, months.NISAN);
+ * console.log(m.getMonthName()); // 'Nisan'
+ * console.log(m.getHour(), m.getMinutes(), m.getChalakim()); // e.g. 1 31 12
+ * console.log(m.render('en')); // 'Molad Nisan: Mon, 1:31am and 12 chalakim'
  */
 export class Molad {
   private readonly m: MoladBase;
@@ -65,9 +78,9 @@ export class Molad {
   private instant?: Temporal.ZonedDateTime;
 
   /**
-   * Calculates the molad for a Hebrew month
-   * @param year
-   * @param month 1=NISSAN, 7=TISHREI
+   * Calculates the molad for a given Hebrew year and month.
+   * @param year Hebrew year
+   * @param month 1=NISAN, 7=TISHREI (uses Nisan-based numbering)
    */
   constructor(year: number, month: number) {
     this.m = calculateMolad(year, month);
@@ -129,12 +142,18 @@ export class Molad {
     return this.m.chalakim;
   }
   /**
-   * Returns the molad in Standard Time in Yerushalayim as a Temporal.ZonedDateTime.
+   * Returns the molad in Standard Time in Yerushalayim as a `Temporal.ZonedDateTime`.
    * This method subtracts 20.94 minutes (20 minutes and 56.496 seconds) from the computed time (Har Habayis with a longitude
    * of 35.2354&deg; is 5.2354&deg; away from the %15 timezone longitude) to get to standard time. This method
    * intentionally uses standard time and not daylight savings time.
    *
-   * @return the Temporal.ZonedDateTime representing the moment of the molad in Yerushalayim standard time (GMT + 2)
+   * The returned value is cached after the first call.
+   * @example
+   * import {Molad, months} from '@hebcal/core';
+   * const m = new Molad(5784, months.NISAN);
+   * const zdt = m.getInstant();
+   * console.log(zdt.toString()); // e.g. '2024-04-08T17:21:13.333+00:00[UTC]'
+   * @return the `Temporal.ZonedDateTime` representing the moment of the molad
    */
   getInstant(): Temporal.ZonedDateTime {
     this.instant ??= getMoladAsDate(this.m);
@@ -210,8 +229,21 @@ export class Molad {
   }
 
   /**
+   * Returns a human-readable, localized string announcing the molad —
+   * suitable for use on Shabbat Mevarchim. The format includes the Hebrew
+   * month name, day of week, hour : minute, and chalakim if non-zero.
+   *
+   * Time format honors `options.hour12` and `options.location` (12-hour vs.
+   * 24-hour); see {@link HebrewCalendar.reformatTimeStr}.
+   * @example
+   * import {Molad, months} from '@hebcal/core';
+   * const m = new Molad(5784, months.NISAN);
+   * m.render('en', {hour12: true});
+   * // => 'Molad Nisan: Mon, 7:21pm and 6 chalakim'
+   * m.render('he');
+   * // => 'מוֹלָד נִיסָן יִהְיֶה בַּיּוֹם שֵׁנִי בשָׁבוּעַ, …'
    * @param [locale] Optional locale name (defaults to empty locale)
-   * @param options
+   * @param options used for time formatting (12-hour vs 24-hour)
    */
   render(locale?: string, options?: CalOptions): string {
     const monthName = Locale.gettext(this.getMonthName(), locale);

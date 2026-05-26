@@ -3,7 +3,18 @@ import {ParshaEvent} from './ParshaEvent';
 import {getSedra} from './sedra';
 
 /**
- * Calculates weekly Torah Reading on Saturdays for entire year
+ * Calculates the weekly Torah Reading (Parashat HaShavua) on Saturdays for
+ * an entire Hebrew year.
+ *
+ * Saturdays on which a Yom Tov reading displaces the regular parsha
+ * (e.g. Shabbat Chol ha-Moed Pesach/Sukkot, Yom Kippur on Shabbat) are
+ * skipped — for those use {@link getHolidaysOnDate} or
+ * {@link Sedra.lookup}.
+ * @example
+ * import {parshaYear} from '@hebcal/core';
+ * const events = parshaYear(5784, false);
+ * events[0].render('en'); // 'Parashat Vayeilech'
+ * events[0].getDate().toString(); // '4 Tishrei 5784'
  * @param year Hebrew year
  * @param il Israel (false for Diaspora)
  * @returns an array of `ParshaEvent` occurring on Saturdays that contain a regular

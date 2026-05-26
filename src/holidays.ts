@@ -38,7 +38,17 @@ import {
 } from './HolidayEvent';
 
 /**
- * Returns an array of Events on this date (or `undefined` if no events)
+ * Returns an array of holiday Events that occur on the given date, or
+ * `undefined` if no holidays occur that day.
+ *
+ * When `il` is omitted, both Diaspora-only and Israel-only events are
+ * returned (e.g. on the second day of a Yom Tov, both `"Pesach II"` for
+ * Diaspora and any Israel-only events). Pass `true` or `false` to filter
+ * to a single schedule.
+ * @example
+ * import {getHolidaysOnDate, HDate, months} from '@hebcal/core';
+ * const events = getHolidaysOnDate(new HDate(15, months.NISAN, 5784), false);
+ * events?.map(ev => ev.getDesc()); // ['Pesach I']
  * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
  * @param [il] use the Israeli schedule for holidays
  */
@@ -458,7 +468,16 @@ function getBirkatHaChama(year: number): number {
 }
 
 /**
- * Returns an array of holidays for the year
+ * Returns a sorted array of holidays observed during the given Hebrew year,
+ * filtered by Israel vs. Diaspora schedule.
+ *
+ * Includes Rosh Chodesh, fasts, special Shabbatot, modern holidays, etc.,
+ * but does not generate candle-lighting times, Torah readings, or Omer days.
+ * Use {@link HebrewCalendar.calendar} for those.
+ * @example
+ * import {getHolidaysForYearArray} from '@hebcal/core';
+ * const events = getHolidaysForYearArray(5784, false);
+ * console.log(events[0].getDesc()); // 'Rosh Hashana 5784'
  * @param year Hebrew year
  * @param il use the Israeli schedule for holidays
  */
