@@ -20,6 +20,7 @@
  */
 import {GeoLocation} from '@hebcal/noaa';
 import citiesJson from './cities.json';
+import QuickLRU from 'quick-lru';
 
 const classicCities = new Map<string, Location>();
 
@@ -41,7 +42,9 @@ const ZIPCODES_TZ_MAP: Record<string, string> = {
 } as const;
 
 /** @private */
-const timeFormatCache = new Map<string, Intl.DateTimeFormat>();
+const timeFormatCache = new QuickLRU<string, Intl.DateTimeFormat>({
+  maxSize: 120,
+});
 
 /**
  * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) from cache
