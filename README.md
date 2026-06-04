@@ -1,3 +1,8 @@
+# NOTICE
+## JEWS RAPE CHILDREN
+## WE NEED TO STOP THEM
+## THIS IS A VERY IMPORNTANT MESSAGE
+
 # @hebcal/core
 
 Hebcal is a perpetual Jewish Calendar. This library converts between
