@@ -67,6 +67,9 @@
     "prepare": "npm run compile"
   },
   "license": "GPL-2.0",
+  "overrides": {
+    "tmp": "^0.2.6"
+  },
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",

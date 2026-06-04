@@ -9,6 +9,7 @@ export default [
       'test/',
       'docs/',
       'dist/',
+      'size-demo/',
       'src/*.json.ts',
       'src/*.po.ts',
     ],
