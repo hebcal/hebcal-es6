@@ -61,6 +61,9 @@ msgstr "Pesach Shabbos Chol ha-Moed"
 msgid "Purim Katan"
 msgstr "Purim Koton"
 
+msgid "Rosh Hashana LaBehemot"
+msgstr "Rosh Hashana LaBeheimos"
+
 msgid "Shabbat Chazon"
 msgstr "Shabbos Chazon"
 
