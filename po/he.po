@@ -307,9 +307,6 @@ msgstr "פּוּרִים"
 msgid "Purim Katan"
 msgstr "פּוּרִים קָטָן"
 
-msgid "Rosh Chodesh %s"
-msgstr "רֹאשׁ חוֹדֶשׁ %s"
-
 msgid "Rosh Chodesh"
 msgstr "רֹאשׁ חוֹדֶשׁ"
 
