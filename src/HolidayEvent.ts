@@ -1,6 +1,7 @@
 import {HDate, Locale, isoDateString} from '@hebcal/hdate';
 import {Event, flags} from './event';
 import {holidayDesc as hdesc} from './staticHolidays';
+import {smartApostrophe, urlFriendly} from './string';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 /**
@@ -72,7 +73,7 @@ export class HolidayEvent extends Event {
     }
     const url =
       'https://www.hebcal.com/holidays/' +
-      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') +
+      urlFriendly(this.basename()) +
       '-' +
       this.urlDateSuffix();
     return this.getFlags() & flags.IL_ONLY ? url + '?i=on' : url;
@@ -124,7 +125,7 @@ export class HolidayEvent extends Event {
    */
   render(locale?: string): string {
     const str = super.render(locale);
-    return str.replace(/'/g, '’');
+    return smartApostrophe(str);
   }
   /**
    * Returns a brief (translated) description of this event.
@@ -134,7 +135,7 @@ export class HolidayEvent extends Event {
    */
   renderBrief(locale?: string): string {
     const str = super.renderBrief(locale);
-    return str.replace(/'/g, '’');
+    return smartApostrophe(str);
   }
 }
 
@@ -145,7 +146,7 @@ export class HolidayEvent extends Event {
 export class AsaraBTevetEvent extends HolidayEvent {
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.greg());
-    return isoDate.replace(/-/g, '');
+    return isoDate.replaceAll('-', '');
   }
 }
 
@@ -236,7 +237,7 @@ export class RoshChodeshEvent extends HolidayEvent {
   render(locale?: string): string {
     const monthName = this.getDesc().substring(roshChodeshStr.length + 1);
     const monthName0 = Locale.gettext(monthName, locale);
-    const monthName1 = monthName0.replace(/'/g, '’');
+    const monthName1 = smartApostrophe(monthName0);
     return Locale.gettext(roshChodeshStr, locale) + ' ' + monthName1;
   }
 

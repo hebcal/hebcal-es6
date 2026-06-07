@@ -1,6 +1,7 @@
 import {Event, flags} from './event';
 import {isoDateString} from '@hebcal/hdate';
 import {renderParshaName} from './parshaName';
+import {urlFriendly} from './string';
 import {SedraResult} from './sedra';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
@@ -38,7 +39,7 @@ export class ParshaEvent extends Event {
     const dt = this.urlDateSuffix();
     const url =
       'https://www.hebcal.com/sedrot/' +
-      this.basename().toLowerCase().replace(/'/g, '').replace(/ /g, '-') +
+      urlFriendly(this.basename()) +
       '-' +
       dt;
     return this.p.il ? url + '?i=on' : url;
@@ -46,7 +47,7 @@ export class ParshaEvent extends Event {
 
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.greg());
-    return isoDate.replace(/-/g, '');
+    return isoDate.replaceAll('-', '');
   }
 
   /** convenience function for compatibility with previous implementation */

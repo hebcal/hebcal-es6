@@ -14,7 +14,7 @@ const banner =
   ', distributed under GPLv2 https://www.gnu.org/licenses/gpl-2.0.txt */';
 
 // Override tsconfig.json, which includes ./size-demo.
-const tsOptions = {rootDir: './src', target: 'es2019', declaration: false};
+const tsOptions = {rootDir: './src', target: 'es2021', declaration: false};
 
 // Strip the top-level `await import('temporal-polyfill/global')` block emitted
 // by @hebcal/noaa. The IIFE format does not support top-level await, and our

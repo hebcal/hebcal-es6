@@ -5,6 +5,7 @@ import {HDate, Locale, pad2} from '@hebcal/hdate';
 import {reformatTimeStr} from './reformatTimeStr';
 import {MoladBase, calculateMolad} from './moladBase';
 import {getMoladAsDate} from './moladDate';
+import {smartApostrophe} from './string';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 const enDoW = [
@@ -271,7 +272,7 @@ export class Molad {
       return result;
     }
     const fmtTime = reformatTimeStr(`${hour}:${pad2(minutes)}`, 'pm', options);
-    const month = monthName.replace(/'/g, '’');
+    const month = smartApostrophe(monthName);
     const result = `${moladStr} ${month}: ${dow}, ${fmtTime}`;
     if (chalakim === 0) {
       return result;

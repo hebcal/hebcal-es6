@@ -1,6 +1,7 @@
 import {HDate, Locale} from '@hebcal/hdate';
 import {flags} from './event';
 import {HolidayEvent} from './HolidayEvent';
+import {smartApostrophe} from './string';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 const ykk = 'Yom Kippur Katan';
@@ -31,7 +32,7 @@ export class YomKippurKatanEvent extends HolidayEvent {
    */
   render(locale?: string): string {
     const monthName0 = Locale.gettext(this.nextMonthName, locale);
-    const monthName = monthName0.replace(/'/g, '’');
+    const monthName = smartApostrophe(monthName0);
     return Locale.gettext(ykk, locale) + ' ' + monthName;
   }
   /**

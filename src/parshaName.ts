@@ -1,4 +1,5 @@
 import {Locale} from './locale';
+import {smartApostrophe} from './string';
 
 /** @private */
 export function renderParshaName(parsha: string[], locale?: string): string {
@@ -7,7 +8,7 @@ export function renderParshaName(parsha: string[], locale?: string): string {
     const hyphen = Locale.isHebrewLocale(locale) ? '־' : '-';
     name += hyphen + Locale.gettext(parsha[1], locale);
   }
-  name = name.replace(/'/g, '’');
+  name = smartApostrophe(name);
   const str = Locale.gettext('Parashat', locale) + ' ' + name;
   return str.normalize();
 }

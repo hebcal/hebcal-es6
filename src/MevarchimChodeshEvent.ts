@@ -1,6 +1,7 @@
 import {HDate, Locale, months} from '@hebcal/hdate';
 import {Event, flags} from './event';
 import {Molad} from './molad';
+import {smartApostrophe} from './string';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 
 const mevarchimChodeshStr = 'Shabbat Mevarchim Chodesh';
@@ -39,7 +40,7 @@ export class MevarchimChodeshEvent extends Event {
    */
   render(locale?: string): string {
     const monthName0 = Locale.gettext(this.monthName, locale);
-    const monthName = monthName0.replace(/'/g, '’');
+    const monthName = smartApostrophe(monthName0);
     return Locale.gettext(mevarchimChodeshStr, locale) + ' ' + monthName;
   }
   /**
