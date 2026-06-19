@@ -1,4 +1,4 @@
-import './temporal-shim';
+import 'temporal-polyfill/global';
 import {getTimezoneOffset} from '@hebcal/hdate';
 import {MoladBase} from './moladBase';
 

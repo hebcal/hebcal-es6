@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "6.5.3",
+  "version": "6.6.0",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -35,7 +35,7 @@
   },
   "typings": "./dist/esm/index.d.ts",
   "engines": {
-    "node": ">= 18.0.0"
+    "node": ">= 18"
   },
   "repository": {
     "type": "git",
@@ -76,22 +76,22 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^25.9.2",
-    "@vitest/coverage-v8": "^4.1.8",
+    "@types/node": "^26.0.0",
+    "@vitest/coverage-v8": "^4.1.9",
     "gettext-parser": "^9.0.2",
     "gts": "^7.0.0",
     "pretty-bytes": "^7.1.0",
-    "rollup": "^4.61.1",
+    "rollup": "^4.62.2",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-visualizer": "^7.0.1",
     "typedoc": "^0.28.19",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   },
   "dependencies": {
-    "@hebcal/hdate": "^0.22.3",
-    "@hebcal/noaa": "^0.11.0",
+    "@hebcal/hdate": "^0.22.4",
+    "@hebcal/noaa": "^0.12.1",
     "quick-lru": "^7.3.0",
-    "temporal-polyfill": "^0.3.2"
+    "temporal-polyfill": "^1.0.1"
   }
 }
