@@ -13,38 +13,25 @@ const banner =
   pkg.version +
   ', distributed under GPLv2 https://www.gnu.org/licenses/gpl-2.0.txt */';
 
-// Override tsconfig.json, which includes ./size-demo.
-const tsOptions = {rootDir: './src', target: 'es2021', declaration: false};
-
 module.exports = defineConfig([
   {
     input: 'src/index.ts',
-    output: [
-      {
-        dir: 'dist/esm',
-        format: 'es',
-        name: pkg.name,
-        banner,
-        preserveModules: true,
-        preserveModulesRoot: 'src',
-        sourcemap: true,
-        globals: {
-          'temporal-polyfill': 'Temporal',
-        },
-      },
-    ],
+    output: {
+      dir: 'dist/esm',
+      format: 'es',
+      banner,
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+      sourcemap: true,
+    },
     plugins: [
-      typescript({
-        outDir: 'dist/esm',
-        rootDir: './src',
-      }),
+      typescript({outDir: 'dist/esm', rootDir: './src'}),
       json({compact: true, preferConst: true}),
       nodeResolve(),
     ],
     external: [/node_modules/],
   },
-  // Standalone JS file for use without bundlers.
-  // Avoid if possible.
+  // Standalone JS file for use without bundlers. Avoid if possible.
   {
     input: 'src/index.ts',
     output: [
@@ -56,26 +43,20 @@ module.exports = defineConfig([
         banner,
         sourcemap: true,
         inlineDynamicImports: true,
-        globals: {
-          'temporal-polyfill': 'Temporal',
-        },
       },
       {
         file: 'dist/bundle.min.js',
         format: 'iife',
         name: 'hebcal',
-
-        plugins: [terser()],
         banner,
         sourcemap: true,
         inlineDynamicImports: true,
-        globals: {
-          'temporal-polyfill': 'Temporal',
-        },
+        plugins: [terser()],
       },
     ],
     plugins: [
-      typescript(tsOptions),
+      // target es2021 (broader browser support) and no .d.ts for the bundle
+      typescript({rootDir: './src', target: 'es2021', declaration: false}),
       nodeResolve(),
       json({compact: true, preferConst: true}),
       bundleSize(),
