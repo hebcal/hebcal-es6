@@ -216,6 +216,58 @@ test('weekday1', () => {
   });
 });
 
+test('lookupWeekday returns weekday parsha when Shabbat is a holiday', () => {
+  const sedra = new Sedra(5785, false);
+  const tishrei5 = new HDate(5, months.TISHREI, 5785);
+  const result = sedra.lookupWeekday(tishrei5);
+  expect(result).toEqual({
+    parsha: ['Vezot Haberakhah'],
+    chag: false,
+    num: 54,
+    il: false,
+    hdate: new HDate(739171),
+  });
+});
+
+test('lookupWeekday handles Tishrei and Pesach holiday weeks', () => {
+  const sedra5786 = new Sedra(5786, false);
+  const erevSukkot = new HDate(14, months.TISHREI, 5786);
+  expect(sedra5786.lookupWeekday(erevSukkot)?.parsha).toEqual([
+    'Vezot Haberakhah',
+  ]);
+
+  const sedra5700 = new Sedra(5700, false);
+  const erevPesach = new HDate(14, months.NISAN, 5700);
+  expect(sedra5700.lookupWeekday(erevPesach)?.parsha).toEqual(['Kedoshim']);
+});
+
+test('lookupWeekday returns undefined for non-weekday reading days', () => {
+  const sedra = new Sedra(5785, false);
+  const tishrei7 = new HDate(7, months.TISHREI, 5785);
+  expect(sedra.lookupWeekday(tishrei7)).toBeUndefined();
+});
+
+test('lookupWeekday resolves Monday and Thursday readings for full years', () => {
+  for (let year = 5700; year < 5900; year++) {
+    for (const il of [false, true]) {
+      const sedra = new Sedra(year, il);
+      const startAbs = HDate.hebrew2abs(year, months.TISHREI, 1);
+      const endAbs = HDate.hebrew2abs(year + 1, months.TISHREI, 1) - 1;
+      for (let abs = startAbs; abs <= endAbs; abs++) {
+        const hd = new HDate(abs);
+        const day = hd.getDay();
+        if (day !== 1 && day !== 4) {
+          continue;
+        }
+        const result = sedra.lookupWeekday(hd);
+        expect(result?.chag).toBe(false);
+        expect(result?.num).not.toBe(0);
+        expect(result?.parsha.length).toBeGreaterThan(0);
+      }
+    }
+  }
+});
+
 test('Shabbos Chol Hamoed Pesach', () => {
   const years = [5786, 5783, 5780, 5777];
   for (const year of years) {
