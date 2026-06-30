@@ -368,6 +368,76 @@ export class Sedra {
       il: this.il,
     };
   }
+
+  /**
+   * Returns details about the parsha read on Monday or Thursday for `hd`, or
+   * `undefined` if `hd` is not a Monday or Thursday.
+   *
+   * Weekday Torah readings generally begin the upcoming Shabbat parsha. When
+   * the upcoming Shabbat is a holiday, this method returns the next regular
+   * parsha instead.
+   *
+   * For the Tishrei weekdays before Sukkot or Simchat Torah, the weekday
+   * reading is *Vezot Haberakhah* even though it is not read on Shabbat.
+   * @param hd Hebrew date or R.D. days
+   */
+  lookupWeekday(hd: HDate | number): SedraResult | undefined {
+    const abs =
+      typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
+
+    if (isNaN(abs)) {
+      throw new TypeError(`Bad date argument: ${hd}`);
+    } else if (abs < this.rh) {
+      throw new RangeError(
+        `Date ${hd} before start of Hebrew year ${this.year}`
+      );
+    }
+
+    const hdate = new HDate(abs);
+    const day = hdate.getDay();
+    if (day !== 1 && day !== 4) {
+      return undefined;
+    }
+
+    const saturday = new HDate(HDate.dayOnOrBefore(6, abs + 6));
+    const parsha = this.lookup(saturday);
+    if (!parsha.chag) {
+      return parsha;
+    }
+    return this.findWeekdayParsha(saturday);
+  }
+
+  private findWeekdayParsha(saturday: HDate): SedraResult {
+    const hyear = saturday.getFullYear();
+    const il = this.il;
+
+    if (saturday.getMonth() === months.TISHREI) {
+      const dd = saturday.getDate();
+      const simchatTorah = il ? 22 : 23;
+      if (dd > 2 && dd <= simchatTorah) {
+        return {
+          parsha: ['Vezot Haberakhah'],
+          chag: false,
+          num: 54,
+          hdate: saturday,
+          il,
+        };
+      }
+    }
+
+    const sedra = hyear === this.year ? this : getSedra(hyear, il);
+    const endOfYear = new HDate(1, months.TISHREI, hyear + 1).abs() - 1;
+    const endAbs = endOfYear + 30;
+    for (let sat2 = saturday.abs() + 7; sat2 <= endAbs; sat2 += 7) {
+      const sedra2 = sat2 > endOfYear ? getSedra(hyear + 1, il) : sedra;
+      const parsha2 = sedra2.lookup(sat2);
+      if (!parsha2.chag) {
+        return parsha2;
+      }
+    }
+    /* NOTREACHED */
+    throw new Error(`can't find weekday parsha for ${saturday}/${il}`);
+  }
 }
 
 /**
