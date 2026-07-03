@@ -417,12 +417,10 @@ const TZEIT_3SMALL_STARS = 8.5;
 /**
  * @private
  * @constant
- * This calculation is based on observation of 3 medium sized stars by Dr. Baruch Cohen
- * in his calendar published in in 1899 in Strasbourg, France.
- * This calculates to 7.0833333° below geometric zenith.
- * @see {https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ComplexZmanimCalendar.html#ZENITH_7_POINT_083}
+ * Tzeit HaKochavim as calculated by Rabbi Yechiel Michel Tucazinsky,
+ * 6.45° below geometric zenith. Used as the default end time for Tish'a B'Av.
  */
-const TZEIT_3MEDIUM_STARS = 7.0833333;
+const TZEIT_TUCAZINSKY = 6.45;
 
 /**
  * Modifies options in-place
@@ -462,7 +460,7 @@ function checkCandleOptions(options: CalOptions) {
     options.havdalahDeg = TZEIT_3SMALL_STARS;
   }
   if (typeof options.fastEndDeg !== 'number') {
-    options.fastEndDeg = TZEIT_3MEDIUM_STARS;
+    options.fastEndDeg = TZEIT_TUCAZINSKY;
   }
 }
 

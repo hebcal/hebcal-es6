@@ -7,6 +7,7 @@ import {Location} from '../src/location';
 import { OmerEvent } from '../src/omer';
 import { YomKippurKatanEvent } from '../src/YomKippurKatanEvent';
 import { FastDayEvent } from '../src/candles';
+import { TimedEvent } from '../src/TimedEvent';
 
 function gregDtString(ev: Event): string {
   return ev.greg().toLocaleDateString('en-US');
@@ -612,6 +613,10 @@ test('ykk with location copies attributes from src', () => {
     { date: '2025-02-27', desc: 'Fast ends' }
   ];
   expect(actual).toEqual(expected);
+  // Yom Kippur Katan is a minor fast, so it ends 15 minutes after sunset
+  const fastEnds = events[2] as TimedEvent;
+  expect(fastEnds.getDesc()).toBe('Fast ends');
+  expect(fastEnds.eventTimeStr).toBe('17:49');
   const ev = events[1];
   expect(ev).toBeInstanceOf(FastDayEvent);
   expect(ev.url()).toBeUndefined();

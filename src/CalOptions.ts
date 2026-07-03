@@ -57,9 +57,11 @@ export type CalOptions = {
    */
   havdalahDeg?: number;
   /**
-   * degrees for solar depression for end of fast days.
-   * Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include
-   * 6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky.
+   * degrees for solar depression for the end of Tish'a B'Av.
+   * Default is 6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky.
+   * Other commonly-used values include 7.083 degrees for 3 medium-sized stars.
+   * Note: minor fasts (including Yom Kippur Katan) instead end 15 minutes after
+   * sunset, following Rabbi Deblitzky's practice, and are not affected by this option.
    */
   fastEndDeg?: number;
   /**
