@@ -57,11 +57,23 @@ export type CalOptions = {
    */
   havdalahDeg?: number;
   /**
-   * degrees for solar depression for end of fast days.
-   * Default is 7.083 degrees for 3 medium-sized stars. Other commonly-used values include
-   * 6.45 degrees, as calculated by Rabbi Yechiel Michel Tucazinsky.
+   * degrees for solar depression for the end of minor fasts.
+   * When set to a nonzero value, minor fasts (including Yom Kippur Katan) end at
+   * this many degrees below the horizon. Commonly-used values include 7.083
+   * degrees for 3 medium-sized stars and 6.45 degrees, as calculated by
+   * Rabbi Yechiel Michel Tucazinsky. Mutually exclusive with `fastEndMins`.
+   * If neither is specified, minor fasts end at 7.083 degrees in the Diaspora,
+   * or 15 minutes after sunset in Israel (Rabbi Deblitzky's practice).
+   * Note: Tish'a B'Av always ends at 6.45 degrees and is not affected by this option.
    */
   fastEndDeg?: number;
+  /**
+   * minutes after sunset for the end of minor fasts.
+   * When set to a nonzero value, minor fasts (including Yom Kippur Katan) end
+   * this many minutes after sunset. Mutually exclusive with `fastEndDeg`.
+   * Note: Tish'a B'Av always ends at 6.45 degrees and is not affected by this option.
+   */
+  fastEndMins?: number;
   /**
    * use elevation for calculations (default `false`).
    * If `true`, use elevation to affect the calculation of all sunrise/sunset based zmanim.

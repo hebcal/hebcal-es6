@@ -1,4 +1,4 @@
-import {expect, test} from 'vitest';
+import {describe, expect, test} from 'vitest';
 import {
   makeCandleEvent, makeFastStartEnd,
   FastDayEvent,
@@ -578,7 +578,7 @@ test('fastStartEnd-9av', () => {
     {dt: '2023-07-26T20:10:00-04:00', desc: 'Fast begins'},
     {dt: '2023-07-26', desc: 'Erev Tish\'a B\'Av'},
     {dt: '2023-07-27', desc: 'Tish\'a B\'Av'},
-    {dt: '2023-07-27T20:48:00-04:00', desc: 'Fast ends'},
+    {dt: '2023-07-27T20:44:00-04:00', desc: 'Fast ends'},
   ];
   expect(events.map(eventTitleDateTime)).toEqual(expected);
 
@@ -594,7 +594,7 @@ test('fastStartEnd-9av', () => {
     {dt: '2022-08-06', desc: 'Erev Tish\'a B\'Av'},
     {dt: '2022-08-06T20:44:00-04:00', desc: 'Havdalah'},
     {dt: '2022-08-07', desc: 'Tish\'a B\'Av (observed)'},
-    {dt: '2022-08-07T20:34:00-04:00', desc: 'Fast ends'},
+    {dt: '2022-08-07T20:30:00-04:00', desc: 'Fast ends'},
   ];
   expect(events2.map(eventTitleDateTime)).toEqual(expected2);
 });
@@ -725,28 +725,83 @@ test('yk-candles-only', () => {
   expect(actual).toEqual(expected);
 });
 
-test('fastEndDeg', () => {
-  const options: CalOptions = {
-    start: new Date(2021, 5, 27),
-    end: new Date(2021, 5, 27),
+describe('minor fast end time (Tzom Tammuz 2021-06-27)', () => {
+  // Every combination of Israel vs Diaspora with the default, a non-default
+  // fastEndDeg (6° = dusk), and a non-default fastEndMins (20 min after sunset).
+  const cases: {
+    name: string;
+    location: string;
+    il: boolean;
+    fastEndDeg?: number;
+    fastEndMins?: number;
+    expected: string;
+  }[] = [
+    // Diaspora default: tzeit 7.083° (3 medium-sized stars)
+    {name: 'Diaspora default', location: 'Providence', il: false, expected: '2021-06-27T21:07:00-04:00'},
+    // Diaspora with fastEndDeg=6° (dusk)
+    {name: 'Diaspora fastEndDeg=6', location: 'Providence', il: false, fastEndDeg: 6, expected: '2021-06-27T20:59:00-04:00'},
+    // Diaspora with fastEndMins=20 (20 min after sunset)
+    {name: 'Diaspora fastEndMins=20', location: 'Providence', il: false, fastEndMins: 20, expected: '2021-06-27T20:45:00-04:00'},
+    // Israel default: 15 min after sunset (Rabbi Deblitzky's practice)
+    {name: 'Israel default', location: 'Jerusalem', il: true, expected: '2021-06-27T20:04:00+03:00'},
+    // Israel with fastEndDeg=6° (dusk)
+    {name: 'Israel fastEndDeg=6', location: 'Jerusalem', il: true, fastEndDeg: 6, expected: '2021-06-27T20:17:00+03:00'},
+    // Israel with fastEndMins=20 (20 min after sunset)
+    {name: 'Israel fastEndMins=20', location: 'Jerusalem', il: true, fastEndMins: 20, expected: '2021-06-27T20:09:00+03:00'},
+  ];
+  for (const tc of cases) {
+    test(tc.name, () => {
+      const options: CalOptions = {
+        start: new Date(2021, 5, 27),
+        end: new Date(2021, 5, 27),
+        location: Location.lookup(tc.location),
+        il: tc.il,
+        candlelighting: true,
+      };
+      if (typeof tc.fastEndDeg === 'number') options.fastEndDeg = tc.fastEndDeg;
+      if (typeof tc.fastEndMins === 'number') options.fastEndMins = tc.fastEndMins;
+      const events = HebrewCalendar.calendar(options);
+      const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
+      expect(eventTitleDateTime(ev)).toEqual({dt: tc.expected, desc: 'Fast ends'});
+    });
+  }
+});
+
+test('Tish\'a B\'Av always ends at tzeit 6.45', () => {
+  const base: CalOptions = {
+    start: new Date(2023, 6, 27),
+    end: new Date(2023, 6, 27),
     location: Location.lookup('Providence'),
     candlelighting: true,
-    fastEndDeg: 6.45,
   };
-  const events = HebrewCalendar.calendar(options);
-  const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
-  expect(eventTitleDateTime(ev)).toEqual({
-    dt: '2021-06-27T21:02:00-04:00',
-    desc: 'Fast ends',
-  });
+  // Tish'a B'Av always ends at 6.45 degrees, regardless of fastEndDeg,
+  // fastEndMins, or il.
+  for (const override of [
+    {},
+    {fastEndDeg: 7.0833},
+    {fastEndMins: 30},
+    {il: true},
+  ]) {
+    const events = HebrewCalendar.calendar({...base, ...override});
+    const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
+    expect(eventTitleDateTime(ev)).toEqual({
+      dt: '2023-07-27T20:44:00-04:00',
+      desc: 'Fast ends',
+    });
+  }
+});
 
-  options.fastEndDeg = 6.0;
-  const events2 = HebrewCalendar.calendar(options);
-  const ev2 = events2.filter((ev) => ev.getDesc() === 'Fast ends')[0];
-  expect(eventTitleDateTime(ev2)).toEqual({
-    dt: '2021-06-27T20:59:00-04:00',
-    desc: 'Fast ends',
-  });
+test('fastEndDeg and fastEndMins are mutually exclusive', () => {
+  expect(() =>
+    HebrewCalendar.calendar({
+      start: new Date(2021, 5, 27),
+      end: new Date(2021, 5, 27),
+      location: Location.lookup('Providence'),
+      candlelighting: true,
+      fastEndDeg: 7.0833,
+      fastEndMins: 15,
+    })
+  ).toThrow('options.fastEndDeg and options.fastEndMins are mutually exclusive');
 });
 
 test('makeFastStartEnd', () => {

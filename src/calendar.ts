@@ -341,6 +341,7 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
   havdalahMins: 1,
   havdalahDeg: 1,
   fastEndDeg: 1,
+  fastEndMins: 1,
   sedrot: 1,
   il: 1,
   noMinorFast: 1,
@@ -415,16 +416,6 @@ const geoIdCandleOffset: StringIntMap = {
 const TZEIT_3SMALL_STARS = 8.5;
 
 /**
- * @private
- * @constant
- * This calculation is based on observation of 3 medium sized stars by Dr. Baruch Cohen
- * in his calendar published in in 1899 in Strasbourg, France.
- * This calculates to 7.0833333° below geometric zenith.
- * @see {https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ComplexZmanimCalendar.html#ZENITH_7_POINT_083}
- */
-const TZEIT_3MEDIUM_STARS = 7.0833333;
-
-/**
  * Modifies options in-place
  * @private
  */
@@ -446,6 +437,14 @@ function checkCandleOptions(options: CalOptions) {
       'options.havdalahMins and options.havdalahDeg are mutually exclusive'
     );
   }
+  if (
+    typeof options.fastEndDeg === 'number' &&
+    typeof options.fastEndMins === 'number'
+  ) {
+    throw new TypeError(
+      'options.fastEndDeg and options.fastEndMins are mutually exclusive'
+    );
+  }
 
   const min0 = options.candleLightingMins;
   let min = typeof min0 === 'number' && !isNaN(min0) ? Math.trunc(min0) : 18;
@@ -461,8 +460,11 @@ function checkCandleOptions(options: CalOptions) {
   } else {
     options.havdalahDeg = TZEIT_3SMALL_STARS;
   }
-  if (typeof options.fastEndDeg !== 'number') {
-    options.fastEndDeg = TZEIT_3MEDIUM_STARS;
+  if (typeof options.fastEndDeg === 'number') {
+    options.fastEndDeg = Math.abs(options.fastEndDeg);
+  }
+  if (typeof options.fastEndMins === 'number') {
+    options.fastEndMins = Math.trunc(Math.abs(options.fastEndMins));
   }
 }
 
