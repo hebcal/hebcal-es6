@@ -439,9 +439,7 @@ function checkCandleOptions(options: CalOptions) {
   }
   if (
     typeof options.fastEndDeg === 'number' &&
-    options.fastEndDeg !== 0 &&
-    typeof options.fastEndMins === 'number' &&
-    options.fastEndMins !== 0
+    typeof options.fastEndMins === 'number'
   ) {
     throw new TypeError(
       'options.fastEndDeg and options.fastEndMins are mutually exclusive'
