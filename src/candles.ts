@@ -71,12 +71,62 @@ const FAST_BEGINS = hdesc.FAST_BEGINS;
 const FAST_ENDS = hdesc.FAST_ENDS;
 
 /**
- * Minutes after sunset that minor fasts (including Yom Kippur Katan) end,
- * following Rabbi Deblitzky's practice.
+ * Tzeit HaKochavim as calculated by Rabbi Yechiel Michel Tucazinsky,
+ * 6.45° below geometric zenith. Default end time for Tish'a B'Av.
+ * @private
+ */
+const TZEIT_TUCAZINSKY = 6.45;
+
+/**
+ * Observation of 3 medium-sized stars, 7.0833333° below geometric zenith.
+ * Default end time for minor fasts in the Diaspora.
+ * @private
+ */
+const TZEIT_3MEDIUM_STARS = 7.0833333;
+
+/**
+ * Minutes after sunset that minor fasts (including Yom Kippur Katan) end in
+ * Israel by default, following Rabbi Deblitzky's practice.
  * @see {https://www.yeshiva.org.il/calendar/timeprinciples}
  * @private
  */
-const MINOR_FAST_END_MINUTES = 15;
+const MINOR_FAST_END_MINUTES_IL = 15;
+
+/**
+ * Computes the "Fast ends" time for a fast day.
+ *
+ * Tish'a B'Av always ends at tzeit 6.45° (Rabbi Yechiel Michel Tucazinsky),
+ * regardless of `options`.
+ *
+ * For minor fasts: when `options.fastEndMins` is a nonzero number, the fast
+ * ends that many minutes after sunset; otherwise, when `options.fastEndDeg` is
+ * a nonzero number, the fast ends at tzeit for that solar depression angle.
+ * When neither is specified, the default depends on `options.il`:
+ * - In Israel, minor fasts end 15 minutes after sunset (Rabbi Deblitzky's practice).
+ * - Elsewhere, minor fasts end at tzeit 7.083° (3 medium-sized stars).
+ * @private
+ */
+function makeFastEndTime(
+  zmanim: Zmanim,
+  isTishaBav: boolean,
+  options: CalOptions
+): Date {
+  if (isTishaBav) {
+    return zmanim.tzeit(TZEIT_TUCAZINSKY);
+  }
+  const fastEndMins = options.fastEndMins;
+  if (typeof fastEndMins === 'number' && fastEndMins !== 0) {
+    return zmanim.sunsetOffset(Math.abs(fastEndMins), true);
+  }
+  const fastEndDeg = options.fastEndDeg;
+  if (typeof fastEndDeg === 'number' && fastEndDeg !== 0) {
+    return zmanim.tzeit(Math.abs(fastEndDeg));
+  }
+  if (options.il) {
+    return zmanim.sunsetOffset(MINOR_FAST_END_MINUTES_IL, true);
+  }
+  return zmanim.tzeit(TZEIT_3MEDIUM_STARS);
+}
 
 /**
  * A fast day holiday with attached start and end time events.
@@ -87,10 +137,13 @@ const MINOR_FAST_END_MINUTES = 15;
  * `options.candlelighting` is `true` and `options.location` is provided.
  *
  * - Minor fasts (including Yom Kippur Katan) begin at *Alot HaShachar*
- *   (16.1° below horizon in the morning) and end 15 minutes after sunset,
- *   following Rabbi Deblitzky's practice.
- * - Tish'a B'Av begins at sunset on the previous day and ends at tzeit
- *   (6.45° below horizon by default — overridable via `options.fastEndDeg`).
+ *   (16.1° below horizon in the morning). By default they end at tzeit
+ *   7.083° (3 medium-sized stars) in the Diaspora, or 15 minutes after
+ *   sunset in Israel (Rabbi Deblitzky's practice). This can be overridden
+ *   via `options.fastEndDeg` or `options.fastEndMins`.
+ * - Tish'a B'Av begins at sunset on the previous day and always ends at tzeit
+ *   6.45° below horizon (Rabbi Yechiel Michel Tucazinsky), regardless of
+ *   `options.fastEndDeg` / `options.fastEndMins`.
  * - When a minor fast falls on a Friday, the end time is suppressed
  *   (Shabbat begins before nightfall).
  */
@@ -146,7 +199,6 @@ export function makeFastStartEnd(
   const hd = ev.getDate();
   const dt = hd.greg();
   const location = options.location as Location;
-  const fastEndDeg = options.fastEndDeg;
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, dt, useElevation);
   let startEvent;
@@ -157,9 +209,9 @@ export function makeFastStartEnd(
       startEvent = makeTimedEvent(ev, sunset, FAST_BEGINS, options);
     }
   } else if (desc.startsWith("Tish'a B'Av")) {
-    const tzeit = zmanim.tzeit(fastEndDeg);
-    if (!isNaN(tzeit.getTime())) {
-      endEvent = makeTimedEvent(ev, tzeit, FAST_ENDS, options);
+    const fastEnd = makeFastEndTime(zmanim, true, options);
+    if (!isNaN(fastEnd.getTime())) {
+      endEvent = makeTimedEvent(ev, fastEnd, FAST_ENDS, options);
     }
   } else {
     const dawn = zmanim.alotHaShachar();
@@ -170,9 +222,7 @@ export function makeFastStartEnd(
       dt.getDay() !== 5 &&
       !(hd.getDate() === 14 && hd.getMonth() === months.NISAN)
     ) {
-      // Minor fasts (including Yom Kippur Katan) end 15 minutes after sunset,
-      // following Rabbi Deblitzky's practice.
-      const fastEnd = zmanim.sunsetOffset(MINOR_FAST_END_MINUTES, true);
+      const fastEnd = makeFastEndTime(zmanim, false, options);
       if (!isNaN(fastEnd.getTime())) {
         endEvent = makeTimedEvent(ev, fastEnd, FAST_ENDS, options);
       }

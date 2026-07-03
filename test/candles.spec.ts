@@ -1,4 +1,4 @@
-import {expect, test} from 'vitest';
+import {describe, expect, test} from 'vitest';
 import {
   makeCandleEvent, makeFastStartEnd,
   FastDayEvent,
@@ -445,7 +445,7 @@ test('fastStartEnd-TzomTammuz', () => {
   const expected = [
     {dt: '2021-06-27T03:20:00-04:00', desc: 'Fast begins'},
     {dt: '2021-06-27', desc: 'Tzom Tammuz'},
-    {dt: '2021-06-27T20:40:00-04:00', desc: 'Fast ends'},
+    {dt: '2021-06-27T21:07:00-04:00', desc: 'Fast ends'},
   ];
   expect(events.map(eventTitleDateTime)).toEqual(expected);
   const ev1 = events[1] as FastDayEvent;
@@ -484,7 +484,7 @@ test('fastStartEnd-withoutHoliday', () => {
   });
   const expected = [
     {dt: '2021-06-27T03:20:00-04:00', desc: 'Fast begins'},
-    {dt: '2021-06-27T20:40:00-04:00', desc: 'Fast ends'},
+    {dt: '2021-06-27T21:07:00-04:00', desc: 'Fast ends'},
   ];
   expect(events.map(eventTitleDateTime)).toEqual(expected);
 });
@@ -532,7 +532,7 @@ test('biurChametz-erevPesach-saturday-5785', () => {
   const expected = [
     {dt: '2025-04-10T04:46:00-04:00', desc: 'Fast begins'},
     {dt: '2025-04-10', desc: 'Ta\'anit Bechorot'},
-    {dt: '2025-04-10T19:36:00-04:00', desc: 'Fast ends'},
+    {dt: '2025-04-10T19:56:00-04:00', desc: 'Fast ends'},
     {dt: '2025-04-11T11:41:00-04:00', desc: 'Biur Chametz'},
     {dt: '2025-04-11T19:04:00-04:00', desc: 'Candle lighting'},
     {dt: '2025-04-12', desc: 'Shabbat HaGadol'},
@@ -725,46 +725,83 @@ test('yk-candles-only', () => {
   expect(actual).toEqual(expected);
 });
 
-test('fastEndDeg controls Tish\'a B\'Av end time', () => {
-  const options: CalOptions = {
+describe('minor fast end time (Tzom Tammuz 2021-06-27)', () => {
+  // Every combination of Israel vs Diaspora with the default, a non-default
+  // fastEndDeg (6° = dusk), and a non-default fastEndMins (20 min after sunset).
+  const cases: {
+    name: string;
+    location: string;
+    il: boolean;
+    fastEndDeg?: number;
+    fastEndMins?: number;
+    expected: string;
+  }[] = [
+    // Diaspora default: tzeit 7.083° (3 medium-sized stars)
+    {name: 'Diaspora default', location: 'Providence', il: false, expected: '2021-06-27T21:07:00-04:00'},
+    // Diaspora with fastEndDeg=6° (dusk)
+    {name: 'Diaspora fastEndDeg=6', location: 'Providence', il: false, fastEndDeg: 6, expected: '2021-06-27T20:59:00-04:00'},
+    // Diaspora with fastEndMins=20 (20 min after sunset)
+    {name: 'Diaspora fastEndMins=20', location: 'Providence', il: false, fastEndMins: 20, expected: '2021-06-27T20:45:00-04:00'},
+    // Israel default: 15 min after sunset (Rabbi Deblitzky's practice)
+    {name: 'Israel default', location: 'Jerusalem', il: true, expected: '2021-06-27T20:04:00+03:00'},
+    // Israel with fastEndDeg=6° (dusk)
+    {name: 'Israel fastEndDeg=6', location: 'Jerusalem', il: true, fastEndDeg: 6, expected: '2021-06-27T20:17:00+03:00'},
+    // Israel with fastEndMins=20 (20 min after sunset)
+    {name: 'Israel fastEndMins=20', location: 'Jerusalem', il: true, fastEndMins: 20, expected: '2021-06-27T20:09:00+03:00'},
+  ];
+  for (const tc of cases) {
+    test(tc.name, () => {
+      const options: CalOptions = {
+        start: new Date(2021, 5, 27),
+        end: new Date(2021, 5, 27),
+        location: Location.lookup(tc.location),
+        il: tc.il,
+        candlelighting: true,
+      };
+      if (typeof tc.fastEndDeg === 'number') options.fastEndDeg = tc.fastEndDeg;
+      if (typeof tc.fastEndMins === 'number') options.fastEndMins = tc.fastEndMins;
+      const events = HebrewCalendar.calendar(options);
+      const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
+      expect(eventTitleDateTime(ev)).toEqual({dt: tc.expected, desc: 'Fast ends'});
+    });
+  }
+});
+
+test('Tish\'a B\'Av always ends at tzeit 6.45', () => {
+  const base: CalOptions = {
     start: new Date(2023, 6, 27),
     end: new Date(2023, 6, 27),
     location: Location.lookup('Providence'),
     candlelighting: true,
   };
-  // Default is 6.45 degrees (Rabbi Yechiel Michel Tucazinsky)
-  const events = HebrewCalendar.calendar(options);
-  const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
-  expect(eventTitleDateTime(ev)).toEqual({
-    dt: '2023-07-27T20:44:00-04:00',
-    desc: 'Fast ends',
-  });
-
-  options.fastEndDeg = 7.0833;
-  const events2 = HebrewCalendar.calendar(options);
-  const ev2 = events2.filter((ev) => ev.getDesc() === 'Fast ends')[0];
-  expect(eventTitleDateTime(ev2)).toEqual({
-    dt: '2023-07-27T20:48:00-04:00',
-    desc: 'Fast ends',
-  });
+  // Tish'a B'Av always ends at 6.45 degrees, regardless of fastEndDeg,
+  // fastEndMins, or il.
+  for (const override of [
+    {},
+    {fastEndDeg: 7.0833},
+    {fastEndMins: 30},
+    {il: true},
+  ]) {
+    const events = HebrewCalendar.calendar({...base, ...override});
+    const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
+    expect(eventTitleDateTime(ev)).toEqual({
+      dt: '2023-07-27T20:44:00-04:00',
+      desc: 'Fast ends',
+    });
+  }
 });
 
-test('minor fasts end 15 minutes after sunset', () => {
-  // Rabbi Deblitzky's practice: minor fasts end 15 minutes after sunset,
-  // regardless of fastEndDeg.
-  const options: CalOptions = {
-    start: new Date(2021, 5, 27),
-    end: new Date(2021, 5, 27),
-    location: Location.lookup('Providence'),
-    candlelighting: true,
-    fastEndDeg: 8.5,
-  };
-  const events = HebrewCalendar.calendar(options);
-  const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
-  expect(eventTitleDateTime(ev)).toEqual({
-    dt: '2021-06-27T20:40:00-04:00',
-    desc: 'Fast ends',
-  });
+test('fastEndDeg and fastEndMins are mutually exclusive', () => {
+  expect(() =>
+    HebrewCalendar.calendar({
+      start: new Date(2021, 5, 27),
+      end: new Date(2021, 5, 27),
+      location: Location.lookup('Providence'),
+      candlelighting: true,
+      fastEndDeg: 7.0833,
+      fastEndMins: 15,
+    })
+  ).toThrow('options.fastEndDeg and options.fastEndMins are mutually exclusive');
 });
 
 test('makeFastStartEnd', () => {

@@ -613,10 +613,10 @@ test('ykk with location copies attributes from src', () => {
     { date: '2025-02-27', desc: 'Fast ends' }
   ];
   expect(actual).toEqual(expected);
-  // Yom Kippur Katan is a minor fast, so it ends 15 minutes after sunset
+  // Yom Kippur Katan is a minor fast; in the Diaspora it ends at tzeit 7.083
   const fastEnds = events[2] as TimedEvent;
   expect(fastEnds.getDesc()).toBe('Fast ends');
-  expect(fastEnds.eventTimeStr).toBe('17:49');
+  expect(fastEnds.eventTimeStr).toBe('18:08');
   const ev = events[1];
   expect(ev).toBeInstanceOf(FastDayEvent);
   expect(ev.url()).toBeUndefined();
