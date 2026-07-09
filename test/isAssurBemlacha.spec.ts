@@ -3,7 +3,13 @@ import {isAssurBemlacha} from '../src/isAssurBemlacha';
 import {Location} from '../src/location';
 
 function checkTime(dateStr: string): boolean {
-  const loc = new Location(38.908089, -76.976663, false, 'America/New_York', 'Washington, D.C.');
+  const loc = new Location(
+    38.908089,
+    -76.976663,
+    false,
+    'America/New_York',
+    'Washington, D.C.'
+  );
   return isAssurBemlacha(new Date(dateStr), loc, false);
 }
 

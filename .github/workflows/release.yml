@@ -24,7 +24,7 @@ jobs:
       url: https://www.npmjs.com/package/${{ github.event.repository.name }}
     permissions:
       contents: read
-      id-token: write   # REQUIRED for OIDC trusted publishing
+      id-token: write # REQUIRED for OIDC trusted publishing
     steps:
       - uses: actions/checkout@v6
 

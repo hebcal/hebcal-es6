@@ -230,8 +230,9 @@ test('zmanim-denver', () => {
   expect(actual).toEqual(expected);
 
   // "Tzais72": "2020-06-05T21:37:01-06:00"
-  expect(f.format(zman.sunsetOffset(72, false, true)))
-      .toBe('06/05/2020, 21:37:01');
+  expect(f.format(zman.sunsetOffset(72, false, true))).toBe(
+    '06/05/2020, 21:37:01'
+  );
 });
 
 test('roundTime', () => {
@@ -327,38 +328,107 @@ test('formatISOWithTimeZone', () => {
   const winter = new Date(Date.UTC(2020, 1, 22, 0, 0, 0, 0));
   const summer = new Date(Date.UTC(2020, 6, 22, 0, 0, 0, 0));
   const expected = {
-    'Africa/Johannesburg': ['2020-02-22T02:00:00+02:00', '2020-07-22T02:00:00+02:00'],
-    'America/Anchorage': ['2020-02-21T15:00:00-09:00', '2020-07-21T16:00:00-08:00'],
-    'America/Argentina/Buenos_Aires': ['2020-02-21T21:00:00-03:00', '2020-07-21T21:00:00-03:00'],
-    'America/Bogota': ['2020-02-21T19:00:00-05:00', '2020-07-21T19:00:00-05:00'],
-    'America/Chicago': ['2020-02-21T18:00:00-06:00', '2020-07-21T19:00:00-05:00'],
-    'America/Denver': ['2020-02-21T17:00:00-07:00', '2020-07-21T18:00:00-06:00'],
-    'America/Detroit': ['2020-02-21T19:00:00-05:00', '2020-07-21T20:00:00-04:00'],
-    'America/La_Paz': ['2020-02-21T20:00:00-04:00', '2020-07-21T20:00:00-04:00'],
-    'America/Los_Angeles': ['2020-02-21T16:00:00-08:00', '2020-07-21T17:00:00-07:00'],
-    'America/Mexico_City': ['2020-02-21T18:00:00-06:00', '2020-07-21T19:00:00-05:00'],
-    'America/New_York': ['2020-02-21T19:00:00-05:00', '2020-07-21T20:00:00-04:00'],
-    'America/Panama': ['2020-02-21T19:00:00-05:00', '2020-07-21T19:00:00-05:00'],
-    'America/Phoenix': ['2020-02-21T17:00:00-07:00', '2020-07-21T17:00:00-07:00'],
-    'America/Sao_Paulo': ['2020-02-21T21:00:00-03:00', '2020-07-21T21:00:00-03:00'],
-    'America/St_Johns': ['2020-02-21T20:30:00-03:30', '2020-07-21T21:30:00-02:30'],
-    'America/Toronto': ['2020-02-21T19:00:00-05:00', '2020-07-21T20:00:00-04:00'],
+    'Africa/Johannesburg': [
+      '2020-02-22T02:00:00+02:00',
+      '2020-07-22T02:00:00+02:00',
+    ],
+    'America/Anchorage': [
+      '2020-02-21T15:00:00-09:00',
+      '2020-07-21T16:00:00-08:00',
+    ],
+    'America/Argentina/Buenos_Aires': [
+      '2020-02-21T21:00:00-03:00',
+      '2020-07-21T21:00:00-03:00',
+    ],
+    'America/Bogota': [
+      '2020-02-21T19:00:00-05:00',
+      '2020-07-21T19:00:00-05:00',
+    ],
+    'America/Chicago': [
+      '2020-02-21T18:00:00-06:00',
+      '2020-07-21T19:00:00-05:00',
+    ],
+    'America/Denver': [
+      '2020-02-21T17:00:00-07:00',
+      '2020-07-21T18:00:00-06:00',
+    ],
+    'America/Detroit': [
+      '2020-02-21T19:00:00-05:00',
+      '2020-07-21T20:00:00-04:00',
+    ],
+    'America/La_Paz': [
+      '2020-02-21T20:00:00-04:00',
+      '2020-07-21T20:00:00-04:00',
+    ],
+    'America/Los_Angeles': [
+      '2020-02-21T16:00:00-08:00',
+      '2020-07-21T17:00:00-07:00',
+    ],
+    'America/Mexico_City': [
+      '2020-02-21T18:00:00-06:00',
+      '2020-07-21T19:00:00-05:00',
+    ],
+    'America/New_York': [
+      '2020-02-21T19:00:00-05:00',
+      '2020-07-21T20:00:00-04:00',
+    ],
+    'America/Panama': [
+      '2020-02-21T19:00:00-05:00',
+      '2020-07-21T19:00:00-05:00',
+    ],
+    'America/Phoenix': [
+      '2020-02-21T17:00:00-07:00',
+      '2020-07-21T17:00:00-07:00',
+    ],
+    'America/Sao_Paulo': [
+      '2020-02-21T21:00:00-03:00',
+      '2020-07-21T21:00:00-03:00',
+    ],
+    'America/St_Johns': [
+      '2020-02-21T20:30:00-03:30',
+      '2020-07-21T21:30:00-02:30',
+    ],
+    'America/Toronto': [
+      '2020-02-21T19:00:00-05:00',
+      '2020-07-21T20:00:00-04:00',
+    ],
     'Asia/Baghdad': ['2020-02-22T03:00:00+03:00', '2020-07-22T03:00:00+03:00'],
     'Asia/Colombo': ['2020-02-22T05:30:00+05:30', '2020-07-22T05:30:00+05:30'],
-    'Asia/Jerusalem': ['2020-02-22T02:00:00+02:00', '2020-07-22T03:00:00+03:00'],
+    'Asia/Jerusalem': [
+      '2020-02-22T02:00:00+02:00',
+      '2020-07-22T03:00:00+03:00',
+    ],
     'Asia/Kolkata': ['2020-02-22T05:30:00+05:30', '2020-07-22T05:30:00+05:30'],
     'Asia/Seoul': ['2020-02-22T09:00:00+09:00', '2020-07-22T09:00:00+09:00'],
-    'Australia/Melbourne': ['2020-02-22T11:00:00+11:00', '2020-07-22T10:00:00+10:00'],
-    'Australia/Sydney': ['2020-02-22T11:00:00+11:00', '2020-07-22T10:00:00+10:00'],
+    'Australia/Melbourne': [
+      '2020-02-22T11:00:00+11:00',
+      '2020-07-22T10:00:00+10:00',
+    ],
+    'Australia/Sydney': [
+      '2020-02-22T11:00:00+11:00',
+      '2020-07-22T10:00:00+10:00',
+    ],
     'Europe/Berlin': ['2020-02-22T01:00:00+01:00', '2020-07-22T02:00:00+02:00'],
-    'Europe/Budapest': ['2020-02-22T01:00:00+01:00', '2020-07-22T02:00:00+02:00'],
-    'Europe/Gibraltar': ['2020-02-22T01:00:00+01:00', '2020-07-22T02:00:00+02:00'],
-    'Europe/Helsinki': ['2020-02-22T02:00:00+02:00', '2020-07-22T03:00:00+03:00'],
+    'Europe/Budapest': [
+      '2020-02-22T01:00:00+01:00',
+      '2020-07-22T02:00:00+02:00',
+    ],
+    'Europe/Gibraltar': [
+      '2020-02-22T01:00:00+01:00',
+      '2020-07-22T02:00:00+02:00',
+    ],
+    'Europe/Helsinki': [
+      '2020-02-22T02:00:00+02:00',
+      '2020-07-22T03:00:00+03:00',
+    ],
     'Europe/Kiev': ['2020-02-22T02:00:00+02:00', '2020-07-22T03:00:00+03:00'],
     'Europe/London': ['2020-02-22T00:00:00-00:00', '2020-07-22T01:00:00+01:00'],
     'Europe/Moscow': ['2020-02-22T03:00:00+03:00', '2020-07-22T03:00:00+03:00'],
     'Europe/Paris': ['2020-02-22T01:00:00+01:00', '2020-07-22T02:00:00+02:00'],
-    'Pacific/Honolulu': ['2020-02-21T14:00:00-10:00', '2020-07-21T14:00:00-10:00'],
+    'Pacific/Honolulu': [
+      '2020-02-21T14:00:00-10:00',
+      '2020-07-21T14:00:00-10:00',
+    ],
   };
   const actual = {};
   for (const tzid of Object.keys(expected)) {
@@ -375,24 +445,30 @@ test('nightHourMins-dst', () => {
 
   const dt0 = new Date(2022, 2, 12); // March 12, 2022 - before DST
   const zman0 = new Zmanim(gloc, dt0, false);
-  expect(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve()))
-      .toBe('2022-03-11T17:46:05-05:00');
-  expect(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset()))
-      .toBe('2022-03-12T17:47:15-05:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman0.gregEve())).toBe(
+    '2022-03-11T17:46:05-05:00'
+  );
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman0.sunset())).toBe(
+    '2022-03-12T17:47:15-05:00'
+  );
 
   const dt1 = new Date(2022, 2, 13); // March 14, 2022
   const zman1 = new Zmanim(gloc, dt1, false);
-  expect(Zmanim.formatISOWithTimeZone(tzid, zman1.gregEve()))
-      .toBe('2022-03-12T17:47:15-05:00');
-  expect(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset()))
-      .toBe('2022-03-13T18:48:25-04:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman1.gregEve())).toBe(
+    '2022-03-12T17:47:15-05:00'
+  );
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman1.sunset())).toBe(
+    '2022-03-13T18:48:25-04:00'
+  );
 
   const dt2 = new Date(2022, 2, 14); // March 14, 2022
   const zman2 = new Zmanim(gloc, dt2, false);
-  expect(Zmanim.formatISOWithTimeZone(tzid, zman2.gregEve()))
-      .toBe('2022-03-13T18:48:25-04:00');
-  expect(Zmanim.formatISOWithTimeZone(tzid, zman2.sunset()))
-      .toBe('2022-03-14T18:49:35-04:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman2.gregEve())).toBe(
+    '2022-03-13T18:48:25-04:00'
+  );
+  expect(Zmanim.formatISOWithTimeZone(tzid, zman2.sunset())).toBe(
+    '2022-03-14T18:49:35-04:00'
+  );
 });
 
 test('bce', () => {
@@ -405,22 +481,28 @@ test('bce', () => {
 
 test('Zmanim.formatISOWithTimeZone-2021', () => {
   const dt = new Date(Date.UTC(2021, 0, 31, 7, 30, 50, 551));
-  expect(Zmanim.formatISOWithTimeZone('UTC', dt))
-      .toBe('2021-01-31T07:30:50-00:00');
-  expect(Zmanim.formatISOWithTimeZone('America/New_York', dt))
-      .toBe('2021-01-31T02:30:50-05:00');
-  expect(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt))
-      .toBe('2021-01-30T23:30:50-08:00');
+  expect(Zmanim.formatISOWithTimeZone('UTC', dt)).toBe(
+    '2021-01-31T07:30:50-00:00'
+  );
+  expect(Zmanim.formatISOWithTimeZone('America/New_York', dt)).toBe(
+    '2021-01-31T02:30:50-05:00'
+  );
+  expect(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt)).toBe(
+    '2021-01-30T23:30:50-08:00'
+  );
 });
 
 test('Zmanim.formatISOWithTimeZone-1948', () => {
   const dt = new Date(Date.UTC(1948, 0, 31, 7, 30, 50, 551));
-  expect(Zmanim.formatISOWithTimeZone('UTC', dt))
-      .toBe('1948-01-31T07:30:50-00:00');
-  expect(Zmanim.formatISOWithTimeZone('America/New_York', dt))
-      .toBe('1948-01-31T02:30:50-05:00');
-  expect(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt))
-      .toBe('1948-01-30T23:30:50-08:00');
+  expect(Zmanim.formatISOWithTimeZone('UTC', dt)).toBe(
+    '1948-01-31T07:30:50-00:00'
+  );
+  expect(Zmanim.formatISOWithTimeZone('America/New_York', dt)).toBe(
+    '1948-01-31T02:30:50-05:00'
+  );
+  expect(Zmanim.formatISOWithTimeZone('America/Los_Angeles', dt)).toBe(
+    '1948-01-30T23:30:50-08:00'
+  );
 });
 
 test('sunsetOffset', () => {
@@ -432,14 +514,10 @@ test('sunsetOffset', () => {
     second: '2-digit',
     hour12: false,
   });
-  expect(f.format(zman.sunriseOffset(10, true)))
-      .toBe('05:26:00');
-  expect(f.format(zman.sunriseOffset(10, false)))
-      .toBe('05:26:18');
-  expect(f.format(zman.sunsetOffset(10, true)))
-      .toBe('20:32:00');
-  expect(f.format(zman.sunsetOffset(10, false)))
-      .toBe('20:32:29');
+  expect(f.format(zman.sunriseOffset(10, true))).toBe('05:26:00');
+  expect(f.format(zman.sunriseOffset(10, false))).toBe('05:26:18');
+  expect(f.format(zman.sunsetOffset(10, true))).toBe('20:32:00');
+  expect(f.format(zman.sunsetOffset(10, false))).toBe('20:32:29');
 });
 
 test('sunsetOffset-seaLevel', () => {
@@ -503,7 +581,6 @@ test('jlem-sunset', () => {
     expect(actual).toBe(expected);
   }
 });
-
 
 test('zmanim-UTC', () => {
   const gloc = new GeoLocation(null, 0, 0, 21, 'UTC');
@@ -614,9 +691,17 @@ test('makeSunsetAwareHDate', () => {
   const longitude = 2.3488;
   const timezone = 'Europe/Paris';
   const gloc = new GeoLocation(null, latitude, longitude, 0, timezone);
-  const before = Zmanim.makeSunsetAwareHDate(gloc, new Date('2024-09-22T17:38:46.123Z'), false);
+  const before = Zmanim.makeSunsetAwareHDate(
+    gloc,
+    new Date('2024-09-22T17:38:46.123Z'),
+    false
+  );
   expect(before.toString()).toBe('19 Elul 5784');
-  const after = Zmanim.makeSunsetAwareHDate(gloc, new Date('2024-09-22T23:45:18.345Z'), false);
+  const after = Zmanim.makeSunsetAwareHDate(
+    gloc,
+    new Date('2024-09-22T23:45:18.345Z'),
+    false
+  );
   expect(after.toString()).toBe('20 Elul 5784');
 });
 
@@ -627,6 +712,8 @@ test('formatTime', () => {
     minute: 'numeric',
     hour12: false,
   });
-  expect(Zmanim.formatTime(new Date('2024-09-22T23:45:18.345Z'), f)).toBe('18:45');
+  expect(Zmanim.formatTime(new Date('2024-09-22T23:45:18.345Z'), f)).toBe(
+    '18:45'
+  );
   expect(Zmanim.formatTime(new Date(NaN), f)).toBe('XX:XX');
 });

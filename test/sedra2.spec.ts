@@ -18,12 +18,13 @@ test('diaspora-5701', () => {
   const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
-    if (hd.getDay() === 6) { // Saturday
+    if (hd.getDay() === 6) {
+      // Saturday
       result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
-    '1940-10-05': ['Ha\'azinu'],
+    '1940-10-05': ["Ha'azinu"],
     '1940-10-12': ['Yom Kippur'],
     '1940-10-19': ['Sukkot Shabbat Chol ha-Moed'],
     '1940-10-26': ['Bereshit'],
@@ -59,8 +60,8 @@ test('diaspora-5701', () => {
     '1941-05-24': ['Behar', 'Bechukotai'],
     '1941-05-31': ['Bamidbar'],
     '1941-06-07': ['Nasso'],
-    '1941-06-14': ['Beha\'alotcha'],
-    '1941-06-21': ['Sh\'lach'],
+    '1941-06-14': ["Beha'alotcha"],
+    '1941-06-21': ["Sh'lach"],
     '1941-06-28': ['Korach'],
     '1941-07-05': ['Chukat'],
     '1941-07-12': ['Balak'],
@@ -69,7 +70,7 @@ test('diaspora-5701', () => {
     '1941-08-02': ['Devarim'],
     '1941-08-09': ['Vaetchanan'],
     '1941-08-16': ['Eikev'],
-    '1941-08-23': ['Re\'eh'],
+    '1941-08-23': ["Re'eh"],
     '1941-08-30': ['Shoftim'],
     '1941-09-06': ['Ki Teitzei'],
     '1941-09-13': ['Ki Tavo'],
@@ -86,13 +87,14 @@ test('diaspora-5779', () => {
   const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
-    if (hd.getDay() === 6) { // Saturday
+    if (hd.getDay() === 6) {
+      // Saturday
       result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
     '2018-09-15': ['Vayeilech'],
-    '2018-09-22': ['Ha\'azinu'],
+    '2018-09-22': ["Ha'azinu"],
     '2018-09-29': ['Sukkot Shabbat Chol ha-Moed'],
     '2018-10-06': ['Bereshit'],
     '2018-10-13': ['Noach'],
@@ -131,8 +133,8 @@ test('diaspora-5779', () => {
     '2019-06-01': ['Bechukotai'],
     '2019-06-08': ['Bamidbar'],
     '2019-06-15': ['Nasso'],
-    '2019-06-22': ['Beha\'alotcha'],
-    '2019-06-29': ['Sh\'lach'],
+    '2019-06-22': ["Beha'alotcha"],
+    '2019-06-29': ["Sh'lach"],
     '2019-07-06': ['Korach'],
     '2019-07-13': ['Chukat'],
     '2019-07-20': ['Balak'],
@@ -141,7 +143,7 @@ test('diaspora-5779', () => {
     '2019-08-10': ['Devarim'],
     '2019-08-17': ['Vaetchanan'],
     '2019-08-24': ['Eikev'],
-    '2019-08-31': ['Re\'eh'],
+    '2019-08-31': ["Re'eh"],
     '2019-09-07': ['Shoftim'],
     '2019-09-14': ['Ki Teitzei'],
     '2019-09-21': ['Ki Tavo'],
@@ -158,12 +160,13 @@ test('israel-5745', () => {
   const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
-    if (hd.getDay() === 6) { // Saturday
+    if (hd.getDay() === 6) {
+      // Saturday
       result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
-    '1984-09-29': ['Ha\'azinu'],
+    '1984-09-29': ["Ha'azinu"],
     '1984-10-06': ['Yom Kippur'],
     '1984-10-13': ['Sukkot Shabbat Chol ha-Moed'],
     '1984-10-20': ['Bereshit'],
@@ -199,8 +202,8 @@ test('israel-5745', () => {
     '1985-05-18': ['Bechukotai'],
     '1985-05-25': ['Bamidbar'],
     '1985-06-01': ['Nasso'],
-    '1985-06-08': ['Beha\'alotcha'],
-    '1985-06-15': ['Sh\'lach'],
+    '1985-06-08': ["Beha'alotcha"],
+    '1985-06-15': ["Sh'lach"],
     '1985-06-22': ['Korach'],
     '1985-06-29': ['Chukat'],
     '1985-07-06': ['Balak'],
@@ -209,7 +212,7 @@ test('israel-5745', () => {
     '1985-07-27': ['Devarim'],
     '1985-08-03': ['Vaetchanan'],
     '1985-08-10': ['Eikev'],
-    '1985-08-17': ['Re\'eh'],
+    '1985-08-17': ["Re'eh"],
     '1985-08-24': ['Shoftim'],
     '1985-08-31': ['Ki Teitzei'],
     '1985-09-07': ['Ki Tavo'],
@@ -226,13 +229,14 @@ test('israel-5779', () => {
   const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
-    if (hd.getDay() === 6) { // Saturday
+    if (hd.getDay() === 6) {
+      // Saturday
       result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
     '2018-09-15': ['Vayeilech'],
-    '2018-09-22': ['Ha\'azinu'],
+    '2018-09-22': ["Ha'azinu"],
     '2018-09-29': ['Sukkot Shabbat Chol ha-Moed'],
     '2018-10-06': ['Bereshit'],
     '2018-10-13': ['Noach'],
@@ -270,8 +274,8 @@ test('israel-5779', () => {
     '2019-05-25': ['Bechukotai'],
     '2019-06-01': ['Bamidbar'],
     '2019-06-08': ['Nasso'],
-    '2019-06-15': ['Beha\'alotcha'],
-    '2019-06-22': ['Sh\'lach'],
+    '2019-06-15': ["Beha'alotcha"],
+    '2019-06-22': ["Sh'lach"],
     '2019-06-29': ['Korach'],
     '2019-07-06': ['Chukat'],
     '2019-07-13': ['Balak'],
@@ -281,7 +285,7 @@ test('israel-5779', () => {
     '2019-08-10': ['Devarim'],
     '2019-08-17': ['Vaetchanan'],
     '2019-08-24': ['Eikev'],
-    '2019-08-31': ['Re\'eh'],
+    '2019-08-31': ["Re'eh"],
     '2019-09-07': ['Shoftim'],
     '2019-09-14': ['Ki Teitzei'],
     '2019-09-21': ['Ki Tavo'],
@@ -298,13 +302,14 @@ test('diaspora-bce', () => {
   const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
-    if (hd.getDay() === 6) { // Saturday
+    if (hd.getDay() === 6) {
+      // Saturday
       result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
     '-000428-09-09': ['Vayeilech'],
-    '-000428-09-16': ['Ha\'azinu'],
+    '-000428-09-16': ["Ha'azinu"],
     '-000428-09-23': ['Sukkot Shabbat Chol ha-Moed'],
     '-000428-09-30': ['Bereshit'],
     '-000428-10-07': ['Noach'],
@@ -343,8 +348,8 @@ test('diaspora-bce', () => {
     '-000427-05-26': ['Bechukotai'],
     '-000427-06-02': ['Bamidbar'],
     '-000427-06-09': ['Nasso'],
-    '-000427-06-16': ['Beha\'alotcha'],
-    '-000427-06-23': ['Sh\'lach'],
+    '-000427-06-16': ["Beha'alotcha"],
+    '-000427-06-23': ["Sh'lach"],
     '-000427-06-30': ['Korach'],
     '-000427-07-07': ['Chukat'],
     '-000427-07-14': ['Balak'],
@@ -353,7 +358,7 @@ test('diaspora-bce', () => {
     '-000427-08-04': ['Devarim'],
     '-000427-08-11': ['Vaetchanan'],
     '-000427-08-18': ['Eikev'],
-    '-000427-08-25': ['Re\'eh'],
+    '-000427-08-25': ["Re'eh"],
     '-000427-09-01': ['Shoftim'],
     '-000427-09-08': ['Ki Teitzei'],
     '-000427-09-15': ['Ki Tavo'],
@@ -370,13 +375,14 @@ test('israel-bce', () => {
   const result: Record<string, string[]> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
-    if (hd.getDay() === 6) { // Saturday
+    if (hd.getDay() === 6) {
+      // Saturday
       result[dt(hd)] = sedra.lookup(abs).parsha;
     }
   }
   const expected = {
     '-000428-09-09': ['Vayeilech'],
-    '-000428-09-16': ['Ha\'azinu'],
+    '-000428-09-16': ["Ha'azinu"],
     '-000428-09-23': ['Sukkot Shabbat Chol ha-Moed'],
     '-000428-09-30': ['Bereshit'],
     '-000428-10-07': ['Noach'],
@@ -414,8 +420,8 @@ test('israel-bce', () => {
     '-000427-05-19': ['Bechukotai'],
     '-000427-05-26': ['Bamidbar'],
     '-000427-06-02': ['Nasso'],
-    '-000427-06-09': ['Beha\'alotcha'],
-    '-000427-06-16': ['Sh\'lach'],
+    '-000427-06-09': ["Beha'alotcha"],
+    '-000427-06-16': ["Sh'lach"],
     '-000427-06-23': ['Korach'],
     '-000427-06-30': ['Chukat'],
     '-000427-07-07': ['Balak'],
@@ -425,7 +431,7 @@ test('israel-bce', () => {
     '-000427-08-04': ['Devarim'],
     '-000427-08-11': ['Vaetchanan'],
     '-000427-08-18': ['Eikev'],
-    '-000427-08-25': ['Re\'eh'],
+    '-000427-08-25': ["Re'eh"],
     '-000427-09-01': ['Shoftim'],
     '-000427-09-08': ['Ki Teitzei'],
     '-000427-09-15': ['Ki Tavo'],
@@ -434,7 +440,6 @@ test('israel-bce', () => {
   expect(result).toEqual(expected);
 });
 
-
 test('year1', () => {
   const sedra = new Sedra(1, true);
   const startAbs = HDate.hebrew2abs(1, months.TISHREI, 1);
@@ -442,7 +447,8 @@ test('year1', () => {
   const result: Record<string, string> = {};
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
-    if (hd.getDay() === 6) { // Saturday
+    if (hd.getDay() === 6) {
+      // Saturday
       result[dt(hd)] = sedra.lookup(abs).parsha[0];
     }
   }
@@ -454,7 +460,7 @@ test('year1', () => {
     '-003760-10-10': 'Noach',
     '-003760-10-17': 'Lech-Lecha',
     '-003760-10-24': 'Vayera',
-    '-003760-10-31': 'Chayei Sara'
+    '-003760-10-31': 'Chayei Sara',
   };
   expect(result).toEqual(expected);
 });
