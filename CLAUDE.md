@@ -5,10 +5,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build & Development Commands
 
 - **Build:** `npm run build` (generates translation files from .po, version constant, then rollup)
-- **Test:** `npm test` (builds first via pretest, runs vitest, then lints via posttest)
+- **Test:** `npm test` (builds first via pretest, then runs vitest)
 - **Run single test:** `npx vitest run test/somefile.spec.ts`
-- **Lint:** `npm run lint` (uses `gts lint` — Google TypeScript Style)
-- **Fix lint:** `npm run fix` (uses `gts fix`)
+- **Lint:** `npm run lint` (runs `oxlint`, then `prettier --check .`)
+- **Fix lint:** `npm run fix` (runs `oxlint --fix`, then `prettier --write .`)
 - **Type check:** `npm run compile` (runs `tsc`)
 - **Coverage:** `npm run coverage`
 
@@ -47,7 +47,7 @@ For tree-shaking, prefer deep imports: `import {getHolidaysOnDate} from '@hebcal
 
 ## Code Style
 
-- **Formatter:** Prettier — no bracket spacing, single quotes, trailing commas (es5), no parens on single-arg arrows
-- **Linter:** GTS (Google TypeScript Style) via eslint
+- **Formatter:** Prettier (`.prettierrc.cjs`) — no bracket spacing, single quotes, trailing commas (es5), no parens on single-arg arrows
+- **Linter:** Oxlint (`.oxlintrc.json`)
 - **Tests:** Vitest with `.spec.ts` suffix in `test/` directory. Tests import directly from `../src/` modules.
 - **Translation files** (`*.po.ts`) are generated — do not edit by hand
