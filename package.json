@@ -59,18 +59,15 @@
     "po2json": "node ./po2json.js po/he.po po/he-x-NoNikud.po po/ashkenazi.po",
     "docs": "typedoc",
     "pretest": "npm run build",
-    "lint": "gts lint",
+    "lint": "oxlint && prettier --check .",
     "coverage": "vitest --coverage",
     "test": "vitest",
-    "clean": "gts clean",
-    "fix": "gts fix",
+    "clean": "rm -rf dist docs",
+    "fix": "oxlint --fix && prettier --write .",
     "compile": "tsc",
     "prepare": "npm run compile"
   },
   "license": "GPL-2.0",
-  "overrides": {
-    "tmp": "^0.2.6"
-  },
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
@@ -79,7 +76,8 @@
     "@types/node": "^26.0.0",
     "@vitest/coverage-v8": "^4.1.9",
     "gettext-parser": "^9.0.2",
-    "gts": "^7.0.0",
+    "oxlint": "^1.73.0",
+    "prettier": "^3.9.5",
     "pretty-bytes": "^7.1.0",
     "rollup": "^4.62.2",
     "rollup-plugin-bundle-size": "^1.0.3",

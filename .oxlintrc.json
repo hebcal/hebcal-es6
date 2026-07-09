@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error"
+  },
+  "ignorePatterns": [
+    "dist/",
+    "docs/",
+    "coverage/",
+    "size-demo/",
+    "src/*.po.ts",
+    "src/pkgVersion.ts"
+  ]
+}

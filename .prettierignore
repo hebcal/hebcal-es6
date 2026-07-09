@@ -1,0 +1,9 @@
+dist
+docs
+coverage
+node_modules
+package-lock.json
+po
+src/*.po.ts
+src/pkgVersion.ts
+size-demo/dist
