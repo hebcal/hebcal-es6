@@ -2,8 +2,8 @@ import {afterAll, expect, test, vi} from 'vitest';
 import {CalOptions} from '../src/CalOptions';
 import {DailyLearning} from '../src/DailyLearning';
 import {calendar} from '../src/calendar';
-import { HDate } from '@hebcal/hdate';
-import { Event } from '../src/event';
+import {HDate} from '@hebcal/hdate';
+import {Event} from '../src/event';
 
 const consoleMock = vi.spyOn(console, 'warn');
 
@@ -15,12 +15,16 @@ test('calendar() calls warnUnrecognizedOptions()', () => {
   const options: CalOptions = {};
   Object.assign(options, {nonsense: true});
   calendar(options);
-  expect(consoleMock).toHaveBeenLastCalledWith('Ignoring unrecognized HebrewCalendar option: nonsense');
+  expect(consoleMock).toHaveBeenLastCalledWith(
+    'Ignoring unrecognized HebrewCalendar option: nonsense'
+  );
 });
 
 test('warnUnrecognizedOptions also checks dailyLearning', () => {
   calendar({dailyLearning: {foobar: true}});
-  expect(consoleMock).toHaveBeenLastCalledWith('Ignoring unrecognized DailyLearning calendar: foobar');
+  expect(consoleMock).toHaveBeenLastCalledWith(
+    'Ignoring unrecognized DailyLearning calendar: foobar'
+  );
 });
 
 test('dailyLearning does not trigger addHebrewDatesForEvents', () => {

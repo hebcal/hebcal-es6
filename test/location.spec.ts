@@ -39,11 +39,21 @@ test('lookup-notfound', () => {
 });
 
 test('Location.addLocation', () => {
-  const cityName = 'Ra\'anana';
+  const cityName = "Ra'anana";
   const missing = Location.lookup(cityName);
   expect(missing).toBe(undefined);
-  const success = Location.addLocation(cityName, new Location(
-      32.1836, 34.87386, true, 'Asia/Jerusalem', cityName, 'IL', 999888777666));
+  const success = Location.addLocation(
+    cityName,
+    new Location(
+      32.1836,
+      34.87386,
+      true,
+      'Asia/Jerusalem',
+      cityName,
+      'IL',
+      999888777666
+    )
+  );
   expect(success).toBe(true);
   const found = Location.lookup(cityName);
   expect(found).toBeDefined();
@@ -51,7 +61,14 @@ test('Location.addLocation', () => {
   expect(found1.getLatitude()).toBe(32.1836);
   expect(found1.getGeoId()).toBe(999888777666);
 
-  const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
+  const loc = new Location(
+    37.0,
+    123.0,
+    false,
+    'UTC',
+    'Foo Bar, Baaz, Quux',
+    'XX'
+  );
   expect(Location.addLocation(cityName, loc)).toBe(false);
   expect(Location.addLocation('Boston', loc)).toBe(false);
   expect(Location.addLocation('(bogus)', loc)).toBe(true);
@@ -59,19 +76,71 @@ test('Location.addLocation', () => {
 
 test('classic-cities', () => {
   const classic = [
-    'Ashdod', 'Atlanta', 'Austin', 'Baghdad', 'Beer Sheva',
-    'Berlin', 'Baltimore', 'Bogota', 'Boston', 'Budapest',
-    'Buenos Aires', 'Buffalo', 'Chicago', 'Cincinnati', 'Cleveland',
-    'Dallas', 'Denver', 'Detroit', 'Eilat', 'Gibraltar', 'Haifa',
-    'Hawaii', 'Helsinki', 'Houston', 'Jerusalem', 'Johannesburg',
-    'Kiev', 'La Paz', 'Livingston', 'Las Vegas', 'London', 'Los Angeles',
-    'Marseilles', 'Miami', 'Minneapolis', 'Melbourne', 'Mexico City',
-    'Montreal', 'Moscow', 'New York', 'Omaha', 'Ottawa', 'Panama City',
-    'Paris', 'Pawtucket', 'Petach Tikvah', 'Philadelphia', 'Phoenix',
-    'Pittsburgh', 'Providence', 'Portland', 'Saint Louis', 'Saint Petersburg',
-    'San Diego', 'San Francisco', 'Sao Paulo', 'Seattle', 'Sydney',
-    'Tel Aviv', 'Tiberias', 'Toronto', 'Vancouver', 'White Plains',
-    'Washington DC', 'Worcester',
+    'Ashdod',
+    'Atlanta',
+    'Austin',
+    'Baghdad',
+    'Beer Sheva',
+    'Berlin',
+    'Baltimore',
+    'Bogota',
+    'Boston',
+    'Budapest',
+    'Buenos Aires',
+    'Buffalo',
+    'Chicago',
+    'Cincinnati',
+    'Cleveland',
+    'Dallas',
+    'Denver',
+    'Detroit',
+    'Eilat',
+    'Gibraltar',
+    'Haifa',
+    'Hawaii',
+    'Helsinki',
+    'Houston',
+    'Jerusalem',
+    'Johannesburg',
+    'Kiev',
+    'La Paz',
+    'Livingston',
+    'Las Vegas',
+    'London',
+    'Los Angeles',
+    'Marseilles',
+    'Miami',
+    'Minneapolis',
+    'Melbourne',
+    'Mexico City',
+    'Montreal',
+    'Moscow',
+    'New York',
+    'Omaha',
+    'Ottawa',
+    'Panama City',
+    'Paris',
+    'Pawtucket',
+    'Petach Tikvah',
+    'Philadelphia',
+    'Phoenix',
+    'Pittsburgh',
+    'Providence',
+    'Portland',
+    'Saint Louis',
+    'Saint Petersburg',
+    'San Diego',
+    'San Francisco',
+    'Sao Paulo',
+    'Seattle',
+    'Sydney',
+    'Tel Aviv',
+    'Tiberias',
+    'Toronto',
+    'Vancouver',
+    'White Plains',
+    'Washington DC',
+    'Worcester',
   ];
   for (const s of classic) {
     const city = Location.lookup(s);
@@ -107,20 +176,51 @@ test('legacyTzToTzid', () => {
 });
 
 test('shortName', () => {
-  const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
+  const loc = new Location(
+    37.0,
+    123.0,
+    false,
+    'UTC',
+    'Foo Bar, Baaz, Quux',
+    'XX'
+  );
   expect(loc.getName()).toBe('Foo Bar, Baaz, Quux');
   expect(loc.getShortName()).toBe('Foo Bar');
 });
 
 test('shortName-DC', () => {
-  const loc = new Location(38.908089, -76.976663, false, 'America/New_York', 'Washington, DC 20002', 'US', '20002');
+  const loc = new Location(
+    38.908089,
+    -76.976663,
+    false,
+    'America/New_York',
+    'Washington, DC 20002',
+    'US',
+    '20002'
+  );
   expect(loc.getName()).toBe('Washington, DC 20002');
   expect(loc.getShortName()).toBe('Washington, DC');
 
-  const loc2 = new Location(38.908089, -76.976663, false, 'America/New_York', 'Washington, D.C.', 'US', 4140963);
+  const loc2 = new Location(
+    38.908089,
+    -76.976663,
+    false,
+    'America/New_York',
+    'Washington, D.C.',
+    'US',
+    4140963
+  );
   expect(loc2.getShortName()).toBe('Washington, D.C.');
 
-  const loc3 = new Location(38.908089, -76.976663, false, 'America/New_York', 'Dover, DE 19901', 'US', '19901');
+  const loc3 = new Location(
+    38.908089,
+    -76.976663,
+    false,
+    'America/New_York',
+    'Dover, DE 19901',
+    'US',
+    '19901'
+  );
   expect(loc3.getShortName()).toBe('Dover');
 });
 

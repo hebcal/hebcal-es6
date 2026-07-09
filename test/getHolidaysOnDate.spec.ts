@@ -10,7 +10,10 @@ test('getHolidaysOnDate', () => {
     {dt: new HDate(1, 'Tishrei', hyear), desc: ['Rosh Hashana 5771']},
     {dt: new HDate(10, 'Tishrei', hyear), desc: ['Yom Kippur']},
     {dt: new HDate(3, 'Cheshvan', hyear), desc: undefined},
-    {dt: new Date(2010, 11, 7), desc: ['Chag HaBanot', 'Chanukah: 7 Candles', 'Rosh Chodesh Tevet']},
+    {
+      dt: new Date(2010, 11, 7),
+      desc: ['Chag HaBanot', 'Chanukah: 7 Candles', 'Rosh Chodesh Tevet'],
+    },
   ];
   for (const item of expected) {
     const dt = item.dt;
@@ -22,7 +25,7 @@ test('getHolidaysOnDate', () => {
       expect(Array.isArray(ev)).toBe(true);
       const events = ev as Event[];
       expect(events[0] instanceof Event).toBe(true);
-      const d = events.map((e) => e.getDesc());
+      const d = events.map(e => e.getDesc());
       expect(d).toEqual(desc);
     }
   }

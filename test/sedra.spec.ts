@@ -18,7 +18,8 @@ test('3762', () => {
   const endAbs = HDate.hebrew2abs(3763, months.TISHREI, 1) - 1;
   for (let abs = startAbs; abs <= endAbs; abs++) {
     const hd = new HDate(abs);
-    if (hd.getDay() === 6) { // Saturday
+    if (hd.getDay() === 6) {
+      // Saturday
       const p = sedra.lookup(abs);
       expect(typeof p.chag).toBe('boolean');
     }
@@ -191,7 +192,10 @@ test('find-holiday', () => {
 });
 
 test('complete-incomplete-types', () => {
-  const years = [5701, 5702, 5703, 5708, 5710, 5711, 5713, 5714, 5715, 5717, 5719, 5726, 5734, 5736];
+  const years = [
+    5701, 5702, 5703, 5708, 5710, 5711, 5713, 5714, 5715, 5717, 5719, 5726,
+    5734, 5736,
+  ];
   for (const year of years) {
     const sedraDiaspora = new Sedra(year, false);
     const sedraIL = new Sedra(year, true);
@@ -248,4 +252,3 @@ test('Pesach Diaspora', () => {
     }
   }
 });
-

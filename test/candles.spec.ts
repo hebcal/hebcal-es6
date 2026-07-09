@@ -1,8 +1,5 @@
 import {describe, expect, test} from 'vitest';
-import {
-  makeCandleEvent, makeFastStartEnd,
-  FastDayEvent,
-} from '../src/candles';
+import {makeCandleEvent, makeFastStartEnd, FastDayEvent} from '../src/candles';
 import {CandleLightingEvent, TimedEvent} from '../src/TimedEvent';
 import {CalOptions} from '../src/CalOptions';
 import {Event, flags} from '../src/event';
@@ -86,7 +83,6 @@ test('makeCandleEvent-nosunset', () => {
   expect(result2).toEqual(expected2);
 });
 
-
 test('candles-only-diaspora', () => {
   const options: CalOptions = {
     year: 1993,
@@ -115,9 +111,13 @@ test('candles-only-diaspora', () => {
 // eslint-disable-next-line require-jsdoc
 function eventTitleDateTime(ev: Event) {
   const obj = ev as any;
-  const timeStr = typeof obj.eventTime === 'object' ?
-    Zmanim.formatISOWithTimeZone(obj.location.getTzid(), obj.eventTime as Date) :
-    isoDateString(ev.greg());
+  const timeStr =
+    typeof obj.eventTime === 'object'
+      ? Zmanim.formatISOWithTimeZone(
+          obj.location.getTzid(),
+          obj.eventTime as Date
+        )
+      : isoDateString(ev.greg());
   return {
     dt: timeStr,
     desc: ev.getDesc(),
@@ -152,8 +152,9 @@ test('havdalah-mins', () => {
     location: Location.lookup('Providence'),
     candlelighting: true,
   };
-  const events = HebrewCalendar.calendar(options)
-      .filter((ev) => ev.getDesc().startsWith('Havdalah'));
+  const events = HebrewCalendar.calendar(options).filter(ev =>
+    ev.getDesc().startsWith('Havdalah')
+  );
   const ev = events[0] as TimedEvent;
   expect(ev.getFlags()).toBe(flags.LIGHT_CANDLES_TZEIS);
   expect(ev.render('en')).toBe('Havdalah (47 min): 8:02pm');
@@ -181,9 +182,9 @@ test('havdalah-zero-suppressed', () => {
   };
   const events = HebrewCalendar.calendar(options);
   expect(events.length).toBeGreaterThanOrEqual(8);
-  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  const candlelighting = events.filter(ev => ev.getDesc() == 'Candle lighting');
   expect(candlelighting.length).toBe(8);
-  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  const havdalah = events.filter(ev => ev.getDesc() == 'Havdalah');
   expect(havdalah.length).toBe(0);
 });
 
@@ -198,9 +199,9 @@ test('havdalah-fixed-st-petersburg', () => {
   };
   const events = HebrewCalendar.calendar(options);
   expect(events.length).toBe(8);
-  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  const candlelighting = events.filter(ev => ev.getDesc() == 'Candle lighting');
   expect(candlelighting.length).toBe(4);
-  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  const havdalah = events.filter(ev => ev.getDesc() == 'Havdalah');
   expect(havdalah.length).toBe(4);
 });
 
@@ -214,9 +215,9 @@ test('havdalah-no-tzeit-st-petersburg', () => {
   };
   const events = HebrewCalendar.calendar(options);
   expect(events.length).toBe(4);
-  const candlelighting = events.filter((ev) => ev.getDesc() == 'Candle lighting');
+  const candlelighting = events.filter(ev => ev.getDesc() == 'Candle lighting');
   expect(candlelighting.length).toBe(4);
-  const havdalah = events.filter((ev) => ev.getDesc() == 'Havdalah');
+  const havdalah = events.filter(ev => ev.getDesc() == 'Havdalah');
   expect(havdalah.length).toBe(0);
 });
 
@@ -224,7 +225,16 @@ test('candles-only-israel', () => {
   const options: CalOptions = {
     year: 1993,
     noHolidays: true,
-    location: new Location(32.1836, 34.87386, true, 'Asia/Jerusalem', 'Ra\'anana', 'IL', undefined, 1),
+    location: new Location(
+      32.1836,
+      34.87386,
+      true,
+      'Asia/Jerusalem',
+      "Ra'anana",
+      'IL',
+      undefined,
+      1
+    ),
     il: true,
     candlelighting: true,
     noMinorFast: true,
@@ -314,8 +324,16 @@ test('candleLightingMins-0', () => {
   expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:32');
 });
 
-const jerusalemSeaLevel = new Location(31.76904, 35.21633, true, 'Asia/Jerusalem',
-    'Jerusalem, Israel', 'IL', undefined, 0);
+const jerusalemSeaLevel = new Location(
+  31.76904,
+  35.21633,
+  true,
+  'Asia/Jerusalem',
+  'Jerusalem, Israel',
+  'IL',
+  undefined,
+  0
+);
 
 test('jerusalem40', () => {
   const options: CalOptions = {
@@ -326,7 +344,7 @@ test('jerusalem40', () => {
     havdalahMins: 0,
   };
   const events = HebrewCalendar.calendar(options);
-  const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
+  const candleEvents = events.filter(ev => ev.getDesc() === 'Candle lighting');
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
     {dt: '2020-01-03T16:07:00+02:00', desc: 'Candle lighting'},
@@ -355,7 +373,7 @@ test('jerusalem31', () => {
     candleLightingMins: 31,
   };
   const events = HebrewCalendar.calendar(options);
-  const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
+  const candleEvents = events.filter(ev => ev.getDesc() === 'Candle lighting');
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
     {dt: '2020-03-06T17:09:00+02:00', desc: 'Candle lighting'},
@@ -375,7 +393,7 @@ test('jerusalem18-forced-to-40', () => {
     candleLightingMins: 18,
   };
   const events = HebrewCalendar.calendar(options);
-  const candleEvents = events.filter((ev) => ev.getDesc() === 'Candle lighting');
+  const candleEvents = events.filter(ev => ev.getDesc() === 'Candle lighting');
   const items = candleEvents.map(eventTitleDateTime);
   const expected = [
     {dt: '2020-03-06T17:00:00+02:00', desc: 'Candle lighting'},
@@ -424,8 +442,8 @@ test('chanukah-candles-dec-jan', () => {
   };
   const events = HebrewCalendar.calendar(options);
   const urls = events
-      .filter((ev) => ev.basename() === 'Chanukah')
-      .map((ev) => ev.url());
+    .filter(ev => ev.basename() === 'Chanukah')
+    .map(ev => ev.url());
   const expected = [
     'https://www.hebcal.com/holidays/chanukah-2024',
     'https://www.hebcal.com/holidays/chanukah-2024',
@@ -459,10 +477,10 @@ test('fastStartEnd Asara BTevet', () => {
     location: Location.lookup('Providence'),
     candlelighting: true,
   });
-  const events = events0.filter((ev) => ev.getDesc() === 'Asara B\'Tevet');
+  const events = events0.filter(ev => ev.getDesc() === "Asara B'Tevet");
   expect(events.length).toBe(2);
   expect(events[0]).toBeInstanceOf(FastDayEvent);
-  const urls = events.map((ev) => ev.url());
+  const urls = events.map(ev => ev.url());
   const expectedUrls = [
     'https://www.hebcal.com/holidays/asara-btevet-20200107',
     'https://www.hebcal.com/holidays/asara-btevet-20201225',
@@ -509,7 +527,7 @@ test('fastStartEnd-friday', () => {
   });
   const expected = [
     {dt: '2022-04-15T04:37:00-04:00', desc: 'Fast begins'},
-    {dt: '2022-04-15', desc: 'Ta\'anit Bechorot'},
+    {dt: '2022-04-15', desc: "Ta'anit Bechorot"},
     {dt: '2022-04-15T10:32:00-04:00', desc: 'Finish eating chametz'},
     {dt: '2022-04-15T11:39:00-04:00', desc: 'Biur Chametz'},
     {dt: '2022-04-15', desc: 'Erev Pesach'},
@@ -531,7 +549,7 @@ test('biurChametz-erevPesach-saturday-5785', () => {
   });
   const expected = [
     {dt: '2025-04-10T04:46:00-04:00', desc: 'Fast begins'},
-    {dt: '2025-04-10', desc: 'Ta\'anit Bechorot'},
+    {dt: '2025-04-10', desc: "Ta'anit Bechorot"},
     {dt: '2025-04-10T19:56:00-04:00', desc: 'Fast ends'},
     {dt: '2025-04-11T11:41:00-04:00', desc: 'Biur Chametz'},
     {dt: '2025-04-11T19:04:00-04:00', desc: 'Candle lighting'},
@@ -556,9 +574,7 @@ test('biurChametz-erevPesach-saturday-5785-il', () => {
   expect(descs).toContain('Biur Chametz');
   expect(descs).toContain('Finish eating chametz');
   const biur = events.find(ev => ev.getDesc() === 'Biur Chametz')!;
-  const achilas = events.find(
-    ev => ev.getDesc() === 'Finish eating chametz'
-  )!;
+  const achilas = events.find(ev => ev.getDesc() === 'Finish eating chametz')!;
   // Biur Chametz is on Friday, 11 April 2025 (13 Nisan).
   expect(isoDateString(biur.greg())).toBe('2025-04-11');
   // Finish eating chametz stays on Saturday, 12 April 2025 (14 Nisan).
@@ -576,8 +592,8 @@ test('fastStartEnd-9av', () => {
   expect(events.length).toBe(4);
   const expected = [
     {dt: '2023-07-26T20:10:00-04:00', desc: 'Fast begins'},
-    {dt: '2023-07-26', desc: 'Erev Tish\'a B\'Av'},
-    {dt: '2023-07-27', desc: 'Tish\'a B\'Av'},
+    {dt: '2023-07-26', desc: "Erev Tish'a B'Av"},
+    {dt: '2023-07-27', desc: "Tish'a B'Av"},
     {dt: '2023-07-27T20:44:00-04:00', desc: 'Fast ends'},
   ];
   expect(events.map(eventTitleDateTime)).toEqual(expected);
@@ -591,9 +607,9 @@ test('fastStartEnd-9av', () => {
   const expected2 = [
     {dt: '2022-08-06', desc: 'Shabbat Chazon'},
     {dt: '2022-08-06T19:58:00-04:00', desc: 'Fast begins'},
-    {dt: '2022-08-06', desc: 'Erev Tish\'a B\'Av'},
+    {dt: '2022-08-06', desc: "Erev Tish'a B'Av"},
     {dt: '2022-08-06T20:44:00-04:00', desc: 'Havdalah'},
-    {dt: '2022-08-07', desc: 'Tish\'a B\'Av (observed)'},
+    {dt: '2022-08-07', desc: "Tish'a B'Av (observed)"},
     {dt: '2022-08-07T20:30:00-04:00', desc: 'Fast ends'},
   ];
   expect(events2.map(eventTitleDateTime)).toEqual(expected2);
@@ -628,7 +644,13 @@ test('havdalahDeg', () => {
   const events = [
     makeCandleEvent(undefined, hd, {location}, isFri, isSat),
     makeCandleEvent(undefined, hd, {location, havdalahDeg: 6.5}, isFri, isSat),
-    makeCandleEvent(undefined, hd, {location, havdalahDeg: 7.0833}, isFri, isSat),
+    makeCandleEvent(
+      undefined,
+      hd,
+      {location, havdalahDeg: 7.0833},
+      isFri,
+      isSat
+    ),
     makeCandleEvent(undefined, hd, {location, havdalahDeg: 7.5}, isFri, isSat),
     makeCandleEvent(undefined, hd, {location, havdalahDeg: 8.5}, isFri, isSat),
     makeCandleEvent(undefined, hd, {location, havdalahMins: 42}, isFri, isSat),
@@ -737,17 +759,51 @@ describe('minor fast end time (Tzom Tammuz 2021-06-27)', () => {
     expected: string;
   }[] = [
     // Diaspora default: tzeit 7.083° (3 medium-sized stars)
-    {name: 'Diaspora default', location: 'Providence', il: false, expected: '2021-06-27T21:07:00-04:00'},
+    {
+      name: 'Diaspora default',
+      location: 'Providence',
+      il: false,
+      expected: '2021-06-27T21:07:00-04:00',
+    },
     // Diaspora with fastEndDeg=6° (dusk)
-    {name: 'Diaspora fastEndDeg=6', location: 'Providence', il: false, fastEndDeg: 6, expected: '2021-06-27T20:59:00-04:00'},
+    {
+      name: 'Diaspora fastEndDeg=6',
+      location: 'Providence',
+      il: false,
+      fastEndDeg: 6,
+      expected: '2021-06-27T20:59:00-04:00',
+    },
     // Diaspora with fastEndMins=20 (20 min after sunset)
-    {name: 'Diaspora fastEndMins=20', location: 'Providence', il: false, fastEndMins: 20, expected: '2021-06-27T20:45:00-04:00'},
+    {
+      name: 'Diaspora fastEndMins=20',
+      location: 'Providence',
+      il: false,
+      fastEndMins: 20,
+      expected: '2021-06-27T20:45:00-04:00',
+    },
     // Israel default: 15 min after sunset (Rabbi Deblitzky's practice)
-    {name: 'Israel default', location: 'Jerusalem', il: true, expected: '2021-06-27T20:04:00+03:00'},
+    {
+      name: 'Israel default',
+      location: 'Jerusalem',
+      il: true,
+      expected: '2021-06-27T20:04:00+03:00',
+    },
     // Israel with fastEndDeg=6° (dusk)
-    {name: 'Israel fastEndDeg=6', location: 'Jerusalem', il: true, fastEndDeg: 6, expected: '2021-06-27T20:17:00+03:00'},
+    {
+      name: 'Israel fastEndDeg=6',
+      location: 'Jerusalem',
+      il: true,
+      fastEndDeg: 6,
+      expected: '2021-06-27T20:17:00+03:00',
+    },
     // Israel with fastEndMins=20 (20 min after sunset)
-    {name: 'Israel fastEndMins=20', location: 'Jerusalem', il: true, fastEndMins: 20, expected: '2021-06-27T20:09:00+03:00'},
+    {
+      name: 'Israel fastEndMins=20',
+      location: 'Jerusalem',
+      il: true,
+      fastEndMins: 20,
+      expected: '2021-06-27T20:09:00+03:00',
+    },
   ];
   for (const tc of cases) {
     test(tc.name, () => {
@@ -759,15 +815,19 @@ describe('minor fast end time (Tzom Tammuz 2021-06-27)', () => {
         candlelighting: true,
       };
       if (typeof tc.fastEndDeg === 'number') options.fastEndDeg = tc.fastEndDeg;
-      if (typeof tc.fastEndMins === 'number') options.fastEndMins = tc.fastEndMins;
+      if (typeof tc.fastEndMins === 'number')
+        options.fastEndMins = tc.fastEndMins;
       const events = HebrewCalendar.calendar(options);
-      const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
-      expect(eventTitleDateTime(ev)).toEqual({dt: tc.expected, desc: 'Fast ends'});
+      const ev = events.filter(ev => ev.getDesc() === 'Fast ends')[0];
+      expect(eventTitleDateTime(ev)).toEqual({
+        dt: tc.expected,
+        desc: 'Fast ends',
+      });
     });
   }
 });
 
-test('Tish\'a B\'Av always ends at tzeit 6.45', () => {
+test("Tish'a B'Av always ends at tzeit 6.45", () => {
   const base: CalOptions = {
     start: new Date(2023, 6, 27),
     end: new Date(2023, 6, 27),
@@ -783,7 +843,7 @@ test('Tish\'a B\'Av always ends at tzeit 6.45', () => {
     {il: true},
   ]) {
     const events = HebrewCalendar.calendar({...base, ...override});
-    const ev = events.filter((ev) => ev.getDesc() === 'Fast ends')[0];
+    const ev = events.filter(ev => ev.getDesc() === 'Fast ends')[0];
     expect(eventTitleDateTime(ev)).toEqual({
       dt: '2023-07-27T20:44:00-04:00',
       desc: 'Fast ends',
@@ -801,13 +861,19 @@ test('fastEndDeg and fastEndMins are mutually exclusive', () => {
       fastEndDeg: 7.0833,
       fastEndMins: 15,
     })
-  ).toThrow('options.fastEndDeg and options.fastEndMins are mutually exclusive');
+  ).toThrow(
+    'options.fastEndDeg and options.fastEndMins are mutually exclusive'
+  );
 });
 
 test('makeFastStartEnd', () => {
   const location = Location.lookup('Providence');
   const hd = new HDate(8, 'Av', 5783);
-  const ev = new HolidayEvent(hd, 'Erev Tish\'a B\'Av', flags.EREV | flags.MAJOR_FAST);
+  const ev = new HolidayEvent(
+    hd,
+    "Erev Tish'a B'Av",
+    flags.EREV | flags.MAJOR_FAST
+  );
   const options: CalOptions = {
     location,
     candlelighting: true,
@@ -867,5 +933,7 @@ test('friday has LIGHT_CANDLES after RH', () => {
   expect(events.length).toBe(2);
   expect(events[0].getDesc()).toBe('Rosh Hashana II');
   expect(events[1].getDesc()).toBe('Candle lighting');
-  expect(events[1].getFlags()).toBe(flags.CHAG | flags.LIGHT_CANDLES | flags.YOM_TOV_ENDS);
+  expect(events[1].getFlags()).toBe(
+    flags.CHAG | flags.LIGHT_CANDLES | flags.YOM_TOV_ENDS
+  );
 });

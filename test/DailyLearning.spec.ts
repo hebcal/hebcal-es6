@@ -4,7 +4,9 @@ import {DailyLearning} from '../src/DailyLearning';
 
 test('DailyLearning', () => {
   expect(DailyLearning.getCalendars()).toEqual([]);
-  const dummy = () => {return null};
+  const dummy = () => {
+    return null;
+  };
   const hd = new HDate();
   expect(DailyLearning.has('Foo')).toBe(false);
   DailyLearning.addCalendar('Foo', dummy);
@@ -13,9 +15,11 @@ test('DailyLearning', () => {
   expect(DailyLearning.getStartDate('foo')).toBeUndefined();
   const startDate = new HDate(5780, 'Cheshvan', 13);
   DailyLearning.addCalendar('Bar', dummy, startDate);
-  expect(DailyLearning.getStartDate('bar')).toEqual(startDate)
+  expect(DailyLearning.getStartDate('bar')).toEqual(startDate);
   expect(DailyLearning.getCalendars()).toEqual(['foo', 'bar']);
-  const dummy2 = () => {return {bogus: true}};
+  const dummy2 = () => {
+    return {bogus: true};
+  };
   DailyLearning.addCalendar('Quux', dummy2);
   expect(DailyLearning.getStartDate('Quux')).toBeUndefined();
   expect(DailyLearning.getCalendars()).toEqual(['foo', 'bar', 'quux']);

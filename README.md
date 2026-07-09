@@ -2,7 +2,7 @@
 
 Hebcal is a perpetual Jewish Calendar. This library converts between
 Hebrew and Gregorian dates, and generates lists of Jewish holidays for
-any year (past, present or future).  Shabbat and holiday candle
+any year (past, present or future). Shabbat and holiday candle
 lighting and havdalah times are approximated based on location. Torah
 readings (Parashat HaShavua), Daf Yomi, and counting of the Omer can
 also be specified. Hebcal also includes algorithms to calculate
@@ -79,10 +79,10 @@ console.log(reading.summary);
 
 This package exports two categories of output:
 
-- `dist/bundle.min.js`: This includes all dependencies in a single JS file.  It's quite large (174KB minified), and should only be used if you aren't using a bundler.
-- `dist/esm/`: This directory contains ES modules for each source file in the package.  If you're using Rollup, Vite, or another bundler, you should import from here to reduce output sizes.
+- `dist/bundle.min.js`: This includes all dependencies in a single JS file. It's quite large (174KB minified), and should only be used if you aren't using a bundler.
+- `dist/esm/`: This directory contains ES modules for each source file in the package. If you're using Rollup, Vite, or another bundler, you should import from here to reduce output sizes.
   - These files do not include polyfills; if you want to support older browsers, use <https://github.com/rollup/plugins/tree/master/packages/babel#babelhelpers>
-  - To make tree-shaking work better, import from the most specific file possible; avoid importing from `index` or `hebcal`.  Some APIs may still need to be moved to specific files.  For example:
+  - To make tree-shaking work better, import from the most specific file possible; avoid importing from `index` or `hebcal`. Some APIs may still need to be moved to specific files. For example:
 
     ```ts
     import {getHolidaysOnDate} from '@hebcal/core/dist/esm/holidays';
