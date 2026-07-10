@@ -63,9 +63,7 @@
     "coverage": "vitest --coverage",
     "test": "vitest",
     "clean": "rm -rf dist docs",
-    "fix": "oxlint --fix && prettier --write .",
-    "compile": "tsc",
-    "prepare": "npm run compile"
+    "fix": "oxlint --fix && prettier --write ."
   },
   "license": "GPL-2.0",
   "devDependencies": {
