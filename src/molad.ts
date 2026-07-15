@@ -42,7 +42,8 @@ const night = 'בַּלַּ֥יְלָה';
 function getDayNames(locale?: string): readonly string[] {
   if (Locale.isHebrewLocale(locale)) {
     return heDayNames;
-  } else if (locale === 'fr') {
+  }
+  if (locale === 'fr') {
     return frDoW;
   }
   return enDoW;
@@ -50,9 +51,9 @@ function getDayNames(locale?: string): readonly string[] {
 
 function getHebrewTimeOfDay(hour: number): string {
   if (hour < 5) return night;
-  else if (hour < 12) return 'בַּבֹּקֶר';
-  else if (hour < 17) return 'בַּצׇּהֳרַיִים';
-  else if (hour < 21) return 'בָּעֶרֶב';
+  if (hour < 12) return 'בַּבֹּקֶר';
+  if (hour < 17) return 'בַּצׇּהֳרַיִים';
+  if (hour < 21) return 'בָּעֶרֶב';
   return night;
 }
 

@@ -30,11 +30,14 @@ const MAX_NUM_YEARS = 2000;
  * @private
  */
 export function getStartAndEnd(options: CalOptions): number[] {
-  if ((options.start && !options.end) || (options.end && !options.start)) {
-    throw new TypeError('Both options.start and options.end are required');
-  } else if (options.start && options.end) {
-    const start = getAbs(options.start),
-      end = getAbs(options.end);
+  const hasStart = options.start !== undefined;
+  const hasEnd = options.end !== undefined;
+  if ((hasStart !== hasEnd)) {
+    throw new TypeError('options.start requires options.end');
+  }
+  if (hasStart && hasEnd) {
+    const start = getAbs(options.start!),
+      end = getAbs(options.end!);
     if (end - start > 365 * MAX_NUM_YEARS) {
       throw new RangeError(`Date range exceeds ${MAX_NUM_YEARS} years`);
     }
@@ -44,7 +47,8 @@ export function getStartAndEnd(options: CalOptions): number[] {
   const theYear = getYear(options);
   if (isNaN(theYear)) {
     throw new RangeError(`Invalid year ${options.year}`);
-  } else if (isHebrewYear && theYear < 1) {
+  }
+  if (isHebrewYear && theYear < 1) {
     throw new RangeError(`Invalid Hebrew year ${theYear}`);
   }
   const theMonth = getMonth(options);
@@ -63,7 +67,8 @@ function getMonth(options: CalOptions): number {
   if (options.month) {
     if (options.isHebrewYear) {
       return HDate.monthNum(options.month);
-    } else if (typeof options.month === 'number') {
+    }
+    if (typeof options.month === 'number') {
       return options.month;
     }
   }

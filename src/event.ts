@@ -132,7 +132,8 @@ export class Event {
   constructor(date: HDate, desc: string, mask = 0, attrs?: object) {
     if (!HDate.isHDate(date)) {
       throw new TypeError(`Invalid Event date: ${date}`);
-    } else if (typeof desc !== 'string') {
+    }
+    if (typeof desc !== 'string') {
       throw new TypeError(`Invalid Event description: ${desc}`);
     }
     this.date = date;

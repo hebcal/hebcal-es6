@@ -110,7 +110,8 @@ const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 120});
 export function getHolidaysForYear_(year: number): HolidayYearMap {
   if (typeof year !== 'number') {
     throw new TypeError(`bad Hebrew year: ${year}`);
-  } else if (year < 1 || year > 32658) {
+  }
+  if (year < 1 || year > 32658) {
     throw new RangeError(`Hebrew year ${year} out of range 1-32658`);
   }
   const cached = yearCache.get(year);

@@ -10,11 +10,11 @@ test('getStartAndEnd-2digit', () => {
 test('getStartAndEnd-throw', () => {
   expect(() => {
     getStartAndEnd({start: new Date(2020, 3, 3)});
-  }).toThrow('Both options.start and options.end are required');
+  }).toThrow('options.start requires options.end');
 
   expect(() => {
     getStartAndEnd({end: new Date(2020, 3, 3)});
-  }).toThrow('Both options.start and options.end are required');
+  }).toThrow('options.start requires options.end');
 
   expect(() => {
     getStartAndEnd({year: NaN});

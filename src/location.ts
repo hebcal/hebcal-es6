@@ -195,7 +195,8 @@ export class Location extends GeoLocation {
     if (this.cc === 'US' && name[comma + 2] === 'D') {
       if (name[comma + 3] === 'C') {
         return name.substring(0, comma + 4);
-      } else if (name[comma + 3] === '.' && name[comma + 4] === 'C') {
+      }
+      if (name[comma + 3] === '.' && name[comma + 4] === 'C') {
         return name.substring(0, comma + 6);
       }
     }
@@ -298,13 +299,14 @@ export class Location extends GeoLocation {
     if (dst === 'none') {
       if (tz === 0) {
         return 'UTC';
-      } else {
-        const plus = tz > 0 ? '+' : '';
-        return `Etc/GMT${plus}${tz}`;
       }
-    } else if (tz === 2 && dst === 'israel') {
+      const plus = tz > 0 ? '+' : '';
+      return `Etc/GMT${plus}${tz}`;
+    }
+    if (tz === 2 && dst === 'israel') {
       return 'Asia/Jerusalem';
-    } else if (dst === 'eu') {
+    }
+    if (dst === 'eu') {
       switch (tz) {
         case -2:
           return 'Atlantic/Cape_Verde';
@@ -319,7 +321,8 @@ export class Location extends GeoLocation {
         default:
           break;
       }
-    } else if (dst === 'usa') {
+    }
+    if (dst === 'usa') {
       return ZIPCODES_TZ_MAP[String(tz * -1)];
     }
     return undefined;
@@ -337,11 +340,11 @@ export class Location extends GeoLocation {
     tz = +tz;
     if (tz === 10 && state === 'AK') {
       return 'America/Adak';
-    } else if (tz === 7 && state === 'AZ') {
-      return dst === 'Y' ? 'America/Denver' : 'America/Phoenix';
-    } else {
-      return ZIPCODES_TZ_MAP[tz];
     }
+    if (tz === 7 && state === 'AZ') {
+      return dst === 'Y' ? 'America/Denver' : 'America/Phoenix';
+    }
+    return ZIPCODES_TZ_MAP[tz];
   }
 
   /**

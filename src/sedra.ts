@@ -43,11 +43,11 @@ function yearType(hyear: number): number {
   const shortK = HDate.shortKislev(hyear);
   if (longC && !shortK) {
     return COMPLETE;
-  } else if (!longC && shortK) {
-    return INCOMPLETE;
-  } else {
-    return REGULAR;
   }
+  if (!longC && shortK) {
+    return INCOMPLETE;
+  }
+  return REGULAR;
 }
 
 /** The result from `Sedra.lookup()` */
@@ -167,20 +167,22 @@ export class Sedra {
         throw new RangeError(`Invalid parsha number: ${parsha}`);
       }
       return this.findInternal(parsha);
-    } else if (typeof parsha === 'string') {
+    }
+    if (typeof parsha === 'string') {
       const num = parsha2id.get(parsha);
       if (typeof num === 'number') {
         return this.find(num);
-      } else if (parsha.includes('-')) {
+      }
+      if (parsha.includes('-')) {
         if (parsha === CHMPESACH || parsha === CHMSUKOT) {
           return this.findInternal(parsha);
         }
         return this.find(parsha.split('-'));
-      } else {
-        // try to find Saturday holiday like 'Yom Kippur'
-        return this.findInternal(parsha);
       }
-    } else if (Array.isArray(parsha)) {
+      // try to find Saturday holiday like 'Yom Kippur'
+      return this.findInternal(parsha);
+    }
+    if (Array.isArray(parsha)) {
       const plen = parsha.length;
       if ((plen !== 1 && plen !== 2) || typeof parsha[0] !== 'string') {
         throw new TypeError(`Invalid parsha argument: ${JSON.stringify(parsha)}`);
@@ -323,7 +325,8 @@ export class Sedra {
 
     if (isNaN(abs)) {
       throw new TypeError(`Bad date argument: ${hd}`);
-    } else if (abs < this.rh) {
+    }
+    if (abs < this.rh) {
       throw new RangeError(`Date ${hd} before start of Hebrew year ${this.year}`);
     }
 
@@ -379,7 +382,8 @@ export class Sedra {
 
     if (isNaN(abs)) {
       throw new TypeError(`Bad date argument: ${hd}`);
-    } else if (abs < this.rh) {
+    }
+    if (abs < this.rh) {
       throw new RangeError(`Date ${hd} before start of Hebrew year ${this.year}`);
     }
 

@@ -87,11 +87,11 @@ export class HolidayEvent extends Event {
   getEmoji(): string {
     if (this.emoji) {
       return this.emoji;
-    } else if (this.getFlags() & flags.SPECIAL_SHABBAT) {
-      return '🕍';
-    } else {
-      return '✡️';
     }
+    if (this.getFlags() & flags.SPECIAL_SHABBAT) {
+      return '🕍';
+    }
+    return '✡️';
   }
 
   getCategories(): string[] {
