@@ -1,5 +1,5 @@
 import {Event, flags} from './event';
-import {isoDateString} from '@hebcal/hdate';
+import {HDate, isoDateString} from '@hebcal/hdate';
 import {renderParshaName} from './parshaName';
 import {urlFriendly} from './string';
 import {SedraResult} from './sedra';
@@ -16,6 +16,25 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
 export class ParshaEvent extends Event {
   readonly p: SedraResult;
   constructor(parsha: SedraResult) {
+    // eslint-disable-next-line prefer-rest-params
+    if (arguments.length !== 1) {
+      throw new TypeError(
+        `ParshaEvent constructor takes a single SedraResult argument; ` +
+          `got ${arguments.length} arguments`
+      );
+    }
+    if (
+      typeof parsha !== 'object' ||
+      parsha === null ||
+      !Array.isArray(parsha.parsha) ||
+      parsha.parsha.length === 0 ||
+      parsha.parsha.length > 2 ||
+      !HDate.isHDate(parsha.hdate)
+    ) {
+      throw new TypeError(
+        `Invalid SedraResult argument: ${JSON.stringify(parsha)}`
+      );
+    }
     const desc = 'Parashat ' + parsha.parsha.join('-');
     super(parsha.hdate, desc, flags.PARSHA_HASHAVUA);
     this.p = parsha;
@@ -38,10 +57,7 @@ export class ParshaEvent extends Event {
     }
     const dt = this.urlDateSuffix();
     const url =
-      'https://www.hebcal.com/sedrot/' +
-      urlFriendly(this.basename()) +
-      '-' +
-      dt;
+      'https://www.hebcal.com/sedrot/' + urlFriendly(this.basename()) + '-' + dt;
     return this.p.il ? url + '?i=on' : url;
   }
 
