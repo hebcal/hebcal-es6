@@ -108,15 +108,7 @@ export class CandleLightingEvent extends TimedEvent {
     linkedEvent?: Event,
     options?: CalOptions
   ) {
-    super(
-      date,
-      CANDLE_LIGHTING,
-      mask,
-      eventTime,
-      location,
-      linkedEvent,
-      options
-    );
+    super(date, CANDLE_LIGHTING, mask, eventTime, location, linkedEvent, options);
   }
 
   getEmoji(): string {

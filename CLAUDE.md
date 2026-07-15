@@ -9,7 +9,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Run single test:** `npx vitest run test/somefile.spec.ts`
 - **Lint:** `npm run lint` (runs `oxlint`, then `prettier --check .`)
 - **Fix lint:** `npm run fix` (runs `oxlint --fix`, then `prettier --write .`)
-- **Type check:** `npm run compile` (runs `tsc`)
 - **Coverage:** `npm run coverage`
 
 ## Architecture

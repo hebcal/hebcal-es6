@@ -68,9 +68,7 @@ test('non-leap year', () => {
     isHebrewYear: true,
   });
 
-  const ykkMonths = events.map(ev =>
-    ev.getDesc().replace('Yom Kippur Katan ', '')
-  );
+  const ykkMonths = events.map(ev => ev.getDesc().replace('Yom Kippur Katan ', ''));
   const expected = [
     'Kislev',
     "Sh'vat",
@@ -93,9 +91,7 @@ test('leap year', () => {
     isHebrewYear: true,
   });
 
-  const ykkMonths = events.map(ev =>
-    ev.getDesc().replace('Yom Kippur Katan ', '')
-  );
+  const ykkMonths = events.map(ev => ev.getDesc().replace('Yom Kippur Katan ', ''));
   const expected = [
     'Kislev',
     "Sh'vat",

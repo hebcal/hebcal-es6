@@ -1,12 +1,6 @@
 import 'temporal-polyfill/global';
 import {GeoLocation, NOAACalculator} from '@hebcal/noaa';
-import {
-  HDate,
-  getPseudoISO,
-  getTimezoneOffset,
-  isDate,
-  pad2,
-} from '@hebcal/hdate';
+import {HDate, getPseudoISO, getTimezoneOffset, isDate, pad2} from '@hebcal/hdate';
 import {Molad} from './molad';
 
 /**
@@ -996,8 +990,7 @@ export class Zmanim {
       return dt;
     }
     const secAndMillis = seconds * 1000 + millisOnly;
-    const delta =
-      secAndMillis >= 30000 ? 60000 - secAndMillis : -1 * secAndMillis;
+    const delta = secAndMillis >= 30000 ? 60000 - secAndMillis : -1 * secAndMillis;
     return new Date(millis + delta);
   }
 
@@ -1024,8 +1017,7 @@ export class Zmanim {
       return '0000-00-00T00:00:00Z';
     }
     return (
-      getPseudoISO(tzid, date).substring(0, 19) +
-      Zmanim.timeZoneOffset(tzid, date)
+      getPseudoISO(tzid, date).substring(0, 19) + Zmanim.timeZoneOffset(tzid, date)
     );
   }
 
@@ -1037,11 +1029,7 @@ export class Zmanim {
    * @param roundMinute round time to nearest minute (default true)
    * @param forceSeaLevel use sea-level sunrise (default false)
    */
-  sunriseOffset(
-    offset: number,
-    roundMinute = true,
-    forceSeaLevel = false
-  ): Date {
+  sunriseOffset(offset: number, roundMinute = true, forceSeaLevel = false): Date {
     const sunrise = forceSeaLevel ? this.seaLevelSunrise() : this.sunrise();
     if (isNaN(sunrise.getTime())) {
       return sunrise;
@@ -1064,11 +1052,7 @@ export class Zmanim {
    * @param roundMinute round time to nearest minute (default true)
    * @param forceSeaLevel use sea-level sunset (default false)
    */
-  sunsetOffset(
-    offset: number,
-    roundMinute = true,
-    forceSeaLevel = false
-  ): Date {
+  sunsetOffset(offset: number, roundMinute = true, forceSeaLevel = false): Date {
     const sunset = forceSeaLevel ? this.seaLevelSunset() : this.sunset();
     if (isNaN(sunset.getTime())) {
       return sunset;

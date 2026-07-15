@@ -13,9 +13,7 @@ test('en', () => {
 
 test('ashkenazi', () => {
   expect(renderParshaName(['Bereshit'], 'ashkenazi')).toBe('Parshas Bereshis');
-  expect(renderParshaName(['Lech-Lecha'], 'ashkenazi')).toBe(
-    'Parshas Lech-Lecha'
-  );
+  expect(renderParshaName(['Lech-Lecha'], 'ashkenazi')).toBe('Parshas Lech-Lecha');
   expect(renderParshaName(['Vayakhel', 'Pekudei'], 'ashkenazi')).toBe(
     'Parshas Vayakhel-Pekudei'
   );
@@ -41,11 +39,7 @@ test('he-x-NoNikud', () => {
 
 test('Achrei Mot-Kedoshim', () => {
   const parsha = ['Achrei Mot', 'Kedoshim'];
-  expect(renderParshaName(parsha, 'he')).toBe(
-    'פָּרָשַׁת אַחֲרֵי מוֹת־קְדֹשִׁים'
-  );
+  expect(renderParshaName(parsha, 'he')).toBe('פָּרָשַׁת אַחֲרֵי מוֹת־קְדֹשִׁים');
   expect(renderParshaName(parsha, 'en')).toBe('Parashat Achrei Mot-Kedoshim');
-  expect(renderParshaName(parsha, 'ashkenazi')).toBe(
-    'Parshas Achrei Mos-Kedoshim'
-  );
+  expect(renderParshaName(parsha, 'ashkenazi')).toBe('Parshas Achrei Mos-Kedoshim');
 });

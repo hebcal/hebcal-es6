@@ -53,7 +53,9 @@ test('MoladEvent', () => {
     new HDate(23, months.KISLEV, 5769),
     5769,
     months.TEVET,
-    {location: loc}
+    {
+      location: loc,
+    }
   );
   expect(ev.getDesc()).toBe('Molad Tevet 5769');
   expect(ev.render('en')).toBe('Molad Tevet: Saturday, 4:10pm and 16 chalakim');

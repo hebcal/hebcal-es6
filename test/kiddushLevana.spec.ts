@@ -15,11 +15,7 @@ import {HDate} from '@hebcal/hdate';
 //   Feb 17  → 30 Shevat   Dec 19  → 29 Kislev   Dec 20  → 30 Kislev
 // =============================================================================
 
-function makeCalendar(
-  year: number,
-  month: number,
-  day: number
-): [HDate, Zmanim] {
+function makeCalendar(year: number, month: number, day: number): [HDate, Zmanim] {
   const gloc = new GeoLocation(
     'Atlanta',
     33.749,
@@ -56,9 +52,7 @@ test('KiddushLevana: getZmanMolad returns molad on the day it occurs', () => {
 
   const zdt = zmanim.getZmanMolad();
   expect(zdt).not.toBeNull();
-  expect(zdt!.toString()).toBe(
-    '2026-01-18T07:45:40.17-05:00[America/New_York]'
-  );
+  expect(zdt!.toString()).toBe('2026-01-18T07:45:40.17-05:00[America/New_York]');
 });
 
 test('KiddushLevana: getZmanMolad returns null on day 28 when molad is next day', () => {
@@ -84,9 +78,7 @@ test('KiddushLevana: getZmanMolad forwards to next month on day 29', () => {
 
   const zdt = zmanim.getZmanMolad();
   expect(zdt).not.toBeNull();
-  expect(zdt!.toString()).toBe(
-    '2025-12-19T19:01:36.837-05:00[America/New_York]'
-  );
+  expect(zdt!.toString()).toBe('2025-12-19T19:01:36.837-05:00[America/New_York]');
 });
 
 // ---------------------------------------------------------------------------
@@ -99,9 +91,7 @@ test('KiddushLevana: 3days returns value on day 3 of month', () => {
 
   const zdt = zmanim.getTchilasZmanKidushLevana3Days();
   expect(zdt).not.toBeNull();
-  expect(zdt!.toString()).toBe(
-    '2026-01-21T07:45:40.17-05:00[America/New_York]'
-  );
+  expect(zdt!.toString()).toBe('2026-01-21T07:45:40.17-05:00[America/New_York]');
 });
 
 test('KiddushLevana: 3days returns null for day 6 through 29', () => {
@@ -125,19 +115,13 @@ test('KiddushLevana: 3days with alos/tzais returns actual time when zman is betw
   expect(hd.getDate()).toBe(2);
   const alos = zmanim.alotHaShachar72zdt();
   expect(alos).not.toBeNull();
-  expect(alos!.toString()).toBe(
-    '2026-04-19T05:49:57.493-04:00[America/New_York]'
-  );
+  expect(alos!.toString()).toBe('2026-04-19T05:49:57.493-04:00[America/New_York]');
   const tzais = zmanim.tzeit72();
   expect(tzais).not.toBeNull();
-  expect(tzais!.toString()).toBe(
-    '2026-04-19T21:23:48.732-04:00[America/New_York]'
-  );
+  expect(tzais!.toString()).toBe('2026-04-19T21:23:48.732-04:00[America/New_York]');
   const zdt = zmanim.getTchilasZmanKidushLevana3Days(alos, tzais);
   expect(zdt).not.toBeNull();
-  expect(zdt!.toString()).toBe(
-    '2026-04-19T22:57:50.17-04:00[America/New_York]'
-  );
+  expect(zdt!.toString()).toBe('2026-04-19T22:57:50.17-04:00[America/New_York]');
 });
 
 test('KiddushLevana: 3days with alos/tzais returns tzais when zman midday', () => {
@@ -171,9 +155,7 @@ test('KiddushLevana: 7days returns value on day 7 of month', () => {
 
   const zdt = zmanim.getTchilasZmanKidushLevana7Days();
   expect(zdt).not.toBeNull();
-  expect(zdt!.toString()).toBe(
-    '2026-01-25T07:45:40.17-05:00[America/New_York]'
-  );
+  expect(zdt!.toString()).toBe('2026-01-25T07:45:40.17-05:00[America/New_York]');
 });
 
 test('KiddushLevana: 7days returns null for day < 4', () => {
@@ -222,9 +204,7 @@ test('KiddushLevana: betweenMoldos returns value on day 15 of month', () => {
 
   const zdt = zmanim.getSofZmanKidushLevanaBetweenMoldos();
   expect(zdt).not.toBeNull();
-  expect(zdt!.toString()).toBe(
-    '2026-02-02T02:07:41.836-05:00[America/New_York]'
-  );
+  expect(zdt!.toString()).toBe('2026-02-02T02:07:41.836-05:00[America/New_York]');
 });
 
 test('KiddushLevana: betweenMoldos returns null for day < 11', () => {
@@ -274,9 +254,7 @@ test('KiddushLevana: 15days returns value on day 15 of month', () => {
 
   const zdt = zmanim.getSofZmanKidushLevana15Days();
   expect(zdt).not.toBeNull();
-  expect(zdt!.toString()).toBe(
-    '2026-02-02T07:45:40.17-05:00[America/New_York]'
-  );
+  expect(zdt!.toString()).toBe('2026-02-02T07:45:40.17-05:00[America/New_York]');
 });
 
 test('KiddushLevana: 15days returns null for day < 11', () => {
@@ -343,9 +321,7 @@ test('KiddushLevana: day 30 exercises forward logic for molad and 3days', () => 
   // getZmanMolad: forwards to Adar molad, which falls on this day
   const molad = zmanim.getZmanMolad();
   expect(molad).not.toBeNull();
-  expect(molad!.toString()).toBe(
-    '2026-02-16T20:29:43.504-05:00[America/New_York]'
-  );
+  expect(molad!.toString()).toBe('2026-02-16T20:29:43.504-05:00[America/New_York]');
 
   // 3days: day 30 passes filter, first attempt null, forwards to next month (3 days after Adar molad = Feb 20), not today → null
   expect(zmanim.getTchilasZmanKidushLevana3Days()).toBeNull();

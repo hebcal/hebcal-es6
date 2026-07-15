@@ -61,14 +61,7 @@ test('Location.addLocation', () => {
   expect(found1.getLatitude()).toBe(32.1836);
   expect(found1.getGeoId()).toBe(999888777666);
 
-  const loc = new Location(
-    37.0,
-    123.0,
-    false,
-    'UTC',
-    'Foo Bar, Baaz, Quux',
-    'XX'
-  );
+  const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
   expect(Location.addLocation(cityName, loc)).toBe(false);
   expect(Location.addLocation('Boston', loc)).toBe(false);
   expect(Location.addLocation('(bogus)', loc)).toBe(true);
@@ -176,14 +169,7 @@ test('legacyTzToTzid', () => {
 });
 
 test('shortName', () => {
-  const loc = new Location(
-    37.0,
-    123.0,
-    false,
-    'UTC',
-    'Foo Bar, Baaz, Quux',
-    'XX'
-  );
+  const loc = new Location(37.0, 123.0, false, 'UTC', 'Foo Bar, Baaz, Quux', 'XX');
   expect(loc.getName()).toBe('Foo Bar, Baaz, Quux');
   expect(loc.getShortName()).toBe('Foo Bar');
 });

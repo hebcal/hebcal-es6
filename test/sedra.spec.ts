@@ -193,8 +193,8 @@ test('find-holiday', () => {
 
 test('complete-incomplete-types', () => {
   const years = [
-    5701, 5702, 5703, 5708, 5710, 5711, 5713, 5714, 5715, 5717, 5719, 5726,
-    5734, 5736,
+    5701, 5702, 5703, 5708, 5710, 5711, 5713, 5714, 5715, 5717, 5719, 5726, 5734,
+    5736,
   ];
   for (const year of years) {
     const sedraDiaspora = new Sedra(year, false);
@@ -232,9 +232,7 @@ test('lookupWeekday returns weekday parsha when Shabbat is a holiday', () => {
 test('lookupWeekday handles Tishrei and Pesach holiday weeks', () => {
   const sedra5786 = new Sedra(5786, false);
   const erevSukkot = new HDate(14, months.TISHREI, 5786);
-  expect(sedra5786.lookupWeekday(erevSukkot)?.parsha).toEqual([
-    'Vezot Haberakhah',
-  ]);
+  expect(sedra5786.lookupWeekday(erevSukkot)?.parsha).toEqual(['Vezot Haberakhah']);
 
   const sedra5700 = new Sedra(5700, false);
   const erevPesach = new HDate(14, months.NISAN, 5700);

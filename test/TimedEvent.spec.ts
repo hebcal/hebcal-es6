@@ -1,9 +1,5 @@
 import {expect, test} from 'vitest';
-import {
-  TimedEvent,
-  CandleLightingEvent,
-  HavdalahEvent,
-} from '../src/TimedEvent';
+import {TimedEvent, CandleLightingEvent, HavdalahEvent} from '../src/TimedEvent';
 import {flags} from '../src/event';
 import {HDate} from '@hebcal/hdate';
 import {Location} from '../src/location';
@@ -64,12 +60,7 @@ test('emoji', () => {
     dt,
     location
   );
-  const havdalah = new HavdalahEvent(
-    hd,
-    flags.LIGHT_CANDLES_TZEIS,
-    dt,
-    location
-  );
+  const havdalah = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location);
   expect(candleLighting.getEmoji()).toBe('🕯️');
   expect(havdalah.getEmoji()).toBe('✨');
 });
@@ -84,12 +75,7 @@ test('getCategories', () => {
     dt,
     location
   );
-  const havdalah = new HavdalahEvent(
-    hd,
-    flags.LIGHT_CANDLES_TZEIS,
-    dt,
-    location
-  );
+  const havdalah = new HavdalahEvent(hd, flags.LIGHT_CANDLES_TZEIS, dt, location);
   expect(candleLighting.getCategories()).toEqual(['candles']);
   expect(havdalah.getCategories()).toEqual(['havdalah']);
 });

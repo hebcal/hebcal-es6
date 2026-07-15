@@ -21,11 +21,7 @@ const MINUTE_MILLIS: number = 60 * 1000;
  * @return the offset in milliseconds not accounting for Daylight saving time. A positive value will be returned
  *         East of the 15&deg; timezone line, and a negative value West of it.
  */
-function getLocalMeanTimeOffset(
-  dt: Date,
-  longitude: number,
-  tzid: string
-): number {
+function getLocalMeanTimeOffset(dt: Date, longitude: number, tzid: string): number {
   const offset: number = -1 * getTimezoneOffset(tzid, dt);
   const d = longitude * 4 * MINUTE_MILLIS - offset * MINUTE_MILLIS;
   return Math.trunc(d);

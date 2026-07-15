@@ -133,9 +133,7 @@ export class Sedra {
     }
 
     if (!this.theSedraArray) {
-      throw new Error(
-        `improper sedra year type ${key} calculated for ${hyear}`
-      );
+      throw new Error(`improper sedra year type ${key} calculated for ${hyear}`);
     }
   }
 
@@ -185,9 +183,7 @@ export class Sedra {
     } else if (Array.isArray(parsha)) {
       const plen = parsha.length;
       if ((plen !== 1 && plen !== 2) || typeof parsha[0] !== 'string') {
-        throw new TypeError(
-          `Invalid parsha argument: ${JSON.stringify(parsha)}`
-        );
+        throw new TypeError(`Invalid parsha argument: ${JSON.stringify(parsha)}`);
       }
       if (plen === 1) {
         return this.find(parsha[0]);
@@ -323,15 +319,12 @@ export class Sedra {
    * @param hd Hebrew date or R.D. days
    */
   lookup(hd: HDate | number): SedraResult {
-    const abs =
-      typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
+    const abs = typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
 
     if (isNaN(abs)) {
       throw new TypeError(`Bad date argument: ${hd}`);
     } else if (abs < this.rh) {
-      throw new RangeError(
-        `Date ${hd} before start of Hebrew year ${this.year}`
-      );
+      throw new RangeError(`Date ${hd} before start of Hebrew year ${this.year}`);
     }
 
     // find the first saturday on or after today's date
@@ -382,15 +375,12 @@ export class Sedra {
    * @param hd Hebrew date or R.D. days
    */
   lookupWeekday(hd: HDate | number): SedraResult | undefined {
-    const abs =
-      typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
+    const abs = typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
 
     if (isNaN(abs)) {
       throw new TypeError(`Bad date argument: ${hd}`);
     } else if (abs < this.rh) {
-      throw new RangeError(
-        `Date ${hd} before start of Hebrew year ${this.year}`
-      );
+      throw new RangeError(`Date ${hd} before start of Hebrew year ${this.year}`);
     }
 
     const hdate = new HDate(abs);
@@ -778,14 +768,7 @@ const types: Record<string, readonly NumberOrString[]> = {
   /* Hebrew year that starts on Saturday, is `incomplete' (Heshvan and
    * Kislev each have 29 days), and has Passover start on Tuesday. */
   // e.g.5757
-  '170': yearStartRH.concat(
-    r027,
-    CHMPESACH,
-    range(28, 40),
-    D(41),
-    r4349,
-    D(50)
-  ),
+  '170': yearStartRH.concat(r027, CHMPESACH, range(28, 40), D(41), r4349, D(50)),
 
   /* Hebrew year that starts on Saturday, is `complete' (Heshvan and
    * Kislev each have 30 days), and has Passover start on Thursday. */

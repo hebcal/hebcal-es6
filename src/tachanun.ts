@@ -47,11 +47,7 @@ export function tachanun(hdate: HDate, il: boolean): TachanunResult {
   return tachanun0(hdate, il, true);
 }
 
-function tachanun0(
-  hdate: HDate,
-  il: boolean,
-  checkNext: boolean
-): TachanunResult {
+function tachanun0(hdate: HDate, il: boolean, checkNext: boolean): TachanunResult {
   const year = hdate.yy;
   const dates = tachanunYear(year, il);
   const abs = hdate.abs();
@@ -120,9 +116,7 @@ function tachanunYear(year: number, il: boolean): TachanunYear {
     new HDate(15, months.AV, year), // Tu B'Av
     new HDate(29, months.ELUL, year), // Erev Rosh Hashanah
     // Erev Yom Kippur thru Isru Chag
-    range(9, 24 - (il ? 1 : 0)).map(
-      mday => new HDate(mday, months.TISHREI, year)
-    ),
+    range(9, 24 - (il ? 1 : 0)).map(mday => new HDate(mday, months.TISHREI, year)),
     // Chanukah
     range(25, 33).map(mday => new HDate(mday, months.KISLEV, year)),
     new HDate(15, months.SHVAT, year), // Tu BiShvat

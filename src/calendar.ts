@@ -206,12 +206,7 @@ export function calendar(options: CalOptions = {}): Event[] {
     const mm = hd.getMonth();
     const dd = hd.getDate();
     // When Erev Pesach falls on Shabbat, burning chametz is moved to Friday.
-    if (
-      isFriday &&
-      options.candlelighting &&
-      mm === months.NISAN &&
-      dd === 13
-    ) {
+    if (isFriday && options.candlelighting && mm === months.NISAN && dd === 13) {
       const biurEv = makeBiurChametzEvent(hd, options);
       if (biurEv) {
         evts.push(biurEv);
@@ -370,10 +365,7 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
  */
 function warnUnrecognizedOptions(options: CalOptions) {
   for (const k of Object.keys(options)) {
-    if (
-      RECOGNIZED_OPTIONS[k] === undefined &&
-      !unrecognizedAlreadyWarned.has(k)
-    ) {
+    if (RECOGNIZED_OPTIONS[k] === undefined && !unrecognizedAlreadyWarned.has(k)) {
       console.warn(`Ignoring unrecognized HebrewCalendar option: ${k}`);
       unrecognizedAlreadyWarned.add(k);
     }
@@ -425,9 +417,7 @@ function checkCandleOptions(options: CalOptions) {
   }
   const location = options.location;
   if (location === undefined || !(location instanceof Location)) {
-    throw new TypeError(
-      'options.candlelighting requires valid options.location'
-    );
+    throw new TypeError('options.candlelighting requires valid options.location');
   }
   if (
     typeof options.havdalahMins === 'number' &&
@@ -688,10 +678,7 @@ function appendHolidayAndRelated(
       events.push(ev); // the original event itself
     }
   }
-  if (
-    (isMajorFast || (isMinorFast && !options.noMinorFast)) &&
-    fastEv?.endEvent
-  ) {
+  if ((isMajorFast || (isMinorFast && !options.noMinorFast)) && fastEv?.endEvent) {
     events.push(fastEv.endEvent);
   }
   return candlesEv;
@@ -711,9 +698,7 @@ function makeMoladAndMevarchimChodesh(hd: HDate, options: CalOptions): Event[] {
       const nextMonthName = HDate.getMonthName(monNext, hyear);
       const molad = new Molad(hyear, monNext);
       const memo = molad.render(options.locale, options);
-      evts.push(
-        new MevarchimChodeshEvent(hd, nextMonthName, memo, options.locale)
-      );
+      evts.push(new MevarchimChodeshEvent(hd, nextMonthName, memo, options.locale));
     }
   }
   return evts;

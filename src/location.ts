@@ -142,8 +142,7 @@ export class Location extends GeoLocation {
     if (isNaN(lat) || lat < -90 || lat > 90) {
       throw new RangeError(`Latitude ${latitude} out of range [-90,90]`);
     }
-    const long =
-      typeof longitude === 'number' ? longitude : parseFloat(longitude);
+    const long = typeof longitude === 'number' ? longitude : parseFloat(longitude);
     if (isNaN(long) || long < -180 || long > 180) {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }

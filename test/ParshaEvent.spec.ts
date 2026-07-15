@@ -11,9 +11,7 @@ test('ParshaEvent-url', () => {
     num: [32, 33],
     chag: false,
   });
-  expect(ev1.url()).toBe(
-    'https://www.hebcal.com/sedrot/behar-bechukotai-20200516'
-  );
+  expect(ev1.url()).toBe('https://www.hebcal.com/sedrot/behar-bechukotai-20200516');
   const ev2 = new ParshaEvent({
     hdate: new HDate(new Date(2020, 5, 6)),
     parsha: ['Nasso'],
@@ -45,9 +43,7 @@ test('ParshaEvent-url', () => {
     chag: false,
     num: 0,
   });
-  expect(ev5.url()).toBe(
-    'https://www.hebcal.com/sedrot/kedoshim-20220430?i=on'
-  );
+  expect(ev5.url()).toBe('https://www.hebcal.com/sedrot/kedoshim-20220430?i=on');
 });
 
 test('getString-locale', () => {
@@ -119,6 +115,37 @@ test('bce-url', () => {
     num: 0,
   });
   expect(ev.url()).toBe(undefined);
+});
+
+test('throws on invalid constructor args', () => {
+  const valid = {
+    hdate: new HDate(new Date(2020, 5, 6)),
+    parsha: ['Nasso'],
+    il: false,
+    chag: false,
+    num: 35,
+  };
+  // wrong number of arguments
+  const PE = ParshaEvent as unknown as new (...args: unknown[]) => unknown;
+  expect(() => new PE()).toThrow(TypeError);
+  expect(() => new PE(valid, false)).toThrow(TypeError);
+  // old 2-4 argument form (date, parsha, il, num)
+  expect(
+    () => new PE(new HDate(new Date(2020, 5, 6)), ['Nasso'], false, 35)
+  ).toThrow(TypeError);
+  // invalid SedraResult
+  expect(() => new PE(null)).toThrow(TypeError);
+  expect(() => new PE(undefined)).toThrow(TypeError);
+  expect(() => new PE({})).toThrow(TypeError);
+  expect(() => new PE({parsha: [], hdate: valid.hdate})).toThrow(TypeError);
+  expect(() => new PE({parsha: ['a', 'b', 'c'], hdate: valid.hdate})).toThrow(
+    TypeError
+  );
+  expect(() => new PE({parsha: ['Nasso'], hdate: 'not-an-hdate'})).toThrow(
+    TypeError
+  );
+  // valid still works
+  expect(() => new ParshaEvent(valid)).not.toThrow();
 });
 
 test('render', () => {

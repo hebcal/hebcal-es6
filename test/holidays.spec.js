@@ -40,10 +40,7 @@ test('basename-and-url', () => {
   expect(ev3.basename()).toBe("Tish'a B'Av");
   expect(ev3.url()).toBe('https://www.hebcal.com/holidays/tisha-bav-2023');
 
-  const rch = new RoshChodeshEvent(
-    new HDate(30, months.ADAR_I, 5787),
-    'Adar II'
-  );
+  const rch = new RoshChodeshEvent(new HDate(30, months.ADAR_I, 5787), 'Adar II');
   expect(rch.getDesc()).toBe('Rosh Chodesh Adar II');
   expect(rch.render('en')).toBe('Rosh Chodesh Adar II');
   expect(rch.renderBrief('en')).toBe('Rosh Chodesh Adar II');
@@ -79,9 +76,7 @@ test('observedInIsrael and url contains ?i=on', () => {
   );
   expect(shavuot.observedInIsrael()).toBe(true);
   expect(shavuot.observedInDiaspora()).toBe(false);
-  expect(shavuot.url()).toBe(
-    'https://www.hebcal.com/holidays/shavuot-2017?i=on'
-  );
+  expect(shavuot.url()).toBe('https://www.hebcal.com/holidays/shavuot-2017?i=on');
 
   const shavuotI = new HolidayEvent(
     new HDate(6, months.SIVAN, 5777),
@@ -246,9 +241,7 @@ test('far-future-url', () => {
 
 test('bce-url', () => {
   const urls = HebrewCalendar.calendar({year: -776})
-    .filter(
-      ev => ev.getDesc() === "Asara B'Tevet" || ev.getDesc() === 'Yom Kippur'
-    )
+    .filter(ev => ev.getDesc() === "Asara B'Tevet" || ev.getDesc() === 'Yom Kippur')
     .map(ev => ev.url());
   const expected = [undefined, undefined];
   expect(urls).toEqual(expected);

@@ -113,10 +113,7 @@ function eventTitleDateTime(ev: Event) {
   const obj = ev as any;
   const timeStr =
     typeof obj.eventTime === 'object'
-      ? Zmanim.formatISOWithTimeZone(
-          obj.location.getTzid(),
-          obj.eventTime as Date
-        )
+      ? Zmanim.formatISOWithTimeZone(obj.location.getTzid(), obj.eventTime as Date)
       : isoDateString(ev.greg());
   return {
     dt: timeStr,
@@ -644,13 +641,7 @@ test('havdalahDeg', () => {
   const events = [
     makeCandleEvent(undefined, hd, {location}, isFri, isSat),
     makeCandleEvent(undefined, hd, {location, havdalahDeg: 6.5}, isFri, isSat),
-    makeCandleEvent(
-      undefined,
-      hd,
-      {location, havdalahDeg: 7.0833},
-      isFri,
-      isSat
-    ),
+    makeCandleEvent(undefined, hd, {location, havdalahDeg: 7.0833}, isFri, isSat),
     makeCandleEvent(undefined, hd, {location, havdalahDeg: 7.5}, isFri, isSat),
     makeCandleEvent(undefined, hd, {location, havdalahDeg: 8.5}, isFri, isSat),
     makeCandleEvent(undefined, hd, {location, havdalahMins: 42}, isFri, isSat),
@@ -815,8 +806,7 @@ describe('minor fast end time (Tzom Tammuz 2021-06-27)', () => {
         candlelighting: true,
       };
       if (typeof tc.fastEndDeg === 'number') options.fastEndDeg = tc.fastEndDeg;
-      if (typeof tc.fastEndMins === 'number')
-        options.fastEndMins = tc.fastEndMins;
+      if (typeof tc.fastEndMins === 'number') options.fastEndMins = tc.fastEndMins;
       const events = HebrewCalendar.calendar(options);
       const ev = events.filter(ev => ev.getDesc() === 'Fast ends')[0];
       expect(eventTitleDateTime(ev)).toEqual({
@@ -861,9 +851,7 @@ test('fastEndDeg and fastEndMins are mutually exclusive', () => {
       fastEndDeg: 7.0833,
       fastEndMins: 15,
     })
-  ).toThrow(
-    'options.fastEndDeg and options.fastEndMins are mutually exclusive'
-  );
+  ).toThrow('options.fastEndDeg and options.fastEndMins are mutually exclusive');
 });
 
 test('makeFastStartEnd', () => {

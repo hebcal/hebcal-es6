@@ -84,15 +84,11 @@ test('reformatTimeStr', () => {
 });
 
 test('reformatTimeStr-hour12', () => {
-  expect(reformatTimeStr('23:56', '', {locale: 'fr', hour12: true})).toBe(
+  expect(reformatTimeStr('23:56', '', {locale: 'fr', hour12: true})).toBe('11:56');
+  expect(reformatTimeStr('23:56', '', {locale: 'en', hour12: true})).toBe('11:56');
+  expect(reformatTimeStr('23:56', '', {locale: 'ashkenazi', hour12: true})).toBe(
     '11:56'
   );
-  expect(reformatTimeStr('23:56', '', {locale: 'en', hour12: true})).toBe(
-    '11:56'
-  );
-  expect(
-    reformatTimeStr('23:56', '', {locale: 'ashkenazi', hour12: true})
-  ).toBe('11:56');
   expect(
     reformatTimeStr('23:56', ' PM', {
       location: makeLocation('FR'),
@@ -130,15 +126,11 @@ test('reformatTimeStr-hour12', () => {
     })
   ).toBe('11:56 PM');
 
-  expect(reformatTimeStr('23:56', '', {locale: 'fr', hour12: false})).toBe(
+  expect(reformatTimeStr('23:56', '', {locale: 'fr', hour12: false})).toBe('23:56');
+  expect(reformatTimeStr('23:56', '', {locale: 'en', hour12: false})).toBe('23:56');
+  expect(reformatTimeStr('23:56', '', {locale: 'ashkenazi', hour12: false})).toBe(
     '23:56'
   );
-  expect(reformatTimeStr('23:56', '', {locale: 'en', hour12: false})).toBe(
-    '23:56'
-  );
-  expect(
-    reformatTimeStr('23:56', '', {locale: 'ashkenazi', hour12: false})
-  ).toBe('23:56');
   expect(
     reformatTimeStr('23:56', ' PM', {
       location: makeLocation('FR'),
@@ -178,15 +170,11 @@ test('reformatTimeStr-hour12', () => {
 });
 
 test('reformatTimeStr-hour12-am', () => {
-  expect(reformatTimeStr('01:23', '', {locale: 'fr', hour12: true})).toBe(
+  expect(reformatTimeStr('01:23', '', {locale: 'fr', hour12: true})).toBe('1:23');
+  expect(reformatTimeStr('01:23', '', {locale: 'en', hour12: true})).toBe('1:23');
+  expect(reformatTimeStr('01:23', '', {locale: 'ashkenazi', hour12: true})).toBe(
     '1:23'
   );
-  expect(reformatTimeStr('01:23', '', {locale: 'en', hour12: true})).toBe(
-    '1:23'
-  );
-  expect(
-    reformatTimeStr('01:23', '', {locale: 'ashkenazi', hour12: true})
-  ).toBe('1:23');
   expect(
     reformatTimeStr('01:23', ' P.M.', {
       location: makeLocation('FR'),

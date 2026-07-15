@@ -200,11 +200,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
     )
   );
   add(
-    new AsaraBTevetEvent(
-      new HDate(10, TEVET, year),
-      hdesc.ASARA_BTEVET,
-      MINOR_FAST
-    )
+    new AsaraBTevetEvent(new HDate(10, TEVET, year), hdesc.ASARA_BTEVET, MINOR_FAST)
   );
   const pesachAbs = pesach.abs();
   add(
@@ -433,9 +429,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
   const birkatHaChama = getBirkatHaChama(year);
   if (birkatHaChama) {
     const hd = new HDate(birkatHaChama);
-    add(
-      new HolidayEvent(hd, hdesc.BIRKAT_HACHAMAH, MINOR_HOLIDAY, {emoji: '☀️'})
-    );
+    add(new HolidayEvent(hd, hdesc.BIRKAT_HACHAMAH, MINOR_HOLIDAY, {emoji: '☀️'}));
   }
 
   yearCache.set(year, map);
@@ -481,10 +475,7 @@ function getBirkatHaChama(year: number): number {
  * @param year Hebrew year
  * @param il use the Israeli schedule for holidays
  */
-export function getHolidaysForYearArray(
-  year: number,
-  il: boolean
-): HolidayEvent[] {
+export function getHolidaysForYearArray(year: number, il: boolean): HolidayEvent[] {
   const yearMap = getHolidaysForYear_(year);
   const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
   const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
