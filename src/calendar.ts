@@ -439,7 +439,7 @@ function checkCandleOptions(options: CalOptions) {
   const min0 = options.candleLightingMins;
   let min = typeof min0 === 'number' && !isNaN(min0) ? Math.trunc(min0) : 18;
   if (location.getIsrael() && Math.abs(min) === 18) {
-    min = overrideIsraelCandleMins(location, min);
+    min = overrideIsraelCandleMins(location);
   }
   options.candleLightingMins = -1 * Math.abs(min);
 
@@ -458,7 +458,7 @@ function checkCandleOptions(options: CalOptions) {
   }
 }
 
-function overrideIsraelCandleMins(location: Location, min: number) {
+function overrideIsraelCandleMins(location: Location) {
   const geoid = location.getGeoId();
   if (geoid) {
     const offset = geoIdCandleOffset[geoid];
@@ -473,7 +473,7 @@ function overrideIsraelCandleMins(location: Location, min: number) {
       return offset;
     }
   }
-  return min;
+  return 20;
 }
 
 /**

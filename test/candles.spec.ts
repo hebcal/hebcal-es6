@@ -265,16 +265,16 @@ test('candleLightingMins', () => {
   ];
   expect(events30).toEqual(expected30);
   delete options.candleLightingMins;
-  const events18 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
-  const expected18 = [
-    {dt: '2020-05-01T19:04:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-08T19:09:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-15T19:14:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-22T19:19:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-28T19:22:00+03:00', desc: 'Candle lighting'},
-    {dt: '2020-05-29T19:23:00+03:00', desc: 'Candle lighting'},
+  const events20 = HebrewCalendar.calendar(options).map(eventTitleDateTime);
+  const expected20 = [
+    {dt: '2020-05-01T19:02:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-08T19:07:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-15T19:12:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-22T19:17:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-28T19:20:00+03:00', desc: 'Candle lighting'},
+    {dt: '2020-05-29T19:21:00+03:00', desc: 'Candle lighting'},
   ];
-  expect(events18).toEqual(expected18);
+  expect(events20).toEqual(expected20);
 });
 
 test('candleLightingMins truncates decimals', () => {
@@ -297,7 +297,7 @@ test('candleLightingMins truncates decimals', () => {
   expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:30');
 });
 
-test('candleLightingMins-0', () => {
+test('candleLightingMins-Israel-20', () => {
   const dt = new Date(2020, 4, 15);
   const options: CalOptions = {
     start: dt,
@@ -308,9 +308,13 @@ test('candleLightingMins-0', () => {
     useElevation: true,
   };
   let ev = HebrewCalendar.calendar(options)[0];
-  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:14');
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:12');
   ev = HebrewCalendar.calendar({...options, candleLightingMins: 18})[0];
-  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:14');
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:12');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: 22})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:10');
+  ev = HebrewCalendar.calendar({...options, candleLightingMins: 20})[0];
+  expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:12');
   ev = HebrewCalendar.calendar({...options, candleLightingMins: 17})[0];
   expect((ev as CandleLightingEvent).eventTimeStr).toBe('19:15');
   ev = HebrewCalendar.calendar({...options, candleLightingMins: 2})[0];

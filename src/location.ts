@@ -156,6 +156,9 @@ export class Location extends GeoLocation {
     super(cityName || null, lat, long, elev, tzid);
     this.il = Boolean(il);
     this.cc = countryCode;
+    if (countryCode === 'IL') {
+      this.il = true;
+    }
     this.geoid = geoid;
   }
 
