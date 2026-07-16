@@ -32,7 +32,7 @@ const MAX_NUM_YEARS = 2000;
 export function getStartAndEnd(options: CalOptions): number[] {
   const hasStart = options.start !== undefined;
   const hasEnd = options.end !== undefined;
-  if ((hasStart !== hasEnd)) {
+  if (hasStart !== hasEnd) {
     throw new TypeError('options.start requires options.end');
   }
   if (hasStart && hasEnd) {
