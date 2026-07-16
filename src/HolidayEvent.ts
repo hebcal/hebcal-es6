@@ -22,13 +22,13 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
  */
 export class HolidayEvent extends Event {
   /** During Sukkot or Pesach */
-  cholHaMoedDay?: number;
+  readonly cholHaMoedDay?: number;
   /**
    * `true` if the fast day was postponed a day to avoid Shabbat.
    * - Tish'a B'Av postponed from the 9th to the 10th
    * - Tzom Tammuz postponed from the 17th to the 18th
    */
-  observed?: boolean;
+  readonly observed?: boolean;
   constructor(date: HDate, desc: string, mask = 0, attrs?: object) {
     super(date, desc, mask, attrs);
     if (typeof attrs === 'object' && attrs !== null) {

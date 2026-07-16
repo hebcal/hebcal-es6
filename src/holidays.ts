@@ -141,9 +141,10 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
 
   for (const h of staticHolidays) {
     const hd = new HDate(h.dd, h.mm, year);
-    const ev = new HolidayEvent(hd, h.desc, h.flags);
-    if (h.emoji) ev.emoji = h.emoji;
-    if (h.chmDay) ev.cholHaMoedDay = h.chmDay;
+    const attrs: any = {};
+    if (h.emoji) attrs.emoji = h.emoji;
+    if (h.chmDay) attrs.cholHaMoedDay = h.chmDay;
+    const ev = new HolidayEvent(hd, h.desc, h.flags, attrs);
     add(ev);
   }
 
