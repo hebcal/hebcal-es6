@@ -22,10 +22,10 @@ msgid "Yom Kippur Katan"
 msgstr "יום כיפור קטן"
 
 msgid "Pesach Shabbat Chol ha-Moed"
-msgstr "פסח שבת חול המועד"
+msgstr "שבת חול המועד פסח"
 
 msgid "Sukkot Shabbat Chol ha-Moed"
-msgstr "סוכות שבת חול המועד"
+msgstr "שבת חול המועד סוכות"
 
 msgid "Erev Sukkot"
 msgstr "ערב סוכות"
