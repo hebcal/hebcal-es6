@@ -298,8 +298,9 @@ msgstr "פֶּסַח ז׳"
 msgid "Pesach VIII"
 msgstr "פֶּסַח ח׳"
 
+# with niqqud, we use חֹל (ordinary) not חוֹל (sand)
 msgid "Pesach Shabbat Chol ha-Moed"
-msgstr "שַׁבַּת חוֹל הַמּוֹעֵד פֶּסַח"
+msgstr "שַׁבַּת חֹל הַמּוֹעֵד פֶּסַח"
 
 msgid "Purim"
 msgstr "פּוּרִים"
@@ -391,8 +392,9 @@ msgstr "סֻכּוֹת ו׳ (חוה״מ)"
 msgid "Sukkot VII (Hoshana Raba)"
 msgstr "סֻכּוֹת ז׳ (הוֹשַׁעְנָא רַבָּה)"
 
+# with niqqud, we use חֹל (ordinary) not חוֹל (sand)
 msgid "Sukkot Shabbat Chol ha-Moed"
-msgstr "שַׁבַּת חוֹל הַמּוֹעֵד סֻכּוֹת"
+msgstr "שַׁבַּת חֹל הַמּוֹעֵד סֻכּוֹת"
 
 msgid "Ta'anit Bechorot"
 msgstr "תַּעֲנִית בְּכוֹרוֹת"
