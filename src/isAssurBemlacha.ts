@@ -1,4 +1,4 @@
-import {HDate} from '@hebcal/hdate';
+import {HDate, getPseudoISO} from '@hebcal/hdate';
 import {Zmanim} from './zmanim';
 import {Location} from './location';
 import {getHolidaysOnDate} from './holidays';
@@ -65,7 +65,16 @@ export function isAssurBemlacha(
   location: Location,
   useElevation: boolean
 ): boolean {
-  const zmanim = new Zmanim(location, currentTime, useElevation);
+  // Determine the calendar date in the location's timezone, not the
+  // timezone of the computer running this code. Otherwise the day-of-week,
+  // Hebrew date and sunset/tzais times would depend on the machine's
+  // local timezone, giving different (incorrect) results near midnight.
+  const isoDate = getPseudoISO(location.getTzid(), currentTime);
+  const year = parseInt(isoDate.substring(0, 4), 10);
+  const month = parseInt(isoDate.substring(5, 7), 10);
+  const day = parseInt(isoDate.substring(8, 10), 10);
+  const hd = new HDate(new Date(year, month - 1, day));
+  const zmanim = new Zmanim(location, hd, useElevation);
   // erev shabbos, YT or YT sheni and after shkiah
   const sunset = zmanim.sunset();
   const sunsetMillis = sunset.getTime();
@@ -75,7 +84,6 @@ export function isAssurBemlacha(
   // erev shabbos, YT or YT sheni and after shkiah
   const il = location.getIsrael();
   const currentMillis = currentTime.getTime();
-  const hd = new HDate(currentTime);
   const dow = hd.getDay();
   const events = getHolidaysOnDate(hd, il) || [];
   if (isTomorrowShabbosOrYomTov(dow, events) && currentMillis >= sunsetMillis) {
