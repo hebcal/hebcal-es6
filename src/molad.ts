@@ -70,8 +70,8 @@ function getHebrewTimeOfDay(hour: number): string {
  * import {Molad, months} from '@hebcal/core';
  * const m = new Molad(5784, months.NISAN);
  * console.log(m.getMonthName()); // 'Nisan'
- * console.log(m.getHour(), m.getMinutes(), m.getChalakim()); // e.g. 1 31 12
- * console.log(m.render('en')); // 'Molad Nisan: Mon, 1:31am and 12 chalakim'
+ * console.log(m.getHour(), m.getMinutes(), m.getChalakim()); // 22 57 7
+ * console.log(m.render('en')); // 'Molad Nisan: Monday, 10:57pm and 7 chalakim'
  */
 export class Molad {
   private readonly m: MoladBase;
@@ -144,17 +144,21 @@ export class Molad {
     return this.m.chalakim;
   }
   /**
-   * Returns the molad in Standard Time in Yerushalayim as a `Temporal.ZonedDateTime`.
-   * This method subtracts 20.94 minutes (20 minutes and 56.496 seconds) from the computed time (Har Habayis with a longitude
-   * of 35.2354&deg; is 5.2354&deg; away from the %15 timezone longitude) to get to standard time. This method
-   * intentionally uses standard time and not daylight savings time.
+   * Returns the moment of the molad as a `Temporal.ZonedDateTime` in the `UTC` zone.
+   *
+   * The molad is computed in Jerusalem *standard* time and then converted, so the
+   * returned instant is correct year-round; only the zone of the returned object
+   * is `UTC`. This method subtracts 20.94 minutes (20 minutes and 56.496 seconds)
+   * from the computed time — Har Habayis, at longitude 35.2354°, is 5.2354° away
+   * from the multiple-of-15 timezone longitude — to get to standard time. Daylight
+   * savings time is intentionally not applied; adjust when formatting for display.
    *
    * The returned value is cached after the first call.
    * @example
    * import {Molad, months} from '@hebcal/core';
    * const m = new Molad(5784, months.NISAN);
    * const zdt = m.getInstant();
-   * console.log(zdt.toString()); // e.g. '2024-04-08T17:21:13.333+00:00[UTC]'
+   * console.log(zdt.toString()); // '2024-04-08T20:36:26.837+00:00[UTC]'
    * @return the `Temporal.ZonedDateTime` representing the moment of the molad
    */
   getInstant(): Temporal.ZonedDateTime {
@@ -174,9 +178,9 @@ export class Molad {
   }
 
   /**
-   * Returns the earliest time of Kiddush Levana calculated as 7 days after the molad as mentioned by the <a
-   * href="https://en.wikipedia.org/wiki/Yosef_Karo">Mechaber</a>. See the <a
-   * href="https://en.wikipedia.org/wiki/Yoel_Sirkis">Bach's</a> opinion on this time. This method returns the time
+   * Returns the earliest time of Kiddush Levana calculated as 7 days after the molad as mentioned by the
+   * [Mechaber](https://en.wikipedia.org/wiki/Yosef_Karo). See the
+   * [Bach's](https://en.wikipedia.org/wiki/Yoel_Sirkis) opinion on this time. This method returns the time
    * even if it is during the day when _Kiddush Levana_ can't be said. Callers of this method should consider
    * displaying the next _tzais_ if the zman is between _alos_ and _tzais_.
    *
@@ -188,8 +192,8 @@ export class Molad {
   }
 
   /**
-   * Returns the latest time of Kiddush Levana according to the <a
-   * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> opinion that it is calculated as
+   * Returns the latest time of Kiddush Levana according to the
+   * [Maharil's](https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin) opinion that it is calculated as
    * halfway between molad and molad. This adds half the 29 days, 12 hours and 793 chalakim time between molad and
    * molad (14 days, 18 hours, 22 minutes and 666 milliseconds) to the month's molad. This method returns the time
    * even if it is during the day when _Kiddush Levana_ can't be said. Callers of this method should consider
@@ -213,12 +217,12 @@ export class Molad {
   /**
    * Returns the latest time of Kiddush Levana calculated as 15 days after the molad. This is the opinion brought down
    * in the Shulchan Aruch (Orach Chaim 426). It should be noted that some opinions hold that the
-   * <a href="https://en.wikipedia.org/wiki/Moses_Isserles">Rema</a> who brings down the opinion of the <a
-   * href="https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin">Maharil's</a> of calculating
-   * {@link Molad.getSofZmanKidushLevanaBetweenMoldos() half way between molad and mold} is of the opinion that Mechaber
+   * [Rema](https://en.wikipedia.org/wiki/Moses_Isserles) who brings down the opinion of the
+   * [Maharil's](https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin) of calculating
+   * {@link Molad.getSofZmanKidushLevanaBetweenMoldos | half way between molad and molad} is of the opinion that Mechaber
    * agrees to his opinion. Also see the Aruch Hashulchan. For additional details on the subject, See Rabbi Dovid
-   * Heber's very detailed writeup in Siman Daled (chapter 4) of <a
-   * href="https://www.worldcat.org/oclc/461326125">Shaarei Zmanim</a>. This method returns the time even if it is during
+   * Heber's very detailed writeup in Siman Daled (chapter 4) of
+   * [Shaarei Zmanim](https://www.worldcat.org/oclc/461326125). This method returns the time even if it is during
    * the day when _Kiddush Levana_ can't be said. Callers of this method should consider displaying _alos_
    * before this time if the zman is between _alos_ and _tzais_.
    *
@@ -236,14 +240,16 @@ export class Molad {
    * month name, day of week, hour : minute, and chalakim if non-zero.
    *
    * Time format honors `options.hour12` and `options.location` (12-hour vs.
-   * 24-hour); see {@link HebrewCalendar.reformatTimeStr}.
+   * 24-hour); see {@link reformatTimeStr}.
    * @example
    * import {Molad, months} from '@hebcal/core';
    * const m = new Molad(5784, months.NISAN);
    * m.render('en', {hour12: true});
-   * // => 'Molad Nisan: Mon, 7:21pm and 6 chalakim'
+   * // => 'Molad Nisan: Monday, 10:57pm and 7 chalakim'
+   * m.render('en', {hour12: false});
+   * // => 'Molad Nisan: Monday, 22:57 and 7 chalakim'
    * m.render('he');
-   * // => 'מוֹלָד נִיסָן יִהְיֶה בַּיּוֹם שֵׁנִי בשָׁבוּעַ, …'
+   * // => 'מוֹלָד הָלְּבָנָה נִיסָן יִהְיֶה בַּיּוֹם שֵׁנִי בשָׁבוּעַ, …'
    * @param [locale] Optional locale name (defaults to empty locale)
    * @param options used for time formatting (12-hour vs 24-hour)
    */

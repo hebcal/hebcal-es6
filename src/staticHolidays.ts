@@ -85,8 +85,6 @@ const YIZKOR = 'Yizkor';
 
 /**
  * Transliterated names of holidays, used by `Event.getDesc()`
- * @readonly
- * @enum {string}
  */
 export const holidayDesc = {
   /** Asara B'Tevet */

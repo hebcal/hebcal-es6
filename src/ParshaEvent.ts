@@ -14,7 +14,16 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
  * `@hebcal/leyning` when the display title and exact Torah readings are needed.
  */
 export class ParshaEvent extends Event {
+  /** The parsha name(s) and date this event was constructed from */
   readonly p: SedraResult;
+  /**
+   * Normally created by {@link calendar} (via `options.sedrot`)
+   * rather than directly.
+   * @param parsha result from {@link Sedra.lookup}
+   * @throws {TypeError} if called with anything other than exactly one argument
+   * @throws {TypeError} if `parsha` is not a valid {@link SedraResult} — it must
+   *   have an `HDate` and one or two parsha names
+   */
   constructor(parsha: SedraResult) {
     // eslint-disable-next-line prefer-rest-params
     if (arguments.length !== 1) {
@@ -61,6 +70,10 @@ export class ParshaEvent extends Event {
     return this.p.il ? url + '?i=on' : url;
   }
 
+  /**
+   * The date portion of {@link url}, as `YYYYMMDD` — a parsha name recurs every
+   * year, so the full date is needed to identify the reading.
+   */
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.greg());
     return isoDate.replaceAll('-', '');

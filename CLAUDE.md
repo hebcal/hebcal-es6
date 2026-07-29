@@ -10,6 +10,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Lint:** `npm run lint` (runs `oxlint`, then `prettier --check .`)
 - **Fix lint:** `npm run fix` (runs `oxlint --fix`, then `prettier --write .`)
 - **Coverage:** `npm run coverage`
+- **API docs:** `npm run docs` (runs `typedoc` into `docs/`)
+  - **Expected baseline: 7 warnings, none from our source.** 4 are `{@link}`s inside
+    `@hebcal/hdate`'s `greg` comments, 2 are dangling Java references inside
+    `@hebcal/noaa`, and 1 is a cosmetic asset-path notice. They are known and
+    accepted — see `externalSymbolLinkMappings` in `typedoc.json` for the ones
+    that could be fixed.
+  - **Anything above 7, or any warning naming a file in `src/`, is a regression.**
+    Since the count never goes to zero, CI does not enforce it; check it by eye
+    when you touch doc comments.
 
 ## Architecture
 
@@ -27,7 +36,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 5. **`Molad`** (`src/molad.ts`) — new moon calculations using traditional chalakim arithmetic, with Kiddush Levana timing methods.
 
-6. **`Location`** (`src/location.ts`) — extends `GeoLocation` from `@hebcal/noaa`, includes 60+ built-in city definitions.
+6. **`Location`** (`src/location.ts`) — extends `GeoLocation` from `@hebcal/noaa`, includes 65 built-in "classic" city definitions (`cities.json`).
 
 7. **`DailyLearning`** (`src/DailyLearning.ts`) — plugin registration system for daily study calendars (implementations in separate `@hebcal/learning` package).
 
@@ -50,3 +59,25 @@ For tree-shaking, prefer deep imports: `import {getHolidaysOnDate} from '@hebcal
 - **Linter:** Oxlint (`.oxlintrc.json`)
 - **Tests:** Vitest with `.spec.ts` suffix in `test/` directory. Tests import directly from `../src/` modules.
 - **Translation files** (`*.po.ts`) are generated — do not edit by hand
+
+## Documentation conventions
+
+- **Never write an `@example` you haven't executed.** An audit found 16 examples
+  whose stated output was plausible and wrong. `test/docexamples.spec.ts` asserts
+  the documented output of the runnable ones — add a case there when you add an
+  example, and when one fails, fix whichever is wrong rather than deleting the test.
+- **Don't duplicate long doc comments across a function and its wrapper.**
+  `HebrewCalendar.calendar` and `calendar()` drifted apart while duplicated. The
+  canonical prose lives on the standalone function; the wrapper carries a short
+  summary plus `{@link}`. Note that TypeDoc's `{@inheritDoc}` discards sibling
+  tags, so an inherited comment loses its `@example`.
+- **Markdown, not HTML,** in comments (`[text](url)`, `_em_`, `°`) — much of this
+  file tree was ported from KosherJava's Javadoc and still carries `<a href>`,
+  `<code>` and `&deg;` in places.
+- **`@private` on a member that ships in the `.d.ts` is a lie to consumers** — use
+  the TypeScript `private` keyword or `@internal`.
+- JSDoc type annotations (`@enum`, `@readonly`, `@type`) are ignored by TypeDoc in
+  a TS codebase; let the types speak.
+- Zmanim methods returning `Date` yield an **`Invalid Date`** when a time can't be
+  computed; the `Temporal`-returning ones yield **`null`**. Don't describe either
+  as the other.

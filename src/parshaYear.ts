@@ -13,8 +13,8 @@ import {getSedra} from './sedra';
  * @example
  * import {parshaYear} from '@hebcal/core';
  * const events = parshaYear(5784, false);
- * events[0].render('en'); // 'Parashat Vayeilech'
- * events[0].getDate().toString(); // '4 Tishrei 5784'
+ * events[0].render('en'); // 'Parashat Ha’azinu'
+ * events[0].getDate().toString(); // '8 Tishrei 5784'
  * @param year Hebrew year
  * @param il Israel (false for Diaspora)
  * @returns an array of `ParshaEvent` occurring on Saturdays that contain a regular

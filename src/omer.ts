@@ -211,7 +211,7 @@ const lamnatzeachLetters = sefira.lamnatzeachLetters.split('');
  * const ev = new OmerEvent(new HDate(16, months.NISAN, 5784), 1);
  * ev.render('en');        // '1st day of the Omer'
  * ev.render('he');        // 'א׳ בָּעוֹמֶר'
- * ev.sefira('translit');  // 'Chesed shebChesed'
+ * ev.sefira('translit');  // "Chesed sheb'Chesed"
  * ev.getTodayIs('en');    // 'Today is 1 day of the Omer'
  */
 export class OmerEvent extends Event {
@@ -311,18 +311,34 @@ export class OmerEvent extends Event {
     return String.fromCodePoint(codePoint);
   }
 
+  /**
+   * Number of *completed* weeks of the Omer. On day 7 this returns `1`; on
+   * day 8 it also returns `1`, because the second week is still in progress.
+   * Pair with {@link getDaysWithinWeeks} to render "N weeks and M days".
+   */
   getWeeks(): number {
     const day7 = this.daysWithinWeeks === 7;
     return day7 ? this.weekNumber : this.weekNumber - 1;
   }
 
+  /**
+   * Day within the current week, from `1` through `7`.
+   */
   getDaysWithinWeeks(): number {
     return this.daysWithinWeeks;
   }
   /**
    * Returns a sentence with that evening's omer count
-   * @returns a string such as `Today is 10 days, which is 1 week and 3 days of the Omer`
-   *  or `הַיוֹם עֲשָׂרָה יָמִים, שְׁהֵם שָׁבוּעַ אֶחָד וְשְׁלוֹשָׁה יָמִים לָעוֹמֶר`
+   * @example
+   * import {OmerEvent, HDate, months} from '@hebcal/core';
+   * const ev = new OmerEvent(new HDate(25, months.NISAN, 5784), 10);
+   * ev.getTodayIs('en');
+   * // => 'Today is 10 days, which are 1 week and 3 days of the Omer'
+   * ev.getTodayIs('he');
+   * // => 'הַיּוֹם עֲשָׂרָה יָמִים, שֶׁהֵם שָׁבֽוּעַ אֶחָד וּשְׁלוֹשָׁה יָמִים לָעֽוֹמֶר'
+   * @param locale locale name; Hebrew locales (`he`, `he-x-NoNikud`) produce
+   *  the Hebrew formula, anything else produces English. Defaults to `en`
+   *  when empty.
    */
   getTodayIs(locale: string): string {
     locale = (locale || 'en').toLowerCase();

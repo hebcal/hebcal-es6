@@ -1,6 +1,14 @@
 import {HDate} from '@hebcal/hdate';
 import type {Location} from './location';
 
+/**
+ * Value for an entry in `CalOptions.dailyLearning`. Use `true` to enable a
+ * daily study calendar with its default schedule; a `number` or `string`
+ * selects a variant (for example the cycle number for Daf Yomi Yerushalmi).
+ * The calendars themselves are provided by the
+ * {@link https://github.com/hebcal/hebcal-learning @hebcal/learning} package
+ * via {@link DailyLearning.addCalendar}.
+ */
 export type DailyLearningValue = boolean | number | string;
 
 /**
@@ -40,7 +48,9 @@ export type CalOptions = {
    */
   candlelighting?: boolean;
   /**
-   * minutes before sundown to light candles (default 18)
+   * minutes before sundown to light candles. Defaults to 18 minutes in the
+   * Diaspora and 20 minutes in Israel (40 minutes for Jerusalem, 30 minutes
+   * for Haifa and Zikhron Ya'akov).
    */
   candleLightingMins?: number;
   /**

@@ -7,7 +7,7 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
 /**
  * Represents a built-in holiday like Pesach, Purim or Tu BiShvat.
  *
- * Most holiday-related events emitted by {@link HebrewCalendar.calendar}
+ * Most holiday-related events emitted by {@link calendar}
  * are instances of `HolidayEvent` or one of its subclasses
  * ({@link ChanukahEvent}, {@link AsaraBTevetEvent},
  * {@link RoshHashanaEvent}, {@link RoshChodeshEvent}).
@@ -79,6 +79,10 @@ export class HolidayEvent extends Event {
     return this.getFlags() & flags.IL_ONLY ? url + '?i=on' : url;
   }
 
+  /**
+   * The date portion of {@link url}. For most holidays this is just the
+   * Gregorian year; subclasses override it when a year alone is ambiguous.
+   */
   urlDateSuffix(): string {
     const year = this.greg().getFullYear();
     return String(year);
@@ -144,6 +148,7 @@ export class HolidayEvent extends Event {
  * we subclass HolidayEvent to generate the correct URL.
  */
 export class AsaraBTevetEvent extends HolidayEvent {
+  /** Full `YYYYMMDD` date, since the Gregorian year alone is ambiguous here */
   urlDateSuffix(): string {
     const isoDate = isoDateString(this.greg());
     return isoDate.replaceAll('-', '');
@@ -196,7 +201,7 @@ export class ChanukahEvent extends HolidayEvent {
 export class RoshHashanaEvent extends HolidayEvent {
   private readonly hyear: number;
   /**
-   * @private
+   * Normally created by {@link calendar} rather than directly.
    * @param date Hebrew date event occurs
    * @param hyear Hebrew year
    * @param mask optional holiday flags

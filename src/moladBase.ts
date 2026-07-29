@@ -80,6 +80,17 @@ function moladToAbsDate(chalakim: number): number {
   return Math.trunc(chalakim / CHALAKIM_PER_DAY) + JEWISH_EPOCH;
 }
 
+/**
+ * Calculates the molad (birth of the new moon) for a Hebrew month using
+ * traditional chalakim arithmetic.
+ *
+ * Returns the raw components — day of week, hour, minutes and chalakim. Use
+ * {@link Molad} for a higher-level interface with rendering and Kiddush Levana
+ * times.
+ * @param year Hebrew year
+ * @param month Hebrew month (see `months` from `@hebcal/hdate`)
+ * @return the components of the molad for that month
+ */
 export function calculateMolad(year: number, month: number): MoladBase {
   const chalakim = getChalakimSinceMoladTohu(year, month);
   const absDate = moladToAbsDate(chalakim);

@@ -31,7 +31,7 @@ const hour12cc: Record<string, number> = {
  * reformatTimeStr('20:30', 'pm', {hour12: false}); // '20:30'
  * @param timeStr - original time like "20:30"
  * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
- * @param options
+ * @param options optional; `location`, `locale` and `hour12` are consulted
  */
 export function reformatTimeStr(
   timeStr: string,

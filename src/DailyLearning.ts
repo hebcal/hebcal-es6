@@ -14,7 +14,7 @@ const cals = new Map<string, LearningCalendar>();
  * `@hebcal/core` itself contains no learning schedules — they are provided
  * by the {@link https://github.com/hebcal/hebcal-learning @hebcal/learning}
  * package, which calls {@link DailyLearning.addCalendar} on import. After
- * `@hebcal/learning` is loaded, `HebrewCalendar.calendar()` will emit
+ * `@hebcal/learning` is loaded, `calendar()` will emit
  * learning events when the corresponding `options.dailyLearning` flag is set.
  *
  * @example
@@ -22,7 +22,7 @@ const cals = new Map<string, LearningCalendar>();
  * import {DailyLearning, HDate} from '@hebcal/core';
  *
  * const ev = DailyLearning.lookup('dafYomi', new HDate(), false);
- * console.log(ev?.render('en')); // e.g. 'Berakhot 2'
+ * console.log(ev?.render('en')); // e.g. 'Daf Yomi: Berakhot 2'
  */
 export class DailyLearning {
   /**
@@ -61,8 +61,8 @@ export class DailyLearning {
    * not registered).
    * @example
    * import '@hebcal/learning';
-   * import {DailyLearning, HDate} from '@hebcal/core';
-   * DailyLearning.lookup('dafYomi', new HDate(2024, 1, 15), false);
+   * import {DailyLearning, HDate, months} from '@hebcal/core';
+   * DailyLearning.lookup('dafYomi', new HDate(15, months.CHESHVAN, 5784), false);
    * @param name case insensitive
    * @param hd Hebrew Date
    * @param il true for Israel, false for Diaspora

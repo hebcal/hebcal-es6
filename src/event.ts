@@ -4,13 +4,11 @@ import './locale'; // Adds Hebrew and Ashkenazic translations
 /**
  * Holiday flags for Event. These flags are typically
  * combined using bitwise arithmetic to form a mask.
- * @readonly
- * @enum {number}
  */
 export const flags = {
   /** Chag, yontiff, yom tov */
   CHAG: 0x000001,
-  /** Light candles 18 minutes before sundown */
+  /** Light candles before sundown */
   LIGHT_CANDLES: 0x000002,
   /** End of holiday (end of Yom Tov)  */
   YOM_TOV_ENDS: 0x000004,
@@ -92,7 +90,7 @@ const flagToCategory = [
  * Torah readings, Omer days, Hebrew dates, and more. Most concrete event
  * types are subclasses (e.g. {@link HolidayEvent}, {@link TimedEvent},
  * {@link ParshaEvent}, {@link OmerEvent}) and are produced by
- * {@link HebrewCalendar.calendar}.
+ * {@link calendar}.
  *
  * To get the title of the event in a language other than English with
  * Sephardic transliterations, use the {@link Event.render} method.

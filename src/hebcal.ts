@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {getBirthdayHD, getYahrzeitHD, HDate} from '@hebcal/hdate';
+import {birthdayOrAnniversary, yahrzeit, HDate} from '@hebcal/hdate';
 import './locale'; // Adds Hebrew and Ashkenazic translations
 import {CalOptions} from './CalOptions';
 import {version as pkgVersion} from './pkgVersion';
@@ -52,92 +52,12 @@ export class HebrewCalendar {
    * a description, flags and optional attributes.
    * If given no options, returns holidays for the Diaspora for the current Gregorian year.
    *
-   * The date range returned by this function can be controlled by:
-   * * `options.year` - Gregorian (e.g. 1993) or Hebrew year (e.g. 5749)
-   * * `options.isHebrewYear` - to interpret `year` as Hebrew year
-   * * `options.numYears` - generate calendar for multiple years (default 1, maximum 2000)
-   * * `options.month` - Gregorian or Hebrew month (to filter results to a single month)
-   *
-   * Alternatively, specify start and end days with `Date` or {@link HDate} instances:
-   * * `options.start` - use specific start date (requires `end` date)
-   * * `options.end` - use specific end date (requires `start` date)
-   *
-   * Unless `options.noHolidays == true`, default holidays include:
-   * * Major holidays - Rosh Hashana, Yom Kippur, Pesach, Sukkot, etc.
-   * * Minor holidays - Purim, Chanukah, Tu BiShvat, Lag BaOmer, etc.
-   * * Minor fasts - Ta'anit Esther, Tzom Gedaliah, etc. (unless `options.noMinorFast`)
-   * * Special Shabbatot - Shabbat Shekalim, Zachor, etc. (unless `options.noSpecialShabbat`)
-   * * Modern Holidays - Yom HaShoah, Yom HaAtzma'ut, etc. (unless `options.noModern`)
-   * * Rosh Chodesh (unless `options.noRoshChodesh`)
-   *
-   * Holiday and Torah reading schedules differ between Israel and the Disapora.
-   * Set `options.il=true` to use the Israeli schedule.
-   *
-   * Additional non-default event types can be specified:
-   * * Parashat HaShavua - weekly Torah Reading on Saturdays (`options.sedrot`)
-   * * Counting of the Omer (`options.omer`)
-   * * Shabbat Mevarchim HaChodesh on Saturday before Rosh Chodesh (`options.shabbatMevarchim`)
-   * * Molad announcement on Saturday before Rosh Chodesh (`options.molad`)
-   * * Yom Kippur Katan (`options.yomKippurKatan`)
-   * * Yizkor (`options.yizkor`)
-   *
-   * Daily Study of texts are supported by the
-   * {@link https://github.com/hebcal/hebcal-learning @hebcal/learning} package,
-   * for example:
-   * * Babylonian Talmud Daf Yomi (`options.dailyLearning.dafYomi`)
-   * * Jerusalem Talmud (Yerushalmi) Yomi (`options.dailyLearning.yerushalmi`)
-   * * Mishna Yomi (`options.dailyLearning.mishnaYomi`)
-   * * Nach Yomi (`options.dailyLearning.nachYomi`)
-   *
-   * Candle-lighting and Havdalah times are approximated using latitude and longitude
-   * specified by the {@link Location} class. The `Location` class contains a small
-   * database of cities with their associated geographic information and time-zone information.
-   * If you ever have any doubts about Hebcal's times, consult your local halachic authority.
-   * If you enter geographic coordinates above the arctic circle or antarctic circle,
-   * the times are guaranteed to be wrong.
-   *
-   * To add candle-lighting options, set `options.candlelighting=true` and set
-   * `options.location` to an instance of `Location`. By default, candle lighting
-   * time is 18 minutes before sundown (40 minutes for Jerusalem,
-   * 30 minutes for Haifa and Zikhron Ya'akov) and Havdalah is
-   * calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
-   * are observable in the night time sky with the naked eye). The default Havdalah
-   * option (Tzeit Hakochavim) is calculated when the sun is 8.5° below the horizon.
-   * These defaults can be changed using these options:
-   * * `options.candleLightingMins` - minutes before sundown to light candles
-   * * `options.havdalahMins` - minutes after sundown for Havdalah (typical values are 42, 50, or 72).
-   *    Havdalah times are suppressed when `options.havdalahMins=0`.
-   * * `options.havdalahDeg` - degrees for solar depression for Havdalah.
-   *    Default is 8.5 degrees for 3 small stars. Use 7.083 degrees for 3 medium-sized stars.
-   *    Havdalah times are suppressed when `options.havdalahDeg=0`.
-   *
-   * If both `options.candlelighting=true` and `options.location` is specified,
-   * Chanukah candle-lighting times and minor fast start/end times will also be generated.
-   * Chanukah candle-lighting is at Bein HaShmashos (13.5 minutes before
-   * the sun is 7.083° below the horizon in the evening)
-   * on weekdays, at regular candle-lighting time on Fridays, and at regular Havdalah time on
-   * Saturday night (see above).
-   *
-   * Minor fasts begin at Alot HaShachar (sun is 16.1° below the horizon in the morning) and
-   * end when 3 medium-sized stars are observable in the night sky (sun is 7.083° below the horizon
-   * in the evening).
-   *
-   * Two options also exist for generating an Event with the Hebrew date:
-   * * `options.addHebrewDates` - print the Hebrew date for the entire date range
-   * * `options.addHebrewDatesForEvents` - print the Hebrew date for dates with some events
-   *
-   * Lastly, translation and transliteration of event titles is controlled by
-   * `options.locale` and the {@link Locale} API.
-   * `@hebcal/core` supports three locales by default:
-   * * `en` - default, Sephardic transliterations (e.g. "Shabbat")
-   * * `ashkenazi` - Ashkenazi transliterations (e.g. "Shabbos")
-   * * `he` - Hebrew (e.g. "שַׁבָּת")
-   *
-   * Additional locales (such as `ru` or `fr`) are supported by the
-   * {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
+   * This is a convenience wrapper around the standalone {@link calendar} function.
+   * See {@link calendar} for the complete list of supported options, the
+   * candle-lighting and Havdalah defaults, and notes on locales.
    *
    * @example
-   * import {HebrewCalendar, HDate, Location, Event} from '@hebcal/core';
+   * import {HebrewCalendar, Location} from '@hebcal/core';
    * const options: CalOptions = {
    *   year: 1981,
    *   isHebrewYear: false,
@@ -159,8 +79,12 @@ export class HebrewCalendar {
 
   /**
    * Calculates a birthday or anniversary (non-yahrzeit).
-   * `hyear` must be after original `gdate` of anniversary.
-   * Returns `undefined` when requested year preceeds or is same as original year.
+   * Returns `undefined` when `hyear` precedes the original year of `gdate`.
+   *
+   * When `hyear` is the original year, the original date is returned unchanged —
+   * a "0th birthday" is a meaningful thing to ask for. This differs from
+   * {@link getYahrzeit}, which returns `undefined` for the original year,
+   * because a yahrzeit only has meaning from the first anniversary onward.
    *
    * Hebcal uses the algorithm defined in "Calendrical Calculations"
    * by Edward M. Reingold and Nachum Dershowitz.
@@ -187,11 +111,7 @@ export class HebrewCalendar {
     hyear: number,
     gdate: Date | HDate
   ): HDate | undefined {
-    const dt = getBirthdayHD(hyear, gdate);
-    if (dt === undefined) {
-      return dt;
-    }
-    return new HDate(dt);
+    return birthdayOrAnniversary(hyear, gdate);
   }
 
   /**
@@ -229,11 +149,7 @@ export class HebrewCalendar {
    * @returns anniversary occurring in hyear
    */
   static getYahrzeit(hyear: number, gdate: Date | HDate): HDate | undefined {
-    const dt = getYahrzeitHD(hyear, gdate);
-    if (dt === undefined) {
-      return dt;
-    }
-    return new HDate(dt);
+    return yahrzeit(hyear, gdate);
   }
 
   /**
@@ -307,9 +223,12 @@ export class HebrewCalendar {
    * (Shabbat) to also be a sacred day.
    * @example
    * import {HebrewCalendar} from '@hebcal/core';
-   * // Thursday April 25, 2024 — first day of Pesach 5784, with Shabbat
-   * // chol ha-moed the next day, so Eruv Tavshilin is required:
-   * HebrewCalendar.eruvTavshilin(new Date(2024, 3, 25), false); // true
+   * // Wednesday October 16, 2024 is Erev Sukkot 5785. In the Diaspora,
+   * // Sukkot I falls on Thursday and Sukkot II on Friday, so Eruv
+   * // Tavshilin is prepared on Wednesday:
+   * HebrewCalendar.eruvTavshilin(new Date(2024, 9, 16), false); // true
+   * // In Israel there is only one day of Yom Tov, so Friday is a weekday:
+   * HebrewCalendar.eruvTavshilin(new Date(2024, 9, 16), true); // false
    * @param date Gregorian or Hebrew date to test
    * @param il use the Israeli holiday schedule
    */
@@ -342,19 +261,19 @@ export class HebrewCalendar {
    * HebrewCalendar.reformatTimeStr('20:30', 'pm', {hour12: false}); // '20:30'
    * @param timeStr - original time like "20:30"
    * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
-   * @param options
+   * @param options optional; `location`, `locale` and `hour12` are consulted
    */
   static reformatTimeStr(
     timeStr: string,
     suffix: string,
-    options: CalOptions
+    options?: CalOptions
   ): string {
     return reformatTimeStr(timeStr, suffix, options);
   }
 
   /**
    * Returns the semantic version string of the `@hebcal/core` package
-   * (e.g. `"5.10.0"`). Useful for logging or feature detection.
+   * (e.g. `"6.8.2"`). Useful for logging or feature detection.
    */
   static version(): string {
     return pkgVersion;
@@ -368,10 +287,10 @@ export class HebrewCalendar {
    * since an internal LRU cache (~120 entries) avoids recomputing the
    * keviyah-specific reading pattern.
    * @example
-   * import {HebrewCalendar} from '@hebcal/core';
+   * import {HebrewCalendar, HDate} from '@hebcal/core';
    * const sedra = HebrewCalendar.getSedra(5784, false);
    * const result = sedra.lookup(new HDate(15, 'Cheshvan', 5784));
-   * console.log(result.parsha); // ['Lech-Lecha']
+   * console.log(result.parsha); // ['Vayera']
    * @param hyear Hebrew year
    * @param il Use Israel sedra schedule (`false` for Diaspora)
    */
@@ -389,12 +308,14 @@ export class HebrewCalendar {
    * Yom Ha'atzmaut, and Yom Yerushalayim.
    *
    * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
-   * @returns 0 for no Hallel, 1 for half Hallel, 2 for whole Hallel
    * @example
    * import {HebrewCalendar, HDate, months} from '@hebcal/core';
    * HebrewCalendar.hallel(new HDate(25, months.KISLEV, 5784), false); // 2 (Chanukah)
    * HebrewCalendar.hallel(new HDate(1, months.SHVAT, 5784), false);   // 1 (Rosh Chodesh)
    * HebrewCalendar.hallel(new HDate(2, months.SHVAT, 5784), false);   // 0
+   * @param hdate Hebrew date to test
+   * @param il use the Israeli holiday schedule
+   * @returns 0 for no Hallel, 1 for half Hallel, 2 for whole Hallel
    */
   static hallel(hdate: HDate, il: boolean): number {
     const events = getHolidaysOnDate(hdate, il);
@@ -422,12 +343,18 @@ export class HebrewCalendar {
    * @example
    * import {HebrewCalendar, HDate, months} from '@hebcal/core';
    * // Regular weekday — Tachanun is said at both services
-   * HebrewCalendar.tachanun(new HDate(2, months.SHVAT, 5784), false);
+   * HebrewCalendar.tachanun(new HDate(4, months.SHVAT, 5784), false);
    * // => { shacharit: true, mincha: true, allCongs: true }
+   *
+   * // Friday 2 Sh'vat — said at Shacharit, but not at Mincha (erev Shabbat)
+   * HebrewCalendar.tachanun(new HDate(2, months.SHVAT, 5784), false);
+   * // => { shacharit: true, mincha: false, allCongs: true }
    *
    * // Rosh Chodesh — no Tachanun
    * HebrewCalendar.tachanun(new HDate(1, months.SHVAT, 5784), false);
    * // => { shacharit: false, mincha: false, allCongs: false }
+   * @param hdate Hebrew date to test
+   * @param il use the Israeli holiday schedule
    */
   static tachanun(hdate: HDate, il: boolean): TachanunResult {
     return tachanun(hdate, il);

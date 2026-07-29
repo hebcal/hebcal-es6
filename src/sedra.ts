@@ -87,14 +87,14 @@ export type SedraResult = {
  * Israel and the Diaspora diverge in some years when the 8th day of Pesach
  * or the 2nd day of Shavuot fall on Shabbat).
  *
- * Prefer {@link getSedra} (or {@link HebrewCalendar.getSedra}) over
+ * Prefer {@link getSedra} over
  * calling this constructor directly, since both cache their results.
  *
  * @example
  * import {Sedra, HDate, months} from '@hebcal/core';
  * const sedra = new Sedra(5784, false);
  * const result = sedra.lookup(new HDate(15, months.CHESHVAN, 5784));
- * console.log(result.parsha); // ['Lech-Lecha']
+ * console.log(result.parsha); // ['Vayera']
  */
 export class Sedra {
   private readonly year: number;
@@ -151,15 +151,20 @@ export class Sedra {
    * @example
    * import {Sedra} from '@hebcal/core';
    * const sedra = new Sedra(5784, false);
-   * sedra.find('Noach')?.toString();         // '15 Cheshvan 5784'
-   * sedra.find(1)?.toString();                // same, by 0-based index
-   * sedra.find('Matot-Masei')?.toString();   // null in 5784 — read separately
-   * sedra.find(['Matot', 'Masei']);          // also null in 5784
+   * sedra.find('Noach')?.toString();        // '6 Cheshvan 5784'
+   * sedra.find(1)?.toString();              // '6 Cheshvan 5784', by 0-based index
+   * // Matot and Masei are doubled in 5784, so the pair has a date...
+   * sedra.find('Matot-Masei')?.toString();  // '28 Tamuz 5784'
+   * sedra.find(['Matot', 'Masei'])?.toString(); // '28 Tamuz 5784'
+   * // ...but neither half is read on its own that year:
+   * sedra.find('Matot');                    // null
    * @param parsha if a `string`, specified with Sephardic transliterations
    *  like `'Noach'` or `'Matot-Masei'`. If an array, must be a 1- or 2-element
    *  array such as `['Noach']` or `['Matot', 'Masei']`. If a `number`, should
    *  be a 0-based parsha index (`0` for Bereshit, `1` for Noach) or a negative
-   *  number for a doubled parsha (e.g. `-21` for Vayakhel-Pekudei)
+   *  number for a doubled parsha (e.g. `-21` for Vayakhel-Pekudei).
+   *  Note that this index is 0-based, unlike {@link SedraResult.num} which
+   *  is 1-based.
    */
   find(parsha: number | string | string[]): HDate | null {
     if (typeof parsha === 'number') {
@@ -226,12 +231,19 @@ export class Sedra {
    * will return the date of `'Matot'` alone.
    * @example
    * import {Sedra} from '@hebcal/core';
+   * // Matot and Masei are doubled in 5784, so each half resolves to the
+   * // date of the combined reading:
    * const sedra = new Sedra(5784, false);
-   * // Matot-Masei is split in 5784; both individual halves resolve:
-   * sedra.findContaining('Matot')?.toString();        // '22 Tamuz 5784'
-   * sedra.findContaining('Masei')?.toString();        // '29 Tamuz 5784'
-   * // Asking for the doubled name returns the date of the first half:
-   * sedra.findContaining('Matot-Masei')?.toString();  // '22 Tamuz 5784'
+   * sedra.findContaining('Matot')?.toString();        // '28 Tamuz 5784'
+   * sedra.findContaining('Masei')?.toString();        // '28 Tamuz 5784'
+   * @example
+   * import {Sedra} from '@hebcal/core';
+   * // They are read separately in 5795, so each half has its own date, and
+   * // asking for the doubled name returns the date of the first half:
+   * const sedra = new Sedra(5795, false);
+   * sedra.findContaining('Matot')?.toString();        // '21 Tamuz 5795'
+   * sedra.findContaining('Masei')?.toString();        // '28 Tamuz 5795'
+   * sedra.findContaining('Matot-Masei')?.toString();  // '21 Tamuz 5795'
    */
   findContaining(parsha: number | string): HDate | null {
     const hdate = this.find(parsha);
@@ -313,11 +325,11 @@ export class Sedra {
    * @example
    * import {Sedra, HDate, months} from '@hebcal/core';
    * const sedra = new Sedra(5784, false);
-   * // A weekday — returns the upcoming Shabbat's reading
-   * const result = sedra.lookup(new HDate(13, months.CHESHVAN, 5784));
+   * // A Friday — returns the upcoming Shabbat's reading
+   * const result = sedra.lookup(new HDate(12, months.CHESHVAN, 5784));
    * console.log(result.parsha); // ['Lech-Lecha']
    * console.log(result.chag);   // false
-   * console.log(result.hdate.toString()); // '15 Cheshvan 5784' (Saturday)
+   * console.log(result.hdate.toString()); // '13 Cheshvan 5784' (Saturday)
    * @param hd Hebrew date or R.D. days
    */
   lookup(hd: HDate | number): SedraResult {
@@ -375,6 +387,16 @@ export class Sedra {
    *
    * For the Tishrei weekdays before Sukkot or Simchat Torah, the weekday
    * reading is *Vezot Haberakhah* even though it is not read on Shabbat.
+   * @example
+   * import {Sedra, HDate, months} from '@hebcal/core';
+   * const sedra = new Sedra(5784, false);
+   * // Monday 8 Cheshvan — begins the upcoming Shabbat's parsha
+   * sedra.lookupWeekday(new HDate(8, months.CHESHVAN, 5784))?.parsha; // ['Lech-Lecha']
+   * // Tuesday is neither Monday nor Thursday
+   * sedra.lookupWeekday(new HDate(9, months.CHESHVAN, 5784)); // undefined
+   * // Thursday 17 Nisan — the upcoming Shabbat is Chol ha-Moed Pesach,
+   * // so the next regular parsha is returned instead
+   * sedra.lookupWeekday(new HDate(17, months.NISAN, 5784))?.parsha; // ['Achrei Mot']
    * @param hd Hebrew date or R.D. days
    */
   lookupWeekday(hd: HDate | number): SedraResult | undefined {
@@ -559,7 +581,12 @@ function range(start: number, stop: number): readonly number[] {
   return Array.from({length: stop - start + 1}, (v, k) => k + start);
 }
 
-type NumberOrString = number | string;
+/**
+ * An entry in the array returned by {@link Sedra.getSedraArray}: either a
+ * `number` identifying a parsha (or, when negative, a doubled parsha) or a
+ * `string` naming the holiday that displaces the weekly reading.
+ */
+export type NumberOrString = number | string;
 
 const yearStartVayeilech: readonly NumberOrString[] = [51, 52, CHMSUKOT];
 const yearStartHaazinu: readonly NumberOrString[] = [52, YK, CHMSUKOT];
@@ -827,7 +854,7 @@ const sedraCache = new QuickLRU<string, Sedra>({maxSize: 120});
  * import {getSedra, HDate, months} from '@hebcal/core';
  * const sedra = getSedra(5784, false);
  * const {parsha} = sedra.lookup(new HDate(15, months.CHESHVAN, 5784));
- * console.log(parsha); // ['Lech-Lecha']
+ * console.log(parsha); // ['Vayera']
  * @param hyear Hebrew year
  * @param il Use Israel sedra schedule (`false` for Diaspora)
  */

@@ -18,9 +18,12 @@ function isTomorrowShabbosOrYomTov(dow: number, events: Event[]): boolean {
 }
 
 /**
- * Returns true if it is <em>Shabbos</em> or if it is a <em>Yom Tov</em> day that has a <em>melacha</em> (work)  prohibition.
+ * Returns true if it is _Shabbos_ or if it is a _Yom Tov_ day that has a
+ * _melacha_ (work) prohibition.
  *
- * @return if the day is a <em>Yom Tov</em> that is <em>assur bemlacha</em> or <em>Shabbos</em>
+ * @param dow day of week, where `6` is Shabbos
+ * @param events events occurring on the day
+ * @return `true` if the day is a _Yom Tov_ that is _assur bemlacha_, or _Shabbos_
  */
 function isTodayAssurBemelacha(dow: number, events: Event[]): boolean {
   if (dow === 6) {

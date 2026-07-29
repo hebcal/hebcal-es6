@@ -98,6 +98,13 @@ const ADAR_I = months.ADAR_I;
 const ADAR_II = months.ADAR_II;
 
 const emojiIsraelFlag = {emoji: '🇮🇱'} as const;
+/**
+ * Holidays for an entire Hebrew year, indexed by `HDate.toString()`
+ * (e.g. `'15 Nisan 5784'`). Returned by
+ * {@link HebrewCalendar.getHolidaysForYear}. Because a single date can carry
+ * more than one event, each key maps to an array. Entries are *not* filtered
+ * by Israel vs. Diaspora — inspect `flags.IL_ONLY` / `flags.CHUL_ONLY`.
+ */
 export type HolidayYearMap = Map<string, HolidayEvent[]>;
 const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 120});
 
@@ -469,7 +476,7 @@ function getBirkatHaChama(year: number): number {
  *
  * Includes Rosh Chodesh, fasts, special Shabbatot, modern holidays, etc.,
  * but does not generate candle-lighting times, Torah readings, or Omer days.
- * Use {@link HebrewCalendar.calendar} for those.
+ * Use {@link calendar} for those.
  * @example
  * import {getHolidaysForYearArray} from '@hebcal/core';
  * const events = getHolidaysForYearArray(5784, false);

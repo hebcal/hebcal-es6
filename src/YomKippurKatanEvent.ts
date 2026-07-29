@@ -10,7 +10,8 @@ const ykk = 'Yom Kippur Katan';
 export class YomKippurKatanEvent extends HolidayEvent {
   private readonly nextMonthName: string;
   /**
-   * @private
+   * Normally created by {@link calendar} (via
+   * `options.yomKippurKatan`) rather than directly.
    * @param date Hebrew date event occurs
    * @param nextMonthName name of the upcoming month
    */

@@ -21,7 +21,7 @@ const EREV = flags.EREV;
  * isFastDay(new HDate(10, months.TISHREI, 5784)); // true  (Yom Kippur)
  * isFastDay(new HDate(11, months.TISHREI, 5784)); // false
  * @param date Hebrew Date, Gregorian date, or absolute R.D. day number
- * @param il use the Israeli schedule for holidays
+ * @param il optional; use the Israeli schedule for holidays (default Diaspora)
  * @return `true` if the date is a major or minor fast day
  */
 export function isFastDay(date: HDate | Date | number, il?: boolean): boolean {

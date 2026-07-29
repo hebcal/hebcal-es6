@@ -1,8 +1,10 @@
 # A package should not include its node_modules folder in the repo; applications should
 node_modules
 dist
+docs
 src/*.po.ts
 src/pkgVersion.ts
 coverage
 .nyc_output
 size-demo/dist
+*.tgz

@@ -13,7 +13,8 @@ export class MevarchimChodeshEvent extends Event {
    * Constructs Mevarchim haChodesh event
    * @param date Hebrew date event occurs
    * @param monthName Hebrew month name (not translated)
-   * @param [memo]
+   * @param memo text for the event memo. When falsy, a memo announcing the
+   *   molad of the upcoming month is generated automatically
    * @param locale Optional locale name
    */
   constructor(date: HDate, monthName: string, memo: string, locale?: string) {

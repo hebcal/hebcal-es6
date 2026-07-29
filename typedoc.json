@@ -1,4 +1,12 @@
 {
   "entryPoints": ["./src/index.ts"],
-  "out": "docs"
+  "out": "docs",
+  "externalSymbolLinkMappings": {
+    "@hebcal/hdate": {
+      "getMonthName": "https://hebcal.github.io/api/hdate/functions/getMonthName.html"
+    },
+    "@hebcal/noaa": {
+      "NOAACalculator.GEOMETRIC_ZENITH": "https://hebcal.github.io/api/noaa/classes/NOAACalculator.html"
+    }
+  }
 }

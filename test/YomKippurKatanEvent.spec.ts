@@ -1,7 +1,7 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
 import {YomKippurKatanEvent} from '../src/YomKippurKatanEvent';
-import {HebrewCalendar} from '../src/hebcal';
+import {calendar} from '../src/calendar';
 import {flags} from '../src/event';
 
 test('render', () => {
@@ -43,7 +43,7 @@ test('memo and flags', () => {
 });
 
 test('ykk-only calendar generation', () => {
-  const events = HebrewCalendar.calendar({
+  const events = calendar({
     yomKippurKatan: true,
     noHolidays: true,
     year: 5782,
@@ -61,7 +61,7 @@ test('ykk-only calendar generation', () => {
 });
 
 test('non-leap year', () => {
-  const events = HebrewCalendar.calendar({
+  const events = calendar({
     yomKippurKatan: true,
     noHolidays: true,
     year: 5783,
@@ -84,7 +84,7 @@ test('non-leap year', () => {
 });
 
 test('leap year', () => {
-  const events = HebrewCalendar.calendar({
+  const events = calendar({
     yomKippurKatan: true,
     noHolidays: true,
     year: 5784,

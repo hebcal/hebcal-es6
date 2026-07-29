@@ -2,7 +2,7 @@ import {expect, test} from 'vitest';
 import {HDate, isoDateString, months} from '@hebcal/hdate';
 import {HolidayEvent, RoshChodeshEvent} from '../src/HolidayEvent';
 import {MevarchimChodeshEvent} from '../src/MevarchimChodeshEvent';
-import {HebrewCalendar} from '../src/hebcal';
+import {calendar} from '../src/calendar';
 import {flags} from '../src/event';
 
 test('basename-and-url', () => {
@@ -106,7 +106,7 @@ test('MevarchimChodeshEvent', () => {
 });
 
 test('Shushan Purim', () => {
-  const events = HebrewCalendar.calendar({
+  const events = calendar({
     start: new HDate(13, 'Adar2', 5782),
     end: new HDate(17, 'Adar2', 5782),
   });
@@ -121,7 +121,7 @@ test('Shushan Purim', () => {
 });
 
 test('Purim Meshulash', () => {
-  const events = HebrewCalendar.calendar({
+  const events = calendar({
     start: new HDate(13, 'Adar2', 5785),
     end: new HDate(17, 'Adar2', 5785),
   });
@@ -153,7 +153,7 @@ function eventDateDesc(ev) {
 }
 
 test('9av-observed', () => {
-  const events = HebrewCalendar.calendar({year: 2015, numYears: 10});
+  const events = calendar({year: 2015, numYears: 10});
   const av9 = events.filter(ev => ev.getDesc().startsWith("Tish'a B'Av"));
   const actual = av9.map(eventDateBasenameDesc);
   const expected = [
@@ -194,7 +194,7 @@ test('9av-observed', () => {
 });
 
 test('asara-btevet-url', () => {
-  const urls = HebrewCalendar.calendar({year: 2020})
+  const urls = calendar({year: 2020})
     .filter(ev => ev.getDesc() === "Asara B'Tevet")
     .map(ev => ev.url());
   const expected = [
@@ -205,7 +205,7 @@ test('asara-btevet-url', () => {
 });
 
 test('chanukah-url', () => {
-  const events = HebrewCalendar.calendar({
+  const events = calendar({
     start: new Date(2024, 11, 30),
     end: new Date(2025, 0, 2),
   });
@@ -240,7 +240,7 @@ test('far-future-url', () => {
 });
 
 test('bce-url', () => {
-  const urls = HebrewCalendar.calendar({year: -776})
+  const urls = calendar({year: -776})
     .filter(ev => ev.getDesc() === "Asara B'Tevet" || ev.getDesc() === 'Yom Kippur')
     .map(ev => ev.url());
   const expected = [undefined, undefined];
@@ -248,7 +248,7 @@ test('bce-url', () => {
 });
 
 test("Rosh Hashana L'Ma'sar Behemah", () => {
-  const events = HebrewCalendar.calendar({
+  const events = calendar({
     start: new Date(2011, 7, 31),
     end: new Date(2011, 7, 31),
     locale: 'he',
@@ -316,7 +316,7 @@ test('emoji', () => {
     'Yom Kippur': '✡️',
     'Yom Yerushalayim': '🇮🇱',
   };
-  const events = HebrewCalendar.calendar({year: 2021, omer: true});
+  const events = calendar({year: 2021, omer: true});
   for (const ev of events) {
     const base = ev.basename();
     const desc = ev.getDesc();
@@ -330,7 +330,7 @@ test('emoji', () => {
 });
 
 test('Yom HaAliyah', () => {
-  const events = HebrewCalendar.calendar({year: 2038, il: true});
+  const events = calendar({year: 2038, il: true});
   const aliyah = events.filter(ev => ev.getDesc().startsWith('Yom HaAliyah'));
   expect(aliyah.length).toBe(2);
   expect(aliyah[0].getDate().toString()).toBe('10 Nisan 5798');
@@ -340,7 +340,7 @@ test('Yom HaAliyah', () => {
 });
 
 test('modern', () => {
-  const eventsDiaspora = HebrewCalendar.calendar({
+  const eventsDiaspora = calendar({
     year: 5801,
     isHebrewYear: true,
     il: false,
@@ -361,7 +361,7 @@ test('modern', () => {
     {date: '2041-05-29', desc: 'Yom Yerushalayim', em: '🇮🇱'},
   ];
   expect(actual).toEqual(expected);
-  const eventsIL = HebrewCalendar.calendar({
+  const eventsIL = calendar({
     year: 5801,
     isHebrewYear: true,
     il: true,
@@ -392,11 +392,11 @@ test('modern', () => {
 });
 
 test('modernFriSatMovetoThu', () => {
-  const events = HebrewCalendar.calendar({year: 2020, il: true});
+  const events = calendar({year: 2020, il: true});
   const ev = events.find(ev => ev.getDesc() === 'Yitzhak Rabin Memorial Day');
   expect(ev.getDate().toString()).toBe('11 Cheshvan 5781');
   expect(ev.getDate().getDay()).toBe(4);
-  const events2 = HebrewCalendar.calendar({
+  const events2 = calendar({
     year: 5786,
     isHebrewYear: true,
     il: true,
@@ -418,7 +418,7 @@ test('RoshChodeshEvent', () => {
 });
 
 test('fast days includes Yom Kippur Katan', () => {
-  const events0 = HebrewCalendar.calendar({
+  const events0 = calendar({
     year: 2021,
     yomKippurKatan: true,
   });
@@ -502,7 +502,7 @@ test('getCategories', () => {
   );
   expect(ev3.getCategories()).toEqual(['holiday', 'major']);
 
-  const events = HebrewCalendar.calendar({
+  const events = calendar({
     start: new HDate(25, months.KISLEV, 5784),
     end: new HDate(26, months.KISLEV, 5784),
   });

@@ -32,7 +32,7 @@ import {holidayDesc as hdesc} from './staticHolidays';
  * The date range returned by this function can be controlled by:
  * * `options.year` - Gregorian (e.g. 1993) or Hebrew year (e.g. 5749)
  * * `options.isHebrewYear` - to interpret `year` as Hebrew year
- * * `options.numYears` - generate calendar for multiple years (default 1)
+ * * `options.numYears` - generate calendar for multiple years (default 1, maximum 2000)
  * * `options.month` - Gregorian or Hebrew month (to filter results to a single month)
  *
  * Alternatively, specify start and end days with `Date` or {@link HDate} instances:
@@ -76,7 +76,8 @@ import {holidayDesc as hdesc} from './staticHolidays';
  *
  * To add candle-lighting options, set `options.candlelighting=true` and set
  * `options.location` to an instance of `Location`. By default, candle lighting
- * time is 18 minutes before sundown (40 minutes for Jerusalem,
+ * time is 18 minutes before sundown in the Diaspora and 20 minutes before
+ * sundown in Israel (40 minutes for Jerusalem,
  * 30 minutes for Haifa and Zikhron Ya'akov) and Havdalah is
  * calculated according to Tzeit Hakochavim - Nightfall (the point when 3 small stars
  * are observable in the night time sky with the naked eye). The default Havdalah
@@ -96,9 +97,18 @@ import {holidayDesc as hdesc} from './staticHolidays';
  * on weekdays, at regular candle-lighting time on Fridays, and at regular Havdalah time on
  * Saturday night (see above).
  *
- * Minor fasts begin at Alot HaShachar (sun is 16.1° below the horizon in the morning) and
- * end when 3 medium-sized stars are observable in the night sky (sun is 7.083° below the horizon
- * in the evening).
+ * Minor fasts begin at Alot HaShachar (sun is 16.1° below the horizon in the morning).
+ * They end when 3 medium-sized stars are observable in the night sky (sun is 7.083°
+ * below the horizon in the evening) in the Diaspora, or 15 minutes after sunset in
+ * Israel (Rabbi Deblitzky's practice). Override with:
+ * * `options.fastEndDeg` - degrees of solar depression for the end of a minor fast
+ * * `options.fastEndMins` - minutes after sunset for the end of a minor fast
+ *   (mutually exclusive with `options.fastEndDeg`)
+ *
+ * Tish'a B'Av is different: it begins at sunset on the previous day and always ends
+ * at tzeit 6.45° (Rabbi Yechiel Michel Tucazinsky), ignoring `options.fastEndDeg`
+ * and `options.fastEndMins`. When a minor fast falls on a Friday the end time is
+ * suppressed, because Shabbat begins before nightfall.
  *
  * Two options also exist for generating an Event with the Hebrew date:
  * * `options.addHebrewDates` - print the Hebrew date for the entire date range
@@ -115,7 +125,7 @@ import {holidayDesc as hdesc} from './staticHolidays';
  * {@link https://github.com/hebcal/hebcal-locales @hebcal/locales} package
  *
  * @example
- * import {HebrewCalendar, HDate, Location, Event} from '@hebcal/core';
+ * import {calendar, Location} from '@hebcal/core';
  * const options: CalOptions = {
  *   year: 1981,
  *   isHebrewYear: false,
@@ -124,7 +134,7 @@ import {holidayDesc as hdesc} from './staticHolidays';
  *   sedrot: true,
  *   omer: true,
  * };
- * const events = HebrewCalendar.calendar(options);
+ * const events = calendar(options);
  * for (const ev of events) {
  *   const hd = ev.getDate();
  *   const date = hd.greg();
