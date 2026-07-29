@@ -16,7 +16,19 @@ const hour12cc: Record<string, number> = {
 } as const;
 
 /**
- * @private
+ * Helper function to format a 24-hour (00:00-23:59) time string in either
+ * 12-hour US format (e.g. `"8:13pm"`) or keep it in 24-hour format (e.g.
+ * `"20:13"`) for any other locale or country.
+ *
+ * The locale (and therefore default behavior) is derived from
+ * `options.location` / `options.locale`. The `options.hour12` override
+ * takes precedence: if `false`, locale is ignored and the result is always
+ * 24-hour; if `true`, locale is ignored and the result is always 12-hour.
+ * @example
+ * import {reformatTimeStr, Location} from '@hebcal/core';
+ * const opts = {location: Location.lookup('Chicago')};
+ * reformatTimeStr('20:30', 'pm', opts);          // '8:30pm'
+ * reformatTimeStr('20:30', 'pm', {hour12: false}); // '20:30'
  * @param timeStr - original time like "20:30"
  * @param suffix - "p" or "pm" or " P.M.". Add leading space if you want it
  * @param options

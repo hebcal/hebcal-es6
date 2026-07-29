@@ -38,6 +38,8 @@ export {
   RoshHashanaEvent,
 } from './HolidayEvent';
 export {HolidayYearMap, getHolidaysOnDate} from './holidays';
+export {calendar} from './calendar';
+export {reformatTimeStr} from './reformatTimeStr';
 export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
 export {YomKippurKatanEvent} from './YomKippurKatanEvent';
 export {holidayDesc} from './staticHolidays';
