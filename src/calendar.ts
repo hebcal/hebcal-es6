@@ -371,8 +371,11 @@ function warnUnrecognizedOptions(options: CalOptions) {
     }
   }
   if (options.dailyLearning) {
-    for (const k of Object.keys(options.dailyLearning)) {
-      if (!unrecognizedAlreadyWarned.has(k) && !DailyLearning.has(k)) {
+    for (const [k, val] of Object.entries(options.dailyLearning)) {
+      // Resolve aliases (e.g. `yerushalmi` -> `yerushalmi-vilna`) the same way
+      // makeDailyLearning() does, so a valid option doesn't warn spuriously.
+      const name = dailyLearningName(k, val);
+      if (!unrecognizedAlreadyWarned.has(k) && !DailyLearning.has(name)) {
         console.warn(`Ignoring unrecognized DailyLearning calendar: ${k}`);
         unrecognizedAlreadyWarned.add(k);
       }
