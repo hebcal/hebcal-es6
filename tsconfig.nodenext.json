@@ -1,0 +1,13 @@
+// Typecheck-only config. The rollup build forces `module: esnext`, which is
+// incompatible with `moduleResolution: nodenext`, so the build stays on
+// `bundler` (see tsconfig.json) and this config guards the thing bundler
+// resolution can't see: every relative import must carry a `.js` extension,
+// or the emitted `.d.ts` is unusable by consumers on node16/nodenext.
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noEmit": true
+  }
+}

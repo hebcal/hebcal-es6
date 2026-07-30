@@ -1,4 +1,4 @@
-export {version} from './pkgVersion';
+export {version} from './pkgVersion.js';
 export {gematriya, gematriyaStrToNum} from '@hebcal/hdate';
 export {
   greg,
@@ -10,38 +10,38 @@ export {
   LocaleData,
   MonthName,
 } from '@hebcal/hdate';
-import './locale'; // Adds Hebrew and Ashkenazic translations
-export {CalOptions, DailyLearningValue} from './CalOptions';
-export {HebrewDateEvent} from './HebrewDateEvent';
-export {Event, flags} from './event';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
+export {CalOptions, DailyLearningValue} from './CalOptions.js';
+export {HebrewDateEvent} from './HebrewDateEvent.js';
+export {Event, flags} from './event.js';
 export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
-export {Location} from './location';
-export {Zmanim} from './zmanim';
-export {isAssurBemlacha} from './isAssurBemlacha';
-export {isAveilut} from './isAveilut';
-export {isFastDay} from './isFastDay';
-export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
-export {FastDayEvent, TimedChanukahEvent} from './candles';
-export {MoladBase, calculateMolad} from './moladBase';
-export {getMoladAsDate} from './moladDate';
-export {Molad, MoladEvent} from './molad';
-export {OmerEvent, OmerLang} from './omer';
-export {TachanunResult, tachanun} from './tachanun';
-export {Sedra, SedraResult, NumberOrString, parshiot, getSedra} from './sedra';
-export {ParshaEvent} from './ParshaEvent';
-export {parshaYear} from './parshaYear';
+export {Location} from './location.js';
+export {Zmanim} from './zmanim.js';
+export {isAssurBemlacha} from './isAssurBemlacha.js';
+export {isAveilut} from './isAveilut.js';
+export {isFastDay} from './isFastDay.js';
+export {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent.js';
+export {FastDayEvent, TimedChanukahEvent} from './candles.js';
+export {MoladBase, calculateMolad} from './moladBase.js';
+export {getMoladAsDate} from './moladDate.js';
+export {Molad, MoladEvent} from './molad.js';
+export {OmerEvent, OmerLang} from './omer.js';
+export {TachanunResult, tachanun} from './tachanun.js';
+export {Sedra, SedraResult, NumberOrString, parshiot, getSedra} from './sedra.js';
+export {ParshaEvent} from './ParshaEvent.js';
+export {parshaYear} from './parshaYear.js';
 export {
   HolidayEvent,
   ChanukahEvent,
   AsaraBTevetEvent,
   RoshChodeshEvent,
   RoshHashanaEvent,
-} from './HolidayEvent';
-export {HolidayYearMap, getHolidaysOnDate} from './holidays';
-export {calendar} from './calendar';
-export {reformatTimeStr} from './reformatTimeStr';
-export {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
-export {YomKippurKatanEvent} from './YomKippurKatanEvent';
-export {holidayDesc} from './staticHolidays';
-export {DailyLearning} from './DailyLearning';
-export {HebrewCalendar} from './hebcal';
+} from './HolidayEvent.js';
+export {HolidayYearMap, getHolidaysOnDate} from './holidays.js';
+export {calendar} from './calendar.js';
+export {reformatTimeStr} from './reformatTimeStr.js';
+export {MevarchimChodeshEvent} from './MevarchimChodeshEvent.js';
+export {YomKippurKatanEvent} from './YomKippurKatanEvent.js';
+export {holidayDesc} from './staticHolidays.js';
+export {DailyLearning} from './DailyLearning.js';
+export {HebrewCalendar} from './hebcal.js';

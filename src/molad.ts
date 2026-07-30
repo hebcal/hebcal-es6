@@ -1,12 +1,12 @@
 import 'temporal-polyfill/global';
-import {Event, flags} from './event';
-import {CalOptions} from './CalOptions';
+import {Event, flags} from './event.js';
+import {CalOptions} from './CalOptions.js';
 import {HDate, Locale, pad2} from '@hebcal/hdate';
-import {reformatTimeStr} from './reformatTimeStr';
-import {MoladBase, calculateMolad} from './moladBase';
-import {getMoladAsDate} from './moladDate';
-import {smartApostrophe} from './string';
-import './locale'; // Adds Hebrew and Ashkenazic translations
+import {reformatTimeStr} from './reformatTimeStr.js';
+import {MoladBase, calculateMolad} from './moladBase.js';
+import {getMoladAsDate} from './moladDate.js';
+import {smartApostrophe} from './string.js';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
 
 const enDoW = [
   'Sunday',

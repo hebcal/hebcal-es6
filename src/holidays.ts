@@ -20,22 +20,22 @@
  */
 import {HDate, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
-import {flags} from './event';
-import {dateYomHaShoah, dateYomHaZikaron} from './modern';
-import {getSedra} from './sedra';
+import {flags} from './event.js';
+import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
+import {getSedra} from './sedra.js';
 import {
   staticHolidays,
   staticModernHolidays,
   holidayDesc as hdesc,
-} from './staticHolidays';
-import {YomKippurKatanEvent} from './YomKippurKatanEvent';
+} from './staticHolidays.js';
+import {YomKippurKatanEvent} from './YomKippurKatanEvent.js';
 import {
   HolidayEvent,
   ChanukahEvent,
   AsaraBTevetEvent,
   RoshHashanaEvent,
   RoshChodeshEvent,
-} from './HolidayEvent';
+} from './HolidayEvent.js';
 
 /**
  * Returns an array of holiday Events that occur on the given date, or

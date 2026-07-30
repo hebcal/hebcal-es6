@@ -1,26 +1,26 @@
-import {Locale} from './locale';
+import {Locale} from './locale.js';
 import {abs2greg, HDate, months} from '@hebcal/hdate';
-import {CalOptions, DailyLearningValue} from './CalOptions';
+import {CalOptions, DailyLearningValue} from './CalOptions.js';
 import {
   makeCandleEvent,
   makeFastStartEnd,
   makeWeekdayChanukahCandleLighting,
-} from './candles';
-import {Event, flags} from './event';
-import {getStartAndEnd} from './getStartAndEnd';
-import {HebrewDateEvent} from './HebrewDateEvent';
-import {HolidayYearMap, getHolidaysForYear_} from './holidays';
-import {ParshaEvent} from './ParshaEvent';
-import {Sedra, getSedra} from './sedra';
-import {TimedEvent, HavdalahEvent} from './TimedEvent';
-import {DailyLearning} from './DailyLearning';
-import {ChanukahEvent, HolidayEvent} from './HolidayEvent';
-import {MevarchimChodeshEvent} from './MevarchimChodeshEvent';
-import {MoladEvent, Molad} from './molad';
-import {OmerEvent} from './omer';
-import {Zmanim} from './zmanim';
-import {Location} from './location';
-import {holidayDesc as hdesc} from './staticHolidays';
+} from './candles.js';
+import {Event, flags} from './event.js';
+import {getStartAndEnd} from './getStartAndEnd.js';
+import {HebrewDateEvent} from './HebrewDateEvent.js';
+import {HolidayYearMap, getHolidaysForYear_} from './holidays.js';
+import {ParshaEvent} from './ParshaEvent.js';
+import {Sedra, getSedra} from './sedra.js';
+import {TimedEvent, HavdalahEvent} from './TimedEvent.js';
+import {DailyLearning} from './DailyLearning.js';
+import {ChanukahEvent, HolidayEvent} from './HolidayEvent.js';
+import {MevarchimChodeshEvent} from './MevarchimChodeshEvent.js';
+import {MoladEvent, Molad} from './molad.js';
+import {OmerEvent} from './omer.js';
+import {Zmanim} from './zmanim.js';
+import {Location} from './location.js';
+import {holidayDesc as hdesc} from './staticHolidays.js';
 
 /**
  * Calculates holidays and other Hebrew calendar events based on {@link CalOptions}.

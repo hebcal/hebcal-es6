@@ -4,10 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build & Development Commands
 
-- **Build:** `npm run build` (generates translation files from .po, version constant, then rollup)
+- **Build:** `npm run build` (generates translation files from .po, wraps `src/*.json`
+  as `src/*.json.ts`, version constant, then rollup)
 - **Test:** `npm test` (builds first via pretest, then runs vitest)
 - **Run single test:** `npx vitest run test/somefile.spec.ts`
-- **Lint:** `npm run lint` (runs `oxlint`, then `prettier --check .`)
+- **Lint:** `npm run lint` (`oxlint`, `prettier --check .`, then `npm run check:types`)
+- **Typecheck:** `npm run check:types` (`tsc -p tsconfig.nodenext.json`)
 - **Fix lint:** `npm run fix` (runs `oxlint --fix`, then `prettier --write .`)
 - **Coverage:** `npm run coverage`
 - **API docs:** `npm run docs` (runs `typedoc` into `docs/`)
@@ -59,6 +61,18 @@ For tree-shaking, prefer deep imports: `import {getHolidaysOnDate} from '@hebcal
 - **Linter:** Oxlint (`.oxlintrc.json`)
 - **Tests:** Vitest with `.spec.ts` suffix in `test/` directory. Tests import directly from `../src/` modules.
 - **Translation files** (`*.po.ts`) are generated — do not edit by hand
+- **Every relative import in `src/` needs an explicit `.js` extension.** TypeScript
+  copies specifiers verbatim into the `.d.ts`, so an extensionless `./foo` makes the
+  published declarations unresolvable for any consumer on `moduleResolution: node16`
+  or `nodenext` (`TS2835`), even though rollup writes correct extensions into the
+  `.js`. The build tsconfig uses `bundler` resolution, which does _not_ catch this —
+  `tsconfig.nodenext.json` exists solely to enforce it, and runs as part of
+  `npm run lint`.
+- **Import JSON as `./foo.json.js`, not `./foo.json`.** `build:json2js` wraps each
+  `src/*.json` into a generated `src/*.json.ts` (`export default` + the JSON), the
+  same trick used for `*.po.ts`. Direct `.json` imports would need a
+  `with {type: 'json'}` attribute under `nodenext`; this sidesteps that. Generated
+  `src/*.json.ts` files are gitignored — edit the `.json`.
 
 ## Documentation conventions
 

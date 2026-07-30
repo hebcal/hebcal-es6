@@ -1,11 +1,11 @@
 import {HDate, Locale} from '@hebcal/hdate';
-import {CalOptions} from './CalOptions';
-import {Location} from './location';
-import {Event} from './event';
-import {reformatTimeStr} from './reformatTimeStr';
-import {Zmanim} from './zmanim';
-import {holidayDesc as hdesc} from './staticHolidays';
-import './locale'; // Adds Hebrew and Ashkenazic translations
+import {CalOptions} from './CalOptions.js';
+import {Location} from './location.js';
+import {Event} from './event.js';
+import {reformatTimeStr} from './reformatTimeStr.js';
+import {Zmanim} from './zmanim.js';
+import {holidayDesc as hdesc} from './staticHolidays.js';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
 
 const HAVDALAH = hdesc.HAVDALAH;
 const CANDLE_LIGHTING = hdesc.CANDLE_LIGHTING;

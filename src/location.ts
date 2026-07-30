@@ -19,7 +19,7 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import {GeoLocation} from '@hebcal/noaa';
-import citiesJson from './cities.json';
+import citiesJson from './cities.json.js';
 import QuickLRU from 'quick-lru';
 
 const classicCities = new Map<string, Location>();

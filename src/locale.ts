@@ -1,7 +1,7 @@
 import {Locale} from '@hebcal/hdate';
-import poAshkenazi from './ashkenazi.po';
-import poHe from './he.po';
-import noNikudOverride from './he-x-NoNikud.po';
+import poAshkenazi from './ashkenazi.po.js';
+import poHe from './he.po.js';
+import noNikudOverride from './he-x-NoNikud.po.js';
 
 Locale.addTranslations('he', poHe);
 Locale.addTranslations('ashkenazi', poAshkenazi);

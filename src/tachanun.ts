@@ -1,5 +1,5 @@
 import {HDate, months} from '@hebcal/hdate';
-import {dateYomHaZikaron} from './modern';
+import {dateYomHaZikaron} from './modern.js';
 
 function range(start: number, end: number): readonly number[] {
   const arr = [];

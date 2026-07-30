@@ -1,4 +1,4 @@
-import {CalOptions} from './CalOptions';
+import {CalOptions} from './CalOptions.js';
 
 const hour12cc: Record<string, number> = {
   US: 1,

@@ -1,6 +1,6 @@
 import {HDate, gematriya, months, Locale} from '@hebcal/hdate';
-import {Event, flags} from './event';
-import './locale'; // Adds Hebrew and Ashkenazic translations
+import {Event, flags} from './event.js';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
 
 /** Daily Hebrew date ("11th of Sivan, 5780") */
 export class HebrewDateEvent extends Event {

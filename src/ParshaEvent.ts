@@ -1,9 +1,9 @@
-import {Event, flags} from './event';
+import {Event, flags} from './event.js';
 import {HDate, isoDateString} from '@hebcal/hdate';
-import {renderParshaName} from './parshaName';
-import {urlFriendly} from './string';
-import {SedraResult} from './sedra';
-import './locale'; // Adds Hebrew and Ashkenazic translations
+import {renderParshaName} from './parshaName.js';
+import {urlFriendly} from './string.js';
+import {SedraResult} from './sedra.js';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
 
 /**
  * Represents one of 54 weekly Torah portions, always on a Saturday.

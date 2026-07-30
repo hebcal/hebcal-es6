@@ -1,6 +1,6 @@
 import {HDate, months} from '@hebcal/hdate';
-import {Event, flags} from './event';
-import {holidayDesc as hdesc} from './staticHolidays';
+import {Event, flags} from './event.js';
+import {holidayDesc as hdesc} from './staticHolidays.js';
 
 const NONE = 0;
 const HALF = 1;

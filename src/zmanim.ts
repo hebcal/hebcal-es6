@@ -1,7 +1,7 @@
 import 'temporal-polyfill/global';
 import {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 import {HDate, getPseudoISO, getTimezoneOffset, isDate, pad2} from '@hebcal/hdate';
-import {Molad} from './molad';
+import {Molad} from './molad.js';
 
 /**
  * @private

@@ -1,11 +1,11 @@
 import {HDate, months} from '@hebcal/hdate';
-import {CalOptions} from './CalOptions';
-import {Location} from './location';
-import {Event, flags} from './event';
-import {ChanukahEvent, HolidayEvent} from './HolidayEvent';
-import {Zmanim} from './zmanim';
-import {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent';
-import {holidayDesc as hdesc} from './staticHolidays';
+import {CalOptions} from './CalOptions.js';
+import {Location} from './location.js';
+import {Event, flags} from './event.js';
+import {ChanukahEvent, HolidayEvent} from './HolidayEvent.js';
+import {Zmanim} from './zmanim.js';
+import {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent.js';
+import {holidayDesc as hdesc} from './staticHolidays.js';
 
 const LIGHT_CANDLES = flags.LIGHT_CANDLES;
 const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;

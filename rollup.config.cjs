@@ -1,6 +1,5 @@
 const {nodeResolve} = require('@rollup/plugin-node-resolve');
 const bundleSize = require('rollup-plugin-bundle-size');
-const json = require('@rollup/plugin-json');
 const terser = require('@rollup/plugin-terser');
 const typescript = require('@rollup/plugin-typescript');
 const pkg = require('./package.json');
@@ -24,11 +23,7 @@ module.exports = defineConfig([
       preserveModulesRoot: 'src',
       sourcemap: true,
     },
-    plugins: [
-      typescript({outDir: 'dist/esm', rootDir: './src'}),
-      json({compact: true, preferConst: true}),
-      nodeResolve(),
-    ],
+    plugins: [typescript({outDir: 'dist/esm', rootDir: './src'}), nodeResolve()],
     external: [/node_modules/],
   },
   // Standalone JS file for use without bundlers. Avoid if possible.
@@ -58,7 +53,6 @@ module.exports = defineConfig([
       // target es2021 (broader browser support) and no .d.ts for the bundle
       typescript({rootDir: './src', target: 'es2021', declaration: false}),
       nodeResolve(),
-      json({compact: true, preferConst: true}),
       bundleSize(),
     ],
   },

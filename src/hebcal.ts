@@ -20,22 +20,22 @@
  */
 
 import {birthdayOrAnniversary, yahrzeit, HDate} from '@hebcal/hdate';
-import './locale'; // Adds Hebrew and Ashkenazic translations
-import {CalOptions} from './CalOptions';
-import {version as pkgVersion} from './pkgVersion';
-import {Event, flags} from './event';
-import {Sedra, getSedra} from './sedra';
-import {hallel_} from './hallel';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
+import {CalOptions} from './CalOptions.js';
+import {version as pkgVersion} from './pkgVersion.js';
+import {Event, flags} from './event.js';
+import {Sedra, getSedra} from './sedra.js';
+import {hallel_} from './hallel.js';
 import {
   getHolidaysForYear_,
   getHolidaysForYearArray,
   getHolidaysOnDate,
   HolidayYearMap,
-} from './holidays';
-import {HolidayEvent} from './HolidayEvent';
-import {reformatTimeStr} from './reformatTimeStr';
-import {TachanunResult, tachanun} from './tachanun';
-import {calendar} from './calendar';
+} from './holidays.js';
+import {HolidayEvent} from './HolidayEvent.js';
+import {reformatTimeStr} from './reformatTimeStr.js';
+import {TachanunResult, tachanun} from './tachanun.js';
+import {calendar} from './calendar.js';
 
 /**
  * HebrewCalendar is the main interface to the `@hebcal/core` library.

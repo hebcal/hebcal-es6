@@ -1,5 +1,5 @@
 import {HDate} from '@hebcal/hdate';
-import {Event} from './event';
+import {Event} from './event.js';
 
 type LearningCalendar = {
   fn: (hd: HDate, il: boolean) => Event | null;

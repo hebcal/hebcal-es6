@@ -1,5 +1,5 @@
 import {greg2abs, isDate, daysInGregMonth, HDate, months} from '@hebcal/hdate';
-import {CalOptions} from './CalOptions';
+import {CalOptions} from './CalOptions.js';
 
 const TISHREI = months.TISHREI;
 

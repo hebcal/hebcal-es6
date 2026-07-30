@@ -1,5 +1,5 @@
 import {HDate} from '@hebcal/hdate';
-import type {Location} from './location';
+import type {Location} from './location.js';
 
 /**
  * Value for an entry in `CalOptions.dailyLearning`. Use `true` to enable a

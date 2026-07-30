@@ -1,5 +1,5 @@
-import {Locale} from './locale';
-import {smartApostrophe} from './string';
+import {Locale} from './locale.js';
+import {smartApostrophe} from './string.js';
 
 /** @private */
 export function renderParshaName(parsha: string[], locale?: string): string {

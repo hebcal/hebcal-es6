@@ -1,8 +1,8 @@
 import {HDate, Locale, months} from '@hebcal/hdate';
-import {Event, flags} from './event';
-import {Molad} from './molad';
-import {smartApostrophe} from './string';
-import './locale'; // Adds Hebrew and Ashkenazic translations
+import {Event, flags} from './event.js';
+import {Molad} from './molad.js';
+import {smartApostrophe} from './string.js';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
 
 const mevarchimChodeshStr = 'Shabbat Mevarchim Chodesh';
 

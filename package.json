@@ -28,10 +28,13 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "types": "./dist/esm/index.d.ts"
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js"
     },
-    "./dist/esm/*": "./dist/esm/*.js"
+    "./dist/esm/*": {
+      "types": "./dist/esm/*.d.ts",
+      "default": "./dist/esm/*.js"
+    }
   },
   "typings": "./dist/esm/index.d.ts",
   "engines": {
@@ -51,15 +54,17 @@
   ],
   "scripts": {
     "build:rollup": "rollup -c",
+    "build:json2js": "for f in src/*.json; do echo 'export default' > \"$f.ts\" && cat \"$f\" >> \"$f.ts\"; done",
     "size-demo:rollup": "rollup -c size-demo/rollup.config.js",
     "size-demo": "npm run build && npm run size-demo:rollup",
-    "build": "npm run po2json && npm run version && npm run build:rollup --production",
+    "build": "npm run po2json && npm run build:json2js && npm run version && npm run build:rollup --production",
     "prepublish": "npm run build",
     "version": "node ./version.js package.json src/pkgVersion.ts",
     "po2json": "node ./po2json.js po/he.po po/he-x-NoNikud.po po/ashkenazi.po",
     "docs": "npx -y typedoc",
     "pretest": "npm run build",
-    "lint": "oxlint && prettier --check .",
+    "check:types": "tsc -p tsconfig.nodenext.json",
+    "lint": "oxlint && prettier --check . && npm run check:types",
     "coverage": "vitest --coverage",
     "test": "vitest",
     "clean": "rm -rf dist docs",
@@ -67,7 +72,6 @@
   },
   "license": "GPL-2.0",
   "devDependencies": {
-    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",

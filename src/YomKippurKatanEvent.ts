@@ -1,8 +1,8 @@
 import {HDate, Locale} from '@hebcal/hdate';
-import {flags} from './event';
-import {HolidayEvent} from './HolidayEvent';
-import {smartApostrophe} from './string';
-import './locale'; // Adds Hebrew and Ashkenazic translations
+import {flags} from './event.js';
+import {HolidayEvent} from './HolidayEvent.js';
+import {smartApostrophe} from './string.js';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
 
 const ykk = 'Yom Kippur Katan';
 

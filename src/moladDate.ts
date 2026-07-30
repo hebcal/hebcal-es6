@@ -1,6 +1,6 @@
 import 'temporal-polyfill/global';
 import {getTimezoneOffset} from '@hebcal/hdate';
-import {MoladBase} from './moladBase';
+import {MoladBase} from './moladBase.js';
 
 /** constant for milliseconds in a minute (60,000) */
 const MINUTE_MILLIS: number = 60 * 1000;

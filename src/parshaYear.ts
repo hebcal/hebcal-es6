@@ -1,6 +1,6 @@
 import {HDate, months} from '@hebcal/hdate';
-import {ParshaEvent} from './ParshaEvent';
-import {getSedra} from './sedra';
+import {ParshaEvent} from './ParshaEvent.js';
+import {getSedra} from './sedra.js';
 
 /**
  * Calculates the weekly Torah Reading (Parashat HaShavua) on Saturdays for

@@ -3,6 +3,7 @@ node_modules
 dist
 docs
 src/*.po.ts
+src/*.json.ts
 src/pkgVersion.ts
 coverage
 .nyc_output

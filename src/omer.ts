@@ -1,7 +1,7 @@
 import {HDate, Locale, gematriya} from '@hebcal/hdate';
-import {Event, flags} from './event';
-import './locale'; // Adds Hebrew and Ashkenazic translations
-import sefira from './sefira.json';
+import {Event, flags} from './event.js';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
+import sefira from './sefira.json.js';
 
 /**
  * Language for counting the Omer can be English or Hebrew.

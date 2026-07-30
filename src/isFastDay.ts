@@ -1,6 +1,6 @@
 import {HDate} from '@hebcal/hdate';
-import {flags} from './event';
-import {getHolidaysOnDate} from './holidays';
+import {flags} from './event.js';
+import {getHolidaysOnDate} from './holidays.js';
 
 const FAST_DAY = flags.MAJOR_FAST | flags.MINOR_FAST;
 const EREV = flags.EREV;

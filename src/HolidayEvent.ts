@@ -1,8 +1,8 @@
 import {HDate, Locale, isoDateString} from '@hebcal/hdate';
-import {Event, flags} from './event';
-import {holidayDesc as hdesc} from './staticHolidays';
-import {smartApostrophe, urlFriendly} from './string';
-import './locale'; // Adds Hebrew and Ashkenazic translations
+import {Event, flags} from './event.js';
+import {holidayDesc as hdesc} from './staticHolidays.js';
+import {smartApostrophe, urlFriendly} from './string.js';
+import './locale.js'; // Adds Hebrew and Ashkenazic translations
 
 /**
  * Represents a built-in holiday like Pesach, Purim or Tu BiShvat.

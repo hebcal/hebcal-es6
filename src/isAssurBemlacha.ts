@@ -1,8 +1,8 @@
 import {HDate, getPseudoISO} from '@hebcal/hdate';
-import {Zmanim} from './zmanim';
-import {Location} from './location';
-import {getHolidaysOnDate} from './holidays';
-import {Event, flags} from './event';
+import {Zmanim} from './zmanim.js';
+import {Location} from './location.js';
+import {getHolidaysOnDate} from './holidays.js';
+import {Event, flags} from './event.js';
 
 const LIGHT_CANDLES = flags.LIGHT_CANDLES | flags.LIGHT_CANDLES_TZEIS;
 
