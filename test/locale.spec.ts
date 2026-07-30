@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest';
-import {Locale} from '../src/locale';
+import {Locale} from '../src/locale.js';
 
 test('gettext-ashkenazi', () => {
   expect(Locale.gettext('Parashat', 'ashkenazi')).toBe('Parshas');

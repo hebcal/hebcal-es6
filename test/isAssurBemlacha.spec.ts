@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
-import {isAssurBemlacha} from '../src/isAssurBemlacha';
-import {Location} from '../src/location';
+import {isAssurBemlacha} from '../src/isAssurBemlacha.js';
+import {Location} from '../src/location.js';
 
 function checkTime(dateStr: string): boolean {
   const loc = new Location(

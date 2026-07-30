@@ -1,7 +1,7 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
-import '../src/locale'; // Adds Hebrew and Ashkenazic translations
-import {ParshaEvent} from '../src/ParshaEvent';
+import '../src/locale.js'; // Adds Hebrew and Ashkenazic translations
+import {ParshaEvent} from '../src/ParshaEvent.js';
 
 test('ParshaEvent-url', () => {
   const ev1 = new ParshaEvent({

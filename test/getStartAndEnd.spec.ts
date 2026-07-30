@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest';
-import {getStartAndEnd} from '../src/getStartAndEnd';
+import {getStartAndEnd} from '../src/getStartAndEnd.js';
 
 test('getStartAndEnd-2digit', () => {
   const [start, end] = getStartAndEnd({year: 88});

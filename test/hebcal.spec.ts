@@ -1,19 +1,19 @@
 import {expect, test} from 'vitest';
 import {HDate, isoDateString, months} from '@hebcal/hdate';
-import {CalOptions} from '../src/CalOptions';
-import {HebrewCalendar} from '../src/hebcal';
-import {calendar} from '../src/calendar';
-import {getHolidaysOnDate} from '../src/holidays';
-import {version} from '../src/pkgVersion';
-import {reformatTimeStr} from '../src/reformatTimeStr';
-import {getSedra} from '../src/sedra';
-import {tachanun} from '../src/tachanun';
-import {Event, flags} from '../src/event';
-import {Location} from '../src/location';
-import {OmerEvent} from '../src/omer';
-import {YomKippurKatanEvent} from '../src/YomKippurKatanEvent';
-import {FastDayEvent} from '../src/candles';
-import {TimedEvent} from '../src/TimedEvent';
+import {CalOptions} from '../src/CalOptions.js';
+import {HebrewCalendar} from '../src/hebcal.js';
+import {calendar} from '../src/calendar.js';
+import {getHolidaysOnDate} from '../src/holidays.js';
+import {version} from '../src/pkgVersion.js';
+import {reformatTimeStr} from '../src/reformatTimeStr.js';
+import {getSedra} from '../src/sedra.js';
+import {tachanun} from '../src/tachanun.js';
+import {Event, flags} from '../src/event.js';
+import {Location} from '../src/location.js';
+import {OmerEvent} from '../src/omer.js';
+import {YomKippurKatanEvent} from '../src/YomKippurKatanEvent.js';
+import {FastDayEvent} from '../src/candles.js';
+import {TimedEvent} from '../src/TimedEvent.js';
 
 function gregDtString(ev: Event): string {
   return ev.greg().toLocaleDateString('en-US');

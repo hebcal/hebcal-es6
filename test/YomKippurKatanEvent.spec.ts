@@ -1,8 +1,8 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
-import {YomKippurKatanEvent} from '../src/YomKippurKatanEvent';
-import {calendar} from '../src/calendar';
-import {flags} from '../src/event';
+import {YomKippurKatanEvent} from '../src/YomKippurKatanEvent.js';
+import {calendar} from '../src/calendar.js';
+import {flags} from '../src/event.js';
 
 test('render', () => {
   const date = new HDate(29, 'Cheshvan', 5782);

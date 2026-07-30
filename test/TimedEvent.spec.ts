@@ -1,8 +1,8 @@
 import {expect, test} from 'vitest';
-import {TimedEvent, CandleLightingEvent, HavdalahEvent} from '../src/TimedEvent';
-import {flags} from '../src/event';
+import {TimedEvent, CandleLightingEvent, HavdalahEvent} from '../src/TimedEvent.js';
+import {flags} from '../src/event.js';
 import {HDate} from '@hebcal/hdate';
-import {Location} from '../src/location';
+import {Location} from '../src/location.js';
 
 test('renderBrief', () => {
   const dt = new Date('2020-12-28T20:12:14.987Z');

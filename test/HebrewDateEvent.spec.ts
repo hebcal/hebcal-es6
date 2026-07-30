@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
-import {HebrewDateEvent} from '../src/HebrewDateEvent';
+import {HebrewDateEvent} from '../src/HebrewDateEvent.js';
 
 test('render', () => {
   const elul29 = new HDate(29, 'Elul', 5779);

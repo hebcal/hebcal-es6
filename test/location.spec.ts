@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest';
-import {Location} from '../src/location';
+import {Location} from '../src/location.js';
 
 test('lookup', () => {
   const sanFrancisco = Location.lookup('San Francisco');

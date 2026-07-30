@@ -1,7 +1,7 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
-import {Event} from '../src/event';
-import {getHolidaysOnDate} from '../src/holidays';
+import {Event} from '../src/event.js';
+import {getHolidaysOnDate} from '../src/holidays.js';
 
 test('getHolidaysOnDate', () => {
   const hyear = 5771;

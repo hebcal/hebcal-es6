@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
 import {HDate, isoDateString, months} from '@hebcal/hdate';
-import {Sedra} from '../src/sedra';
+import {Sedra} from '../src/sedra.js';
 
 /**
  * @private

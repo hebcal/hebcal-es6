@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 import {expect, test} from 'vitest';
 import {months, monthsInYear} from '@hebcal/hdate';
-import {calculateMolad} from '../src/moladBase';
-import {getMoladAsDate} from '../src/moladDate';
-import {Molad} from '../src/molad';
+import {calculateMolad} from '../src/moladBase.js';
+import {getMoladAsDate} from '../src/moladDate.js';
+import {Molad} from '../src/molad.js';
 
 interface ExpectedRecord {
   year: number;

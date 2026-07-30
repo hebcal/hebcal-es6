@@ -9,5 +9,9 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "noEmit": true
-  }
+  },
+  // Unlike tsconfig.json, this covers test/ too, so the extension convention
+  // is enforced there as well. Nothing else typechecks the tests — vitest
+  // transpiles without checking.
+  "exclude": ["size-demo"]
 }

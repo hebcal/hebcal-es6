@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest';
-import {OmerEvent, OmerLang} from '../src/omer';
+import {OmerEvent, OmerLang} from '../src/omer.js';
 import {HDate} from '@hebcal/hdate';
 
 test('render', () => {

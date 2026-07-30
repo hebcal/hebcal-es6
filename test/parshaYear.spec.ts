@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
-import {Event} from '../src/event';
-import {parshaYear} from '../src/parshaYear';
+import {Event} from '../src/event.js';
+import {parshaYear} from '../src/parshaYear.js';
 import {isoDateString} from '@hebcal/hdate';
 
 test('Israel and Diaspora lengths differ', () => {

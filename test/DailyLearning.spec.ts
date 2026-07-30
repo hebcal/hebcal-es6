@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
-import {DailyLearning} from '../src/DailyLearning';
+import {DailyLearning} from '../src/DailyLearning.js';
 
 test('DailyLearning', () => {
   expect(DailyLearning.getCalendars()).toEqual([]);
@@ -20,6 +20,8 @@ test('DailyLearning', () => {
   const dummy2 = () => {
     return {bogus: true};
   };
+  // @ts-expect-error deliberately returns a non-Event, to check that
+  // lookup() passes whatever the calendar function returns straight through
   DailyLearning.addCalendar('Quux', dummy2);
   expect(DailyLearning.getStartDate('Quux')).toBeUndefined();
   expect(DailyLearning.getCalendars()).toEqual(['foo', 'bar', 'quux']);
@@ -31,6 +33,7 @@ test('DailyLearning', () => {
 
 test('throws', () => {
   expect(() => {
-    DailyLearning.addCalendar('ShouldThrow', 1234 as unknown as Function);
+    // @ts-expect-error deliberately not a function, to check the runtime guard
+    DailyLearning.addCalendar('ShouldThrow', 1234);
   }).toThrow('Invalid calendar function: 1234');
 });

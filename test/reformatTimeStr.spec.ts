@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
-import {reformatTimeStr} from '../src/reformatTimeStr';
-import {Location} from '../src/location';
+import {reformatTimeStr} from '../src/reformatTimeStr.js';
+import {Location} from '../src/location.js';
 
 function makeLocation(countryCode: string): Location {
   return new Location(0, 0, false, 'UTC', undefined, countryCode);

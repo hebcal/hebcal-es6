@@ -12,22 +12,22 @@
 import {expect, test} from 'vitest';
 import {HDate, months, birthdayOrAnniversary, yahrzeit} from '@hebcal/hdate';
 import {GeoLocation} from '@hebcal/noaa';
-import {Event, flags} from '../src/event';
-import {HolidayEvent} from '../src/HolidayEvent';
-import {HebrewDateEvent} from '../src/HebrewDateEvent';
-import {HebrewCalendar} from '../src/hebcal';
-import {Location} from '../src/location';
-import {Molad} from '../src/molad';
-import {OmerEvent} from '../src/omer';
-import {Sedra, getSedra} from '../src/sedra';
-import {Zmanim} from '../src/zmanim';
-import {calendar} from '../src/calendar';
-import {DailyLearning} from '../src/DailyLearning';
-import {getHolidaysOnDate, getHolidaysForYearArray} from '../src/holidays';
-import {isAveilut} from '../src/isAveilut';
-import {isFastDay} from '../src/isFastDay';
-import {parshaYear} from '../src/parshaYear';
-import {reformatTimeStr} from '../src/reformatTimeStr';
+import {Event, flags} from '../src/event.js';
+import {HolidayEvent} from '../src/HolidayEvent.js';
+import {HebrewDateEvent} from '../src/HebrewDateEvent.js';
+import {HebrewCalendar} from '../src/hebcal.js';
+import {Location} from '../src/location.js';
+import {Molad} from '../src/molad.js';
+import {OmerEvent} from '../src/omer.js';
+import {Sedra, getSedra} from '../src/sedra.js';
+import {Zmanim} from '../src/zmanim.js';
+import {calendar} from '../src/calendar.js';
+import {DailyLearning} from '../src/DailyLearning.js';
+import {getHolidaysOnDate, getHolidaysForYearArray} from '../src/holidays.js';
+import {isAveilut} from '../src/isAveilut.js';
+import {isFastDay} from '../src/isFastDay.js';
+import {parshaYear} from '../src/parshaYear.js';
+import {reformatTimeStr} from '../src/reformatTimeStr.js';
 
 test('event.ts Event class example', () => {
   const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);

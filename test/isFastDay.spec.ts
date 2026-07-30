@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
-import {isFastDay} from '../src/isFastDay';
+import {isFastDay} from '../src/isFastDay.js';
 
 test('major fast days', () => {
   expect(isFastDay(new HDate(10, 'Tishrei', 5785))).toBe(true);

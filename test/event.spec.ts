@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
-import {Event, flags} from '../src/event';
+import {Event, flags} from '../src/event.js';
 
 const hd = new HDate(23, 'Sivan', 5735);
 const ev = new Event(hd, 'Foo Bar', flags.USER_EVENT | flags.CHUL_ONLY, {

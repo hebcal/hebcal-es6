@@ -1,7 +1,7 @@
 import {expect, test} from 'vitest';
 import {HDate, isoDateString, months} from '@hebcal/hdate';
-import '../src/locale'; // Adds Hebrew and Ashkenazic translations
-import {Sedra} from '../src/sedra';
+import '../src/locale.js'; // Adds Hebrew and Ashkenazic translations
+import {Sedra} from '../src/sedra.js';
 
 /**
  * @private

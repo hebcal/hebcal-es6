@@ -1,13 +1,13 @@
 import {describe, expect, test} from 'vitest';
-import {makeCandleEvent, makeFastStartEnd, FastDayEvent} from '../src/candles';
-import {CandleLightingEvent, TimedEvent} from '../src/TimedEvent';
-import {CalOptions} from '../src/CalOptions';
-import {Event, flags} from '../src/event';
+import {makeCandleEvent, makeFastStartEnd, FastDayEvent} from '../src/candles.js';
+import {CandleLightingEvent, TimedEvent} from '../src/TimedEvent.js';
+import {CalOptions} from '../src/CalOptions.js';
+import {Event, flags} from '../src/event.js';
 import {HDate, isoDateString} from '@hebcal/hdate';
-import {calendar} from '../src/calendar';
-import {HolidayEvent} from '../src/HolidayEvent';
-import {Location} from '../src/location';
-import {Zmanim} from '../src/zmanim';
+import {calendar} from '../src/calendar.js';
+import {HolidayEvent} from '../src/HolidayEvent.js';
+import {Location} from '../src/location.js';
+import {Zmanim} from '../src/zmanim.js';
 
 function eventDateDesc(ev: Event | undefined) {
   if (ev === undefined) {

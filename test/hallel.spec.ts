@@ -1,7 +1,7 @@
 import {expect, test} from 'vitest';
 import {HDate, months} from '@hebcal/hdate';
-import {getHolidaysForYearArray} from '../src/holidays';
-import {hallel_} from '../src/hallel';
+import {getHolidaysForYearArray} from '../src/holidays.js';
+import {hallel_} from '../src/hallel.js';
 
 test('hallel', () => {
   const ev1 = getHolidaysForYearArray(5781, false);

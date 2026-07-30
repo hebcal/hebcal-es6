@@ -1,8 +1,8 @@
 import {expect, test} from 'vitest';
 /* eslint-disable max-len */
 import {HDate, months} from '@hebcal/hdate';
-import {Molad, MoladEvent} from '../src/molad';
-import {Location} from '../src/location';
+import {Molad, MoladEvent} from '../src/molad.js';
+import {Location} from '../src/location.js';
 
 test('molad', () => {
   const items = [

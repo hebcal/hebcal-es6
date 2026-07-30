@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
 import {GeoLocation} from '@hebcal/noaa';
-import {Zmanim} from '../src/zmanim';
+import {Zmanim} from '../src/zmanim.js';
 import {HDate} from '@hebcal/hdate';
 
 // =============================================================================

@@ -61,13 +61,16 @@ For tree-shaking, prefer deep imports: `import {getHolidaysOnDate} from '@hebcal
 - **Linter:** Oxlint (`.oxlintrc.json`)
 - **Tests:** Vitest with `.spec.ts` suffix in `test/` directory. Tests import directly from `../src/` modules.
 - **Translation files** (`*.po.ts`) are generated — do not edit by hand
-- **Every relative import in `src/` needs an explicit `.js` extension.** TypeScript
-  copies specifiers verbatim into the `.d.ts`, so an extensionless `./foo` makes the
+- **Every relative import needs an explicit `.js` extension**, in `test/` as well as
+  `src/` — write `../src/omer.js`, which resolves to `omer.ts`. TypeScript copies
+  specifiers verbatim into the `.d.ts`, so an extensionless `./foo` makes the
   published declarations unresolvable for any consumer on `moduleResolution: node16`
   or `nodenext` (`TS2835`), even though rollup writes correct extensions into the
   `.js`. The build tsconfig uses `bundler` resolution, which does _not_ catch this —
-  `tsconfig.nodenext.json` exists solely to enforce it, and runs as part of
-  `npm run lint`.
+  `tsconfig.nodenext.json` exists to enforce it, and runs as part of `npm run lint`.
+  That config also covers `test/`, which is otherwise never typechecked at all
+  (vitest transpiles without checking), so it is the only thing type-checking the
+  tests. Use `@ts-expect-error` for deliberately-wrong arguments in negative tests.
 - **Import JSON as `./foo.json.js`, not `./foo.json`.** `build:json2js` wraps each
   `src/*.json` into a generated `src/*.json.ts` (`export default` + the JSON), the
   same trick used for `*.po.ts`. Direct `.json` imports would need a

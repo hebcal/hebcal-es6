@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
-import '../src/locale';
-import {renderParshaName} from '../src/parshaName';
+import '../src/locale.js';
+import {renderParshaName} from '../src/parshaName.js';
 
 test('en', () => {
   expect(renderParshaName(['Bereshit'], 'en')).toBe('Parashat Bereshit');

@@ -1,6 +1,6 @@
 import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
-import {isAveilut} from '../src/isAveilut';
+import {isAveilut} from '../src/isAveilut.js';
 
 test('sefirat haomer', () => {
   expect(isAveilut(new HDate(15, 'Nisan', 5785))).toBe(false);

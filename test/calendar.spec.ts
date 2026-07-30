@@ -1,9 +1,9 @@
 import {afterAll, expect, test, vi} from 'vitest';
-import {CalOptions} from '../src/CalOptions';
-import {DailyLearning} from '../src/DailyLearning';
-import {calendar} from '../src/calendar';
+import {CalOptions} from '../src/CalOptions.js';
+import {DailyLearning} from '../src/DailyLearning.js';
+import {calendar} from '../src/calendar.js';
 import {HDate} from '@hebcal/hdate';
-import {Event} from '../src/event';
+import {Event} from '../src/event.js';
 
 const consoleMock = vi.spyOn(console, 'warn');
 
