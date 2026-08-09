@@ -4,13 +4,17 @@ import {HDate, getPseudoISO, getTimezoneOffset, isDate, pad2} from '@hebcal/hdat
 import {Molad} from './molad.js';
 
 /**
+ * Converts an instant to a `Date`, discarding milliseconds.
+ *
+ * Zmanim are read out to the minute, and every accessor here reduces to an
+ * instant, so we ask `@hebcal/noaa` for epoch milliseconds rather than a
+ * `Temporal.ZonedDateTime`. Resolving the IANA zone to build a
+ * `ZonedDateTime` costs roughly 750ns and nothing downstream uses it, which
+ * made it the single most expensive step in a sunrise/sunset calculation.
  * @private
  */
-function zdtToDate(zdt: Temporal.ZonedDateTime | null): Date {
-  if (zdt === null) {
-    return new Date(NaN);
-  }
-  const res = new Date(zdt.epochMilliseconds);
+function millisToDate(millis: number): Date {
+  const res = new Date(millis);
   res.setMilliseconds(0);
   return res;
 }
@@ -29,6 +33,22 @@ const GEOMETRIC_ZENITH: number = 90;
  * @see Zmanim.sunsetBaalHatanya
  */
 const ZENITH_1_POINT_583: number = GEOMETRIC_ZENITH + 1.583;
+
+/**
+ * The zenith of civil twilight; the sun is 6° below the horizon.
+ * Matches `NOAACalculator.CIVIL_ZENITH`.
+ */
+const CIVIL_ZENITH: number = GEOMETRIC_ZENITH + 6;
+
+/**
+ * Length of one temporal (halachic) hour in milliseconds, i.e. one twelfth of
+ * the day. Mirrors `NOAACalculator.getTemporalHour()`, including its floor, so
+ * that results stay identical to the `ZonedDateTime` code path.
+ * @private
+ */
+function temporalHourMillis(startOfDay: number, endOfDay: number): number {
+  return Math.floor((endOfDay - startOfDay) / 12);
+}
 
 /**
  * Calculate halachic times (zmanim / זְמַנִּים) for a given day and location.
@@ -77,11 +97,14 @@ export class Zmanim {
   constructor(gloc: GeoLocation, date: Date | HDate, useElevation: boolean) {
     this.hdate = new HDate(date);
     const dt = isDate(date) ? date : this.hdate.greg();
-    this.plainDate = Temporal.PlainDate.from({
-      year: dt.getFullYear(),
-      month: dt.getMonth() + 1,
-      day: dt.getDate(),
-    });
+    // The constructor is ~1.8x cheaper than PlainDate.from(), which has to
+    // walk a property bag and apply overflow handling. The fields come from a
+    // real Date, so they are always in range and never need constraining.
+    this.plainDate = new Temporal.PlainDate(
+      dt.getFullYear(),
+      dt.getMonth() + 1,
+      dt.getDate()
+    );
     this.gloc = gloc;
     this.noaa = new NOAACalculator(gloc, this.plainDate);
     this.useElevation = Boolean(useElevation);
@@ -115,46 +138,66 @@ export class Zmanim {
    */
   timeAtAngle(angle: number, rising: boolean): Date {
     const offsetZenith = GEOMETRIC_ZENITH + angle;
-    const zdt = rising
-      ? this.noaa.getSunriseOffsetByDegrees(offsetZenith)
-      : this.noaa.getSunsetOffsetByDegrees(offsetZenith);
-    return zdtToDate(zdt);
+    return millisToDate(
+      rising
+        ? this.sunriseMillis(offsetZenith, true)
+        : this.sunsetMillis(offsetZenith, true)
+    );
+  }
+  /**
+   * Sunrise for a given zenith as epoch milliseconds, mirroring what
+   * `NOAACalculator.getSunrise()` / `getSeaLevelSunrise()` /
+   * `getSunriseOffsetByDegrees()` compute, minus the `ZonedDateTime`.
+   *
+   * Note that noaa's degree-based accessors pass `adjustForElevation = true`
+   * as well; the adjustment is a no-op unless the zenith is exactly
+   * {@link GEOMETRIC_ZENITH}, which is why degree-based zmanim are unaffected
+   * by elevation.
+   * @private
+   */
+  private sunriseMillis(zenith: number, useElevation: boolean): number {
+    const utc = useElevation
+      ? this.noaa.getUTCSunrise0(zenith)
+      : this.noaa.getUTCSeaLevelSunrise(zenith);
+    return this.noaa.getEpochMillisFromTime(utc, true);
+  }
+  /**
+   * Sunset counterpart of {@link sunriseMillis}.
+   * @private
+   */
+  private sunsetMillis(zenith: number, useElevation: boolean): number {
+    const utc = useElevation
+      ? this.noaa.getUTCSunset0(zenith)
+      : this.noaa.getUTCSeaLevelSunset(zenith);
+    return this.noaa.getEpochMillisFromTime(utc, false);
   }
   /**
    * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon)
    * If elevation is enabled, this function will include elevation in the calculation.
    */
   sunrise(): Date {
-    const zdt = this.useElevation
-      ? this.noaa.getSunrise()
-      : this.noaa.getSeaLevelSunrise();
-    return zdtToDate(zdt);
+    return millisToDate(this.sunriseMillis(GEOMETRIC_ZENITH, this.useElevation));
   }
   /**
    * Upper edge of the Sun appears over the eastern horizon in the morning (0.833° above horizon).
    * This function does not support elevation adjustment.
    */
   seaLevelSunrise(): Date {
-    const zdt = this.noaa.getSeaLevelSunrise();
-    return zdtToDate(zdt);
+    return millisToDate(this.sunriseMillis(GEOMETRIC_ZENITH, false));
   }
   /**
    * When the upper edge of the Sun disappears below the horizon (0.833° below horizon).
    * If elevation is enabled, this function will include elevation in the calculation.
    */
   sunset(): Date {
-    const zdt = this.useElevation
-      ? this.noaa.getSunset()
-      : this.noaa.getSeaLevelSunset();
-    return zdtToDate(zdt);
+    return millisToDate(this.sunsetMillis(GEOMETRIC_ZENITH, this.useElevation));
   }
   /**
    * When the upper edge of the Sun disappears below the horizon (0.833° below horizon).
    * This function does not support elevation adjustment.
    */
   seaLevelSunset(): Date {
-    const zdt = this.noaa.getSeaLevelSunset();
-    return zdtToDate(zdt);
+    return millisToDate(this.sunsetMillis(GEOMETRIC_ZENITH, false));
   }
   /**
    * Civil dawn; Sun is 6° below the horizon in the morning.
@@ -162,8 +205,7 @@ export class Zmanim {
    * the result is not impacted by elevation.
    */
   dawn(): Date {
-    const zdt = this.noaa.getBeginCivilTwilight();
-    return zdtToDate(zdt);
+    return millisToDate(this.sunriseMillis(CIVIL_ZENITH, true));
   }
   /**
    * Civil dusk; Sun is 6° below the horizon in the evening.
@@ -171,8 +213,7 @@ export class Zmanim {
    * the result is not impacted by elevation.
    */
   dusk(): Date {
-    const zdt = this.noaa.getEndCivilTwilight();
-    return zdtToDate(zdt);
+    return millisToDate(this.sunsetMillis(CIVIL_ZENITH, true));
   }
   /**
    * Returns sunset for the previous day.
@@ -200,10 +241,10 @@ export class Zmanim {
    * `useElevation` setting.
    */
   chatzot(): Date {
-    const startOfDay = this.noaa.getSeaLevelSunrise();
-    const endOfDay = this.noaa.getSeaLevelSunset();
-    const zdt = this.noaa.getSunTransit(startOfDay, endOfDay);
-    return zdtToDate(zdt);
+    const startOfDay = this.sunriseMillis(GEOMETRIC_ZENITH, false);
+    const endOfDay = this.sunsetMillis(GEOMETRIC_ZENITH, false);
+    // NOAACalculator.getSunTransit(): sunrise plus 6 temporal hours
+    return millisToDate(startOfDay + temporalHourMillis(startOfDay, endOfDay) * 6);
   }
   /**
    * Midnight – Chatzot; Sunset plus 6 halachic hours.
@@ -258,29 +299,24 @@ export class Zmanim {
   misheyakirMachmir(): Date {
     return this.timeAtAngle(10.2, true);
   }
-  private getShaahZmanisBasedZmanZdt(
-    startOfDay: Temporal.ZonedDateTime | null,
-    endOfDay: Temporal.ZonedDateTime | null,
+  private getShaahZmanisBasedZmanMillis(
+    startOfDay: number,
+    endOfDay: number,
     hours: number
-  ): Temporal.ZonedDateTime | null {
-    const temporalHour = this.noaa.getTemporalHour(startOfDay, endOfDay);
-    const offset = Math.trunc(temporalHour * hours);
-    const zdt = NOAACalculator.getTimeOffset(startOfDay, offset);
-    return zdt;
+  ): number {
+    const offset = Math.trunc(temporalHourMillis(startOfDay, endOfDay) * hours);
+    return startOfDay + offset;
   }
   /**
    * Utility method for using elevation-aware sunrise/sunset
    * @param hours number of _shaos zmaniyos_ (solar hours) after sunrise
    */
   private getShaahZmanisBasedZman(hours: number): Date {
-    const startOfDay = this.useElevation
-      ? this.noaa.getSunrise()
-      : this.noaa.getSeaLevelSunrise();
-    const endOfDay = this.useElevation
-      ? this.noaa.getSunset()
-      : this.noaa.getSeaLevelSunset();
-    const zdt = this.getShaahZmanisBasedZmanZdt(startOfDay, endOfDay, hours);
-    return zdtToDate(zdt);
+    const startOfDay = this.sunriseMillis(GEOMETRIC_ZENITH, this.useElevation);
+    const endOfDay = this.sunsetMillis(GEOMETRIC_ZENITH, this.useElevation);
+    return millisToDate(
+      this.getShaahZmanisBasedZmanMillis(startOfDay, endOfDay, hours)
+    );
   }
   /**
    * Latest Shema (Gra); Sunrise plus 3 halachic hours, according to the Gra.
@@ -848,8 +884,8 @@ export class Zmanim {
    *         computed, such as in the Arctic Circle where there is at least one day a year where the sun does not rise, and one
    *         where it does not set, `null` will be returned.
    */
-  private getSunriseBaalHatanya(): Temporal.ZonedDateTime | null {
-    return this.noaa.getSunriseOffsetByDegrees(ZENITH_1_POINT_583);
+  private getSunriseBaalHatanya(): number {
+    return this.sunriseMillis(ZENITH_1_POINT_583, true);
   }
 
   /**
@@ -872,8 +908,8 @@ export class Zmanim {
    *         can't be computed, such as in the Arctic Circle where there is at least one day a year where the sun does not
    *         rise, and one where it does not set, `null` will be returned.
    */
-  private getSunsetBaalHatanya(): Temporal.ZonedDateTime | null {
-    return this.noaa.getSunsetOffsetByDegrees(ZENITH_1_POINT_583);
+  private getSunsetBaalHatanya(): number {
+    return this.sunsetMillis(ZENITH_1_POINT_583, true);
   }
 
   /**
@@ -897,12 +933,13 @@ export class Zmanim {
   }
 
   private getShaahZmanisBaalHatanya(hours: number): Date {
-    const zdt = this.getShaahZmanisBasedZmanZdt(
-      this.getSunriseBaalHatanya(),
-      this.getSunsetBaalHatanya(),
-      hours
+    return millisToDate(
+      this.getShaahZmanisBasedZmanMillis(
+        this.getSunriseBaalHatanya(),
+        this.getSunsetBaalHatanya(),
+        hours
+      )
     );
-    return zdtToDate(zdt);
   }
 
   /**
@@ -1002,9 +1039,16 @@ export class Zmanim {
       return 'XX:XX'; // Invalid Date
     }
     const time = timeFormat.format(dt);
-    const hm = time.split(':');
-    if (hm[0] === '24') {
-      return '00:' + hm[1];
+    // Rewrite the h24 midnight ("24:15") that some locales produce. Checking
+    // the two leading characters avoids the throwaway array that split(':')
+    // allocated on every event; this runs once per timed event, and the
+    // Intl.format() call above is already the expensive part.
+    if (
+      time.charCodeAt(0) === 0x32 && // '2'
+      time.charCodeAt(1) === 0x34 && // '4'
+      time.charCodeAt(2) === 0x3a // ':'
+    ) {
+      return '00' + time.substring(2);
     }
     return time;
   }

@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "6.9.1",
+  "version": "6.9.2",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -66,7 +66,8 @@
     "check:types": "tsc -p tsconfig.nodenext.json",
     "lint": "oxlint && prettier --check . && npm run check:types",
     "coverage": "vitest --coverage",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "clean": "rm -rf dist docs",
     "fix": "oxlint --fix && prettier --write ."
   },
@@ -75,13 +76,13 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.2.0",
     "@vitest/coverage-v8": "^4.1.10",
     "gettext-parser": "^9.1.1",
-    "oxlint": "^1.76.0",
+    "oxlint": "^1.77.0",
     "prettier": "^3.9.6",
     "pretty-bytes": "^7.1.1",
-    "rollup": "^4.62.3",
+    "rollup": "^4.62.4",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-visualizer": "^7.0.1",
     "tslib": "^2.8.1",
@@ -90,8 +91,8 @@
   },
   "dependencies": {
     "@hebcal/hdate": "^0.22.7",
-    "@hebcal/noaa": "^0.12.2",
+    "@hebcal/noaa": "^0.12.3",
     "quick-lru": "^7.3.0",
-    "temporal-polyfill": "^1.0.2"
+    "temporal-polyfill": "^1.0.3"
   }
 }
