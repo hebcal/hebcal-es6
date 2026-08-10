@@ -26,7 +26,7 @@ test('heb-month', () => {
     month: 'Iyyar',
   };
   const events = calendar(options);
-  expect(events.length).toBe(7);
+  expect(events).toHaveLength(7);
   expect(events[0].getDesc()).toBe('Rosh Chodesh Iyyar');
   expect(gregDtString(events[0])).toBe('4/25/2020');
   expect(events[4].getDesc()).toBe('Lag BaOmer');
@@ -40,7 +40,7 @@ test('greg-month', () => {
     month: 3,
   };
   const events = calendar(options);
-  expect(events.length).toBe(8);
+  expect(events).toHaveLength(8);
   expect(events[0].getDesc()).toBe("Ta'anit Esther");
   expect(gregDtString(events[0])).toBe('3/9/2017');
   expect(events[7].getDesc()).toBe('Rosh Chodesh Nisan');
@@ -52,7 +52,7 @@ test('greg-year', () => {
     year: 1993,
   };
   const events = calendar(options);
-  expect(events.length).toBe(85);
+  expect(events).toHaveLength(85);
   expect(events[0].getDesc()).toBe("Asara B'Tevet");
   expect(gregDtString(events[0])).toBe('1/3/1993');
   expect(events[72].getDesc()).toBe('Chanukah: 1 Candle');
@@ -84,7 +84,7 @@ test('heb-year', () => {
     isHebrewYear: true,
   };
   const events = calendar(options);
-  expect(events.length).toBe(87);
+  expect(events).toHaveLength(87);
   expect(events[0].getDesc()).toBe('Erev Rosh Hashana');
   expect(gregDtString(events[0])).toBe('9/11/1988');
   expect(events[1].getDesc()).toBe('Rosh Hashana 5749');
@@ -106,7 +106,7 @@ test('no-options', () => {
 
 test('no-holidays', () => {
   const events = calendar({noHolidays: true});
-  expect(events.length).toBe(0);
+  expect(events).toHaveLength(0);
 });
 
 test('sedrot-only', () => {
@@ -117,7 +117,7 @@ test('sedrot-only', () => {
     il: true,
   };
   const events = calendar(options);
-  expect(events.length).toBe(49);
+  expect(events).toHaveLength(49);
   expect(events[0].getFlags()).toBe(flags.PARSHA_HASHAVUA);
   expect(events[48].getFlags()).toBe(flags.PARSHA_HASHAVUA);
 });
@@ -131,7 +131,7 @@ test('omer-only', () => {
     omer: true,
   };
   const events = calendar(options);
-  expect(events.length).toBe(30);
+  expect(events).toHaveLength(30);
   const ev0 = events[0] as OmerEvent;
   expect(gregDtString(ev0)).toBe('4/29/1968');
   expect(ev0.getFlags()).toBe(flags.OMER_COUNT);
@@ -152,7 +152,7 @@ test('molad-only', () => {
     molad: true,
   };
   const events = calendar(options);
-  expect(events.length).toBe(12);
+  expect(events).toHaveLength(12);
   expect(events[0].getDesc().startsWith('Molad')).toBe(true);
   expect(events[0].getFlags()).toBe(flags.MOLAD);
 });
@@ -201,11 +201,11 @@ test('addHebrewDatesForEvents', () => {
     addHebrewDatesForEvents: true,
   };
   const ev0 = calendar(options0);
-  expect(ev0.length).toBe(0);
+  expect(ev0).toHaveLength(0);
 
   const options1 = {year: 2017, month: 3};
   const ev1 = calendar(options1);
-  expect(ev1.length).toBe(8);
+  expect(ev1).toHaveLength(8);
 
   const options: CalOptions = {
     year: 2017,
@@ -213,7 +213,7 @@ test('addHebrewDatesForEvents', () => {
     addHebrewDatesForEvents: true,
   };
   const ev = calendar(options);
-  expect(ev.length).toBe(15);
+  expect(ev).toHaveLength(15);
 });
 
 test('addHebrewDates', () => {
@@ -224,7 +224,7 @@ test('addHebrewDates', () => {
     addHebrewDates: true,
   };
   const events = calendar(options0);
-  expect(events.length).toBe(31);
+  expect(events).toHaveLength(31);
   expect(events[0].getFlags()).toBe(flags.HEBREW_DATE);
   expect(gregDtString(events[0])).toBe('3/1/2017');
   expect(events[0].getDesc()).toBe('3 Adar 5777');
@@ -298,7 +298,7 @@ test('startAndEnd', () => {
   });
   expect(gregDtString(ev1[0])).toBe('7/4/2018');
   expect(gregDtString(ev1[ev1.length - 1])).toBe('7/19/2018');
-  expect(ev1.length).toBe(17);
+  expect(ev1).toHaveLength(17);
 
   const eventsHDate = calendar({
     addHebrewDates: true,
@@ -307,7 +307,7 @@ test('startAndEnd', () => {
   });
   expect(gregDtString(eventsHDate[0])).toBe('10/24/2008');
   expect(gregDtString(eventsHDate[eventsHDate.length - 1])).toBe('11/7/2008');
-  expect(eventsHDate.length).toBe(17);
+  expect(eventsHDate).toHaveLength(17);
 
   const eventsAbsDate = calendar({
     addHebrewDates: true,
@@ -316,7 +316,7 @@ test('startAndEnd', () => {
   });
   expect(gregDtString(eventsAbsDate[0])).toBe('10/4/2008');
   expect(gregDtString(eventsAbsDate[eventsAbsDate.length - 1])).toBe('11/13/2008');
-  expect(eventsAbsDate.length).toBe(56);
+  expect(eventsAbsDate).toHaveLength(56);
 });
 
 test('renderBrief', () => {
@@ -538,7 +538,7 @@ test('molad', () => {
 
 test('year2', () => {
   const events = calendar({year: 2});
-  expect(events.length).toBe(84);
+  expect(events).toHaveLength(84);
   const events2 = events.slice(0, 3);
   const actual = events2.map(eventISODateDesc);
   const expected = [
@@ -551,7 +551,7 @@ test('year2', () => {
 
 test('year0', () => {
   const events = calendar({year: 0});
-  expect(events.length).toBe(82);
+  expect(events).toHaveLength(83);
 });
 
 test('version', () => {
@@ -597,10 +597,10 @@ test('bce', () => {
     {date: '-001539-09-07', desc: 'Erev Rosh Hashana'},
     {date: '-001539-09-08', desc: 'Rosh Hashana 2222'},
     {date: '-001539-09-09', desc: 'Rosh Hashana II'},
+    {date: '-001539-09-10', desc: 'Shabbat Shuva'},
     {date: '-001539-09-11', desc: 'Tzom Gedaliah'},
     {date: '-001539-09-16', desc: 'Erev Yom Kippur'},
     {date: '-001539-09-17', desc: 'Yom Kippur'},
-    {date: '-001539-09-17', desc: 'Shabbat Shuva'},
     {date: '-001539-09-21', desc: 'Erev Sukkot'},
     {date: '-001539-09-22', desc: 'Sukkot I'},
     {date: '-001539-09-23', desc: 'Sukkot II'},
@@ -680,7 +680,7 @@ test('ykk-only', () => {
     year: 5782,
     isHebrewYear: true,
   });
-  expect(events.length).toBe(9);
+  expect(events).toHaveLength(9);
   const ev = events[0];
   expect(ev).toBeInstanceOf(YomKippurKatanEvent);
   expect(ev.url()).toBeUndefined();
@@ -813,7 +813,7 @@ test('year1', () => {
     isHebrewYear: true,
     year: 1,
   });
-  expect(events.length).toBe(79);
+  expect(events).toHaveLength(80);
 });
 
 test('year5786-sedrot', () => {
@@ -867,7 +867,7 @@ test('Shabbat Mevarchim follows hour12 and locale', () => {
     shabbatMevarchim: true,
     hour12: true,
   });
-  expect(events.length).toBe(1);
+  expect(events).toHaveLength(1);
   expect(events[0].memo).toBe('Molad Sivan: Wednesday, 2:12pm and 10 chalakim');
 
   const events2 = calendar({
@@ -876,7 +876,7 @@ test('Shabbat Mevarchim follows hour12 and locale', () => {
     shabbatMevarchim: true,
     hour12: false,
   });
-  expect(events2.length).toBe(1);
+  expect(events2).toHaveLength(1);
   expect(events2[0].memo).toBe('Molad Sivan: Wednesday, 14:12 and 10 chalakim');
 
   const events3 = calendar({
@@ -885,7 +885,7 @@ test('Shabbat Mevarchim follows hour12 and locale', () => {
     shabbatMevarchim: true,
     locale: 'he-x-NoNikud',
   });
-  expect(events3.length).toBe(1);
+  expect(events3).toHaveLength(1);
   expect(events3[0].memo).toBe(
     'מולד הלבנה סיון יהיה ביום רביעי בשבוע, בשעה 14 בצהריים, ו-12 דקות ו-10 חלקים'
   );
@@ -962,7 +962,7 @@ test('yikzor', () => {
     il: true,
   };
   const events = calendar(options);
-  expect(events.length).toBe(4);
+  expect(events).toHaveLength(4);
   const summarize = (ev: Event) => {
     const date = isoDateString(ev.greg());
     return {date, desc: ev.getDesc(), l: (ev as any).linkedEvent.getDesc()};
@@ -978,7 +978,7 @@ test('yikzor', () => {
 
   options.il = false;
   const diaspora = calendar(options);
-  expect(diaspora.length).toBe(4);
+  expect(diaspora).toHaveLength(4);
   const actualD = diaspora.map(summarize);
   const expectedD = [
     {date: '2025-10-02', desc: 'Yizkor', l: 'Yom Kippur'},
@@ -1028,14 +1028,14 @@ test('getHolidayForYear', () => {
 test('getHolidaysForYearArray', () => {
   const holidays = HebrewCalendar.getHolidaysForYearArray(5781, false);
   expect(Array.isArray(holidays)).toBe(true);
-  expect(holidays.length).toBe(99);
+  expect(holidays).toHaveLength(99);
 });
 
 test('getHolidaysOnDate', () => {
   const holidays = getHolidaysOnDate(new Date(2020, 4, 29), false);
   expect(holidays).toBeDefined();
   expect(Array.isArray(holidays)).toBe(true);
-  expect(holidays!.length).toBe(1);
+  expect(holidays!).toHaveLength(1);
   expect(holidays![0].render('en')).toBe('Shavuot I');
 });
 

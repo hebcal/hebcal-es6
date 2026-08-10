@@ -439,7 +439,7 @@ test('calendar.ts + hebcal.ts calendar() examples agree', () => {
   const viaFn = calendar(options);
   const viaClass = HebrewCalendar.calendar(options);
   expect(viaFn.length).toBeGreaterThan(0);
-  expect(viaClass.length).toBe(viaFn.length);
+  expect(viaClass).toHaveLength(viaFn.length);
 });
 
 test('CalOptions.ts documented candle-lighting defaults', () => {

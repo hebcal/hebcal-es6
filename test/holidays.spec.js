@@ -332,7 +332,7 @@ test('emoji', () => {
 test('Yom HaAliyah', () => {
   const events = calendar({year: 2038, il: true});
   const aliyah = events.filter(ev => ev.getDesc().startsWith('Yom HaAliyah'));
-  expect(aliyah.length).toBe(2);
+  expect(aliyah).toHaveLength(2);
   expect(aliyah[0].getDate().toString()).toBe('10 Nisan 5798');
   expect(aliyah[0].getDesc()).toBe('Yom HaAliyah');
   expect(aliyah[1].getDate().toString()).toBe('7 Cheshvan 5799');
@@ -346,7 +346,7 @@ test('modern', () => {
     il: false,
     mask: flags.MODERN_HOLIDAY,
   });
-  expect(eventsDiaspora.length).toBe(6);
+  expect(eventsDiaspora).toHaveLength(6);
   const actual = eventsDiaspora.map(ev => {
     const o = eventDateDesc(ev);
     if (ev.emoji) o.em = ev.emoji;
@@ -367,7 +367,7 @@ test('modern', () => {
     il: true,
     mask: flags.MODERN_HOLIDAY,
   });
-  expect(eventsIL.length).toBe(13);
+  expect(eventsIL).toHaveLength(13);
   const actualIL = eventsIL.map(ev => {
     const o = eventDateDesc(ev);
     if (ev.emoji) o.em = ev.emoji;

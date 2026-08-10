@@ -4,17 +4,17 @@ import {parshaYear} from '../src/parshaYear.js';
 import {isoDateString} from '@hebcal/hdate';
 
 test('Israel and Diaspora lengths differ', () => {
-  expect(parshaYear(5784, true).length).toBe(51);
-  expect(parshaYear(5784, false).length).toBe(51);
-  expect(parshaYear(5782, true).length).toBe(53);
-  expect(parshaYear(5782, false).length).toBe(52);
-  expect(parshaYear(5783, true).length).toBe(48);
-  expect(parshaYear(5783, false).length).toBe(47);
+  expect(parshaYear(5784, true)).toHaveLength(51);
+  expect(parshaYear(5784, false)).toHaveLength(51);
+  expect(parshaYear(5782, true)).toHaveLength(53);
+  expect(parshaYear(5782, false)).toHaveLength(52);
+  expect(parshaYear(5783, true)).toHaveLength(48);
+  expect(parshaYear(5783, false)).toHaveLength(47);
 });
 
 test('5785', () => {
   const events = parshaYear(5785, false);
-  expect(events.length).toBe(48);
+  expect(events).toHaveLength(48);
   const actual = events.map((ev: Event) => {
     return {
       dt: isoDateString(ev.date.greg()),

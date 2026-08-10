@@ -44,8 +44,8 @@ test('dailyLearning does not trigger addHebrewDatesForEvents', () => {
     },
   };
   const events1 = calendar(options);
-  expect(events1.length).toBe(7);
+  expect(events1).toHaveLength(7);
   options.addHebrewDatesForEvents = true;
   const events2 = calendar(options);
-  expect(events2.length).toBe(10);
+  expect(events2).toHaveLength(10);
 });

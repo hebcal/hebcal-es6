@@ -36,26 +36,26 @@ test('getHolidaysOnDate-il', () => {
   const dtShavuot2 = new Date(2021, 4, 18);
   const events0 = getHolidaysOnDate(dtShavuot1);
   expect(events0).toBeDefined();
-  expect((events0 as Event[]).length).toBe(2);
+  expect((events0 as Event[])).toHaveLength(2);
 
   const events1il = getHolidaysOnDate(dtShavuot1, true);
   expect(events1il).toBeDefined();
-  expect((events1il as Event[]).length).toBe(1);
+  expect((events1il as Event[])).toHaveLength(1);
   expect((events1il as Event[])[0].getDesc()).toBe('Shavuot');
 
   const events1diaspora = getHolidaysOnDate(dtShavuot1, false);
   expect(events1diaspora).toBeDefined();
-  expect((events1diaspora as Event[]).length).toBe(1);
+  expect((events1diaspora as Event[])).toHaveLength(1);
   expect((events1diaspora as Event[])[0].getDesc()).toBe('Shavuot I');
 
   const events2d = getHolidaysOnDate(dtShavuot2, false);
   expect(events2d).toBeDefined();
-  expect((events2d as Event[]).length).toBe(1);
+  expect((events2d as Event[])).toHaveLength(1);
   expect((events2d as Event[])[0].getDesc()).toBe('Shavuot II');
 
   const events2il = getHolidaysOnDate(dtShavuot2, true);
   expect(events2il).toBeDefined();
-  expect((events2il as Event[]).length).toBe(0); // expected no Shavuot II in Israel
+  expect((events2il as Event[])).toHaveLength(0); // expected no Shavuot II in Israel
 });
 
 test('getHolidaysOnDate-cacheHit', () => {

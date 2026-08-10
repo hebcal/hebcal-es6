@@ -50,7 +50,7 @@ test('ykk-only calendar generation', () => {
     isHebrewYear: true,
   });
 
-  expect(events.length).toBe(9);
+  expect(events).toHaveLength(9);
   const ev = events[0];
   expect(ev).toBeInstanceOf(YomKippurKatanEvent);
   expect(ev.memo).toBe(

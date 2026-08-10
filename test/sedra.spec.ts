@@ -101,7 +101,7 @@ test('getFirstSaturday', () => {
 test('getSedraArray', () => {
   const sedra = new Sedra(5749, false);
   const arr = sedra.getSedraArray();
-  expect(arr.length).toBe(54);
+  expect(arr).toHaveLength(54);
 });
 
 test('find', () => {

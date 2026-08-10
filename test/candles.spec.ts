@@ -180,9 +180,9 @@ test('havdalah-zero-suppressed', () => {
   const events = calendar(options);
   expect(events.length).toBeGreaterThanOrEqual(8);
   const candlelighting = events.filter(ev => ev.getDesc() == 'Candle lighting');
-  expect(candlelighting.length).toBe(8);
+  expect(candlelighting).toHaveLength(8);
   const havdalah = events.filter(ev => ev.getDesc() == 'Havdalah');
-  expect(havdalah.length).toBe(0);
+  expect(havdalah).toHaveLength(0);
 });
 
 test('havdalah-fixed-st-petersburg', () => {
@@ -195,11 +195,11 @@ test('havdalah-fixed-st-petersburg', () => {
     location: Location.lookup('Saint Petersburg'),
   };
   const events = calendar(options);
-  expect(events.length).toBe(8);
+  expect(events).toHaveLength(8);
   const candlelighting = events.filter(ev => ev.getDesc() == 'Candle lighting');
-  expect(candlelighting.length).toBe(4);
+  expect(candlelighting).toHaveLength(4);
   const havdalah = events.filter(ev => ev.getDesc() == 'Havdalah');
-  expect(havdalah.length).toBe(4);
+  expect(havdalah).toHaveLength(4);
 });
 
 test('havdalah-no-tzeit-st-petersburg', () => {
@@ -211,11 +211,11 @@ test('havdalah-no-tzeit-st-petersburg', () => {
     location: Location.lookup('Saint Petersburg'),
   };
   const events = calendar(options);
-  expect(events.length).toBe(4);
+  expect(events).toHaveLength(4);
   const candlelighting = events.filter(ev => ev.getDesc() == 'Candle lighting');
-  expect(candlelighting.length).toBe(4);
+  expect(candlelighting).toHaveLength(4);
   const havdalah = events.filter(ev => ev.getDesc() == 'Havdalah');
-  expect(havdalah.length).toBe(0);
+  expect(havdalah).toHaveLength(0);
 });
 
 test('candles-only-israel', () => {
@@ -479,7 +479,7 @@ test('fastStartEnd Asara BTevet', () => {
     candlelighting: true,
   });
   const events = events0.filter(ev => ev.getDesc() === "Asara B'Tevet");
-  expect(events.length).toBe(2);
+  expect(events).toHaveLength(2);
   expect(events[0]).toBeInstanceOf(FastDayEvent);
   const urls = events.map(ev => ev.url());
   const expectedUrls = [
@@ -516,7 +516,7 @@ test('noMinorFast', () => {
     candlelighting: true,
     noMinorFast: true,
   });
-  expect(events.length).toBe(0);
+  expect(events).toHaveLength(0);
 });
 
 test('fastStartEnd-friday', () => {
@@ -590,7 +590,7 @@ test('fastStartEnd-9av', () => {
     location,
     candlelighting: true,
   });
-  expect(events.length).toBe(4);
+  expect(events).toHaveLength(4);
   const expected = [
     {dt: '2023-07-26T20:10:00-04:00', desc: 'Fast begins'},
     {dt: '2023-07-26', desc: "Erev Tish'a B'Av"},
@@ -692,7 +692,7 @@ test('candles-year99-empty', () => {
     candlelighting: true,
   };
   const events = calendar(options);
-  expect(events.length).toBe(0);
+  expect(events).toHaveLength(0);
 });
 
 test('sedra-memo', () => {
@@ -922,7 +922,7 @@ test('friday has LIGHT_CANDLES after RH', () => {
     location: Location.lookup('Boston'),
     candlelighting: true,
   });
-  expect(events.length).toBe(2);
+  expect(events).toHaveLength(2);
   expect(events[0].getDesc()).toBe('Rosh Hashana II');
   expect(events[1].getDesc()).toBe('Candle lighting');
   expect(events[1].getFlags()).toBe(
