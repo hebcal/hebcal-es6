@@ -50,6 +50,18 @@ test('renderBrief', () => {
   expect(havdalahTzeit.renderBrief('he')).toBe('הַבְדָּלָה');
 });
 
+test('duration', () => {
+  const dt = new Date('2020-12-28T20:12:14.987Z');
+  const hd = new HDate(dt);
+  const location = new Location(0, 0, false, 'UTC', undefined, 'GB');
+  const noDuration = new TimedEvent(hd, 'Foo Bar', 0, dt, location);
+  expect(noDuration.duration).toBeUndefined();
+
+  const withDuration = new TimedEvent(hd, 'Foo Bar', 0, dt, location);
+  withDuration.duration = 60;
+  expect(withDuration.duration).toBe(60);
+});
+
 test('emoji', () => {
   const dt = new Date('2020-12-28T20:12:14.987Z');
   const hd = new HDate(dt);
