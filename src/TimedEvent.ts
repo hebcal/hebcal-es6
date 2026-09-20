@@ -32,6 +32,14 @@ export class TimedEvent extends Event {
   /** Optional event this time is associated with (e.g. the Yom Tov being lit for) */
   readonly linkedEvent?: Event;
   /**
+   * Optional length of the event in minutes. Not computed or validated by
+   * this class; it's a plain count of minutes for downstream renderers
+   * (e.g. `@hebcal/icalendar`) to add to the event's start wall-clock time
+   * when producing a non-zero-duration `DTEND`. Undefined means no
+   * duration was specified.
+   */
+  duration?: number;
+  /**
    * Normally created by {@link calendar} rather than directly.
    * @param date Hebrew date the event occurs
    * @param desc Description (not translated)
