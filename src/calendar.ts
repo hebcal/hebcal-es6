@@ -648,11 +648,12 @@ function appendHolidayAndRelated(
   const isMajorFast = ev.hasFlag('MAJOR_FAST');
   const isMinorFast = ev.hasFlag('MINOR_FAST');
   const isChanukah = ev.hasFlag('CHANUKAH_CANDLES');
-  const hasCandles =
-    isChanukah ||
-    ev.hasFlag('LIGHT_CANDLES') ||
-    ev.hasFlag('LIGHT_CANDLES_TZEIS') ||
-    ev.hasFlag('YOM_TOV_ENDS');
+  const hasCandles = ev.hasAnyFlag(
+    'LIGHT_CANDLES',
+    'LIGHT_CANDLES_TZEIS',
+    'CHANUKAH_CANDLES',
+    'YOM_TOV_ENDS'
+  );
   let fastEv;
   if (
     options.candlelighting &&

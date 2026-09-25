@@ -56,6 +56,16 @@ test('event.ts flagNames() example', () => {
   expect(ev.flagNames()).toEqual(['CHAG', 'CHUL_ONLY']);
 });
 
+test('event.ts hasAnyFlag() example', () => {
+  const ev = new Event(
+    new HDate(10, 'Tishrei', 5784),
+    'Yom Kippur',
+    flags.CHAG | flags.MAJOR_FAST
+  );
+  expect(ev.hasAnyFlag('MAJOR_FAST', 'MINOR_FAST')).toBe(true);
+  expect(ev.hasAnyFlag('ROSH_CHODESH', 'MINOR_FAST')).toBe(false);
+});
+
 test('event.ts render() example', () => {
   const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
   expect(ev.render('en')).toBe('Shavuot');

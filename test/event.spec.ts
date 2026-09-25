@@ -24,8 +24,47 @@ test('hasFlag', () => {
   expect(ev.hasFlag('CHUL_ONLY')).toBe(true);
   expect(ev.hasFlag('IL_ONLY')).toBe(false);
   expect(ev.hasFlag('BEHAB')).toBe(false);
-  // @ts-expect-error unknown flag name
-  expect(ev.hasFlag('NOT_A_FLAG')).toBe(false);
+});
+
+test('hasFlag throws RangeError for unknown names', () => {
+  const noFlags = new Event(hd, 'None');
+  for (const bogus of [
+    'NOT_A_FLAG',
+    'chag',
+    '',
+    'toString',
+    '__proto__',
+    'hasOwnProperty',
+    undefined,
+    null,
+    123,
+    Symbol('CHAG'),
+  ]) {
+    // @ts-expect-error deliberately invalid flag name
+    expect(() => ev.hasFlag(bogus)).toThrow(RangeError);
+    // @ts-expect-error deliberately invalid flag name
+    expect(() => noFlags.hasFlag(bogus)).toThrow(RangeError);
+  }
+  // @ts-expect-error deliberately invalid flag name
+  expect(() => ev.hasFlag('ROSH_CHODSH')).toThrow('Unknown flag name: ROSH_CHODSH');
+});
+
+test('hasAnyFlag', () => {
+  expect(ev.hasAnyFlag('USER_EVENT')).toBe(true);
+  expect(ev.hasAnyFlag('IL_ONLY', 'CHUL_ONLY')).toBe(true);
+  expect(ev.hasAnyFlag('CHUL_ONLY', 'IL_ONLY')).toBe(true);
+  expect(ev.hasAnyFlag('IL_ONLY', 'CHAG', 'BEHAB')).toBe(false);
+  expect(ev.hasAnyFlag()).toBe(false);
+});
+
+test('hasAnyFlag throws RangeError if any name is unknown', () => {
+  // @ts-expect-error deliberately invalid flag name
+  expect(() => ev.hasAnyFlag('NOT_A_FLAG')).toThrow(RangeError);
+  // a valid, matching name earlier in the list must not mask a later typo
+  // @ts-expect-error deliberately invalid flag name
+  expect(() => ev.hasAnyFlag('USER_EVENT', 'ROSH_CHODSH')).toThrow(RangeError);
+  // @ts-expect-error deliberately invalid flag name
+  expect(() => ev.hasAnyFlag('toString', 'CHAG')).toThrow(RangeError);
 });
 
 test('flagNames', () => {

@@ -23,8 +23,7 @@ import {getHolidaysOnDate} from './holidays.js';
 export function isFastDay(date: HDate | Date | number, il?: boolean): boolean {
   const events = getHolidaysOnDate(date, il) || [];
   const fastDay = events.find(
-    ev =>
-      (ev.hasFlag('MAJOR_FAST') || ev.hasFlag('MINOR_FAST')) && !ev.hasFlag('EREV')
+    ev => ev.hasAnyFlag('MAJOR_FAST', 'MINOR_FAST') && !ev.hasFlag('EREV')
   );
   return Boolean(fastDay);
 }

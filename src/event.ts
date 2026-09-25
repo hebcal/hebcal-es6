@@ -74,6 +74,13 @@ export type FlagName = keyof typeof flags;
 
 const flagEntries = Object.entries(flags) as [FlagName, number][];
 
+function flagBit(name: FlagName): number {
+  if (!Object.hasOwn(flags, name)) {
+    throw new RangeError(`Unknown flag name: ${String(name)}`);
+  }
+  return flags[name];
+}
+
 const flagToCategory = [
   [flags.MAJOR_FAST, 'holiday', 'major', 'fast'],
   [flags.CHANUKAH_CANDLES, 'holiday', 'minor'],
@@ -191,9 +198,30 @@ export class Event {
    * ev.hasFlag('CHUL_ONLY');   // true
    * ev.hasFlag('MINOR_FAST');  // false
    * @param name flag name, one of the keys of {@link flags}
+   * @throws {RangeError} if `name` is not a key of {@link flags}
    */
   hasFlag(name: FlagName): boolean {
-    return (this.mask & flags[name]) !== 0;
+    return (this.mask & flagBit(name)) !== 0;
+  }
+  /**
+   * Does this event have at least one of the given flags?
+   *
+   * Returns `false` when called with no arguments.
+   * @example
+   * import {Event, HDate, flags} from '@hebcal/core';
+   * const ev = new Event(new HDate(10, 'Tishrei', 5784), 'Yom Kippur',
+   *   flags.CHAG | flags.MAJOR_FAST);
+   * ev.hasAnyFlag('MAJOR_FAST', 'MINOR_FAST');  // true
+   * ev.hasAnyFlag('ROSH_CHODESH', 'MINOR_FAST'); // false
+   * @param names flag names, each one of the keys of {@link flags}
+   * @throws {RangeError} if any name is not a key of {@link flags}
+   */
+  hasAnyFlag(...names: FlagName[]): boolean {
+    let bits = 0;
+    for (const name of names) {
+      bits |= flagBit(name);
+    }
+    return (this.mask & bits) !== 0;
   }
   /**
    * Names of all {@link flags} set on this event, in ascending bit order.
