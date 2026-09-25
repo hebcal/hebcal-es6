@@ -22,7 +22,7 @@ export function makeCandleEvent(
 ): TimedEvent | undefined {
   let havdalahTitle = false;
   let useHavdalahOffset = isSaturday;
-  let mask = ev ? ev.getFlags() : LIGHT_CANDLES;
+  let mask = ev ? ev.mask : LIGHT_CANDLES;
   if (ev !== undefined) {
     // if linked event && dow == FRI, use Candle lighting time & title
     if (!isFriday) {
@@ -159,7 +159,7 @@ export class FastDayEvent extends HolidayEvent {
     startEvent?: TimedEvent,
     endEvent?: TimedEvent
   ) {
-    super(linkedEvent.getDate(), linkedEvent.getDesc(), linkedEvent.getFlags());
+    super(linkedEvent.getDate(), linkedEvent.getDesc(), linkedEvent.mask);
     this.linkedEvent = linkedEvent;
     this.startEvent = startEvent;
     this.endEvent = endEvent;
@@ -245,7 +245,7 @@ function makeTimedEvent(
 ): TimedEvent {
   const location = options.location as Location;
   const hd = ev.getDate();
-  return new TimedEvent(hd, desc, ev.getFlags(), time, location, ev, options);
+  return new TimedEvent(hd, desc, ev.mask, time, location, ev, options);
 }
 
 /**
@@ -271,7 +271,7 @@ export class TimedChanukahEvent extends ChanukahEvent {
    * @param location location used to format the time
    */
   constructor(ev: ChanukahEvent, eventTime: Date, location: Location) {
-    super(ev.getDate(), ev.getDesc(), ev.getFlags(), ev.chanukahDay);
+    super(ev.getDate(), ev.getDesc(), ev.mask, ev.chanukahDay);
     this.eventTime = Zmanim.roundTime(eventTime);
     const timeFormat = location.getTimeFormatter();
     this.eventTimeStr = Zmanim.formatTime(this.eventTime, timeFormat);

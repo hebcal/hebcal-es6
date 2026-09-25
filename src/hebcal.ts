@@ -366,6 +366,6 @@ export class HebrewCalendar {
  */
 function isChag(date: HDate, il: boolean): boolean {
   const events = getHolidaysOnDate(date, il) || [];
-  const chag = events.filter(ev => ev.getFlags() & flags.CHAG);
+  const chag = events.filter(ev => ev.mask & flags.CHAG);
   return chag.length !== 0;
 }

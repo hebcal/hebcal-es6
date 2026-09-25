@@ -632,7 +632,7 @@ function appendHolidayAndRelated(
   if (!ev.observedIn(il)) {
     return candlesEv; // holiday isn't observed here; bail out early
   }
-  const eFlags = ev.getFlags();
+  const eFlags = ev.mask;
   if (
     (!options.yomKippurKatan && eFlags & YOM_KIPPUR_KATAN) ||
     (!options.behab && eFlags & BEHAB) ||

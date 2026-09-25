@@ -10,7 +10,7 @@ function isTomorrowShabbosOrYomTov(dow: number, events: Event[]): boolean {
   if (dow === 5) {
     return true;
   }
-  const erev = events.find(ev => ev.getFlags() & LIGHT_CANDLES);
+  const erev = events.find(ev => ev.mask & LIGHT_CANDLES);
   if (erev) {
     return true;
   }
@@ -29,7 +29,7 @@ function isTodayAssurBemelacha(dow: number, events: Event[]): boolean {
   if (dow === 6) {
     return true;
   }
-  const chag = events.find(ev => ev.getFlags() & flags.CHAG);
+  const chag = events.find(ev => ev.mask & flags.CHAG);
   if (chag) {
     return true;
   }

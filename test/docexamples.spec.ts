@@ -36,6 +36,26 @@ test('event.ts Event class example', () => {
   expect(ev.render('he')).toBe('שָׁבוּעוֹת');
 });
 
+test('event.ts hasFlag() example', () => {
+  const ev = new Event(
+    new HDate(7, 'Sivan', 5749),
+    'Shavuot II',
+    flags.CHAG | flags.CHUL_ONLY
+  );
+  expect(ev.hasFlag('CHAG')).toBe(true);
+  expect(ev.hasFlag('CHUL_ONLY')).toBe(true);
+  expect(ev.hasFlag('MINOR_FAST')).toBe(false);
+});
+
+test('event.ts flagNames() example', () => {
+  const ev = new Event(
+    new HDate(7, 'Sivan', 5749),
+    'Shavuot II',
+    flags.CHAG | flags.CHUL_ONLY
+  );
+  expect(ev.flagNames()).toEqual(['CHAG', 'CHUL_ONLY']);
+});
+
 test('event.ts render() example', () => {
   const ev = new Event(new HDate(6, 'Sivan', 5749), 'Shavuot', flags.CHAG);
   expect(ev.render('en')).toBe('Shavuot');

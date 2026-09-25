@@ -27,7 +27,7 @@ const EREV = flags.EREV;
 export function isFastDay(date: HDate | Date | number, il?: boolean): boolean {
   const events = getHolidaysOnDate(date, il) || [];
   const fastDay = events.find(ev => {
-    const mask = ev.getFlags();
+    const mask = ev.mask;
     return mask & FAST_DAY && !(mask & EREV);
   });
   return Boolean(fastDay);

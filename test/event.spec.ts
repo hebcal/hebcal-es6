@@ -19,6 +19,31 @@ test('getFlags', () => {
   expect(ev.getFlags()).toBe(flags.USER_EVENT | flags.CHUL_ONLY);
 });
 
+test('hasFlag', () => {
+  expect(ev.hasFlag('USER_EVENT')).toBe(true);
+  expect(ev.hasFlag('CHUL_ONLY')).toBe(true);
+  expect(ev.hasFlag('IL_ONLY')).toBe(false);
+  expect(ev.hasFlag('BEHAB')).toBe(false);
+  // @ts-expect-error unknown flag name
+  expect(ev.hasFlag('NOT_A_FLAG')).toBe(false);
+});
+
+test('flagNames', () => {
+  expect(ev.flagNames()).toEqual(['CHUL_ONLY', 'USER_EVENT']);
+  expect(new Event(hd, 'None').flagNames()).toEqual([]);
+  expect(
+    new Event(hd, 'Behab', flags.MINOR_FAST | flags.BEHAB).flagNames()
+  ).toEqual(['MINOR_FAST', 'BEHAB']);
+});
+
+test('flagNames round-trips every flag', () => {
+  for (const [name, bit] of Object.entries(flags)) {
+    const e = new Event(hd, name, bit);
+    expect(e.flagNames()).toEqual([name]);
+    expect(e.hasFlag(name as keyof typeof flags)).toBe(true);
+  }
+});
+
 test('render', () => {
   expect(ev.render('en')).toBe('Foo Bar');
 });

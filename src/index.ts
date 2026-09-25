@@ -13,7 +13,7 @@ export {
 import './locale.js'; // Adds Hebrew and Ashkenazic translations
 export {CalOptions, DailyLearningValue} from './CalOptions.js';
 export {HebrewDateEvent} from './HebrewDateEvent.js';
-export {Event, flags} from './event.js';
+export {Event, FlagName, flags} from './event.js';
 export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 export {Location} from './location.js';
 export {Zmanim} from './zmanim.js';

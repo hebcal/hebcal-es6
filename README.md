@@ -63,15 +63,16 @@ detail — `HolidayEvent`, `ParshaEvent`, `OmerEvent`, `CandleLightingEvent` and
 `HavdalahEvent` (both `TimedEvent`s, carrying an `eventTime`), `MoladEvent`,
 `HebrewDateEvent`, and others.
 
-Rather than testing `instanceof`, classify events with `flags`:
+Rather than testing `instanceof`, classify events by their [`flags`](https://hebcal.github.io/api/core/variables/flags.html)
+using `hasFlag()` (or `flagNames()` to list them all):
 
 ```javascript
-import {calendar, flags} from '@hebcal/core';
+import {calendar} from '@hebcal/core';
 
 const events = calendar({year: 5784, isHebrewYear: true});
 
 for (const ev of events) {
-  if (ev.getFlags() & flags.MAJOR_FAST) {
+  if (ev.hasFlag('MAJOR_FAST')) {
     console.log('fast day:', ev.render('en'));
   }
 }
@@ -133,7 +134,7 @@ Import `@hebcal/learning` once for its side effects, then request calendars thro
 
 ```javascript
 import '@hebcal/learning';
-import {calendar, flags} from '@hebcal/core';
+import {calendar} from '@hebcal/core';
 
 const events = calendar({
   year: 5784,
@@ -143,7 +144,7 @@ const events = calendar({
 });
 
 for (const ev of events) {
-  if (ev.getFlags() & flags.DAF_YOMI) {
+  if (ev.hasFlag('DAF_YOMI')) {
     console.log(ev.getDate().toString(), ev.render('en'));
   }
 }
@@ -186,7 +187,7 @@ and note that coordinates above the Arctic or below the Antarctic circle are
 guaranteed to be wrong.
 
 ```javascript
-import {calendar, Location, flags} from '@hebcal/core';
+import {calendar, Location} from '@hebcal/core';
 
 const events = calendar({
   year: 2024,
@@ -195,7 +196,7 @@ const events = calendar({
 });
 
 for (const ev of events) {
-  if (ev.getFlags() & flags.LIGHT_CANDLES) {
+  if (ev.hasFlag('LIGHT_CANDLES')) {
     console.log(ev.getDate().toString(), ev.eventTimeStr); // '24 Tevet 5784' '16:08'
   }
 }
