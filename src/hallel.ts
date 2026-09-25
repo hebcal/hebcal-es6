@@ -1,5 +1,5 @@
 import {HDate, months} from '@hebcal/hdate';
-import {Event, flags} from './event.js';
+import {Event} from './event.js';
 import {holidayDesc as hdesc} from './staticHolidays.js';
 
 const NONE = 0;
@@ -19,14 +19,13 @@ export function hallel_(events: Event[], hdate: HDate): number {
     const desc = ev.getDesc();
     const month = hd.getMonth();
     const mday = hd.getDate();
-    const mask = ev.mask;
     if (
       desc.startsWith('Chanukah') ||
       desc.startsWith('Shavuot') ||
       desc.startsWith('Sukkot') ||
       (month === months.NISAN &&
         (mday === 15 || mday === 16) &&
-        mask & flags.CHAG) || // Pesach
+        ev.hasFlag('CHAG')) || // Pesach
       desc === hdesc.YOM_HAATZMA_UT ||
       desc === hdesc.YOM_YERUSHALAYIM
     ) {
@@ -34,7 +33,7 @@ export function hallel_(events: Event[], hdate: HDate): number {
     }
 
     if (
-      mask & flags.ROSH_CHODESH ||
+      ev.hasFlag('ROSH_CHODESH') ||
       (desc.startsWith('Pesach') &&
         desc !== hdesc.PESACH_I &&
         desc !== hdesc.PESACH_II)

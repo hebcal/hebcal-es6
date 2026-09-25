@@ -95,12 +95,12 @@ test('candles-only-diaspora', () => {
   const events = calendar(options);
   expect(events.length).toBeGreaterThanOrEqual(132);
   const ev0 = events[0] as TimedEvent;
-  expect(Boolean(ev0.getFlags() & flags.LIGHT_CANDLES)).toBe(true);
+  expect(ev0.hasFlag('LIGHT_CANDLES')).toBe(true);
   expect(ev0.render('en')).toBe('Candle lighting: 16:16');
   expect(ev0.getDesc()).toBe('Candle lighting');
   expect(ev0.eventTimeStr).toBe('16:16');
   const ev1 = events[1] as TimedEvent;
-  expect(Boolean(ev1.getFlags() & flags.LIGHT_CANDLES_TZEIS)).toBe(true);
+  expect(ev1.hasFlag('LIGHT_CANDLES_TZEIS')).toBe(true);
   expect(ev1.render('en')).toBe('Havdalah: 17:18');
   expect(ev1.getDesc()).toBe('Havdalah');
   expect(ev1.eventTimeStr).toBe('17:18');
@@ -153,7 +153,7 @@ test('havdalah-mins', () => {
     ev.getDesc().startsWith('Havdalah')
   );
   const ev = events[0] as TimedEvent;
-  expect(ev.getFlags()).toBe(flags.LIGHT_CANDLES_TZEIS);
+  expect(ev.mask).toBe(flags.LIGHT_CANDLES_TZEIS);
   expect(ev.render('en')).toBe('Havdalah (47 min): 8:02pm');
   expect(ev.getDesc()).toBe('Havdalah');
   expect(ev.eventTimeStr).toBe('20:02');
@@ -925,7 +925,7 @@ test('friday has LIGHT_CANDLES after RH', () => {
   expect(events).toHaveLength(2);
   expect(events[0].getDesc()).toBe('Rosh Hashana II');
   expect(events[1].getDesc()).toBe('Candle lighting');
-  expect(events[1].getFlags()).toBe(
+  expect(events[1].mask).toBe(
     flags.CHAG | flags.LIGHT_CANDLES | flags.YOM_TOV_ENDS
   );
 });

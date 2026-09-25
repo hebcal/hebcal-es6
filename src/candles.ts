@@ -26,9 +26,9 @@ export function makeCandleEvent(
   if (ev !== undefined) {
     // if linked event && dow == FRI, use Candle lighting time & title
     if (!isFriday) {
-      if (mask & (LIGHT_CANDLES_TZEIS | flags.CHANUKAH_CANDLES)) {
+      if (ev.hasFlag('LIGHT_CANDLES_TZEIS') || ev.hasFlag('CHANUKAH_CANDLES')) {
         useHavdalahOffset = true;
-      } else if (mask & flags.YOM_TOV_ENDS) {
+      } else if (ev.hasFlag('YOM_TOV_ENDS')) {
         havdalahTitle = true;
         useHavdalahOffset = true;
       }

@@ -2,15 +2,15 @@ import {HDate, getPseudoISO} from '@hebcal/hdate';
 import {Zmanim} from './zmanim.js';
 import {Location} from './location.js';
 import {getHolidaysOnDate} from './holidays.js';
-import {Event, flags} from './event.js';
-
-const LIGHT_CANDLES = flags.LIGHT_CANDLES | flags.LIGHT_CANDLES_TZEIS;
+import {Event} from './event.js';
 
 function isTomorrowShabbosOrYomTov(dow: number, events: Event[]): boolean {
   if (dow === 5) {
     return true;
   }
-  const erev = events.find(ev => ev.mask & LIGHT_CANDLES);
+  const erev = events.find(
+    ev => ev.hasFlag('LIGHT_CANDLES') || ev.hasFlag('LIGHT_CANDLES_TZEIS')
+  );
   if (erev) {
     return true;
   }
@@ -29,7 +29,7 @@ function isTodayAssurBemelacha(dow: number, events: Event[]): boolean {
   if (dow === 6) {
     return true;
   }
-  const chag = events.find(ev => ev.mask & flags.CHAG);
+  const chag = events.find(ev => ev.hasFlag('CHAG'));
   if (chag) {
     return true;
   }

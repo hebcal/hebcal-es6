@@ -633,10 +633,12 @@ function appendHolidayAndRelated(
     return candlesEv; // holiday isn't observed here; bail out early
   }
   const eFlags = ev.mask;
+  const isYomKippurKatan = ev.hasFlag('YOM_KIPPUR_KATAN');
+  const isBehab = ev.hasFlag('BEHAB');
   if (
-    (!options.yomKippurKatan && eFlags & YOM_KIPPUR_KATAN) ||
-    (!options.behab && eFlags & BEHAB) ||
-    (options.noModern && eFlags & MODERN_HOLIDAY)
+    (!options.yomKippurKatan && isYomKippurKatan) ||
+    (!options.behab && isBehab) ||
+    (options.noModern && ev.hasFlag('MODERN_HOLIDAY'))
   ) {
     return candlesEv; // bail out early
   }
@@ -646,8 +648,9 @@ function appendHolidayAndRelated(
       events.push(...evts);
     }
   }
-  const isMajorFast = Boolean(eFlags & MAJOR_FAST);
-  const isMinorFast = Boolean(eFlags & MINOR_FAST);
+  const isMajorFast = ev.hasFlag('MAJOR_FAST');
+  const isMinorFast = ev.hasFlag('MINOR_FAST');
+  const isChanukah = ev.hasFlag('CHANUKAH_CANDLES');
   let fastEv;
   if (
     options.candlelighting &&
@@ -666,7 +669,7 @@ function appendHolidayAndRelated(
     if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
       const hd = ev.getDate();
       candlesEv = makeCandleEvent(ev, hd, options, isFriday, isSaturday);
-      if (eFlags & CHANUKAH_CANDLES && candlesEv && !options.noHolidays) {
+      if (isChanukah && candlesEv && !options.noHolidays) {
         // Replace Chanukah event with a clone that includes candle lighting time.
         // For clarity, allow a "duplicate" candle lighting event to remain for Shabbat
         const chanukahEv = makeWeekdayChanukahCandleLighting(
@@ -685,8 +688,8 @@ function appendHolidayAndRelated(
     }
     if (
       !options.noHolidays ||
-      (options.yomKippurKatan && eFlags & YOM_KIPPUR_KATAN) ||
-      (options.behab && eFlags & BEHAB)
+      (options.yomKippurKatan && isYomKippurKatan) ||
+      (options.behab && isBehab)
     ) {
       events.push(ev); // the original event itself
     }

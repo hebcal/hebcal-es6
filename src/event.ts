@@ -281,7 +281,7 @@ export class Event {
    * ev2.observedInIsrael(); // true
    */
   observedInIsrael(): boolean {
-    return !(this.mask & flags.CHUL_ONLY);
+    return !this.hasFlag('CHUL_ONLY');
   }
   /**
    * Is this event observed in the Diaspora?
@@ -292,7 +292,7 @@ export class Event {
    * ev2.observedInDiaspora(); // true
    */
   observedInDiaspora(): boolean {
-    return !(this.mask & flags.IL_ONLY);
+    return !this.hasFlag('IL_ONLY');
   }
   /**
    * Is this event observed in Israel/Diaspora?
