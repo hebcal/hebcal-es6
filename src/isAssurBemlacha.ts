@@ -8,8 +8,8 @@ function isTomorrowShabbosOrYomTov(dow: number, events: Event[]): boolean {
   if (dow === 5) {
     return true;
   }
-  const erev = events.find(
-    ev => ev.hasFlag('LIGHT_CANDLES') || ev.hasFlag('LIGHT_CANDLES_TZEIS')
+  const erev = events.find(ev =>
+    ev.hasAnyFlag('LIGHT_CANDLES', 'LIGHT_CANDLES_TZEIS')
   );
   if (erev) {
     return true;
