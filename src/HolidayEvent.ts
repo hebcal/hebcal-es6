@@ -76,7 +76,7 @@ export class HolidayEvent extends Event {
       urlFriendly(this.basename()) +
       '-' +
       this.urlDateSuffix();
-    return this.getFlags() & flags.IL_ONLY ? url + '?i=on' : url;
+    return this.mask & flags.IL_ONLY ? url + '?i=on' : url;
   }
 
   /**
@@ -92,7 +92,7 @@ export class HolidayEvent extends Event {
     if (this.emoji) {
       return this.emoji;
     }
-    if (this.getFlags() & flags.SPECIAL_SHABBAT) {
+    if (this.mask & flags.SPECIAL_SHABBAT) {
       return '🕍';
     }
     return '✡️';

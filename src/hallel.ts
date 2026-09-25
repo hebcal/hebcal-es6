@@ -19,7 +19,7 @@ export function hallel_(events: Event[], hdate: HDate): number {
     const desc = ev.getDesc();
     const month = hd.getMonth();
     const mday = hd.getDate();
-    const mask = ev.getFlags();
+    const mask = ev.mask;
     if (
       desc.startsWith('Chanukah') ||
       desc.startsWith('Shavuot') ||

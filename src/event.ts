@@ -66,6 +66,14 @@ export const flags = {
   BEHAB: 0x10000000,
 } as const;
 
+/**
+ * Name of one of the {@link flags}, such as `'CHAG'` or `'ROSH_CHODESH'`.
+ * Used by {@link Event.hasFlag} and {@link Event.flagNames}.
+ */
+export type FlagName = keyof typeof flags;
+
+const flagEntries = Object.entries(flags) as [FlagName, number][];
+
 const flagToCategory = [
   [flags.MAJOR_FAST, 'holiday', 'major', 'fast'],
   [flags.CHANUKAH_CANDLES, 'holiday', 'minor'],
@@ -164,9 +172,40 @@ export class Event {
   }
   /**
    * Bitmask of optional event flags. See {@link flags}
+   * @deprecated Use {@link Event.hasFlag} to test for a flag, or
+   * {@link Event.flagNames} to list them. Code that genuinely needs the
+   * raw bitmask can read {@link Event.mask}.
    */
   getFlags(): number {
     return this.mask;
+  }
+  /**
+   * Does this event have the given flag?
+   *
+   * A readable alternative to testing the bitmask with `&`.
+   * @example
+   * import {Event, HDate, flags} from '@hebcal/core';
+   * const ev = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II',
+   *   flags.CHAG | flags.CHUL_ONLY);
+   * ev.hasFlag('CHAG');        // true
+   * ev.hasFlag('CHUL_ONLY');   // true
+   * ev.hasFlag('MINOR_FAST');  // false
+   * @param name flag name, one of the keys of {@link flags}
+   */
+  hasFlag(name: FlagName): boolean {
+    return (this.mask & flags[name]) !== 0;
+  }
+  /**
+   * Names of all {@link flags} set on this event, in ascending bit order.
+   * Returns an empty array for an event with no flags.
+   * @example
+   * import {Event, HDate, flags} from '@hebcal/core';
+   * const ev = new Event(new HDate(7, 'Sivan', 5749), 'Shavuot II',
+   *   flags.CHAG | flags.CHUL_ONLY);
+   * ev.flagNames(); // ['CHAG', 'CHUL_ONLY']
+   */
+  flagNames(): FlagName[] {
+    return flagEntries.filter(([, bit]) => this.mask & bit).map(([name]) => name);
   }
   /**
    * Returns (translated) description of this event
@@ -284,7 +323,7 @@ export class Event {
    *   .getCategories(); // ['roshchodesh']
    */
   getCategories(): string[] {
-    const mask = this.getFlags();
+    const mask = this.mask;
     for (const attrs of flagToCategory) {
       const attr0 = attrs[0] as number;
       if (mask & attr0) {
