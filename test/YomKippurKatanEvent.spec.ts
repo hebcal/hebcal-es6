@@ -37,7 +37,7 @@ test('memo and flags', () => {
   expect(ykk.memo).toBe(
     'Minor Day of Atonement on the day preceeding Rosh Chodesh Tamuz'
   );
-  expect(ykk.getFlags()).toBe(flags.MINOR_FAST | flags.YOM_KIPPUR_KATAN);
+  expect(ykk.mask).toBe(flags.MINOR_FAST | flags.YOM_KIPPUR_KATAN);
   expect(ykk.url()).toBeUndefined();
   expect(ykk.basename()).toBe('Yom Kippur Katan Tamuz');
 });

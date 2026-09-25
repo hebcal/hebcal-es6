@@ -1,9 +1,5 @@
 import {HDate} from '@hebcal/hdate';
-import {flags} from './event.js';
 import {getHolidaysOnDate} from './holidays.js';
-
-const FAST_DAY = flags.MAJOR_FAST | flags.MINOR_FAST;
-const EREV = flags.EREV;
 
 /**
  * Returns `true` if the given date is observed as a major or minor fast day.
@@ -26,9 +22,9 @@ const EREV = flags.EREV;
  */
 export function isFastDay(date: HDate | Date | number, il?: boolean): boolean {
   const events = getHolidaysOnDate(date, il) || [];
-  const fastDay = events.find(ev => {
-    const mask = ev.mask;
-    return mask & FAST_DAY && !(mask & EREV);
-  });
+  const fastDay = events.find(
+    ev =>
+      (ev.hasFlag('MAJOR_FAST') || ev.hasFlag('MINOR_FAST')) && !ev.hasFlag('EREV')
+  );
   return Boolean(fastDay);
 }

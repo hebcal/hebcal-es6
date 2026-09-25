@@ -135,7 +135,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       const key = ev.date.toString();
       const arr = map.get(key);
       if (typeof arr === 'object') {
-        if (arr[0].mask & EREV) {
+        if (arr[0].hasFlag('EREV')) {
           arr.unshift(ev);
         } else {
           arr.push(ev);

@@ -476,7 +476,7 @@ test('CalOptions.ts documented candle-lighting defaults', () => {
       candlelighting: true,
       location,
       noHolidays: true,
-    }).filter(e => e.getFlags() & flags.LIGHT_CANDLES);
+    }).filter(e => e.hasFlag('LIGHT_CANDLES'));
     const expected = new Zmanim(location, new HDate(dt), false).sunsetOffset(
       -mins,
       true
@@ -503,7 +503,7 @@ test('README: mask filters generation to Rosh Chodesh', () => {
     mask: flags.ROSH_CHODESH,
   });
   expect(roshChodesh.length).toBeGreaterThan(0);
-  expect(roshChodesh.every(ev => ev.getFlags() & flags.ROSH_CHODESH)).toBe(true);
+  expect(roshChodesh.every(ev => ev.hasFlag('ROSH_CHODESH'))).toBe(true);
 });
 
 test('README: getHolidaysOnDate returns undefined, not [], on an empty day', () => {
@@ -534,7 +534,7 @@ test('README: Jerusalem candle-lighting example', () => {
     candlelighting: true,
     location: Location.lookup('Jerusalem'),
   });
-  const first = events.find(ev => ev.getFlags() & flags.LIGHT_CANDLES)!;
+  const first = events.find(ev => ev.hasFlag('LIGHT_CANDLES'))!;
   expect(first.getDate().toString()).toBe('24 Tevet 5784');
   expect((first as any).eventTimeStr).toBe('16:08');
 });
@@ -599,7 +599,7 @@ test('README: yerushalmi alias resolves to the registered calendar name', () => 
   }
   expect(warnings.filter(w => w.includes('yerushalmi'))).toEqual([]);
   expect(events.length).toBeGreaterThan(300);
-  expect(events[0].getFlags() & flags.YERUSHALMI_YOMI).toBeTruthy();
+  expect(events[0].hasFlag('YERUSHALMI_YOMI')).toBeTruthy();
 });
 
 // Regression guard: @hebcal/hdate <= 0.22.5 mutated the HDate argument, so

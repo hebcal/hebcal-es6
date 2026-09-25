@@ -23,7 +23,7 @@ import {birthdayOrAnniversary, yahrzeit, HDate} from '@hebcal/hdate';
 import './locale.js'; // Adds Hebrew and Ashkenazic translations
 import {CalOptions} from './CalOptions.js';
 import {version as pkgVersion} from './pkgVersion.js';
-import {Event, flags} from './event.js';
+import {Event} from './event.js';
 import {Sedra, getSedra} from './sedra.js';
 import {hallel_} from './hallel.js';
 import {
@@ -154,8 +154,8 @@ export class HebrewCalendar {
 
   /**
    * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
-   * `HDate.toString()`. These events must be filtered for `flags.IL_ONLY`
-   * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
+   * `HDate.toString()`. These events are not filtered by Israel vs. Diaspora
+   * holiday scheme; use {@link Event.observedIn} to do that.
    *
    * Includes Rosh Chodesh, fasts, Yom Kippur Katan, Special Shabbatot, etc.,
    * but does not generate candle-lighting times, Torah readings, or Omer days.
@@ -366,6 +366,6 @@ export class HebrewCalendar {
  */
 function isChag(date: HDate, il: boolean): boolean {
   const events = getHolidaysOnDate(date, il) || [];
-  const chag = events.filter(ev => ev.mask & flags.CHAG);
+  const chag = events.filter(ev => ev.hasFlag('CHAG'));
   return chag.length !== 0;
 }

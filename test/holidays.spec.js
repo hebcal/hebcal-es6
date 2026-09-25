@@ -422,7 +422,7 @@ test('fast days includes Yom Kippur Katan', () => {
     year: 2021,
     yomKippurKatan: true,
   });
-  const events = events0.filter(ev => ev.getFlags() & flags.MINOR_FAST);
+  const events = events0.filter(ev => ev.hasFlag('MINOR_FAST'));
   const actual = events.map(function (ev) {
     const o = eventDateDesc(ev);
     if (ev.memo) o.memo = ev.memo;
