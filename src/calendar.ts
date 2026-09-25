@@ -576,9 +576,6 @@ function getMaskFromOptions(options: CalOptions): number {
   return mask;
 }
 
-const MASK_LIGHT_CANDLES =
-  LIGHT_CANDLES | LIGHT_CANDLES_TZEIS | CHANUKAH_CANDLES | YOM_TOV_ENDS;
-
 const defaultLocation = new Location(0, 0, false, 'UTC');
 
 /**
@@ -651,6 +648,11 @@ function appendHolidayAndRelated(
   const isMajorFast = ev.hasFlag('MAJOR_FAST');
   const isMinorFast = ev.hasFlag('MINOR_FAST');
   const isChanukah = ev.hasFlag('CHANUKAH_CANDLES');
+  const hasCandles =
+    isChanukah ||
+    ev.hasFlag('LIGHT_CANDLES') ||
+    ev.hasFlag('LIGHT_CANDLES_TZEIS') ||
+    ev.hasFlag('YOM_TOV_ENDS');
   let fastEv;
   if (
     options.candlelighting &&
@@ -666,7 +668,7 @@ function appendHolidayAndRelated(
     }
   }
   if (eFlags & Number(options.mask) || (!eFlags && !hasUserMask)) {
-    if (options.candlelighting && eFlags & MASK_LIGHT_CANDLES) {
+    if (options.candlelighting && hasCandles) {
       const hd = ev.getDate();
       candlesEv = makeCandleEvent(ev, hd, options, isFriday, isSaturday);
       if (isChanukah && candlesEv && !options.noHolidays) {
