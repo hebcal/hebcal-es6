@@ -118,8 +118,8 @@ test('sedrot-only', () => {
   };
   const events = calendar(options);
   expect(events).toHaveLength(49);
-  expect(events[0].mask).toBe(flags.PARSHA_HASHAVUA);
-  expect(events[48].mask).toBe(flags.PARSHA_HASHAVUA);
+  expect(events[0].flagNames()).toEqual(['PARSHA_HASHAVUA']);
+  expect(events[48].flagNames()).toEqual(['PARSHA_HASHAVUA']);
 });
 
 test('omer-only', () => {
@@ -134,12 +134,12 @@ test('omer-only', () => {
   expect(events).toHaveLength(30);
   const ev0 = events[0] as OmerEvent;
   expect(gregDtString(ev0)).toBe('4/29/1968');
-  expect(ev0.mask).toBe(flags.OMER_COUNT);
+  expect(ev0.flagNames()).toEqual(['OMER_COUNT']);
   expect(ev0.omer).toBe(16);
   expect(ev0.render('en')).toBe('16th day of the Omer');
   const ev25 = events[25] as OmerEvent;
   expect(gregDtString(ev25)).toBe('5/24/1968');
-  expect(ev25.mask).toBe(flags.OMER_COUNT);
+  expect(ev25.flagNames()).toEqual(['OMER_COUNT']);
   expect(ev25.omer).toBe(41);
   expect(ev25.render('en')).toBe('41st day of the Omer');
 });
@@ -154,7 +154,7 @@ test('molad-only', () => {
   const events = calendar(options);
   expect(events).toHaveLength(12);
   expect(events[0].getDesc().startsWith('Molad')).toBe(true);
-  expect(events[0].mask).toBe(flags.MOLAD);
+  expect(events[0].flagNames()).toEqual(['MOLAD']);
 });
 
 test('multi-year', () => {
@@ -225,17 +225,17 @@ test('addHebrewDates', () => {
   };
   const events = calendar(options0);
   expect(events).toHaveLength(31);
-  expect(events[0].mask).toBe(flags.HEBREW_DATE);
+  expect(events[0].flagNames()).toEqual(['HEBREW_DATE']);
   expect(gregDtString(events[0])).toBe('3/1/2017');
   expect(events[0].getDesc()).toBe('3 Adar 5777');
   expect(events[0].render('en')).toBe('3rd of Adar, 5777');
 
-  expect(events[1].mask).toBe(flags.HEBREW_DATE);
+  expect(events[1].flagNames()).toEqual(['HEBREW_DATE']);
   expect(gregDtString(events[1])).toBe('3/2/2017');
   expect(events[1].getDesc()).toBe('4 Adar 5777');
   expect(events[1].render('en')).toBe('4th of Adar, 5777');
 
-  expect(events[2].mask).toBe(flags.HEBREW_DATE);
+  expect(events[2].flagNames()).toEqual(['HEBREW_DATE']);
   expect(gregDtString(events[2])).toBe('3/3/2017');
   expect(events[2].getDesc()).toBe('5 Adar 5777');
   expect(events[2].render('en')).toBe('5th of Adar, 5777');
@@ -255,7 +255,7 @@ test('addHebrewDates', () => {
   };
   const ev = calendar(options);
   expect(ev.length).toBeGreaterThanOrEqual(80);
-  expect(ev[0].mask).toBe(flags.HEBREW_DATE);
+  expect(ev[0].flagNames()).toEqual(['HEBREW_DATE']);
   expect(gregDtString(ev[0])).toBe('4/1/2020');
   expect(ev[0].getDesc()).toBe('7 Nisan 5780');
   expect(ev[0].render('en')).toBe('7th of Nisan, 5780');
@@ -285,7 +285,7 @@ test('addHebrewDates-locale', () => {
     locale: 'he',
   };
   const ev = calendar(options)[0];
-  expect(ev.mask).toBe(flags.HEBREW_DATE);
+  expect(ev.flagNames()).toEqual(['HEBREW_DATE']);
   expect(ev.getDesc()).toBe('3 Adar 5777');
   expect(ev.render('he')).toBe('ג׳ אֲדָר תשע״ז');
 });
@@ -749,7 +749,7 @@ test('behab-only', () => {
   ];
   expect(actual).toEqual(expected);
   for (const ev of events) {
-    expect(ev.mask).toBe(flags.MINOR_FAST | flags.BEHAB);
+    expect(ev.flagNames()).toEqual(['MINOR_FAST', 'BEHAB']);
     expect(ev.getCategories()).toEqual(['holiday', 'fast']);
   }
   expect(events[0].render('he')).toBe('תַּעֲנִית בה״ב');

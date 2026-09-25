@@ -2,7 +2,6 @@ import {expect, test} from 'vitest';
 import {HDate} from '@hebcal/hdate';
 import {YomKippurKatanEvent} from '../src/YomKippurKatanEvent.js';
 import {calendar} from '../src/calendar.js';
-import {flags} from '../src/event.js';
 
 test('render', () => {
   const date = new HDate(29, 'Cheshvan', 5782);
@@ -37,7 +36,7 @@ test('memo and flags', () => {
   expect(ykk.memo).toBe(
     'Minor Day of Atonement on the day preceeding Rosh Chodesh Tamuz'
   );
-  expect(ykk.mask).toBe(flags.MINOR_FAST | flags.YOM_KIPPUR_KATAN);
+  expect(ykk.flagNames()).toEqual(['MINOR_FAST', 'YOM_KIPPUR_KATAN']);
   expect(ykk.url()).toBeUndefined();
   expect(ykk.basename()).toBe('Yom Kippur Katan Tamuz');
 });
