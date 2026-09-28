@@ -7,7 +7,8 @@
     "rootDir": "./",
     "outDir": "./dist",
     "declaration": true,
-    "strict": true
+    "strict": true,
+    "isolatedModules": true
   },
   "exclude": ["test", "size-demo"]
 }
