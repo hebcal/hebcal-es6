@@ -74,16 +74,49 @@ export type CalOptions = {
    * Rabbi Yechiel Michel Tucazinsky. Mutually exclusive with `fastEndMins`.
    * If neither is specified, minor fasts end at 7.083 degrees in the Diaspora,
    * or 15 minutes after sunset in Israel (Rabbi Deblitzky's practice).
-   * Note: Tish'a B'Av always ends at 6.45 degrees and is not affected by this option.
+   * Note: Tish'a B'Av is not affected by this option; see `tishaBavEndDeg`.
    */
   fastEndDeg?: number;
   /**
    * minutes after sunset for the end of minor fasts.
    * When set to a nonzero value, minor fasts (including Yom Kippur Katan) end
    * this many minutes after sunset. Mutually exclusive with `fastEndDeg`.
-   * Note: Tish'a B'Av always ends at 6.45 degrees and is not affected by this option.
+   * Note: Tish'a B'Av is not affected by this option; see `tishaBavEndMins`.
    */
   fastEndMins?: number;
+  /**
+   * degrees for solar depression for the start of minor fasts.
+   * When set to a nonzero value, minor fasts (including Yom Kippur Katan) begin
+   * when the sun is this many degrees below the horizon in the morning.
+   * Mutually exclusive with `fastStartMins`.
+   * If neither is specified, minor fasts begin at Alot HaShachar, 16.1 degrees.
+   * Note: Tish'a B'Av begins at sunset on the previous day and is not affected
+   * by this option.
+   */
+  fastStartDeg?: number;
+  /**
+   * minutes before sunrise for the start of minor fasts (typical values are
+   * 72 or 90). When set to a nonzero value, minor fasts (including
+   * Yom Kippur Katan) begin this many minutes before sunrise.
+   * Mutually exclusive with `fastStartDeg`.
+   * Note: Tish'a B'Av begins at sunset on the previous day and is not affected
+   * by this option.
+   */
+  fastStartMins?: number;
+  /**
+   * degrees for solar depression for the end of Tish'a B'Av.
+   * When set to a nonzero value, Tish'a B'Av ends when the sun is this many
+   * degrees below the horizon in the evening. Mutually exclusive with
+   * `tishaBavEndMins`. If neither is specified, Tish'a B'Av ends at 6.45 degrees,
+   * as calculated by Rabbi Yechiel Michel Tucazinsky.
+   */
+  tishaBavEndDeg?: number;
+  /**
+   * minutes after sunset for the end of Tish'a B'Av.
+   * When set to a nonzero value, Tish'a B'Av ends this many minutes after sunset.
+   * Mutually exclusive with `tishaBavEndDeg`.
+   */
+  tishaBavEndMins?: number;
   /**
    * use elevation for calculations (default `false`).
    * If `true`, use elevation to affect the calculation of all sunrise/sunset based zmanim.

@@ -858,6 +858,243 @@ test('fastEndDeg and fastEndMins are mutually exclusive', () => {
   ).toThrow('options.fastEndDeg and options.fastEndMins are mutually exclusive');
 });
 
+describe('minor fast start time (Tzom Tammuz 2021-06-27)', () => {
+  const cases: {
+    name: string;
+    options: Partial<CalOptions>;
+    expected: string;
+  }[] = [
+    // Default: Alot HaShachar 16.1°
+    {name: 'default', options: {}, expected: '2021-06-27T03:20:00-04:00'},
+    {
+      name: 'fastStartDeg=19.8',
+      options: {fastStartDeg: 19.8},
+      expected: '2021-06-27T02:42:00-04:00',
+    },
+    // sunrise is 05:12
+    {
+      name: 'fastStartMins=72',
+      options: {fastStartMins: 72},
+      expected: '2021-06-27T04:00:00-04:00',
+    },
+    {
+      name: 'fastStartMins=90',
+      options: {fastStartMins: 90},
+      expected: '2021-06-27T03:42:00-04:00',
+    },
+    {
+      name: 'fastStartMins is truncated',
+      options: {fastStartMins: 72.9},
+      expected: '2021-06-27T04:00:00-04:00',
+    },
+    {
+      name: 'negative fastStartMins treated as positive',
+      options: {fastStartMins: -72},
+      expected: '2021-06-27T04:00:00-04:00',
+    },
+    {
+      name: 'fastStartDeg=0 uses default',
+      options: {fastStartDeg: 0},
+      expected: '2021-06-27T03:20:00-04:00',
+    },
+    {
+      name: 'fastStartMins=NaN uses default',
+      options: {fastStartMins: NaN},
+      expected: '2021-06-27T03:20:00-04:00',
+    },
+  ];
+  for (const tc of cases) {
+    test(tc.name, () => {
+      const events = calendar({
+        start: new Date(2021, 5, 27),
+        end: new Date(2021, 5, 27),
+        location: Location.lookup('Providence'),
+        candlelighting: true,
+        ...tc.options,
+      });
+      const expected = [
+        {dt: tc.expected, desc: 'Fast begins'},
+        {dt: '2021-06-27', desc: 'Tzom Tammuz'},
+        {dt: '2021-06-27T21:07:00-04:00', desc: 'Fast ends'},
+      ];
+      expect(events.map(eventTitleDateTime)).toEqual(expected);
+    });
+  }
+
+  test('fastStartDeg that the sun never reaches omits Fast begins', () => {
+    const events = calendar({
+      start: new Date(2021, 5, 27),
+      end: new Date(2021, 5, 27),
+      location: Location.lookup('Providence'),
+      candlelighting: true,
+      fastStartDeg: 95,
+    });
+    expect(events.map(eventTitleDateTime)).toEqual([
+      {dt: '2021-06-27', desc: 'Tzom Tammuz'},
+      {dt: '2021-06-27T21:07:00-04:00', desc: 'Fast ends'},
+    ]);
+  });
+
+  test('Israel with fastStartMins and default end', () => {
+    const events = calendar({
+      start: new Date(2021, 5, 27),
+      end: new Date(2021, 5, 27),
+      location: Location.lookup('Providence'),
+      il: true,
+      candlelighting: true,
+      fastStartMins: 72,
+    });
+    expect(events.map(eventTitleDateTime)).toEqual([
+      {dt: '2021-06-27T04:00:00-04:00', desc: 'Fast begins'},
+      {dt: '2021-06-27', desc: 'Tzom Tammuz'},
+      {dt: '2021-06-27T20:40:00-04:00', desc: 'Fast ends'},
+    ]);
+  });
+});
+
+test('fastStartMins and fastEndMins honor useElevation', () => {
+  const location = new Location(
+    39.7392,
+    -104.9903,
+    false,
+    'America/Denver',
+    'Denver',
+    'US',
+    undefined,
+    1609
+  );
+  const base: CalOptions = {
+    start: new Date(2021, 5, 27),
+    end: new Date(2021, 5, 27),
+    location,
+    candlelighting: true,
+  };
+  const times = (options: Partial<CalOptions>) =>
+    calendar({...base, ...options})
+      .filter(ev => ev instanceof TimedEvent)
+      .map(eventTitleDateTime);
+  expect(times({fastStartMins: 72, fastEndMins: 20})).toEqual([
+    {dt: '2021-06-27T04:22:00-06:00', desc: 'Fast begins'},
+    {dt: '2021-06-27T20:52:00-06:00', desc: 'Fast ends'},
+  ]);
+  expect(times({fastStartMins: 72, fastEndMins: 20, useElevation: true})).toEqual([
+    {dt: '2021-06-27T04:14:00-06:00', desc: 'Fast begins'},
+    {dt: '2021-06-27T21:00:00-06:00', desc: 'Fast ends'},
+  ]);
+  // degree-based times are not affected by elevation
+  expect(times({useElevation: true})).toEqual(times({}));
+});
+
+test('postponed minor fast uses custom start and end', () => {
+  // 17 Tammuz 5782 is Shabbat, 16 July 2022; the fast is postponed to Sunday
+  const base: CalOptions = {
+    start: new Date(2022, 6, 16),
+    end: new Date(2022, 6, 17),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  };
+  expect(calendar(base).map(eventTitleDateTime)).toEqual([
+    {dt: '2022-07-16T21:08:00-04:00', desc: 'Havdalah'},
+    {dt: '2022-07-17T03:39:00-04:00', desc: 'Fast begins'},
+    {dt: '2022-07-17', desc: 'Tzom Tammuz'},
+    {dt: '2022-07-17T20:58:00-04:00', desc: 'Fast ends'},
+  ]);
+  const events = calendar({...base, fastStartMins: 72, fastEndDeg: 8.5});
+  expect(events.map(eventTitleDateTime)).toEqual([
+    {dt: '2022-07-16T21:08:00-04:00', desc: 'Havdalah'},
+    {dt: '2022-07-17T04:13:00-04:00', desc: 'Fast begins'},
+    {dt: '2022-07-17', desc: 'Tzom Tammuz'},
+    {dt: '2022-07-17T21:07:00-04:00', desc: 'Fast ends'},
+  ]);
+});
+
+describe("Tish'a B'Av start and end", () => {
+  const base: CalOptions = {
+    start: new Date(2023, 6, 26),
+    end: new Date(2023, 6, 27),
+    location: Location.lookup('Providence'),
+    candlelighting: true,
+  };
+  const times = (options: Partial<CalOptions>) =>
+    calendar({...base, ...options})
+      .filter(ev => ev instanceof TimedEvent)
+      .map(eventTitleDateTime);
+
+  test('still begins at sunset with fastStartDeg or fastStartMins', () => {
+    for (const override of [{fastStartDeg: 19.8}, {fastStartMins: 72}]) {
+      expect(times(override)).toEqual([
+        {dt: '2023-07-26T20:10:00-04:00', desc: 'Fast begins'},
+        {dt: '2023-07-27T20:44:00-04:00', desc: 'Fast ends'},
+      ]);
+    }
+  });
+
+  const endCases: [Partial<CalOptions>, string][] = [
+    [{tishaBavEndDeg: 8.5}, '2023-07-27T20:57:00-04:00'],
+    [{tishaBavEndMins: 50}, '2023-07-27T20:59:00-04:00'],
+    [{tishaBavEndDeg: 7.083, fastEndMins: 20}, '2023-07-27T20:48:00-04:00'],
+    [{tishaBavEndDeg: 0}, '2023-07-27T20:44:00-04:00'],
+    [{tishaBavEndMins: NaN}, '2023-07-27T20:44:00-04:00'],
+  ];
+  for (const [override, expected] of endCases) {
+    test(`ends at ${expected} with ${JSON.stringify(override)}`, () => {
+      expect(times(override)).toEqual([
+        {dt: '2023-07-26T20:10:00-04:00', desc: 'Fast begins'},
+        {dt: expected, desc: 'Fast ends'},
+      ]);
+    });
+  }
+
+  test("postponed Tish'a B'Av uses tishaBavEndMins", () => {
+    const events = calendar({
+      start: new Date(2022, 7, 6),
+      end: new Date(2022, 7, 7),
+      location: Location.lookup('Providence'),
+      candlelighting: true,
+      fastStartMins: 90,
+      tishaBavEndMins: 50,
+    });
+    expect(events.map(eventTitleDateTime)).toEqual([
+      {dt: '2022-08-06', desc: 'Shabbat Chazon'},
+      {dt: '2022-08-06T19:58:00-04:00', desc: 'Fast begins'},
+      {dt: '2022-08-06', desc: "Erev Tish'a B'Av"},
+      {dt: '2022-08-06T20:44:00-04:00', desc: 'Havdalah'},
+      {dt: '2022-08-07', desc: "Tish'a B'Av (observed)"},
+      {dt: '2022-08-07T20:47:00-04:00', desc: 'Fast ends'},
+    ]);
+  });
+});
+
+test('fastStartDeg and fastStartMins are mutually exclusive', () => {
+  expect(() =>
+    calendar({
+      start: new Date(2021, 5, 27),
+      end: new Date(2021, 5, 27),
+      location: Location.lookup('Providence'),
+      candlelighting: true,
+      fastStartDeg: 16.1,
+      fastStartMins: 72,
+    })
+  ).toThrow(
+    'options.fastStartDeg and options.fastStartMins are mutually exclusive'
+  );
+});
+
+test('tishaBavEndDeg and tishaBavEndMins are mutually exclusive', () => {
+  expect(() =>
+    calendar({
+      start: new Date(2023, 6, 27),
+      end: new Date(2023, 6, 27),
+      location: Location.lookup('Providence'),
+      candlelighting: true,
+      tishaBavEndDeg: 8.5,
+      tishaBavEndMins: 50,
+    })
+  ).toThrow(
+    'options.tishaBavEndDeg and options.tishaBavEndMins are mutually exclusive'
+  );
+});
+
 test('makeFastStartEnd', () => {
   const location = Location.lookup('Providence');
   const hd = new HDate(8, 'Av', 5783);

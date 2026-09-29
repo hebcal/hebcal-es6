@@ -93,10 +93,48 @@ const TZEIT_3MEDIUM_STARS = 7.0833333;
 const MINOR_FAST_END_MINUTES_IL = 15;
 
 /**
+ * Alot HaShachar, 16.1° below geometric zenith.
+ * Default start time for minor fasts.
+ * @private
+ */
+const ALOT_16_POINT_1 = 16.1;
+
+/**
+ * Returns `val` when it is a finite nonzero number, otherwise `undefined`
+ * @private
+ */
+function nonzero(val: number | undefined): number | undefined {
+  return typeof val === 'number' && isFinite(val) && val !== 0 ? val : undefined;
+}
+
+/**
+ * Computes the "Fast begins" time for a minor fast (one that begins at dawn).
+ *
+ * When `options.fastStartMins` is a nonzero number, the fast begins that many
+ * minutes before sunrise; otherwise, when `options.fastStartDeg` is a nonzero
+ * number, the fast begins when the sun is that many degrees below the horizon
+ * in the morning. By default, minor fasts begin at Alot HaShachar (16.1°).
+ * @private
+ */
+function makeFastStartTime(zmanim: Zmanim, options: CalOptions): Date {
+  const fastStartMins = nonzero(options.fastStartMins);
+  if (fastStartMins !== undefined) {
+    return zmanim.sunriseOffset(-Math.abs(fastStartMins), true);
+  }
+  const fastStartDeg = nonzero(options.fastStartDeg);
+  return zmanim.timeAtAngle(
+    fastStartDeg === undefined ? ALOT_16_POINT_1 : Math.abs(fastStartDeg),
+    true
+  );
+}
+
+/**
  * Computes the "Fast ends" time for a fast day.
  *
- * Tish'a B'Av always ends at tzeit 6.45° (Rabbi Yechiel Michel Tucazinsky),
- * regardless of `options`.
+ * Tish'a B'Av ends `options.tishaBavEndMins` minutes after sunset or at tzeit
+ * `options.tishaBavEndDeg` when either is a nonzero number, and otherwise at
+ * tzeit 6.45° (Rabbi Yechiel Michel Tucazinsky). It is not affected by
+ * `options.fastEndDeg`, `options.fastEndMins` or `options.il`.
  *
  * For minor fasts: when `options.fastEndMins` is a nonzero number, the fast
  * ends that many minutes after sunset; otherwise, when `options.fastEndDeg` is
@@ -112,7 +150,14 @@ function makeFastEndTime(
   options: CalOptions
 ): Date {
   if (isTishaBav) {
-    return zmanim.tzeit(TZEIT_TUCAZINSKY);
+    const tishaBavEndMins = nonzero(options.tishaBavEndMins);
+    if (tishaBavEndMins !== undefined) {
+      return zmanim.sunsetOffset(Math.abs(tishaBavEndMins), true);
+    }
+    const tishaBavEndDeg = nonzero(options.tishaBavEndDeg);
+    return zmanim.tzeit(
+      tishaBavEndDeg === undefined ? TZEIT_TUCAZINSKY : Math.abs(tishaBavEndDeg)
+    );
   }
   const fastEndMins = options.fastEndMins;
   if (typeof fastEndMins === 'number' && fastEndMins !== 0) {
@@ -137,13 +182,16 @@ function makeFastEndTime(
  * `options.candlelighting` is `true` and `options.location` is provided.
  *
  * - Minor fasts (including Yom Kippur Katan) begin at *Alot HaShachar*
- *   (16.1° below horizon in the morning). By default they end at tzeit
- *   7.083° (3 medium-sized stars) in the Diaspora, or 15 minutes after
+ *   (16.1° below horizon in the morning), which can be overridden via
+ *   `options.fastStartDeg` or `options.fastStartMins`. By default they end at
+ *   tzeit 7.083° (3 medium-sized stars) in the Diaspora, or 15 minutes after
  *   sunset in Israel (Rabbi Deblitzky's practice). This can be overridden
  *   via `options.fastEndDeg` or `options.fastEndMins`.
- * - Tish'a B'Av begins at sunset on the previous day and always ends at tzeit
- *   6.45° below horizon (Rabbi Yechiel Michel Tucazinsky), regardless of
- *   `options.fastEndDeg` / `options.fastEndMins`.
+ * - Tish'a B'Av begins at sunset on the previous day, regardless of
+ *   `options.fastStartDeg` / `options.fastStartMins`. By default it ends at
+ *   tzeit 6.45° below horizon (Rabbi Yechiel Michel Tucazinsky), which can be
+ *   overridden via `options.tishaBavEndDeg` or `options.tishaBavEndMins`
+ *   (but not by `options.fastEndDeg` / `options.fastEndMins`).
  * - When a minor fast falls on a Friday, the end time is suppressed
  *   (Shabbat begins before nightfall).
  */
@@ -214,9 +262,9 @@ export function makeFastStartEnd(
       endEvent = makeTimedEvent(ev, fastEnd, FAST_ENDS, options);
     }
   } else {
-    const dawn = zmanim.alotHaShachar();
-    if (!isNaN(dawn.getTime())) {
-      startEvent = makeTimedEvent(ev, dawn, FAST_BEGINS, options);
+    const fastStart = makeFastStartTime(zmanim, options);
+    if (!isNaN(fastStart.getTime())) {
+      startEvent = makeTimedEvent(ev, fastStart, FAST_BEGINS, options);
     }
     if (
       dt.getDay() !== 5 &&

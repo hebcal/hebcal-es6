@@ -101,13 +101,21 @@ import {holidayDesc as hdesc} from './staticHolidays.js';
  * They end when 3 medium-sized stars are observable in the night sky (sun is 7.083°
  * below the horizon in the evening) in the Diaspora, or 15 minutes after sunset in
  * Israel (Rabbi Deblitzky's practice). Override with:
+ * * `options.fastStartDeg` - degrees of solar depression for the start of a minor fast
+ * * `options.fastStartMins` - minutes before sunrise for the start of a minor fast
+ *   (mutually exclusive with `options.fastStartDeg`)
  * * `options.fastEndDeg` - degrees of solar depression for the end of a minor fast
  * * `options.fastEndMins` - minutes after sunset for the end of a minor fast
  *   (mutually exclusive with `options.fastEndDeg`)
  *
- * Tish'a B'Av is different: it begins at sunset on the previous day and always ends
- * at tzeit 6.45° (Rabbi Yechiel Michel Tucazinsky), ignoring `options.fastEndDeg`
- * and `options.fastEndMins`. When a minor fast falls on a Friday the end time is
+ * Tish'a B'Av is different: it always begins at sunset on the previous day, and
+ * by default ends at tzeit 6.45° (Rabbi Yechiel Michel Tucazinsky), ignoring the
+ * minor fast options above. Override its end with:
+ * * `options.tishaBavEndDeg` - degrees of solar depression for the end of Tish'a B'Av
+ * * `options.tishaBavEndMins` - minutes after sunset for the end of Tish'a B'Av
+ *   (mutually exclusive with `options.tishaBavEndDeg`)
+ *
+ * When a minor fast falls on a Friday the end time is
  * suppressed, because Shabbat begins before nightfall.
  *
  * Two options also exist for generating an Event with the Hebrew date:
@@ -347,6 +355,10 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
   havdalahDeg: 1,
   fastEndDeg: 1,
   fastEndMins: 1,
+  fastStartDeg: 1,
+  fastStartMins: 1,
+  tishaBavEndDeg: 1,
+  tishaBavEndMins: 1,
   sedrot: 1,
   il: 1,
   noMinorFast: 1,
@@ -448,6 +460,22 @@ function checkCandleOptions(options: CalOptions) {
       'options.fastEndDeg and options.fastEndMins are mutually exclusive'
     );
   }
+  if (
+    typeof options.fastStartDeg === 'number' &&
+    typeof options.fastStartMins === 'number'
+  ) {
+    throw new TypeError(
+      'options.fastStartDeg and options.fastStartMins are mutually exclusive'
+    );
+  }
+  if (
+    typeof options.tishaBavEndDeg === 'number' &&
+    typeof options.tishaBavEndMins === 'number'
+  ) {
+    throw new TypeError(
+      'options.tishaBavEndDeg and options.tishaBavEndMins are mutually exclusive'
+    );
+  }
 
   const min0 = options.candleLightingMins;
   let min = typeof min0 === 'number' && !isNaN(min0) ? Math.trunc(min0) : 18;
@@ -468,6 +496,18 @@ function checkCandleOptions(options: CalOptions) {
   }
   if (typeof options.fastEndMins === 'number') {
     options.fastEndMins = Math.trunc(Math.abs(options.fastEndMins));
+  }
+  if (typeof options.fastStartDeg === 'number') {
+    options.fastStartDeg = Math.abs(options.fastStartDeg);
+  }
+  if (typeof options.fastStartMins === 'number') {
+    options.fastStartMins = Math.trunc(Math.abs(options.fastStartMins));
+  }
+  if (typeof options.tishaBavEndDeg === 'number') {
+    options.tishaBavEndDeg = Math.abs(options.tishaBavEndDeg);
+  }
+  if (typeof options.tishaBavEndMins === 'number') {
+    options.tishaBavEndMins = Math.trunc(Math.abs(options.tishaBavEndMins));
   }
 }
 

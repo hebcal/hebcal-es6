@@ -216,13 +216,21 @@ visible — calculated at 8.5° of solar depression. Two mutually exclusive over
 
 **Minor fasts** begin at Alot HaShachar (16.1° in the morning). They end at 7.083°
 in the Diaspora, or 15 minutes after sunset in Israel (Rabbi Deblitzky's practice).
-Override with `options.fastEndDeg` or `options.fastEndMins` — again mutually
-exclusive. When a minor fast falls on a Friday, the end time is suppressed, because
+Each end has a pair of mutually exclusive overrides:
+
+- `options.fastStartDeg` — a different solar depression angle for the start, or
+  `options.fastStartMins` — a fixed number of minutes before sunrise (72 and 90
+  are typical).
+- `options.fastEndDeg` — a different solar depression angle for the end, or
+  `options.fastEndMins` — a fixed number of minutes after sunset.
+
+When a minor fast falls on a Friday, the end time is suppressed, because
 Shabbat begins before nightfall.
 
-**Tish'a B'Av** does not follow those rules: it begins at sunset the previous day and
-always ends at 6.45° (Rabbi Yechiel Michel Tucazinsky), ignoring `fastEndDeg` and
-`fastEndMins`.
+**Tish'a B'Av** does not follow those rules: it always begins at sunset the
+previous day, and by default ends at 6.45° (Rabbi Yechiel Michel Tucazinsky),
+ignoring the minor fast options. Override its end with `options.tishaBavEndDeg` or
+`options.tishaBavEndMins` (mutually exclusive).
 
 **Chanukah** candle-lighting, also generated when `candlelighting` and `location`
 are set, is at Bein HaShmashos (13.5 minutes before 7.083°) on weekdays, regular
