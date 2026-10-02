@@ -15,7 +15,10 @@ import {Molad} from './molad.js';
  */
 function millisToDate(millis: number): Date {
   const res = new Date(millis);
-  res.setMilliseconds(0);
+  // UTC setter: a local-time setter re-resolves the wall-clock time and, in
+  // the repeated hour at the end of DST in the process time zone, would move
+  // the instant an hour earlier. See hebcal/hebcal-es6#786.
+  res.setUTCMilliseconds(0);
   return res;
 }
 
@@ -1115,10 +1118,10 @@ export class Zmanim {
     }
     if (roundMinute) {
       // For positive offsets only, round up to next minute if needed
-      if (offset > 0 && sunrise.getSeconds() >= 30) {
+      if (offset > 0 && sunrise.getUTCSeconds() >= 30) {
         offset++;
       }
-      sunrise.setSeconds(0, 0);
+      sunrise.setUTCSeconds(0, 0);
     }
     return new Date(sunrise.getTime() + offset * 60 * 1000);
   }
@@ -1138,10 +1141,10 @@ export class Zmanim {
     }
     if (roundMinute) {
       // For Havdalah only, round up to next minute if needed
-      if (offset > 0 && sunset.getSeconds() >= 30) {
+      if (offset > 0 && sunset.getUTCSeconds() >= 30) {
         offset++;
       }
-      sunset.setSeconds(0, 0);
+      sunset.setUTCSeconds(0, 0);
     }
     return new Date(sunset.getTime() + offset * 60 * 1000);
   }
