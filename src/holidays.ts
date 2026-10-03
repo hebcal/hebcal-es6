@@ -21,13 +21,9 @@
 import {HDate, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 import {flags} from './event.js';
-import {dateYomHaShoah, dateYomHaZikaron} from './modern.js';
+import {modernHolidaysForYear} from './modern.js';
 import {getSedra} from './sedra.js';
-import {
-  staticHolidays,
-  staticModernHolidays,
-  holidayDesc as hdesc,
-} from './staticHolidays.js';
+import {staticHolidays, holidayDesc as hdesc} from './staticHolidays.js';
 import {YomKippurKatanEvent} from './YomKippurKatanEvent.js';
 import {
   HolidayEvent,
@@ -64,21 +60,20 @@ export function getHolidaysOnDate(
   if (il === undefined || events === undefined) {
     return events;
   }
-  const filtered = events.filter(ev => ev.observedIn(il));
-  return filtered;
+  return events.filter(ev => ev.observedIn(il));
 }
 
-const CHAG = flags.CHAG;
-const IL_ONLY = flags.IL_ONLY;
-const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
-const CHANUKAH_CANDLES = flags.CHANUKAH_CANDLES;
-const BEHAB = flags.BEHAB;
-const MINOR_FAST = flags.MINOR_FAST;
-const SPECIAL_SHABBAT = flags.SPECIAL_SHABBAT;
-const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
-const MAJOR_FAST = flags.MAJOR_FAST;
-const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
-const EREV = flags.EREV;
+const {
+  CHAG,
+  LIGHT_CANDLES_TZEIS,
+  CHANUKAH_CANDLES,
+  BEHAB,
+  MINOR_FAST,
+  SPECIAL_SHABBAT,
+  MAJOR_FAST,
+  MINOR_HOLIDAY,
+  EREV,
+} = flags;
 
 const SUN = 0;
 const TUE = 2;
@@ -86,18 +81,9 @@ const THU = 4;
 const FRI = 5;
 const SAT = 6;
 
-const NISAN = months.NISAN;
-const IYYAR = months.IYYAR;
-const TAMUZ = months.TAMUZ;
-const AV = months.AV;
-const TISHREI = months.TISHREI;
-const CHESHVAN = months.CHESHVAN;
-const KISLEV = months.KISLEV;
-const TEVET = months.TEVET;
-const ADAR_I = months.ADAR_I;
-const ADAR_II = months.ADAR_II;
+const {NISAN, IYYAR, TAMUZ, AV, TISHREI, CHESHVAN, KISLEV, TEVET, ADAR_I, ADAR_II} =
+  months;
 
-const emojiIsraelFlag = {emoji: '🇮🇱'} as const;
 /**
  * Holidays for an entire Hebrew year, indexed by `HDate.toString()`
  * (e.g. `'15 Nisan 5784'`). Returned by
@@ -108,78 +94,59 @@ const emojiIsraelFlag = {emoji: '🇮🇱'} as const;
 export type HolidayYearMap = Map<string, HolidayEvent[]>;
 const yearCache = new QuickLRU<number, HolidayYearMap>({maxSize: 120});
 
-/**
- * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
- * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
- * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
- * @private
- */
-export function getHolidaysForYear_(year: number): HolidayYearMap {
-  if (typeof year !== 'number') {
-    throw new TypeError(`bad Hebrew year: ${year}`);
-  }
-  if (year < 1 || year > 32658) {
-    throw new RangeError(`Hebrew year ${year} out of range 1-32658`);
-  }
-  const cached = yearCache.get(year);
-  if (cached) {
-    return cached;
-  }
-
-  const RH = new HDate(1, TISHREI, year);
-  const pesach = new HDate(15, NISAN, year);
-
-  const map = new Map<string, HolidayEvent[]>();
-  function add(...events: HolidayEvent[]) {
-    for (const ev of events) {
-      const key = ev.date.toString();
-      const arr = map.get(key);
-      if (typeof arr === 'object') {
-        if (arr[0].hasFlag('EREV')) {
-          arr.unshift(ev);
-        } else {
-          arr.push(ev);
-        }
+function addToMap(map: HolidayYearMap, ...events: HolidayEvent[]): void {
+  for (const ev of events) {
+    const key = ev.date.toString();
+    const arr = map.get(key);
+    if (arr !== undefined) {
+      if (arr[0].hasFlag('EREV')) {
+        arr.unshift(ev);
       } else {
-        map.set(key, [ev]);
+        arr.push(ev);
       }
+    } else {
+      map.set(key, [ev]);
     }
   }
+}
 
+function addStaticHolidays(map: HolidayYearMap, year: number): void {
   for (const h of staticHolidays) {
     const hd = new HDate(h.dd, h.mm, year);
-    const attrs: any = {};
+    const attrs: {emoji?: string; cholHaMoedDay?: number} = {};
     if (h.emoji) attrs.emoji = h.emoji;
     if (h.chmDay) attrs.cholHaMoedDay = h.chmDay;
-    const ev = new HolidayEvent(hd, h.desc, h.flags, attrs);
-    add(ev);
+    addToMap(map, new HolidayEvent(hd, h.desc, h.flags, attrs));
   }
+}
 
+function addTishreiHolidays(map: HolidayYearMap, year: number, RH: HDate): void {
   // standard holidays that don't shift based on year
-  add(new RoshHashanaEvent(RH, year, CHAG | LIGHT_CANDLES_TZEIS));
-
-  // Variable date holidays
+  addToMap(map, new RoshHashanaEvent(RH, year, CHAG | LIGHT_CANDLES_TZEIS));
   const tzomGedaliahDay: number = RH.getDay() === THU ? 4 : 3;
-  add(
+  addToMap(
+    map,
     new HolidayEvent(
       new HDate(tzomGedaliahDay, TISHREI, year),
       hdesc.TZOM_GEDALIAH,
       MINOR_FAST
-    )
-  );
-  // first SAT after RH
-  add(
+    ),
+    // first SAT after RH
     new HolidayEvent(
       new HDate(HDate.dayOnOrBefore(SAT, 7 + RH.abs())),
       hdesc.SHABBAT_SHUVA,
       SPECIAL_SHABBAT
     )
   );
+}
+
+function addChanukahAndTevet(map: HolidayYearMap, year: number): void {
   const rchTevet = HDate.shortKislev(year)
     ? new HDate(1, TEVET, year)
     : new HDate(30, KISLEV, year);
-  add(new HolidayEvent(rchTevet, hdesc.CHAG_HABANOT, MINOR_HOLIDAY));
-  add(
+  addToMap(
+    map,
+    new HolidayEvent(rchTevet, hdesc.CHAG_HABANOT, MINOR_HOLIDAY),
     new ChanukahEvent(
       new HDate(24, KISLEV, year),
       hdesc.CHANUKAH_1_CANDLE,
@@ -191,7 +158,8 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
   // HDate() corrects the month automatically
   for (let candles = 2; candles <= 8; candles++) {
     const hd = new HDate(23 + candles, KISLEV, year);
-    add(
+    addToMap(
+      map,
       new ChanukahEvent(
         hd,
         `Chanukah: ${candles} Candles`,
@@ -200,19 +168,27 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       )
     );
   }
-  add(
+  addToMap(
+    map,
     new ChanukahEvent(
       new HDate(32, KISLEV, year),
       hdesc.CHANUKAH_8TH_DAY,
       MINOR_HOLIDAY,
       8
-    )
-  );
-  add(
+    ),
     new AsaraBTevetEvent(new HDate(10, TEVET, year), hdesc.ASARA_BTEVET, MINOR_FAST)
   );
+}
+
+function addPesachSeasonHolidays(
+  map: HolidayYearMap,
+  year: number,
+  pesach: HDate
+): void {
   const pesachAbs = pesach.abs();
-  add(
+  const haChodeshAbs = HDate.dayOnOrBefore(SAT, pesachAbs - 14);
+  addToMap(
+    map,
     new HolidayEvent(
       new HDate(HDate.dayOnOrBefore(SAT, pesachAbs - 43)),
       hdesc.SHABBAT_SHEKALIM,
@@ -227,10 +203,7 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       new HDate(pesachAbs - (pesach.getDay() === TUE ? 33 : 31)),
       hdesc.TAANIT_ESTHER,
       MINOR_FAST
-    )
-  );
-  const haChodeshAbs = HDate.dayOnOrBefore(SAT, pesachAbs - 14);
-  add(
+    ),
     new HolidayEvent(
       new HDate(haChodeshAbs - 7),
       hdesc.SHABBAT_PARAH,
@@ -255,7 +228,11 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       MINOR_FAST
     )
   );
-  add(
+}
+
+function addLeilSelichot(map: HolidayYearMap, year: number): void {
+  addToMap(
+    map,
     new HolidayEvent(
       new HDate(
         HDate.dayOnOrBefore(SAT, new HDate(1, TISHREI, year + 1).abs() - 4)
@@ -265,9 +242,12 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       {emoji: '🕍'}
     )
   );
+}
 
+function addPurimVariants(map: HolidayYearMap, year: number, pesach: HDate): void {
   if (pesach.getDay() === SUN) {
-    add(
+    addToMap(
+      map,
       new HolidayEvent(
         new HDate(16, ADAR_II, year),
         hdesc.PURIM_MESHULASH,
@@ -275,17 +255,15 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       )
     );
   }
-
   if (HDate.isLeapYear(year)) {
-    add(
+    addToMap(
+      map,
       new HolidayEvent(
         new HDate(14, ADAR_I, year),
         hdesc.PURIM_KATAN,
         MINOR_HOLIDAY,
         {emoji: '🎭️'}
-      )
-    );
-    add(
+      ),
       new HolidayEvent(
         new HDate(15, ADAR_I, year),
         hdesc.SHUSHAN_PURIM_KATAN,
@@ -294,68 +272,31 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       )
     );
   }
+}
 
-  const nisan27dt = dateYomHaShoah(year);
-  if (nisan27dt) {
-    add(new HolidayEvent(nisan27dt, hdesc.YOM_HASHOAH, MODERN_HOLIDAY));
-  }
-
-  const yomHaZikaronDt = dateYomHaZikaron(year);
-  if (yomHaZikaronDt) {
-    add(
-      new HolidayEvent(
-        yomHaZikaronDt,
-        hdesc.YOM_HAZIKARON,
-        MODERN_HOLIDAY,
-        emojiIsraelFlag
-      ),
-      new HolidayEvent(
-        yomHaZikaronDt.next(),
-        hdesc.YOM_HAATZMA_UT,
-        MODERN_HOLIDAY,
-        emojiIsraelFlag
-      )
-    );
-  }
-
-  for (const h of staticModernHolidays) {
-    if (year >= h.firstYear) {
-      let hd = new HDate(h.dd, h.mm, year);
-      const dow = hd.getDay();
-      if (h.friSatMovetoThu && (dow === FRI || dow === SAT)) {
-        hd = hd.onOrBefore(THU);
-      } else if (h.friPostponeToSun && dow === FRI) {
-        hd = new HDate(hd.abs() + 2);
-      } else if (h.satPostponeToSun && dow === SAT) {
-        hd = hd.next();
-      }
-      const mask = h.chul ? MODERN_HOLIDAY : MODERN_HOLIDAY | IL_ONLY;
-      const ev = new HolidayEvent(hd, h.desc, mask);
-      if (!h.suppressEmoji) {
-        ev.emoji = '🇮🇱';
-      }
-      add(ev);
-    }
-  }
-
+function addSummerFasts(map: HolidayYearMap, year: number): void {
   let tamuz17 = new HDate(17, TAMUZ, year);
-  let tamuz17attrs;
+  let tamuz17attrs: {observed: boolean} | undefined;
   if (tamuz17.getDay() === SAT) {
     tamuz17 = new HDate(18, TAMUZ, year);
     tamuz17attrs = {observed: true};
   }
-  add(new HolidayEvent(tamuz17, hdesc.TZOM_TAMMUZ, MINOR_FAST, tamuz17attrs));
+  addToMap(
+    map,
+    new HolidayEvent(tamuz17, hdesc.TZOM_TAMMUZ, MINOR_FAST, tamuz17attrs)
+  );
 
   let av9dt = new HDate(9, AV, year);
   let av9title = hdesc.TISHA_BAV;
-  let av9attrs;
+  let av9attrs: {observed: boolean} | undefined;
   if (av9dt.getDay() === SAT) {
     av9dt = av9dt.next();
     av9attrs = {observed: true};
     av9title += ' (observed)';
   }
   const av9abs = av9dt.abs();
-  add(
+  addToMap(
+    map,
     new HolidayEvent(
       new HDate(HDate.dayOnOrBefore(SAT, av9abs)),
       hdesc.SHABBAT_CHAZON,
@@ -374,34 +315,39 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       SPECIAL_SHABBAT
     )
   );
+}
 
+function daysInPreviousMonth(month: number, year: number): number {
+  return month === NISAN
+    ? HDate.daysInMonth(HDate.monthsInYear(year - 1), year - 1)
+    : HDate.daysInMonth(month - 1, year);
+}
+
+function addRoshChodesh(map: HolidayYearMap, year: number): void {
   const monthsInYear = HDate.monthsInYear(year);
   for (let month = 1; month <= monthsInYear; month++) {
     const monthName = HDate.getMonthName(month, year);
-    if (
-      (month === NISAN
-        ? HDate.daysInMonth(HDate.monthsInYear(year - 1), year - 1)
-        : HDate.daysInMonth(month - 1, year)) === 30
-    ) {
-      add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
-      add(new RoshChodeshEvent(new HDate(30, month - 1, year), monthName));
+    if (daysInPreviousMonth(month, year) === 30) {
+      addToMap(map, new RoshChodeshEvent(new HDate(1, month, year), monthName));
+      addToMap(
+        map,
+        new RoshChodeshEvent(new HDate(30, month - 1, year), monthName)
+      );
     } else if (month !== TISHREI) {
-      add(new RoshChodeshEvent(new HDate(1, month, year), monthName));
+      addToMap(map, new RoshChodeshEvent(new HDate(1, month, year), monthName));
     }
   }
+}
 
-  // Begin: Yom Kippur Katan
+function addYomKippurKatan(map: HolidayYearMap, year: number): void {
+  const monthsInYear = HDate.monthsInYear(year);
   // start at Iyyar because one may not fast during Nisan
-  for (let month = months.IYYAR; month <= monthsInYear; month++) {
+  for (let month = IYYAR; month <= monthsInYear; month++) {
     const nextMonth = month + 1;
     // Yom Kippur Katan is not observed on the day before Rosh Hashanah.
     // Not observed prior to Rosh Chodesh Cheshvan because Yom Kippur has just passed.
     // Not observed before Rosh Chodesh Tevet, because that day is Hanukkah.
-    if (
-      nextMonth === TISHREI ||
-      nextMonth === months.CHESHVAN ||
-      nextMonth === TEVET
-    ) {
+    if (nextMonth === TISHREI || nextMonth === CHESHVAN || nextMonth === TEVET) {
       continue;
     }
     let ykk = new HDate(29, month, year);
@@ -409,12 +355,12 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
     if (dow === FRI || dow === SAT) {
       ykk = ykk.onOrBefore(THU);
     }
-
     const nextMonthName = HDate.getMonthName(nextMonth, year);
-    const ev = new YomKippurKatanEvent(ykk, nextMonthName);
-    add(ev);
+    addToMap(map, new YomKippurKatanEvent(ykk, nextMonthName));
   }
+}
 
+function addBehab(map: HolidayYearMap, year: number): void {
   for (const month of [CHESHVAN, IYYAR]) {
     const roshChodesh = new HDate(1, month, year);
     let shabbos = new HDate(HDate.dayOnOrBefore(SAT, roshChodesh.abs() + 6));
@@ -426,24 +372,73 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       fastDays[2] = new HDate(17, IYYAR, year);
     }
     for (const hd of fastDays) {
-      add(new HolidayEvent(hd, hdesc.TAANIT_BEHAB, MINOR_FAST | BEHAB));
+      addToMap(map, new HolidayEvent(hd, hdesc.TAANIT_BEHAB, MINOR_FAST | BEHAB));
     }
   }
+}
+
+/**
+ * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
+ * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
+ * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
+ * @private
+ */
+export function getHolidaysForYear_(year: number): HolidayYearMap {
+  if (typeof year !== 'number') {
+    throw new TypeError(`bad Hebrew year: ${year}`);
+  }
+  if (year < 1 || year > 32658) {
+    throw new RangeError(`Hebrew year ${year} out of range 1-32658`);
+  }
+  const cached = yearCache.get(year);
+  if (cached) {
+    return cached;
+  }
+
+  const RH = new HDate(1, TISHREI, year);
+  const pesach = new HDate(15, NISAN, year);
+  const map: HolidayYearMap = new Map();
+
+  addStaticHolidays(map, year);
+  addTishreiHolidays(map, year, RH);
+  addChanukahAndTevet(map, year);
+  addPesachSeasonHolidays(map, year, pesach);
+  addLeilSelichot(map, year);
+  addPurimVariants(map, year, pesach);
+  addToMap(map, ...modernHolidaysForYear(year));
+  addSummerFasts(map, year);
+  addRoshChodesh(map, year);
+  addYomKippurKatan(map, year);
+  addBehab(map, year);
 
   const sedra = getSedra(year, false);
-  const beshalachHd = sedra.find(15) as HDate;
-  add(new HolidayEvent(beshalachHd, hdesc.SHABBAT_SHIRAH, SPECIAL_SHABBAT));
+  const beshalachHd = sedra.find(15);
+  if (beshalachHd === null) {
+    throw new Error(`Parashat Beshalach not found in year ${year}`);
+  }
+  addToMap(
+    map,
+    new HolidayEvent(beshalachHd, hdesc.SHABBAT_SHIRAH, SPECIAL_SHABBAT)
+  );
 
   // Birkat Hachamah appears only once every 28 years
   const birkatHaChama = getBirkatHaChama(year);
-  if (birkatHaChama) {
+  if (birkatHaChama !== undefined) {
     const hd = new HDate(birkatHaChama);
-    add(new HolidayEvent(hd, hdesc.BIRKAT_HACHAMAH, MINOR_HOLIDAY, {emoji: '☀️'}));
+    addToMap(
+      map,
+      new HolidayEvent(hd, hdesc.BIRKAT_HACHAMAH, MINOR_HOLIDAY, {emoji: '☀️'})
+    );
   }
 
   yearCache.set(year, map);
   return map;
 }
+
+/** 28 years of 365.25 days */
+const BIRKAT_HACHAMAH_CYCLE_DAYS = 10227;
+const BIRKAT_HACHAMAH_EPOCH_OFFSET = 1373429;
+const BIRKAT_HACHAMAH_REMAINDER = 172;
 
 /**
  * Birkat Hachamah appears only once every 28 years.
@@ -455,19 +450,19 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
  *   - 2 Iyyar 7141 (Gregorian year 3381)
  * @private
  */
-function getBirkatHaChama(year: number): number {
+function getBirkatHaChama(year: number): number | undefined {
   const leap = HDate.isLeapYear(year);
   const startMonth = leap ? ADAR_II : NISAN;
   const startDay = leap ? 20 : 1;
   const baseRd = HDate.hebrew2abs(year, startMonth, startDay);
   for (let day = 0; day <= 40; day++) {
     const abs = baseRd + day;
-    const elapsed = abs + 1373429;
-    if (elapsed % 10227 === 172) {
+    const elapsed = abs + BIRKAT_HACHAMAH_EPOCH_OFFSET;
+    if (elapsed % BIRKAT_HACHAMAH_CYCLE_DAYS === BIRKAT_HACHAMAH_REMAINDER) {
       return abs;
     }
   }
-  return 0;
+  return undefined;
 }
 
 /**

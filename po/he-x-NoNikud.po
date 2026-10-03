@@ -56,3 +56,6 @@ msgstr "סוכות ו׳ (חוה״מ)"
 
 msgid "Sukkot VII (Hoshana Raba)"
 msgstr "סוכות ז׳ (הושענא רבה)"
+
+msgid "Swords of Iron War Memorial Day"
+msgstr "יום הזיכרון לחללי מלחמת חרבות ברזל"

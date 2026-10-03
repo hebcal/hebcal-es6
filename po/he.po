@@ -647,3 +647,6 @@ msgstr "בִּעוּר חָמֵץ"
 
 msgid "Finish eating chametz"
 msgstr "סוֹף זְמַן אֲכִילַת חָמֵץ"
+
+msgid "Swords of Iron War Memorial Day"
+msgstr "יוֹם הַזִּכָּרוֹן לְחַלְלֵי מִלְחֶמֶת חַרְבוֹת בַּרְזֶל"
