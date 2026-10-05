@@ -333,14 +333,7 @@ export class Sedra {
    * @param hd Hebrew date or R.D. days
    */
   lookup(hd: HDate | number): SedraResult {
-    const abs = typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
-
-    if (isNaN(abs)) {
-      throw new TypeError(`Bad date argument: ${hd}`);
-    }
-    if (abs < this.rh) {
-      throw new RangeError(`Date ${hd} before start of Hebrew year ${this.year}`);
-    }
+    const abs = toAbsInYear(hd, this.rh, this.year);
 
     // find the first saturday on or after today's date
     const saturday = HDate.dayOnOrBefore(6, abs + 6);
@@ -400,14 +393,7 @@ export class Sedra {
    * @param hd Hebrew date or R.D. days
    */
   lookupWeekday(hd: HDate | number): SedraResult | undefined {
-    const abs = typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
-
-    if (isNaN(abs)) {
-      throw new TypeError(`Bad date argument: ${hd}`);
-    }
-    if (abs < this.rh) {
-      throw new RangeError(`Date ${hd} before start of Hebrew year ${this.year}`);
-    }
+    const abs = toAbsInYear(hd, this.rh, this.year);
 
     const hdate = new HDate(abs);
     const day = hdate.getDay();
@@ -462,8 +448,6 @@ export class Sedra {
  * * parshiot[1] == `Noach`
  * * parshiot[52] == `Ha'azinu`
  * * parshiot[53] == `Vezot Haberakhah`
- * @readonly
- * @type {string[]}
  */
 export const parshiot: readonly string[] = [
   'Bereshit',
@@ -522,15 +506,26 @@ export const parshiot: readonly string[] = [
   'Vezot Haberakhah',
 ] as const;
 
-// 0-based parsha IDs
-const parsha2id = new Map<string, number>();
-for (let id = 0; id < parshiot.length; id++) {
-  const name = parshiot[id];
-  parsha2id.set(name, id);
+/**
+ * Converts a `Sedra.lookup*()` argument to R.D. days, validating that it is a
+ * date on or after Rosh Hashana of `year` (whose R.D. day is `rh`)
+ */
+function toAbsInYear(hd: HDate | number, rh: number, year: number): number {
+  const abs = typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
+  if (isNaN(abs)) {
+    throw new TypeError(`Bad date argument: ${hd}`);
+  }
+  if (abs < rh) {
+    throw new RangeError(`Date ${hd} before start of Hebrew year ${year}`);
+  }
+  return abs;
 }
 
 // 0-based parsha IDs
-const doubles = new Set([
+const parsha2id = new Map(parshiot.map((name, id) => [name, id] as const));
+
+// 0-based parsha IDs
+const doubles: ReadonlySet<number> = new Set([
   21, // Vayakhel-Pekudei
   26, // Tazria-Metzora
   28, // Achrei Mot-Kedoshim
@@ -541,7 +536,6 @@ const doubles = new Set([
 ]);
 
 /**
- * @private
  * @param id a negative number
  */
 function isValidDouble(id: number): boolean {
@@ -550,7 +544,6 @@ function isValidDouble(id: number): boolean {
 
 /**
  * parsha doubler/undoubler
- * @private
  * @param p
  */
 function D(p: number): number {
@@ -573,12 +566,11 @@ const SHAVUOT = 'Shavuot'; // 33
 
 /**
  * Returns an array from start to end
- * @private
  * @param start beginning number, inclusive
  * @param stop ending number, inclusive
  */
 function range(start: number, stop: number): readonly number[] {
-  return Array.from({length: stop - start + 1}, (v, k) => k + start);
+  return Array.from({length: stop - start + 1}, (_, k) => k + start);
 }
 
 /**
@@ -600,8 +592,6 @@ const r4350 = range(43, 50);
 /**
  * The ordinary year types (keviot)
  * names are leap/nonleap - day - incomplete/regular/complete - diaspora/Israel
- * @private
- * @readonly
  */
 const types: Record<string, readonly NumberOrString[]> = {
   /* Hebrew year that starts on Monday, is `incomplete' (Heshvan and
@@ -815,7 +805,7 @@ const types: Record<string, readonly NumberOrString[]> = {
     r4349,
     D(50)
   ),
-} as const;
+};
 
 /* Hebrew year that starts on Monday, is `complete' (Heshvan and
  * Kislev each have 30 days), and has Passover start on Thursday. */

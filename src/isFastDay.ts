@@ -21,9 +21,8 @@ import {getHolidaysOnDate} from './holidays.js';
  * @return `true` if the date is a major or minor fast day
  */
 export function isFastDay(date: HDate | Date | number, il?: boolean): boolean {
-  const events = getHolidaysOnDate(date, il) || [];
-  const fastDay = events.find(
+  const events = getHolidaysOnDate(date, il) ?? [];
+  return events.some(
     ev => ev.hasAnyFlag('MAJOR_FAST', 'MINOR_FAST') && !ev.hasFlag('EREV')
   );
-  return Boolean(fastDay);
 }

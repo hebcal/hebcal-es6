@@ -1,7 +1,7 @@
 import {Locale} from './locale.js';
 import {smartApostrophe} from './string.js';
 
-/** @private */
+/** @internal */
 export function renderParshaName(parsha: string[], locale?: string): string {
   let name = Locale.gettext(parsha[0], locale);
   if (parsha.length === 2) {
@@ -9,6 +9,5 @@ export function renderParshaName(parsha: string[], locale?: string): string {
     name += hyphen + Locale.gettext(parsha[1], locale);
   }
   name = smartApostrophe(name);
-  const str = Locale.gettext('Parashat', locale) + ' ' + name;
-  return str.normalize();
+  return `${Locale.gettext('Parashat', locale)} ${name}`.normalize();
 }

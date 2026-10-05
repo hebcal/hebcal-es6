@@ -25,7 +25,7 @@ import QuickLRU from 'quick-lru';
 const classicCities = new Map<string, Location>();
 
 // Zip-Codes.com TimeZone IDs
-const ZIPCODES_TZ_MAP: Record<string, string> = {
+const ZIPCODES_TZ_MAP: Readonly<Record<string, string>> = {
   '0': 'UTC',
   '4': 'America/Puerto_Rico', // Atlantic (GMT -04:00)
   '5': 'America/New_York', //    Eastern  (GMT -05:00)
@@ -39,9 +39,8 @@ const ZIPCODES_TZ_MAP: Record<string, string> = {
   '14': 'Pacific/Guam', //       Guam     (GMT +10:00)
   '15': 'Pacific/Palau', //      Palau    (GMT +9:00)
   '16': 'Pacific/Chuuk', //      Micronesia (GMT +11:00)
-} as const;
+};
 
-/** @private */
 const timeFormatCache = new QuickLRU<string, Intl.DateTimeFormat>({
   maxSize: 120,
 });
@@ -49,7 +48,6 @@ const timeFormatCache = new QuickLRU<string, Intl.DateTimeFormat>({
 /**
  * Gets a 24-hour time formatter (e.g. 07:41 or 20:03) from cache
  * or makes a new one if needed
- * @private
  */
 function getFormatter(tzid: string): Intl.DateTimeFormat {
   const fmt = timeFormatCache.get(tzid);
@@ -170,11 +168,8 @@ export class Location extends GeoLocation {
       cityName = String(cityName);
     }
     super(cityName || null, lat, long, elev, tzid);
-    this.il = Boolean(il);
+    this.il = Boolean(il) || countryCode === 'IL';
     this.cc = countryCode;
-    if (countryCode === 'IL') {
-      this.il = true;
-    }
     this.geoid = geoid;
   }
 

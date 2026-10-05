@@ -3,7 +3,7 @@ import {getTimezoneOffset} from '@hebcal/hdate';
 import {MoladBase} from './moladBase.js';
 
 /** constant for milliseconds in a minute (60,000) */
-const MINUTE_MILLIS: number = 60 * 1000;
+const MINUTE_MILLIS = 60 * 1000;
 
 /**
  * A method that will return the location's local mean time offset in milliseconds from local
@@ -25,7 +25,7 @@ const MINUTE_MILLIS: number = 60 * 1000;
  *         East of the 15° timezone line, and a negative value West of it.
  */
 function getLocalMeanTimeOffset(dt: Date, longitude: number, tzid: string): number {
-  const offset: number = -1 * getTimezoneOffset(tzid, dt);
+  const offset = -1 * getTimezoneOffset(tzid, dt);
   const d = longitude * 4 * MINUTE_MILLIS - offset * MINUTE_MILLIS;
   return Math.trunc(d);
 }
@@ -44,17 +44,15 @@ function getLocalMeanTimeOffset(dt: Date, longitude: number, tzid: string): numb
  * @return the `Temporal.ZonedDateTime` representing the moment of the molad
  */
 export function getMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
-  const moladSeconds: number = (molad.chalakim * 10) / 3;
-  const millis: number = Math.trunc(
-    1000 * (moladSeconds - Math.trunc(moladSeconds))
-  );
+  const moladSeconds = (molad.chalakim * 10) / 3;
+  const millis = Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds)));
 
   const dt = molad.hdate.greg();
 
   // The raw molad Date (point in time) must be generated using standard time. Using "Asia/Jerusalem" timezone will result in the time
   // being incorrectly off by an hour in the summer due to DST. Proper adjustment for the actual time in DST will be done by the date
   // formatter class used to display the Date.
-  const tzid: string = 'Etc/GMT+2';
+  const tzid = 'Etc/GMT+2';
   const zdt = Temporal.ZonedDateTime.from({
     year: dt.getFullYear(),
     month: dt.getMonth() + 1,
@@ -66,7 +64,7 @@ export function getMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
     timeZone: tzid,
   });
 
-  const longitude: number = 35.2354; // Har Habayis longitude
+  const longitude = 35.2354; // Har Habayis longitude
   const offset = getLocalMeanTimeOffset(dt, longitude, tzid);
   // subtract local time difference of 20.94 minutes (20 minutes and 56.496 seconds) to get to Standard time
   const zdt2 = zdt.subtract({milliseconds: offset});

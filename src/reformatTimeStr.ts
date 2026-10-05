@@ -1,19 +1,20 @@
 import {CalOptions} from './CalOptions.js';
 
-const hour12cc: Record<string, number> = {
-  US: 1,
-  CA: 1,
-  BR: 1,
-  AU: 1,
-  NZ: 1,
-  DO: 1,
-  PR: 1,
-  GR: 1,
-  IN: 1,
-  KR: 1,
-  NP: 1,
-  ZA: 1,
-} as const;
+/** Countries that conventionally use a 12-hour clock */
+const hour12cc: ReadonlySet<string> = new Set([
+  'US',
+  'CA',
+  'BR',
+  'AU',
+  'NZ',
+  'DO',
+  'PR',
+  'GR',
+  'IN',
+  'KR',
+  'NP',
+  'ZA',
+]);
 
 /**
  * Helper function to format a 24-hour (00:00-23:59) time string in either
@@ -44,7 +45,7 @@ export function reformatTimeStr(
   if (hour12 !== undefined && !hour12) {
     return timeStr;
   }
-  if (!hour12 && hour12cc[cc] === undefined) {
+  if (!hour12 && !hour12cc.has(cc)) {
     return timeStr;
   }
   const hm = timeStr.split(':');

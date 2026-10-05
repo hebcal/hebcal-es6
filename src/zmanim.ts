@@ -11,7 +11,6 @@ import {Molad} from './molad.js';
  * `Temporal.ZonedDateTime`. Resolving the IANA zone to build a
  * `ZonedDateTime` costs roughly 750ns and nothing downstream uses it, which
  * made it the single most expensive step in a sunrise/sunset calculation.
- * @private
  */
 function millisToDate(millis: number): Date {
   const res = new Date(millis);
@@ -25,7 +24,7 @@ function millisToDate(millis: number): Date {
 /**
  * The zenith of astronomical sunrise and sunset. The sun is 90° from the vertical 0°
  */
-const GEOMETRIC_ZENITH: number = 90;
+const GEOMETRIC_ZENITH = 90;
 
 /**
  * The zenith of 1.583° below geometric zenith (90°). This calculation is used for
@@ -35,22 +34,33 @@ const GEOMETRIC_ZENITH: number = 90;
  * @see Zmanim.sunriseBaalHatanya
  * @see Zmanim.sunsetBaalHatanya
  */
-const ZENITH_1_POINT_583: number = GEOMETRIC_ZENITH + 1.583;
+const ZENITH_1_POINT_583 = GEOMETRIC_ZENITH + 1.583;
 
 /**
  * The zenith of civil twilight; the sun is 6° below the horizon.
  * Matches `NOAACalculator.CIVIL_ZENITH`.
  */
-const CIVIL_ZENITH: number = GEOMETRIC_ZENITH + 6;
+const CIVIL_ZENITH = GEOMETRIC_ZENITH + 6;
 
 /**
  * Length of one temporal (halachic) hour in milliseconds, i.e. one twelfth of
  * the day. Mirrors `NOAACalculator.getTemporalHour()`, including its floor, so
  * that results stay identical to the `ZonedDateTime` code path.
- * @private
  */
 function temporalHourMillis(startOfDay: number, endOfDay: number): number {
   return Math.floor((endOfDay - startOfDay) / 12);
+}
+
+/**
+ * Returns the moment `hours` temporal hours after `startOfDay`, where one
+ * temporal hour lasts `temporalHour` milliseconds
+ */
+function addTemporalHours(
+  startOfDay: Date,
+  temporalHour: number,
+  hours: number
+): Date {
+  return new Date(startOfDay.getTime() + Math.floor(hours * temporalHour));
 }
 
 /**
@@ -156,7 +166,6 @@ export class Zmanim {
    * as well; the adjustment is a no-op unless the zenith is exactly
    * {@link GEOMETRIC_ZENITH}, which is why degree-based zmanim are unaffected
    * by elevation.
-   * @private
    */
   private sunriseMillis(zenith: number, useElevation: boolean): number {
     const utc = useElevation
@@ -166,7 +175,6 @@ export class Zmanim {
   }
   /**
    * Sunset counterpart of {@link sunriseMillis}.
-   * @private
    */
   private sunsetMillis(zenith: number, useElevation: boolean): number {
     const utc = useElevation
@@ -391,8 +399,7 @@ export class Zmanim {
   sofZmanShmaMGA(): Date {
     // Magen Avraham
     const [alot72, temporalHour] = this.getTemporalHour72(true);
-    const offset = Math.floor(3 * temporalHour);
-    return new Date(alot72.getTime() + offset);
+    return addTemporalHours(alot72, temporalHour, 3);
   }
   /**
    * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
@@ -401,8 +408,7 @@ export class Zmanim {
    */
   sofZmanShmaMGA16Point1(): Date {
     const [alot, temporalHour] = this.getTemporalHourByDeg(16.1);
-    const offset = Math.floor(3 * temporalHour);
-    return new Date(alot.getTime() + offset);
+    return addTemporalHours(alot, temporalHour, 3);
   }
   /**
    * Latest Shema (MGA); Sunrise plus 3 halachic hours, according to Magen Avraham.
@@ -415,8 +421,7 @@ export class Zmanim {
    */
   sofZmanShmaMGA19Point8(): Date {
     const [alot, temporalHour] = this.getTemporalHourByDeg(19.8);
-    const offset = Math.floor(3 * temporalHour);
-    return new Date(alot.getTime() + offset);
+    return addTemporalHours(alot, temporalHour, 3);
   }
   /**
    * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham
@@ -424,8 +429,7 @@ export class Zmanim {
   sofZmanTfillaMGA(): Date {
     // Magen Avraham
     const [alot72, temporalHour] = this.getTemporalHour72(true);
-    const offset = Math.floor(4 * temporalHour);
-    return new Date(alot72.getTime() + offset);
+    return addTemporalHours(alot72, temporalHour, 4);
   }
   /**
    * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
@@ -434,8 +438,7 @@ export class Zmanim {
    */
   sofZmanTfillaMGA16Point1(): Date {
     const [alot, temporalHour] = this.getTemporalHourByDeg(16.1);
-    const offset = Math.floor(4 * temporalHour);
-    return new Date(alot.getTime() + offset);
+    return addTemporalHours(alot, temporalHour, 4);
   }
   /**
    * Latest Shacharit (MGA); Sunrise plus 4 halachic hours, according to Magen Avraham.
@@ -448,8 +451,7 @@ export class Zmanim {
    */
   sofZmanTfillaMGA19Point8(): Date {
     const [alot, temporalHour] = this.getTemporalHourByDeg(19.8);
-    const offset = Math.floor(4 * temporalHour);
-    return new Date(alot.getTime() + offset);
+    return addTemporalHours(alot, temporalHour, 4);
   }
   /**
    * Earliest Mincha – Mincha Gedola (GRA); Sunrise plus 6.5 halachic hours.
@@ -477,8 +479,7 @@ export class Zmanim {
    */
   minchaGedolaMGA(): Date {
     const [alot72, temporalHour] = this.getTemporalHour72(false);
-    const offset = Math.floor(6.5 * temporalHour);
-    return new Date(alot72.getTime() + offset);
+    return addTemporalHours(alot72, temporalHour, 6.5);
   }
   /**
    * Preferable earliest time to recite Minchah – Mincha Ketana; Sunrise plus 9.5 halachic hours.
@@ -503,7 +504,7 @@ export class Zmanim {
    */
   minchaKetanaMGA(): Date {
     const [alot72, temporalHour] = this.getTemporalHour72(false);
-    return new Date(alot72.getTime() + Math.floor(9.5 * temporalHour));
+    return addTemporalHours(alot72, temporalHour, 9.5);
   }
   /**
    * Plag haMincha; Sunrise plus 10.75 halachic hours.
@@ -616,8 +617,8 @@ export class Zmanim {
     tzais: Temporal.ZonedDateTime | null,
     techila: boolean
   ): Temporal.ZonedDateTime | null {
-    const lastMidnight: Temporal.ZonedDateTime = this.getMidnightLastNight();
-    const midnightTonight: Temporal.ZonedDateTime = this.getMidnightTonight();
+    const lastMidnight = this.getMidnightLastNight();
+    const midnightTonight = this.getMidnightTonight();
 
     if (
       Temporal.ZonedDateTime.compare(moladBasedTime, lastMidnight) < 0 ||
@@ -661,7 +662,7 @@ export class Zmanim {
    *         occurs between _alos_ and _tzais_, _alos_ will be returned. If the _zman_ will not occur on this
    *         day, `null` will be returned.
    */
-  public getSofZmanKidushLevanaBetweenMoldos(
+  getSofZmanKidushLevanaBetweenMoldos(
     alos: Temporal.ZonedDateTime | null = null,
     tzais: Temporal.ZonedDateTime | null = null
   ): Temporal.ZonedDateTime | null {
@@ -706,7 +707,7 @@ export class Zmanim {
    *         between _alos_ and _tzais_, _alos_ will be returned. If the _zman_ will not occur on this day,
    *         `null` will be returned.
    */
-  public getSofZmanKidushLevana15Days(
+  getSofZmanKidushLevana15Days(
     alos: Temporal.ZonedDateTime | null = null,
     tzais: Temporal.ZonedDateTime | null = null
   ): Temporal.ZonedDateTime | null {
@@ -748,7 +749,7 @@ export class Zmanim {
    *         between _alos_ and _tzais_, _tzais_ will be returned. If the _zman_ will not occur on this day,
    *         `null` will be returned.
    */
-  public getTchilasZmanKidushLevana3Days(
+  getTchilasZmanKidushLevana3Days(
     alos: Temporal.ZonedDateTime | null = null,
     tzais: Temporal.ZonedDateTime | null = null
   ): Temporal.ZonedDateTime | null {
@@ -794,7 +795,7 @@ export class Zmanim {
    * @return the `Temporal.ZonedDateTime` representing the moment of the molad. If the _molad_ does not occur on
    *         this day, `null` will be returned.
    */
-  public getZmanMolad(): Temporal.ZonedDateTime | null {
+  getZmanMolad(): Temporal.ZonedDateTime | null {
     const hd = this.hdate;
 
     // Optimize to not calculate for impossible dates, but account for extreme cases. The molad in the extreme case of Rapa
@@ -836,7 +837,7 @@ export class Zmanim {
    * @return the `Temporal.ZonedDateTime` representing the moment 7 days after the molad. If the _zman_
    *         will not occur on this day, `null` will be returned.
    */
-  public getTchilasZmanKidushLevana7Days(
+  getTchilasZmanKidushLevana7Days(
     alos: Temporal.ZonedDateTime | null = null,
     tzais: Temporal.ZonedDateTime | null = null
   ): Temporal.ZonedDateTime | null {
@@ -931,7 +932,7 @@ export class Zmanim {
    *         locations even south of the Arctic Circle and north of the Antarctic Circle where the sun may not reach
    *         low enough below the horizon for this calculation, an `Invalid Date` will be returned.
    */
-  public alosBaalHatanya(): Date {
+  alosBaalHatanya(): Date {
     return this.timeAtAngle(16.9, true);
   }
 
@@ -954,7 +955,7 @@ export class Zmanim {
    *         can't be computed, such as in the Arctic Circle where there is at least one day a year where the sun does
    *         not rise and one where it does not set, an `Invalid Date` will be returned.
    */
-  public sofZmanShmaBaalHatanya(): Date {
+  sofZmanShmaBaalHatanya(): Date {
     return this.getShaahZmanisBaalHatanya(3);
   }
 
@@ -967,7 +968,7 @@ export class Zmanim {
    *         the Arctic Circle where there is at least one day a year where the sun does not rise and one where it does
    *         not set, an `Invalid Date` will be returned.
    */
-  public sofZmanTfilaBaalHatanya(): Date {
+  sofZmanTfilaBaalHatanya(): Date {
     return this.getShaahZmanisBaalHatanya(4);
   }
 
@@ -985,7 +986,7 @@ export class Zmanim {
    *         can't be computed, such as in the Arctic Circle where there is at least one day a year where the sun does not rise
    *         and one where it does not set, an `Invalid Date` will be returned.
    */
-  public minchaGedolaBaalHatanya(): Date {
+  minchaGedolaBaalHatanya(): Date {
     return this.getShaahZmanisBaalHatanya(6.5);
   }
 
@@ -1000,7 +1001,7 @@ export class Zmanim {
    *         in the Arctic Circle where there is at least one day a year where the sun does not rise and one where it
    *         does not set, an `Invalid Date` will be returned.
    */
-  public minchaKetanaBaalHatanya(): Date {
+  minchaKetanaBaalHatanya(): Date {
     return this.getShaahZmanisBaalHatanya(9.5);
   }
 
@@ -1013,7 +1014,7 @@ export class Zmanim {
    *         can't be computed, such as in the Arctic Circle where there is at least one day a year where the sun does
    *         not rise and one where it does not set, an `Invalid Date` will be returned.
    */
-  public plagHaminchaBaalHatanya(): Date {
+  plagHaminchaBaalHatanya(): Date {
     return this.getShaahZmanisBaalHatanya(10.75);
   }
 
@@ -1026,7 +1027,7 @@ export class Zmanim {
    *         locations — even south of the Arctic Circle and north of the Antarctic Circle — where the sun may not
    *         reach low enough below the horizon for this calculation, an `Invalid Date` will be returned.
    */
-  public tzaisBaalHatanya(): Date {
+  tzaisBaalHatanya(): Date {
     return this.timeAtAngle(6, false);
   }
 
@@ -1051,7 +1052,7 @@ export class Zmanim {
       time.charCodeAt(1) === 0x34 && // '4'
       time.charCodeAt(2) === 0x3a // ':'
     ) {
-      return '00' + time.substring(2);
+      return `00${time.substring(2)}`;
     }
     return time;
   }
@@ -1086,7 +1087,8 @@ export class Zmanim {
     const offsetAbs = Math.abs(offset);
     const hours = Math.floor(offsetAbs / 60);
     const minutes = offsetAbs % 60;
-    return (offset < 0 ? '+' : '-') + pad2(hours) + ':' + pad2(minutes);
+    const sign = offset < 0 ? '+' : '-';
+    return `${sign}${pad2(hours)}:${pad2(minutes)}`;
   }
 
   /**

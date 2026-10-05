@@ -1,13 +1,10 @@
 import {HDate, months} from '@hebcal/hdate';
 
-const NISAN = months.NISAN;
-const SIVAN = months.SIVAN;
-const TAMUZ = months.TAMUZ;
-const AV = months.AV;
+const {NISAN, SIVAN, TAMUZ, AV} = months;
 const SAT = 6;
 
 function getHDate(date: HDate | Date | number): HDate {
-  return HDate.isHDate(date) ? (date as HDate) : new HDate(date);
+  return HDate.isHDate(date) ? date : new HDate(date);
 }
 
 function isSefiratHaOmer(hd: HDate): boolean {

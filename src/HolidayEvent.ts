@@ -71,12 +71,8 @@ export class HolidayEvent extends Event {
     if (year < 100 || year > 2999) {
       return undefined;
     }
-    const url =
-      'https://www.hebcal.com/holidays/' +
-      urlFriendly(this.basename()) +
-      '-' +
-      this.urlDateSuffix();
-    return this.hasFlag('IL_ONLY') ? url + '?i=on' : url;
+    const url = `https://www.hebcal.com/holidays/${urlFriendly(this.basename())}-${this.urlDateSuffix()}`;
+    return this.hasFlag('IL_ONLY') ? `${url}?i=on` : url;
   }
 
   /**
@@ -84,8 +80,7 @@ export class HolidayEvent extends Event {
    * Gregorian year; subclasses override it when a year alone is ambiguous.
    */
   urlDateSuffix(): string {
-    const year = this.greg().getFullYear();
-    return String(year);
+    return String(this.greg().getFullYear());
   }
 
   getEmoji(): string {
@@ -215,7 +210,7 @@ export class RoshHashanaEvent extends HolidayEvent {
    * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
-    return Locale.gettext('Rosh Hashana', locale) + ' ' + this.hyear;
+    return `${Locale.gettext('Rosh Hashana', locale)} ${this.hyear}`;
   }
 
   getEmoji(): string {
@@ -243,7 +238,7 @@ export class RoshChodeshEvent extends HolidayEvent {
     const monthName = this.getDesc().substring(roshChodeshStr.length + 1);
     const monthName0 = Locale.gettext(monthName, locale);
     const monthName1 = smartApostrophe(monthName0);
-    return Locale.gettext(roshChodeshStr, locale) + ' ' + monthName1;
+    return `${Locale.gettext(roshChodeshStr, locale)} ${monthName1}`;
   }
 
   basename(): string {

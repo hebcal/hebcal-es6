@@ -23,33 +23,33 @@ export type MoladBase = {
  * the Jewish epoch using the RD (Rata Die/Fixed Date or Reingold Dershowitz) day used in Calendrical Calculations.
  * Day 1 is January 1, 0001 of the Gregorian calendar
  */
-const JEWISH_EPOCH: number = -1373429;
+const JEWISH_EPOCH = -1373429;
 
 /** The number of _chalakim_ (18) in a minute. */
-const CHALAKIM_PER_MINUTE: number = 18;
+const CHALAKIM_PER_MINUTE = 18;
 
 /** The number of _chalakim_ (1080) in an hour. */
-const CHALAKIM_PER_HOUR: number = 1080;
+const CHALAKIM_PER_HOUR = 1080;
 
 /** The number of _chalakim_ (25,920) in a 24-hour day. */
-const CHALAKIM_PER_DAY: number = 25920; // 24 * 1080
+const CHALAKIM_PER_DAY = 25920; // 24 * 1080
 
 /** The number of _chalakim_ in an average Jewish month. A month has 29 days, 12 hours and 793
  * _chalakim_ (44 minutes and 3.3 seconds) for a total of 765,433 _chalakim_ */
-const CHALAKIM_PER_MONTH: number = 765433; // (29 * 24 + 12) * 1080 + 793
+const CHALAKIM_PER_MONTH = 765433; // (29 * 24 + 12) * 1080 + 793
 
 /**
  * Days from the beginning of Sunday till _molad BaHaRaD_. Calculated as 1 day, 5 hours and 204 _chalakim_ =
  * (24 + 5) * 1080 + 204 = 31524
  */
-const CHALAKIM_MOLAD_TOHU: number = 31524;
+const CHALAKIM_MOLAD_TOHU = 31524;
 
 /**
  * Converts the NISSAN-based constants used by this class to numeric month starting from
  * TISHREI. This is required for _molad_ calculations.
  */
 function getJewishMonthOfYear(year: number, month: number): number {
-  const leap: boolean = isLeapYear(year);
+  const leap = isLeapYear(year);
   return ((month + (leap ? 6 : 5)) % (leap ? 13 : 12)) + 1;
 }
 
@@ -61,7 +61,7 @@ function getJewishMonthOfYear(year: number, month: number): number {
 function getChalakimSinceMoladTohu(year: number, month: number): number {
   // Jewish lunar month = 29 days, 12 hours and 793 chalakim
   // chalakim since Molad Tohu BeHaRaD - 1 day, 5 hours and 204 chalakim
-  const monthOfYear: number = getJewishMonthOfYear(year, month);
+  const monthOfYear = getJewishMonthOfYear(year, month);
   const monthsElapsed: number =
     235 * Math.trunc((year - 1) / 19) + // Months in complete 19-year lunar (Metonic) cycles so far
     12 * ((year - 1) % 19) + // Regular months in this cycle
@@ -95,12 +95,10 @@ export function calculateMolad(year: number, month: number): MoladBase {
   const chalakim = getChalakimSinceMoladTohu(year, month);
   const absDate = moladToAbsDate(chalakim);
   let hd = new HDate(absDate);
-  const conjunctionDay: number = Math.trunc(chalakim / CHALAKIM_PER_DAY);
-  const conjunctionParts: number = Math.trunc(
-    chalakim - conjunctionDay * CHALAKIM_PER_DAY
-  );
+  const conjunctionDay = Math.trunc(chalakim / CHALAKIM_PER_DAY);
+  const conjunctionParts = Math.trunc(chalakim - conjunctionDay * CHALAKIM_PER_DAY);
 
-  let adjustedChalakim: number = conjunctionParts;
+  let adjustedChalakim = conjunctionParts;
   let hour = Math.trunc(adjustedChalakim / CHALAKIM_PER_HOUR);
   adjustedChalakim = adjustedChalakim - hour * CHALAKIM_PER_HOUR;
   const minutes = Math.trunc(adjustedChalakim / CHALAKIM_PER_MINUTE);
@@ -110,12 +108,10 @@ export function calculateMolad(year: number, month: number): MoladBase {
   }
   hour = (hour + 18) % 24;
 
-  const m: MoladBase = {
+  return {
     hdate: hd,
     hour,
     minutes,
     chalakim: adjustedChalakim - minutes * CHALAKIM_PER_MINUTE,
   };
-
-  return m;
 }

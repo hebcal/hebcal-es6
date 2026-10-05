@@ -1,16 +1,15 @@
 import {greg2abs, isDate, daysInGregMonth, HDate, months} from '@hebcal/hdate';
 import {CalOptions} from './CalOptions.js';
 
-const TISHREI = months.TISHREI;
+const {TISHREI} = months;
 
 /**
  * Gets the R.D. days for a number, Date, or HDate
- * @private
  */
 function getAbs(d: Date | HDate | number): number {
   if (typeof d === 'number') return d;
-  if (isDate(d)) return greg2abs(d as Date);
-  if (HDate.isHDate(d)) return (d as HDate).abs();
+  if (isDate(d)) return greg2abs(d);
+  if (HDate.isHDate(d)) return d.abs();
   throw new TypeError(`Invalid date type: ${d}`);
 }
 
@@ -27,17 +26,16 @@ const MAX_NUM_YEARS = 2000;
 
 /**
  * Parse options object to determine start & end days
- * @private
+ * @internal
  */
 export function getStartAndEnd(options: CalOptions): number[] {
-  const hasStart = options.start !== undefined;
-  const hasEnd = options.end !== undefined;
-  if (hasStart !== hasEnd) {
+  const {start: start0, end: end0} = options;
+  if ((start0 === undefined) !== (end0 === undefined)) {
     throw new TypeError('options.start requires options.end');
   }
-  if (hasStart && hasEnd) {
-    const start = getAbs(options.start!),
-      end = getAbs(options.end!);
+  if (start0 !== undefined && end0 !== undefined) {
+    const start = getAbs(start0);
+    const end = getAbs(end0);
     if (end - start > 365 * MAX_NUM_YEARS) {
       throw new RangeError(`Date range exceeds ${MAX_NUM_YEARS} years`);
     }
@@ -86,7 +84,7 @@ function startEndGregorian(
     startGreg.setFullYear(theYear);
   }
   const startAbs = greg2abs(startGreg);
-  let endAbs;
+  let endAbs: number;
   if (theMonth) {
     endAbs = startAbs + daysInGregMonth(theMonth, theYear) - 1;
   } else {

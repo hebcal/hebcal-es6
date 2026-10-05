@@ -49,10 +49,7 @@ export class DailyLearning {
     if (typeof calendar !== 'function') {
       throw new TypeError(`Invalid calendar function: ${calendar}`);
     }
-    cals.set(name.toLowerCase(), {
-      fn: calendar,
-      startDate: startDate,
-    });
+    cals.set(name.toLowerCase(), {fn: calendar, startDate});
   }
 
   /**
@@ -69,10 +66,7 @@ export class DailyLearning {
    */
   static lookup(name: string, hd: HDate, il: boolean): Event | null {
     const cal = cals.get(name.toLowerCase());
-    if (typeof cal === 'object') {
-      return cal.fn(hd, il);
-    }
-    return null;
+    return cal ? cal.fn(hd, il) : null;
   }
 
   /**
@@ -82,11 +76,7 @@ export class DailyLearning {
    * @param name case insensitive
    */
   static getStartDate(name: string): HDate | undefined {
-    const cal = cals.get(name.toLowerCase());
-    if (typeof cal === 'object') {
-      return cal.startDate;
-    }
-    return undefined;
+    return cals.get(name.toLowerCase())?.startDate;
   }
 
   /**
@@ -103,6 +93,6 @@ export class DailyLearning {
    * calendars.
    */
   static getCalendars(): string[] {
-    return Array.from(cals.keys());
+    return [...cals.keys()];
   }
 }

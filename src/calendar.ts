@@ -309,39 +309,39 @@ export function calendar(options: CalOptions = {}): Event[] {
 const FRI = 5;
 const SAT = 6;
 
-const NISAN = months.NISAN;
-const SIVAN = months.SIVAN;
-const ELUL = months.ELUL;
+const {NISAN, SIVAN, ELUL} = months;
 
-const LIGHT_CANDLES = flags.LIGHT_CANDLES;
-const YOM_TOV_ENDS = flags.YOM_TOV_ENDS;
-const CHUL_ONLY = flags.CHUL_ONLY;
-const IL_ONLY = flags.IL_ONLY;
-const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
-const CHANUKAH_CANDLES = flags.CHANUKAH_CANDLES;
-const MINOR_FAST = flags.MINOR_FAST;
-const SPECIAL_SHABBAT = flags.SPECIAL_SHABBAT;
-const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
-const MAJOR_FAST = flags.MAJOR_FAST;
-const ROSH_CHODESH = flags.ROSH_CHODESH;
-const PARSHA_HASHAVUA = flags.PARSHA_HASHAVUA;
-const DAF_YOMI = flags.DAF_YOMI;
-const MISHNA_YOMI = flags.MISHNA_YOMI;
-const NACH_YOMI = flags.NACH_YOMI;
-const YERUSHALMI_YOMI = flags.YERUSHALMI_YOMI;
-const OMER_COUNT = flags.OMER_COUNT;
-const SHABBAT_MEVARCHIM = flags.SHABBAT_MEVARCHIM;
-const MINOR_HOLIDAY = flags.MINOR_HOLIDAY;
-const EREV = flags.EREV;
-const CHOL_HAMOED = flags.CHOL_HAMOED;
-const YOM_KIPPUR_KATAN = flags.YOM_KIPPUR_KATAN;
-const YIZKOR = flags.YIZKOR;
-const BEHAB = flags.BEHAB;
-
-type StringIntMap = Record<string, number>;
+const {
+  LIGHT_CANDLES,
+  YOM_TOV_ENDS,
+  CHUL_ONLY,
+  IL_ONLY,
+  LIGHT_CANDLES_TZEIS,
+  CHANUKAH_CANDLES,
+  MINOR_FAST,
+  SPECIAL_SHABBAT,
+  MODERN_HOLIDAY,
+  MAJOR_FAST,
+  ROSH_CHODESH,
+  PARSHA_HASHAVUA,
+  DAF_YOMI,
+  MISHNA_YOMI,
+  NACH_YOMI,
+  YERUSHALMI_YOMI,
+  OMER_COUNT,
+  SHABBAT_MEVARCHIM,
+  MINOR_HOLIDAY,
+  EREV,
+  CHOL_HAMOED,
+  YOM_KIPPUR_KATAN,
+  YIZKOR,
+  BEHAB,
+} = flags;
 
 const unrecognizedAlreadyWarned = new Set<string>();
-const RECOGNIZED_OPTIONS: StringIntMap = {
+// The "as const satisfies Record<keyof CalOptions, 1>" line lets
+// compiler flag any CalOptions field missing from the list
+const RECOGNIZED_OPTIONS = {
   location: 1,
   year: 1,
   isHebrewYear: 1,
@@ -381,13 +381,13 @@ const RECOGNIZED_OPTIONS: StringIntMap = {
   useElevation: 1,
   yizkor: 1,
 } as const satisfies Record<keyof CalOptions, 1>;
+const recognizedKeys: ReadonlySet<string> = new Set(
+  Object.keys(RECOGNIZED_OPTIONS)
+);
 
-/**
- * @private
- */
 function warnUnrecognizedOptions(options: CalOptions) {
   for (const k of Object.keys(options)) {
-    if (RECOGNIZED_OPTIONS[k] === undefined && !unrecognizedAlreadyWarned.has(k)) {
+    if (!recognizedKeys.has(k) && !unrecognizedAlreadyWarned.has(k)) {
       console.warn(`Ignoring unrecognized HebrewCalendar option: ${k}`);
       unrecognizedAlreadyWarned.add(k);
     }
@@ -405,7 +405,7 @@ function warnUnrecognizedOptions(options: CalOptions) {
   }
 }
 
-const israelCityOffset: StringIntMap = {
+const israelCityOffset: Readonly<Record<string, number>> = {
   Jerusalem: 40,
   Haifa: 30,
   "Zikhron Ya'aqov": 30,
@@ -413,17 +413,15 @@ const israelCityOffset: StringIntMap = {
   'Zikhron Yaakov': 30,
   "Zichron Ya'akov": 30,
   'Zichron Yaakov': 30,
-} as const;
+};
 
-const geoIdCandleOffset: StringIntMap = {
+const geoIdCandleOffset: Readonly<Record<string, number>> = {
   '281184': 40, // Jerusalem
   '294801': 30, // Haifa
   '293067': 30, // Zikhron Yaakov
-} as const;
+};
 
 /**
- * @private
- * @constant
  * This calculation is based on the position of the sun 36 minutes after sunset in Jerusalem
  * around the equinox / equilux, which is 8.5° below geometric zenith.
  * The Ohr Meir considers this the time that 3 small stars are visible,
@@ -434,7 +432,6 @@ const TZEIT_3SMALL_STARS = 8.5;
 
 /**
  * Modifies options in-place
- * @private
  */
 function checkCandleOptions(options: CalOptions) {
   if (!options.candlelighting) {
@@ -531,7 +528,6 @@ function overrideIsraelCandleMins(location: Location) {
 
 /**
  * Mask to filter Holiday array
- * @private
  */
 function getMaskFromOptions(options: CalOptions): number {
   if (typeof options.mask === 'number') {
@@ -618,9 +614,6 @@ function getMaskFromOptions(options: CalOptions): number {
 
 const defaultLocation = new Location(0, 0, false, 'UTC');
 
-/**
- * @private
- */
 function setOptionsFromMask(options: CalOptions): number {
   const m = options.mask || 0;
   if (m & ROSH_CHODESH) delete options.noRoshChodesh;
@@ -654,7 +647,6 @@ function setOptionsFromMask(options: CalOptions): number {
 /**
  * Appends the Event `ev` to the `events` array. Also may add related
  * timed events like candle-lighting or fast start/end
- * @private
  */
 function appendHolidayAndRelated(
   candlesEv: TimedEvent | undefined,

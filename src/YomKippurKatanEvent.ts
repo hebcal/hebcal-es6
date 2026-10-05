@@ -34,7 +34,7 @@ export class YomKippurKatanEvent extends HolidayEvent {
   render(locale?: string): string {
     const monthName0 = Locale.gettext(this.nextMonthName, locale);
     const monthName = smartApostrophe(monthName0);
-    return Locale.gettext(ykk, locale) + ' ' + monthName;
+    return `${Locale.gettext(ykk, locale)} ${monthName}`;
   }
   /**
    * @param [locale] Optional locale name (defaults to empty locale)

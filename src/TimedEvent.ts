@@ -7,8 +7,7 @@ import {Zmanim} from './zmanim.js';
 import {holidayDesc as hdesc} from './staticHolidays.js';
 import './locale.js'; // Adds Hebrew and Ashkenazic translations
 
-const HAVDALAH = hdesc.HAVDALAH;
-const CANDLE_LIGHTING = hdesc.CANDLE_LIGHTING;
+const {HAVDALAH, CANDLE_LIGHTING} = hdesc;
 
 /**
  * Base class for events that have an associated wall-clock time and
@@ -73,7 +72,7 @@ export class TimedEvent extends Event {
    * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
-    return Locale.gettext(this.getDesc(), locale) + ': ' + this.fmtTime;
+    return `${Locale.gettext(this.getDesc(), locale)}: ${this.fmtTime}`;
   }
   /**
    * Returns translation of "Candle lighting" without the time.
@@ -161,7 +160,7 @@ export class HavdalahEvent extends TimedEvent {
    * @param [locale] Optional locale name (defaults to empty locale)
    */
   render(locale?: string): string {
-    return this.renderBrief(locale) + ': ' + this.fmtTime;
+    return `${this.renderBrief(locale)}: ${this.fmtTime}`;
   }
   /**
    * Returns translation of "Havdalah" without the time.

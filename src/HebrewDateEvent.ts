@@ -34,15 +34,11 @@ export class HebrewDateEvent extends Event {
         return hd.render(locale0, true);
     }
   }
-  /**
-   * @private
-   * @param locale
-   */
   private renderBriefHebrew(locale: string): string {
     const hd = this.getDate();
     const dd = hd.getDate();
     const mm = Locale.gettext(hd.getMonthName(), locale);
-    return gematriya(dd) + ' ' + mm;
+    return `${gematriya(dd)} ${mm}`;
   }
   /**
    * @param [locale] Optional locale name (defaults to empty locale)

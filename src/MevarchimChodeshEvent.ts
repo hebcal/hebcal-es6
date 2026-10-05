@@ -42,7 +42,7 @@ export class MevarchimChodeshEvent extends Event {
   render(locale?: string): string {
     const monthName0 = Locale.gettext(this.monthName, locale);
     const monthName = smartApostrophe(monthName0);
-    return Locale.gettext(mevarchimChodeshStr, locale) + ' ' + monthName;
+    return `${Locale.gettext(mevarchimChodeshStr, locale)} ${monthName}`;
   }
   /**
    * Returns (translated) description of this event

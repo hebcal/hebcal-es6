@@ -5,16 +5,10 @@ import {getHolidaysOnDate} from './holidays.js';
 import {Event} from './event.js';
 
 function isTomorrowShabbosOrYomTov(dow: number, events: Event[]): boolean {
-  if (dow === 5) {
-    return true;
-  }
-  const erev = events.find(ev =>
-    ev.hasAnyFlag('LIGHT_CANDLES', 'LIGHT_CANDLES_TZEIS')
+  return (
+    dow === 5 ||
+    events.some(ev => ev.hasAnyFlag('LIGHT_CANDLES', 'LIGHT_CANDLES_TZEIS'))
   );
-  if (erev) {
-    return true;
-  }
-  return false;
 }
 
 /**
@@ -26,14 +20,7 @@ function isTomorrowShabbosOrYomTov(dow: number, events: Event[]): boolean {
  * @return `true` if the day is a _Yom Tov_ that is _assur bemlacha_, or _Shabbos_
  */
 function isTodayAssurBemelacha(dow: number, events: Event[]): boolean {
-  if (dow === 6) {
-    return true;
-  }
-  const chag = events.find(ev => ev.hasFlag('CHAG'));
-  if (chag) {
-    return true;
-  }
-  return false;
+  return dow === 6 || events.some(ev => ev.hasFlag('CHAG'));
 }
 
 /**
@@ -88,7 +75,7 @@ export function isAssurBemlacha(
   const il = location.getIsrael();
   const currentMillis = currentTime.getTime();
   const dow = hd.getDay();
-  const events = getHolidaysOnDate(hd, il) || [];
+  const events = getHolidaysOnDate(hd, il) ?? [];
   if (isTomorrowShabbosOrYomTov(dow, events) && currentMillis >= sunsetMillis) {
     return true;
   }

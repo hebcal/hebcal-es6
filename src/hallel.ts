@@ -6,9 +6,7 @@ const NONE = 0;
 const HALF = 1;
 const WHOLE = 2;
 
-/**
- * @private
- */
+/** @internal */
 export function hallel_(events: Event[], hdate: HDate): number {
   const abs = hdate.abs();
   for (const ev of events) {

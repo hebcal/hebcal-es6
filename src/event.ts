@@ -351,11 +351,9 @@ export class Event {
    *   .getCategories(); // ['roshchodesh']
    */
   getCategories(): string[] {
-    const mask = this.mask;
-    for (const attrs of flagToCategory) {
-      const attr0 = attrs[0] as number;
-      if (mask & attr0) {
-        return attrs.slice(1) as string[];
+    for (const [bit, ...categories] of flagToCategory) {
+      if (this.mask & bit) {
+        return categories;
       }
     }
     return ['unknown'];

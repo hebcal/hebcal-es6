@@ -20,7 +20,6 @@ const {NISAN, IYYAR, CHESHVAN} = months;
  * Thursday. When it falls on a Sunday, Yom Hashoah is observed
  * on the following Monday.
  * http://www.ushmm.org/remembrance/dor/calendar/
- * @private
  */
 function dateYomHaShoah(year: number): HDate | null {
   if (year < 5711) {
@@ -37,13 +36,13 @@ function dateYomHaShoah(year: number): HDate | null {
 
 /**
  * Yom HaAtzma'ut only celebrated after 1948
- * @private
+ * @internal
  */
 export function dateYomHaZikaron(year: number): HDate | null {
   if (year < 5708) {
     return null;
   }
-  let day;
+  let day: number;
   const pesach = new HDate(15, NISAN, year);
   const pdow = pesach.getDay();
   if (pdow === Day.SUN) {
@@ -170,22 +169,20 @@ const staticModernHolidays: readonly ModernHoliday[] = [
   },
 ];
 
-const MODERN_HOLIDAY = flags.MODERN_HOLIDAY;
+const {MODERN_HOLIDAY, IL_ONLY} = flags;
 const ISRAEL_FLAG = '🇮🇱';
 const emojiIsraelFlag = {emoji: ISRAEL_FLAG} as const;
 
 /**
  * Generates the modern Israeli holidays and memorial days for a Hebrew year.
- * @private
+ * @internal
  * @param year Hebrew year
  */
 export function modernHolidaysForYear(year: number): HolidayEvent[] {
   const events: HolidayEvent[] = [];
   const nisan27dt = dateYomHaShoah(year);
   if (nisan27dt) {
-    events.push(
-      new HolidayEvent(nisan27dt, hdesc.YOM_HASHOAH, MODERN_HOLIDAY)
-    );
+    events.push(new HolidayEvent(nisan27dt, hdesc.YOM_HASHOAH, MODERN_HOLIDAY));
   }
 
   const yomHaZikaronDt = dateYomHaZikaron(year);
@@ -209,7 +206,7 @@ export function modernHolidaysForYear(year: number): HolidayEvent[] {
   for (const h of staticModernHolidays) {
     if (year >= h.firstYear) {
       const hd = postpone(new HDate(h.dd, h.mm, year), h.postpone);
-      const mask = h.chul ? MODERN_HOLIDAY : MODERN_HOLIDAY | flags.IL_ONLY;
+      const mask = h.chul ? MODERN_HOLIDAY : MODERN_HOLIDAY | IL_ONLY;
       const ev = new HolidayEvent(hd, h.desc, mask);
       if (!h.suppressEmoji) {
         ev.emoji = ISRAEL_FLAG;

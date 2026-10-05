@@ -233,16 +233,14 @@ export class HebrewCalendar {
    * @param il use the Israeli holiday schedule
    */
   static eruvTavshilin(date: Date | HDate, il: boolean): boolean {
-    if (date.getDay() < 3 || date.getDay() > 4) {
+    const dow = date.getDay();
+    if (dow < 3 || dow > 4) {
       return false;
     }
     const today = new HDate(date);
     const friday = today.after(5);
     const tomorrow = today.next();
-    if (!isChag(friday, il) || isChag(today, il) || !isChag(tomorrow, il)) {
-      return false;
-    }
-    return true;
+    return isChag(friday, il) && !isChag(today, il) && isChag(tomorrow, il);
   }
 
   /**
@@ -361,11 +359,7 @@ export class HebrewCalendar {
   }
 }
 
-/**
- * @private
- */
 function isChag(date: HDate, il: boolean): boolean {
-  const events = getHolidaysOnDate(date, il) || [];
-  const chag = events.filter(ev => ev.hasFlag('CHAG'));
-  return chag.length !== 0;
+  const events = getHolidaysOnDate(date, il) ?? [];
+  return events.some(ev => ev.hasFlag('CHAG'));
 }

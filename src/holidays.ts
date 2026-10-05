@@ -52,7 +52,7 @@ export function getHolidaysOnDate(
   date: HDate | Date | number,
   il?: boolean
 ): HolidayEvent[] | undefined {
-  const hd = HDate.isHDate(date) ? (date as HDate) : new HDate(date);
+  const hd = HDate.isHDate(date) ? date : new HDate(date);
   const hdStr = hd.toString();
   const yearMap = getHolidaysForYear_(hd.getFullYear());
   const events = yearMap.get(hdStr);
@@ -381,7 +381,7 @@ function addBehab(map: HolidayYearMap, year: number): void {
  * Lower-level holidays interface, which returns a `Map` of `Event`s indexed by
  * `HDate.toString()`. These events must filtered especially for `flags.IL_ONLY`
  * or `flags.CHUL_ONLY` depending on Israel vs. Diaspora holiday scheme.
- * @private
+ * @internal
  */
 export function getHolidaysForYear_(year: number): HolidayYearMap {
   if (typeof year !== 'number') {
@@ -448,7 +448,6 @@ const BIRKAT_HACHAMAH_REMAINDER = 172;
  *
  * Due to drift, this will eventually slip into Iyyar
  *   - 2 Iyyar 7141 (Gregorian year 3381)
- * @private
  */
 function getBirkatHaChama(year: number): number | undefined {
   const leap = HDate.isLeapYear(year);
@@ -483,13 +482,12 @@ export function getHolidaysForYearArray(year: number, il: boolean): HolidayEvent
   const yearMap = getHolidaysForYear_(year);
   const startAbs = HDate.hebrew2abs(year, TISHREI, 1);
   const endAbs = HDate.hebrew2abs(year + 1, TISHREI, 1) - 1;
-  let events: HolidayEvent[] = [];
+  const events: HolidayEvent[] = [];
   for (let absDt = startAbs; absDt <= endAbs; absDt++) {
     const hd = new HDate(absDt);
     const holidays = yearMap.get(hd.toString());
     if (holidays) {
-      const filtered: HolidayEvent[] = holidays.filter(ev => ev.observedIn(il));
-      events = events.concat(filtered);
+      events.push(...holidays.filter(ev => ev.observedIn(il)));
     }
   }
   return events;

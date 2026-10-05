@@ -284,7 +284,7 @@ export class Molad {
     if (chalakim === 0) {
       return result;
     }
-    return result + ` ${and} ${chalakim} ${chalakimStr}`;
+    return `${result} ${and} ${chalakim} ${chalakimStr}`;
   }
 }
 

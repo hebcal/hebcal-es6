@@ -44,7 +44,7 @@ export class ParshaEvent extends Event {
         `Invalid SedraResult argument: ${JSON.stringify(parsha)}`
       );
     }
-    const desc = 'Parashat ' + parsha.parsha.join('-');
+    const desc = `Parashat ${parsha.parsha.join('-')}`;
     super(parsha.hdate, desc, flags.PARSHA_HASHAVUA);
     this.p = parsha;
   }
@@ -65,9 +65,8 @@ export class ParshaEvent extends Event {
       return undefined;
     }
     const dt = this.urlDateSuffix();
-    const url =
-      'https://www.hebcal.com/sedrot/' + urlFriendly(this.basename()) + '-' + dt;
-    return this.p.il ? url + '?i=on' : url;
+    const url = `https://www.hebcal.com/sedrot/${urlFriendly(this.basename())}-${dt}`;
+    return this.p.il ? `${url}?i=on` : url;
   }
 
   /**

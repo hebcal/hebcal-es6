@@ -2,11 +2,7 @@ import {HDate, months} from '@hebcal/hdate';
 import {dateYomHaZikaron} from './modern.js';
 
 function range(start: number, end: number): readonly number[] {
-  const arr = [];
-  for (let i = start; i <= end; i++) {
-    arr.push(i);
-  }
-  return arr;
+  return Array.from({length: end - start + 1}, (_, i) => start + i);
 }
 
 /**
@@ -25,7 +21,7 @@ const NONE: TachanunResult = {
   shacharit: false,
   mincha: false,
   allCongs: false,
-} as const;
+};
 
 /**
  * Return details on what Tachanun (or Tzidchatcha on Shabbat) is said on `hdate`.

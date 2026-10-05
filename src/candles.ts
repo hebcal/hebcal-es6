@@ -7,12 +7,10 @@ import {Zmanim} from './zmanim.js';
 import {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent.js';
 import {holidayDesc as hdesc} from './staticHolidays.js';
 
-const LIGHT_CANDLES = flags.LIGHT_CANDLES;
-const LIGHT_CANDLES_TZEIS = flags.LIGHT_CANDLES_TZEIS;
+const {LIGHT_CANDLES, LIGHT_CANDLES_TZEIS} = flags;
+const {FAST_BEGINS, FAST_ENDS} = hdesc;
 
-/**
- * @private
- */
+/** @internal */
 export function makeCandleEvent(
   ev: Event | undefined,
   hd: HDate,
@@ -67,20 +65,15 @@ export function makeCandleEvent(
   }
 }
 
-const FAST_BEGINS = hdesc.FAST_BEGINS;
-const FAST_ENDS = hdesc.FAST_ENDS;
-
 /**
  * Tzeit HaKochavim as calculated by Rabbi Yechiel Michel Tucazinsky,
  * 6.45° below geometric zenith. Default end time for Tish'a B'Av.
- * @private
  */
 const TZEIT_TUCAZINSKY = 6.45;
 
 /**
  * Observation of 3 medium-sized stars, 7.0833333° below geometric zenith.
  * Default end time for minor fasts in the Diaspora.
- * @private
  */
 const TZEIT_3MEDIUM_STARS = 7.0833333;
 
@@ -88,20 +81,17 @@ const TZEIT_3MEDIUM_STARS = 7.0833333;
  * Minutes after sunset that minor fasts (including Yom Kippur Katan) end in
  * Israel by default, following Rabbi Deblitzky's practice.
  * @see {https://www.yeshiva.org.il/calendar/timeprinciples}
- * @private
  */
 const MINOR_FAST_END_MINUTES_IL = 15;
 
 /**
  * Alot HaShachar, 16.1° below geometric zenith.
  * Default start time for minor fasts.
- * @private
  */
 const ALOT_16_POINT_1 = 16.1;
 
 /**
  * Returns `val` when it is a finite nonzero number, otherwise `undefined`
- * @private
  */
 function nonzero(val: number | undefined): number | undefined {
   return typeof val === 'number' && isFinite(val) && val !== 0 ? val : undefined;
@@ -114,7 +104,6 @@ function nonzero(val: number | undefined): number | undefined {
  * minutes before sunrise; otherwise, when `options.fastStartDeg` is a nonzero
  * number, the fast begins when the sun is that many degrees below the horizon
  * in the morning. By default, minor fasts begin at Alot HaShachar (16.1°).
- * @private
  */
 function makeFastStartTime(zmanim: Zmanim, options: CalOptions): Date {
   const fastStartMins = nonzero(options.fastStartMins);
@@ -142,7 +131,6 @@ function makeFastStartTime(zmanim: Zmanim, options: CalOptions): Date {
  * When neither is specified, the default depends on `options.il`:
  * - In Israel, minor fasts end 15 minutes after sunset (Rabbi Deblitzky's practice).
  * - Elsewhere, minor fasts end at tzeit 7.083° (3 medium-sized stars).
- * @private
  */
 function makeFastEndTime(
   zmanim: Zmanim,
@@ -234,7 +222,7 @@ export class FastDayEvent extends HolidayEvent {
 
 /**
  * Makes a pair of events representing fast start and end times
- * @private
+ * @internal
  */
 export function makeFastStartEnd(
   ev: HolidayEvent,
@@ -249,8 +237,8 @@ export function makeFastStartEnd(
   const location = options.location as Location;
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, dt, useElevation);
-  let startEvent;
-  let endEvent;
+  let startEvent: TimedEvent | undefined;
+  let endEvent: TimedEvent | undefined;
   if (desc === "Erev Tish'a B'Av") {
     const sunset = zmanim.sunset();
     if (!isNaN(sunset.getTime())) {
@@ -282,9 +270,6 @@ export function makeFastStartEnd(
   return ev2;
 }
 
-/**
- * @private
- */
 function makeTimedEvent(
   ev: Event,
   time: Date,
@@ -332,7 +317,7 @@ export class TimedChanukahEvent extends ChanukahEvent {
  * Makes a candle-lighting event for Chankah (not on Friday/Saturday).
  * At one point this used civil dusk (6 degrees below horizon).
  * Another source suggests 4.6667 degrees below horizon.
- * @private
+ * @internal
  */
 export function makeWeekdayChanukahCandleLighting(
   ev: ChanukahEvent,

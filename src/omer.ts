@@ -72,29 +72,29 @@ function checkDay(omerDay: number): void {
   }
 }
 
-function getWeeks(omerDay: number): number[] {
-  const weekNum: number = Math.floor((omerDay - 1) / 7) + 1;
-  const daysWithinWeeks: number = omerDay % 7 || 7;
+function getWeeks(omerDay: number): [number, number] {
+  const weekNum = Math.floor((omerDay - 1) / 7) + 1;
+  const daysWithinWeeks = omerDay % 7 || 7;
   return [weekNum, daysWithinWeeks];
 }
 
 function omerTodayIsEn(omerDay: number): string {
-  const [weekNumber, daysWithinWeeks]: number[] = getWeeks(omerDay);
+  const [weekNumber, daysWithinWeeks] = getWeeks(omerDay);
 
-  const totalDaysStr: string = omerDay === 1 ? 'day' : 'days';
+  const totalDaysStr = omerDay === 1 ? 'day' : 'days';
   let str = `Today is ${omerDay} ${totalDaysStr}`;
 
   if (weekNumber > 1 || omerDay === 7) {
-    const day7: boolean = daysWithinWeeks === 7;
-    const numWeeks: number = day7 ? weekNumber : weekNumber - 1;
-    const weeksStr: string = numWeeks === 1 ? 'week' : 'weeks';
+    const day7 = daysWithinWeeks === 7;
+    const numWeeks = day7 ? weekNumber : weekNumber - 1;
+    const weeksStr = numWeeks === 1 ? 'week' : 'weeks';
     str += `, which are ${numWeeks} ${weeksStr}`;
     if (!day7) {
-      const daysStr: string = daysWithinWeeks === 1 ? 'day' : 'days';
+      const daysStr = daysWithinWeeks === 1 ? 'day' : 'days';
       str += ` and ${daysWithinWeeks} ${daysStr}`;
     }
   }
-  return str + ' of the Omer';
+  return `${str} of the Omer`;
 }
 
 // adapted from pip hdate package (GPL)
@@ -116,22 +116,22 @@ const ones = [
 
 const shnei = 'שְׁנֵי';
 const yamim = 'יָמִים';
-const shneiYamim = shnei + ' ' + yamim;
+const shneiYamim = `${shnei} ${yamim}`;
 const shavuot = 'שָׁבוּעוֹת';
 const yom = 'יוֹם';
-const yomEchad = yom + ' ' + ones[1];
+const yomEchad = `${yom} ${ones[1]}`;
 const asar = 'עָשָׂר';
 
 function omerTodayIsHe(omerDay: number): string {
-  const ten: number = Math.floor(omerDay / 10);
-  const one: number = omerDay % 10;
+  const ten = Math.floor(omerDay / 10);
+  const one = omerDay % 10;
   let str = 'הַיּוֹם ';
   if (omerDay === 11) {
-    str += 'אַחַד ' + asar;
+    str += `אַחַד ${asar}`;
   } else if (omerDay === 12) {
-    str += 'שְׁנֵים ' + asar;
+    str += `שְׁנֵים ${asar}`;
   } else if (12 < omerDay && omerDay < 20) {
-    str += ones[one] + ' ' + asar;
+    str += `${ones[one]} ${asar}`;
   } else if (omerDay > 9) {
     str += ones[one];
     if (one) {
@@ -144,28 +144,28 @@ function omerTodayIsHe(omerDay: number): string {
       str += tens[ten];
     }
     if (omerDay < 11) {
-      str += ones[one] + ' ' + yamim + ' ';
+      str += `${ones[one]} ${yamim} `;
     } else {
-      str += ' ' + yom + ' ';
+      str += ` ${yom} `;
     }
   } else if (omerDay === 1) {
-    str += yomEchad + ' ';
+    str += `${yomEchad} `;
   } else {
     // omer == 2
-    str += shneiYamim + ' ';
+    str += `${shneiYamim} `;
   }
   if (omerDay > 6) {
     str = str.trim(); // remove trailing space before comma
     str += ', שֶׁהֵם ';
-    const weeks: number = Math.floor(omerDay / 7);
-    const days: number = omerDay % 7;
+    const weeks = Math.floor(omerDay / 7);
+    const days = omerDay % 7;
     if (weeks > 2) {
-      str += ones[weeks] + ' ' + shavuot + ' ';
+      str += `${ones[weeks]} ${shavuot} `;
     } else if (weeks === 1) {
-      str += 'שָׁבֽוּעַ' + ' ' + ones[1] + ' ';
+      str += `שָׁבֽוּעַ ${ones[1]} `;
     } else {
       // weeks == 2
-      str += shnei + ' ' + shavuot + ' ';
+      str += `${shnei} ${shavuot} `;
     }
     if (days) {
       if (days === 2 || days === 3) {
@@ -176,12 +176,12 @@ function omerTodayIsHe(omerDay: number): string {
         str += 'וְ';
       }
       if (days > 2) {
-        str += ones[days] + ' ' + yamim + ' ';
+        str += `${ones[days]} ${yamim} `;
       } else if (days === 1) {
-        str += yomEchad + ' ';
+        str += `${yomEchad} `;
       } else {
         // days == 2
-        str += shneiYamim + ' ';
+        str += `${shneiYamim} `;
       }
     }
   }
@@ -229,8 +229,7 @@ export class OmerEvent extends Event {
   constructor(date: HDate, omerDay: number) {
     super(date, `Omer ${omerDay}`, flags.OMER_COUNT);
     checkDay(omerDay);
-    this.weekNumber = Math.floor((omerDay - 1) / 7) + 1;
-    this.daysWithinWeeks = omerDay % 7 || 7;
+    [this.weekNumber, this.daysWithinWeeks] = getWeeks(omerDay);
     this.omer = omerDay;
   }
 
@@ -255,10 +254,9 @@ export class OmerEvent extends Event {
     if (lang !== 'he' && lang !== 'translit') {
       lang = 'en';
     }
-    const [weekNum, daysWithinWeeks]: number[] = getWeeks(this.omer);
-    const config = sefirot[lang as OmerLang];
-    const pfxWords = config.pfxWords;
-    const words = config.words;
+    const [weekNum, daysWithinWeeks] = getWeeks(this.omer);
+    const config = sefirot[lang];
+    const {pfxWords, words} = config;
     const week = pfxWords ? pfxWords[weekNum] : words[weekNum];
     const dayWithinWeek = words[daysWithinWeeks];
     const infix = pfxWords
@@ -266,7 +264,7 @@ export class OmerEvent extends Event {
       : weekNum === 2 || weekNum === 6
         ? config.infix26
         : config.infix;
-    return (dayWithinWeek + ' ' + infix + week).normalize();
+    return `${dayWithinWeek} ${infix}${week}`.normalize();
   }
   /**
    * @param [locale] Optional locale name (defaults to empty locale)
@@ -275,20 +273,14 @@ export class OmerEvent extends Event {
     const isHebrewLocale = Locale.isHebrewLocale(locale);
     const omer = this.omer;
     const nth = isHebrewLocale ? gematriya(omer) : Locale.ordinal(omer, locale);
-    return nth + ' ' + Locale.gettext('day of the Omer', locale);
+    return `${nth} ${Locale.gettext('day of the Omer', locale)}`;
   }
   /**
    * Returns translation of "Omer day 22" without ordinal numbers.
    * @param [locale] Optional locale name (defaults to empty locale)
    */
   renderBrief(locale?: string): string {
-    return (
-      Locale.gettext('Omer', locale) +
-      ' ' +
-      Locale.gettext('day', locale) +
-      ' ' +
-      this.omer
-    );
+    return `${Locale.gettext('Omer', locale)} ${Locale.gettext('day', locale)} ${this.omer}`;
   }
   /**
    * Returns an emoji number symbol with a circle, for example `㊲`
