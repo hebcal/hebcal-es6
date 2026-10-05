@@ -26,13 +26,14 @@ test('modern', () => {
     il: false,
     mask: flags.MODERN_HOLIDAY,
   });
-  expect(eventsDiaspora).toHaveLength(6);
+  expect(eventsDiaspora).toHaveLength(7);
   const actual = eventsDiaspora.map(ev => {
     const o = eventDateDesc(ev);
     if (ev.emoji) o.em = ev.emoji;
     return o;
   });
   const expected = [
+    {date: '2040-10-01', desc: 'Swords of Iron War Memorial Day', em: '🇮🇱'},
     {date: '2040-11-05', desc: 'Sigd'},
     {date: '2041-04-11', desc: 'Yom HaAliyah', em: '🇮🇱'},
     {date: '2041-04-29', desc: 'Yom HaShoah'},

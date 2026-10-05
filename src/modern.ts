@@ -165,6 +165,7 @@ const staticModernHolidays: readonly ModernHoliday[] = [
     mm: months.TISHREI,
     dd: 24,
     desc: hdesc.SWORDS_OF_IRON_WAR_MEMORIAL,
+    chul: true,
     postpone: 'satToSun',
   },
 ];
