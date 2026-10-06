@@ -156,3 +156,39 @@ test('requires location', () => {
     'options.kiddushLevanaMaharil requires valid options.location'
   );
 });
+
+test('does not validate options that only affect candle-lighting', () => {
+  // Without candlelighting these options do nothing, so conflicting
+  // pairs are ignored, as they are when no option needs a location
+  const conflicting = {
+    havdalahMins: 50,
+    havdalahDeg: 8.5,
+    fastStartDeg: 16.1,
+    fastStartMins: 72,
+    fastEndDeg: 7.083,
+    fastEndMins: 20,
+    tishaBavEndDeg: 6.45,
+    tishaBavEndMins: 50,
+  };
+  const events = calendar({
+    year: 5787,
+    isHebrewYear: true,
+    month: months.CHESHVAN,
+    location: newYork,
+    kiddushLevanaMaharil: true,
+    noHolidays: true,
+    ...conflicting,
+  });
+  expect(events.length).toBe(1);
+  expect((events[0] as KiddushLevanaEvent).eventTimeStr).toBe('21:44');
+  expect(() =>
+    calendar({
+      year: 5787,
+      isHebrewYear: true,
+      location: newYork,
+      kiddushLevanaMaharil: true,
+      candlelighting: true,
+      ...conflicting,
+    })
+  ).toThrow('options.havdalahMins and options.havdalahDeg are mutually exclusive');
+});

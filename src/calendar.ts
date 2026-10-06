@@ -463,6 +463,18 @@ function checkCandleOptions(options: CalOptions) {
     const name = options.candlelighting ? 'candlelighting' : 'kiddushLevanaMaharil';
     throw new TypeError(`options.${name} requires valid options.location`);
   }
+  // Kiddush Levana needs candle-lighting time for Shabbat and Yom Tov
+  const min0 = options.candleLightingMins;
+  let min = typeof min0 === 'number' && !isNaN(min0) ? Math.trunc(min0) : 18;
+  if (location.getIsrael() && Math.abs(min) === 18) {
+    min = overrideIsraelCandleMins(location);
+  }
+  options.candleLightingMins = -1 * Math.abs(min);
+
+  if (!options.candlelighting) {
+    // Havdalah and fast options only affect candle-lighting events
+    return;
+  }
   if (
     typeof options.havdalahMins === 'number' &&
     typeof options.havdalahDeg === 'number'
@@ -495,13 +507,6 @@ function checkCandleOptions(options: CalOptions) {
       'options.tishaBavEndDeg and options.tishaBavEndMins are mutually exclusive'
     );
   }
-
-  const min0 = options.candleLightingMins;
-  let min = typeof min0 === 'number' && !isNaN(min0) ? Math.trunc(min0) : 18;
-  if (location.getIsrael() && Math.abs(min) === 18) {
-    min = overrideIsraelCandleMins(location);
-  }
-  options.candleLightingMins = -1 * Math.abs(min);
 
   if (typeof options.havdalahMins === 'number') {
     options.havdalahMins = Math.trunc(Math.abs(options.havdalahMins));
