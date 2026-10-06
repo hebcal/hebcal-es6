@@ -166,6 +166,12 @@ export type CalOptions = {
    */
   molad?: boolean;
   /**
+   * include the latest time for Kiddush Levana each month, calculated as
+   * halfway between one _molad_ and the next (the Maharil's opinion).
+   * Requires `options.location`. See {@link KiddushLevanaEvent}.
+   */
+  kiddushLevanaMaharil?: boolean;
+  /**
    * use Ashkenazi transliterations for event titles (default Sephardi transliterations)
    * @deprecated use `event.render('ashkenazi')` instead
    */

@@ -59,3 +59,18 @@ msgstr "סוכות ז׳ (הושענא רבה)"
 
 msgid "Swords of Iron War Memorial Day"
 msgstr "יום הזיכרון לחללי מלחמת חרבות ברזל"
+
+msgid "Latest Kiddush Levana"
+msgstr "סוף זמן קידוש לבנה"
+
+msgid "Earliest Kiddush Levana (3 days)"
+msgstr "תחילת זמן קידוש לבנה (3 ימים)"
+
+msgid "Earliest Kiddush Levana (7 days)"
+msgstr "תחילת זמן קידוש לבנה (7 ימים)"
+
+msgid "Latest Kiddush Levana (Maharil)"
+msgstr "סוף זמן קידוש לבנה (מהרי״ל)"
+
+msgid "Latest Kiddush Levana (15 days)"
+msgstr "סוף זמן קידוש לבנה (15 ימים)"

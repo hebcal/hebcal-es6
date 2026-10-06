@@ -650,3 +650,18 @@ msgstr "סוֹף זְמַן אֲכִילַת חָמֵץ"
 
 msgid "Swords of Iron War Memorial Day"
 msgstr "יוֹם הַזִּכָּרוֹן לְחַלְלֵי מִלְחֶמֶת חַרְבוֹת בַּרְזֶל"
+
+msgid "Latest Kiddush Levana"
+msgstr "סוֹף זְמַן קִדּוּשׁ לְבָנָה"
+
+msgid "Earliest Kiddush Levana (3 days)"
+msgstr "תְּחִלַּת זְמַן קִדּוּשׁ לְבָנָה (3 יָמִים)"
+
+msgid "Earliest Kiddush Levana (7 days)"
+msgstr "תְּחִלַּת זְמַן קִדּוּשׁ לְבָנָה (7 יָמִים)"
+
+msgid "Latest Kiddush Levana (Maharil)"
+msgstr "סוֹף זְמַן קִדּוּשׁ לְבָנָה (מהרי״ל)"
+
+msgid "Latest Kiddush Levana (15 days)"
+msgstr "סוֹף זְמַן קִדּוּשׁ לְבָנָה (15 יָמִים)"
