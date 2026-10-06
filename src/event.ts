@@ -64,6 +64,8 @@ export const flags = {
   YIZKOR: 0x8000000,
   /** BeHaB fast days on Monday, Thursday and Monday after Pesach and Sukkot */
   BEHAB: 0x10000000,
+  /** Latest time for Kiddush Levana (Sanctification of the Moon) */
+  KIDDUSH_LEVANA: 0x20000000,
 } as const;
 
 /**

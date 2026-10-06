@@ -227,3 +227,18 @@ msgstr "Bein HaShemashos"
 
 msgid "Tzeit HaKochavim"
 msgstr "Tzeis HaKochavim"
+
+msgid "Latest Kiddush Levana"
+msgstr "Latest Kiddush Levanah"
+
+msgid "Earliest Kiddush Levana (3 days)"
+msgstr "Earliest Kiddush Levanah (3 days)"
+
+msgid "Earliest Kiddush Levana (7 days)"
+msgstr "Earliest Kiddush Levanah (7 days)"
+
+msgid "Latest Kiddush Levana (Maharil)"
+msgstr "Latest Kiddush Levanah (Maharil)"
+
+msgid "Latest Kiddush Levana (15 days)"
+msgstr "Latest Kiddush Levanah (15 days)"

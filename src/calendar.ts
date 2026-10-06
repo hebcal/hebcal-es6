@@ -14,6 +14,7 @@ import {ParshaEvent} from './ParshaEvent.js';
 import {Sedra, getSedra} from './sedra.js';
 import {TimedEvent, HavdalahEvent} from './TimedEvent.js';
 import {DailyLearning} from './DailyLearning.js';
+import {KiddushLevanaEvent, makeKiddushLevanaEvent} from './KiddushLevanaEvent.js';
 import {ChanukahEvent, HolidayEvent} from './HolidayEvent.js';
 import {MevarchimChodeshEvent} from './MevarchimChodeshEvent.js';
 import {MoladEvent, Molad} from './molad.js';
@@ -58,6 +59,9 @@ import {holidayDesc as hdesc} from './staticHolidays.js';
  * * Yom Kippur Katan (`options.yomKippurKatan`)
  * * BeHaB fast days after Pesach and Sukkot (`options.behab`)
  * * Yizkor (`options.yizkor`)
+ * * Latest time for Kiddush Levana, according to the Maharil
+ *   (`options.kiddushLevanaMaharil`, requires `options.location`;
+ *   see {@link KiddushLevanaEvent})
  *
  * Daily Study of texts are supported by the
  * {@link https://github.com/hebcal/hebcal-learning @hebcal/learning} package,
@@ -151,11 +155,12 @@ import {holidayDesc as hdesc} from './staticHolidays.js';
  */
 export function calendar(options: CalOptions = {}): Event[] {
   options = {...options}; // so we can modify freely
+  const hasUserMask = typeof options.mask === 'number';
+  // before checkCandleOptions(), because the mask can enable options
+  options.mask = getMaskFromOptions(options);
   checkCandleOptions(options);
   const location = (options.location = options.location || defaultLocation);
   const il = (options.il = options.il || location.getIsrael() || false);
-  const hasUserMask = typeof options.mask === 'number';
-  options.mask = getMaskFromOptions(options);
   if (options.locale) {
     const locale = options.locale;
     if (locale && typeof locale !== 'string') {
@@ -178,6 +183,8 @@ export function calendar(options: CalOptions = {}): Event[] {
   let beginOmer = -1;
   let endOmer = -1;
   let currentYear = -1;
+  let kiddushLevanaMonth = -1;
+  let kiddushLevanaEv: KiddushLevanaEvent | undefined;
   const startAndEnd = getStartAndEnd(options);
   warnUnrecognizedOptions(options);
   const startAbs = startAndEnd[0];
@@ -268,6 +275,18 @@ export function calendar(options: CalOptions = {}): Event[] {
       const events = makeMoladAndMevarchimChodesh(hd, options);
       evts.push(...events);
     }
+    if (options.kiddushLevanaMaharil && dd >= 9 && dd <= 17) {
+      // The event usually falls between the 11th and the 16th, but may be
+      // moved back to candle-lighting before a Shabbat or Yom Tov
+      const monthKey = hyear * 100 + mm;
+      if (monthKey !== kiddushLevanaMonth) {
+        kiddushLevanaMonth = monthKey;
+        kiddushLevanaEv = makeKiddushLevanaEvent(hyear, mm, options);
+      }
+      if (kiddushLevanaEv?.getDate().abs() === abs) {
+        evts.push(kiddushLevanaEv);
+      }
+    }
     if (!candlesEv && options.candlelighting && (isFriday || isSaturday)) {
       candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);
       if (isFriday && candlesEv && sedra) {
@@ -336,6 +355,7 @@ const {
   YOM_KIPPUR_KATAN,
   YIZKOR,
   BEHAB,
+  KIDDUSH_LEVANA,
 } = flags;
 
 const unrecognizedAlreadyWarned = new Set<string>();
@@ -380,6 +400,7 @@ const RECOGNIZED_OPTIONS = {
   dailyLearning: 1,
   useElevation: 1,
   yizkor: 1,
+  kiddushLevanaMaharil: 1,
 } as const satisfies Record<keyof CalOptions, 1>;
 const recognizedKeys: ReadonlySet<string> = new Set(
   Object.keys(RECOGNIZED_OPTIONS)
@@ -434,12 +455,13 @@ const TZEIT_3SMALL_STARS = 8.5;
  * Modifies options in-place
  */
 function checkCandleOptions(options: CalOptions) {
-  if (!options.candlelighting) {
+  if (!options.candlelighting && !options.kiddushLevanaMaharil) {
     return;
   }
   const location = options.location;
   if (location === undefined || !(location instanceof Location)) {
-    throw new TypeError('options.candlelighting requires valid options.location');
+    const name = options.candlelighting ? 'candlelighting' : 'kiddushLevanaMaharil';
+    throw new TypeError(`options.${name} requires valid options.location`);
   }
   if (
     typeof options.havdalahMins === 'number' &&
@@ -593,6 +615,9 @@ function getMaskFromOptions(options: CalOptions): number {
   if (options.yizkor) {
     mask |= YIZKOR;
   }
+  if (options.kiddushLevanaMaharil) {
+    mask |= KIDDUSH_LEVANA;
+  }
   const dailyLearning = options.dailyLearning;
   if (typeof dailyLearning === 'object' && dailyLearning !== null) {
     if (dailyLearning.dafYomi) {
@@ -641,6 +666,7 @@ function setOptionsFromMask(options: CalOptions): number {
   if (m & YOM_KIPPUR_KATAN) options.yomKippurKatan = true;
   if (m & BEHAB) options.behab = true;
   if (m & YIZKOR) options.yizkor = true;
+  if (m & KIDDUSH_LEVANA) options.kiddushLevanaMaharil = true;
   return m;
 }
 
