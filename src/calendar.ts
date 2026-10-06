@@ -467,38 +467,10 @@ function checkCandleOptions(options: CalOptions) {
     // Havdalah and fast options only affect candle-lighting events
     return;
   }
-  if (
-    typeof options.havdalahMins === 'number' &&
-    typeof options.havdalahDeg === 'number'
-  ) {
-    throw new TypeError(
-      'options.havdalahMins and options.havdalahDeg are mutually exclusive'
-    );
-  }
-  if (
-    typeof options.fastEndDeg === 'number' &&
-    typeof options.fastEndMins === 'number'
-  ) {
-    throw new TypeError(
-      'options.fastEndDeg and options.fastEndMins are mutually exclusive'
-    );
-  }
-  if (
-    typeof options.fastStartDeg === 'number' &&
-    typeof options.fastStartMins === 'number'
-  ) {
-    throw new TypeError(
-      'options.fastStartDeg and options.fastStartMins are mutually exclusive'
-    );
-  }
-  if (
-    typeof options.tishaBavEndDeg === 'number' &&
-    typeof options.tishaBavEndMins === 'number'
-  ) {
-    throw new TypeError(
-      'options.tishaBavEndDeg and options.tishaBavEndMins are mutually exclusive'
-    );
-  }
+  assertMutuallyExclusive(options, 'havdalahMins', 'havdalahDeg');
+  assertMutuallyExclusive(options, 'fastEndDeg', 'fastEndMins');
+  assertMutuallyExclusive(options, 'fastStartDeg', 'fastStartMins');
+  assertMutuallyExclusive(options, 'tishaBavEndDeg', 'tishaBavEndMins');
 
   if (typeof options.havdalahMins === 'number') {
     options.havdalahMins = Math.trunc(Math.abs(options.havdalahMins));
@@ -524,6 +496,19 @@ function checkCandleOptions(options: CalOptions) {
   }
   if (typeof options.tishaBavEndMins === 'number') {
     options.tishaBavEndMins = Math.trunc(Math.abs(options.tishaBavEndMins));
+  }
+}
+
+/**
+ * Throws if both numeric options `a` and `b` are set
+ */
+function assertMutuallyExclusive(
+  options: CalOptions,
+  a: keyof CalOptions,
+  b: keyof CalOptions
+) {
+  if (typeof options[a] === 'number' && typeof options[b] === 'number') {
+    throw new TypeError(`options.${a} and options.${b} are mutually exclusive`);
   }
 }
 
