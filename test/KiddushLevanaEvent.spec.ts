@@ -93,6 +93,7 @@ test('render, categories, emoji and flags', () => {
   const ev = kiddushLevana(newYork, 5787, months.CHESHVAN);
   expect(ev.render('he')).toBe('סוֹף זְמַן קִדּוּשׁ לְבָנָה: 9:44pm');
   expect(ev.render('ashkenazi')).toBe('Latest Kiddush Levanah: 9:44pm');
+  expect(ev.renderBrief('he-x-NoNikud')).toBe('סוף זמן קידוש לבנה');
   expect(ev.getCategories()).toEqual(['zmanim', 'kiddushLevana']);
   expect(ev.getEmoji()).toBe('🌔');
   expect(ev.flagNames()).toEqual(['KIDDUSH_LEVANA']);
