@@ -6,6 +6,7 @@ import {ChanukahEvent, HolidayEvent} from './HolidayEvent.js';
 import {Zmanim} from './zmanim.js';
 import {TimedEvent, CandleLightingEvent, HavdalahEvent} from './TimedEvent.js';
 import {holidayDesc as hdesc} from './staticHolidays.js';
+import {DEG_6_POINT_45, DEG_7_POINT_083, DEG_16_POINT_1} from './zenith.js';
 
 const {LIGHT_CANDLES, LIGHT_CANDLES_TZEIS} = flags;
 const {FAST_BEGINS, FAST_ENDS} = hdesc;
@@ -66,29 +67,11 @@ export function makeCandleEvent(
 }
 
 /**
- * Tzeit HaKochavim as calculated by Rabbi Yechiel Michel Tucazinsky,
- * 6.45° below geometric zenith. Default end time for Tish'a B'Av.
- */
-const TZEIT_TUCAZINSKY = 6.45;
-
-/**
- * Observation of 3 medium-sized stars, 7.0833333° below geometric zenith.
- * Default end time for minor fasts in the Diaspora.
- */
-const TZEIT_3MEDIUM_STARS = 7.0833333;
-
-/**
  * Minutes after sunset that minor fasts (including Yom Kippur Katan) end in
  * Israel by default, following Rabbi Deblitzky's practice.
  * @see {https://www.yeshiva.org.il/calendar/timeprinciples}
  */
 const MINOR_FAST_END_MINUTES_IL = 15;
-
-/**
- * Alot HaShachar, 16.1° below geometric zenith.
- * Default start time for minor fasts.
- */
-const ALOT_16_POINT_1 = 16.1;
 
 /**
  * Returns `val` when it is a finite nonzero number, otherwise `undefined`
@@ -112,7 +95,7 @@ function makeFastStartTime(zmanim: Zmanim, options: CalOptions): Date {
   }
   const fastStartDeg = nonzero(options.fastStartDeg);
   return zmanim.timeAtAngle(
-    fastStartDeg === undefined ? ALOT_16_POINT_1 : Math.abs(fastStartDeg),
+    fastStartDeg === undefined ? DEG_16_POINT_1 : Math.abs(fastStartDeg),
     true
   );
 }
@@ -144,7 +127,7 @@ function makeFastEndTime(
     }
     const tishaBavEndDeg = nonzero(options.tishaBavEndDeg);
     return zmanim.tzeit(
-      tishaBavEndDeg === undefined ? TZEIT_TUCAZINSKY : Math.abs(tishaBavEndDeg)
+      tishaBavEndDeg === undefined ? DEG_6_POINT_45 : Math.abs(tishaBavEndDeg)
     );
   }
   const fastEndMins = options.fastEndMins;
@@ -158,7 +141,7 @@ function makeFastEndTime(
   if (options.il) {
     return zmanim.sunsetOffset(MINOR_FAST_END_MINUTES_IL, true);
   }
-  return zmanim.tzeit(TZEIT_3MEDIUM_STARS);
+  return zmanim.tzeit(DEG_7_POINT_083);
 }
 
 /**

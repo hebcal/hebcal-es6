@@ -561,7 +561,7 @@ test('zmanim-UTC', () => {
     plagHaMincha: '16:47:00',
     seaLevelSunset: '18:02:15',
     sunset: '18:02:53',
-    beinHaShmashos: '18:15:51',
+    beinHaShmashos: '18:15:52',
     dusk: '18:24:39',
     tzeit: '18:35:31',
   };

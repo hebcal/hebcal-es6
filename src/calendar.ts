@@ -22,6 +22,7 @@ import {OmerEvent} from './omer.js';
 import {Zmanim} from './zmanim.js';
 import {Location} from './location.js';
 import {holidayDesc as hdesc} from './staticHolidays.js';
+import {DEG_7_POINT_083, DEG_8_POINT_5} from './zenith.js';
 
 /**
  * Calculates holidays and other Hebrew calendar events based on {@link CalOptions}.
@@ -443,15 +444,6 @@ const geoIdCandleOffset: Readonly<Record<string, number>> = {
 };
 
 /**
- * This calculation is based on the position of the sun 36 minutes after sunset in Jerusalem
- * around the equinox / equilux, which is 8.5° below geometric zenith.
- * The Ohr Meir considers this the time that 3 small stars are visible,
- * which is later than the required 3 medium stars.
- * @see {https://kosherjava.com/zmanim/docs/api/com/kosherjava/zmanim/ZmanimCalendar.html#ZENITH_8_POINT_5}
- */
-const TZEIT_3SMALL_STARS = 8.5;
-
-/**
  * Modifies options in-place
  */
 function checkCandleOptions(options: CalOptions) {
@@ -513,7 +505,7 @@ function checkCandleOptions(options: CalOptions) {
   } else if (typeof options.havdalahDeg === 'number') {
     options.havdalahDeg = Math.abs(options.havdalahDeg);
   } else {
-    options.havdalahDeg = TZEIT_3SMALL_STARS;
+    options.havdalahDeg = DEG_8_POINT_5;
   }
   if (typeof options.fastEndDeg === 'number') {
     options.fastEndDeg = Math.abs(options.fastEndDeg);
@@ -816,7 +808,7 @@ function makeOmerEvent(hd: HDate, omerDay: number, options: CalOptions) {
   if (options.candlelighting) {
     const location = options.location!;
     const zmanim = new Zmanim(location, hd.prev(), false);
-    const tzeit = zmanim.tzeit(7.0833);
+    const tzeit = zmanim.tzeit(DEG_7_POINT_083);
     if (!isNaN(tzeit.getTime())) {
       omerEv.alarm = tzeit;
     }

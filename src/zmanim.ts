@@ -2,6 +2,14 @@ import 'temporal-polyfill/global';
 import {GeoLocation, NOAACalculator} from '@hebcal/noaa';
 import {HDate, getPseudoISO, getTimezoneOffset, isDate, pad2} from '@hebcal/hdate';
 import {Molad} from './molad.js';
+import {
+  CIVIL_ZENITH,
+  DEG_7_POINT_083,
+  DEG_8_POINT_5,
+  DEG_16_POINT_1,
+  GEOMETRIC_ZENITH,
+  ZENITH_1_POINT_583,
+} from './zenith.js';
 
 /**
  * Converts an instant to a `Date`, discarding milliseconds.
@@ -20,27 +28,6 @@ function millisToDate(millis: number): Date {
   res.setUTCMilliseconds(0);
   return res;
 }
-
-/**
- * The zenith of astronomical sunrise and sunset. The sun is 90° from the vertical 0°
- */
-const GEOMETRIC_ZENITH = 90;
-
-/**
- * The zenith of 1.583° below geometric zenith (90°). This calculation is used for
- * calculating _netz amiti_ (sunrise) and _shkiah amiti_ (sunset) based on the opinion of the
- * [Baal Hatanya](https://en.wikipedia.org/wiki/Shneur_Zalman_of_Liadi).
- *
- * @see Zmanim.sunriseBaalHatanya
- * @see Zmanim.sunsetBaalHatanya
- */
-const ZENITH_1_POINT_583 = GEOMETRIC_ZENITH + 1.583;
-
-/**
- * The zenith of civil twilight; the sun is 6° below the horizon.
- * Matches `NOAACalculator.CIVIL_ZENITH`.
- */
-const CIVIL_ZENITH = GEOMETRIC_ZENITH + 6;
 
 /**
  * Length of one temporal (halachic) hour in milliseconds, i.e. one twelfth of
@@ -270,7 +257,7 @@ export class Zmanim {
    * the result is not impacted by elevation.
    */
   alotHaShachar(): Date {
-    return this.timeAtAngle(16.1, true);
+    return this.timeAtAngle(DEG_16_POINT_1, true);
   }
   /**
    * Dawn – Alot haShachar; calculated as 72 minutes before sunrise or
@@ -407,7 +394,7 @@ export class Zmanim {
    * dawn to nightfall with both being 16.1° below the horizon.
    */
   sofZmanShmaMGA16Point1(): Date {
-    const [alot, temporalHour] = this.getTemporalHourByDeg(16.1);
+    const [alot, temporalHour] = this.getTemporalHourByDeg(DEG_16_POINT_1);
     return addTemporalHours(alot, temporalHour, 3);
   }
   /**
@@ -437,7 +424,7 @@ export class Zmanim {
    * dawn to nightfall with both being 16.1° below the horizon.
    */
   sofZmanTfillaMGA16Point1(): Date {
-    const [alot, temporalHour] = this.getTemporalHourByDeg(16.1);
+    const [alot, temporalHour] = this.getTemporalHourByDeg(DEG_16_POINT_1);
     return addTemporalHours(alot, temporalHour, 4);
   }
   /**
@@ -522,7 +509,7 @@ export class Zmanim {
    * @param [angle=8.5] optional time for solar depression.
    *   Default is 8.5 degrees for 3 small stars, use 7.083 degrees for 3 medium-sized stars.
    */
-  tzeit(angle = 8.5): Date {
+  tzeit(angle = DEG_8_POINT_5): Date {
     return this.timeAtAngle(angle, false);
   }
   /**
@@ -562,7 +549,7 @@ export class Zmanim {
    * the result is not impacted by elevation.
    */
   beinHaShmashos(): Date {
-    const tzeit = this.tzeit(7.083);
+    const tzeit = this.tzeit(DEG_7_POINT_083);
     const millis = tzeit.getTime();
     if (isNaN(millis)) {
       return tzeit;

@@ -13,18 +13,6 @@ import './locale.js'; // Adds Hebrew and Ashkenazic translations
 const LATEST_KIDDUSH_LEVANA = 'Latest Kiddush Levana';
 
 /**
- * Alot HaShachar, 16.1° below geometric zenith. When the latest time for
- * Kiddush Levana falls during the day, it is moved back to this time.
- */
-const ALOT_16_POINT_1 = 16.1;
-
-/**
- * Tzeit HaKochavim, 8.5° below geometric zenith. Times between Alot HaShachar
- * and this are considered daytime. Same angle as {@link isAssurBemlacha}.
- */
-const TZEIT_3SMALL_STARS = 8.5;
-
-/**
  * The latest time to recite _Kiddush Levana_ (Sanctification of the Moon),
  * calculated as halfway between one _molad_ and the next, according to
  * the [Maharil](https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin)
@@ -192,8 +180,9 @@ export function makeKiddushLevanaEvent(
       continue;
     }
     // Move a daytime time back to alot hashachar that morning
-    const alos = toZdt(zmanim.timeAtAngle(ALOT_16_POINT_1, true), tzid);
-    const tzeit = toZdt(zmanim.tzeit(TZEIT_3SMALL_STARS), tzid);
+    // Same tzeit (8.5°) as isAssurBemlacha()
+    const alos = toZdt(zmanim.alotHaShachar(), tzid);
+    const tzeit = toZdt(zmanim.tzeit(), tzid);
     const zdt = zmanim.getSofZmanKidushLevanaBetweenMoldos(alos, tzeit);
     if (zdt === null) {
       return undefined;
