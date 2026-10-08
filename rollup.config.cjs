@@ -10,7 +10,7 @@ const banner =
   pkg.name +
   ' v' +
   pkg.version +
-  ', distributed under GPLv2 https://www.gnu.org/licenses/gpl-2.0.txt */';
+  ', distributed under GPLv2 or later https://www.gnu.org/licenses/gpl-2.0.txt */';
 
 module.exports = defineConfig([
   {

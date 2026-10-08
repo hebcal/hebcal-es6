@@ -71,7 +71,7 @@
     "clean": "rm -rf dist docs",
     "fix": "oxlint --fix && prettier --write ."
   },
-  "license": "GPL-2.0",
+  "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
