@@ -60,7 +60,7 @@ test('Shabbat and Yom Tov moves back to candle-lighting', () => {
     candlelighting: true,
     noHolidays: true,
   });
-  expect(candles.length).toBe(1);
+  expect(candles).toHaveLength(1);
   expect(candles[0].getDesc()).toBe('Candle lighting');
   expect((candles[0] as KiddushLevanaEvent).eventTimeStr).toBe(ev.eventTimeStr);
 });
@@ -123,19 +123,19 @@ test('only emitted when its date is in range', () => {
     start: new HDate(1, months.TISHREI, 5787),
     end: new HDate(13, months.TISHREI, 5787),
   });
-  expect(before.length).toBe(0);
+  expect(before).toHaveLength(0);
   const after = calendar({
     ...options,
     start: new HDate(15, months.TISHREI, 5787),
     end: new HDate(29, months.TISHREI, 5787),
   });
-  expect(after.length).toBe(0);
+  expect(after).toHaveLength(0);
   const onDate = calendar({
     ...options,
     start: new HDate(14, months.TISHREI, 5787),
     end: new HDate(14, months.TISHREI, 5787),
   });
-  expect(onDate.length).toBe(1);
+  expect(onDate).toHaveLength(1);
 });
 
 test('mask enables the option', () => {
