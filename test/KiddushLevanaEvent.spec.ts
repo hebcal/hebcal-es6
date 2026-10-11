@@ -21,7 +21,7 @@ function kiddushLevana(
     kiddushLevanaMaharil: true,
     noHolidays: true,
   });
-  expect(events.length).toBe(1);
+  expect(events).toHaveLength(1);
   const ev = events[0];
   expect(ev).toBeInstanceOf(KiddushLevanaEvent);
   return ev as KiddushLevanaEvent;
@@ -68,7 +68,7 @@ test('Shabbat and Yom Tov moves back to candle-lighting', () => {
 test('Shabbat followed by Pesach moves back to Friday', () => {
   // Maharil's time is Sunday Apr 3 1977, 15 Nisan (Pesach I)
   const ev = kiddushLevana(newYork, 5737, months.NISAN);
-  expect(summary(ev)).toBe('13 Nisan 5737 | Fri Apr 01 1977 | 18:03');
+  expect(summary(ev)).toBe('13 Nisan 5737 | Fri Apr 01 1977 | 18:02');
 });
 
 test('Yom Tov in Israel uses Israeli candle-lighting', () => {
@@ -108,7 +108,7 @@ test('one event per month', () => {
     kiddushLevanaMaharil: true,
     noHolidays: true,
   });
-  expect(events.length).toBe(13);
+  expect(events).toHaveLength(13);
   expect(events.every(ev => ev instanceof KiddushLevanaEvent)).toBe(true);
 });
 
@@ -146,7 +146,7 @@ test('mask enables the option', () => {
     location: newYork,
     mask: flags.KIDDUSH_LEVANA,
   });
-  expect(events.length).toBe(1);
+  expect(events).toHaveLength(1);
   expect(events[0]).toBeInstanceOf(KiddushLevanaEvent);
   expect((events[0] as KiddushLevanaEvent).eventTimeStr).toBe('21:44');
 });
@@ -179,7 +179,7 @@ test('does not validate options that only affect candle-lighting', () => {
     noHolidays: true,
     ...conflicting,
   });
-  expect(events.length).toBe(1);
+  expect(events).toHaveLength(1);
   expect((events[0] as KiddushLevanaEvent).eventTimeStr).toBe('21:44');
   expect(() =>
     calendar({

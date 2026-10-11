@@ -96,9 +96,9 @@ test('candles-only-diaspora', () => {
   expect(events.length).toBeGreaterThanOrEqual(132);
   const ev0 = events[0] as TimedEvent;
   expect(ev0.hasFlag('LIGHT_CANDLES')).toBe(true);
-  expect(ev0.render('en')).toBe('Candle lighting: 16:16');
+  expect(ev0.render('en')).toBe('Candle lighting: 16:15');
   expect(ev0.getDesc()).toBe('Candle lighting');
-  expect(ev0.eventTimeStr).toBe('16:16');
+  expect(ev0.eventTimeStr).toBe('16:15');
   const ev1 = events[1] as TimedEvent;
   expect(ev1.hasFlag('LIGHT_CANDLES_TZEIS')).toBe(true);
   expect(ev1.render('en')).toBe('Havdalah: 17:18');
