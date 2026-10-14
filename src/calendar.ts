@@ -9,12 +9,7 @@ import {
 import {Event, flags} from './event.js';
 import {getStartAndEnd} from './getStartAndEnd.js';
 import {HebrewDateEvent} from './HebrewDateEvent.js';
-import {
-  HolidayYearMap,
-  TIME_OF_DAY_MEVARCHIM,
-  getHolidaysForYear_,
-  timeOfDay,
-} from './holidays.js';
+import {HolidayYearMap, getHolidaysForYear_, timeOfDay} from './holidays.js';
 import {ParshaEvent} from './ParshaEvent.js';
 import {Sedra, getSedra} from './sedra.js';
 import {TimedEvent, HavdalahEvent} from './TimedEvent.js';
@@ -132,6 +127,16 @@ import {DEG_7_POINT_083, DEG_8_POINT_5} from './zenith.js';
  * * `options.addHebrewDates` - print the Hebrew date for the entire date range
  * * `options.addHebrewDatesForEvents` - print the Hebrew date for dates with some events
  *
+ * Events are returned in date order. Events on the same date are ordered by
+ * approximate time of day: timed events before dawn (Fast begins, an early
+ * Latest Kiddush Levana), then the parsha, special Shabbatot and minor fasts,
+ * then the Molad and Shabbat Mevarchim, then other holidays, Yizkor and the
+ * Omer, then the chametz deadlines on Erev Pesach, then daily learning, then
+ * evening holidays (Erev holidays, Chanukah), and finally the remaining timed
+ * events (candle-lighting, Havdalah, Fast ends) in order of time. When
+ * `options.addHebrewDates` or `options.addHebrewDatesForEvents` adds a Hebrew
+ * date event, it comes first.
+ *
  * Lastly, translation and transliteration of event titles is controlled by
  * `options.locale` and the {@link Locale} API.
  * `@hebcal/core` supports three locales by default:
@@ -223,24 +228,16 @@ export function calendar(options: CalOptions = {}): Event[] {
     let candlesEv: TimedEvent | undefined;
     const holidays0 = holidaysYear!.get(hd.toString()) || [];
     const holidays = holidays0.filter(ev => ev.observedIn(il));
-    // On Shabbat, events tied to the morning Torah reading and announcements
-    // in synagogue come first: the parsha, special Shabbatot such as
-    // Shabbat Shekalim, then the Molad and Shabbat Mevarchim
     if (options.sedrot && isSaturday) {
       const parsha0 = sedra!.lookup(abs);
       if (!parsha0.chag) {
         evts.push(new ParshaEvent(parsha0));
       }
     }
-    let mevarchim =
-      isSaturday && (options.molad || options.shabbatMevarchim)
-        ? makeMoladAndMevarchimChodesh(hd, options)
-        : [];
+    if (isSaturday && (options.molad || options.shabbatMevarchim)) {
+      evts.push(...makeMoladAndMevarchimChodesh(hd, options));
+    }
     for (const ev of holidays) {
-      if (mevarchim.length && timeOfDay(ev) > TIME_OF_DAY_MEVARCHIM) {
-        evts.push(...mevarchim);
-        mevarchim = [];
-      }
       candlesEv = appendHolidayAndRelated(
         candlesEv,
         evts,
@@ -251,7 +248,6 @@ export function calendar(options: CalOptions = {}): Event[] {
         hasUserMask
       );
     }
-    evts.push(...mevarchim);
     const mm = hd.getMonth();
     const dd = hd.getDate();
     // When Erev Pesach falls on Shabbat, burning chametz is moved to Friday.
@@ -320,9 +316,10 @@ export function calendar(options: CalOptions = {}): Event[] {
         kiddushLevanaEv = makeKiddushLevanaEvent(hyear, mm, options);
       }
       if (kiddushLevanaEv?.getDate().abs() === abs) {
-        insertTimedEvent(evts, prevEventsLength, kiddushLevanaEv);
+        evts.push(kiddushLevanaEv);
       }
     }
+    sortByTimeOfDay(evts, prevEventsLength);
     if (
       options.addHebrewDates ||
       (options.addHebrewDatesForEvents &&
@@ -665,22 +662,29 @@ function setOptionsFromMask(options: CalOptions): number {
   return m;
 }
 
-/**
- * Inserts `ev` into today's events (those at index `start` and beyond)
- * just before the first `TimedEvent` that occurs later, or appends it.
- * Unlike other timed events, Latest Kiddush Levana may fall at dawn,
- * at candle-lighting or late at night, so its position can't be fixed.
- */
-function insertTimedEvent(events: Event[], start: number, ev: TimedEvent) {
-  const time = ev.eventTime.getTime();
-  for (let i = start; i < events.length; i++) {
-    const other = events[i];
-    if (other instanceof TimedEvent && other.eventTime.getTime() > time) {
-      events.splice(i, 0, ev);
-      return;
-    }
+function compareTimeOfDay(a: Event, b: Event): number {
+  const diff = timeOfDay(a) - timeOfDay(b);
+  if (diff !== 0) {
+    return diff;
   }
-  events.push(ev);
+  if (a instanceof TimedEvent && b instanceof TimedEvent) {
+    return a.eventTime.getTime() - b.eventTime.getTime();
+  }
+  return 0;
+}
+
+/**
+ * Sorts today's events (those at index `start` and beyond) in place by
+ * {@link timeOfDay}. The sort is stable, so events of equal rank keep the
+ * order in which they were added, e.g. Yizkor after its holiday.
+ */
+function sortByTimeOfDay(events: Event[], start: number) {
+  if (events.length - start < 2) {
+    return;
+  }
+  const today = events.splice(start);
+  today.sort(compareTimeOfDay);
+  events.push(...today);
 }
 
 /**

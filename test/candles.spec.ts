@@ -592,8 +592,8 @@ test('fastStartEnd-9av', () => {
   });
   expect(events).toHaveLength(4);
   const expected = [
-    {dt: '2023-07-26T20:10:00-04:00', desc: 'Fast begins'},
     {dt: '2023-07-26', desc: "Erev Tish'a B'Av"},
+    {dt: '2023-07-26T20:10:00-04:00', desc: 'Fast begins'},
     {dt: '2023-07-27', desc: "Tish'a B'Av"},
     {dt: '2023-07-27T20:44:00-04:00', desc: 'Fast ends'},
   ];
@@ -607,8 +607,8 @@ test('fastStartEnd-9av', () => {
   });
   const expected2 = [
     {dt: '2022-08-06', desc: 'Shabbat Chazon'},
-    {dt: '2022-08-06T19:58:00-04:00', desc: 'Fast begins'},
     {dt: '2022-08-06', desc: "Erev Tish'a B'Av"},
+    {dt: '2022-08-06T19:58:00-04:00', desc: 'Fast begins'},
     {dt: '2022-08-06T20:44:00-04:00', desc: 'Havdalah'},
     {dt: '2022-08-07', desc: "Tish'a B'Av (observed)"},
     {dt: '2022-08-07T20:30:00-04:00', desc: 'Fast ends'},
@@ -1056,8 +1056,8 @@ describe("Tish'a B'Av start and end", () => {
     });
     expect(events.map(eventTitleDateTime)).toEqual([
       {dt: '2022-08-06', desc: 'Shabbat Chazon'},
-      {dt: '2022-08-06T19:58:00-04:00', desc: 'Fast begins'},
       {dt: '2022-08-06', desc: "Erev Tish'a B'Av"},
+      {dt: '2022-08-06T19:58:00-04:00', desc: 'Fast begins'},
       {dt: '2022-08-06T20:44:00-04:00', desc: 'Havdalah'},
       {dt: '2022-08-07', desc: "Tish'a B'Av (observed)"},
       {dt: '2022-08-07T20:47:00-04:00', desc: 'Fast ends'},

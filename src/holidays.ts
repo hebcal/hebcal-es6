@@ -24,6 +24,7 @@ import {Event, flags} from './event.js';
 import {modernHolidaysForYear} from './modern.js';
 import {getSedra} from './sedra.js';
 import {staticHolidays, holidayDesc as hdesc} from './staticHolidays.js';
+import {TimedEvent} from './TimedEvent.js';
 import {YomKippurKatanEvent} from './YomKippurKatanEvent.js';
 import {
   HolidayEvent,
@@ -73,7 +74,6 @@ const {
   MAJOR_FAST,
   MINOR_HOLIDAY,
   EREV,
-  SHABBAT_MEVARCHIM,
 } = flags;
 
 const SUN = 0;
@@ -108,36 +108,85 @@ function addToMap(map: HolidayYearMap, ...events: HolidayEvent[]): void {
 }
 
 /** @internal */
-export const TIME_OF_DAY_MORNING = 0;
+export const TIME_OF_DAY_DAWN = 0;
 /** @internal */
-export const TIME_OF_DAY_MEVARCHIM = 1;
+export const TIME_OF_DAY_MORNING = 1;
 /** @internal */
-export const TIME_OF_DAY_DAY = 2;
+export const TIME_OF_DAY_MEVARCHIM = 2;
 /** @internal */
-export const TIME_OF_DAY_EVENING = 3;
+export const TIME_OF_DAY_DAY = 3;
+/** @internal */
+export const TIME_OF_DAY_MIDDAY = 4;
+/** @internal */
+export const TIME_OF_DAY_LEARNING = 5;
+/** @internal */
+export const TIME_OF_DAY_EVENING = 6;
+/** @internal */
+export const TIME_OF_DAY_NIGHT = 7;
 
 /**
  * Approximate time of day of an event, used to order events on the same date.
- * - Morning: special Shabbatot (tied to the Torah or Haftarah reading), minor
- *   fasts (which begin at dawn) and Birkat Hachamah (recited at sunrise)
- * - Shabbat Mevarchim, announced in synagogue after the Torah reading
- * - Day: everything else
+ * Events of equal rank keep the order in which they were created, and timed
+ * events of equal rank are ordered by their time.
+ * - Dawn: Fast begins for a minor fast, and a Latest Kiddush Levana before
+ *   noon (which is never later than _alot hashachar_)
+ * - Morning: the parsha, special Shabbatot (tied to the Torah or Haftarah
+ *   reading), minor fasts (which begin at dawn) and Birkat Hachamah
+ *   (recited at sunrise)
+ * - Molad and Shabbat Mevarchim, announced in synagogue after the Torah
+ *   reading
+ * - Day: everything else, including Yizkor and the Omer count
+ * - Midday: the deadlines for eating and burning chametz
+ * - Daily learning
  * - Evening: Erev holidays, Chanukah candle-lighting and Leil Selichot
+ * - Night: other timed events such as candle-lighting, Havdalah,
+ *   Fast ends, and a Latest Kiddush Levana after noon
  * @internal
  */
 export function timeOfDay(ev: Event): number {
-  const mask = ev.getFlags();
+  if (ev instanceof TimedEvent) {
+    return timedEventTimeOfDay(ev);
+  }
   const desc = ev.getDesc();
-  if (mask & (EREV | CHANUKAH_CANDLES) || desc === hdesc.LEIL_SELICHOT) {
+  if (ev.hasAnyFlag('EREV', 'CHANUKAH_CANDLES') || desc === hdesc.LEIL_SELICHOT) {
     return TIME_OF_DAY_EVENING;
   }
-  if (mask & (SPECIAL_SHABBAT | MINOR_FAST) || desc === hdesc.BIRKAT_HACHAMAH) {
+  if (
+    ev.hasAnyFlag('PARSHA_HASHAVUA', 'SPECIAL_SHABBAT', 'MINOR_FAST') ||
+    desc === hdesc.BIRKAT_HACHAMAH
+  ) {
     return TIME_OF_DAY_MORNING;
   }
-  if (mask & SHABBAT_MEVARCHIM) {
+  if (ev.hasAnyFlag('SHABBAT_MEVARCHIM', 'MOLAD')) {
     return TIME_OF_DAY_MEVARCHIM;
   }
+  if (
+    ev.hasAnyFlag(
+      'DAILY_LEARNING',
+      'DAF_YOMI',
+      'MISHNA_YOMI',
+      'NACH_YOMI',
+      'YERUSHALMI_YOMI'
+    )
+  ) {
+    return TIME_OF_DAY_LEARNING;
+  }
   return TIME_OF_DAY_DAY;
+}
+
+function timedEventTimeOfDay(ev: TimedEvent): number {
+  const desc = ev.getDesc();
+  if (desc === hdesc.SOF_ZMAN_ACHILAT_CHAMETZ || desc === hdesc.BIUR_CHAMETZ) {
+    return TIME_OF_DAY_MIDDAY;
+  }
+  // A minor fast begins at dawn, but Tish'a B'Av at sunset the day before.
+  // Latest Kiddush Levana is either before dawn or after nightfall.
+  if (desc === hdesc.FAST_BEGINS || ev.hasFlag('KIDDUSH_LEVANA')) {
+    // `eventTimeStr` is 24-hour local time; some engines format midnight as 24:00
+    const hour = Number.parseInt(ev.eventTimeStr, 10) % 24;
+    return hour < 12 ? TIME_OF_DAY_DAWN : TIME_OF_DAY_NIGHT;
+  }
+  return TIME_OF_DAY_NIGHT;
 }
 
 function addStaticHolidays(map: HolidayYearMap, year: number): void {
