@@ -20,7 +20,7 @@
  */
 import {HDate, months} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
-import {flags} from './event.js';
+import {Event, flags} from './event.js';
 import {modernHolidaysForYear} from './modern.js';
 import {getSedra} from './sedra.js';
 import {staticHolidays, holidayDesc as hdesc} from './staticHolidays.js';
@@ -73,6 +73,7 @@ const {
   MAJOR_FAST,
   MINOR_HOLIDAY,
   EREV,
+  SHABBAT_MEVARCHIM,
 } = flags;
 
 const SUN = 0;
@@ -99,15 +100,44 @@ function addToMap(map: HolidayYearMap, ...events: HolidayEvent[]): void {
     const key = ev.date.toString();
     const arr = map.get(key);
     if (arr !== undefined) {
-      if (arr[0].hasFlag('EREV')) {
-        arr.unshift(ev);
-      } else {
-        arr.push(ev);
-      }
+      arr.push(ev);
     } else {
       map.set(key, [ev]);
     }
   }
+}
+
+/** @internal */
+export const TIME_OF_DAY_MORNING = 0;
+/** @internal */
+export const TIME_OF_DAY_MEVARCHIM = 1;
+/** @internal */
+export const TIME_OF_DAY_DAY = 2;
+/** @internal */
+export const TIME_OF_DAY_EVENING = 3;
+
+/**
+ * Approximate time of day of an event, used to order events on the same date.
+ * - Morning: special Shabbatot (tied to the Torah or Haftarah reading), minor
+ *   fasts (which begin at dawn) and Birkat Hachamah (recited at sunrise)
+ * - Shabbat Mevarchim, announced in synagogue after the Torah reading
+ * - Day: everything else
+ * - Evening: Erev holidays, Chanukah candle-lighting and Leil Selichot
+ * @internal
+ */
+export function timeOfDay(ev: Event): number {
+  const mask = ev.getFlags();
+  const desc = ev.getDesc();
+  if (mask & (EREV | CHANUKAH_CANDLES) || desc === hdesc.LEIL_SELICHOT) {
+    return TIME_OF_DAY_EVENING;
+  }
+  if (mask & (SPECIAL_SHABBAT | MINOR_FAST) || desc === hdesc.BIRKAT_HACHAMAH) {
+    return TIME_OF_DAY_MORNING;
+  }
+  if (mask & SHABBAT_MEVARCHIM) {
+    return TIME_OF_DAY_MEVARCHIM;
+  }
+  return TIME_OF_DAY_DAY;
 }
 
 function addStaticHolidays(map: HolidayYearMap, year: number): void {
@@ -429,6 +459,10 @@ export function getHolidaysForYear_(year: number): HolidayYearMap {
       map,
       new HolidayEvent(hd, hdesc.BIRKAT_HACHAMAH, MINOR_HOLIDAY, {emoji: '☀️'})
     );
+  }
+
+  for (const arr of map.values()) {
+    arr.sort((a, b) => timeOfDay(a) - timeOfDay(b));
   }
 
   yearCache.set(year, map);

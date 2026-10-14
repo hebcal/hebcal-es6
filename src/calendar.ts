@@ -9,7 +9,12 @@ import {
 import {Event, flags} from './event.js';
 import {getStartAndEnd} from './getStartAndEnd.js';
 import {HebrewDateEvent} from './HebrewDateEvent.js';
-import {HolidayYearMap, getHolidaysForYear_} from './holidays.js';
+import {
+  HolidayYearMap,
+  TIME_OF_DAY_MEVARCHIM,
+  getHolidaysForYear_,
+  timeOfDay,
+} from './holidays.js';
 import {ParshaEvent} from './ParshaEvent.js';
 import {Sedra, getSedra} from './sedra.js';
 import {TimedEvent, HavdalahEvent} from './TimedEvent.js';
@@ -218,7 +223,24 @@ export function calendar(options: CalOptions = {}): Event[] {
     let candlesEv: TimedEvent | undefined;
     const holidays0 = holidaysYear!.get(hd.toString()) || [];
     const holidays = holidays0.filter(ev => ev.observedIn(il));
+    // On Shabbat, events tied to the morning Torah reading and announcements
+    // in synagogue come first: the parsha, special Shabbatot such as
+    // Shabbat Shekalim, then the Molad and Shabbat Mevarchim
+    if (options.sedrot && isSaturday) {
+      const parsha0 = sedra!.lookup(abs);
+      if (!parsha0.chag) {
+        evts.push(new ParshaEvent(parsha0));
+      }
+    }
+    let mevarchim =
+      isSaturday && (options.molad || options.shabbatMevarchim)
+        ? makeMoladAndMevarchimChodesh(hd, options)
+        : [];
     for (const ev of holidays) {
+      if (mevarchim.length && timeOfDay(ev) > TIME_OF_DAY_MEVARCHIM) {
+        evts.push(...mevarchim);
+        mevarchim = [];
+      }
       candlesEv = appendHolidayAndRelated(
         candlesEv,
         evts,
@@ -229,6 +251,7 @@ export function calendar(options: CalOptions = {}): Event[] {
         hasUserMask
       );
     }
+    evts.push(...mevarchim);
     const mm = hd.getMonth();
     const dd = hd.getDate();
     // When Erev Pesach falls on Shabbat, burning chametz is moved to Friday.
@@ -236,12 +259,6 @@ export function calendar(options: CalOptions = {}): Event[] {
       const biurEv = makeBiurChametzEvent(hd, options);
       if (biurEv) {
         evts.push(biurEv);
-      }
-    }
-    if (options.sedrot && isSaturday) {
-      const parsha0 = sedra!.lookup(abs);
-      if (!parsha0.chag) {
-        evts.push(new ParshaEvent(parsha0));
       }
     }
     if (options.yizkor) {
@@ -272,22 +289,6 @@ export function calendar(options: CalOptions = {}): Event[] {
       const omerEv = makeOmerEvent(hd, omer, options);
       evts.push(omerEv);
     }
-    if (isSaturday && (options.molad || options.shabbatMevarchim)) {
-      const events = makeMoladAndMevarchimChodesh(hd, options);
-      evts.push(...events);
-    }
-    if (options.kiddushLevanaMaharil && dd >= 9 && dd <= 17) {
-      // The event usually falls between the 11th and the 16th, but may be
-      // moved back to candle-lighting before a Shabbat or Yom Tov
-      const monthKey = hyear * 100 + mm;
-      if (monthKey !== kiddushLevanaMonth) {
-        kiddushLevanaMonth = monthKey;
-        kiddushLevanaEv = makeKiddushLevanaEvent(hyear, mm, options);
-      }
-      if (kiddushLevanaEv?.getDate().abs() === abs) {
-        evts.push(kiddushLevanaEv);
-      }
-    }
     if (!candlesEv && options.candlelighting && (isFriday || isSaturday)) {
       candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);
       if (isFriday && candlesEv && sedra) {
@@ -309,6 +310,18 @@ export function calendar(options: CalOptions = {}): Event[] {
     }
     if (candlesEv) {
       evts.push(candlesEv);
+    }
+    if (options.kiddushLevanaMaharil && dd >= 9 && dd <= 17) {
+      // The event usually falls between the 11th and the 16th, but may be
+      // moved back to candle-lighting before a Shabbat or Yom Tov
+      const monthKey = hyear * 100 + mm;
+      if (monthKey !== kiddushLevanaMonth) {
+        kiddushLevanaMonth = monthKey;
+        kiddushLevanaEv = makeKiddushLevanaEvent(hyear, mm, options);
+      }
+      if (kiddushLevanaEv?.getDate().abs() === abs) {
+        insertTimedEvent(evts, prevEventsLength, kiddushLevanaEv);
+      }
     }
     if (
       options.addHebrewDates ||
@@ -650,6 +663,24 @@ function setOptionsFromMask(options: CalOptions): number {
   if (m & YIZKOR) options.yizkor = true;
   if (m & KIDDUSH_LEVANA) options.kiddushLevanaMaharil = true;
   return m;
+}
+
+/**
+ * Inserts `ev` into today's events (those at index `start` and beyond)
+ * just before the first `TimedEvent` that occurs later, or appends it.
+ * Unlike other timed events, Latest Kiddush Levana may fall at dawn,
+ * at candle-lighting or late at night, so its position can't be fixed.
+ */
+function insertTimedEvent(events: Event[], start: number, ev: TimedEvent) {
+  const time = ev.eventTime.getTime();
+  for (let i = start; i < events.length; i++) {
+    const other = events[i];
+    if (other instanceof TimedEvent && other.eventTime.getTime() > time) {
+      events.splice(i, 0, ev);
+      return;
+    }
+  }
+  events.push(ev);
 }
 
 /**

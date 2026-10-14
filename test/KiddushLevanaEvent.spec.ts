@@ -192,3 +192,30 @@ test('does not validate options that only affect candle-lighting', () => {
     })
   ).toThrow('options.havdalahMins and options.havdalahDeg are mutually exclusive');
 });
+
+test('sorted by time among other timed events on the same day', () => {
+  const boston = Location.lookup('Boston')!;
+  const render = (start: Date, end: Date) =>
+    calendar({
+      start,
+      end,
+      location: boston,
+      candlelighting: true,
+      kiddushLevanaMaharil: true,
+    }).map(ev => `${ev.getDate().toString()} ${ev.render('en')}`);
+  // late at night, after Havdalah
+  expect(render(new Date(2027, 1, 19), new Date(2027, 1, 21))).toEqual([
+    '12 Adar I 5787 Candle lighting: 5:03pm',
+    '13 Adar I 5787 Havdalah: 6:05pm',
+    '13 Adar I 5787 Latest Kiddush Levana: 11:40pm',
+    '14 Adar I 5787 Purim Katan',
+  ]);
+  // at dawn, before the fast begins
+  expect(render(new Date(2020, 2, 9), new Date(2020, 2, 9))).toEqual([
+    '13 Adar 5780 Latest Kiddush Levana: 5:42am',
+    '13 Adar 5780 Fast begins: 5:43am',
+    '13 Adar 5780 Ta’anit Esther',
+    '13 Adar 5780 Fast ends: 7:18pm',
+    '13 Adar 5780 Erev Purim',
+  ]);
+});

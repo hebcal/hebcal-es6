@@ -12,8 +12,12 @@ test('getHolidaysOnDate', () => {
     {dt: new HDate(3, 'Cheshvan', hyear), desc: undefined},
     {
       dt: new Date(2010, 11, 7),
-      desc: ['Chag HaBanot', 'Chanukah: 7 Candles', 'Rosh Chodesh Tevet'],
+      desc: ['Chag HaBanot', 'Rosh Chodesh Tevet', 'Chanukah: 7 Candles'],
     },
+    // fasts and special Shabbatot are in the morning; Erev is in the evening
+    {dt: new Date(2011, 4, 9), desc: ["Ta'anit BeHaB", 'Yom HaZikaron']},
+    {dt: new Date(1960, 1, 13), desc: ['Shabbat Shirah', 'Tu BiShvat']},
+    {dt: new Date(2011, 8, 24), desc: ['Leil Selichot']},
   ];
   for (const item of expected) {
     const dt = item.dt;
