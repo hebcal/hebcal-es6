@@ -77,7 +77,6 @@ const {
   SHABBAT_MEVARCHIM,
   PARSHA_HASHAVUA,
   MOLAD,
-  KIDDUSH_LEVANA,
   DAILY_LEARNING,
   DAF_YOMI,
   MISHNA_YOMI,
@@ -186,7 +185,7 @@ function timedEventTimeOfDay(ev: TimedEvent): number {
   }
   // A minor fast begins at dawn, but Tish'a B'Av at sunset the day before.
   // Latest Kiddush Levana is either before dawn or after nightfall.
-  if (desc === hdesc.FAST_BEGINS || ev.getFlags() & KIDDUSH_LEVANA) {
+  if (desc === hdesc.FAST_BEGINS || ev.hasFlag('KIDDUSH_LEVANA')) {
     // `eventTimeStr` is 24-hour local time; some engines format midnight as 24:00
     const hour = Number.parseInt(ev.eventTimeStr, 10) % 24;
     return hour < 12 ? TIME_OF_DAY_DAWN : TIME_OF_DAY_NIGHT;
