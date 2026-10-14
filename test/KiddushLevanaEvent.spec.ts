@@ -215,7 +215,7 @@ test('sorted by time among other timed events on the same day', () => {
     '13 Adar 5780 Latest Kiddush Levana: 5:42am',
     '13 Adar 5780 Fast begins: 5:43am',
     '13 Adar 5780 Ta’anit Esther',
-    '13 Adar 5780 Fast ends: 7:18pm',
     '13 Adar 5780 Erev Purim',
+    '13 Adar 5780 Fast ends: 7:18pm',
   ]);
 });
