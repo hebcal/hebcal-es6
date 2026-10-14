@@ -74,14 +74,6 @@ const {
   MAJOR_FAST,
   MINOR_HOLIDAY,
   EREV,
-  SHABBAT_MEVARCHIM,
-  PARSHA_HASHAVUA,
-  MOLAD,
-  DAILY_LEARNING,
-  DAF_YOMI,
-  MISHNA_YOMI,
-  NACH_YOMI,
-  YERUSHALMI_YOMI,
 } = flags;
 
 const SUN = 0;
@@ -132,9 +124,6 @@ export const TIME_OF_DAY_EVENING = 6;
 /** @internal */
 export const TIME_OF_DAY_NIGHT = 7;
 
-const LEARNING_MASK =
-  DAILY_LEARNING | DAF_YOMI | MISHNA_YOMI | NACH_YOMI | YERUSHALMI_YOMI;
-
 /**
  * Approximate time of day of an event, used to order events on the same date.
  * Events of equal rank keep the order in which they were created, and timed
@@ -158,21 +147,28 @@ export function timeOfDay(ev: Event): number {
   if (ev instanceof TimedEvent) {
     return timedEventTimeOfDay(ev);
   }
-  const mask = ev.getFlags();
   const desc = ev.getDesc();
-  if (mask & (EREV | CHANUKAH_CANDLES) || desc === hdesc.LEIL_SELICHOT) {
+  if (ev.hasAnyFlag('EREV', 'CHANUKAH_CANDLES') || desc === hdesc.LEIL_SELICHOT) {
     return TIME_OF_DAY_EVENING;
   }
   if (
-    mask & (PARSHA_HASHAVUA | SPECIAL_SHABBAT | MINOR_FAST) ||
+    ev.hasAnyFlag('PARSHA_HASHAVUA', 'SPECIAL_SHABBAT', 'MINOR_FAST') ||
     desc === hdesc.BIRKAT_HACHAMAH
   ) {
     return TIME_OF_DAY_MORNING;
   }
-  if (mask & (SHABBAT_MEVARCHIM | MOLAD)) {
+  if (ev.hasAnyFlag('SHABBAT_MEVARCHIM', 'MOLAD')) {
     return TIME_OF_DAY_MEVARCHIM;
   }
-  if (mask & LEARNING_MASK) {
+  if (
+    ev.hasAnyFlag(
+      'DAILY_LEARNING',
+      'DAF_YOMI',
+      'MISHNA_YOMI',
+      'NACH_YOMI',
+      'YERUSHALMI_YOMI'
+    )
+  ) {
     return TIME_OF_DAY_LEARNING;
   }
   return TIME_OF_DAY_DAY;
