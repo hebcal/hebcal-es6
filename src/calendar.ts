@@ -218,7 +218,32 @@ export function calendar(options: CalOptions = {}): Event[] {
     let candlesEv: TimedEvent | undefined;
     const holidays0 = holidaysYear!.get(hd.toString()) || [];
     const holidays = holidays0.filter(ev => ev.observedIn(il));
-    for (const ev of holidays) {
+    // On Shabbat, events tied to the morning Torah reading and announcements
+    // in synagogue come first: the parsha, special Shabbatot such as
+    // Shabbat Shekalim, then the Molad and Shabbat Mevarchim
+    if (options.sedrot && isSaturday) {
+      const parsha0 = sedra!.lookup(abs);
+      if (!parsha0.chag) {
+        evts.push(new ParshaEvent(parsha0));
+      }
+    }
+    const specialShabbat = holidays.filter(ev => ev.getFlags() & SPECIAL_SHABBAT);
+    const otherHolidays = holidays.filter(ev => !(ev.getFlags() & SPECIAL_SHABBAT));
+    for (const ev of specialShabbat) {
+      candlesEv = appendHolidayAndRelated(
+        candlesEv,
+        evts,
+        ev,
+        options,
+        isFriday,
+        isSaturday,
+        hasUserMask
+      );
+    }
+    if (isSaturday && (options.molad || options.shabbatMevarchim)) {
+      evts.push(...makeMoladAndMevarchimChodesh(hd, options));
+    }
+    for (const ev of otherHolidays) {
       candlesEv = appendHolidayAndRelated(
         candlesEv,
         evts,
@@ -236,12 +261,6 @@ export function calendar(options: CalOptions = {}): Event[] {
       const biurEv = makeBiurChametzEvent(hd, options);
       if (biurEv) {
         evts.push(biurEv);
-      }
-    }
-    if (options.sedrot && isSaturday) {
-      const parsha0 = sedra!.lookup(abs);
-      if (!parsha0.chag) {
-        evts.push(new ParshaEvent(parsha0));
       }
     }
     if (options.yizkor) {
@@ -271,19 +290,6 @@ export function calendar(options: CalOptions = {}): Event[] {
       const omer = abs - beginOmer + 1;
       const omerEv = makeOmerEvent(hd, omer, options);
       evts.push(omerEv);
-    }
-    if (isSaturday && (options.molad || options.shabbatMevarchim)) {
-      const events = makeMoladAndMevarchimChodesh(hd, options);
-      // Shabbat Mevarchim is announced in the morning, so it comes before
-      // the evening's Chanukah candle-lighting
-      let idx = evts.length;
-      for (let i = prevEventsLength; i < evts.length; i++) {
-        if (evts[i].getFlags() & flags.CHANUKAH_CANDLES) {
-          idx = i;
-          break;
-        }
-      }
-      evts.splice(idx, 0, ...events);
     }
     if (!candlesEv && options.candlelighting && (isFriday || isSaturday)) {
       candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);

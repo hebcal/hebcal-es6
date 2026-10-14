@@ -273,7 +273,10 @@ test('addHebrewDates', () => {
   expect(ev[4].getDesc()).toBe('10 Nisan 5780');
 
   expect(gregDtString(ev[5])).toBe('4/4/2020');
-  expect(ev[5].getDesc()).toBe('Shabbat HaGadol');
+  expect(ev[5].getDesc()).toBe('Parashat Tzav');
+
+  expect(gregDtString(ev[6])).toBe('4/4/2020');
+  expect(ev[6].getDesc()).toBe('Shabbat HaGadol');
 });
 
 test('addHebrewDates-locale', () => {
@@ -330,8 +333,8 @@ test('renderBrief', () => {
   const events = calendar(options);
   const expected = [
     ['Candle lighting', 'הַדְלָקַת נֵרוֹת'],
-    ['Shabbat Zachor', 'שַׁבַּת זָכוֹר'],
     ['Parashat Tetzaveh', 'פָּרָשַׁת תְּצַוֶּה'],
+    ['Shabbat Zachor', 'שַׁבַּת זָכוֹר'],
     ['Havdalah', 'הַבְדָּלָה'],
     ['Fast begins', 'תְּחִילַּת הַצוֹם'],
     ['Ta’anit Esther', 'תַּעֲנִית אֶסְתֵּר'],
@@ -340,12 +343,12 @@ test('renderBrief', () => {
     ['Purim', 'פּוּרִים'],
     ['Shushan Purim', 'שׁוּשָׁן פּוּרִים'],
     ['Candle lighting', 'הַדְלָקַת נֵרוֹת'],
-    ['Shabbat Parah', 'שַׁבַּת פָּרָה'],
     ['Parashat Ki Tisa', 'פָּרָשַׁת כִּי תִשָּׂא'],
+    ['Shabbat Parah', 'שַׁבַּת פָּרָה'],
     ['Havdalah', 'הַבְדָּלָה'],
     ['Candle lighting', 'הַדְלָקַת נֵרוֹת'],
-    ['Shabbat HaChodesh', 'שַׁבַּת הַחֹדֶשׁ'],
     ['Parashat Vayakhel-Pekudei', 'פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי'],
+    ['Shabbat HaChodesh', 'שַׁבַּת הַחֹדֶשׁ'],
     ['Havdalah', 'הַבְדָּלָה'],
     ['Rosh Chodesh Nisan', 'רֹאשׁ חוֹדֶשׁ נִיסָן'],
     ['Candle lighting', 'הַדְלָקַת נֵרוֹת'],
@@ -525,7 +528,7 @@ test('shabbat-mevarchim', () => {
   expect((ev as Event).getDate().toString()).toBe('29 Iyyar 5780');
 });
 
-test('shabbat-mevarchim before chanukah candles', () => {
+test('shabbat order: parsha, molad, mevarchim, then holidays', () => {
   const hd = new HDate(26, months.KISLEV, 5781);
   const events = calendar({
     start: hd,
@@ -537,11 +540,28 @@ test('shabbat-mevarchim before chanukah candles', () => {
     location: Location.lookup('Boston')!,
   });
   expect(events.map(ev => ev.render('en'))).toEqual([
+    'Parashat Vayeshev',
     'Molad Tevet: Tuesday, 4:51am and 2 chalakim',
     'Shabbat Mevarchim Chodesh Tevet',
     'Chanukah: 3 Candles',
-    'Parashat Vayeshev',
     'Havdalah: 4:59pm',
+  ]);
+  const hd2 = new HDate(29, months.ADAR_I, 5781);
+  const events2 = calendar({
+    start: hd2,
+    end: hd2,
+    shabbatMevarchim: true,
+    molad: true,
+    sedrot: true,
+    candlelighting: true,
+    location: Location.lookup('Boston')!,
+  });
+  expect(events2.map(ev => ev.render('en'))).toEqual([
+    'Parashat Vayakhel-Pekudei',
+    'Shabbat HaChodesh',
+    'Molad Nisan: Saturday, 7:03pm and 5 chalakim',
+    'Shabbat Mevarchim Chodesh Nisan',
+    'Havdalah: 6:30pm',
   ]);
 });
 
