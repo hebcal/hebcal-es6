@@ -9,7 +9,12 @@ import {
 import {Event, flags} from './event.js';
 import {getStartAndEnd} from './getStartAndEnd.js';
 import {HebrewDateEvent} from './HebrewDateEvent.js';
-import {HolidayYearMap, getHolidaysForYear_} from './holidays.js';
+import {
+  HolidayYearMap,
+  TIME_OF_DAY_MEVARCHIM,
+  getHolidaysForYear_,
+  timeOfDay,
+} from './holidays.js';
 import {ParshaEvent} from './ParshaEvent.js';
 import {Sedra, getSedra} from './sedra.js';
 import {TimedEvent, HavdalahEvent} from './TimedEvent.js';
@@ -227,9 +232,15 @@ export function calendar(options: CalOptions = {}): Event[] {
         evts.push(new ParshaEvent(parsha0));
       }
     }
-    const specialShabbat = holidays.filter(ev => ev.getFlags() & SPECIAL_SHABBAT);
-    const otherHolidays = holidays.filter(ev => !(ev.getFlags() & SPECIAL_SHABBAT));
-    for (const ev of specialShabbat) {
+    let mevarchim =
+      isSaturday && (options.molad || options.shabbatMevarchim)
+        ? makeMoladAndMevarchimChodesh(hd, options)
+        : [];
+    for (const ev of holidays) {
+      if (mevarchim.length && timeOfDay(ev) > TIME_OF_DAY_MEVARCHIM) {
+        evts.push(...mevarchim);
+        mevarchim = [];
+      }
       candlesEv = appendHolidayAndRelated(
         candlesEv,
         evts,
@@ -240,20 +251,7 @@ export function calendar(options: CalOptions = {}): Event[] {
         hasUserMask
       );
     }
-    if (isSaturday && (options.molad || options.shabbatMevarchim)) {
-      evts.push(...makeMoladAndMevarchimChodesh(hd, options));
-    }
-    for (const ev of otherHolidays) {
-      candlesEv = appendHolidayAndRelated(
-        candlesEv,
-        evts,
-        ev,
-        options,
-        isFriday,
-        isSaturday,
-        hasUserMask
-      );
-    }
+    evts.push(...mevarchim);
     const mm = hd.getMonth();
     const dd = hd.getDate();
     // When Erev Pesach falls on Shabbat, burning chametz is moved to Friday.
