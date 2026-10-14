@@ -276,18 +276,6 @@ export function calendar(options: CalOptions = {}): Event[] {
       const events = makeMoladAndMevarchimChodesh(hd, options);
       evts.push(...events);
     }
-    if (options.kiddushLevanaMaharil && dd >= 9 && dd <= 17) {
-      // The event usually falls between the 11th and the 16th, but may be
-      // moved back to candle-lighting before a Shabbat or Yom Tov
-      const monthKey = hyear * 100 + mm;
-      if (monthKey !== kiddushLevanaMonth) {
-        kiddushLevanaMonth = monthKey;
-        kiddushLevanaEv = makeKiddushLevanaEvent(hyear, mm, options);
-      }
-      if (kiddushLevanaEv?.getDate().abs() === abs) {
-        evts.push(kiddushLevanaEv);
-      }
-    }
     if (!candlesEv && options.candlelighting && (isFriday || isSaturday)) {
       candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);
       if (isFriday && candlesEv && sedra) {
@@ -309,6 +297,18 @@ export function calendar(options: CalOptions = {}): Event[] {
     }
     if (candlesEv) {
       evts.push(candlesEv);
+    }
+    if (options.kiddushLevanaMaharil && dd >= 9 && dd <= 17) {
+      // The event usually falls between the 11th and the 16th, but may be
+      // moved back to candle-lighting before a Shabbat or Yom Tov
+      const monthKey = hyear * 100 + mm;
+      if (monthKey !== kiddushLevanaMonth) {
+        kiddushLevanaMonth = monthKey;
+        kiddushLevanaEv = makeKiddushLevanaEvent(hyear, mm, options);
+      }
+      if (kiddushLevanaEv?.getDate().abs() === abs) {
+        insertTimedEvent(evts, prevEventsLength, kiddushLevanaEv);
+      }
     }
     if (
       options.addHebrewDates ||
@@ -650,6 +650,24 @@ function setOptionsFromMask(options: CalOptions): number {
   if (m & YIZKOR) options.yizkor = true;
   if (m & KIDDUSH_LEVANA) options.kiddushLevanaMaharil = true;
   return m;
+}
+
+/**
+ * Inserts `ev` into today's events (those at index `start` and beyond)
+ * just before the first `TimedEvent` that occurs later, or appends it.
+ * Unlike other timed events, Latest Kiddush Levana may fall at dawn,
+ * at candle-lighting or late at night, so its position can't be fixed.
+ */
+function insertTimedEvent(events: Event[], start: number, ev: TimedEvent) {
+  const time = ev.eventTime.getTime();
+  for (let i = start; i < events.length; i++) {
+    const other = events[i];
+    if (other instanceof TimedEvent && other.eventTime.getTime() > time) {
+      events.splice(i, 0, ev);
+      return;
+    }
+  }
+  events.push(ev);
 }
 
 /**
