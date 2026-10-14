@@ -525,6 +525,26 @@ test('shabbat-mevarchim', () => {
   expect((ev as Event).getDate().toString()).toBe('29 Iyyar 5780');
 });
 
+test('shabbat-mevarchim before chanukah candles', () => {
+  const hd = new HDate(26, months.KISLEV, 5781);
+  const events = calendar({
+    start: hd,
+    end: hd,
+    shabbatMevarchim: true,
+    molad: true,
+    sedrot: true,
+    candlelighting: true,
+    location: Location.lookup('Boston')!,
+  });
+  expect(events.map(ev => ev.render('en'))).toEqual([
+    'Molad Tevet: Tuesday, 4:51am and 2 chalakim',
+    'Shabbat Mevarchim Chodesh Tevet',
+    'Chanukah: 3 Candles',
+    'Parashat Vayeshev',
+    'Havdalah: 4:59pm',
+  ]);
+});
+
 test('molad', () => {
   const events = calendar({
     year: 5769,

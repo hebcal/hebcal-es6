@@ -274,7 +274,16 @@ export function calendar(options: CalOptions = {}): Event[] {
     }
     if (isSaturday && (options.molad || options.shabbatMevarchim)) {
       const events = makeMoladAndMevarchimChodesh(hd, options);
-      evts.push(...events);
+      // Shabbat Mevarchim is announced in the morning, so it comes before
+      // the evening's Chanukah candle-lighting
+      let idx = evts.length;
+      for (let i = prevEventsLength; i < evts.length; i++) {
+        if (evts[i].getFlags() & flags.CHANUKAH_CANDLES) {
+          idx = i;
+          break;
+        }
+      }
+      evts.splice(idx, 0, ...events);
     }
     if (!candlesEv && options.candlelighting && (isFriday || isSaturday)) {
       candlesEv = makeCandleEvent(undefined, hd, options, isFriday, isSaturday);
