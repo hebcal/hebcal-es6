@@ -118,8 +118,8 @@ export const TIME_OF_DAY_EVENING = 3;
 
 /**
  * Approximate time of day of an event, used to order events on the same date.
- * - Morning: special Shabbatot (tied to the Torah or Haftarah reading), fast
- *   days (which begin at dawn) and Birkat Hachamah (recited at sunrise)
+ * - Morning: special Shabbatot (tied to the Torah or Haftarah reading), minor
+ *   fasts (which begin at dawn) and Birkat Hachamah (recited at sunrise)
  * - Shabbat Mevarchim, announced in synagogue after the Torah reading
  * - Day: everything else
  * - Evening: Erev holidays, Chanukah candle-lighting and Leil Selichot
@@ -131,10 +131,7 @@ export function timeOfDay(ev: Event): number {
   if (mask & (EREV | CHANUKAH_CANDLES) || desc === hdesc.LEIL_SELICHOT) {
     return TIME_OF_DAY_EVENING;
   }
-  if (
-    mask & (SPECIAL_SHABBAT | MINOR_FAST | MAJOR_FAST) ||
-    desc === hdesc.BIRKAT_HACHAMAH
-  ) {
+  if (mask & (SPECIAL_SHABBAT | MINOR_FAST) || desc === hdesc.BIRKAT_HACHAMAH) {
     return TIME_OF_DAY_MORNING;
   }
   if (mask & SHABBAT_MEVARCHIM) {
