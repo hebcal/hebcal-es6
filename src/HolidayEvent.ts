@@ -64,9 +64,13 @@ export class HolidayEvent extends Event {
   /**
    * Returns a `https://www.hebcal.com/holidays/...` URL for more detail on
    * this holiday. Israel-only holidays get an `?i=on` query parameter.
-   * Returns `undefined` for years outside `[100, 2999]`.
+   * Returns `undefined` for years outside `[100, 2999]` and for
+   * Ta'anit BeHaB, which has no holiday page.
    */
   url(): string | undefined {
+    if (this.hasFlag('BEHAB')) {
+      return undefined;
+    }
     const year = this.greg().getFullYear();
     if (year < 100 || year > 2999) {
       return undefined;

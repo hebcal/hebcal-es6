@@ -791,6 +791,7 @@ test('behab-only', () => {
   for (const ev of events) {
     expect(ev.flagNames()).toEqual(['MINOR_FAST', 'BEHAB']);
     expect(ev.getCategories()).toEqual(['holiday', 'fast']);
+    expect(ev.url()).toBeUndefined();
   }
   expect(events[0].render('he')).toBe('תַּעֲנִית בה״ב');
   expect(events[0].render('he-x-NoNikud')).toBe('תענית בה״ב');
