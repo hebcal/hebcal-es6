@@ -49,7 +49,7 @@ export class HolidayEvent extends Event {
    * // 'Chanukah: 5 Candles'   => 'Chanukah'
    * // 'Rosh Hashana 5784'     => 'Rosh Hashana'
    */
-  basename(): string {
+  override basename(): string {
     return this.getDesc()
       .replace(/ \d{4}$/, '')
       .replace(/ \(CH''M\)$/, '')
@@ -67,7 +67,7 @@ export class HolidayEvent extends Event {
    * Returns `undefined` for years outside `[100, 2999]` and for
    * Ta'anit BeHaB, which has no holiday page.
    */
-  url(): string | undefined {
+  override url(): string | undefined {
     if (this.hasFlag('BEHAB')) {
       return undefined;
     }
@@ -87,7 +87,7 @@ export class HolidayEvent extends Event {
     return String(this.greg().getFullYear());
   }
 
-  getEmoji(): string {
+  override getEmoji(): string {
     if (this.emoji) {
       return this.emoji;
     }
@@ -97,7 +97,7 @@ export class HolidayEvent extends Event {
     return '✡️';
   }
 
-  getCategories(): string[] {
+  override getCategories(): string[] {
     if (this.cholHaMoedDay) {
       return ['holiday', 'major', 'cholhamoed'];
     }
@@ -126,7 +126,7 @@ export class HolidayEvent extends Event {
    * Returns (translated) description of this event
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     const str = super.render(locale);
     return smartApostrophe(str);
   }
@@ -136,7 +136,7 @@ export class HolidayEvent extends Event {
    * a shorter text (e.g. without a time or added description).
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  renderBrief(locale?: string): string {
+  override renderBrief(locale?: string): string {
     const str = super.renderBrief(locale);
     return smartApostrophe(str);
   }
@@ -148,7 +148,7 @@ export class HolidayEvent extends Event {
  */
 export class AsaraBTevetEvent extends HolidayEvent {
   /** Full `YYYYMMDD` date, since the Gregorian year alone is ambiguous here */
-  urlDateSuffix(): string {
+  override urlDateSuffix(): string {
     const isoDate = isoDateString(this.greg());
     return isoDate.replaceAll('-', '');
   }
@@ -186,7 +186,7 @@ export class ChanukahEvent extends HolidayEvent {
       this.emoji += KEYCAP_DIGITS[candles];
     }
   }
-  urlDateSuffix(): string {
+  override urlDateSuffix(): string {
     const dt = this.greg();
     let year = dt.getFullYear();
     if (dt.getMonth() === 0) {
@@ -213,11 +213,11 @@ export class RoshHashanaEvent extends HolidayEvent {
    * Returns (translated) description of this event
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     return `${Locale.gettext('Rosh Hashana', locale)} ${this.hyear}`;
   }
 
-  getEmoji(): string {
+  override getEmoji(): string {
     return '🍏🍯';
   }
 }
@@ -238,18 +238,18 @@ export class RoshChodeshEvent extends HolidayEvent {
    * Returns (translated) description of this event
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     const monthName = this.getDesc().substring(roshChodeshStr.length + 1);
     const monthName0 = Locale.gettext(monthName, locale);
     const monthName1 = smartApostrophe(monthName0);
     return `${Locale.gettext(roshChodeshStr, locale)} ${monthName1}`;
   }
 
-  basename(): string {
+  override basename(): string {
     return this.getDesc();
   }
 
-  getEmoji(): string {
+  override getEmoji(): string {
     return this.emoji || '🌒';
   }
 }

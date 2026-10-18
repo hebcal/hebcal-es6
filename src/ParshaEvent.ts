@@ -51,15 +51,15 @@ export class ParshaEvent extends Event {
   /**
    * @param [locale] Optional locale name (i.e: `'he'`, `'fr'`). Defaults to empty locale.
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     return renderParshaName(this.p.parsha, locale);
   }
 
-  basename(): string {
+  override basename(): string {
     return this.p.parsha.join('-');
   }
 
-  url(): string | undefined {
+  override url(): string | undefined {
     const year = this.greg().getFullYear();
     if (year < 100 || year > 2999) {
       return undefined;

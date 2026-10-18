@@ -269,7 +269,7 @@ export class OmerEvent extends Event {
   /**
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     const isHebrewLocale = Locale.isHebrewLocale(locale);
     const omer = this.omer;
     const nth = isHebrewLocale ? gematriya(omer) : Locale.ordinal(omer, locale);
@@ -279,7 +279,7 @@ export class OmerEvent extends Event {
    * Returns translation of "Omer day 22" without ordinal numbers.
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  renderBrief(locale?: string): string {
+  override renderBrief(locale?: string): string {
     return `${Locale.gettext('Omer', locale)} ${Locale.gettext('day', locale)} ${this.omer}`;
   }
   /**
@@ -287,7 +287,7 @@ export class OmerEvent extends Event {
    *  from the “Enclosed CJK Letters and Months” block of the Unicode standard
    * @returns a single Unicode character from `①` through `㊾`
    */
-  getEmoji(): string {
+  override getEmoji(): string {
     if (typeof this.emoji === 'string') return this.emoji;
     let codePoint: number;
     const omerDay = this.omer;
@@ -342,7 +342,7 @@ export class OmerEvent extends Event {
     return str;
   }
 
-  url(): string | undefined {
+  override url(): string | undefined {
     const year = this.getDate().getFullYear();
     if (year < 5000 || year > 6759) {
       return undefined;

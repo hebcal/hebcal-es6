@@ -61,11 +61,11 @@ export class KiddushLevanaEvent extends TimedEvent {
     this.memo = makeMemo(molad, location, options);
   }
 
-  getEmoji(): string {
+  override getEmoji(): string {
     return '🌔';
   }
 
-  getCategories(): string[] {
+  override getCategories(): string[] {
     return ['zmanim', 'kiddushLevana'];
   }
 }

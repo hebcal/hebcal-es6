@@ -308,7 +308,7 @@ export class MoladEvent extends Event {
   /**
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     return this.molad.render(locale, this.options);
   }
 }

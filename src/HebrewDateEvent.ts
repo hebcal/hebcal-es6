@@ -20,7 +20,7 @@ export class HebrewDateEvent extends Event {
    * console.log(ev.render('en')); // '15th of Cheshvan, 5769'
    * console.log(ev.render('he')); // 'ט״ו חֶשְׁוָן תשס״ט'
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     const locale1 = locale?.toLowerCase();
     const locale0 = locale1 ?? 'en';
     const hd = this.getDate();
@@ -50,7 +50,7 @@ export class HebrewDateEvent extends Event {
    * console.log(ev.renderBrief()); // '15th of Cheshvan'
    * console.log(ev.renderBrief('he')); // 'ט״ו חֶשְׁוָן'
    */
-  renderBrief(locale?: string): string {
+  override renderBrief(locale?: string): string {
     const locale1 = locale?.toLowerCase();
     const locale0 = locale1 ?? 'en';
     const hd = this.getDate();

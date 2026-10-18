@@ -25,13 +25,13 @@ export class YomKippurKatanEvent extends HolidayEvent {
     this.memo = `Minor Day of Atonement on the day preceeding Rosh Chodesh ${nextMonthName}`;
   }
 
-  basename(): string {
+  override basename(): string {
     return this.getDesc();
   }
   /**
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     const monthName0 = Locale.gettext(this.nextMonthName, locale);
     const monthName = smartApostrophe(monthName0);
     return `${Locale.gettext(ykk, locale)} ${monthName}`;
@@ -39,11 +39,11 @@ export class YomKippurKatanEvent extends HolidayEvent {
   /**
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  renderBrief(locale?: string): string {
+  override renderBrief(locale?: string): string {
     return Locale.gettext(ykk, locale);
   }
 
-  url(): string | undefined {
+  override url(): string | undefined {
     return undefined;
   }
 }
