@@ -8,6 +8,7 @@
     "outDir": "./dist",
     "declaration": true,
     "strict": true,
+    "noImplicitOverride": true,
     "isolatedModules": true
   },
   "exclude": ["test", "size-demo"]

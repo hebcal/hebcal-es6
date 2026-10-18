@@ -183,22 +183,22 @@ export class FastDayEvent extends HolidayEvent {
     this.startEvent = startEvent;
     this.endEvent = endEvent;
   }
-  render(locale?: string): string {
+  override render(locale?: string): string {
     return this.linkedEvent.render(locale);
   }
-  renderBrief(locale?: string): string {
+  override renderBrief(locale?: string): string {
     return this.linkedEvent.renderBrief(locale);
   }
-  urlDateSuffix(): string {
+  override urlDateSuffix(): string {
     return this.linkedEvent.urlDateSuffix();
   }
-  url(): string | undefined {
+  override url(): string | undefined {
     return this.linkedEvent.url();
   }
-  getEmoji(): string {
+  override getEmoji(): string {
     return this.linkedEvent.getEmoji();
   }
-  getCategories(): string[] {
+  override getCategories(): string[] {
     return this.linkedEvent.getCategories();
   }
 }

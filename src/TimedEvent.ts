@@ -71,18 +71,18 @@ export class TimedEvent extends Event {
   /**
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     return `${Locale.gettext(this.getDesc(), locale)}: ${this.fmtTime}`;
   }
   /**
    * Returns translation of "Candle lighting" without the time.
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  renderBrief(locale?: string): string {
+  override renderBrief(locale?: string): string {
     return Locale.gettext(this.getDesc(), locale);
   }
 
-  getCategories(): string[] {
+  override getCategories(): string[] {
     const desc = this.getDesc();
     switch (desc) {
       // LIGHT_CANDLES or LIGHT_CANDLES_TZEIS
@@ -126,7 +126,7 @@ export class CandleLightingEvent extends TimedEvent {
     super(date, CANDLE_LIGHTING, mask, eventTime, location, linkedEvent, options);
   }
 
-  getEmoji(): string {
+  override getEmoji(): string {
     return '🕯️';
   }
 }
@@ -159,14 +159,14 @@ export class HavdalahEvent extends TimedEvent {
   /**
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     return `${this.renderBrief(locale)}: ${this.fmtTime}`;
   }
   /**
    * Returns translation of "Havdalah" without the time.
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  renderBrief(locale?: string): string {
+  override renderBrief(locale?: string): string {
     let str = Locale.gettext(this.getDesc(), locale);
     if (this.havdalahMins) {
       const min = Locale.gettext('min', locale);
@@ -175,7 +175,7 @@ export class HavdalahEvent extends TimedEvent {
     return str;
   }
 
-  getEmoji(): string {
+  override getEmoji(): string {
     return '✨';
   }
 }

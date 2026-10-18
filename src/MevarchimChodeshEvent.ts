@@ -32,14 +32,14 @@ export class MevarchimChodeshEvent extends Event {
     }
   }
 
-  basename(): string {
+  override basename(): string {
     return this.getDesc();
   }
   /**
    * Returns (translated) description of this event
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  render(locale?: string): string {
+  override render(locale?: string): string {
     const monthName0 = Locale.gettext(this.monthName, locale);
     const monthName = smartApostrophe(monthName0);
     return `${Locale.gettext(mevarchimChodeshStr, locale)} ${monthName}`;
@@ -48,7 +48,7 @@ export class MevarchimChodeshEvent extends Event {
    * Returns (translated) description of this event
    * @param [locale] Optional locale name (defaults to empty locale)
    */
-  renderBrief(locale?: string): string {
+  override renderBrief(locale?: string): string {
     const str = this.render(locale);
     const space = str.indexOf(' ');
     return str.substring(space + 1);

@@ -300,7 +300,7 @@ export class Location extends GeoLocation {
    * Returns a JSON-serialized representation of this Location.
    * Useful for debugging and structured logging.
    */
-  toString(): string {
+  override toString(): string {
     return JSON.stringify(this);
   }
 
