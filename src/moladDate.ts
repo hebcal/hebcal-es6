@@ -1,5 +1,6 @@
 import 'temporal-polyfill/global';
 import {getTimezoneOffset} from '@hebcal/hdate';
+import QuickLRU from 'quick-lru';
 import {MoladBase} from './moladBase.js';
 
 /** constant for milliseconds in a minute (60,000) */
@@ -31,6 +32,13 @@ function getLocalMeanTimeOffset(dt: Date, longitude: number, tzid: string): numb
 }
 
 /**
+ * Building the `Temporal.ZonedDateTime` dominates the cost of a molad (~65x
+ * slower than `calculateMolad` itself), so cache it. `ZonedDateTime` is
+ * immutable, so sharing instances between callers is safe.
+ */
+const moladDateCache = new QuickLRU<number, Temporal.ZonedDateTime>({maxSize: 120});
+
+/**
  * Returns the moment of the molad as a `Temporal.ZonedDateTime` in the `UTC` zone.
  *
  * The molad is computed in Jerusalem *standard* time and then converted, so the
@@ -44,6 +52,21 @@ function getLocalMeanTimeOffset(dt: Date, longitude: number, tzid: string): numb
  * @return the `Temporal.ZonedDateTime` representing the moment of the molad
  */
 export function getMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
+  // chalakim since the RD epoch uniquely identifies the molad
+  const key =
+    molad.hdate.abs() * 25920 +
+    molad.hour * 1080 +
+    molad.minutes * 18 +
+    molad.chalakim;
+  let zdt = moladDateCache.get(key);
+  if (!zdt) {
+    zdt = computeMoladAsDate(molad);
+    moladDateCache.set(key, zdt);
+  }
+  return zdt;
+}
+
+function computeMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
   const moladSeconds = (molad.chalakim * 10) / 3;
   const millis = Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds)));
 

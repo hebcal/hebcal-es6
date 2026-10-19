@@ -585,3 +585,12 @@ test('molad for years 5786 and 5787 match Java reference output', () => {
     }
   }
 });
+
+test('getMoladAsDate caches by molad, not by object identity', () => {
+  const zdt1 = getMoladAsDate(calculateMolad(5787, months.SIVAN));
+  const zdt2 = getMoladAsDate(calculateMolad(5787, months.SIVAN));
+  expect(zdt2).toBe(zdt1);
+  const zdt3 = getMoladAsDate(calculateMolad(5787, months.TAMUZ));
+  expect(zdt3).not.toBe(zdt1);
+  expect(Temporal.Instant.compare(zdt3.toInstant(), zdt1.toInstant())).toBe(1);
+});
