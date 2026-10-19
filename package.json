@@ -1,6 +1,6 @@
 {
   "name": "@hebcal/core",
-  "version": "6.14.5",
+  "version": "6.14.6",
   "author": "Michael J. Radwin (https://github.com/mjradwin)",
   "contributors": [
     "Eyal Schachter (https://github.com/Scimonster)",
@@ -79,7 +79,7 @@
     "@types/node": "^26.6.5",
     "@vitest/coverage-v8": "^5.0.5",
     "gettext-parser": "^9.1.1",
-    "oxlint": "^1.88.0",
+    "oxlint": "^1.89.0",
     "prettier": "^3.9.10",
     "pretty-bytes": "^7.2.0",
     "rollup": "^4.64.10",
