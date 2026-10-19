@@ -1,95 +1,54 @@
 import 'temporal-polyfill/global';
-import {getTimezoneOffset} from '@hebcal/hdate';
 import QuickLRU from 'quick-lru';
 import {MoladBase} from './moladBase.js';
 
-/** constant for milliseconds in a minute (60,000) */
-const MINUTE_MILLIS = 60 * 1000;
+/** milliseconds in a day */
+const DAY_MILLIS = 24 * 60 * 60 * 1000;
+
+/** R.D. (Rata Die) day number of 1970-01-01, the Unix epoch */
+const EPOCH_RD = 719163;
 
 /**
- * A method that will return the location's local mean time offset in milliseconds from local
- * [standard time](https://en.wikipedia.org/wiki/Standard_time). The globe is split into 360°, with
- * 15° per hour of the day. For a locale that is at a longitude that is evenly divisible by 15
- * (longitude % 15 == 0), at solar noon (with adjustment for the
- * [equation of time](https://en.wikipedia.org/wiki/Equation_of_time)) the sun should be directly overhead,
- * so a user who is 1° west of this will have noon at 4 minutes after standard time noon, and conversely, a user
- * who is 1° east of the 15° longitude will have noon at 11:56 AM. Lakewood, N.J., whose longitude is
- * -74.222, is 0.778 away from the closest multiple of 15 at -75°. This is multiplied by 4 to yield 3 minutes
- * and 10 seconds earlier than standard time. The offset returned does not account for the
- * [Daylight saving time](https://en.wikipedia.org/wiki/Daylight_saving_time) offset since this function is
- * unaware of dates.
- *
- * @param dt the date used to resolve the timezone offset
- * @param longitude the location's longitude
- * @param tzid IANA timezone identifier
- * @return the offset in milliseconds not accounting for Daylight saving time. A positive value will be returned
- *         East of the 15° timezone line, and a negative value West of it.
+ * Offset of Jerusalem local mean time from UTC, in milliseconds. Har Habayis,
+ * at longitude 35.2354°, is 4 minutes per degree east of Greenwich:
+ * 2 hours, 20 minutes and 56.496 seconds.
  */
-function getLocalMeanTimeOffset(dt: Date, longitude: number, tzid: string): number {
-  const offset = -1 * getTimezoneOffset(tzid, dt);
-  const d = longitude * 4 * MINUTE_MILLIS - offset * MINUTE_MILLIS;
-  return Math.trunc(d);
-}
+const JERUSALEM_LMT_OFFSET_MILLIS = Math.trunc(35.2354 * 4 * 60 * 1000);
 
 /**
- * Building the `Temporal.ZonedDateTime` dominates the cost of a molad (~65x
- * slower than `calculateMolad` itself), so cache it. `ZonedDateTime` is
- * immutable, so sharing instances between callers is safe.
+ * Even from precomputed epoch milliseconds, constructing a `ZonedDateTime` with
+ * the polyfill costs ~8µs, 10x more than `calculateMolad` itself. Keyed by
+ * epoch milliseconds; `ZonedDateTime` is immutable, so sharing is safe.
  */
-const moladDateCache = new QuickLRU<number, Temporal.ZonedDateTime>({maxSize: 120});
+const moladDateCache = new QuickLRU<number, Temporal.ZonedDateTime>({
+  maxSize: 120,
+});
 
 /**
  * Returns the moment of the molad as a `Temporal.ZonedDateTime` in the `UTC` zone.
  *
- * The molad is computed in Jerusalem *standard* time and then converted, so the
- * returned instant is correct year-round; only the zone of the returned object
- * is `UTC`. This method subtracts 20.94 minutes (20 minutes and 56.496 seconds)
- * from the computed time — Har Habayis, at longitude 35.2354°, is 5.2354° away
- * from the multiple-of-15 timezone longitude — to get to standard time. Daylight
- * savings time is intentionally not applied; adjust when formatting for display.
+ * The molad is computed in Jerusalem local mean time — longitude 35.2354° at
+ * Har Habayis, 20.94 minutes (20 minutes and 56.496 seconds) ahead of Israel
+ * standard time — and then converted, so the returned instant is correct
+ * year-round; only the zone of the returned object is `UTC`. Daylight savings
+ * time is intentionally not applied; adjust when formatting for display.
  *
  * @param molad the molad to convert
  * @return the `Temporal.ZonedDateTime` representing the moment of the molad
  */
 export function getMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
-  // chalakim since the RD epoch uniquely identifies the molad
-  const key =
-    molad.hdate.abs() * 25920 +
-    molad.hour * 1080 +
-    molad.minutes * 18 +
-    molad.chalakim;
-  let zdt = moladDateCache.get(key);
-  if (!zdt) {
-    zdt = computeMoladAsDate(molad);
-    moladDateCache.set(key, zdt);
-  }
-  return zdt;
-}
-
-function computeMoladAsDate(molad: MoladBase): Temporal.ZonedDateTime {
   const moladSeconds = (molad.chalakim * 10) / 3;
   const millis = Math.trunc(1000 * (moladSeconds - Math.trunc(moladSeconds)));
-
-  const dt = molad.hdate.greg();
-
-  // The raw molad Date (point in time) must be generated using standard time. Using "Asia/Jerusalem" timezone will result in the time
-  // being incorrectly off by an hour in the summer due to DST. Proper adjustment for the actual time in DST will be done by the date
-  // formatter class used to display the Date.
-  const tzid = 'Etc/GMT+2';
-  const zdt = Temporal.ZonedDateTime.from({
-    year: dt.getFullYear(),
-    month: dt.getMonth() + 1,
-    day: dt.getDate(),
-    hour: molad.hour,
-    minute: molad.minutes,
-    second: Math.trunc(moladSeconds),
-    millisecond: millis,
-    timeZone: tzid,
-  });
-
-  const longitude = 35.2354; // Har Habayis longitude
-  const offset = getLocalMeanTimeOffset(dt, longitude, tzid);
-  // subtract local time difference of 20.94 minutes (20 minutes and 56.496 seconds) to get to Standard time
-  const zdt2 = zdt.subtract({milliseconds: offset});
-  return zdt2.withTimeZone('UTC');
+  const localMillis =
+    (molad.hdate.abs() - EPOCH_RD) * DAY_MILLIS +
+    ((molad.hour * 60 + molad.minutes) * 60 + Math.trunc(moladSeconds)) * 1000 +
+    millis;
+  const epochMillis = localMillis - JERUSALEM_LMT_OFFSET_MILLIS;
+  let zdt = moladDateCache.get(epochMillis);
+  if (!zdt) {
+    zdt =
+      Temporal.Instant.fromEpochMilliseconds(epochMillis).toZonedDateTimeISO('UTC');
+    moladDateCache.set(epochMillis, zdt);
+  }
+  return zdt;
 }
