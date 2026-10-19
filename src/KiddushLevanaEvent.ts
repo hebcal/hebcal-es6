@@ -1,11 +1,10 @@
 import 'temporal-polyfill/global';
-import {HDate, Locale} from '@hebcal/hdate';
+import {HDate} from '@hebcal/hdate';
 import {CalOptions} from './CalOptions.js';
 import {flags} from './event.js';
 import {getHolidaysOnDate} from './holidays.js';
 import {Location} from './location.js';
 import {Molad} from './molad.js';
-import {reformatTimeStr} from './reformatTimeStr.js';
 import {TimedEvent} from './TimedEvent.js';
 import {Zmanim} from './zmanim.js';
 import './locale.js'; // Adds Hebrew and Ashkenazic translations
@@ -27,8 +26,8 @@ const LATEST_KIDDUSH_LEVANA = 'Latest Kiddush Levana';
  *   regular candle-lighting time before that Shabbat or Yom Tov.
  * - The time is rounded down to the minute, never up.
  *
- * The {@link memo} lists the unadjusted earliest (3 and 7 days after the
- * _molad_) and latest (Maharil and 15 days after the _molad_) times.
+ * The {@link molad} property gives access to the unadjusted earliest and
+ * latest times, e.g. {@link Molad.getTchilasZmanKidushLevana3Days}.
  */
 export class KiddushLevanaEvent extends TimedEvent {
   /** The molad of the month this event belongs to */
@@ -58,7 +57,6 @@ export class KiddushLevanaEvent extends TimedEvent {
       options
     );
     this.molad = molad;
-    this.memo = makeMemo(molad, location, options);
   }
 
   override getEmoji(): string {
@@ -84,67 +82,6 @@ function toZdt(dt: Date, tzid: string): Temporal.ZonedDateTime | null {
 
 function floorMinute(zdt: Temporal.ZonedDateTime): Temporal.ZonedDateTime {
   return zdt.round({smallestUnit: 'minute', roundingMode: 'floor'});
-}
-
-function ceilMinute(zdt: Temporal.ZonedDateTime): Temporal.ZonedDateTime {
-  return zdt.round({smallestUnit: 'minute', roundingMode: 'ceil'});
-}
-
-function makeMemo(molad: Molad, location: Location, options?: CalOptions): string {
-  const tzid = location.getTzid();
-  const locale = options?.locale;
-  const times: [string, Temporal.ZonedDateTime][] = [
-    [
-      'Earliest Kiddush Levana (3 days)',
-      ceilMinute(molad.getTchilasZmanKidushLevana3Days()),
-    ],
-    [
-      'Earliest Kiddush Levana (7 days)',
-      ceilMinute(molad.getTchilasZmanKidushLevana7Days()),
-    ],
-    [
-      'Latest Kiddush Levana (Maharil)',
-      floorMinute(molad.getSofZmanKidushLevanaBetweenMoldos()),
-    ],
-    [
-      'Latest Kiddush Levana (15 days)',
-      floorMinute(molad.getSofZmanKidushLevana15Days()),
-    ],
-  ];
-  const dateFormat = new Intl.DateTimeFormat(intlLocale(locale), {
-    timeZone: tzid,
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
-  const timeFormat = location.getTimeFormatter();
-  const opts = {...options, location};
-  return times
-    .map(([label, zdt]) => {
-      const dt = toDate(zdt);
-      const timeStr = reformatTimeStr(
-        Zmanim.formatTime(dt, timeFormat),
-        'pm',
-        opts
-      );
-      return `${Locale.gettext(label, locale)}: ${dateFormat.format(dt)}, ${timeStr}`;
-    })
-    .join('\n');
-}
-
-function intlLocale(locale?: string): string {
-  if (!locale || locale === 'en' || locale === 'ashkenazi') {
-    return 'en-US';
-  }
-  if (Locale.isHebrewLocale(locale)) {
-    return 'he-IL';
-  }
-  try {
-    return Intl.DateTimeFormat.supportedLocalesOf(locale)[0] ?? 'en-US';
-  } catch {
-    return 'en-US';
-  }
 }
 
 function isShabbatOrChag(hd: HDate, il: boolean): boolean {

@@ -77,18 +77,6 @@ test('Yom Tov in Israel uses Israeli candle-lighting', () => {
   expect(summary(ev)).toBe('14 Nisan 5784 | Mon Apr 22 2024 | 18:33');
 });
 
-test('memo lists all four unadjusted times', () => {
-  const ev = kiddushLevana(newYork, 5787, months.TISHREI);
-  expect(ev.memo).toBe(
-    [
-      'Earliest Kiddush Levana (3 days): Mon, Sep 14, 2026, 2:39pm',
-      'Earliest Kiddush Levana (7 days): Fri, Sep 18, 2026, 2:39pm',
-      'Latest Kiddush Levana (Maharil): Sat, Sep 26, 2026, 9:00am',
-      'Latest Kiddush Levana (15 days): Sat, Sep 26, 2026, 2:38pm',
-    ].join('\n')
-  );
-});
-
 test('render, categories, emoji and flags', () => {
   const ev = kiddushLevana(newYork, 5787, months.CHESHVAN);
   expect(ev.render('he')).toBe('סוֹף זְמַן קִדּוּשׁ לְבָנָה: 9:44pm');
@@ -98,6 +86,7 @@ test('render, categories, emoji and flags', () => {
   expect(ev.getEmoji()).toBe('🌔');
   expect(ev.flagNames()).toEqual(['KIDDUSH_LEVANA']);
   expect(ev.molad.getMonth()).toBe(months.CHESHVAN);
+  expect(ev.memo).toBeUndefined();
 });
 
 test('one event per month', () => {
