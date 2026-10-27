@@ -512,7 +512,7 @@ export const parshiot: readonly string[] = [
  */
 function toAbsInYear(hd: HDate | number, rh: number, year: number): number {
   const abs = typeof hd === 'number' ? hd : HDate.isHDate(hd) ? hd.abs() : NaN;
-  if (isNaN(abs)) {
+  if (Number.isNaN(abs)) {
     throw new TypeError(`Bad date argument: ${hd}`);
   }
   if (abs < rh) {

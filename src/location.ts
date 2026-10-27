@@ -153,11 +153,11 @@ export class Location extends GeoLocation {
     elevation?: number
   ) {
     const lat = typeof latitude === 'number' ? latitude : parseFloat(latitude);
-    if (isNaN(lat) || lat < -90 || lat > 90) {
+    if (Number.isNaN(lat) || lat < -90 || lat > 90) {
       throw new RangeError(`Latitude ${latitude} out of range [-90,90]`);
     }
     const long = typeof longitude === 'number' ? longitude : parseFloat(longitude);
-    if (isNaN(long) || long < -180 || long > 180) {
+    if (Number.isNaN(long) || long < -180 || long > 180) {
       throw new RangeError(`Longitude ${longitude} out of range [-180,180]`);
     }
     if (!tzid) {

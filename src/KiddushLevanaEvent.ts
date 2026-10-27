@@ -91,7 +91,7 @@ function toDate(zdt: Temporal.ZonedDateTime): Date {
 
 function toZdt(dt: Date, tzid: string): Temporal.ZonedDateTime | null {
   const millis = dt.getTime();
-  if (isNaN(millis)) {
+  if (Number.isNaN(millis)) {
     return null;
   }
   return Temporal.Instant.fromEpochMilliseconds(millis).toZonedDateTimeISO(tzid);
@@ -168,7 +168,7 @@ export function makeKiddushLevanaEvent(
       Number(options.candleLightingMins),
       true
     );
-    if (isNaN(candleLighting.getTime())) {
+    if (Number.isNaN(candleLighting.getTime())) {
       return undefined;
     }
     return new KiddushLevanaEvent(

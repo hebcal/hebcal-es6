@@ -48,6 +48,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `@hebcal/noaa` — NOAA solar calculator, GeoLocation
 - `temporal-polyfill` — Temporal API polyfill
 
+### Localization
+Gettext `.po` files in `po/` (Hebrew, Ashkenazi) are compiled to JSON via `npm run po2json` and loaded at runtime.
+`he-x-NoNikud` is built in `src/locale.ts` in two layers: `Locale.copyLocaleNoNikud`
+first derives it from `he` by stripping nikud, then `po/he-x-NoNikud.po` is applied
+on top as an override. Add every new Hebrew string (with nikud) to `po/he.po`; that
+alone is enough for most strings.
+
+Add an entry to `po/he-x-NoNikud.po` only when stripping nikud would leave the word
+ambiguous. Without vowel marks, a cholam or chirik can imply a letter (a vav or yud)
+that has to be written out as a _mater lectionis_ to distinguish the word from other
+Hebrew words. That is the reason the override file exists.
+
 ### Build outputs
 
 - `dist/esm/` — per-file ES modules (tree-shakeable, with sourcemaps)

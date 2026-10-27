@@ -43,7 +43,7 @@ export function getStartAndEnd(options: CalOptions): number[] {
   }
   const isHebrewYear = Boolean(options.isHebrewYear);
   const theYear = getYear(options);
-  if (isNaN(theYear)) {
+  if (Number.isNaN(theYear)) {
     throw new RangeError(`Invalid year ${options.year}`);
   }
   if (isHebrewYear && theYear < 1) {

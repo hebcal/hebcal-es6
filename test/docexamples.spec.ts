@@ -581,7 +581,7 @@ test('README: Temporal-returning zmanim yield null, Date-returning yield Invalid
     'NO'
   );
   const z = new Zmanim(svalbard, new HDate(new Date(2024, 5, 21)), false);
-  expect(isNaN(z.tzeit().getTime())).toBe(true); // Date => Invalid Date
+  expect(Number.isNaN(z.tzeit().getTime())).toBe(true); // Date => Invalid Date
   expect(z.tzeit72()).toBe(null); // Temporal => null
 });
 
