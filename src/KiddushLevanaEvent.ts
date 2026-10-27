@@ -12,6 +12,14 @@ import './locale.js'; // Adds Hebrew and Ashkenazic translations
 const LATEST_KIDDUSH_LEVANA = 'Latest Kiddush Levana';
 
 /**
+ * Why a {@link KiddushLevanaEvent}'s time differs from the Maharil's time:
+ * - `alot`: the time fell during the day, so it moved back to _alot hashachar_
+ * - `candleLighting`: the time fell on Shabbat or Yom Tov, so it moved back to
+ *   candle-lighting time before it
+ */
+export type KiddushLevanaAdjustment = 'alot' | 'candleLighting';
+
+/**
  * The latest time to recite _Kiddush Levana_ (Sanctification of the Moon),
  * calculated as halfway between one _molad_ and the next, according to
  * the [Maharil](https://en.wikipedia.org/wiki/Yaakov_ben_Moshe_Levi_Moelin)
@@ -33,19 +41,27 @@ export class KiddushLevanaEvent extends TimedEvent {
   /** The molad of the month this event belongs to */
   readonly molad: Molad;
   /**
+   * Why the event time was moved earlier than the Maharil's time,
+   * or `undefined` if it was not adjusted (apart from rounding down
+   * to the minute).
+   */
+  readonly adjustedTo?: KiddushLevanaAdjustment;
+  /**
    * Normally created by {@link calendar} rather than directly.
    * @param date Hebrew date the event occurs
    * @param eventTime latest time for Kiddush Levana, possibly adjusted
    * @param location geographic location used to format the time
    * @param molad the molad of the month
    * @param options optional; `locale` and `hour12` affect the formatted times
+   * @param adjustedTo optional; why `eventTime` was moved earlier
    */
   constructor(
     date: HDate,
     eventTime: Date,
     location: Location,
     molad: Molad,
-    options?: CalOptions
+    options?: CalOptions,
+    adjustedTo?: KiddushLevanaAdjustment
   ) {
     super(
       date,
@@ -57,6 +73,7 @@ export class KiddushLevanaEvent extends TimedEvent {
       options
     );
     this.molad = molad;
+    this.adjustedTo = adjustedTo;
   }
 
   override getEmoji(): string {
@@ -113,7 +130,8 @@ export function makeKiddushLevanaEvent(
   for (let dd = 11; dd <= 16; dd++) {
     const hd = new HDate(dd, hmonth, hyear);
     const zmanim = new Zmanim(location, hd, useElevation);
-    if (zmanim.getSofZmanKidushLevanaBetweenMoldos() === null) {
+    const unadjusted = zmanim.getSofZmanKidushLevanaBetweenMoldos();
+    if (unadjusted === null) {
       continue;
     }
     // Move a daytime time back to alot hashachar that morning
@@ -125,6 +143,7 @@ export function makeKiddushLevanaEvent(
       return undefined;
     }
     const molad = new Molad(hyear, hmonth);
+    const movedToAlot = zdt.epochMilliseconds !== unadjusted.epochMilliseconds;
     // After daytime adjustment the time is at night: before alot hashachar
     // it belongs to today's Hebrew date, after tzeit to tomorrow's.
     const nightOf = zdt.hour < 12 ? hd : hd.next();
@@ -134,7 +153,8 @@ export function makeKiddushLevanaEvent(
         toDate(floorMinute(zdt)),
         location,
         molad,
-        options
+        options,
+        movedToAlot ? 'alot' : undefined
       );
     }
     // Back up to candle-lighting time before the Shabbat or Yom Tov
@@ -151,7 +171,14 @@ export function makeKiddushLevanaEvent(
     if (isNaN(candleLighting.getTime())) {
       return undefined;
     }
-    return new KiddushLevanaEvent(erev, candleLighting, location, molad, options);
+    return new KiddushLevanaEvent(
+      erev,
+      candleLighting,
+      location,
+      molad,
+      options,
+      'candleLighting'
+    );
   }
   return undefined;
 }

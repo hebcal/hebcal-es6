@@ -35,6 +35,7 @@ function summary(ev: KiddushLevanaEvent): string {
 test('weeknight, before midnight', () => {
   const ev = kiddushLevana(newYork, 5787, months.CHESHVAN);
   expect(summary(ev)).toBe('14 Cheshvan 5787 | Sun Oct 25 2026 | 21:44');
+  expect(ev.adjustedTo).toBeUndefined();
   expect(ev.render('en')).toBe('Latest Kiddush Levana: 9:44pm');
 });
 
@@ -42,17 +43,20 @@ test('daytime is moved back to alot hashachar', () => {
   // Maharil's time is Tue Nov 24 2026 9:28am
   const ev = kiddushLevana(newYork, 5787, months.KISLEV);
   expect(summary(ev)).toBe('14 Kislev 5787 | Tue Nov 24 2026 | 05:27');
+  expect(ev.adjustedTo).toBe('alot');
 });
 
 test('Motzei Shabbat is not moved', () => {
   const ev = kiddushLevana(newYork, 5787, months.ADAR_I);
   expect(summary(ev)).toBe('13 Adar I 5787 | Sat Feb 20 2027 | 23:40');
+  expect(ev.adjustedTo).toBeUndefined();
 });
 
 test('Shabbat and Yom Tov moves back to candle-lighting', () => {
   // Maharil's time is Shabbat Sep 26 2026 9:00am, first day of Sukkot
   const ev = kiddushLevana(newYork, 5787, months.TISHREI);
   expect(summary(ev)).toBe('14 Tishrei 5787 | Fri Sep 25 2026 | 18:30');
+  expect(ev.adjustedTo).toBe('candleLighting');
   const candles = calendar({
     start: ev.getDate(),
     end: ev.getDate(),
