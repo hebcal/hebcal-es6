@@ -551,7 +551,7 @@ export class Zmanim {
   beinHaShmashos(): Date {
     const tzeit = this.tzeit(DEG_7_POINT_083);
     const millis = tzeit.getTime();
-    if (isNaN(millis)) {
+    if (Number.isNaN(millis)) {
       return tzeit;
     }
     return new Date(millis - 13.5 * 60 * 1000);
@@ -1026,7 +1026,7 @@ export class Zmanim {
    *   {@link Location.getTimeFormatter}
    */
   static formatTime(dt: Date, timeFormat: Intl.DateTimeFormat): string {
-    if (isNaN(dt.getTime())) {
+    if (Number.isNaN(dt.getTime())) {
       return 'XX:XX'; // Invalid Date
     }
     const time = timeFormat.format(dt);
@@ -1050,7 +1050,7 @@ export class Zmanim {
    */
   static roundTime(dt: Date): Date {
     const millis = dt.getTime();
-    if (isNaN(millis)) {
+    if (Number.isNaN(millis)) {
       return dt;
     }
     // Round up to next minute if needed
@@ -1084,7 +1084,7 @@ export class Zmanim {
    * @param date
    */
   static formatISOWithTimeZone(tzid: string, date: Date): string {
-    if (isNaN(date.getTime())) {
+    if (Number.isNaN(date.getTime())) {
       return '0000-00-00T00:00:00Z';
     }
     return (
@@ -1102,7 +1102,7 @@ export class Zmanim {
    */
   sunriseOffset(offset: number, roundMinute = true, forceSeaLevel = false): Date {
     const sunrise = forceSeaLevel ? this.seaLevelSunrise() : this.sunrise();
-    if (isNaN(sunrise.getTime())) {
+    if (Number.isNaN(sunrise.getTime())) {
       return sunrise;
     }
     if (roundMinute) {
@@ -1125,7 +1125,7 @@ export class Zmanim {
    */
   sunsetOffset(offset: number, roundMinute = true, forceSeaLevel = false): Date {
     const sunset = forceSeaLevel ? this.seaLevelSunset() : this.sunset();
-    if (isNaN(sunset.getTime())) {
+    if (Number.isNaN(sunset.getTime())) {
       return sunset;
     }
     if (roundMinute) {
@@ -1167,7 +1167,7 @@ export class Zmanim {
     const sunset = zmanim.sunset();
     let hd = new HDate(date);
     const sunsetMillis = sunset.getTime();
-    if (isNaN(sunsetMillis)) {
+    if (Number.isNaN(sunsetMillis)) {
       return hd;
     }
     if (date.getTime() >= sunsetMillis) {

@@ -47,7 +47,7 @@ export function makeCandleEvent(
     useHavdalahOffset && !offset
       ? zmanim.tzeit(options.havdalahDeg)
       : zmanim.sunsetOffset(offset, true);
-  if (isNaN(time.getTime())) {
+  if (Number.isNaN(time.getTime())) {
     return undefined; // no sunset
   }
   if (havdalahTitle) {
@@ -224,17 +224,17 @@ export function makeFastStartEnd(
   let endEvent: TimedEvent | undefined;
   if (desc === "Erev Tish'a B'Av") {
     const sunset = zmanim.sunset();
-    if (!isNaN(sunset.getTime())) {
+    if (!Number.isNaN(sunset.getTime())) {
       startEvent = makeTimedEvent(ev, sunset, FAST_BEGINS, options);
     }
   } else if (desc.startsWith("Tish'a B'Av")) {
     const fastEnd = makeFastEndTime(zmanim, true, options);
-    if (!isNaN(fastEnd.getTime())) {
+    if (!Number.isNaN(fastEnd.getTime())) {
       endEvent = makeTimedEvent(ev, fastEnd, FAST_ENDS, options);
     }
   } else {
     const fastStart = makeFastStartTime(zmanim, options);
-    if (!isNaN(fastStart.getTime())) {
+    if (!Number.isNaN(fastStart.getTime())) {
       startEvent = makeTimedEvent(ev, fastStart, FAST_BEGINS, options);
     }
     if (
@@ -242,7 +242,7 @@ export function makeFastStartEnd(
       !(hd.getDate() === 14 && hd.getMonth() === months.NISAN)
     ) {
       const fastEnd = makeFastEndTime(zmanim, false, options);
-      if (!isNaN(fastEnd.getTime())) {
+      if (!Number.isNaN(fastEnd.getTime())) {
         endEvent = makeTimedEvent(ev, fastEnd, FAST_ENDS, options);
       }
     }
@@ -311,7 +311,7 @@ export function makeWeekdayChanukahCandleLighting(
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, hd.greg(), useElevation);
   const candleLightingTime = zmanim.beinHaShmashos();
-  if (isNaN(candleLightingTime.getTime())) {
+  if (Number.isNaN(candleLightingTime.getTime())) {
     return null;
   }
   return new TimedChanukahEvent(ev, candleLightingTime, location);

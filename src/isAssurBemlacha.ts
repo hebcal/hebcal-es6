@@ -68,7 +68,7 @@ export function isAssurBemlacha(
   // erev shabbos, YT or YT sheni and after shkiah
   const sunset = zmanim.sunset();
   const sunsetMillis = sunset.getTime();
-  if (isNaN(sunsetMillis)) {
+  if (Number.isNaN(sunsetMillis)) {
     throw new Error('Could not determine sunset');
   }
   // erev shabbos, YT or YT sheni and after shkiah

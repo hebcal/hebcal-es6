@@ -467,7 +467,7 @@ function checkCandleOptions(options: CalOptions) {
   }
   // Kiddush Levana needs candle-lighting time for Shabbat and Yom Tov
   const min0 = options.candleLightingMins;
-  let min = typeof min0 === 'number' && !isNaN(min0) ? Math.trunc(min0) : 18;
+  let min = typeof min0 === 'number' && !Number.isNaN(min0) ? Math.trunc(min0) : 18;
   if (location.getIsrael() && Math.abs(min) === 18) {
     min = overrideIsraelCandleMins(location);
   }
@@ -829,7 +829,7 @@ function makeOmerEvent(hd: HDate, omerDay: number, options: CalOptions) {
     const location = options.location!;
     const zmanim = new Zmanim(location, hd.prev(), false);
     const tzeit = zmanim.tzeit(DEG_7_POINT_083);
-    if (!isNaN(tzeit.getTime())) {
+    if (!Number.isNaN(tzeit.getTime())) {
       omerEv.alarm = tzeit;
     }
   }
@@ -846,7 +846,7 @@ function makeErevPesachChametzEvents(
   const hd = erevPesachEv.getDate();
   const zmanim = new Zmanim(location, hd, useElevation);
   const zmanAchilas = zmanim.sofZmanTfilla(); // Gra
-  if (isNaN(zmanAchilas.getTime())) {
+  if (Number.isNaN(zmanAchilas.getTime())) {
     return [];
   }
   const zmanAchilasEv = new TimedEvent(
@@ -880,7 +880,7 @@ function makeBiurChametzEvent(
   const useElevation = Boolean(options.useElevation);
   const zmanim = new Zmanim(location, hd, useElevation);
   const time = zmanim.sofZmanBiurChametzGRA();
-  if (isNaN(time.getTime())) {
+  if (Number.isNaN(time.getTime())) {
     return undefined;
   }
   const biurChametzEv = new TimedEvent(

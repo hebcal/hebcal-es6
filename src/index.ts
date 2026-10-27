@@ -26,6 +26,7 @@ export {type MoladBase, calculateMolad} from './moladBase.js';
 export {getMoladAsDate} from './moladDate.js';
 export {Molad, MoladEvent} from './molad.js';
 export {KiddushLevanaEvent} from './KiddushLevanaEvent.js';
+export type {KiddushLevanaAdjustment} from './KiddushLevanaEvent.js';
 export {OmerEvent, type OmerLang} from './omer.js';
 export {type TachanunResult, tachanun} from './tachanun.js';
 export {

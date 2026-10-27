@@ -339,7 +339,7 @@ doesn't cross the relevant angle — it returns an `Invalid Date`; the
 
 That split is transitional. The intent is to move the library to `Temporal`
 throughout, which is a breaking change and so is planned for `@hebcal/core` version 7.
-Until then, checking `isNaN(dt.getTime())` on `Date` results and `=== null` on
+Until then, checking `Number.isNaN(dt.getTime())` on `Date` results and `=== null` on
 `Temporal` results is the portable approach.
 
 ## Usage
