@@ -49,6 +49,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `temporal-polyfill` — Temporal API polyfill
 
 ### Localization
+
 Gettext `.po` files in `po/` (Hebrew, Ashkenazi) are compiled to JSON via `npm run po2json` and loaded at runtime.
 `he-x-NoNikud` is built in `src/locale.ts` in two layers: `Locale.copyLocaleNoNikud`
 first derives it from `he` by stripping nikud, then `po/he-x-NoNikud.po` is applied
