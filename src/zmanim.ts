@@ -239,10 +239,16 @@ export class Zmanim {
    * `useElevation` setting.
    */
   chatzot(): Date {
+    return millisToDate(this.chatzotMillis());
+  }
+  /**
+   * {@link chatzot} as epoch milliseconds, before the seconds are cut.
+   */
+  private chatzotMillis(): number {
     const startOfDay = this.sunriseMillis(GEOMETRIC_ZENITH, false);
     const endOfDay = this.sunsetMillis(GEOMETRIC_ZENITH, false);
     // NOAACalculator.getSunTransit(): sunrise plus 6 temporal hours
-    return millisToDate(startOfDay + temporalHourMillis(startOfDay, endOfDay) * 6);
+    return startOfDay + temporalHourMillis(startOfDay, endOfDay) * 6;
   }
   /**
    * Midnight – Chatzot; Sunset plus 6 halachic hours.
@@ -855,7 +861,7 @@ export class Zmanim {
    *
    * According to the Baal Hatanya, _netz amiti_, or true (halachic) sunrise, is when the top of the sun's
    * disk is visible at an elevation similar to the mountains of Eretz Yisrael. The time is calculated as the point at which
-   * the center of the sun's disk is 1.583° below the horizon. This degree-based calculation can be found in Rabbi Shalom
+   * the center of the sun's disk is 1° 35' (1.58333°) below the horizon. This degree-based calculation can be found in Rabbi Shalom
    * DovBer Levine's commentary on
    * [The Baal Hatanya's Seder Hachnasas Shabbos](https://www.chabadlibrary.org/books/pdf/Seder-Hachnosas-Shabbos.pdf).
    * From an elevation of 546 meters, the top of [Har Hacarmel](https://en.wikipedia.org/wiki/Mount_Carmel),
@@ -887,7 +893,7 @@ export class Zmanim {
    *
    * According to the Baal Hatanya, _shkiah amiti_, true (_halachic_) sunset, is when the top of the
    * sun's disk disappears from view at an elevation similar to the mountains of _Eretz Yisrael_.
-   * This time is calculated as the point at which the center of the sun's disk is 1.583 degrees below the horizon.
+   * This time is calculated as the point at which the center of the sun's disk is 1° 35' below the horizon.
    *
    * Note: _shkiah amiti_ is used only for calculating certain _zmanim_, and is intentionally unpublished. For
    * practical purposes, all daytime mitzvos should be completed before the published time for _shkiah_ / sunset.
@@ -966,15 +972,21 @@ export class Zmanim {
    * [Ra"sh](https://en.wikipedia.org/wiki/Asher_ben_Jehiel),
    * [Tur](https://en.wikipedia.org/wiki/Jacob_ben_Asher),
    * [GRA](https://en.wikipedia.org/wiki/Vilna_Gaon) and others are of the opinion that _mincha_ can be prayed
-   * _lechatchila_ starting at _mincha gedola_. This is calculated as 6.5 sea level solar hours after
-   * _netz amiti_ (sunrise), based on the opinion of the Baal Hatanya that the day is calculated from
-   * _netz amiti_ (sunrise) to _shkiah amiti_ (sunset).
+   * _lechatchila_ starting at _mincha gedola_. This is calculated as {@link chatzot} (the midpoint of
+   * sea level sunrise and sunset) plus half a solar hour, based on the opinion of the Baal Hatanya that
+   * the day is calculated from _netz amiti_ (sunrise) to _shkiah amiti_ (sunset). This is how Chabad.org
+   * calculates it; 6.5 solar hours after _netz amiti_ differs by under a second, but that is enough to
+   * change the printed minute on a few days a year.
    * @return the `Date` of the time of _mincha gedola_ according to the Baal Hatanya. If the calculation
    *         can't be computed, such as in the Arctic Circle where there is at least one day a year where the sun does not rise
    *         and one where it does not set, an `Invalid Date` will be returned.
    */
   minchaGedolaBaalHatanya(): Date {
-    return this.getShaahZmanisBaalHatanya(6.5);
+    const hour = temporalHourMillis(
+      this.getSunriseBaalHatanya(),
+      this.getSunsetBaalHatanya()
+    );
+    return millisToDate(this.chatzotMillis() + hour / 2);
   }
 
   /**

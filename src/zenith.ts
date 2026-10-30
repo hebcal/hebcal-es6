@@ -21,11 +21,12 @@ export const GEOMETRIC_ZENITH = 90;
 export const CIVIL_ZENITH = GEOMETRIC_ZENITH + 6;
 
 /**
- * The zenith of 1.583° below geometric zenith (90°). This calculation is used for
+ * The zenith of 1° 35' (1.58333°) below geometric zenith (90°). This calculation is used for
  * calculating _netz amiti_ (sunrise) and _shkiah amiti_ (sunset) based on the opinion of the
  * [Baal Hatanya](https://en.wikipedia.org/wiki/Shneur_Zalman_of_Liadi).
+ * The exact 1° 35', not 1.583°, matches the times Chabad.org publishes.
  */
-export const ZENITH_1_POINT_583 = GEOMETRIC_ZENITH + 1.583;
+export const ZENITH_1_POINT_583 = GEOMETRIC_ZENITH + 1 + 35 / 60;
 
 /**
  * Tzeit HaKochavim as calculated by Rabbi Yechiel Michel Tucazinsky,
