@@ -572,20 +572,28 @@ export class Zmanim {
    * import {GeoLocation, Zmanim} from '@hebcal/core';
    * const gloc = new GeoLocation('Jerusalem', 31.78, 35.22, 0, 'Asia/Jerusalem');
    * const zmanim = new Zmanim(gloc, new Date(2026, 9, 29), false);
+   * const tzid = 'Asia/Jerusalem';
    * // A constant: the skyline is 3° above level in every direction
-   * zmanim.visibleSunrise(3);
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(3));
+   * // '2026-10-29T06:09:07+02:00'
    * // Samples: a 5° ridge to the east (azimuth 90), flat elsewhere; values
    * // between samples are interpolated, and the list wraps around at 360°
-   * zmanim.visibleSunrise([
+   * const ridge = [
    *   {azimuth: 60, elevation: 0},
    *   {azimuth: 80, elevation: 5},
    *   {azimuth: 100, elevation: 5},
    *   {azimuth: 120, elevation: 0},
-   * ]);
+   * ];
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(ridge));
+   * // '2026-10-29T06:09:43+02:00'
    * // A function of azimuth (degrees clockwise from true north)
-   * zmanim.visibleSunrise((az) => (az > 70 && az < 110 ? 5 : 0));
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise((az) => (az > 70 && az < 110 ? 5 : 0)));
+   * // '2026-10-29T06:19:24+02:00'
    * // A flat profile of 0 reproduces sunrise() to within a second
-   * zmanim.visibleSunrise(0);
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(0));
+   * // '2026-10-29T05:52:46+02:00'
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.sunrise());
+   * // '2026-10-29T05:52:46+02:00'
    * @param horizon the terrain horizon profile
    * @return the `Date` (to the second) when the sun first becomes visible, or
    *         an `Invalid Date` when there is no such crossing that day (polar
@@ -607,9 +615,13 @@ export class Zmanim {
    * import {GeoLocation, Zmanim} from '@hebcal/core';
    * // 300 m up on the Carmel: the sea horizon to the west sits about half a
    * // degree *below* level, so the visible sunset is later than sunset()
-   * const gloc = new GeoLocation('Haifa', 32.8, 34.98, 300, 'Asia/Jerusalem');
+   * const tzid = 'Asia/Jerusalem';
+   * const gloc = new GeoLocation('Haifa', 32.8, 34.98, 300, tzid);
    * const zmanim = new Zmanim(gloc, new Date(2026, 9, 29), false);
-   * zmanim.visibleSunset((az) => (az > 240 && az < 300 ? -0.5 : 0));
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.sunset());
+   * // '2026-10-29T16:52:01+02:00'
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunset((az) => (az > 240 && az < 300 ? -0.5 : 0)));
+   * // '2026-10-29T16:55:07+02:00'
    * @param horizon the terrain horizon profile
    * @return the `Date` (to the second) when the sun was last visible, or an
    *         `Invalid Date` when there is no such crossing that day.

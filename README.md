@@ -262,8 +262,8 @@ const skyline = [
   {azimuth: 100, elevation: 5},
   {azimuth: 120, elevation: 0},
 ];
-zmanim.visibleSunrise(skyline); // about 20 minutes after zmanim.sunrise()
-zmanim.visibleSunset(0); // flat horizon: equals zmanim.sunset()
+zmanim.visibleSunrise(skyline); // about 17 minutes after zmanim.sunrise()
+zmanim.visibleSunset(0); // flat horizon: matches zmanim.sunset() to the second
 ```
 
 For zmanim outside the calendar-generation flow, use the

@@ -441,6 +441,51 @@ test('zmanim.ts Zmanim class example', () => {
   );
 });
 
+test('zmanim.ts visibleSunrise() example', () => {
+  const tzid = 'Asia/Jerusalem';
+  const gloc = new GeoLocation('Jerusalem', 31.78, 35.22, 0, tzid);
+  const zmanim = new Zmanim(gloc, new Date(2026, 9, 29), false);
+  expect(Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(3))).toBe(
+    '2026-10-29T06:09:07+02:00'
+  );
+  const ridge = [
+    {azimuth: 60, elevation: 0},
+    {azimuth: 80, elevation: 5},
+    {azimuth: 100, elevation: 5},
+    {azimuth: 120, elevation: 0},
+  ];
+  expect(Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(ridge))).toBe(
+    '2026-10-29T06:09:43+02:00'
+  );
+  expect(
+    Zmanim.formatISOWithTimeZone(
+      tzid,
+      zmanim.visibleSunrise(az => (az > 70 && az < 110 ? 5 : 0))
+    )
+  ).toBe('2026-10-29T06:19:24+02:00');
+  expect(Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(0))).toBe(
+    '2026-10-29T05:52:46+02:00'
+  );
+  expect(Zmanim.formatISOWithTimeZone(tzid, zmanim.sunrise())).toBe(
+    '2026-10-29T05:52:46+02:00'
+  );
+});
+
+test('zmanim.ts visibleSunset() example', () => {
+  const tzid = 'Asia/Jerusalem';
+  const gloc = new GeoLocation('Haifa', 32.8, 34.98, 300, tzid);
+  const zmanim = new Zmanim(gloc, new Date(2026, 9, 29), false);
+  expect(Zmanim.formatISOWithTimeZone(tzid, zmanim.sunset())).toBe(
+    '2026-10-29T16:52:01+02:00'
+  );
+  expect(
+    Zmanim.formatISOWithTimeZone(
+      tzid,
+      zmanim.visibleSunset(az => (az > 240 && az < 300 ? -0.5 : 0))
+    )
+  ).toBe('2026-10-29T16:55:07+02:00');
+});
+
 test('zmanim.ts makeSunsetAwareHDate() example', () => {
   const gloc = new GeoLocation(null, 48.85341, 2.3488, 0, 'Europe/Paris');
   const before = Zmanim.makeSunsetAwareHDate(
