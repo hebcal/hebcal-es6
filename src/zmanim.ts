@@ -10,6 +10,11 @@ import {
   GEOMETRIC_ZENITH,
   ZENITH_1_POINT_583,
 } from './zenith.js';
+import {
+  HorizonProfile,
+  horizonElevation,
+  upperLimbApparentAltitude,
+} from './horizon.js';
 
 /**
  * Converts an instant to a `Date`, discarding milliseconds.
@@ -545,6 +550,193 @@ export class Zmanim {
    */
   shkiah(): Date {
     return this.sunset();
+  }
+  /**
+   * Visible sunrise — _netz ha-nireh_ (הנץ הנראה): the moment the sun's upper
+   * limb, bent up by atmospheric refraction, first clears the real terrain
+   * skyline to the east, rather than the flat sea-level horizon {@link sunrise}
+   * uses. In mountainous locations (most of Israel) this is noticeably later
+   * than {@link sunrise}; many printed Israeli calendars list it alongside the
+   * standard time.
+   *
+   * The caller supplies a {@link HorizonProfile} — the apparent altitude of the
+   * skyline as a function of azimuth (a constant, a list of
+   * azimuth/elevation samples, or a function). Building such a profile from
+   * terrain / digital-elevation-model data is outside this library.
+   *
+   * The method follows Keller & Hall, _Computers & Geosciences_ 26 (2000), and
+   * the Chai Tables (chaitables.com): refraction is Sinclair below 15° and
+   * Bennett at or above 15° at standard atmosphere (1010 hPa, 10 °C), applied
+   * to the sun's upper limb. No cushion or safety margin is added.
+   *
+   * The `useElevation` setting is intentionally ignored: the profile is
+   * measured from the observer's own eye position (already accounting for the
+   * observer's height, terrestrial refraction and Earth's curvature — a sea
+   * horizon seen from a height is a negative angle), so applying the library's
+   * sea-level-vs-elevation adjustment on top would double-count.
+   * @example
+   * import {GeoLocation, Zmanim} from '@hebcal/core';
+   * const gloc = new GeoLocation('Jerusalem', 31.78, 35.22, 0, 'Asia/Jerusalem');
+   * const zmanim = new Zmanim(gloc, new Date(2026, 9, 29), false);
+   * const tzid = 'Asia/Jerusalem';
+   * // A constant: the skyline is 3° above level in every direction
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(3));
+   * // '2026-10-29T06:09:07+02:00'
+   * // Samples: a 5° ridge to the east (azimuth 90), flat elsewhere; values
+   * // between samples are interpolated, and the list wraps around at 360°
+   * const ridge = [
+   *   {azimuth: 60, elevation: 0},
+   *   {azimuth: 80, elevation: 5},
+   *   {azimuth: 100, elevation: 5},
+   *   {azimuth: 120, elevation: 0},
+   * ];
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(ridge));
+   * // '2026-10-29T06:09:43+02:00'
+   * // A function of azimuth (degrees clockwise from true north)
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise((az) => (az > 70 && az < 110 ? 5 : 0)));
+   * // '2026-10-29T06:19:24+02:00'
+   * // A flat profile of 0 reproduces sunrise() to within a second
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunrise(0));
+   * // '2026-10-29T05:52:46+02:00'
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.sunrise());
+   * // '2026-10-29T05:52:46+02:00'
+   * @param horizon the terrain horizon profile
+   * @return the `Date` (to the second) when the sun first becomes visible, or
+   *         an `Invalid Date` when there is no such crossing that day (polar
+   *         night/day, or the sun never clears the profile).
+   */
+  visibleSunrise(horizon: HorizonProfile): Date {
+    return this.visibleSunMillis(horizon, true);
+  }
+  /**
+   * Visible sunset — _shkiah nireit_ (שקיעה נראית): the symmetric evening
+   * counterpart of {@link visibleSunrise}, the last moment the sun's upper
+   * limb is visible above the real terrain skyline to the west before it
+   * disappears behind the ridge line.
+   *
+   * See {@link visibleSunrise} for the horizon-profile argument, the
+   * refraction model, the upper-limb convention, that no cushion is added, and
+   * why `useElevation` is ignored.
+   * @example
+   * import {GeoLocation, Zmanim} from '@hebcal/core';
+   * // 300 m up on the Carmel: the sea horizon to the west sits about half a
+   * // degree *below* level, so the visible sunset is later than sunset()
+   * const tzid = 'Asia/Jerusalem';
+   * const gloc = new GeoLocation('Haifa', 32.8, 34.98, 300, tzid);
+   * const zmanim = new Zmanim(gloc, new Date(2026, 9, 29), false);
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.sunset());
+   * // '2026-10-29T16:52:01+02:00'
+   * Zmanim.formatISOWithTimeZone(tzid, zmanim.visibleSunset((az) => (az > 240 && az < 300 ? -0.5 : 0)));
+   * // '2026-10-29T16:55:07+02:00'
+   * @param horizon the terrain horizon profile
+   * @return the `Date` (to the second) when the sun was last visible, or an
+   *         `Invalid Date` when there is no such crossing that day.
+   */
+  visibleSunset(horizon: HorizonProfile): Date {
+    return this.visibleSunMillis(horizon, false);
+  }
+  /**
+   * Alias for {@link visibleSunrise}
+   * @param horizon the terrain horizon profile
+   */
+  neitzHaNireh(horizon: HorizonProfile): Date {
+    return this.visibleSunrise(horizon);
+  }
+  /**
+   * Alias for {@link visibleSunset}
+   * @param horizon the terrain horizon profile
+   */
+  shkiahNireit(horizon: HorizonProfile): Date {
+    return this.visibleSunset(horizon);
+  }
+  /**
+   * Shared search driving {@link visibleSunrise} / {@link visibleSunset}.
+   *
+   * Scans the sun's geometric centre altitude `a` upward from −2.5° to +10° in
+   * 0.05° steps. At each step it maps `a` to a time (via the sea-level
+   * sunrise/sunset for the zenith `90 − a`) and that time to the sun's azimuth,
+   * then compares the upper limb's apparent altitude against the horizon
+   * profile at that azimuth. The sun is visible once that difference `g` is
+   * `≥ 0`; the first upward crossing is bisected to 0.0005° and its time
+   * returned. For sunrise this is the first moment seen; for sunset (same
+   * upward scan, afternoon times) it is the last moment seen.
+   * @param horizon the terrain horizon profile
+   * @param rising `true` for the morning, `false` for the evening
+   */
+  private visibleSunMillis(horizon: HorizonProfile, rising: boolean): Date {
+    const lat = this.gloc.getLatitude();
+    const lon = this.gloc.getLongitude();
+    const timeAt = (a: number): number => {
+      // adjustZenith() silently folds in refraction + semidiameter when the
+      // zenith is exactly 90° (GEOMETRIC_ZENITH), which would corrupt the
+      // geometric-altitude mapping. Nudge by 1e-9° — far below the 0.0005°
+      // bisection tolerance, so harmless — to steer clear of that branch.
+      let zenith = 90 - a;
+      if (zenith === 90) {
+        zenith = 90 + 1e-9;
+      }
+      const utc = rising
+        ? this.noaa.getUTCSeaLevelSunrise(zenith)
+        : this.noaa.getUTCSeaLevelSunset(zenith);
+      return this.noaa.getEpochMillisFromTime(utc, rising);
+    };
+    const azimuthAt = (t: number): number => {
+      // The zone must be 'UTC': getSolarAzimuth() reads .hour/.minute/.second
+      // as UTC wall-clock fields.
+      const zdt =
+        Temporal.Instant.fromEpochMilliseconds(t).toZonedDateTimeISO('UTC');
+      // getSolarAzimuth() uses atan() without quadrant resolution, so its
+      // result is only correct modulo 180°. Fold into [0,180) and add 180° in
+      // the evening so morning azimuths lie in (0°,180°) and evening ones in
+      // (180°,360°). This is a no-op for an already-correct azimuth (a correct
+      // morning azimuth is already in (0°,180°); a correct evening azimuth maps
+      // to itself), so it stays correct if a future noaa resolves the quadrant.
+      let az = NOAACalculator.getSolarAzimuth(zdt, lat, lon);
+      az = ((az % 180) + 180) % 180;
+      if (!rising) {
+        az += 180;
+      }
+      return az;
+    };
+    const g = (a: number): number =>
+      upperLimbApparentAltitude(a) -
+      horizonElevation(horizon, azimuthAt(timeAt(a)));
+
+    const aLo = -2.5;
+    const aHi = 10;
+    const step = 0.05;
+    const tol = 0.0005;
+
+    // Evaluate the low end first so polar day/night (NaN time) is caught at once.
+    const tLo = timeAt(aLo);
+    if (Number.isNaN(tLo)) {
+      return millisToDate(NaN);
+    }
+    if (g(aLo) >= 0) {
+      return millisToDate(tLo);
+    }
+    let prevA = aLo;
+    for (let a = aLo + step; a <= aHi + 1e-9; a += step) {
+      if (Number.isNaN(timeAt(a))) {
+        return millisToDate(NaN);
+      }
+      if (g(a) >= 0) {
+        // Crossing in (prevA, a): bisect the altitude bracket to 0.0005°.
+        let lo = prevA;
+        let hi = a;
+        while (hi - lo > tol) {
+          const mid = (lo + hi) / 2;
+          if (g(mid) >= 0) {
+            hi = mid;
+          } else {
+            lo = mid;
+          }
+        }
+        return millisToDate(timeAt(hi));
+      }
+      prevA = a;
+    }
+    return millisToDate(NaN);
   }
   /**
    * Rabbeinu Tam holds that bein hashmashos is a specific time

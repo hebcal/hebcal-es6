@@ -655,3 +655,237 @@ test('formatTime', () => {
   expect(Zmanim.formatTime(new Date('2024-09-22T23:45:18.345Z'), f)).toBe('18:45');
   expect(Zmanim.formatTime(new Date(NaN), f)).toBe('XX:XX');
 });
+
+// Visible sunrise / sunset (netz ha-nireh / shkiah nireit). The caller supplies
+// a terrain horizon profile; the library returns when the sun's upper limb
+// clears (or last touches) that real skyline rather than the flat sea-level one.
+//
+// Where the figures come from:
+//
+// The two profiles below were computed for this PR, not copied from a
+// published table. They are apparent skyline altitudes (degrees above the
+// observer's astronomical horizon) sampled every 1° of azimuth over the
+// eastern arc, from the Mapzen/AWS "terrarium" terrain tiles
+// (https://registry.opendata.aws/terrain-tiles/, SRTM-derived, ~30 m; zoom 13
+// near the observer down to zoom 10 beyond 60 km; encoding documented at
+// https://github.com/tilezen/joerd/blob/master/docs/formats.md). For each
+// azimuth a ray is marched outward to 200 km in steps, and the steepest angle
+// to the terrain is kept, with Earth's curvature and a terrestrial refraction
+// coefficient of k = 0.13 applied, an observer eye height of 2 m, and
+// obstructions nearer than 0.5 km ignored — the same conventions the Chai
+// Tables use (http://www.chaitables.com/Introduction_to_DTM_calculations.html).
+// Tiberias looks east at the Golan escarpment 13–22 km away; Rechovot at the
+// Judean hills 27–38 km away. Both were chosen because their skylines are
+// distant, where a satellite surface model and a bare-earth terrain model
+// agree.
+//
+// The expected times are this library's own output for those profiles, so the
+// tests guard against regressions rather than against an outside reference.
+// The outside check was done separately: for the same coordinates, every day
+// of 5787 was compared against the Chai Tables' point tables
+// (https://www.chaitables.com, "all places by coordinates", 0.5 km shave,
+// default cushion). The Chai Tables add a 20-second safety cushion to sunrise,
+// so the ideal difference is −20 s; this library came out at −22 s (σ 5 s)
+// for Tiberias and −34 s (σ 27 s) for Rechovot, the wider Rechovot spread
+// coming from the terrain data (30 m satellite tiles versus their 25 m national
+// DTM) rather than from the time calculation.
+const TIBERIAS_EAST = [
+  [60, 1.26],
+  [61, 1.28],
+  [62, 1.3],
+  [63, 1.31],
+  [64, 1.32],
+  [65, 1.24],
+  [66, 1.27],
+  [67, 1.32],
+  [68, 1.32],
+  [69, 1.3],
+  [70, 1.29],
+  [71, 1.34],
+  [72, 1.3],
+  [73, 1.29],
+  [74, 1.27],
+  [75, 1.27],
+  [76, 1.27],
+  [77, 1.29],
+  [78, 1.53],
+  [79, 1.57],
+  [80, 1.62],
+  [81, 1.63],
+  [82, 1.64],
+  [83, 1.62],
+  [84, 1.66],
+  [85, 1.68],
+  [86, 1.76],
+  [87, 1.76],
+  [88, 1.7],
+  [89, 1.65],
+  [90, 1.61],
+  [91, 1.6],
+  [92, 1.6],
+  [93, 1.58],
+  [94, 1.53],
+  [95, 1.53],
+  [96, 1.51],
+  [97, 1.54],
+  [98, 1.53],
+  [99, 1.54],
+  [100, 1.56],
+  [101, 1.69],
+  [102, 1.75],
+  [103, 1.84],
+  [104, 1.86],
+  [105, 1.87],
+  [106, 1.86],
+  [107, 1.87],
+  [108, 1.88],
+  [109, 1.87],
+  [110, 1.88],
+  [111, 1.88],
+  [112, 1.88],
+  [113, 1.91],
+  [114, 1.93],
+  [115, 1.94],
+  [116, 1.95],
+  [117, 1.97],
+  [118, 1.98],
+  [119, 1.97],
+  [120, 1.94],
+].map(([azimuth, elevation]) => ({azimuth, elevation}));
+
+const RECHOVOT_EAST = [
+  [60, 1.29],
+  [61, 1.29],
+  [62, 1.27],
+  [63, 1.27],
+  [64, 1.33],
+  [65, 1.4],
+  [66, 1.4],
+  [67, 1.31],
+  [68, 1.18],
+  [69, 1],
+  [70, 0.89],
+  [71, 0.99],
+  [72, 1.03],
+  [73, 0.99],
+  [74, 0.99],
+  [75, 0.98],
+  [76, 0.99],
+  [77, 1.03],
+  [78, 1.02],
+  [79, 1.04],
+  [80, 1.1],
+  [81, 1.06],
+  [82, 1.07],
+  [83, 1.07],
+  [84, 1.09],
+  [85, 1.11],
+  [86, 1.11],
+  [87, 1.11],
+  [88, 1.14],
+  [89, 1.14],
+  [90, 1.15],
+  [91, 1.22],
+  [92, 1.16],
+  [93, 1.03],
+  [94, 1.11],
+  [95, 1.12],
+  [96, 1.03],
+  [97, 1.13],
+  [98, 1.16],
+  [99, 1.22],
+  [100, 1.19],
+  [101, 1.28],
+  [102, 1.33],
+  [103, 1.34],
+  [104, 1.38],
+  [105, 1.33],
+  [106, 1.35],
+  [107, 1.32],
+  [108, 1.19],
+  [109, 1.2],
+  [110, 1.22],
+  [111, 1.17],
+  [112, 1.11],
+  [113, 1.18],
+  [114, 1.31],
+  [115, 1.25],
+  [116, 1.25],
+  [117, 1.28],
+  [118, 1.32],
+  [119, 1.19],
+  [120, 1.19],
+].map(([azimuth, elevation]) => ({azimuth, elevation}));
+
+test('visibleSunrise Tiberias', () => {
+  const tzid = 'Asia/Jerusalem';
+  const gloc = new GeoLocation(null, 32.79, 35.53, 0, tzid);
+  const cases = {
+    '2026-11-24': '2026-11-24T06:27:32+02:00',
+    '2027-06-09': '2027-06-09T05:37:29+03:00',
+    '2027-03-26': '2027-03-26T06:43:29+03:00',
+  };
+  for (const [ds, expected] of Object.entries(cases)) {
+    const zman = new Zmanim(gloc, new Date(ds + 'T12:00:00'), false);
+    const dt = zman.visibleSunrise(TIBERIAS_EAST);
+    expect(Zmanim.formatISOWithTimeZone(tzid, dt)).toBe(expected);
+  }
+});
+
+test('visibleSunrise Rechovot', () => {
+  const tzid = 'Asia/Jerusalem';
+  const gloc = new GeoLocation(null, 31.8928, 34.8113, 0, tzid);
+  const zman = new Zmanim(gloc, new Date('2019-11-24T12:00:00'), false);
+  const dt = zman.visibleSunrise(RECHOVOT_EAST);
+  expect(Zmanim.formatISOWithTimeZone(tzid, dt)).toBe('2019-11-24T06:24:15+02:00');
+});
+
+test('visibleSunrise/visibleSunset Chicago constant & function profiles', () => {
+  const tzid = 'America/Chicago';
+  const zman = makeZman();
+  const f = dt => Zmanim.formatISOWithTimeZone(tzid, dt);
+  // flat sea-level horizon in every direction reproduces the standard times
+  expect(f(zman.visibleSunrise(0))).toBe('2020-06-05T05:16:17-05:00');
+  expect(f(zman.visibleSunset(0))).toBe('2020-06-05T20:22:30-05:00');
+  // a 1° ridge delays sunrise and advances sunset symmetrically
+  expect(f(zman.visibleSunrise(1))).toBe('2020-06-05T05:23:37-05:00');
+  expect(f(zman.visibleSunset(1))).toBe('2020-06-05T20:15:09-05:00');
+  // a horizon below sea level (e.g. the sea seen from a height) is earlier
+  expect(f(zman.visibleSunrise(-0.5))).toBe('2020-06-05T05:12:18-05:00');
+  // azimuth-dependent profiles: a tall ridge only in the relevant quadrant
+  expect(f(zman.visibleSunrise(az => (az < 90 ? 2 : 0.5)))).toBe(
+    '2020-06-05T05:30:27-05:00'
+  );
+  expect(f(zman.visibleSunset(az => (az < 270 ? 2 : 0.5)))).toBe(
+    '2020-06-05T20:18:44-05:00'
+  );
+});
+
+test('neitzHaNireh / shkiahNireit aliases', () => {
+  const zman = makeZman();
+  expect(zman.neitzHaNireh(0).getTime()).toBe(zman.visibleSunrise(0).getTime());
+  expect(zman.shkiahNireit(1).getTime()).toBe(zman.visibleSunset(1).getTime());
+});
+
+test('visibleSunrise/visibleSunset Invalid Date in polar regions', () => {
+  const gloc = new GeoLocation(null, 69.65, 18.96, 0, 'Europe/Oslo');
+  for (const ds of ['2020-12-21', '2020-06-21']) {
+    const zman = new Zmanim(gloc, new Date(ds + 'T12:00:00'), false);
+    expect(Number.isNaN(zman.visibleSunrise(0).getTime())).toBe(true);
+    expect(Number.isNaN(zman.visibleSunset(0).getTime())).toBe(true);
+  }
+});
+
+test('visibleSunrise ignores useElevation', () => {
+  const tzid = 'America/Denver';
+  const zman = makeZmanWithElevation();
+  const visible = zman.visibleSunrise(0);
+  // Equal (±1 s) to sea-level sunrise and NOT to the elevation-adjusted sunrise,
+  // proving the new methods ignore useElevation.
+  expect(Zmanim.formatISOWithTimeZone(tzid, visible)).toBe(
+    '2020-06-05T05:32:25-06:00'
+  );
+  const seaLevel = zman.seaLevelSunrise().getTime();
+  expect(Math.abs(visible.getTime() - seaLevel)).toBeLessThanOrEqual(1000);
+  expect(visible.getTime()).not.toBe(zman.sunrise().getTime());
+});

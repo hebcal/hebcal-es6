@@ -241,6 +241,31 @@ sunset. Note that degree-based zmanim estimate the amount of light in the sky an
 so are unaffected by elevation by design; `chatzot` is also always computed at sea
 level.
 
+`Zmanim.visibleSunrise()` and `visibleSunset()` (_netz ha-nireh_ / _shkiah
+nireit_) return when the sun's upper limb clears the real terrain skyline rather
+than the flat sea-level horizon — the time many printed Israeli calendars list
+for mountainous locations. They take a horizon profile describing the apparent
+altitude of the skyline in each direction: a constant angle, a list of
+`{azimuth, elevation}` samples, or a function of azimuth. Refraction follows the
+Chai Tables (Sinclair/Bennett at standard atmosphere) and no safety cushion is
+added. Building a profile from terrain or digital-elevation-model data is outside
+this library.
+
+```javascript
+import {GeoLocation, Zmanim} from '@hebcal/core';
+const gloc = new GeoLocation('Jerusalem', 31.78, 35.22, 0, 'Asia/Jerusalem');
+const zmanim = new Zmanim(gloc, new Date(2026, 9, 29), false);
+// a 5° ridge to the east (azimuth 90° = due east), flat elsewhere
+const skyline = [
+  {azimuth: 60, elevation: 0},
+  {azimuth: 80, elevation: 5},
+  {azimuth: 100, elevation: 5},
+  {azimuth: 120, elevation: 0},
+];
+zmanim.visibleSunrise(skyline); // about 17 minutes after zmanim.sunrise()
+zmanim.visibleSunset(0); // flat horizon: matches zmanim.sunset() to the second
+```
+
 For zmanim outside the calendar-generation flow, use the
 [`Zmanim`](https://hebcal.github.io/api/core/classes/Zmanim.html) class directly.
 

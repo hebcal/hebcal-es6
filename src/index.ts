@@ -12,6 +12,7 @@ export {
 } from '@hebcal/hdate';
 import './locale.js'; // Adds Hebrew and Ashkenazic translations
 export {type CalOptions, type DailyLearningValue} from './CalOptions.js';
+export {type HorizonProfile, type HorizonSample} from './horizon.js';
 export {HebrewDateEvent} from './HebrewDateEvent.js';
 export {Event, type FlagName, flags} from './event.js';
 export {GeoLocation, NOAACalculator} from '@hebcal/noaa';
