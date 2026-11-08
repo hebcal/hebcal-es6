@@ -245,10 +245,10 @@ test('url', () => {
 });
 
 test('distant-past-url', () => {
-  const hd = new HDate(20, 'Iyyar', 5000);
+  const hd = new HDate(20, 'Iyyar', 5513);
   const ev = new OmerEvent(hd, 35);
-  expect(ev.url()).toBe('https://www.hebcal.com/omer/5000/35');
-  const hd2 = new HDate(20, 'Iyyar', 4999);
+  expect(ev.url()).toBe('https://www.hebcal.com/omer/5513/35');
+  const hd2 = new HDate(20, 'Iyyar', 5512);
   const ev2 = new OmerEvent(hd2, 35);
   expect(ev2.url()).toBe(undefined);
   const hd3 = new HDate(20, 'Iyyar', 3860);
@@ -260,10 +260,10 @@ test('distant-past-url', () => {
 });
 
 test('far-future-url', () => {
-  const hd = new HDate(20, 'Iyyar', 6759);
+  const hd = new HDate(20, 'Iyyar', 6260);
   const ev = new OmerEvent(hd, 35);
-  expect(ev.url()).toBe('https://www.hebcal.com/omer/6759/35');
-  const hd2 = new HDate(20, 'Iyyar', 6760);
+  expect(ev.url()).toBe('https://www.hebcal.com/omer/6260/35');
+  const hd2 = new HDate(20, 'Iyyar', 6261);
   const ev2 = new OmerEvent(hd2, 35);
   expect(ev2.url()).toBe(undefined);
 });
