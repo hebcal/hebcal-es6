@@ -61,7 +61,7 @@ export class ParshaEvent extends Event {
 
   override url(): string | undefined {
     const year = this.greg().getFullYear();
-    if (year < 100 || year > 2999) {
+    if (year < 1752 || year > 2499) {
       return undefined;
     }
     const dt = this.urlDateSuffix();

@@ -70,15 +70,14 @@ test('getString-locale', () => {
 
 test('early-ce-url', () => {
   const ev = new ParshaEvent({
-    hdate: new HDate(new Date(100, 9, 16)),
+    hdate: new HDate(new Date(1752, 9, 16)),
     parsha: ['Bereshit'],
     il: false,
     chag: false,
     num: 0,
   });
-  expect(ev.url()).toBe('https://www.hebcal.com/sedrot/bereshit-01001016');
-  const dt = new Date(99, 11, 12);
-  dt.setFullYear(99);
+  expect(ev.url()).toBe('https://www.hebcal.com/sedrot/bereshit-17521016');
+  const dt = new Date(1751, 11, 12);
   const ev2 = new ParshaEvent({
     hdate: new HDate(dt),
     parsha: ['Vayechi'],
@@ -90,7 +89,7 @@ test('early-ce-url', () => {
 });
 
 test('far-future-url', () => {
-  const dt = new Date(2750, 9, 21);
+  const dt = new Date(2499, 9, 21);
   const parsha = {
     hdate: new HDate(dt),
     parsha: ['Bereshit'],
@@ -99,8 +98,8 @@ test('far-future-url', () => {
     num: 0,
   };
   const ev = new ParshaEvent(parsha);
-  expect(ev.url()).toBe('https://www.hebcal.com/sedrot/bereshit-27501021');
-  dt.setFullYear(3000);
+  expect(ev.url()).toBe('https://www.hebcal.com/sedrot/bereshit-24991021');
+  dt.setFullYear(2500);
   parsha.hdate = new HDate(dt);
   const ev2 = new ParshaEvent(parsha);
   expect(ev2.url()).toBe(undefined);

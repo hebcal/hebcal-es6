@@ -342,9 +342,13 @@ export class OmerEvent extends Event {
     return str;
   }
 
+  /**
+   * Returns a `https://www.hebcal.com/omer/...` URL, or `undefined` for Hebrew
+   * years outside `[5513, 6260]` (roughly Gregorian 1752–2499).
+   */
   override url(): string | undefined {
     const year = this.getDate().getFullYear();
-    if (year < 5000 || year > 6759) {
+    if (year < 5513 || year > 6260) {
       return undefined;
     }
     return `https://www.hebcal.com/omer/${year}/${this.omer}`;

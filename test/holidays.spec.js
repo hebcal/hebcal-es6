@@ -222,19 +222,22 @@ test('chanukah-url', () => {
 });
 
 test('early-ce-url', () => {
-  const ev = new HolidayEvent(new HDate(new Date(100, 8, 30)), 'Yom Kippur');
-  expect(ev.url()).toBe('https://www.hebcal.com/holidays/yom-kippur-100');
-  const dt = new Date(99, 8, 12);
-  dt.setFullYear(99);
+  const ev = new HolidayEvent(new HDate(new Date(1752, 8, 30)), 'Yom Kippur');
+  expect(ev.url()).toBe('https://www.hebcal.com/holidays/yom-kippur-1752');
+  const dt = new Date(1751, 8, 12);
   const ev2 = new HolidayEvent(new HDate(dt), 'Yom Kippur');
   expect(ev2.url()).toBe(undefined);
+  const dt3 = new Date(100, 8, 30);
+  dt3.setFullYear(100);
+  const ev3 = new HolidayEvent(new HDate(dt3), 'Yom Kippur');
+  expect(ev3.url()).toBe(undefined);
 });
 
 test('far-future-url', () => {
-  const dt = new Date(2750, 8, 30);
+  const dt = new Date(2499, 8, 30);
   const ev = new HolidayEvent(new HDate(dt), 'Yom Kippur');
-  expect(ev.url()).toBe('https://www.hebcal.com/holidays/yom-kippur-2750');
-  dt.setFullYear(3000);
+  expect(ev.url()).toBe('https://www.hebcal.com/holidays/yom-kippur-2499');
+  dt.setFullYear(2500);
   const ev2 = new HolidayEvent(new HDate(dt), 'Yom Kippur');
   expect(ev2.url()).toBe(undefined);
 });
