@@ -4,76 +4,79 @@ import {hallel} from '../src/hallel.js';
 import {getHolidaysOnDate} from '../src/holidays.js';
 import {holidayDesc as hdesc} from '../src/staticHolidays.js';
 
-test('hallel', () => {
-  expect(hallel(new HDate(14, months.NISAN, 5781), false)).toBe(0);
-  expect(hallel(new HDate(15, months.NISAN, 5781), false)).toBe(2);
-  expect(hallel(new HDate(16, months.NISAN, 5781), false)).toBe(2);
-  expect(hallel(new HDate(15, months.CHESHVAN, 5781), false)).toBe(0);
-  expect(hallel(new HDate(1, months.TISHREI, 5781), false)).toBe(0);
-  expect(hallel(new HDate(25, months.KISLEV, 5781), false)).toBe(2);
-  expect(hallel(new HDate(29, months.KISLEV, 5781), false)).toBe(2);
-  expect(hallel(new HDate(21, months.KISLEV, 5781), false)).toBe(0);
-  // https://github.com/hebcal/hebcal-es6/issues/815
-  expect(hallel(new HDate(22, months.TISHREI, 5781), false)).toBe(2);
-  expect(hallel(new HDate(23, months.TISHREI, 5781), false)).toBe(2);
-  expect(hallel(new HDate(24, months.KISLEV, 5781), false)).toBe(0);
-  expect(hallel(new HDate(14, months.IYYAR, 5781), false)).toBe(0);
+const {TISHREI, CHESHVAN, KISLEV, TEVET, ADAR_I, ADAR_II, NISAN, IYYAR, SIVAN} =
+  months;
 
-  expect(hallel(new HDate(17, months.NISAN, 5781), true)).toBe(1);
-  expect(hallel(new HDate(28, months.NISAN, 5781), true)).toBe(0);
-  expect(hallel(new HDate(30, months.NISAN, 5781), true)).toBe(1);
-  expect(hallel(new HDate(1, months.IYYAR, 5781), true)).toBe(1);
-  expect(hallel(new HDate(16, months.NISAN, 5781), true)).toBe(1);
-  expect(hallel(new HDate(22, months.TISHREI, 5781), true)).toBe(2);
-  expect(hallel(new HDate(23, months.TISHREI, 5781), true)).toBe(0);
-  expect(hallel(new HDate(24, months.KISLEV, 5781), true)).toBe(0);
-  expect(hallel(new HDate(14, months.IYYAR, 5781), true)).toBe(0);
+test('hallel', () => {
+  expect(hallel(new HDate(14, NISAN, 5781), false)).toBe(0);
+  expect(hallel(new HDate(15, NISAN, 5781), false)).toBe(2);
+  expect(hallel(new HDate(16, NISAN, 5781), false)).toBe(2);
+  expect(hallel(new HDate(15, CHESHVAN, 5781), false)).toBe(0);
+  expect(hallel(new HDate(1, TISHREI, 5781), false)).toBe(0);
+  expect(hallel(new HDate(25, KISLEV, 5781), false)).toBe(2);
+  expect(hallel(new HDate(29, KISLEV, 5781), false)).toBe(2);
+  expect(hallel(new HDate(21, KISLEV, 5781), false)).toBe(0);
+  // https://github.com/hebcal/hebcal-es6/issues/815
+  expect(hallel(new HDate(22, TISHREI, 5781), false)).toBe(2);
+  expect(hallel(new HDate(23, TISHREI, 5781), false)).toBe(2);
+  expect(hallel(new HDate(24, KISLEV, 5781), false)).toBe(0);
+  expect(hallel(new HDate(14, IYYAR, 5781), false)).toBe(0);
+
+  expect(hallel(new HDate(17, NISAN, 5781), true)).toBe(1);
+  expect(hallel(new HDate(28, NISAN, 5781), true)).toBe(0);
+  expect(hallel(new HDate(30, NISAN, 5781), true)).toBe(1);
+  expect(hallel(new HDate(1, IYYAR, 5781), true)).toBe(1);
+  expect(hallel(new HDate(16, NISAN, 5781), true)).toBe(1);
+  expect(hallel(new HDate(22, TISHREI, 5781), true)).toBe(2);
+  expect(hallel(new HDate(23, TISHREI, 5781), true)).toBe(0);
+  expect(hallel(new HDate(24, KISLEV, 5781), true)).toBe(0);
+  expect(hallel(new HDate(14, IYYAR, 5781), true)).toBe(0);
 });
 
 test('hallel-pesach-shavuot', () => {
-  expect(hallel(new HDate(21, months.NISAN, 5781), true)).toBe(1);
-  expect(hallel(new HDate(22, months.NISAN, 5781), true)).toBe(0);
-  expect(hallel(new HDate(22, months.NISAN, 5781), false)).toBe(1);
-  expect(hallel(new HDate(23, months.NISAN, 5781), false)).toBe(0);
-  expect(hallel(new HDate(5, months.SIVAN, 5781), false)).toBe(0);
-  expect(hallel(new HDate(6, months.SIVAN, 5781), true)).toBe(2);
-  expect(hallel(new HDate(7, months.SIVAN, 5781), true)).toBe(0);
-  expect(hallel(new HDate(7, months.SIVAN, 5781), false)).toBe(2);
+  expect(hallel(new HDate(21, NISAN, 5781), true)).toBe(1);
+  expect(hallel(new HDate(22, NISAN, 5781), true)).toBe(0);
+  expect(hallel(new HDate(22, NISAN, 5781), false)).toBe(1);
+  expect(hallel(new HDate(23, NISAN, 5781), false)).toBe(0);
+  expect(hallel(new HDate(5, SIVAN, 5781), false)).toBe(0);
+  expect(hallel(new HDate(6, SIVAN, 5781), true)).toBe(2);
+  expect(hallel(new HDate(7, SIVAN, 5781), true)).toBe(0);
+  expect(hallel(new HDate(7, SIVAN, 5781), false)).toBe(2);
 });
 
 test('hallel-rosh-chodesh', () => {
-  expect(hallel(new HDate(30, months.TISHREI, 5781), false)).toBe(1);
-  expect(hallel(new HDate(1, months.CHESHVAN, 5781), false)).toBe(1);
+  expect(hallel(new HDate(30, TISHREI, 5781), false)).toBe(1);
+  expect(hallel(new HDate(1, CHESHVAN, 5781), false)).toBe(1);
   // 5784 is a leap year: 30 Adar I is Rosh Chodesh Adar II
-  expect(hallel(new HDate(30, months.ADAR_I, 5784), false)).toBe(1);
-  expect(hallel(new HDate(1, months.ADAR_II, 5784), false)).toBe(1);
+  expect(hallel(new HDate(30, ADAR_I, 5784), false)).toBe(1);
+  expect(hallel(new HDate(1, ADAR_II, 5784), false)).toBe(1);
 });
 
 test('hallel-chanukah', () => {
   // 5785 has a 30-day Kislev, so Chanukah ends on 2 Tevet
   expect(HDate.shortKislev(5785)).toBe(false);
   // Rosh Chodesh Tevet falls during Chanukah, so whole Hallel
-  expect(hallel(new HDate(30, months.KISLEV, 5785), false)).toBe(2);
-  expect(hallel(new HDate(1, months.TEVET, 5785), false)).toBe(2);
-  expect(hallel(new HDate(2, months.TEVET, 5785), false)).toBe(2);
-  expect(hallel(new HDate(3, months.TEVET, 5785), false)).toBe(0);
+  expect(hallel(new HDate(30, KISLEV, 5785), false)).toBe(2);
+  expect(hallel(new HDate(1, TEVET, 5785), false)).toBe(2);
+  expect(hallel(new HDate(2, TEVET, 5785), false)).toBe(2);
+  expect(hallel(new HDate(3, TEVET, 5785), false)).toBe(0);
   // 5784 has a 29-day Kislev, so Chanukah ends on 3 Tevet
   expect(HDate.shortKislev(5784)).toBe(true);
-  expect(hallel(new HDate(1, months.TEVET, 5784), true)).toBe(2);
-  expect(hallel(new HDate(3, months.TEVET, 5784), true)).toBe(2);
-  expect(hallel(new HDate(4, months.TEVET, 5784), true)).toBe(0);
+  expect(hallel(new HDate(1, TEVET, 5784), true)).toBe(2);
+  expect(hallel(new HDate(3, TEVET, 5784), true)).toBe(2);
+  expect(hallel(new HDate(4, TEVET, 5784), true)).toBe(0);
 });
 
 test('hallel-modern', () => {
   // Yom Ha'atzmaut moved to 3 Iyyar when Pesach falls on Sunday
-  expect(hallel(new HDate(3, months.IYYAR, 5781), true)).toBe(2);
-  expect(hallel(new HDate(5, months.IYYAR, 5781), true)).toBe(0);
+  expect(hallel(new HDate(3, IYYAR, 5781), true)).toBe(2);
+  expect(hallel(new HDate(5, IYYAR, 5781), true)).toBe(0);
   // Yom Ha'atzmaut moved to 6 Iyyar when Pesach falls on Tuesday
-  expect(hallel(new HDate(6, months.IYYAR, 5784), false)).toBe(2);
-  expect(hallel(new HDate(5, months.IYYAR, 5784), false)).toBe(0);
-  expect(hallel(new HDate(5, months.IYYAR, 5707), true)).toBe(0);
-  expect(hallel(new HDate(28, months.IYYAR, 5781), false)).toBe(2);
-  expect(hallel(new HDate(28, months.IYYAR, 5726), true)).toBe(0);
+  expect(hallel(new HDate(6, IYYAR, 5784), false)).toBe(2);
+  expect(hallel(new HDate(5, IYYAR, 5784), false)).toBe(0);
+  expect(hallel(new HDate(5, IYYAR, 5707), true)).toBe(0);
+  expect(hallel(new HDate(28, IYYAR, 5781), false)).toBe(2);
+  expect(hallel(new HDate(28, IYYAR, 5726), true)).toBe(0);
 });
 
 /**
@@ -109,8 +112,8 @@ function hallelFromEvents(hd: HDate, il: boolean): number {
 }
 
 test.each([false, true])('hallel matches holiday events 5760-5810 il=%s', il => {
-  const start = new HDate(1, months.TISHREI, 5760).abs();
-  const end = new HDate(1, months.TISHREI, 5811).abs();
+  const start = new HDate(1, TISHREI, 5760).abs();
+  const end = new HDate(1, TISHREI, 5811).abs();
   const diffs: string[] = [];
   const counts = [0, 0, 0];
   for (let abs = start; abs < end; abs++) {
