@@ -1,6 +1,8 @@
 import {expect, test} from 'vitest';
 import {HDate, months} from '@hebcal/hdate';
 import {hallel_} from '../src/hallel.js';
+import {getHolidaysOnDate} from '../src/holidays.js';
+import {holidayDesc as hdesc} from '../src/staticHolidays.js';
 
 test('hallel', () => {
   expect(hallel_(new HDate(14, months.NISAN, 5781), false)).toBe(0);
@@ -72,4 +74,57 @@ test('hallel-modern', () => {
   expect(hallel_(new HDate(5, months.IYYAR, 5707), true)).toBe(0);
   expect(hallel_(new HDate(28, months.IYYAR, 5781), false)).toBe(2);
   expect(hallel_(new HDate(28, months.IYYAR, 5726), true)).toBe(0);
+});
+
+/**
+ * Reference implementation derived from holiday events, as `hallel_`
+ * used to be. Takes the maximum over all events on the day, so that
+ * whole Hallel on Chanukah wins over half Hallel on Rosh Chodesh Tevet.
+ */
+function hallelFromEvents(hd: HDate, il: boolean): number {
+  const events = getHolidaysOnDate(hd, il) ?? [];
+  let result = 0;
+  for (const ev of events) {
+    const desc = ev.getDesc();
+    if (
+      (desc.startsWith('Chanukah') && desc !== hdesc.CHANUKAH_1_CANDLE) ||
+      desc.startsWith('Shavuot') ||
+      desc.startsWith('Sukkot') ||
+      desc === hdesc.SHMINI_ATZERET ||
+      desc === hdesc.SIMCHAT_TORAH ||
+      desc === hdesc.PESACH_I ||
+      (desc === hdesc.PESACH_II && ev.hasFlag('CHAG')) ||
+      desc === hdesc.YOM_HAATZMA_UT ||
+      desc === hdesc.YOM_YERUSHALAYIM
+    ) {
+      result = Math.max(result, 2);
+    } else if (
+      ev.hasFlag('ROSH_CHODESH') ||
+      (desc.startsWith('Pesach') && desc !== hdesc.PESACH_SHENI)
+    ) {
+      result = Math.max(result, 1);
+    }
+  }
+  return result;
+}
+
+test.each([false, true])('hallel matches holiday events 5760-5810 il=%s', il => {
+  const start = new HDate(1, months.TISHREI, 5760).abs();
+  const end = new HDate(1, months.TISHREI, 5811).abs();
+  const diffs: string[] = [];
+  const counts = [0, 0, 0];
+  for (let abs = start; abs < end; abs++) {
+    const hd = new HDate(abs);
+    const expected = hallelFromEvents(hd, il);
+    const actual = hallel_(hd, il);
+    counts[actual]++;
+    if (actual !== expected) {
+      diffs.push(`${hd.toString()}: expected ${expected}, got ${actual}`);
+    }
+  }
+  expect(diffs).toEqual([]);
+  // sanity check that the comparison actually exercised every outcome
+  expect(end - start).toBeGreaterThan(51 * 353);
+  expect(counts[1]).toBeGreaterThan(0);
+  expect(counts[2]).toBeGreaterThan(0);
 });
