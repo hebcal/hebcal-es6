@@ -18,9 +18,13 @@ export function hallel_(events: Event[], hdate: HDate): number {
     const month = hd.getMonth();
     const mday = hd.getDate();
     if (
-      desc.startsWith('Chanukah') ||
+      // Chanukah's Hallel starts on 25 Kislev; the "1 Candle" event is
+      // on the evening of 24 Kislev, before the first morning of Chanukah
+      (desc.startsWith('Chanukah') && desc !== hdesc.CHANUKAH_1_CANDLE) ||
       desc.startsWith('Shavuot') ||
       desc.startsWith('Sukkot') ||
+      desc === hdesc.SHMINI_ATZERET ||
+      desc === hdesc.SIMCHAT_TORAH ||
       (month === months.NISAN &&
         (mday === 15 || mday === 16) &&
         ev.hasFlag('CHAG')) || // Pesach
@@ -34,7 +38,8 @@ export function hallel_(events: Event[], hdate: HDate): number {
       ev.hasFlag('ROSH_CHODESH') ||
       (desc.startsWith('Pesach') &&
         desc !== hdesc.PESACH_I &&
-        desc !== hdesc.PESACH_II)
+        desc !== hdesc.PESACH_II &&
+        desc !== hdesc.PESACH_SHENI)
     ) {
       return HALF;
     }
