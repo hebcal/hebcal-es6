@@ -25,7 +25,7 @@ import {CalOptions} from './CalOptions.js';
 import {version as pkgVersion} from './pkgVersion.js';
 import {Event} from './event.js';
 import {Sedra, getSedra} from './sedra.js';
-import {hallel_} from './hallel.js';
+import {hallel} from './hallel.js';
 import {
   getHolidaysForYear_,
   getHolidaysForYearArray,
@@ -297,15 +297,9 @@ export class HebrewCalendar {
   }
 
   /**
-   * Determines which form of Hallel (if any) is recited
-   * on a given Hebrew date.
-   *
-   * Returns 0 (none), 1 (half Hallel), or 2 (whole Hallel).
-   *
-   * Whole Hallel is said on Chanukah, the first Yom Tov of Pesach, Shavuot, Sukkot,
-   * Yom Ha'atzmaut, and Yom Yerushalayim.
-   *
-   * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
+   * Determines which form of Hallel (if any) is recited on a given Hebrew date:
+   * 0 (none), 1 (half Hallel), or 2 (whole Hallel).
+   * See {@link hallel} for details.
    * @example
    * import {HebrewCalendar, HDate, months} from '@hebcal/core';
    * HebrewCalendar.hallel(new HDate(25, months.KISLEV, 5784), false); // 2 (Chanukah)
@@ -316,11 +310,7 @@ export class HebrewCalendar {
    * @returns 0 for no Hallel, 1 for half Hallel, 2 for whole Hallel
    */
   static hallel(hdate: HDate, il: boolean): number {
-    const events = getHolidaysOnDate(hdate, il);
-    if (!events) {
-      return 0;
-    }
-    return hallel_(events, hdate);
+    return hallel(hdate, il);
   }
 
   /**

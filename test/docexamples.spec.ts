@@ -16,6 +16,7 @@ import {Event, flags} from '../src/event.js';
 import {HolidayEvent} from '../src/HolidayEvent.js';
 import {HebrewDateEvent} from '../src/HebrewDateEvent.js';
 import {HebrewCalendar} from '../src/hebcal.js';
+import {hallel} from '../src/hallel.js';
 import {Location} from '../src/location.js';
 import {Molad} from '../src/molad.js';
 import {OmerEvent} from '../src/omer.js';
@@ -183,6 +184,14 @@ test('hebcal.ts hallel() example', () => {
   expect(HebrewCalendar.hallel(new HDate(25, months.KISLEV, 5784), false)).toBe(2);
   expect(HebrewCalendar.hallel(new HDate(1, months.SHVAT, 5784), false)).toBe(1);
   expect(HebrewCalendar.hallel(new HDate(2, months.SHVAT, 5784), false)).toBe(0);
+});
+
+test('hallel.ts hallel() example', () => {
+  expect(hallel(new HDate(25, months.KISLEV, 5784), false)).toBe(2);
+  expect(hallel(new HDate(1, months.SHVAT, 5784), false)).toBe(1);
+  expect(hallel(new HDate(2, months.SHVAT, 5784), false)).toBe(0);
+  expect(hallel(new HDate(16, months.NISAN, 5784), false)).toBe(2);
+  expect(hallel(new HDate(16, months.NISAN, 5784), true)).toBe(1);
 });
 
 test('hebcal.ts tachanun() example', () => {
