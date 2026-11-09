@@ -6,14 +6,31 @@ const HALF = 1;
 const WHOLE = 2;
 
 /**
- * Determines which form of Hallel (if any) is recited on `hdate`,
- * computed directly from the Hebrew month and day.
- * @internal
+ * Determines which form of Hallel (if any) is recited
+ * on a given Hebrew date.
+ *
+ * Returns 0 (none), 1 (half Hallel), or 2 (whole Hallel).
+ *
+ * Whole Hallel is said on Chanukah, the first Yom Tov of Pesach, Shavuot, Sukkot,
+ * Shmini Atzeret, Simchat Torah, Yom Ha'atzmaut, and Yom Yerushalayim.
+ *
+ * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
+ * Rosh Chodesh Tevet falls during Chanukah, so whole Hallel is said then.
+ *
+ * The result is computed directly from the Hebrew month and day,
+ * without generating holiday events.
+ * @example
+ * import {hallel, HDate, months} from '@hebcal/core';
+ * hallel(new HDate(25, months.KISLEV, 5784), false); // 2 (Chanukah)
+ * hallel(new HDate(1, months.SHVAT, 5784), false);   // 1 (Rosh Chodesh)
+ * hallel(new HDate(2, months.SHVAT, 5784), false);   // 0
+ * hallel(new HDate(16, months.NISAN, 5784), false);  // 2 (Pesach II, Diaspora)
+ * hallel(new HDate(16, months.NISAN, 5784), true);   // 1 (Chol HaMoed, Israel)
  * @param hdate Hebrew date to test
  * @param il use the Israeli holiday schedule
  * @returns 0 for no Hallel, 1 for half Hallel, 2 for whole Hallel
  */
-export function hallel_(hdate: HDate, il: boolean): number {
+export function hallel(hdate: HDate, il: boolean): number {
   const mm = hdate.getMonth();
   const dd = hdate.getDate();
   switch (mm) {

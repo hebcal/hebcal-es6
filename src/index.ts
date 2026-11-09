@@ -30,6 +30,7 @@ export {KiddushLevanaEvent} from './KiddushLevanaEvent.js';
 export type {KiddushLevanaAdjustment} from './KiddushLevanaEvent.js';
 export {OmerEvent, type OmerLang} from './omer.js';
 export {type TachanunResult, tachanun} from './tachanun.js';
+export {hallel} from './hallel.js';
 export {
   Sedra,
   type SedraResult,
