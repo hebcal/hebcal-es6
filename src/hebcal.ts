@@ -306,6 +306,7 @@ export class HebrewCalendar {
    * Yom Ha'atzmaut, and Yom Yerushalayim.
    *
    * Half Hallel is said on Rosh Chodesh (not Rosh Hashanah), and the last 6 days of Pesach.
+   * Rosh Chodesh Tevet falls during Chanukah, so whole Hallel is said then.
    * @example
    * import {HebrewCalendar, HDate, months} from '@hebcal/core';
    * HebrewCalendar.hallel(new HDate(25, months.KISLEV, 5784), false); // 2 (Chanukah)
@@ -316,11 +317,7 @@ export class HebrewCalendar {
    * @returns 0 for no Hallel, 1 for half Hallel, 2 for whole Hallel
    */
   static hallel(hdate: HDate, il: boolean): number {
-    const events = getHolidaysOnDate(hdate, il);
-    if (!events) {
-      return 0;
-    }
-    return hallel_(events, hdate);
+    return hallel_(hdate, il);
   }
 
   /**
