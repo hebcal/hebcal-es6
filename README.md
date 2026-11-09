@@ -16,7 +16,7 @@ Most work starts with the [`calendar()`](https://hebcal.github.io/api/core/funct
 function and the [`HDate`](https://hebcal.github.io/api/hdate/classes/HDate.html) class.
 
 Nearly everything is available as a standalone function — `calendar()`,
-`getHolidaysOnDate()`, `getSedra()`, `tachanun()`, `reformatTimeStr()` — and the
+`getHolidaysOnDate()`, `getSedra()`, `tachanun()`, `hallel()`, `reformatTimeStr()` — and the
 examples here use that form, since importing only what you need is what lets a
 bundler drop the rest. The same functions are also reachable as static methods on
 [`HebrewCalendar`](https://hebcal.github.io/api/core/classes/HebrewCalendar.html).
@@ -26,7 +26,7 @@ Yahrzeits and birthdays are standalone functions too, but they live in
 `birthdayOrAnniversary()` from there directly.
 `HebrewCalendar.getYahrzeit()` and `.getBirthdayOrAnniversary()` are thin
 wrappers over them. A few odds and ends remain class-only:
-`eruvTavshilin()`, `hallel()` and `getHolidaysForYear()`.
+`eruvTavshilin()` and `getHolidaysForYear()`.
 
 ## Installation
 
