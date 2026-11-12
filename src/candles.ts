@@ -61,7 +61,13 @@ export function makeCandleEvent(
       options
     );
   } else {
-    mask |= LIGHT_CANDLES;
+    // Exactly one of the two candle-lighting flags, chosen by how the time
+    // was computed: LIGHT_CANDLES for minutes before sunset (Shabbat or the
+    // start of a chag), LIGHT_CANDLES_TZEIS for nightfall / Havdalah time
+    // (the second night of Yom Tov, or a chag that begins Saturday night).
+    mask = useHavdalahOffset
+      ? (mask & ~LIGHT_CANDLES) | LIGHT_CANDLES_TZEIS
+      : (mask & ~LIGHT_CANDLES_TZEIS) | LIGHT_CANDLES;
     return new CandleLightingEvent(hd, mask, time, location, ev, options);
   }
 }

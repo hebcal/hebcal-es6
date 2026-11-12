@@ -1164,3 +1164,67 @@ test('friday has LIGHT_CANDLES after RH', () => {
   expect(events[1].getDesc()).toBe('Candle lighting');
   expect(events[1].flagNames()).toEqual(['CHAG', 'LIGHT_CANDLES', 'YOM_TOV_ENDS']);
 });
+
+describe('candle-lighting flags', () => {
+  const {LIGHT_CANDLES, LIGHT_CANDLES_TZEIS, CHAG, CHUL_ONLY, EREV, YOM_TOV_ENDS} =
+    flags;
+  const candleFlags = (start: Date) => {
+    const events = calendar({
+      start,
+      end: start,
+      candlelighting: true,
+      location: Location.lookup('New York')!,
+    });
+    const ev = events.find(e => e.getDesc() === 'Candle lighting');
+    return ev && {time: (ev as TimedEvent).eventTimeStr, mask: ev.getFlags()};
+  };
+
+  test.each([
+    // minutes before sunset: Shabbat or the start of a chag
+    ['2024-10-16', 'Wed, Erev Sukkot', '17:55', CHUL_ONLY | EREV | LIGHT_CANDLES],
+    ['2024-11-08', 'plain Friday', '16:25', LIGHT_CANDLES],
+    ['2020-05-29', 'Fri, Shavuot I', '20:01', CHAG | CHUL_ONLY | LIGHT_CANDLES],
+    [
+      '2020-04-10',
+      'Fri, Yom Tov ends, Shabbat begins',
+      '19:12',
+      CHAG | CHUL_ONLY | YOM_TOV_ENDS | LIGHT_CANDLES,
+    ],
+    // nightfall / Havdalah time
+    [
+      '2024-10-17',
+      'Thu, Sukkot I',
+      '18:53',
+      CHAG | CHUL_ONLY | LIGHT_CANDLES_TZEIS,
+    ],
+    [
+      '2021-03-27',
+      'Sat, Erev Pesach',
+      '19:57',
+      CHUL_ONLY | EREV | LIGHT_CANDLES_TZEIS,
+    ],
+  ])('%s %s', (iso, _label, time, mask) => {
+    const [y, m, d] = iso.split('-').map(Number);
+    expect(candleFlags(new Date(y, m - 1, d))).toEqual({time, mask});
+  });
+
+  test('never both LIGHT_CANDLES and LIGHT_CANDLES_TZEIS', () => {
+    for (const [city, il] of [
+      ['New York', false],
+      ['Jerusalem', true],
+    ] as const) {
+      const events = calendar({
+        year: 5780,
+        isHebrewYear: true,
+        numYears: 12,
+        il,
+        candlelighting: true,
+        location: Location.lookup(city)!,
+      });
+      for (const ev of events) {
+        const both = LIGHT_CANDLES | LIGHT_CANDLES_TZEIS;
+        expect((ev.getFlags() & both) === both, ev.render('en')).toBe(false);
+      }
+    }
+  });
+});
