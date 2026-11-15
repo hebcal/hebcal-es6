@@ -23,9 +23,7 @@ test('ashkenazi', () => {
 test('he', () => {
   expect(renderParshaName(['Bereshit'], 'he')).toBe('פָּרָשַׁת בְּרֵאשִׁית');
   expect(renderParshaName(['Lech-Lecha'], 'he')).toBe('פָּרָשַׁת לֶךְ־לְךָ');
-  expect(renderParshaName(['Vayakhel', 'Pekudei'], 'he')).toBe(
-    'פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי'
-  );
+  expect(renderParshaName(['Vayakhel', 'Pekudei'], 'he')).toBe('פָּרָשַׁת וַיַּקְהֵל־פְקוּדֵי');
   expect(renderParshaName(["Ha'azinu"], 'he')).toBe('פָּרָשַׁת הַאֲזִינוּ');
 });
 
